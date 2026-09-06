@@ -55,21 +55,6 @@
     "addedAt": "2026-09-06"
   },
   {
-    "id": "yt:EPMql3dljqU",
-    "source": "youtube",
-    "url": "https://www.youtube.com/watch?v=EPMql3dljqU",
-    "title": "LIKA - Morning coffee grooves // Fall vibes at Isar, Munich // Deep House, House, Groovy, Breakfast",
-    "artist": "LIKA",
-    "duration": 4383,
-    "artwork": "https://i.ytimg.com/vi/EPMql3dljqU/maxresdefault.jpg",
-    "genre": null,
-    "published": "2025-10-12",
-    "tags": [
-      "youtube-likes"
-    ],
-    "addedAt": "2026-09-06"
-  },
-  {
     "id": "yt:RVhN3a1Nm7Y",
     "source": "youtube",
     "url": "https://www.youtube.com/watch?v=RVhN3a1Nm7Y",
@@ -548,35 +533,5 @@
       "soundcloud-likes"
     ],
     "addedAt": "2024-08-04"
-  },
-  {
-    "id": "sc:462873708",
-    "source": "soundcloud",
-    "url": "https://soundcloud.com/dadasunset/baha-mix",
-    "title": "BAHA mix",
-    "artist": "dadasunset",
-    "duration": 3004,
-    "artwork": "https://i1.sndcdn.com/artworks-000364667808-wt4cxj-t500x500.jpg",
-    "genre": "Pop",
-    "published": "2018-06-24",
-    "tags": [
-      "soundcloud-likes"
-    ],
-    "addedAt": "2018-06-25"
-  },
-  {
-    "id": "sc:107292116",
-    "source": "soundcloud",
-    "url": "https://soundcloud.com/tank-magazine/radio-tank-mix-a-g-cook",
-    "title": "Radio Tank Mix: A. G. Cook",
-    "artist": "Tank Magazine",
-    "duration": 2196,
-    "artwork": "https://i1.sndcdn.com/artworks-000056242627-vw10ze-t500x500.jpg",
-    "genre": "PC Music",
-    "published": "2013-08-26",
-    "tags": [
-      "soundcloud-likes"
-    ],
-    "addedAt": "2017-10-27"
   }
 ]

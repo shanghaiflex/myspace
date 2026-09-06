@@ -128,9 +128,17 @@
   .embed.show .yt { aspect-ratio: 16 / 9; }
 
   /* ---------- list ---------- */
-  .head { display: flex; align-items: baseline; gap: 14px; margin: 48px 0 18px; }
+  .head { display: flex; align-items: center; gap: 14px; margin: 48px 0 18px; }
   .head h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.03em; margin: 0; }
   .head .meta { color: var(--text-2); font-size: 14px; }
+  .head .toggle { border: 0; background: none; padding: 0; display: inline-flex; align-items: center; gap: 12px; color: var(--text); }
+  .head .toggle .chev { width: 28px; height: 28px; border-radius: 50%; background: color-mix(in srgb, var(--text) 10%, transparent);
+    display: grid; place-items: center; transition: transform .25s ease, background .15s ease; }
+  .head .toggle:hover .chev { background: color-mix(in srgb, var(--text) 16%, transparent); }
+  .head .toggle .chev svg { width: 14px; height: 14px; }
+  .collection.open .head .toggle .chev { transform: rotate(180deg); }
+  .collection .body { display: none; }
+  .collection.open .body { display: block; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 24px 18px; }
   .card { display: flex; flex-direction: column; gap: 9px; cursor: pointer; position: relative; }
   .card .cover { position: relative; aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: var(--surface-2); box-shadow: var(--shadow);
@@ -215,10 +223,20 @@
 
   <div class="embed" id="embed"></div>
 
-  <div class="head"><h2>Коллекция</h2><div class="meta" id="listMeta"></div></div>
-  <div class="grid" id="grid"></div>
-  <div class="empty" id="empty" hidden>Пока пусто. Вставь ссылку на микс в поле сверху или попроси Claude Code импортировать лайки.</div>
-  <div class="hint">Фон: положи свои фотографии в <code>backgrounds/</code> · импорт лайков: <code>scripts/mixes.py import-soundcloud &lt;user&gt;</code></div>
+  <section class="collection" id="collection">
+    <div class="head">
+      <button class="toggle" id="collToggle" aria-expanded="false" aria-controls="collBody">
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        <h2>Коллекция</h2>
+      </button>
+      <div class="meta" id="listMeta"></div>
+    </div>
+    <div class="body" id="collBody">
+      <div class="grid" id="grid"></div>
+      <div class="empty" id="empty" hidden>Пока пусто. Вставь ссылку на микс в поле сверху или попроси Claude Code импортировать лайки.</div>
+      <div class="hint">Фон: положи свои фотографии в <code>backgrounds/</code> · импорт лайков: <code>scripts/mixes.py import-soundcloud &lt;user&gt;</code></div>
+    </div>
+  </section>
 </main>
 
 <div class="toast" id="toast"></div>
@@ -438,6 +456,13 @@ async function addUrl(url) {
 }
 
 // ---------- wiring ----------
+function setCollection(open) {
+  $('#collection').classList.toggle('open', open);
+  $('#collToggle').setAttribute('aria-expanded', String(open));
+  try { localStorage.setItem('mixes.collection', open ? '1' : '0'); } catch {}
+}
+$('#collToggle').addEventListener('click', () => setCollection(!$('#collection').classList.contains('open')));
+try { if (localStorage.getItem('mixes.collection') === '1') setCollection(true); } catch {}
 $('#playBtn').addEventListener('click', toggle);
 $('#nextBtn').addEventListener('click', next);
 (() => {
