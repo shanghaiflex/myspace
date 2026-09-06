@@ -57,6 +57,10 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, M.load())
         if self.path.startswith("/mixes.json"):
             return self.send_json(200, X.load())
+        if self.path.startswith("/api/backgrounds"):
+            d = os.path.join(ROOT, "backgrounds")
+            files = sorted(f for f in os.listdir(d) if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp"))) if os.path.isdir(d) else []
+            return self.send_json(200, ["backgrounds/" + f for f in files])
         return super().do_GET()
 
     def do_POST(self):

@@ -52,6 +52,9 @@ python3 scripts/mixes.py list
 
 - Needs `yt-dlp` (brew) for YouTube/Mixcloud metadata; SoundCloud uses api-v2 with the client_id from yt-dlp's cache.
 - The SoundCloud username for imports is not stored anywhere yet; ask the user if unknown.
+- The player hides the SoundCloud/YouTube/Mixcloud widgets off-screen and draws its own progress bar
+  (seek via widget APIs). Page background: random photo from `backgrounds/` (listed by `/api/backgrounds`),
+  crossfades on every new mix. The user can drop their own JPG/PNG there.
 - Mix ids: `sc:<n>`, `yt:<videoId>`, `mc:<uploader_slug>`. Fields: source, url, title, artist, duration (s),
   artwork, genre, published, tags[], addedAt, optional `nts` (episode URL).
 
