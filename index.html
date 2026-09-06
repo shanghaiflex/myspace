@@ -84,21 +84,20 @@
   .posters a { aspect-ratio: 2 / 3; border-radius: 10px; overflow: hidden; background: rgba(127,127,127,.2); box-shadow: 0 6px 18px rgba(0,0,0,.3); }
   .posters img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .img.book { width: 72px; height: 108px; border-radius: 8px; }
-  .wxrow { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
-  .wxnow { display: flex; align-items: center; gap: 12px; }
-  .wxicon { font-size: 44px; line-height: 1; }
-  .wxtemp { font-size: 52px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
-  .wxtxt .t, .wxday .t { font-size: 15px; font-weight: 600; }
-  .wxtxt .s, .wxday .s { font-size: 13px; color: var(--card-text-2); margin-top: 2px; }
-  .wxday { padding-left: 28px; border-left: 1px solid color-mix(in srgb, var(--card-text) 14%, transparent); }
-  .hours { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
-  .hours .hr { flex: 0 0 auto; min-width: 58px; text-align: center; padding: 8px 4px; border-radius: 12px; }
-  .hours .hr.wet { background: color-mix(in srgb, #0a84ff 16%, transparent); }
-  .hours .s { font-size: 11px; color: var(--card-text-3); }
-  .hours .ic { font-size: 20px; line-height: 1.3; }
-  .hours .t { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .hours .pp { font-size: 11px; color: #4aa3ff; min-height: 1.2em; font-variant-numeric: tabular-nums; }
-  @media (max-width: 640px) { .wxday { padding-left: 0; border-left: 0; } .wxtemp { font-size: 40px; } }
+  .card.wx { padding: 14px 20px; border-radius: 18px; }
+  .wxrow { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .wxicon { font-size: 30px; line-height: 1; }
+  .wxtemp { font-size: 32px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .wxtxt { min-width: 0; }
+  .wxtxt .t { font-size: 14px; font-weight: 600; }
+  .wxtxt .s { font-size: 12.5px; color: var(--card-text-2); margin-top: 1px; }
+  .hours { display: flex; gap: 2px; margin-left: auto; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .hours .hr { flex: 0 0 auto; min-width: 38px; text-align: center; padding: 4px 2px; border-radius: 9px; }
+  .hours .hr.wet { background: color-mix(in srgb, #0a84ff 18%, transparent); }
+  .hours .s { font-size: 10px; color: var(--card-text-3); }
+  .hours .ic { font-size: 14px; line-height: 1.3; }
+  .hours .t { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  @media (max-width: 900px) { .hours { margin-left: 0; width: 100%; } }
   .stats { display: flex; gap: 26px; flex-wrap: wrap; color: var(--card-text-2); font-size: 13px; }
   .stats b { color: var(--card-text); font-size: 20px; font-weight: 700; letter-spacing: -0.02em; display: block; font-variant-numeric: tabular-nums; }
   @media (max-width: 900px) { .card.c6, .card.c4, .card.c8 { grid-column: span 12; } }
@@ -135,19 +134,17 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
   if (wx && wx.now) {
+    const sign = t => (t > 0 ? '+' : '') + t + '°';
     const rainy = wx.hours.filter(h => h.day && (h.precipProb || 0) >= 40);
-    const precipLine = wx.today.precipSum > 0 || wx.today.precipProbMax >= 40
-      ? `Осадки: ${wx.today.precipSum} мм, вероятность до ${wx.today.precipProbMax}%${rainy.length ? ` · ${rainy[0].time}–${rainy[rainy.length - 1].time}` : ''}`
-      : 'Без осадков';
-    cards.push(`<div class="card c12 wx"><div class="eyebrow">${esc(wx.city)} · сегодня <span class="more">${esc(wx.source)}</span></div>
-      <div class="wxrow">
-        <div class="wxnow"><span class="wxicon">${wx.now.icon}</span><span class="wxtemp">${wx.now.temp > 0 ? '+' : ''}${wx.now.temp}°</span>
-          <div class="wxtxt"><div class="t">${esc(wx.now.condition)}</div><div class="s">ощущается ${wx.now.feels > 0 ? '+' : ''}${wx.now.feels}° · ветер ${wx.now.wind} м/с</div></div></div>
-        <div class="wxday"><div class="t">${wx.today.icon} ${esc(wx.today.condition)} · днём до ${wx.today.tmax > 0 ? '+' : ''}${wx.today.tmax}°, ночью ${wx.today.tmin > 0 ? '+' : ''}${wx.today.tmin}°</div>
-          <div class="s">${precipLine} · восход ${wx.today.sunrise}, закат ${wx.today.sunset}</div></div>
-      </div>
-      <div class="hours">${wx.hours.slice(0, 16).map(h => `<div class="hr ${(h.precipProb || 0) >= 40 ? 'wet' : ''}"><div class="s">${h.time}</div><div class="ic">${h.icon}</div><div class="t">${h.temp > 0 ? '+' : ''}${h.temp}°</div><div class="pp">${h.precipProb ? h.precipProb + '%' : ''}</div></div>`).join('')}</div>
-    </div>`);
+    const precip = wx.today.precipSum > 0 || wx.today.precipProbMax >= 40
+      ? `${wx.today.precipSum > 0 ? wx.today.precipSum + ' мм' : 'осадки'}, ${wx.today.precipProbMax}%${rainy.length ? ` в ${rainy[0].time}–${rainy[rainy.length - 1].time}` : ''}`
+      : 'без осадков';
+    cards.push(`<div class="card c12 wx"><div class="wxrow">
+        <span class="wxicon">${wx.now.icon}</span><span class="wxtemp">${sign(wx.now.temp)}</span>
+        <div class="wxtxt"><div class="t">${esc(wx.now.condition)}, ощущается ${sign(wx.now.feels)}</div>
+          <div class="s">${esc(wx.city)} · днём ${sign(wx.today.tmax)}, ночью ${sign(wx.today.tmin)} · ${wx.today.icon} ${precip} · ветер ${wx.now.wind} м/с</div></div>
+        <div class="hours">${wx.hours.slice(0, 12).map(h => `<div class="hr ${(h.precipProb || 0) >= 40 ? 'wet' : ''}"><div class="s">${h.time.slice(0, 2)}</div><div class="ic">${h.icon}</div><div class="t">${sign(h.temp).replace('°', '')}</div></div>`).join('')}</div>
+      </div></div>`);
   }
   const mix = pick(mixes, 1)[0];
   const reading = books.filter(b => b.status === 'reading');
