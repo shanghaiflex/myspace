@@ -149,8 +149,6 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   }
   const mix = pick(mixes, 1)[0];
   const reading = books.filter(b => b.status === 'reading');
-  const toRead = pick(books.filter(b => b.status === 'to-read'), 3);
-  const toWatch = pick(movies.filter(m => m.status === 'to-watch'), 3);
 
   // One card per lecture channel: "next up" (listening, else first queued, else best recommendation) + what follows.
   const chanCard = (ch, label) => {
@@ -173,21 +171,15 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   };
   for (const ch of (lect.channels || [])) cards.push(chanCard(ch, ch.label || ch.name));
   if (mix) {
-    cards.push(`<a class="card ${toWatch.length ? 'c4' : 'c12'}" href="mixes.html#${encodeURIComponent(mix.id)}">
+    cards.push(`<a class="card ${reading.length ? 'c6' : 'c12'}" href="mixes.html#${encodeURIComponent(mix.id)}">
       <div class="eyebrow">Микс на сегодня <span class="more">случайный</span></div>
       <div class="row"><div class="img sq">${mix.artwork ? `<img src="${esc(mix.artwork)}" alt="">` : ''}</div><div class="txt"><h2>${esc(mix.title)}</h2><div class="sub">${esc(mix.artist || '')} · ${fmtDur(mix.duration)}</div></div></div>
       <span class="btn">${PLAY} Играть</span></a>`);
   }
-  if (reading.length || toRead.length) {
+  if (reading.length) {
     const b = reading[0];
-    cards.push(`<div class="card c4"><div class="eyebrow">${b ? 'Читаю' : 'Хочу прочитать'} <a class="more" href="books.html${b ? '' : '#to-read'}">все →</a></div>
-      ${b ? `<a class="row" href="books.html#${esc(b.id)}"><div class="img book">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : ''}</div><div class="txt"><h2>${esc(b.title)}</h2><div class="sub">${esc(b.author || '')}</div>${reading.length > 1 ? `<div class="sub">и ещё ${reading.length - 1}</div>` : ''}</div></a>` : ''}
-      ${!b && toRead.length ? `<div class="list plain">${toRead.map(x => `<a href="books.html#${esc(x.id)}"><div style="min-width:0"><div class="t">${esc(x.title)}</div><div class="s">${esc(x.author || '')}${x.year ? ' · ' + x.year : ''}</div></div></a>`).join('')}</div>` : ''}
-    </div>`);
-  }
-  if (toWatch.length) {
-    cards.push(`<div class="card c4"><div class="eyebrow">Хочу посмотреть <a class="more" href="films.html#to-watch">все →</a></div>
-      <div class="list plain">${toWatch.map(m => `<a href="films.html#${esc(m.id)}"><div style="min-width:0"><div class="t">${esc(m.title)}</div><div class="s">${[m.year, m.director].filter(Boolean).map(esc).join(' · ')}</div></div></a>`).join('')}</div></div>`);
+    cards.push(`<a class="card c6" href="books.html#${esc(b.id)}"><div class="eyebrow">Читаю <span class="more">${reading.length > 1 ? 'и ещё ' + (reading.length - 1) : ''}</span></div>
+      <div class="row"><div class="img book">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : ''}</div><div class="txt"><h2>${esc(b.title)}</h2><div class="sub">${esc(b.author || '')}</div></div></div></a>`);
   }
   const watched = movies.filter(m => m.status === 'watched'), listened = lect.lectures.filter(l => l.status === 'listened');
   cards.push(`<div class="card c12"><div class="stats">
