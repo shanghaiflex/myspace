@@ -76,6 +76,7 @@
   .list { display: flex; flex-direction: column; gap: 10px; }
   .list a { display: flex; gap: 12px; align-items: center; min-width: 0; padding: 6px; margin: -6px; border-radius: 12px; }
   .list a:hover { background: color-mix(in srgb, var(--card-text) 8%, transparent); }
+  .list.plain a { padding: 4px 6px; margin: 0 -6px; }
   .list .img { width: 92px; height: 52px; flex: 0 0 auto; border-radius: 8px; overflow: hidden; background: rgba(127,127,127,.2); }
   .list .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .list .t { font-size: 14px; font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
@@ -148,8 +149,8 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   }
   const mix = pick(mixes, 1)[0];
   const reading = books.filter(b => b.status === 'reading');
-  const toRead = pick(books.filter(b => b.status === 'to-read' && b.cover), 4);
-  const toWatch = pick(movies.filter(m => m.status === 'to-watch' && m.poster), 4);
+  const toRead = pick(books.filter(b => b.status === 'to-read'), 3);
+  const toWatch = pick(movies.filter(m => m.status === 'to-watch'), 3);
 
   // One card per lecture channel: "next up" (listening, else first queued, else best recommendation) + what follows.
   const chanCard = (ch, label) => {
@@ -159,7 +160,7 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     const recs = recommend(lect, 6, ch.id).filter(l => l.status !== 'queued');
     const next = listening[0] || queued[0] || recs[0];
     if (!next) return '';
-    const rest = [...listening.slice(1), ...queued.filter(l => l !== next), ...recs.filter(l => l !== next)].slice(0, 4);
+    const rest = [...listening.slice(1), ...queued.filter(l => l !== next), ...recs.filter(l => l !== next)].slice(0, 3);
     const pct = next.status === 'listening' && next.duration ? Math.min(100, (next.position || 0) / next.duration * 100) : 0;
     const tag = l => l.status === 'listening' ? 'слушаю · ' + Lect.fmtTime(l.position || 0) : l.status === 'queued' ? 'в планах' : 'рекомендую';
     const sq = ch.type === 'soundcloud';
@@ -167,7 +168,7 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
       <a class="row" href="lectures.html#${esc(next.id)}"><div class="img ${sq ? 'sq' : 'wide'}">${thumb(next) ? `<img src="${esc(thumb(next))}" alt="" onerror="this.onerror=null;this.src=this.src.replace('mqdefault','hqdefault')">` : ''}</div>
         <div class="txt"><h2>${esc(next.title)}</h2><div class="sub">${esc(seriesName(lect, next))}</div>
         <div class="sub">${next.status === 'listening' ? Lect.fmtTime(next.position || 0) + ' из ' : ''}${fmtDur(next.duration)}</div>${pct ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}</div></a>
-      ${rest.length ? `<div class="sub" style="margin-top:4px">Дальше</div><div class="list">${rest.map(l => `<a href="lectures.html#${esc(l.id)}"><div class="img" style="${sq ? 'width:52px;height:52px' : ''}">${thumb(l) ? `<img src="${esc(thumb(l))}" alt="" loading="lazy" onerror="this.onerror=null;this.src=this.src.replace('mqdefault','hqdefault')">` : ''}</div><div style="min-width:0"><div class="t">${esc(l.title)}</div><div class="s">${tag(l)} · ${fmtDur(l.duration)}</div></div></a>`).join('')}</div>` : ''}
+      ${rest.length ? `<div class="sub" style="margin-top:4px">Дальше</div><div class="list plain">${rest.map(l => `<a href="lectures.html#${esc(l.id)}"><div style="min-width:0"><div class="t">${esc(l.title)}</div><div class="s">${tag(l)} · ${fmtDur(l.duration)}</div></div></a>`).join('')}</div>` : ''}
       <a class="btn" href="lectures.html#${esc(next.id)}">${PLAY} ${next.status === 'listening' ? 'Слушать дальше' : 'Слушать'}</a></div>`;
   };
   for (const ch of (lect.channels || [])) cards.push(chanCard(ch, ch.label || ch.name));
@@ -181,12 +182,12 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     const b = reading[0];
     cards.push(`<div class="card c4"><div class="eyebrow">${b ? 'Читаю' : 'Хочу прочитать'} <a class="more" href="books.html${b ? '' : '#to-read'}">все →</a></div>
       ${b ? `<a class="row" href="books.html#${esc(b.id)}"><div class="img book">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : ''}</div><div class="txt"><h2>${esc(b.title)}</h2><div class="sub">${esc(b.author || '')}</div>${reading.length > 1 ? `<div class="sub">и ещё ${reading.length - 1}</div>` : ''}</div></a>` : ''}
-      ${!b && toRead.length ? `<div class="posters">${toRead.map(x => `<a href="books.html#${esc(x.id)}" title="${esc(x.title)}"><img src="${esc(x.cover)}" alt="" loading="lazy"></a>`).join('')}</div>` : ''}
+      ${!b && toRead.length ? `<div class="list plain">${toRead.map(x => `<a href="books.html#${esc(x.id)}"><div style="min-width:0"><div class="t">${esc(x.title)}</div><div class="s">${esc(x.author || '')}${x.year ? ' · ' + x.year : ''}</div></div></a>`).join('')}</div>` : ''}
     </div>`);
   }
   if (toWatch.length) {
     cards.push(`<div class="card c4"><div class="eyebrow">Хочу посмотреть <a class="more" href="films.html#to-watch">все →</a></div>
-      <div class="posters">${toWatch.map(m => `<a href="films.html#${esc(m.id)}" title="${esc(m.title)}"><img src="${esc(m.poster)}" alt="" loading="lazy"></a>`).join('')}</div></div>`);
+      <div class="list plain">${toWatch.map(m => `<a href="films.html#${esc(m.id)}"><div style="min-width:0"><div class="t">${esc(m.title)}</div><div class="s">${[m.year, m.director].filter(Boolean).map(esc).join(' · ')}</div></div></a>`).join('')}</div></div>`);
   }
   const watched = movies.filter(m => m.status === 'watched'), listened = lect.lectures.filter(l => l.status === 'listened');
   cards.push(`<div class="card c12"><div class="stats">
