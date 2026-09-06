@@ -1,6 +1,6 @@
 # Movies — personal film catalog
 
-Single-page site (`index.html`) over `movies.json` with posters in `posters/`, served by `serve.py`
+Pages: `index.html` (home / morning dashboard), `films.html`, `mixes.html`, `lectures.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
 (stdlib only) which also exposes a tiny edit API (PATCH/DELETE `/api/movie/<id>`) used by the page for
 rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
 If the page is served by a plain static server the API is absent and the page becomes read-only.
@@ -57,6 +57,30 @@ python3 scripts/mixes.py list
   crossfades on every new mix. The user can drop their own JPG/PNG there.
 - Mix ids: `sc:<n>`, `yt:<videoId>`, `mc:<uploader_slug>`. Fields: source, url, title, artist, duration (s),
   artwork, genre, published, tags[], addedAt, optional `nts` (episode URL).
+
+## Lectures (`lectures.html`, `lectures.json`, `scripts/lectures.py`)
+
+Tracks lecture channels: YouTube «Семинары по истории Александра Макарова» (mostly medieval everyday
+life) and SoundCloud «Serj Bushwacker» (world history, ids `sc:<trackid>`). Statuses
+`new | queued (в планах) | listening | listened`, custom series via `lectures.py series "<name>" <ids>`
+(e.g. «Древний Египет» = 7 Bushwacker lectures the user plans to re-listen, in chronological order), playback position is saved to the server, so the
+phone and the laptop share progress. Playback: audio-only file from `audio/<id>.m4a` if downloaded
+(works on the phone with the screen locked, Media Session controls), otherwise a hidden YouTube iframe.
+Recommendations (`rec.js`) rank unlistened lectures by shared playlists/keywords with listened ones.
+
+```
+python3 scripts/lectures.py sync                       # refresh channel videos + streams + playlists (minutes)
+python3 scripts/lectures.py set "<title|id>" --status listened|listening|new [--position SEC]
+python3 scripts/lectures.py audio "<title|id>" ...     # download m4a into audio/ (gitignored, per machine)
+python3 scripts/lectures.py list [--status ...]
+python3 scripts/lectures.py add-channel <url>
+```
+
+- When the user says "послушал лекцию про X" → find it with `list`/grep and `set --status listened`.
+  "Хочу послушать X" → `set --status queued` (queue order = time of queuing, shown on the home page).
+- `sync` re-fetches both channels; YouTube playlists take minutes, use `--no-playlists` for a quick refresh.
+- Audio files live only on the machine that runs the server (the Mac mini in production): download there.
+- Home page shows: continue-listening card, a random mix, recommended lectures, random to-watch posters.
 
 ## Auth & deploy
 `serve.py` requires a password when `MOVIES_PASSWORD` is set (env or `.env`, gitignored); localhost runs open.

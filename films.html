@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фильмы</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --surface-2: #f2f2f4;
+    --text: #1d1d1f;
+    --text-2: #6e6e73;
+    --text-3: #a1a1a6;
+    --line: rgba(0,0,0,.08);
+    --accent: #0071e3;
+    --accent-text: #ffffff;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+    --shadow-lg: 0 2px 8px rgba(0,0,0,.08), 0 24px 64px rgba(0,0,0,.18);
+    --glass: rgba(250,250,250,.78);
+    --radius: 14px;
+    --star: #f5a623;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000000;
+      --surface: #1c1c1e;
+      --surface-2: #2c2c2e;
+      --text: #f5f5f7;
+      --text-2: #a1a1a6;
+      --text-3: #6e6e73;
+      --line: rgba(255,255,255,.1);
+      --accent: #2997ff;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+      --shadow-lg: 0 2px 8px rgba(0,0,0,.5), 0 24px 64px rgba(0,0,0,.6);
+      --glass: rgba(0,0,0,.72);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+  }
+  button, input, select { font: inherit; color: inherit; letter-spacing: inherit; }
+  button { cursor: pointer; }
+
+  /* ---------- top bar ---------- */
+  .bar {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--glass);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar-inner {
+    max-width: 1280px; margin: 0 auto; padding: 14px 32px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; margin-right: 4px; }
+  .nav a { color: var(--text-3); font-weight: 600; text-decoration: none; }
+  .nav a.on { color: var(--text); }
+
+  .segmented {
+    display: inline-flex; background: var(--surface-2); border-radius: 10px; padding: 3px; gap: 2px;
+  }
+  .segmented button {
+    border: 0; background: transparent; border-radius: 8px; padding: 6px 14px;
+    font-size: 13px; font-weight: 500; color: var(--text-2);
+    transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+    white-space: nowrap;
+  }
+  .segmented button .n { color: var(--text-3); font-weight: 500; margin-left: 5px; font-variant-numeric: tabular-nums; }
+  .segmented button.on {
+    background: var(--surface); color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 0 0 .5px rgba(0,0,0,.04);
+  }
+  .segmented button.on .n { color: var(--text-2); }
+
+  .spacer { flex: 1; }
+
+  .search {
+    position: relative; min-width: 220px;
+  }
+  .search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--text-3); pointer-events: none; }
+  .search input {
+    width: 100%; border: 0; outline: 0;
+    background: var(--surface-2); border-radius: 10px;
+    padding: 7px 12px 7px 32px; font-size: 14px;
+    transition: box-shadow .18s ease;
+  }
+  .search input:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
+  .search input::placeholder { color: var(--text-3); }
+
+  .control {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface-2); border-radius: 10px; padding: 0 6px 0 12px; height: 34px;
+    font-size: 13px; color: var(--text-2);
+  }
+  .control select {
+    border: 0; background: transparent; outline: 0; color: var(--text); font-weight: 500;
+    padding: 6px 4px; -webkit-appearance: none; appearance: none; cursor: pointer;
+  }
+  .control .dir {
+    border: 0; background: transparent; width: 28px; height: 28px; border-radius: 7px;
+    display: inline-grid; place-items: center; color: var(--text-2);
+  }
+  .control .dir:hover { background: var(--surface); color: var(--text); }
+  .control .dir svg { width: 14px; height: 14px; transition: transform .2s ease; }
+  .control .dir.asc svg { transform: rotate(180deg); }
+
+  /* ---------- content ---------- */
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 36px 32px 80px; }
+  .head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .head h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; margin: 0; line-height: 1.1; }
+  .head .meta { color: var(--text-2); font-size: 15px; font-variant-numeric: tabular-nums; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+    gap: 28px 20px;
+  }
+  @media (max-width: 640px) {
+    .bar-inner { padding: 12px 16px; gap: 10px; }
+    .wrap { padding: 24px 16px 60px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 20px 12px; }
+    .head h1 { font-size: 28px; }
+  }
+
+  .card { display: flex; flex-direction: column; gap: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .poster {
+    position: relative; aspect-ratio: 2 / 3; border-radius: var(--radius); overflow: hidden;
+    background: var(--surface-2); box-shadow: var(--shadow);
+    transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease;
+  }
+  .card:hover .poster { transform: translateY(-4px) scale(1.015); box-shadow: var(--shadow-lg); }
+  .poster img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .poster .ph { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-3); font-size: 13px; padding: 12px; text-align: center; }
+  .badge {
+    position: absolute; top: 8px; right: 8px;
+    background: rgba(0,0,0,.55); color: #fff;
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 600;
+    font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; gap: 4px;
+    letter-spacing: 0;
+  }
+  .badge svg { width: 10px; height: 10px; color: var(--star); }
+  .badge.imdb { left: 8px; right: auto; background: rgba(0,0,0,.45); font-weight: 500; }
+  .badge.imdb b { color: #f5c518; font-weight: 700; margin-right: 1px; }
+  .card .t { font-size: 14px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .card .s { font-size: 12.5px; color: var(--text-2); margin-top: 2px; }
+
+  .empty { color: var(--text-2); text-align: center; padding: 80px 0; font-size: 15px; }
+  .error { max-width: 560px; margin: 80px auto; padding: 24px; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .error code { background: var(--surface-2); padding: 2px 6px; border-radius: 6px; font-family: ui-monospace, SF Mono, Menlo, monospace; font-size: 13px; }
+
+  /* ---------- detail sheet ---------- */
+  .scrim {
+    position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.4);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; padding: 24px;
+    opacity: 0; pointer-events: none; transition: opacity .22s ease;
+  }
+  .scrim.open { opacity: 1; pointer-events: auto; }
+  .sheet {
+    width: 100%; max-width: 860px; max-height: min(88vh, 900px);
+    background: var(--surface); border-radius: 22px; box-shadow: var(--shadow-lg);
+    display: grid; grid-template-columns: 300px 1fr; overflow: hidden;
+    transform: translateY(14px) scale(.98); transition: transform .25s cubic-bezier(.2,.7,.2,1);
+  }
+  .scrim.open .sheet { transform: none; }
+  .sheet .left { background: var(--surface-2); }
+  .sheet .left img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sheet .right { padding: 32px 36px; overflow: auto; position: relative; }
+  .sheet h2 { margin: 0 0 4px; font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; padding-right: 40px; }
+  .sheet .sub { color: var(--text-2); font-size: 14px; margin-bottom: 20px; }
+  .sheet .sub span + span::before { content: "·"; margin: 0 7px; color: var(--text-3); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .chip { background: var(--surface-2); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 500; color: var(--text-2); }
+  .chip.status { color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  .scores { display: flex; gap: 12px; margin-bottom: 22px; }
+  .score { flex: 1; background: var(--surface-2); border-radius: 14px; padding: 12px 14px; }
+  .score .l { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); font-weight: 600; }
+  .score .v { font-size: 24px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .score .v small { font-size: 13px; color: var(--text-3); font-weight: 500; letter-spacing: 0; }
+  .sheet p { margin: 0 0 18px; color: var(--text); font-size: 15px; line-height: 1.55; }
+  .sheet .note { background: color-mix(in srgb, var(--star) 12%, transparent); border-radius: 12px; padding: 12px 14px; font-size: 14px; margin-bottom: 18px; }
+  .sheet .foot { display: flex; gap: 14px; align-items: center; font-size: 13px; color: var(--text-3); flex-wrap: wrap; }
+  .sheet .foot a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  .sheet .foot a:hover { text-decoration: underline; }
+  .close {
+    position: absolute; top: 18px; right: 18px; width: 30px; height: 30px; border-radius: 50%;
+    border: 0; background: var(--surface-2); color: var(--text-2); display: grid; place-items: center;
+  }
+  .close:hover { background: var(--line); color: var(--text); }
+  .close svg { width: 12px; height: 12px; }
+  @media (max-width: 680px) {
+    .scrim { padding: 0; align-items: end; }
+    .sheet { grid-template-columns: 1fr; border-radius: 22px 22px 0 0; max-height: 92vh; overflow: auto; display: block; }
+    .sheet .left { height: 46vh; }
+    .sheet .right { padding: 22px 20px 36px; overflow: visible; }
+  }
+
+  /* ---------- editing ---------- */
+  .stars { display: inline-flex; gap: 2px; margin-top: 4px; }
+  .stars .st { position: relative; width: 22px; height: 22px; cursor: pointer; }
+  .stars .st svg { position: absolute; inset: 0; width: 22px; height: 22px; color: var(--line); }
+  .stars .st .fill { position: absolute; inset: 0; clip-path: inset(0 100% 0 0); transition: clip-path .12s ease; }
+  .stars .st .fill svg { color: var(--star); }
+  .stars .st.full .fill { clip-path: inset(0 0 0 0); }
+  .stars .st.half .fill { clip-path: inset(0 50% 0 0); }
+  .stars .st .l, .stars .st .r { position: absolute; top: 0; bottom: 0; width: 50%; }
+  .stars .st .l { left: 0; } .stars .st .r { right: 0; }
+  .score .v.editable { display: flex; align-items: baseline; gap: 10px; }
+  .score .clear { border: 0; background: transparent; color: var(--text-3); font-size: 12px; padding: 0; cursor: pointer; }
+  .score .clear:hover { color: var(--text); }
+  .sheet .segmented { margin-bottom: 20px; }
+  .sheet .segmented button { padding: 5px 12px; font-size: 12.5px; }
+  .sheet textarea {
+    width: 100%; border: 0; outline: 0; resize: vertical; min-height: 44px;
+    background: var(--surface-2); border-radius: 12px; padding: 10px 12px;
+    font-size: 14px; line-height: 1.45; color: var(--text); margin-bottom: 18px;
+  }
+  .sheet textarea:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
+  .sheet textarea::placeholder { color: var(--text-3); }
+  .sheet .foot .del { margin-left: auto; border: 0; background: transparent; color: #ff3b30; font-weight: 500; font-size: 13px; padding: 4px 8px; border-radius: 8px; }
+  .sheet .foot .del:hover { background: color-mix(in srgb, #ff3b30 12%, transparent); }
+  .saved { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); opacity: 0; z-index: 60;
+    background: var(--text); color: var(--bg); padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 500;
+    transition: all .2s ease; pointer-events: none; }
+  .saved.on { opacity: 1; transform: translate(-50%, 0); }
+
+  .hint { margin-top: 56px; text-align: center; color: var(--text-3); font-size: 12.5px; }
+  .hint code { font-family: ui-monospace, SF Mono, Menlo, monospace; }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <nav class="nav"><a href="index.html">Главная</a><a href="films.html" class="on">Фильмы</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a></nav>
+    <div class="segmented" id="tabs">
+      <button data-tab="watched">Посмотрел<span class="n"></span></button>
+      <button data-tab="to-watch">Хочу посмотреть<span class="n"></span></button>
+      <button data-tab="watching">Смотрю<span class="n"></span></button>
+    </div>
+    <div class="spacer"></div>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Название, режиссёр, жанр" autocomplete="off">
+    </label>
+    <div class="control">
+      <span>Сортировка</span>
+      <select id="sort">
+        <option value="rating">моя оценка</option>
+        <option value="imdb">IMDb</option>
+        <option value="year">год</option>
+        <option value="added">добавлено</option>
+        <option value="title">название</option>
+      </select>
+      <button class="dir" id="dir" title="Направление">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="head">
+    <h1 id="title">Посмотрел</h1>
+    <div class="meta" id="meta"></div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Ничего не найдено</div>
+  <div class="hint">Оценка, статус и заметка редактируются в карточке фильма. Добавить фильм: попроси Claude Code — <code>scripts/movies.py add "Название" --rating 8</code></div>
+</main>
+
+<div class="saved" id="saved">Сохранено</div>
+<div class="scrim" id="scrim">
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+</div>
+
+<script>
+const STATUS_LABEL = { watched: 'Посмотрел', 'to-watch': 'Хочу посмотреть', watching: 'Смотрю' };
+const state = { tab: 'watched', q: '', sort: 'rating', dir: 'desc', movies: [] };
+
+const $ = s => document.querySelector(s);
+const grid = $('#grid'), empty = $('#empty');
+
+const fmt = n => n == null ? '—' : (Number.isInteger(n) ? String(n) : n.toFixed(1));
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const runtime = m => m ? `${Math.floor(m / 60) ? Math.floor(m / 60) + ' ч ' : ''}${m % 60} мин` : null;
+const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return n + ' ' + (m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c); };
+
+function restore() {
+  try {
+    const s = JSON.parse(localStorage.getItem('movies.ui') || '{}');
+    if (STATUS_LABEL[s.tab]) state.tab = s.tab;
+    if (s.sort) state.sort = s.sort;
+    if (s.dir) state.dir = s.dir;
+  } catch {}
+}
+function persist() {
+  try { localStorage.setItem('movies.ui', JSON.stringify({ tab: state.tab, sort: state.sort, dir: state.dir })); } catch {}
+}
+
+function visible() {
+  const q = state.q.trim().toLowerCase();
+  let list = state.movies.filter(m => m.status === state.tab);
+  if (q) list = list.filter(m =>
+    (m.title || '').toLowerCase().includes(q) ||
+    (m.director || '').toLowerCase().includes(q) ||
+    (m.genre || []).some(g => g.toLowerCase().includes(q)) ||
+    String(m.year || '').includes(q));
+  const sortKey = state.sort === 'rating' && state.tab !== 'watched' ? 'imdb' : state.sort;
+  const key = {
+    rating: m => m.rating ?? -1,
+    imdb: m => m.imdbRating ?? -1,
+    year: m => m.year ?? 0,
+    added: m => m.addedAt || '',
+    title: m => (m.title || '').toLowerCase(),
+  }[sortKey];
+  const sign = state.dir === 'desc' ? -1 : 1;
+  list.sort((a, b) => {
+    const x = key(a), y = key(b);
+    if (x < y) return -1 * sign;
+    if (x > y) return 1 * sign;
+    return (a.title || '').localeCompare(b.title || '');
+  });
+  return list;
+}
+
+function render() {
+  document.querySelectorAll('#tabs button').forEach(b => {
+    b.classList.toggle('on', b.dataset.tab === state.tab);
+    b.querySelector('.n').textContent = state.movies.filter(m => m.status === b.dataset.tab).length || '';
+  });
+  $('#sort').querySelector('[value=rating]').hidden = state.tab !== 'watched';
+  $('#sort').value = state.sort === 'rating' && state.tab !== 'watched' ? 'imdb' : state.sort;
+  $('#dir').classList.toggle('asc', state.dir === 'asc');
+  $('#title').textContent = STATUS_LABEL[state.tab];
+
+  const list = visible();
+  const rated = list.filter(m => m.rating != null);
+  const avg = rated.length ? (rated.reduce((s, m) => s + m.rating, 0) / rated.length).toFixed(1) : null;
+  $('#meta').textContent = plural(list.length, 'фильм', 'фильма', 'фильмов') + (avg && state.tab === 'watched' ? ` · средняя оценка ${avg}` : '');
+
+  empty.hidden = list.length > 0;
+  grid.innerHTML = list.map(m => `
+    <article class="card" data-id="${esc(m.id)}">
+      <div class="poster">
+        ${m.poster ? `<img src="${esc(m.poster)}" alt="" loading="lazy">` : `<div class="ph">${esc(m.title)}</div>`}
+        ${m.rating != null ? `<span class="badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.6 7 .8-5.2 4.9 1.4 7.1L12 17.8 5.8 21.4l1.4-7.1L2 9.4l7-.8z"/></svg>${fmt(m.rating)}</span>` : ''}
+        ${m.status !== 'watched' && m.imdbRating != null ? `<span class="badge imdb"><b>IMDb</b> ${fmt(m.imdbRating)}</span>` : ''}
+      </div>
+      <div>
+        <div class="t">${esc(m.title)}</div>
+        <div class="s">${[m.year, m.director].filter(Boolean).map(esc).join(' · ')}</div>
+      </div>
+    </article>`).join('');
+}
+
+const STAR = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.6 7 .8-5.2 4.9 1.4 7.1L12 17.8 5.8 21.4l1.4-7.1L2 9.4l7-.8z"/></svg>';
+let canEdit = false;
+let toastTimer;
+function toast(text) {
+  const el = $('#saved'); el.textContent = text; el.classList.add('on');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 1400);
+}
+async function api(method, id, body) {
+  const r = await fetch('/api/movie/' + encodeURIComponent(id), {
+    method, headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.error || r.status); }
+  return r.json();
+}
+let queue = Promise.resolve();
+function update(m, patch) {
+  queue = queue.then(async () => {
+    try {
+      const fresh = await api('PATCH', m.id, patch);
+      Object.assign(m, fresh);
+      render(); openSheet(m, true); toast('Сохранено');
+    } catch (e) { toast('Ошибка: ' + e.message); }
+  });
+  return queue;
+}
+function starsHtml(r) {
+  return `<div class="stars" role="radiogroup" aria-label="Оценка">${Array.from({ length: 10 }, (_, i) => {
+    const n = i + 1, cls = r >= n ? 'full' : r >= n - .5 ? 'half' : '';
+    return `<span class="st ${cls}" data-n="${n}">${STAR}<span class="fill">${STAR}</span><span class="l" data-v="${n - .5}"></span><span class="r" data-v="${n}"></span></span>`;
+  }).join('')}</div>`;
+}
+
+function openSheet(m, keep) {
+  const sheet = $('#sheet');
+  const dates = [];
+  if (m.watchedAt) dates.push('посмотрел ' + m.watchedAt);
+  if (m.addedAt) dates.push('добавлен ' + m.addedAt);
+  const ratingTile = canEdit && m.status !== 'to-watch'
+    ? `<div class="score"><div class="l">Моя оценка</div>
+         <div class="v editable">${fmt(m.rating)}<small>/ 10</small>${m.rating != null ? '<button class="clear" data-act="clear">убрать</button>' : ''}</div>
+         ${starsHtml(m.rating ?? 0)}</div>`
+    : `<div class="score"><div class="l">Моя оценка</div><div class="v">${fmt(m.rating)}<small> / 10</small></div></div>`;
+  const statusCtl = canEdit
+    ? `<div class="segmented" id="statusCtl">${Object.entries(STATUS_LABEL).map(([k, v]) => `<button data-status="${k}" class="${k === m.status ? 'on' : ''}">${v}</button>`).join('')}</div>`
+    : '';
+  sheet.innerHTML = `
+    <div class="left">${m.poster ? `<img src="${esc(m.poster)}" alt="">` : ''}</div>
+    <div class="right">
+      <button class="close" id="close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <h2>${esc(m.title)}</h2>
+      <div class="sub">${[m.year, m.director && 'реж. ' + m.director, runtime(m.runtime)].filter(Boolean).map(s => `<span>${esc(s)}</span>`).join('')}</div>
+      <div class="chips">${canEdit ? '' : `<span class="chip status">${STATUS_LABEL[m.status]}</span>`}${(m.genre || []).map(g => `<span class="chip">${esc(g)}</span>`).join('')}</div>
+      ${statusCtl}
+      <div class="scores">
+        ${ratingTile}
+        <div class="score"><div class="l">IMDb</div><div class="v">${fmt(m.imdbRating)}<small> / 10</small></div></div>
+      </div>
+      ${m.plot ? `<p>${esc(m.plot)}</p>` : ''}
+      ${canEdit ? `<textarea id="noteCtl" placeholder="Заметка" rows="2">${esc(m.note || '')}</textarea>` : (m.note ? `<div class="note">${esc(m.note)}</div>` : '')}
+      <div class="foot">
+        <a href="https://www.imdb.com/title/${esc(m.id)}/" target="_blank" rel="noopener">IMDb ↗</a>
+        ${m.link ? `<a href="${esc(m.link)}" target="_blank" rel="noopener">Смотреть ↗</a>` : ''}
+        <span>${dates.join(' · ')}</span>
+        ${canEdit ? '<button class="del" id="delCtl">Удалить</button>' : ''}
+      </div>
+    </div>`;
+  if (!keep) $('#scrim').classList.add('open');
+  $('#close').onclick = closeSheet;
+  history.replaceState(null, '', '#' + m.id);
+  if (!canEdit) return;
+
+  sheet.querySelectorAll('.stars .l, .stars .r').forEach(el => {
+    el.addEventListener('mouseenter', () => paintStars(sheet, +el.dataset.v));
+    el.addEventListener('click', () => update(m, { rating: +el.dataset.v }));
+  });
+  sheet.querySelector('.stars')?.addEventListener('mouseleave', () => paintStars(sheet, m.rating ?? 0));
+  sheet.querySelector('[data-act=clear]')?.addEventListener('click', () => update(m, { rating: null }));
+  sheet.querySelectorAll('#statusCtl button').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.status !== m.status) update(m, { status: b.dataset.status });
+  }));
+  const note = $('#noteCtl');
+  note.addEventListener('blur', () => { if ((note.value.trim() || null) !== (m.note || null)) update(m, { note: note.value }); });
+  const del = $('#delCtl');
+  del.addEventListener('click', async () => {
+    if (del.dataset.armed !== '1') { del.dataset.armed = '1'; del.textContent = 'Точно удалить?'; setTimeout(() => { del.dataset.armed = ''; del.textContent = 'Удалить'; }, 3000); return; }
+    try {
+      await api('DELETE', m.id);
+      state.movies = state.movies.filter(x => x.id !== m.id);
+      closeSheet(); render(); toast('Удалено: ' + m.title);
+    } catch (e) { toast('Ошибка: ' + e.message); }
+  });
+}
+function paintStars(root, v) {
+  root.querySelectorAll('.stars .st').forEach(st => {
+    const n = +st.dataset.n;
+    st.classList.toggle('full', v >= n);
+    st.classList.toggle('half', v < n && v >= n - .5);
+  });
+}
+function closeSheet() {
+  $('#scrim').classList.remove('open');
+  if (location.hash.startsWith('#tt')) history.replaceState(null, '', location.pathname);
+}
+function applyHash() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (STATUS_LABEL[h]) { state.tab = h; persist(); render(); history.replaceState(null, '', location.pathname); return; }
+  const m = h && state.movies.find(x => x.id === h);
+  if (m) { state.tab = m.status; render(); openSheet(m); }
+}
+
+// ---------- wiring ----------
+$('#tabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  state.tab = b.dataset.tab; persist(); render();
+});
+$('#q').addEventListener('input', e => { state.q = e.target.value; render(); });
+$('#sort').addEventListener('change', e => { state.sort = e.target.value; persist(); render(); });
+$('#dir').addEventListener('click', () => { state.dir = state.dir === 'desc' ? 'asc' : 'desc'; persist(); render(); });
+grid.addEventListener('click', e => {
+  const c = e.target.closest('.card'); if (!c) return;
+  const m = state.movies.find(x => x.id === c.dataset.id); if (m) openSheet(m);
+});
+$('#scrim').addEventListener('click', e => { if (e.target === e.currentTarget) closeSheet(); });
+window.addEventListener('hashchange', applyHash);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSheet();
+  if (e.key === '/' && document.activeElement !== $('#q')) { e.preventDefault(); $('#q').focus(); }
+});
+
+restore();
+fetch('/api/ping', { cache: 'no-store' }).then(r => r.ok && r.json()).then(j => { canEdit = !!(j && j.ok); }).catch(() => {});
+fetch('movies.json', { cache: 'no-store' })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(list => { state.movies = list; render(); applyHash(); })
+  .catch(() => {
+    $('.wrap').innerHTML = `<div class="error"><b>Не удалось загрузить movies.json.</b><br><br>
+      Страницу нужно открывать через локальный сервер, а не как файл. Запусти в папке проекта:<br><br>
+      <code>./serve.sh</code> &nbsp;и открой&nbsp; <code>http://localhost:8787</code></div>`;
+  });
+</script>
+</body>
+</html>

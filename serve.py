@@ -6,6 +6,9 @@
   DELETE /api/movie/<imdbId>
   POST   /api/mix                 body: {url}   → resolves metadata and adds the mix
   DELETE /api/mix/<id>
+  PATCH  /api/lecture/<id>        body: {status?, position?, note?}
+  POST   /api/lecture/<id>/audio  start audio download in the background; GET the same URL for status
+  GET    /audio/<file>            audio files with HTTP Range support (needed by iOS)
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 
@@ -21,6 +24,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import movies as M  # noqa: E402
 import mixes as X  # noqa: E402
+import lectures as L  # noqa: E402
+
+AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 
 STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
@@ -200,18 +206,88 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, M.load())
         if self.path.startswith("/mixes.json"):
             return self.send_json(200, X.load())
+        if self.path.startswith("/lectures.json"):
+            db = L.load()
+            for l in db["lectures"]:
+                l["audio"] = L.has_audio(l["id"])
+            return self.send_json(200, db)
+        if route.startswith("/api/lecture/") and route.endswith("/audio"):
+            vid = urllib.parse.unquote(route.split("/")[3])
+            st = "done" if L.has_audio(vid) else AUDIO_JOBS.get(vid, "none")
+            return self.send_json(200, {"id": vid, "status": st})
+        if route.startswith("/audio/"):
+            return self.send_range_file(L.audio_path(urllib.parse.unquote(os.path.basename(route)).rsplit(".", 1)[0]) or "")
         if self.path.startswith("/api/backgrounds"):
             d = os.path.join(ROOT, "backgrounds")
             files = sorted(f for f in os.listdir(d) if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp"))) if os.path.isdir(d) else []
             return self.send_json(200, ["backgrounds/" + f for f in files])
         return super().do_GET()
 
+    def send_range_file(self, path):
+        if not os.path.isfile(path):
+            return self.send_json(404, {"error": "no such audio"})
+        size = os.path.getsize(path)
+        ctype = {"m4a": "audio/mp4", "mp3": "audio/mpeg", "webm": "audio/webm", "opus": "audio/ogg"}.get(path.rsplit(".", 1)[-1], "application/octet-stream")
+        start, end = 0, size - 1
+        rng = self.headers.get("Range")
+        if rng and rng.startswith("bytes="):
+            a, _, b = rng[6:].partition("-")
+            try:
+                start = int(a) if a else max(0, size - int(b))
+                end = int(b) if (b and a) else size - 1
+            except ValueError:
+                return self.send_json(416, {"error": "bad range"})
+            if start > end or start >= size:
+                self.send_response(416); self.send_header("Content-Range", f"bytes */{size}"); self.end_headers(); return
+        self.send_response(206 if rng else 200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Length", str(end - start + 1))
+        self.send_header("Cache-Control", "private, max-age=86400")
+        if rng:
+            self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
+        self.end_headers()
+        with open(path, "rb") as f:
+            f.seek(start)
+            left = end - start + 1
+            while left > 0:
+                chunk = f.read(min(1 << 16, left))
+                if not chunk:
+                    break
+                try:
+                    self.wfile.write(chunk)
+                except (BrokenPipeError, ConnectionResetError):
+                    return
+                left -= len(chunk)
+
+    def start_audio_job(self, vid):
+        if L.has_audio(vid):
+            return "done"
+        if AUDIO_JOBS.get(vid) == "running":
+            return "running"
+        AUDIO_JOBS[vid] = "running"
+
+        def run():
+            try:
+                L.download_audio(vid)
+                AUDIO_JOBS[vid] = "done"
+            except Exception as e:
+                AUDIO_JOBS[vid] = f"error: {e}"
+        threading.Thread(target=run, daemon=True).start()
+        return "running"
+
     def do_POST(self):
-        if self.path.split("?")[0] == "/login":
+        route = self.path.split("?")[0]
+        if route == "/login":
             return self.handle_login_post() if PASSWORD else self.send_json(404, {"error": "auth disabled"})
         if not self.require_login():
             return
-        if self.path.split("?")[0] != "/api/mix":
+        if route.startswith("/api/lecture/") and route.endswith("/audio"):
+            vid = urllib.parse.unquote(route.split("/")[3])
+            if not any(l["id"] == vid for l in L.load()["lectures"]):
+                return self.send_json(404, {"error": "no such lecture"})
+            return self.send_json(200, {"id": vid, "status": self.start_audio_job(vid)})
+        if route != "/api/mix":
             return self.send_json(404, {"error": "not found"})
         try:
             url = (self.read_json().get("url") or "").strip()
@@ -235,6 +311,38 @@ class Handler(SimpleHTTPRequestHandler):
             return self._patch()
 
     def _patch(self):
+        lid = self.path_id("/api/lecture/")
+        if lid:
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            db = L.load()
+            l = next((x for x in db["lectures"] if x["id"] == lid), None)
+            if not l:
+                return self.send_json(404, {"error": "no such lecture"})
+            if "status" in body:
+                if body["status"] not in L.STATUSES:
+                    return self.send_json(400, {"error": "bad status"})
+                l["status"] = body["status"]
+                if body["status"] == "listened":
+                    l["listenedAt"] = l.get("listenedAt") or __import__("datetime").date.today().isoformat()
+                if body["status"] == "queued":
+                    l["queuedAt"] = l.get("queuedAt") or int(time.time())
+                if body["status"] == "new":
+                    l["position"] = 0
+            if "position" in body:
+                try:
+                    l["position"] = max(0, int(float(body["position"])))
+                except (TypeError, ValueError):
+                    return self.send_json(400, {"error": "bad position"})
+                if l["status"] == "new" and l["position"] > 60:
+                    l["status"] = "listening"
+            if "note" in body:
+                l["note"] = (body["note"] or "").strip() or None
+            L.save(db)
+            l["audio"] = L.has_audio(lid)
+            return self.send_json(200, l)
         mid = self.movie_id()
         if not mid:
             return self.send_json(404, {"error": "not found"})

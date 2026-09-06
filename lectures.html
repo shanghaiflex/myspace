@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лекции</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafafa; --surface: #ffffff; --surface-2: #f2f2f4;
+    --text: #1d1d1f; --text-2: #6e6e73; --text-3: #a1a1a6;
+    --line: rgba(0,0,0,.08); --accent: #0071e3; --ok: #34c759;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+    --shadow-lg: 0 2px 8px rgba(0,0,0,.08), 0 24px 64px rgba(0,0,0,.18);
+    --glass: rgba(250,250,250,.78); --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000; --surface: #1c1c1e; --surface-2: #2c2c2e;
+      --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
+      --line: rgba(255,255,255,.1); --accent: #2997ff; --ok: #30d158;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+      --shadow-lg: 0 2px 8px rgba(0,0,0,.5), 0 24px 64px rgba(0,0,0,.6);
+      --glass: rgba(0,0,0,.72);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
+    background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.45; letter-spacing: -0.01em; }
+  button, input, select { font: inherit; color: inherit; letter-spacing: inherit; }
+  button { cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+
+  .bar { position: sticky; top: 0; z-index: 20; background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
+  .bar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; }
+  .nav a { color: var(--text-3); font-weight: 600; }
+  .nav a.on { color: var(--text); }
+  .spacer { flex: 1; }
+  .search { position: relative; min-width: 240px; }
+  .search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--text-3); pointer-events: none; }
+  .search input { width: 100%; border: 0; outline: 0; background: var(--surface-2); border-radius: 10px; padding: 7px 12px 7px 32px; font-size: 14px; }
+  .search input:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
+  .search input::placeholder { color: var(--text-3); }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 36px 32px 100px; }
+
+  /* ---------- player ---------- */
+  .hero { border-radius: 26px; background: var(--surface); box-shadow: var(--shadow-lg); display: grid; grid-template-columns: 380px 1fr; overflow: hidden; }
+  .hero .art { padding: 28px 0 28px 28px; display: grid; align-content: center; }
+  .hero .art .cover.sq { aspect-ratio: 1; max-width: 300px; }
+  .hero .art .cover { aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: var(--surface-2); box-shadow: 0 12px 36px rgba(0,0,0,.25); display: grid; place-items: center; font-size: 40px; color: var(--text-3); }
+  .hero .art .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero .info { padding: 28px 32px; display: flex; flex-direction: column; justify-content: center; gap: 6px; min-width: 0; }
+  .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-2); font-weight: 600; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .chip { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; background: var(--surface-2); color: var(--text-2); text-transform: none; letter-spacing: 0; }
+  .chip.listening { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+  .chip.queued { background: color-mix(in srgb, #ff9f0a 18%, transparent); color: #ff9f0a; }
+  .chip.listened { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+  .chip.audio { background: color-mix(in srgb, var(--ok) 16%, transparent); color: var(--ok); }
+  .hero h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin: 4px 0 0; overflow-wrap: anywhere; }
+  .hero .meta { font-size: 13px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .track { margin-top: 18px; }
+  .bar-wrap { position: relative; height: 24px; display: flex; align-items: center; cursor: pointer; touch-action: none; }
+  .bar-wrap .rail { position: absolute; left: 0; right: 0; height: 5px; border-radius: 999px; background: color-mix(in srgb, var(--text) 14%, transparent); overflow: hidden; transition: height .15s ease; }
+  .bar-wrap:hover .rail, .bar-wrap.drag .rail { height: 8px; }
+  .bar-wrap .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--text); border-radius: 999px; }
+  .bar-wrap .knob { position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 50%; background: var(--text); transform: translate(-50%, -50%) scale(0); box-shadow: 0 1px 4px rgba(0,0,0,.3); transition: transform .15s ease; pointer-events: none; }
+  .bar-wrap:hover .knob, .bar-wrap.drag .knob { transform: translate(-50%, -50%) scale(1); }
+  .times { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .controls { display: flex; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .btn { border: 0; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: transform .15s ease, background .15s ease; }
+  .btn:active { transform: scale(.96); }
+  .btn.play { width: 60px; height: 60px; background: var(--text); color: var(--bg); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+  .btn.play svg { width: 22px; height: 22px; }
+  .btn.play #iconPause, .btn.play.on #iconPlay { display: none; }
+  .btn.play.on #iconPause { display: block; }
+  .btn.sec { height: 40px; padding: 0 14px; background: var(--surface-2); color: var(--text); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .btn.sec:hover { background: color-mix(in srgb, var(--text) 14%, transparent); }
+  .btn.sec svg { width: 16px; height: 16px; }
+  .btn.sec.on { background: var(--text); color: var(--bg); }
+  .links { display: flex; gap: 14px; margin-top: 14px; font-size: 13px; flex-wrap: wrap; }
+  .links a, .links button { color: var(--text-2); font-weight: 500; border: 0; background: none; padding: 0; font-size: 13px; }
+  .links a:hover, .links button:hover { color: var(--text); }
+  .links .ok { color: var(--ok); }
+  .embed { position: fixed; left: -10000px; top: 0; width: 640px; height: 360px; opacity: 0; pointer-events: none; }
+  .embed iframe, .embed .yt { display: block; width: 100%; height: 100%; border: 0; }
+
+  /* ---------- list ---------- */
+  .toolbar { display: flex; align-items: center; gap: 14px; margin: 40px 0 18px; flex-wrap: wrap; }
+  .segmented { display: inline-flex; background: var(--surface-2); border-radius: 10px; padding: 3px; gap: 2px; }
+  .segmented button { border: 0; background: transparent; border-radius: 8px; padding: 6px 13px; font-size: 13px; font-weight: 500; color: var(--text-2); white-space: nowrap; }
+  .segmented button .n { color: var(--text-3); margin-left: 5px; font-variant-numeric: tabular-nums; }
+  .segmented button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .control { display: inline-flex; align-items: center; gap: 6px; background: var(--surface-2); border-radius: 10px; padding: 0 10px 0 12px; height: 34px; font-size: 13px; color: var(--text-2); }
+  .control select { border: 0; background: transparent; outline: 0; color: var(--text); font-weight: 500; padding: 6px 0; -webkit-appearance: none; appearance: none; cursor: pointer; max-width: 320px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px 18px; }
+  .card { display: flex; flex-direction: column; gap: 9px; cursor: pointer; }
+  .card .cover { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--surface-2); box-shadow: var(--shadow); transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease; }
+  .card:hover .cover { transform: translateY(-4px) scale(1.015); box-shadow: var(--shadow-lg); }
+  .card .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card.listened .cover img { filter: saturate(.5) brightness(.85); }
+  .card .dur { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,.6); color: #fff; border-radius: 999px; padding: 3px 8px; font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .card .st { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,.62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .card .st.listening { color: #7cc0ff; } .card .st.queued { color: #ffb340; } .card .st.listened { color: #5ee08a; }
+  .card .prog { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(0,0,0,.35); }
+  .card .prog i { display: block; height: 100%; background: var(--accent); }
+  .card.now .cover { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .card .t { font-size: 14px; font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .card .s { font-size: 12.5px; color: var(--text-2); margin-top: 2px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .empty { color: var(--text-2); text-align: center; padding: 60px 0; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); opacity: 0; z-index: 60; background: var(--text); color: var(--bg); padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 500; transition: all .2s ease; pointer-events: none; max-width: 80vw; }
+  .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 760px) {
+    .bar-inner { padding: 12px 16px; gap: 10px; }
+    .nav { font-size: 15px; gap: 14px; }
+    .search { min-width: 0; flex: 1 1 100%; }
+    .wrap { padding: 16px 16px 90px; }
+    .hero { grid-template-columns: 1fr; border-radius: 20px; }
+    .hero .art { padding: 16px 16px 0; }
+    .hero .info { padding: 18px 18px 22px; }
+    .hero h1 { font-size: 21px; }
+    .btn.play { width: 64px; height: 64px; }
+    .grid { grid-template-columns: 1fr 1fr; gap: 16px 12px; }
+    .card .t { font-size: 13px; }
+    .toolbar { gap: 10px; }
+    .segmented { overflow-x: auto; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <nav class="nav"><a href="index.html">Главная</a><a href="films.html">Фильмы</a><a href="mixes.html">Миксы</a><a href="lectures.html" class="on">Лекции</a></nav>
+    <div class="spacer"></div>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Поиск по лекциям" autocomplete="off">
+    </label>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" id="hero">
+    <div class="art"><div class="cover" id="heroCover">🎓</div></div>
+    <div class="info">
+      <div class="eyebrow" id="heroEyebrow">Лекция</div>
+      <h1 id="heroTitle">Выбери лекцию</h1>
+      <div class="meta" id="heroMeta">Рекомендации ниже подобраны по тому, что ты уже слушал</div>
+      <div class="track">
+        <div class="bar-wrap" id="barWrap"><div class="rail"><div class="fill" id="fill"></div></div><div class="knob" id="knob"></div></div>
+        <div class="times"><span id="tCur">0:00</span><span id="tRem">–0:00</span></div>
+      </div>
+      <div class="controls">
+        <button class="btn sec" id="backBtn" title="Назад 30 с"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>30</button>
+        <button class="btn play on" id="playBtn" aria-label="Play">
+          <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5z"/></svg>
+          <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+        </button>
+        <button class="btn sec" id="fwdBtn" title="Вперёд 30 с">30<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg></button>
+        <button class="btn sec" id="rateBtn" title="Скорость">1×</button>
+        <button class="btn sec" id="doneBtn">Прослушано</button>
+      </div>
+      <div class="links" id="heroLinks"></div>
+    </div>
+  </section>
+  <div class="embed" id="embed"></div>
+
+  <div class="toolbar">
+    <div class="segmented" id="tabs">
+      <button data-tab="rec">Рекомендации</button>
+      <button data-tab="listening">Слушаю<span class="n"></span></button>
+      <button data-tab="queued">В планах<span class="n"></span></button>
+      <button data-tab="new">Не слушал<span class="n"></span></button>
+      <button data-tab="listened">Прослушано<span class="n"></span></button>
+    </div>
+    <div class="control"><span>Канал</span><select id="channelSel"><option value="">все</option></select></div>
+    <div class="control"><span>Серия</span><select id="seriesSel"><option value="">все</option></select></div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Ничего нет</div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script src="rec.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const { fmtDur, fmtTime, thumb, bigThumb, seriesName, channelName, recommend } = Lect;
+const STATUS_LABEL = { new: 'Не слушал', queued: 'В планах', listening: 'Слушаю', listened: 'Прослушано' };
+const RATES = [1, 1.25, 1.5, 1.75, 2];
+const state = { db: { lectures: [], series: {}, channels: [] }, tab: 'rec', q: '', series: '', channel: '', current: null, playing: false, pos: 0, dur: 0, rate: 1, canEdit: false };
+let player = null, toastTimer, saveTimer, lastSaved = 0;
+
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 2200); }
+const byId = id => state.db.lectures.find(l => l.id === id);
+const totalDur = () => state.dur || (state.current && state.current.duration) || 0;
+
+// ---------- list ----------
+function visible() {
+  let list;
+  if (state.tab === 'rec') list = recommend(state.db, 24, state.channel || null);
+  else list = state.db.lectures.filter(l => l.status === state.tab && (!state.channel || l.channel === state.channel));
+  if (state.tab === 'queued') list = [...list].sort((a, b) => (a.queuedAt || 0) - (b.queuedAt || 0));
+  if (state.tab === 'listened') list = [...list].sort((a, b) => String(b.listenedAt || '').localeCompare(String(a.listenedAt || '')));
+  if (state.series) list = list.filter(l => (l.series || []).includes(state.series));
+  const q = state.q.trim().toLowerCase();
+  if (q) list = state.db.lectures.filter(l => l.title.toLowerCase().includes(q) || seriesName(state.db, l).toLowerCase().includes(q));
+  return list;
+}
+function renderList() {
+  const counts = { listening: 0, queued: 0, new: 0, listened: 0 };
+  state.db.lectures.forEach(l => counts[l.status] = (counts[l.status] || 0) + 1);
+  document.querySelectorAll('#tabs button').forEach(b => {
+    b.classList.toggle('on', b.dataset.tab === state.tab);
+    const n = b.querySelector('.n'); if (n) n.textContent = counts[b.dataset.tab] || '';
+  });
+  const list = visible();
+  $('#empty').hidden = list.length > 0;
+  $('#grid').innerHTML = list.map(l => {
+    const pct = l.duration && l.position ? Math.min(100, l.position / l.duration * 100) : 0;
+    return `<article class="card ${l.status} ${state.current && l.id === state.current.id ? 'now' : ''}" data-id="${esc(l.id)}">
+      <div class="cover">${thumb(l) ? `<img src="${esc(thumb(l))}" alt="" loading="lazy">` : ''}
+        ${l.status !== 'new' ? `<span class="chip st ${l.status}">${STATUS_LABEL[l.status]}</span>` : ''}
+        <span class="dur">${l.audio ? '♪ ' : ''}${fmtDur(l.duration)}</span>
+        ${pct && l.status === 'listening' ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}
+      </div>
+      <div><div class="t">${esc(l.title)}</div><div class="s">${esc(seriesName(state.db, l) || channelName(state.db, l))}</div></div>
+    </article>`;
+  }).join('');
+}
+function renderSeries() {
+  $('#channelSel').innerHTML = '<option value="">все каналы</option>' + (state.db.channels || []).map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
+  const used = new Map();
+  state.db.lectures.forEach(l => (l.series || []).forEach(s => used.set(s, (used.get(s) || 0) + 1)));
+  const opts = [...used.entries()].map(([id, n]) => [id, (state.db.series[id] || id).replace(/\.$/, ''), n]).sort((a, b) => b[2] - a[2]);
+  $('#seriesSel').innerHTML = '<option value="">все серии</option>' + opts.map(([id, t, n]) => `<option value="${esc(id)}">${esc(t)} (${n})</option>`).join('');
+}
+
+// ---------- hero ----------
+function setPlayingUI(on) {
+  state.playing = on;
+  $('#playBtn').classList.toggle('on', on);
+  document.title = (on && state.current ? '▶ ' + state.current.title + ' — ' : '') + 'Лекции';
+  if ('mediaSession' in navigator) navigator.mediaSession.playbackState = on ? 'playing' : 'paused';
+}
+function setProgress(pos, dur) {
+  if (dur) state.dur = dur;
+  state.pos = pos || 0;
+  const d = totalDur(), pct = d ? Math.min(100, state.pos / d * 100) : 0;
+  $('#fill').style.width = pct + '%'; $('#knob').style.left = pct + '%';
+  $('#tCur').textContent = fmtTime(state.pos); $('#tRem').textContent = '–' + fmtTime(Math.max(0, d - state.pos));
+  if ('mediaSession' in navigator && d && navigator.mediaSession.setPositionState) {
+    try { navigator.mediaSession.setPositionState({ duration: d, position: Math.min(state.pos, d), playbackRate: state.rate }); } catch {}
+  }
+}
+function renderHero() {
+  const l = state.current;
+  if (!l) return;
+  $('#heroCover').innerHTML = `<img src="${esc(bigThumb(l))}" alt="">`;
+  $('#heroCover').classList.toggle('sq', l.source === 'soundcloud');
+  $('#heroEyebrow').innerHTML = `<span class="chip ${l.status}">${STATUS_LABEL[l.status]}</span><span>${esc(channelName(state.db, l))}</span>${seriesName(state.db, l) ? `<span>· ${esc(seriesName(state.db, l))}</span>` : ''}`;
+  $('#heroTitle').textContent = l.title;
+  $('#heroMeta').textContent = [fmtDur(l.duration), l.listenedAt && 'прослушано ' + l.listenedAt].filter(Boolean).join(' · ');
+  $('#doneBtn').classList.toggle('on', l.status === 'listened');
+  $('#doneBtn').textContent = l.status === 'listened' ? 'Прослушано ✓' : 'Прослушано';
+  $('#heroLinks').innerHTML = `<a href="${esc(l.url || 'https://www.youtube.com/watch?v=' + l.id)}" target="_blank" rel="noopener">Открыть на ${l.source === 'soundcloud' ? 'SoundCloud' : 'YouTube'} ↗</a>
+    ${l.status === 'new' ? '<button id="queueBtn">В планы</button>' : l.status === 'queued' ? '<button id="queueBtn">Убрать из планов</button>' : ''}
+    <span id="audioState">${l.audio ? '<span class="ok">♪ аудио скачано, играет без видео</span>' : '<button id="audioBtn">Скачать аудио для телефона</button>'}</span>
+    ${l.status !== 'new' ? '<button id="resetBtn">Сбросить</button>' : ''}`;
+  $('#audioBtn')?.addEventListener('click', () => requestAudio(l));
+  $('#queueBtn')?.addEventListener('click', () => update(l, { status: l.status === 'queued' ? 'new' : 'queued' }));
+  $('#resetBtn')?.addEventListener('click', () => update(l, { status: 'new' }));
+  setProgress(l.position || 0, l.duration);
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({ title: l.title, artist: seriesName(state.db, l) || 'Лекция', album: 'Семинары по истории',
+      artwork: [{ src: bigThumb(l), sizes: l.source === 'soundcloud' ? '500x500' : '480x360', type: 'image/jpeg' }] });
+  }
+}
+
+// ---------- players ----------
+function destroyPlayer() {
+  savePosition(true);
+  if (player) { try { player.destroy(); } catch {} player = null; }
+  $('#embed').innerHTML = '';
+  setPlayingUI(false);
+}
+function mountAudio(l) {
+  const a = document.createElement('audio');
+  let dead = false;
+  a.src = `/audio/${encodeURIComponent(l.id.replace(':', '_'))}.m4a`; a.preload = 'metadata'; a.playbackRate = state.rate;
+  $('#embed').appendChild(a);
+  a.addEventListener('loadedmetadata', () => { if (!dead) setProgress(state.pos, a.duration); });
+  a.addEventListener('timeupdate', () => { if (!dead) setProgress(a.currentTime); });
+  a.addEventListener('play', () => { if (!dead) setPlayingUI(true); });
+  a.addEventListener('pause', () => { if (!dead) { setPlayingUI(false); savePosition(true); } });
+  a.addEventListener('ended', () => { if (!dead) finished(); });
+  a.addEventListener('error', () => { if (dead) return; toast('Аудио не открылось, играю с ' + (l.source === 'soundcloud' ? 'SoundCloud' : 'YouTube')); l.audio = false; playLecture(l, state.pos); });
+  return {
+    play: () => a.play().catch(e => toast('Нажми Play ещё раз: ' + e.message)), pause: () => a.pause(),
+    seek: s => { a.currentTime = s; setProgress(s); }, rate: r => { a.playbackRate = r; }, destroy: () => { dead = true; a.pause(); a.removeAttribute('src'); a.load(); },
+    start: pos => { const go = () => { if (pos) a.currentTime = pos; a.play().catch(() => {}); }; a.readyState >= 1 ? go() : a.addEventListener('loadedmetadata', go, { once: true }); },
+  };
+}
+let ytReady = null;
+function loadYT() {
+  if (ytReady) return ytReady;
+  ytReady = new Promise(res => { if (window.YT && YT.Player) return res(); window.onYouTubeIframeAPIReady = res; const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s); });
+  return ytReady;
+}
+function mountYouTube(l) {
+  const holder = document.createElement('div'); holder.className = 'yt'; $('#embed').appendChild(holder);
+  let yt = null, timer = null, startAt = 0;
+  const p = { play: () => {}, pause: () => {}, seek: () => {}, rate: () => {}, destroy: () => { clearInterval(timer); if (yt) yt.destroy(); }, start: pos => { startAt = pos; } };
+  loadYT().then(() => {
+    yt = new YT.Player(holder, { videoId: l.id, width: '100%', height: '100%', playerVars: { autoplay: 1, rel: 0, playsinline: 1, start: Math.floor(startAt) },
+      events: {
+        onReady: e => { e.target.setPlaybackRate(state.rate); e.target.playVideo(); timer = setInterval(() => { try { setProgress(yt.getCurrentTime(), yt.getDuration()); } catch {} }, 500); },
+        onStateChange: e => { if (e.data === YT.PlayerState.PLAYING) setPlayingUI(true); else if (e.data === YT.PlayerState.PAUSED) { setPlayingUI(false); savePosition(true); } else if (e.data === YT.PlayerState.ENDED) finished(); },
+        onError: () => toast('YouTube: видео недоступно'),
+      } });
+    p.play = () => yt.playVideo(); p.pause = () => yt.pauseVideo(); p.seek = s => { yt.seekTo(s, true); setProgress(s); }; p.rate = r => yt.setPlaybackRate(r);
+    p.start = pos => { yt.seekTo(pos, true); yt.playVideo(); };
+  });
+  return p;
+}
+function mountSoundCloud(l) {
+  const f = document.createElement('iframe');
+  f.allow = 'autoplay'; f.setAttribute('scrolling', 'no');
+  f.src = 'https://w.soundcloud.com/player/?' + new URLSearchParams({ url: l.url, auto_play: 'false', visual: 'false', show_comments: 'false', hide_related: 'true', show_teaser: 'false' });
+  $('#embed').appendChild(f);
+  const w = SC.Widget(f);
+  let startAt = 0, ready = false;
+  w.bind(SC.Widget.Events.READY, () => { ready = true; w.getDuration(d => setProgress(state.pos, d / 1000)); if (startAt) w.seekTo(startAt * 1000); w.play(); });
+  w.bind(SC.Widget.Events.PLAY, () => setPlayingUI(true));
+  w.bind(SC.Widget.Events.PAUSE, () => { setPlayingUI(false); savePosition(true); });
+  w.bind(SC.Widget.Events.PLAY_PROGRESS, e => setProgress(e.currentPosition / 1000));
+  w.bind(SC.Widget.Events.FINISH, () => finished());
+  w.bind(SC.Widget.Events.ERROR, () => toast('SoundCloud: не удалось воспроизвести'));
+  return { play: () => w.play(), pause: () => w.pause(), seek: s => { w.seekTo(s * 1000); setProgress(s); }, rate: () => {}, destroy: () => {},
+    start: pos => { startAt = pos; if (ready) { if (pos) w.seekTo(pos * 1000); w.play(); } } };
+}
+function playLecture(l, fromPos) {
+  destroyPlayer();
+  state.current = l; state.dur = 0;
+  let pos = fromPos != null ? fromPos : (l.position || 0);
+  if (l.duration && pos > l.duration - 30) pos = 0;
+  state.pos = pos;
+  renderHero(); renderList();
+  history.replaceState(null, '', '#' + l.id);
+  player = l.audio ? mountAudio(l) : l.source === 'soundcloud' ? mountSoundCloud(l) : mountYouTube(l);
+  player.start(pos);
+  if (l.source === 'soundcloud' && !l.audio) $('#rateBtn').title = 'Скорость доступна только для скачанного аудио';
+}
+function selectLecture(l) { // show without starting playback (page load)
+  destroyPlayer(); state.current = l; state.dur = 0; state.pos = l.position || 0; renderHero(); renderList();
+}
+function toggle() {
+  if (!state.current) { const r = recommend(state.db, 1)[0]; if (r) playLecture(r); return; }
+  if (!player) return playLecture(state.current);
+  state.playing ? player.pause() : player.play();
+}
+function seekBy(d) { if (!player) return; const t = totalDur(); player.seek(Math.max(0, Math.min(t ? t - 1 : Infinity, state.pos + d))); savePosition(true); }
+function cycleRate() { state.rate = RATES[(RATES.indexOf(state.rate) + 1) % RATES.length]; $('#rateBtn').textContent = state.rate + '×'; player?.rate(state.rate); try { localStorage.setItem('lectures.rate', state.rate); } catch {} }
+function finished() { setPlayingUI(false); if (state.current) update(state.current, { status: 'listened', position: 0 }); toast('Прослушано ✓'); }
+
+// ---------- persistence ----------
+async function api(method, path, body) {
+  const r = await fetch(path, { method, headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.status);
+  return r.json();
+}
+async function update(l, patch) {
+  try { Object.assign(l, await api('PATCH', '/api/lecture/' + l.id, patch)); if (state.current && state.current.id === l.id) renderHero(); renderList(); }
+  catch (e) { toast('Ошибка: ' + e.message); }
+}
+function savePosition(force) {
+  const l = state.current; if (!l || !player) return;
+  const pos = Math.floor(state.pos);
+  if (!force && Math.abs(pos - lastSaved) < 15) return;
+  if (pos === lastSaved) return;
+  lastSaved = pos; l.position = pos;
+  const d = totalDur();
+  if (d && pos > d * 0.95 && l.status !== 'listened') { update(l, { status: 'listened', position: pos }); return; }
+  if (l.status === 'new' && pos > 60) l.status = 'listening';
+  fetch('/api/lecture/' + l.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ position: pos }), keepalive: true }).catch(() => {});
+}
+setInterval(() => { if (state.playing) savePosition(false); }, 5000);
+document.addEventListener('visibilitychange', () => { if (document.hidden) savePosition(true); });
+window.addEventListener('pagehide', () => savePosition(true));
+async function requestAudio(l) {
+  try {
+    const r = await api('POST', `/api/lecture/${l.id}/audio`);
+    if (r.status === 'done') { l.audio = true; renderHero(); renderList(); return toast('Аудио уже есть'); }
+    toast('Скачиваю аудио, это несколько минут…');
+    $('#audioState').innerHTML = '<span>⏳ скачивается…</span>';
+    const poll = setInterval(async () => {
+      const s = await api('GET', `/api/lecture/${l.id}/audio`).catch(() => ({}));
+      if (s.status === 'done') { clearInterval(poll); l.audio = true; renderHero(); renderList(); toast('Аудио готово'); }
+      else if (String(s.status).startsWith('error')) { clearInterval(poll); toast('Не скачалось: ' + s.status); renderHero(); }
+    }, 5000);
+  } catch (e) { toast('Ошибка: ' + e.message); }
+}
+
+// ---------- wiring ----------
+$('#playBtn').addEventListener('click', toggle);
+$('#backBtn').addEventListener('click', () => seekBy(-30));
+$('#fwdBtn').addEventListener('click', () => seekBy(30));
+$('#rateBtn').addEventListener('click', cycleRate);
+$('#doneBtn').addEventListener('click', () => { const l = state.current; if (!l) return; update(l, l.status === 'listened' ? { status: 'listening' } : { status: 'listened' }); });
+(() => {
+  const wrap = $('#barWrap');
+  const frac = e => { const r = wrap.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)); };
+  let dragging = false;
+  const preview = e => { const f = frac(e); $('#fill').style.width = f * 100 + '%'; $('#knob').style.left = f * 100 + '%'; $('#tCur').textContent = fmtTime(f * totalDur()); };
+  wrap.addEventListener('pointerdown', e => { if (!state.current) return; dragging = true; wrap.classList.add('drag'); wrap.setPointerCapture(e.pointerId); preview(e); });
+  wrap.addEventListener('pointermove', e => { if (dragging) preview(e); });
+  wrap.addEventListener('pointerup', e => { if (!dragging) return; dragging = false; wrap.classList.remove('drag'); const d = totalDur(); if (!d) return; const s = frac(e) * d; if (player) { player.seek(s); savePosition(true); } else { playLecture(state.current, s); } });
+})();
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; state.tab = b.dataset.tab; state.q = ''; $('#q').value = ''; renderList(); });
+$('#seriesSel').addEventListener('change', e => { state.series = e.target.value; renderList(); });
+$('#channelSel').addEventListener('change', e => { state.channel = e.target.value; renderList(); });
+$('#q').addEventListener('input', e => { state.q = e.target.value; renderList(); });
+$('#grid').addEventListener('click', e => { const c = e.target.closest('.card'); if (!c) return; const l = byId(c.dataset.id); if (l) playLecture(l); });
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.code === 'Space') { e.preventDefault(); toggle(); }
+  else if (e.key === 'ArrowRight') seekBy(30);
+  else if (e.key === 'ArrowLeft') seekBy(-30);
+});
+if ('mediaSession' in navigator) {
+  const ms = navigator.mediaSession;
+  ms.setActionHandler('play', () => player?.play()); ms.setActionHandler('pause', () => player?.pause());
+  ms.setActionHandler('seekbackward', () => seekBy(-30)); ms.setActionHandler('seekforward', () => seekBy(30));
+  try { ms.setActionHandler('seekto', d => { if (player && d.seekTime != null) { player.seek(d.seekTime); savePosition(true); } }); } catch {}
+}
+try { const r = parseFloat(localStorage.getItem('lectures.rate')); if (RATES.includes(r)) { state.rate = r; $('#rateBtn').textContent = r + '×'; } } catch {}
+
+fetch('lectures.json', { cache: 'no-store' }).then(r => r.json()).then(db => {
+  state.db = db; renderSeries(); renderList();
+  const h = location.hash.slice(1);
+  const l = (h && byId(h)) || db.lectures.find(x => x.status === 'listening') || recommend(db, 1)[0];
+  if (l) selectLecture(l);
+}).catch(() => toast('Не удалось загрузить lectures.json'));
+</script>
+</body>
+</html>
