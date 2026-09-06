@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Миксы</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎧</text></svg>">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafafa; --surface: #ffffff; --surface-2: #f2f2f4;
+    --text: #1d1d1f; --text-2: #6e6e73; --text-3: #a1a1a6;
+    --line: rgba(0,0,0,.08); --accent: #0071e3;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+    --shadow-lg: 0 2px 8px rgba(0,0,0,.08), 0 24px 64px rgba(0,0,0,.18);
+    --glass: rgba(250,250,250,.78); --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000; --surface: #1c1c1e; --surface-2: #2c2c2e;
+      --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
+      --line: rgba(255,255,255,.1); --accent: #2997ff;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+      --shadow-lg: 0 2px 8px rgba(0,0,0,.5), 0 24px 64px rgba(0,0,0,.6);
+      --glass: rgba(0,0,0,.72);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
+    background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased;
+    font-size: 15px; line-height: 1.45; letter-spacing: -0.01em;
+  }
+  button, input { font: inherit; color: inherit; letter-spacing: inherit; }
+  button { cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+
+  .bar { position: sticky; top: 0; z-index: 20; background: var(--glass);
+    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
+  .bar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; }
+  .nav a { color: var(--text-3); font-weight: 600; }
+  .nav a.on { color: var(--text); }
+  .spacer { flex: 1; }
+  .addbox { position: relative; min-width: 300px; }
+  .addbox svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--text-3); pointer-events: none; }
+  .addbox input { width: 100%; border: 0; outline: 0; background: var(--surface-2); border-radius: 10px; padding: 7px 12px 7px 32px; font-size: 14px; transition: box-shadow .18s ease; }
+  .addbox input:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); }
+  .addbox input::placeholder { color: var(--text-3); }
+  .addbox.busy input { opacity: .5; }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 36px 32px 80px; }
+
+  /* ---------- hero player ---------- */
+  .hero {
+    position: relative; overflow: hidden; border-radius: 26px; box-shadow: var(--shadow-lg);
+    background: var(--surface); min-height: 380px;
+    display: grid; grid-template-columns: 340px 1fr; isolation: isolate;
+  }
+  .hero .bg { position: absolute; inset: -60px; background-size: cover; background-position: center;
+    filter: blur(60px) saturate(1.4); opacity: .55; z-index: -1; transform: scale(1.2); transition: opacity .6s ease; }
+  @media (prefers-color-scheme: dark) { .hero .bg { opacity: .45; } }
+  .hero .art { padding: 36px 0 36px 36px; display: grid; place-items: center; }
+  .hero .art .cover { width: 100%; aspect-ratio: 1; border-radius: 18px; overflow: hidden; background: var(--surface-2);
+    box-shadow: 0 12px 40px rgba(0,0,0,.28); display: grid; place-items: center; color: var(--text-3); }
+  .hero .art .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero .info { padding: 36px; display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; }
+  .hero .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-2); font-weight: 600; display: flex; gap: 8px; align-items: center; }
+  .src { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .02em; text-transform: none; }
+  .src.soundcloud { background: #ff5500; color: #fff; }
+  .src.youtube { background: #ff0000; color: #fff; }
+  .src.mixcloud { background: #5000ff; color: #fff; }
+  .src.nts { background: #000; color: #fff; outline: 1px solid rgba(255,255,255,.25); }
+  .hero h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin: 4px 0 0; overflow-wrap: anywhere; }
+  .hero .artist { font-size: 18px; color: var(--text-2); }
+  .hero .meta { font-size: 13px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .controls { display: flex; align-items: center; gap: 14px; margin-top: 22px; }
+  .btn { border: 0; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-weight: 600; transition: transform .15s ease, background .15s ease, opacity .15s ease; }
+  .btn:active { transform: scale(.96); }
+  .btn.play { width: 68px; height: 68px; background: var(--text); color: var(--bg); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+  .btn.play svg { width: 26px; height: 26px; }
+  .btn.play svg[hidden] { display: none; }
+  .btn.play:hover { transform: scale(1.04); }
+  .btn.sec { height: 44px; padding: 0 18px; background: color-mix(in srgb, var(--text) 10%, transparent); color: var(--text); font-size: 14px;
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .btn.sec:hover { background: color-mix(in srgb, var(--text) 16%, transparent); }
+  .btn.sec svg { width: 16px; height: 16px; }
+  .btn.icon { width: 44px; padding: 0; }
+  .btn[disabled] { opacity: .4; pointer-events: none; }
+  .hero .links { display: flex; gap: 14px; margin-top: 16px; font-size: 13px; }
+  .hero .links a { color: var(--accent); font-weight: 500; }
+  .hero .links a:hover { text-decoration: underline; }
+  .hero .links button { border: 0; background: none; padding: 0; color: var(--text-2); font-size: 13px; }
+  .hero .links button:hover { color: #ff3b30; }
+  .kbd { color: var(--text-2); font-size: 12px; margin-top: 10px; }
+  .kbd kbd { font-family: inherit; background: color-mix(in srgb, var(--text) 12%, transparent); border-radius: 5px; padding: 1px 6px; font-size: 11px; }
+
+  .embed { margin-top: 20px; border-radius: 18px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); display: none; }
+  .embed.on { display: block; }
+  .embed iframe, .embed .yt { display: block; width: 100%; border: 0; }
+  .embed.soundcloud iframe { height: 166px; }
+  .embed.mixcloud iframe { height: 120px; }
+  .embed.youtube { max-width: 760px; margin-inline: auto; }
+  .embed.youtube .yt { aspect-ratio: 16 / 9; }
+
+  /* ---------- list ---------- */
+  .head { display: flex; align-items: baseline; gap: 14px; margin: 48px 0 18px; }
+  .head h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.03em; margin: 0; }
+  .head .meta { color: var(--text-2); font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 24px 18px; }
+  .card { display: flex; flex-direction: column; gap: 9px; cursor: pointer; position: relative; }
+  .card .cover { position: relative; aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: var(--surface-2); box-shadow: var(--shadow);
+    transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease; }
+  .card:hover .cover { transform: translateY(-4px) scale(1.015); box-shadow: var(--shadow-lg); }
+  .card .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card .cover .ph { position: absolute; inset: 0; display: grid; place-items: center; color: var(--text-3); font-size: 12px; padding: 12px; text-align: center; }
+  .card .dur { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,.55); color: #fff; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    border-radius: 999px; padding: 3px 8px; font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+  .card .srcdot { position: absolute; top: 8px; left: 8px; }
+  .card.now .cover { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .card .t { font-size: 14px; font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .card .s { font-size: 12.5px; color: var(--text-2); margin-top: 2px; }
+  .card .x { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; border-radius: 50%; border: 0; background: rgba(0,0,0,.55); color: #fff;
+    display: none; place-items: center; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .card:hover .x { display: grid; }
+  .card .x svg { width: 10px; height: 10px; }
+  .card .x.armed { background: #ff3b30; }
+  .empty { color: var(--text-2); text-align: center; padding: 60px 0; }
+  .hint { margin-top: 56px; text-align: center; color: var(--text-3); font-size: 12.5px; }
+  .hint code { font-family: ui-monospace, SF Mono, Menlo, monospace; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); opacity: 0; z-index: 60;
+    background: var(--text); color: var(--bg); padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 500;
+    transition: all .2s ease; pointer-events: none; max-width: 80vw; }
+  .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (max-width: 760px) {
+    .bar-inner { padding: 12px 16px; gap: 10px; }
+    .addbox { min-width: 0; flex: 1 1 100%; }
+    .wrap { padding: 20px 16px 60px; }
+    .hero { grid-template-columns: 1fr; min-height: 0; border-radius: 22px; }
+    .hero .art { padding: 22px 22px 0; }
+    .hero .art .cover { max-width: 260px; }
+    .hero .info { padding: 22px; }
+    .hero h1 { font-size: 26px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 18px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <nav class="nav"><a href="index.html">Фильмы</a><a href="mixes.html" class="on">Миксы</a></nav>
+    <div class="spacer"></div>
+    <label class="addbox" id="addbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      <input id="addUrl" type="url" placeholder="Вставь ссылку: SoundCloud, YouTube, Mixcloud, NTS" autocomplete="off">
+    </label>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" id="hero">
+    <div class="bg" id="heroBg"></div>
+    <div class="art"><div class="cover" id="heroCover">🎧</div></div>
+    <div class="info">
+      <div class="eyebrow" id="heroEyebrow">Случайный микс</div>
+      <h1 id="heroTitle">Доброе утро</h1>
+      <div class="artist" id="heroArtist">Нажми Play, и заиграет случайный микс из коллекции</div>
+      <div class="meta" id="heroMeta"></div>
+      <div class="controls">
+        <button class="btn play" id="playBtn" aria-label="Play">
+          <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5z"/></svg>
+          <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" hidden><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+        </button>
+        <button class="btn sec" id="nextBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 5.5v13a1 1 0 0 0 1.5.86L15 14.2V18a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0v3.8L6.5 4.64A1 1 0 0 0 5 5.5z"/></svg>
+          Следующий
+        </button>
+      </div>
+      <div class="links" id="heroLinks"></div>
+      <div class="kbd"><kbd>Space</kbd> play / pause &nbsp; <kbd>→</kbd> следующий</div>
+    </div>
+  </section>
+
+  <div class="embed" id="embed"></div>
+
+  <div class="head"><h2>Коллекция</h2><div class="meta" id="listMeta"></div></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Пока пусто. Вставь ссылку на микс в поле сверху или попроси Claude Code импортировать лайки с SoundCloud.</div>
+  <div class="hint">Импорт лайков: <code>scripts/mixes.py import-soundcloud &lt;user&gt;</code> · добавить один: <code>scripts/mixes.py add &lt;url&gt;</code></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script src="https://widget.mixcloud.com/media/js/widgetApi.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const SRC_LABEL = { soundcloud: 'SoundCloud', youtube: 'YouTube', mixcloud: 'Mixcloud' };
+const state = { mixes: [], current: null, playing: false, history: [] };
+let player = null;      // { kind, play(), pause(), destroy() }
+let toastTimer;
+
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 2200); }
+function fmtDur(s) { if (!s) return ''; const h = Math.floor(s / 3600), m = Math.round(s % 3600 / 60); return h ? `${h} ч ${m} мин` : `${m} мин`; }
+function fmtShort(s) { if (!s) return ''; const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h}:${String(m).padStart(2, '0')}` : `${m}m`; }
+function srcOf(m) { return m.nts ? 'nts' : m.source; }
+function srcLabel(m) { return m.nts ? 'NTS' : SRC_LABEL[m.source] || m.source; }
+function loadHistory() { try { state.history = JSON.parse(localStorage.getItem('mixes.history') || '[]'); } catch { state.history = []; } }
+function pushHistory(id) { state.history = [id, ...state.history.filter(x => x !== id)].slice(0, 30); try { localStorage.setItem('mixes.history', JSON.stringify(state.history)); } catch {} }
+
+function pickRandom() {
+  const all = state.mixes;
+  if (!all.length) return null;
+  const recent = new Set(state.history.slice(0, Math.min(all.length - 1, 10)));
+  const pool = all.filter(m => !recent.has(m.id) && m !== state.current);
+  const from = pool.length ? pool : all.filter(m => m !== state.current);
+  return (from.length ? from : all)[Math.floor(Math.random() * (from.length || all.length))];
+}
+
+// ---------- rendering ----------
+function setPlayingUI(on) {
+  state.playing = on;
+  $('#iconPlay').hidden = on; $('#iconPause').hidden = !on;
+  $('#playBtn').setAttribute('aria-label', on ? 'Pause' : 'Play');
+  document.title = (on && state.current ? '▶ ' + state.current.title + ' — ' : '') + 'Миксы';
+}
+function renderHero() {
+  const m = state.current;
+  const cover = $('#heroCover');
+  if (!m) { cover.textContent = '🎧'; $('#heroBg').style.backgroundImage = ''; return; }
+  cover.innerHTML = m.artwork ? `<img src="${esc(m.artwork)}" alt="">` : '🎧';
+  $('#heroBg').style.backgroundImage = m.artwork ? `url("${m.artwork.replace(/"/g, '%22')}")` : '';
+  $('#heroEyebrow').innerHTML = `<span class="src ${srcOf(m)}">${srcLabel(m)}</span>${m.genre ? `<span>${esc(m.genre)}</span>` : ''}`;
+  $('#heroTitle').textContent = m.title;
+  $('#heroArtist').textContent = m.artist || '';
+  $('#heroMeta').textContent = [fmtDur(m.duration), m.published].filter(Boolean).join(' · ');
+  $('#heroLinks').innerHTML = `<a href="${esc(m.nts || m.url)}" target="_blank" rel="noopener">Открыть на ${esc(srcLabel(m))} ↗</a>
+    ${m.nts ? `<a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(SRC_LABEL[m.source])} ↗</a>` : ''}
+    <button id="heroDel">Убрать из коллекции</button>`;
+  $('#heroDel').onclick = () => removeMix(m);
+}
+function renderList() {
+  const list = state.mixes;
+  $('#listMeta').textContent = list.length ? `${list.length} · ${fmtDur(list.reduce((s, m) => s + (m.duration || 0), 0))}` : '';
+  $('#empty').hidden = list.length > 0;
+  $('#grid').innerHTML = list.map(m => `
+    <article class="card ${state.current && m.id === state.current.id ? 'now' : ''}" data-id="${esc(m.id)}">
+      <div class="cover">
+        ${m.artwork ? `<img src="${esc(m.artwork)}" alt="" loading="lazy">` : `<div class="ph">${esc(m.title)}</div>`}
+        <span class="src srcdot ${srcOf(m)}">${srcLabel(m)}</span>
+        <span class="dur">${fmtShort(m.duration)}</span>
+        <button class="x" data-del="${esc(m.id)}" aria-label="Убрать"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div><div class="t">${esc(m.title)}</div><div class="s">${esc(m.artist || '')}</div></div>
+    </article>`).join('');
+}
+
+// ---------- players ----------
+function destroyPlayer() {
+  if (player) { try { player.destroy(); } catch {} player = null; }
+  const box = $('#embed'); box.className = 'embed'; box.innerHTML = '';
+  setPlayingUI(false);
+}
+function mountSoundCloud(m) {
+  const box = $('#embed'); box.className = 'embed on soundcloud';
+  const f = document.createElement('iframe');
+  f.allow = 'autoplay'; f.setAttribute('scrolling', 'no');
+  f.src = 'https://w.soundcloud.com/player/?' + new URLSearchParams({ url: m.url, auto_play: 'true', visual: 'false', show_comments: 'false', hide_related: 'true', show_teaser: 'false', color: '#ff5500' });
+  box.appendChild(f);
+  const w = SC.Widget(f);
+  w.bind(SC.Widget.Events.PLAY, () => setPlayingUI(true));
+  w.bind(SC.Widget.Events.PAUSE, () => setPlayingUI(false));
+  w.bind(SC.Widget.Events.FINISH, () => next());
+  w.bind(SC.Widget.Events.ERROR, () => { toast('SoundCloud: не удалось воспроизвести, пропускаю'); setTimeout(next, 800); });
+  return { kind: 'soundcloud', play: () => w.play(), pause: () => w.pause(), destroy: () => {} };
+}
+function mountMixcloud(m) {
+  const box = $('#embed'); box.className = 'embed on mixcloud';
+  const f = document.createElement('iframe');
+  f.allow = 'autoplay';
+  f.src = 'https://www.mixcloud.com/widget/iframe/?' + new URLSearchParams({ feed: new URL(m.url).pathname, autoplay: '1', hide_cover: '1', light: '0', mini: '0' });
+  box.appendChild(f);
+  const p = { kind: 'mixcloud', play: () => {}, pause: () => {}, destroy: () => {} };
+  Mixcloud.PlayerWidget(f).ready.then(w => {
+    p.play = () => w.play(); p.pause = () => w.pause();
+    w.events.play.on(() => setPlayingUI(true));
+    w.events.pause.on(() => setPlayingUI(false));
+    w.events.ended.on(() => next());
+    w.play();
+  });
+  return p;
+}
+let ytReady = null;
+function loadYT() {
+  if (ytReady) return ytReady;
+  ytReady = new Promise(res => {
+    if (window.YT && YT.Player) return res();
+    window.onYouTubeIframeAPIReady = res;
+    const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+  });
+  return ytReady;
+}
+function mountYouTube(m) {
+  const box = $('#embed'); box.className = 'embed on youtube';
+  const holder = document.createElement('div'); holder.className = 'yt'; box.appendChild(holder);
+  const p = { kind: 'youtube', play: () => {}, pause: () => {}, destroy: () => {} };
+  loadYT().then(() => {
+    const yt = new YT.Player(holder, {
+      videoId: m.id.replace(/^yt:/, ''), width: '100%', height: '100%',
+      playerVars: { autoplay: 1, rel: 0, modestbranding: 1, playsinline: 1 },
+      events: {
+        onReady: e => e.target.playVideo(),
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.PLAYING) setPlayingUI(true);
+          else if (e.data === YT.PlayerState.PAUSED) setPlayingUI(false);
+          else if (e.data === YT.PlayerState.ENDED) next();
+        },
+        onError: () => { toast('YouTube: видео недоступно, пропускаю'); setTimeout(next, 800); },
+      },
+    });
+    p.play = () => yt.playVideo(); p.pause = () => yt.pauseVideo(); p.destroy = () => yt.destroy();
+  });
+  return p;
+}
+function playMix(m) {
+  destroyPlayer();
+  state.current = m; pushHistory(m.id);
+  renderHero(); renderList();
+  player = m.source === 'youtube' ? mountYouTube(m) : m.source === 'mixcloud' ? mountMixcloud(m) : mountSoundCloud(m);
+  history.replaceState(null, '', '#' + encodeURIComponent(m.id));
+}
+function next() {
+  const m = pickRandom();
+  if (!m) return toast('Коллекция пуста');
+  playMix(m);
+}
+function toggle() {
+  if (!state.current || !player) return next();
+  state.playing ? player.pause() : player.play();
+}
+
+// ---------- editing ----------
+async function removeMix(m) {
+  try {
+    const r = await fetch('/api/mix/' + encodeURIComponent(m.id), { method: 'DELETE' });
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.status);
+    state.mixes = state.mixes.filter(x => x.id !== m.id);
+    toast('Убрано: ' + m.title);
+    if (state.current && state.current.id === m.id) next(); else renderList();
+  } catch (e) { toast('Ошибка: ' + e.message); }
+}
+async function addUrl(url) {
+  const box = $('#addbox'), input = $('#addUrl');
+  box.classList.add('busy'); input.disabled = true; toast('Добавляю…');
+  try {
+    const r = await fetch('/api/mix', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || r.status);
+    state.mixes.unshift(j); renderList(); input.value = '';
+    toast('Добавлено: ' + j.title);
+  } catch (e) { toast('Ошибка: ' + e.message); }
+  finally { box.classList.remove('busy'); input.disabled = false; }
+}
+
+// ---------- wiring ----------
+$('#playBtn').addEventListener('click', toggle);
+$('#nextBtn').addEventListener('click', next);
+$('#grid').addEventListener('click', e => {
+  const del = e.target.closest('[data-del]');
+  if (del) {
+    e.stopPropagation();
+    if (del.classList.contains('armed')) removeMix(state.mixes.find(x => x.id === del.dataset.del));
+    else { del.classList.add('armed'); setTimeout(() => del.classList.remove('armed'), 2500); }
+    return;
+  }
+  const c = e.target.closest('.card'); if (!c) return;
+  const m = state.mixes.find(x => x.id === c.dataset.id); if (m) playMix(m);
+});
+$('#addUrl').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.value.trim()) addUrl(e.target.value.trim()); });
+document.addEventListener('keydown', e => {
+  if (e.target.matches('input, textarea')) return;
+  if (e.code === 'Space') { e.preventDefault(); toggle(); }
+  if (e.key === 'ArrowRight') next();
+});
+window.addEventListener('paste', e => {
+  if (e.target.matches('input, textarea')) return;
+  const t = (e.clipboardData || window.clipboardData).getData('text').trim();
+  if (/^https?:\/\//.test(t)) addUrl(t);
+});
+
+loadHistory();
+fetch('mixes.json', { cache: 'no-store' })
+  .then(r => r.ok ? r.json() : [])
+  .then(list => {
+    state.mixes = list; renderList();
+    const h = decodeURIComponent(location.hash.slice(1));
+    const m = h && list.find(x => x.id === h);
+    if (m) { state.current = m; renderHero(); renderList(); }
+  })
+  .catch(() => toast('Не удалось загрузить mixes.json, запусти ./serve.sh'));
+</script>
+</body>
+</html>

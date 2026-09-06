@@ -64,7 +64,9 @@
     max-width: 1280px; margin: 0 auto; padding: 14px 32px;
     display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
   }
-  .brand { font-weight: 600; font-size: 17px; letter-spacing: -0.02em; margin-right: 4px; }
+  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; margin-right: 4px; }
+  .nav a { color: var(--text-3); font-weight: 600; text-decoration: none; }
+  .nav a.on { color: var(--text); }
 
   .segmented {
     display: inline-flex; background: var(--surface-2); border-radius: 10px; padding: 3px; gap: 2px;
@@ -243,7 +245,7 @@
 
 <header class="bar">
   <div class="bar-inner">
-    <div class="brand">Фильмы</div>
+    <nav class="nav"><a href="index.html" class="on">Фильмы</a><a href="mixes.html">Миксы</a></nav>
     <div class="segmented" id="tabs">
       <button data-tab="watched">Посмотрел<span class="n"></span></button>
       <button data-tab="to-watch">Хочу посмотреть<span class="n"></span></button>

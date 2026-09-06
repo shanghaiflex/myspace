@@ -4,15 +4,18 @@
   GET    /api/ping                → {"ok": true}
   PATCH  /api/movie/<imdbId>      body: {rating?, status?, note?, watchedAt?}
   DELETE /api/movie/<imdbId>
+  POST   /api/mix                 body: {url}   → resolves metadata and adds the mix
+  DELETE /api/mix/<id>
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 """
-import json, os, sys, threading
+import json, os, sys, threading, urllib.parse
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import movies as M  # noqa: E402
+import mixes as X  # noqa: E402
 
 STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
@@ -39,24 +42,40 @@ class Handler(SimpleHTTPRequestHandler):
         n = int(self.headers.get("Content-Length") or 0)
         return json.loads(self.rfile.read(n) or b"{}")
 
-    def movie_id(self):
-        prefix = "/api/movie/"
+    def path_id(self, prefix):
         if not self.path.startswith(prefix):
             return None
-        return self.path[len(prefix):].split("?")[0]
+        return urllib.parse.unquote(self.path[len(prefix):].split("?")[0])
+
+    def movie_id(self):
+        return self.path_id("/api/movie/")
 
     def do_GET(self):
         if self.path.startswith("/api/ping"):
             return self.send_json(200, {"ok": True})
         if self.path.startswith("/movies.json"):
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Cache-Control", "no-store")
-            body = json.dumps(M.load(), ensure_ascii=False).encode()
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            return self.wfile.write(body)
+            return self.send_json(200, M.load())
+        if self.path.startswith("/mixes.json"):
+            return self.send_json(200, X.load())
         return super().do_GET()
+
+    def do_POST(self):
+        if self.path.split("?")[0] != "/api/mix":
+            return self.send_json(404, {"error": "not found"})
+        try:
+            url = (self.read_json().get("url") or "").strip()
+        except Exception:
+            return self.send_json(400, {"error": "bad json"})
+        if not url.startswith("http"):
+            return self.send_json(400, {"error": "url required"})
+        with LOCK:
+            try:
+                mix = X.add_mix(url)
+            except SystemExit as e:
+                return self.send_json(400, {"error": str(e)})
+            except Exception as e:
+                return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
+        return self.send_json(200, mix)
 
     def do_PATCH(self):
         with LOCK:
@@ -106,6 +125,15 @@ class Handler(SimpleHTTPRequestHandler):
             return self._delete()
 
     def _delete(self):
+        xid = self.path_id("/api/mix/")
+        if xid:
+            mixes = X.load()
+            m = next((x for x in mixes if x["id"] == xid), None)
+            if not m:
+                return self.send_json(404, {"error": "no such mix"})
+            mixes.remove(m)
+            X.save(mixes)
+            return self.send_json(200, {"ok": True})
         mid = self.movie_id()
         if not mid:
             return self.send_json(404, {"error": "not found"})

@@ -36,6 +36,25 @@ Rules of thumb:
   When the user asks to sync / says they edited on another machine: `git pull --rebase` first.
 - Metadata source: OMDb, key in `scripts/movies.py` (override with `OMDB_API_KEY`).
 
+## Mixes (`mixes.html`, `mixes.json`)
+
+Morning-mix player: random mix from the collection, "next" button, sources SoundCloud / YouTube /
+Mixcloud / NTS (NTS episodes resolve to their SoundCloud or Mixcloud audio). Playback uses the
+official embed widgets, so it needs internet; the page controls them via their JS APIs.
+The user adds single mixes by pasting a URL into the site (POST `/api/mix`) or by asking Claude Code:
+
+```
+python3 scripts/mixes.py add <url>                                  # soundcloud / youtube / mixcloud / nts.live
+python3 scripts/mixes.py import-soundcloud <user> [--min-minutes 20] [--dry-run]   # user's public likes, long tracks only
+python3 scripts/mixes.py remove <id|url|title>
+python3 scripts/mixes.py list
+```
+
+- Needs `yt-dlp` (brew) for YouTube/Mixcloud metadata; SoundCloud uses api-v2 with the client_id from yt-dlp's cache.
+- The SoundCloud username for imports is not stored anywhere yet; ask the user if unknown.
+- Mix ids: `sc:<n>`, `yt:<videoId>`, `mc:<uploader_slug>`. Fields: source, url, title, artist, duration (s),
+  artwork, genre, published, tags[], addedAt, optional `nts` (episode URL).
+
 ## Data model (`movies.json`, array sorted by title)
 `id` (imdb), `title`, `year`, `director`, `genre[]`, `runtime` (min), `plot`, `imdbRating`,
 `poster` (local path), `posterUrl`, `type` (movie|series), `status` (watched|to-watch|watching),
