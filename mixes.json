@@ -51,5 +51,305 @@
     "published": "2026-04-15",
     "tags": [],
     "addedAt": "2026-09-06"
+  },
+  {
+    "id": "sc:2189202631",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-202286394-991268468/depths-of-midwest-emo-w",
+    "title": "Depths of Midwest Emo w/ Phillip Clark 121025",
+    "artist": "NTS Latest",
+    "duration": 3639,
+    "artwork": "https://i1.sndcdn.com/artworks-8FJRcqBO4jpvg9Zo-q3PJ6A-t500x500.png",
+    "genre": null,
+    "published": "2025-10-13",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2026-07-02"
+  },
+  {
+    "id": "sc:1973221235",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/obsidian-dreams-w-bitter-2",
+    "title": "Obsidian Dreams w/ Bitter Babe 031224",
+    "artist": "NTS 2024-2025",
+    "duration": 3599,
+    "artwork": "https://i1.sndcdn.com/artworks-rP04mQTIPhriUORJ-RUh89w-t500x500.jpg",
+    "genre": null,
+    "published": "2024-12-04",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2026-06-16"
+  },
+  {
+    "id": "sc:2124498021",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/united-in-flames-w-dj-suzy",
+    "title": "United In Flames w/ DJ Suzy & Malibu 030725",
+    "artist": "NTS 2024-2025",
+    "duration": 3585,
+    "artwork": "https://i1.sndcdn.com/artworks-BDaF5WQoOtc4UDgL-qhqT5A-t500x500.jpg",
+    "genre": null,
+    "published": "2025-07-04",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2026-01-11"
+  },
+  {
+    "id": "sc:2161383729",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/united-in-flames-w",
+    "title": "United In Flames w/ JAMESJAMESJAMES & MALIBU 280825",
+    "artist": "NTS 2024-2025",
+    "duration": 3583,
+    "artwork": "https://i1.sndcdn.com/artworks-vhZtQ6zVHeaAQ0jz-aG4yzg-t500x500.jpg",
+    "genre": null,
+    "published": "2025-08-29",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2026-01-09"
+  },
+  {
+    "id": "sc:2217863789",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-202286394-991268468/bodywork-w-blasia-221125",
+    "title": "Bodywork w/ Blasia 221125",
+    "artist": "NTS Latest",
+    "duration": 3432,
+    "artwork": "https://i1.sndcdn.com/artworks-yFLyAOIkyBKPb2ir-tFfIzg-t500x500.jpg",
+    "genre": null,
+    "published": "2025-11-24",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2026-01-05"
+  },
+  {
+    "id": "sc:2170630185",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/spaces-in-between-w-6",
+    "title": "Spaces In Between w/ Introspekt 120925",
+    "artist": "NTS 2024-2025",
+    "duration": 3604,
+    "artwork": "https://i1.sndcdn.com/artworks-RUmbCO9D9ySajqHn-H1372w-t500x500.jpg",
+    "genre": null,
+    "published": "2025-09-15",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-12-12"
+  },
+  {
+    "id": "sc:2201369107",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-202286394-991268468/slap-city-w-architect-281025",
+    "title": "Slap City w/ Architect 281025",
+    "artist": "NTS Latest",
+    "duration": 3509,
+    "artwork": "https://i1.sndcdn.com/artworks-TZj8sKgLbRbN87kx-TdyDTg-t500x500.jpg",
+    "genre": null,
+    "published": "2025-10-29",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-11-21"
+  },
+  {
+    "id": "sc:2212430897",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-202286394-991268468/radiored-w-zut-zut-131125",
+    "title": "Radiored w/ Zut Zut 131125",
+    "artist": "NTS Latest",
+    "duration": 3600,
+    "artwork": "https://i1.sndcdn.com/artworks-n4h1rYSSZWzTDJjX-WQBxpQ-t500x500.jpg",
+    "genre": null,
+    "published": "2025-11-14",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-11-19"
+  },
+  {
+    "id": "sc:2172472536",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/r-n-c-p-u-i-w-dj-new-masculine",
+    "title": "Rắn Cạp Đuôi w/ DJ NEW MASCULINE 180925",
+    "artist": "NTS 2024-2025",
+    "duration": 3597,
+    "artwork": "https://i1.sndcdn.com/artworks-hN1qFJpLEZoZg3Yd-8V3pzQ-t500x500.jpg",
+    "genre": null,
+    "published": "2025-09-18",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-09-19"
+  },
+  {
+    "id": "sc:2100799716",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/roomies-w-mobilegirl-music-2",
+    "title": "ROOMIES w/ MOBILEGIRL - music for the kitchen 220525",
+    "artist": "NTS 2024-2025",
+    "duration": 3603,
+    "artwork": "https://i1.sndcdn.com/artworks-OcDMHrXnDstdy3Ow-BI8VoQ-t500x500.jpg",
+    "genre": null,
+    "published": "2025-05-23",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-09-01"
+  },
+  {
+    "id": "sc:1655732562",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-612196404/otaku-world-of-warcraft-021123",
+    "title": "Otaku: World of Warcraft 021123",
+    "artist": "NTS 2023",
+    "duration": 3607,
+    "artwork": "https://i1.sndcdn.com/artworks-KKCalrykUPU1zeHs-t8LB2Q-t500x500.png",
+    "genre": null,
+    "published": "2023-11-03",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-08-06"
+  },
+  {
+    "id": "sc:2092458156",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/united-in-flames-w-malibu-5",
+    "title": "United In Flames w/ Oklou & Malibu 080525",
+    "artist": "NTS 2024-2025",
+    "duration": 3599,
+    "artwork": "https://i1.sndcdn.com/artworks-3BwEe2Xfw5MDllvy-dWjc5w-t500x500.jpg",
+    "genre": "Ambient",
+    "published": "2025-05-08",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-07-14"
+  },
+  {
+    "id": "sc:2108817861",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/united-in-flames-w-joon-gloom",
+    "title": "United In Flames w/ Joon Gloom & Malibu 050625",
+    "artist": "NTS 2024-2025",
+    "duration": 3608,
+    "artwork": "https://i1.sndcdn.com/artworks-M2YwucZronyeeaPo-LdcGQw-t500x500.jpg",
+    "genre": null,
+    "published": "2025-06-06",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-07-14"
+  },
+  {
+    "id": "sc:1975628955",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/wait-watch-this-w-jane-5",
+    "title": "Wait Watch This w/ Jane Remover 061224",
+    "artist": "NTS 2024-2025",
+    "duration": 3605,
+    "artwork": "https://i1.sndcdn.com/artworks-6HBF6S5AFKyVQyJy-at6zJg-t500x500.jpg",
+    "genre": null,
+    "published": "2024-12-07",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-06-10"
+  },
+  {
+    "id": "sc:1455816532",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/umru/triplej",
+    "title": "umru vs. Petal Supply ― Battle For Australia mix on triple j",
+    "artist": "umru",
+    "duration": 3599,
+    "artwork": "https://i1.sndcdn.com/artworks-EKSGODj4dgx2Qgdy-rxWONQ-t500x500.jpg",
+    "genre": "heart2our",
+    "published": "2023-02-25",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2025-05-28"
+  },
+  {
+    "id": "sc:1957952519",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/r-n-c-p-u-i-w-barbara-pleaser",
+    "title": "Rắn Cạp Đuôi w/ Barbara Pleaser: Live From Denpasar 141124",
+    "artist": "NTS 2024-2025",
+    "duration": 3605,
+    "artwork": "https://i1.sndcdn.com/artworks-t0EwyPfUfFO4Sa4k-ktp93g-t500x500.jpg",
+    "genre": null,
+    "published": "2024-11-14",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2024-12-26"
+  },
+  {
+    "id": "sc:1981502095",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/big-animal-theory-111224",
+    "title": "Big Animal Theory 111224",
+    "artist": "NTS 2024-2025",
+    "duration": 3605,
+    "artwork": "https://i1.sndcdn.com/artworks-W2Qn21oponikOEvX-wHwY1A-t500x500.png",
+    "genre": null,
+    "published": "2024-12-12",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2024-12-15"
+  },
+  {
+    "id": "sc:1736997918",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-643553014/martha-020224",
+    "title": "Martha 020224",
+    "artist": "NTS 2024-2025",
+    "duration": 3590,
+    "artwork": "https://i1.sndcdn.com/artworks-HZ8EKL4zCTswy9z3-DoXL3A-t500x500.jpg",
+    "genre": null,
+    "published": "2024-02-04",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2024-08-04"
+  },
+  {
+    "id": "sc:462873708",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/dadasunset/baha-mix",
+    "title": "BAHA mix",
+    "artist": "dadasunset",
+    "duration": 3004,
+    "artwork": "https://i1.sndcdn.com/artworks-000364667808-wt4cxj-t500x500.jpg",
+    "genre": "Pop",
+    "published": "2018-06-24",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2018-06-25"
+  },
+  {
+    "id": "sc:107292116",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/tank-magazine/radio-tank-mix-a-g-cook",
+    "title": "Radio Tank Mix: A. G. Cook",
+    "artist": "Tank Magazine",
+    "duration": 2196,
+    "artwork": "https://i1.sndcdn.com/artworks-000056242627-vw10ze-t500x500.jpg",
+    "genre": "PC Music",
+    "published": "2013-08-26",
+    "tags": [
+      "soundcloud-likes"
+    ],
+    "addedAt": "2017-10-27"
   }
 ]
