@@ -40,16 +40,243 @@
     "addedAt": "2026-09-06"
   },
   {
-    "id": "sc:2302952165",
-    "source": "soundcloud",
-    "url": "https://soundcloud.com/ra-exchange/ex-795-avalon-emerson",
-    "title": "EX.795 Avalon Emerson",
-    "artist": "RA Exchange",
-    "duration": 2699,
-    "artwork": "https://i1.sndcdn.com/artworks-dBR4XA70LhqM7fMN-teydiA-t500x500.png",
-    "genre": "Interview",
-    "published": "2026-04-15",
-    "tags": [],
+    "id": "yt:ZfIYFK4TB8I",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=ZfIYFK4TB8I",
+    "title": "Blissful & Ethereal Video Game Soundtracks Mix【 THE NTS GUIDE TO… 】",
+    "artist": "NTS",
+    "duration": 3623,
+    "artwork": "https://i.ytimg.com/vi/ZfIYFK4TB8I/maxresdefault.jpg",
+    "genre": null,
+    "published": "2025-05-30",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:EPMql3dljqU",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=EPMql3dljqU",
+    "title": "LIKA - Morning coffee grooves // Fall vibes at Isar, Munich // Deep House, House, Groovy, Breakfast",
+    "artist": "LIKA",
+    "duration": 4383,
+    "artwork": "https://i.ytimg.com/vi/EPMql3dljqU/maxresdefault.jpg",
+    "genre": null,
+    "published": "2025-10-12",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:RVhN3a1Nm7Y",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=RVhN3a1Nm7Y",
+    "title": "S4LEM MIX4U MIXTAPE 2009",
+    "artist": "Cecilia Antonelli",
+    "duration": 3325,
+    "artwork": "https://i.ytimg.com/vi/RVhN3a1Nm7Y/maxresdefault.jpg",
+    "genre": null,
+    "published": "2025-02-14",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:jw6N-5K6fE0",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=jw6N-5K6fE0",
+    "title": "jane_remover_endzone.zip 𝙉𝙏𝙎 05⁄12⁄2024",
+    "artist": "flashmemories",
+    "duration": 3602,
+    "artwork": "https://i.ytimg.com/vi/jw6N-5K6fE0/maxresdefault.jpg",
+    "genre": null,
+    "published": "2024-12-07",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:Po5j_LB3csk",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=Po5j_LB3csk",
+    "title": "United in Flames w/ Malibu & Ssaliva 27th November 2018",
+    "artist": "buried piracies",
+    "duration": 3598,
+    "artwork": "https://i.ytimg.com/vi/Po5j_LB3csk/maxresdefault.jpg",
+    "genre": null,
+    "published": "2025-01-07",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:-thQ8NNWtFE",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=-thQ8NNWtFE",
+    "title": "Romy | Boiler Room: London",
+    "artist": "Boiler Room",
+    "duration": 3554,
+    "artwork": "https://i.ytimg.com/vi_webp/-thQ8NNWtFE/maxresdefault.webp",
+    "genre": null,
+    "published": "2023-12-15",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:a62c0Yf6BBE",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=a62c0Yf6BBE",
+    "title": "United In Flames w/ Malibu & Dr Actor - 31st January 2017",
+    "artist": "buried piracies",
+    "duration": 3600,
+    "artwork": "https://i.ytimg.com/vi/a62c0Yf6BBE/maxresdefault.jpg",
+    "genre": null,
+    "published": "2023-12-25",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:S7i3ugniyjg",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=S7i3ugniyjg",
+    "title": "N E T R U N   𝗩𝗼𝗹. 𝟭 [Synthwave/Retrowave/Electronic MIX]",
+    "artist": "INEXED",
+    "duration": 7499,
+    "artwork": "https://i.ytimg.com/vi/S7i3ugniyjg/maxresdefault.jpg",
+    "genre": null,
+    "published": "2023-06-22",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:1vy-jtKg78E",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=1vy-jtKg78E",
+    "title": "United In Flames w/ Seretide & Malibu - 31st August 2023",
+    "artist": "buried piracies",
+    "duration": 3567,
+    "artwork": "https://i.ytimg.com/vi/1vy-jtKg78E/maxresdefault.jpg",
+    "genre": null,
+    "published": "2023-10-24",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:scvIxdCXGMw",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=scvIxdCXGMw",
+    "title": "Rinse FM: Oli XL with DJ Lostboi - 24th March 2019",
+    "artist": "buried piracies",
+    "duration": 3602,
+    "artwork": "https://i.ytimg.com/vi/scvIxdCXGMw/maxresdefault.jpg",
+    "genre": null,
+    "published": "2023-02-18",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:_tLHOmTdmMQ",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=_tLHOmTdmMQ",
+    "title": "United In Flames w/ Airflo & Malibu- 23rd February 2022",
+    "artist": "buried piracies",
+    "duration": 3597,
+    "artwork": "https://i.ytimg.com/vi/_tLHOmTdmMQ/maxresdefault.jpg",
+    "genre": null,
+    "published": "2022-11-29",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:nFpzWNKmgQ8",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=nFpzWNKmgQ8",
+    "title": "United In Flames (23/10/18)",
+    "artist": "Malibu",
+    "duration": 3604,
+    "artwork": "https://i.ytimg.com/vi_webp/nFpzWNKmgQ8/maxresdefault.webp",
+    "genre": null,
+    "published": "2018-10-29",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:zIvQElyO3Ts",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=zIvQElyO3Ts",
+    "title": "It's 2004 and you're drifting in tokyo.",
+    "artist": "baby.murcielaga",
+    "duration": 2567,
+    "artwork": "https://i.ytimg.com/vi/zIvQElyO3Ts/maxresdefault.jpg",
+    "genre": null,
+    "published": "2024-07-28",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:D4ZGNNfJegk",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=D4ZGNNfJegk",
+    "title": "Lapalux - Total Reality, Total Chaos (Parts I & II)",
+    "artist": "Lapalux",
+    "duration": 1750,
+    "artwork": "https://i.ytimg.com/vi/D4ZGNNfJegk/maxresdefault.jpg",
+    "genre": null,
+    "published": "2021-03-05",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:2WA6lxXxp8s",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=2WA6lxXxp8s",
+    "title": "Chill Bones Playlist | Best TeamSESH Tracks to Vibe & Relax To",
+    "artist": "SeshRadioFM",
+    "duration": 3601,
+    "artwork": "https://i.ytimg.com/vi/2WA6lxXxp8s/maxresdefault.jpg",
+    "genre": null,
+    "published": "2025-09-05",
+    "tags": [
+      "youtube-likes"
+    ],
+    "addedAt": "2026-09-06"
+  },
+  {
+    "id": "yt:yRi1sGsix_Q",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=yRi1sGsix_Q",
+    "title": "a playlist to romanticize quiet winter days",
+    "artist": "Helder",
+    "duration": 2543,
+    "artwork": "https://i.ytimg.com/vi_webp/yRi1sGsix_Q/maxresdefault.webp",
+    "genre": null,
+    "published": "2024-12-06",
+    "tags": [
+      "youtube-likes"
+    ],
     "addedAt": "2026-09-06"
   },
   {
