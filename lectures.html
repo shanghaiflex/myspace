@@ -444,8 +444,9 @@ try { const r = parseFloat(localStorage.getItem('lectures.rate')); if (RATES.inc
 
 fetch('lectures.json', { cache: 'no-store' }).then(r => r.json()).then(db => {
   state.db = db; renderSeries(); renderList();
-  const h = location.hash.slice(1);
-  const l = (h && byId(h)) || db.lectures.find(x => x.status === 'listening') || recommend(db, 1)[0];
+  let h = decodeURIComponent(location.hash.slice(1));
+  if (h.startsWith('channel=')) { state.channel = h.slice(8); $('#channelSel').value = state.channel; renderList(); h = ''; }
+  const l = (h && byId(h)) || db.lectures.find(x => x.status === 'listening' && (!state.channel || x.channel === state.channel)) || recommend(db, 1, state.channel || null)[0];
   if (l) selectLecture(l);
 }).catch(() => toast('Не удалось загрузить lectures.json'));
 </script>

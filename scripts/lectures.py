@@ -16,8 +16,8 @@ DATA = os.path.join(ROOT, "lectures.json")
 AUDIO = os.path.join(ROOT, "audio")
 STATUSES = ("new", "queued", "listening", "listened")
 DEFAULT_CHANNELS = [
-    {"id": "UCFJjfwRP5CaKWxpbxjMzjsw", "name": "Семинары по истории Александра Макарова", "type": "youtube"},
-    {"id": "sc:589577313", "name": "Serj Bushwacker", "type": "soundcloud", "url": "https://soundcloud.com/serj-bushwacker"},
+    {"id": "UCFJjfwRP5CaKWxpbxjMzjsw", "name": "Семинары по истории Александра Макарова", "type": "youtube", "label": "Макаров · Средневековье"},
+    {"id": "sc:589577313", "name": "Serj Bushwacker", "type": "soundcloud", "url": "https://soundcloud.com/serj-bushwacker", "label": "Bushwacker · Древний Египет"},
 ]
 
 

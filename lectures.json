@@ -3,13 +3,15 @@
     {
       "id": "UCFJjfwRP5CaKWxpbxjMzjsw",
       "name": "Семинары по истории Александра Макарова",
-      "type": "youtube"
+      "type": "youtube",
+      "label": "Макаров · Средневековье"
     },
     {
       "id": "sc:589577313",
       "name": "Serj Bushwacker",
       "type": "soundcloud",
-      "url": "https://soundcloud.com/serj-bushwacker"
+      "url": "https://soundcloud.com/serj-bushwacker",
+      "label": "Bushwacker · Древний Египет"
     }
   ],
   "series": {
@@ -6239,7 +6241,7 @@
     {
       "id": "sc:957177196",
       "status": "queued",
-      "position": 0,
+      "position": 5,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,

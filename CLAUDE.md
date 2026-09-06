@@ -80,7 +80,8 @@ python3 scripts/lectures.py add-channel <url>
   "Хочу послушать X" → `set --status queued` (queue order = time of queuing, shown on the home page).
 - `sync` re-fetches both channels; YouTube playlists take minutes, use `--no-playlists` for a quick refresh.
 - Audio files live only on the machine that runs the server (the Mac mini in production): download there.
-- Home page shows: continue-listening card, a random mix, recommended lectures, random to-watch posters.
+- Home page shows one card per lecture channel (channel `label` in lectures.json, e.g. «Макаров · Средневековье»,
+  «Bushwacker · Древний Египет»: next up + queue/recommendations), a random mix, random to-watch posters.
 
 ## Auth & deploy
 `serve.py` requires a password when `MOVIES_PASSWORD` is set (env or `.env`, gitignored); localhost runs open.
