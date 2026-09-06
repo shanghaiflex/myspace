@@ -209,8 +209,9 @@ let toastTimer;
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 2200); }
 function fmtDur(s) { if (!s) return ''; const h = Math.floor(s / 3600), m = Math.round(s % 3600 / 60); return h ? `${h} ч ${m} мин` : `${m} мин`; }
 function fmtShort(s) { if (!s) return ''; const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h}:${String(m).padStart(2, '0')}` : `${m}m`; }
-function srcOf(m) { return m.nts ? 'nts' : m.source; }
-function srcLabel(m) { return m.nts ? 'NTS' : SRC_LABEL[m.source] || m.source; }
+const isNTS = m => !!m.nts || /^NTS\b/i.test(m.artist || '');
+function srcOf(m) { return isNTS(m) ? 'nts' : m.source; }
+function srcLabel(m) { return isNTS(m) ? 'NTS' : SRC_LABEL[m.source] || m.source; }
 function loadHistory() { try { state.history = JSON.parse(localStorage.getItem('mixes.history') || '[]'); } catch { state.history = []; } }
 function pushHistory(id) { state.history = [id, ...state.history.filter(x => x !== id)].slice(0, 30); try { localStorage.setItem('mixes.history', JSON.stringify(state.history)); } catch {} }
 
