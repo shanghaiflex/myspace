@@ -234,7 +234,7 @@ let player = null;      // { play(), pause(), seek(sec), destroy() }
 let toastTimer;
 
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 2200); }
-function fmtDur(s) { if (!s) return ''; const h = Math.floor(s / 3600), m = Math.round(s % 3600 / 60); return h ? `${h} ч ${m} мин` : `${m} мин`; }
+function fmtDur(s) { if (!s) return ''; const t = Math.round(s / 60), h = Math.floor(t / 60), m = t % 60; return h ? `${h} ч ${m} мин` : `${m} мин`; }
 function fmtShort(s) { if (!s) return ''; const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h}:${String(m).padStart(2, '0')}` : `${m}m`; }
 function fmtTime(s) { s = Math.max(0, Math.floor(s || 0)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(sec).padStart(2, '0'); }
 const isNTS = m => !!m.nts || /^NTS\b/i.test(m.artist || '');
