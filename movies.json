@@ -623,7 +623,7 @@
     "posterUrl": "https://m.media-amazon.com/images/M/MV5BMGJiNzllYjktODAzNS00OGUzLTlmY2MtMjA2ZTZhYTY1OTc4XkEyXkFqcGc@._V1_SX300.jpg",
     "type": "movie",
     "poster": "posters/tt0057565.jpg",
-    "rating": 7.0,
+    "rating": 7,
     "status": "watched",
     "addedAt": "2026-09-06",
     "watchedAt": null,

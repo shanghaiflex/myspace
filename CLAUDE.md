@@ -1,9 +1,15 @@
 # Movies — personal film catalog
 
-Static single-page site (`index.html`) over `movies.json` with posters in `posters/`.
-No build step, no framework. Run `./serve.sh` and open http://localhost:8787.
+Single-page site (`index.html`) over `movies.json` with posters in `posters/`, served by `serve.py`
+(stdlib only) which also exposes a tiny edit API (PATCH/DELETE `/api/movie/<id>`) used by the page for
+rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
+If the page is served by a plain static server the API is absent and the page becomes read-only.
 
-## Editing the catalog (this is how the user adds/removes films)
+## Editing the catalog
+
+The user changes rating/status/note and deletes films directly in the site. Adding new films is done via
+Claude Code with the CLI below. `movies.json` may therefore change outside of git: always `git status`
+first, and commit whatever is pending together with your change.
 
 Always use the CLI, never hand-edit `movies.json` unless the CLI can't do it:
 
@@ -26,7 +32,8 @@ Rules of thumb:
 - Rating given → status `watched` (unless `--status` says otherwise). No rating → `to-watch`.
 - "I watched X" from the to-watch list → `set "X" --rating N --status watched`.
 - Titles are English (OMDb). The user may name films in Russian; translate to the original/English title before searching.
-- After changes, commit: `git add -A && git commit -m "Add <title>"`. Push if a remote exists.
+- After changes, commit: `git add -A && git commit -m "Add <title>"` and `git push` (remote: GitHub).
+  When the user asks to sync / says they edited on another machine: `git pull --rebase` first.
 - Metadata source: OMDb, key in `scripts/movies.py` (override with `OMDB_API_KEY`).
 
 ## Data model (`movies.json`, array sorted by title)
