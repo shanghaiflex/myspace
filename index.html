@@ -163,12 +163,12 @@
   .scrim {
     position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.4);
     -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-    display: grid; place-items: center; padding: 24px;
+    display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; padding: 24px;
     opacity: 0; pointer-events: none; transition: opacity .22s ease;
   }
   .scrim.open { opacity: 1; pointer-events: auto; }
   .sheet {
-    width: min(860px, 100%); max-height: min(88vh, 900px);
+    width: 100%; max-width: 860px; max-height: min(88vh, 900px);
     background: var(--surface); border-radius: 22px; box-shadow: var(--shadow-lg);
     display: grid; grid-template-columns: 300px 1fr; overflow: hidden;
     transform: translateY(14px) scale(.98); transition: transform .25s cubic-bezier(.2,.7,.2,1);
@@ -287,13 +287,14 @@ function visible() {
     (m.director || '').toLowerCase().includes(q) ||
     (m.genre || []).some(g => g.toLowerCase().includes(q)) ||
     String(m.year || '').includes(q));
+  const sortKey = state.sort === 'rating' && state.tab !== 'watched' ? 'imdb' : state.sort;
   const key = {
     rating: m => m.rating ?? -1,
     imdb: m => m.imdbRating ?? -1,
     year: m => m.year ?? 0,
     added: m => m.addedAt || '',
     title: m => (m.title || '').toLowerCase(),
-  }[state.sort];
+  }[sortKey];
   const sign = state.dir === 'desc' ? -1 : 1;
   list.sort((a, b) => {
     const x = key(a), y = key(b);
@@ -309,7 +310,8 @@ function render() {
     b.classList.toggle('on', b.dataset.tab === state.tab);
     b.querySelector('.n').textContent = state.movies.filter(m => m.status === b.dataset.tab).length || '';
   });
-  $('#sort').value = state.sort;
+  $('#sort').querySelector('[value=rating]').hidden = state.tab !== 'watched';
+  $('#sort').value = state.sort === 'rating' && state.tab !== 'watched' ? 'imdb' : state.sort;
   $('#dir').classList.toggle('asc', state.dir === 'asc');
   $('#title').textContent = STATUS_LABEL[state.tab];
 
@@ -359,8 +361,18 @@ function openSheet(m) {
     </div>`;
   $('#scrim').classList.add('open');
   $('#close').onclick = closeSheet;
+  history.replaceState(null, '', '#' + m.id);
 }
-function closeSheet() { $('#scrim').classList.remove('open'); }
+function closeSheet() {
+  $('#scrim').classList.remove('open');
+  if (location.hash.startsWith('#tt')) history.replaceState(null, '', location.pathname);
+}
+function applyHash() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (STATUS_LABEL[h]) { state.tab = h; persist(); render(); history.replaceState(null, '', location.pathname); return; }
+  const m = h && state.movies.find(x => x.id === h);
+  if (m) { state.tab = m.status; render(); openSheet(m); }
+}
 
 // ---------- wiring ----------
 $('#tabs').addEventListener('click', e => {
@@ -375,6 +387,7 @@ grid.addEventListener('click', e => {
   const m = state.movies.find(x => x.id === c.dataset.id); if (m) openSheet(m);
 });
 $('#scrim').addEventListener('click', e => { if (e.target === e.currentTarget) closeSheet(); });
+window.addEventListener('hashchange', applyHash);
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeSheet();
   if (e.key === '/' && document.activeElement !== $('#q')) { e.preventDefault(); $('#q').focus(); }
@@ -383,7 +396,7 @@ document.addEventListener('keydown', e => {
 restore();
 fetch('movies.json', { cache: 'no-store' })
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(list => { state.movies = list; render(); })
+  .then(list => { state.movies = list; render(); applyHash(); })
   .catch(() => {
     $('.wrap').innerHTML = `<div class="error"><b>Не удалось загрузить movies.json.</b><br><br>
       Страницу нужно открывать через локальный сервер, а не как файл. Запусти в папке проекта:<br><br>
