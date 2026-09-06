@@ -7,6 +7,9 @@
   POST   /api/mix                 body: {url}   → resolves metadata and adds the mix
   DELETE /api/mix/<id>
   PATCH  /api/lecture/<id>        body: {status?, position?, note?}
+  PATCH  /api/book/<id>           body: {status?, rating?, comment?}
+  DELETE /api/book/<id>
+  GET    /api/weather             today's weather (Open-Meteo, or Yandex when YANDEX_WEATHER_KEY is set), cached 20 min
   POST   /api/lecture/<id>/audio  start audio download in the background; GET the same URL for status
   GET    /audio/<file>            audio files with HTTP Range support (needed by iOS)
 
@@ -25,6 +28,8 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import movies as M  # noqa: E402
 import mixes as X  # noqa: E402
 import lectures as L  # noqa: E402
+import books as B  # noqa: E402
+import weather as W  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 
@@ -206,6 +211,13 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, M.load())
         if self.path.startswith("/mixes.json"):
             return self.send_json(200, X.load())
+        if self.path.startswith("/books.json"):
+            return self.send_json(200, B.load())
+        if route == "/api/weather":
+            try:
+                return self.send_json(200, W.today())
+            except Exception as e:
+                return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
         if self.path.startswith("/lectures.json"):
             db = L.load()
             for l in db["lectures"]:
@@ -311,6 +323,38 @@ class Handler(SimpleHTTPRequestHandler):
             return self._patch()
 
     def _patch(self):
+        bid = self.path_id("/api/book/")
+        if bid:
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            books = B.load()
+            b = next((x for x in books if x["id"] == bid), None)
+            if not b:
+                return self.send_json(404, {"error": "no such book"})
+            if "status" in body:
+                if body["status"] not in B.STATUSES:
+                    return self.send_json(400, {"error": "bad status"})
+                b["status"] = body["status"]
+                if body["status"] == "read":
+                    b["finishedAt"] = b.get("finishedAt") or __import__("datetime").date.today().isoformat()
+            if "rating" in body:
+                r = body["rating"]
+                if r is not None:
+                    try:
+                        r = float(r)
+                    except (TypeError, ValueError):
+                        return self.send_json(400, {"error": "bad rating"})
+                    if not 0.5 <= r <= 10:
+                        return self.send_json(400, {"error": "rating must be 0.5–10"})
+                    r = round(r * 2) / 2
+                    r = int(r) if r == int(r) else r
+                b["rating"] = r
+            if "comment" in body:
+                b["comment"] = (body["comment"] or "").strip() or None
+            B.save(books)
+            return self.send_json(200, b)
         lid = self.path_id("/api/lecture/")
         if lid:
             try:
@@ -388,6 +432,18 @@ class Handler(SimpleHTTPRequestHandler):
             return self._delete()
 
     def _delete(self):
+        bid = self.path_id("/api/book/")
+        if bid:
+            books = B.load()
+            b = next((x for x in books if x["id"] == bid), None)
+            if not b:
+                return self.send_json(404, {"error": "no such book"})
+            books.remove(b)
+            p = os.path.join(ROOT, b.get("cover") or "")
+            if b.get("cover") and os.path.isfile(p):
+                os.remove(p)
+            B.save(books)
+            return self.send_json(200, {"ok": True})
         xid = self.path_id("/api/mix/")
         if xid:
             mixes = X.load()

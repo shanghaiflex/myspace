@@ -456,28 +456,6 @@
     "note": null
   },
   {
-    "id": "tt0791205",
-    "title": "Ergo Proxy",
-    "year": 2006,
-    "director": null,
-    "genre": [
-      "Animation",
-      "Action",
-      "Adventure"
-    ],
-    "runtime": 25,
-    "plot": "In a post-apocalyptic future humans live in peace with androids in a domed city. However, a strange series of murders has intruded into bored inspector Re-l Mayer's life.",
-    "imdbRating": 7.9,
-    "posterUrl": "https://m.media-amazon.com/images/M/MV5BYmZmOGM3MjAtYWI3My00N2QyLWJmNTctNTE5MTU2ZjcxYzNiXkEyXkFqcGc@._V1_SX300.jpg",
-    "type": "series",
-    "poster": "posters/tt0791205.jpg",
-    "status": "to-watch",
-    "rating": null,
-    "addedAt": "2024-03-25",
-    "watchedAt": null,
-    "note": null
-  },
-  {
     "id": "tt0112913",
     "title": "Fallen Angels",
     "year": 1995,

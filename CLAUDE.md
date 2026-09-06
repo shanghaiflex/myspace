@@ -1,6 +1,6 @@
 # Movies — personal film catalog
 
-Pages: `index.html` (home / morning dashboard), `films.html`, `mixes.html`, `lectures.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
+Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
 (stdlib only) which also exposes a tiny edit API (PATCH/DELETE `/api/movie/<id>`) used by the page for
 rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
 If the page is served by a plain static server the API is absent and the page becomes read-only.
@@ -35,6 +35,20 @@ Rules of thumb:
 - After changes, commit: `git add -A && git commit -m "Add <title>"` and `git push` (remote: GitHub).
   When the user asks to sync / says they edited on another machine: `git pull --rebase` first.
 - Metadata source: OMDb, key in `scripts/movies.py` (override with `OMDB_API_KEY`).
+
+## Books (`books.html`, `books.json`, `scripts/books.py`)
+
+Imported once from the Obsidian vault (`Books/data/*.md`, Dataview `Key:: value` fields). Statuses
+`read | reading | to-read | abandoned` (Obsidian's NotFinished), covers in `covers/`. Rating/status/comment
+are edited in the site (PATCH `/api/book/<id>`). Adding: `python3 scripts/books.py add "Title" --author "A" [--status read --rating 8]`;
+lookup goes Google Books → Open Library (Google rate-limits VPN IPs; Cyrillic titles work only in Google),
+so if both fail use `--manual --author ... --year ... --cover URL`. Ids are ISBN-13 when known.
+
+## Weather (`scripts/weather.py`, `/api/weather`)
+
+Home page shows today's weather: now, day min/max, precipitation (mm, probability, rainy hours) and an hourly strip.
+Open-Meteo by default (no key). Set `YANDEX_WEATHER_KEY` in `.env` to switch to Yandex Weather API;
+location via `WEATHER_CITY/LAT/LON/TZ` in `.env` (defaults Moscow). Cached 20 min server-side.
 
 ## Mixes (`mixes.html`, `mixes.json`)
 
