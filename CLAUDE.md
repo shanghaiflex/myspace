@@ -58,6 +58,12 @@ python3 scripts/mixes.py list
 - Mix ids: `sc:<n>`, `yt:<videoId>`, `mc:<uploader_slug>`. Fields: source, url, title, artist, duration (s),
   artwork, genre, published, tags[], addedAt, optional `nts` (episode URL).
 
+## Auth & deploy
+`serve.py` requires a password when `MOVIES_PASSWORD` is set (env or `.env`, gitignored); localhost runs open.
+Production target: https://bodywithoutorgans.cc via Cloudflare Tunnel from a home Mac mini or a VPS, see
+`deploy/README.md`. Data syncs through git (`scripts/sync.sh`, runs every 5 min on the server), so on the
+laptop run `git pull --rebase` before editing and `git push` after.
+
 ## Data model (`movies.json`, array sorted by title)
 `id` (imdb), `title`, `year`, `director`, `genre[]`, `runtime` (min), `plot`, `imdbRating`,
 `poster` (local path), `posterUrl`, `type` (movie|series), `status` (watched|to-watch|watching),

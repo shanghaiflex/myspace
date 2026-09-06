@@ -8,8 +8,13 @@
   DELETE /api/mix/<id>
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
+
+Auth: if MOVIES_PASSWORD is set (env or .env file next to this script) every page and API call
+requires a login; the session is a signed cookie valid for 90 days. Without a password the server
+is open, which is fine for localhost.
 """
-import json, os, sys, threading, urllib.parse
+import hashlib, hmac, json, os, secrets, sys, threading, time, urllib.parse
+from http.cookies import SimpleCookie
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +26,68 @@ STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
 
 
+# ---------------------------------------------------------------- auth
+def load_dotenv():
+    p = os.path.join(ROOT, ".env")
+    if os.path.exists(p):
+        for line in open(p, encoding="utf-8"):
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, _, v = line.partition("=")
+                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
+load_dotenv()
+PASSWORD = os.environ.get("MOVIES_PASSWORD") or ""
+SESSION_DAYS = 90
+COOKIE = "movies_session"
+FAILS = {}  # ip -> [count, first_ts]
+
+
+def session_secret():
+    p = os.path.join(ROOT, ".session_secret")
+    if not os.path.exists(p):
+        with open(p, "w") as f:
+            f.write(secrets.token_hex(32))
+        os.chmod(p, 0o600)
+    return open(p).read().strip()
+
+
+SECRET = session_secret() if PASSWORD else ""
+
+
+def make_token():
+    exp = str(int(time.time()) + SESSION_DAYS * 86400)
+    sig = hmac.new(SECRET.encode(), exp.encode(), hashlib.sha256).hexdigest()
+    return f"{exp}.{sig}"
+
+
+def token_ok(tok):
+    try:
+        exp, sig = tok.split(".", 1)
+        good = hmac.new(SECRET.encode(), exp.encode(), hashlib.sha256).hexdigest()
+        return hmac.compare_digest(sig, good) and int(exp) > time.time()
+    except Exception:
+        return False
+
+
+LOGIN_HTML = """<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вход</title><style>
+:root{color-scheme:light dark;--bg:#fafafa;--surface:#fff;--text:#1d1d1f;--text-2:#6e6e73;--line:rgba(0,0,0,.08);--accent:#0071e3}
+@media(prefers-color-scheme:dark){:root{--bg:#000;--surface:#1c1c1e;--text:#f5f5f7;--text-2:#a1a1a6;--line:rgba(255,255,255,.1);--accent:#2997ff}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+form{width:min(360px,90vw);background:var(--surface);border-radius:22px;padding:32px;box-shadow:0 2px 8px rgba(0,0,0,.08),0 24px 64px rgba(0,0,0,.18)}
+h1{margin:0 0 4px;font-size:24px;letter-spacing:-.03em}p{margin:0 0 20px;color:var(--text-2);font-size:14px}
+input{width:100%;font:inherit;color:inherit;border:1px solid var(--line);background:transparent;border-radius:12px;padding:11px 14px;font-size:16px;outline:0}
+input:focus{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 30%,transparent);border-color:transparent}
+button{width:100%;margin-top:14px;font:inherit;font-weight:600;border:0;border-radius:12px;padding:12px;background:var(--text);color:var(--bg);cursor:pointer}
+.err{color:#ff3b30;font-size:13px;margin:10px 0 0;min-height:1em}
+</style></head><body><form method="post" action="/login"><h1>Фильмы и миксы</h1><p>Введи пароль, чтобы войти</p>
+<input type="password" name="password" placeholder="Пароль" autofocus autocomplete="current-password"><input type="hidden" name="next" value="{next}">
+<div class="err">{error}</div><button>Войти</button></form></body></html>"""
+
+
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=ROOT, **kw)
@@ -28,6 +95,68 @@ class Handler(SimpleHTTPRequestHandler):
     def log_message(self, fmt, *args):
         if "/api/" in (args[0] if args else ""):
             super().log_message(fmt, *args)
+
+    # ---- auth helpers ----
+    def client_ip(self):
+        return self.headers.get("CF-Connecting-IP") or self.headers.get("X-Forwarded-For", "").split(",")[0].strip() or self.client_address[0]
+
+    def is_https(self):
+        return self.headers.get("X-Forwarded-Proto") == "https" or '"scheme":"https"' in (self.headers.get("CF-Visitor") or "")
+
+    def logged_in(self):
+        if not PASSWORD:
+            return True
+        c = SimpleCookie(self.headers.get("Cookie") or "")
+        return COOKIE in c and token_ok(c[COOKIE].value)
+
+    def send_html(self, code, html, extra=None):
+        body = html.encode()
+        self.send_response(code)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        for k, v in (extra or []):
+            self.send_header(k, v)
+        self.end_headers()
+        self.wfile.write(body)
+
+    def login_page(self, error="", nxt="/"):
+        self.send_html(200 if not error else 401, LOGIN_HTML.replace("{error}", error).replace("{next}", nxt.replace('"', "")))
+
+    def require_login(self):
+        """Returns True if the request may proceed; otherwise a login redirect / 401 has been sent."""
+        if self.logged_in():
+            return True
+        if self.path.startswith("/api/"):
+            self.send_json(401, {"error": "login required"})
+        else:
+            self.send_response(302)
+            self.send_header("Location", "/login?next=" + urllib.parse.quote(self.path))
+            self.end_headers()
+        return False
+
+    def handle_login_post(self):
+        ip = self.client_ip()
+        cnt, first = FAILS.get(ip, [0, 0])
+        if cnt >= 10 and time.time() - first < 900:
+            return self.login_page("Слишком много попыток, подожди 15 минут")
+        n = int(self.headers.get("Content-Length") or 0)
+        form = urllib.parse.parse_qs(self.rfile.read(n).decode())
+        pw = (form.get("password") or [""])[0]
+        nxt = (form.get("next") or ["/"])[0]
+        if not nxt.startswith("/") or nxt.startswith("//"):
+            nxt = "/"
+        if hmac.compare_digest(pw.encode(), PASSWORD.encode()):
+            FAILS.pop(ip, None)
+            cookie = f"{COOKIE}={make_token()}; Path=/; Max-Age={SESSION_DAYS * 86400}; HttpOnly; SameSite=Lax" + ("; Secure" if self.is_https() else "")
+            self.send_response(302)
+            self.send_header("Set-Cookie", cookie)
+            self.send_header("Location", nxt)
+            self.end_headers()
+            return
+        time.sleep(1)
+        FAILS[ip] = [cnt + 1, first or time.time()] if time.time() - first < 900 else [1, time.time()]
+        self.login_page("Неверный пароль", nxt)
 
     def send_json(self, code, obj):
         body = json.dumps(obj, ensure_ascii=False).encode()
@@ -51,8 +180,22 @@ class Handler(SimpleHTTPRequestHandler):
         return self.path_id("/api/movie/")
 
     def do_GET(self):
-        if self.path.startswith("/api/ping"):
-            return self.send_json(200, {"ok": True})
+        route = self.path.split("?")[0]
+        if route == "/login":
+            if self.logged_in():
+                self.send_response(302); self.send_header("Location", "/"); self.end_headers(); return
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            return self.login_page("", (q.get("next") or ["/"])[0])
+        if route == "/logout":
+            self.send_response(302)
+            self.send_header("Set-Cookie", f"{COOKIE}=; Path=/; Max-Age=0")
+            self.send_header("Location", "/login")
+            self.end_headers()
+            return
+        if route == "/api/ping":
+            return self.send_json(200, {"ok": True, "auth": bool(PASSWORD)})
+        if not self.require_login():
+            return
         if self.path.startswith("/movies.json"):
             return self.send_json(200, M.load())
         if self.path.startswith("/mixes.json"):
@@ -64,6 +207,10 @@ class Handler(SimpleHTTPRequestHandler):
         return super().do_GET()
 
     def do_POST(self):
+        if self.path.split("?")[0] == "/login":
+            return self.handle_login_post() if PASSWORD else self.send_json(404, {"error": "auth disabled"})
+        if not self.require_login():
+            return
         if self.path.split("?")[0] != "/api/mix":
             return self.send_json(404, {"error": "not found"})
         try:
@@ -82,6 +229,8 @@ class Handler(SimpleHTTPRequestHandler):
         return self.send_json(200, mix)
 
     def do_PATCH(self):
+        if not self.require_login():
+            return
         with LOCK:
             return self._patch()
 
@@ -125,6 +274,8 @@ class Handler(SimpleHTTPRequestHandler):
         return self.send_json(200, m)
 
     def do_DELETE(self):
+        if not self.require_login():
+            return
         with LOCK:
             return self._delete()
 
@@ -155,8 +306,9 @@ class Handler(SimpleHTTPRequestHandler):
 
 def main():
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8787
-    srv = ThreadingHTTPServer(("127.0.0.1", port), Handler)
-    print(f"Movies → http://localhost:{port}")
+    host = os.environ.get("MOVIES_BIND", "127.0.0.1")
+    srv = ThreadingHTTPServer((host, port), Handler)
+    print(f"Movies → http://localhost:{port}" + ("  (password protected)" if PASSWORD else "  (no password: open)"))
     try:
         srv.serve_forever()
     except KeyboardInterrupt:
