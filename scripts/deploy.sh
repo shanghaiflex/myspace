@@ -9,7 +9,7 @@ set -e
 cd "$(dirname "$0")/.."
 HOST="${MINI_HOST:-mini}"
 MSG="${1:-Update site}"
-DATA="movies.json mixes.json lectures.json books.json"
+DATA="movies.json mixes.json lectures.json books.json mix_recs.json"
 
 reach() { ssh -o BatchMode=yes -o ConnectTimeout=6 "$HOST" true 2>/dev/null; }
 if ! reach; then echo "mini ($HOST) unreachable — committing + pushing only, NOT deploying"; NOMINI=1; fi

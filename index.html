@@ -108,6 +108,7 @@
   .card.lc .img.sq { width: 64px; height: 64px; } .card.lc .img.wide { width: 104px; height: 60px; }
   .card.lc .btn { height: 34px; padding: 0 14px; font-size: 13px; margin-top: 2px; }
   .stats { display: flex; gap: 26px; flex-wrap: wrap; color: var(--card-text-2); font-size: 13px; }
+  .card .note { font-size: 13.5px; line-height: 1.45; color: var(--card-text-2); margin: 0; }
   .card.hl .note { font-size: 18px; line-height: 1.4; letter-spacing: -0.02em; margin: 0; font-weight: 500; white-space: pre-wrap; }
   .card.hl .stats { gap: 22px; }
   .card.hl .stats b { font-size: 18px; }
@@ -142,7 +143,7 @@ const PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null)]).then(([lect, mixes, bgs, wx, books, hl]) => {
+Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null)]).then(([lect, mixes, bgs, wx, books, hl, recs]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
   if (wx && wx.now) {
@@ -170,7 +171,10 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
         <div><b>${t.steps != null ? Math.round(t.steps).toLocaleString('ru-RU') : '—'}</b>шагов сегодня${a.steps ? ' · ср. ' + Math.round(a.steps).toLocaleString('ru-RU') : ''}</div>
         ${t.workouts && t.workouts.length ? `<div><b>${esc(t.workouts.map(w => w.ru).join(', '))}</b>тренировка</div>` : ''}</div></a>`);
   }
-  const mix = pick(mixes, 1)[0];
+  // Claude's fresh advice beats a random pick; the one I haven't tried yet goes first
+  const recItems = (recs && recs.items) || [];
+  const rec = recItems.find(r => !r.played) || recItems[0];
+  const mix = rec || pick(mixes, 1)[0];
   const reading = books.filter(b => b.status === 'reading');
 
   // One compact card per lecture channel: "next up" (listening, else first queued, else best recommendation).
@@ -189,8 +193,9 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   };
   if (mix) {
     cards.push(`<a class="card ${reading.length ? 'c6' : 'c12'}" href="mixes.html#${encodeURIComponent(mix.id)}">
-      <div class="eyebrow">Микс на сегодня <span class="more">случайный</span></div>
+      <div class="eyebrow">Микс на сегодня <span class="more">${rec ? 'советует Claude' : 'случайный'}</span></div>
       <div class="row"><div class="img sq">${mix.artwork ? `<img src="${esc(mix.artwork)}" alt="">` : ''}</div><div class="txt"><h2>${esc(mix.title)}</h2><div class="sub">${esc(mix.artist || '')} · ${fmtDur(mix.duration)}</div></div></div>
+      ${rec && rec.reason ? `<p class="note">${esc(rec.reason)}</p>` : ''}
       <span class="btn">${PLAY} Играть</span></a>`);
   }
   if (reading.length) {

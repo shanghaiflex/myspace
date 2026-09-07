@@ -15,6 +15,9 @@
   GET    /audio/<file>            audio files with HTTP Range support (needed by iOS)
   GET    /healthz                 200 "ok" (no auth; the Health Bridge iOS app pings it)
   POST   /v1/ingest/health/<workouts|sleep|metrics>   Apple Health batches from the iOS app, Authorization: Bearer <HEALTH_TOKENS>
+  GET    /api/mix-recs            Claude's daily mix advice (mix_recs.json) + job status
+  PATCH  /api/mix-rec/<id>        body: {verdict: liked|dismissed|played}  liked also adds the mix
+  POST   /api/mix-recs/refresh    ask for a fresh batch now (scripts/mix_recs.sh --force) in the background
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
 
@@ -36,9 +39,11 @@ import lectures as L  # noqa: E402
 import books as B  # noqa: E402
 import weather as W  # noqa: E402
 import health as H  # noqa: E402
+import mix_recs as R  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
+RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
 
 STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
@@ -252,6 +257,10 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, M.load())
         if self.path.startswith("/mixes.json"):
             return self.send_json(200, X.load())
+        if route == "/api/mix-recs":
+            db = R.load()
+            db["job"] = RECS_JOB["status"]
+            return self.send_json(200, db)
         if self.path.startswith("/books.json"):
             return self.send_json(200, B.load())
         if route == "/api/weather":
@@ -333,6 +342,23 @@ class Handler(SimpleHTTPRequestHandler):
         threading.Thread(target=run, daemon=True).start()
         return "running"
 
+    def start_recs_job(self):
+        if RECS_JOB["status"] == "running" and time.time() - RECS_JOB["started"] < 900:
+            return "running"
+        RECS_JOB.update(status="running", started=time.time())
+
+        def run():
+            import subprocess
+            try:
+                r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", "mix_recs.sh"), "--force"], cwd=ROOT,
+                                   capture_output=True, text=True, timeout=900)
+                RECS_JOB["status"] = "done" if r.returncode == 0 else f"error: {(r.stderr or r.stdout).strip()[-300:]}"
+            except Exception as e:
+                RECS_JOB["status"] = f"error: {type(e).__name__}: {e}"
+
+        threading.Thread(target=run, daemon=True).start()
+        return "running"
+
     def start_review_job(self):
         if REVIEW_JOB["status"] == "running" and time.time() - REVIEW_JOB["started"] < 900:
             return "running"
@@ -372,6 +398,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, {"ok": True, **stats})
         if not self.require_login():
             return
+        if route == "/api/mix-recs/refresh":
+            return self.send_json(200, {"status": self.start_recs_job()})
         if route == "/api/health/review":
             return self.send_json(200, {"status": self.start_review_job()})
         if route.startswith("/api/lecture/") and route.endswith("/audio"):
@@ -435,6 +463,17 @@ class Handler(SimpleHTTPRequestHandler):
                 b["comment"] = (body["comment"] or "").strip() or None
             B.save(books)
             return self.send_json(200, b)
+        rid = self.path_id("/api/mix-rec/")
+        if rid:
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            try:
+                out = R.verdict(rid, (body.get("verdict") or "").strip())
+            except SystemExit as e:
+                return self.send_json(400, {"error": str(e)})
+            return self.send_json(200, {**out, "recs": R.load()})
         xid = self.path_id("/api/mix/")
         if xid:
             try:

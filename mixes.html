@@ -143,13 +143,41 @@
 
   /* ---------- focus (fullscreen) ---------- */
   body.fs { overflow: hidden; }
-  body.fs .bar, body.fs .collection, body.fs .hint { display: none; }
+  body.fs .bar, body.fs .collection, body.fs .recs, body.fs .hint { display: none; }
   body.fs .wrap { max-width: none; padding: 0; height: 100vh; display: grid; align-content: center; justify-items: center; }
   body.fs .hero { width: min(1180px, 92vw); }
   body.fs .hero h1 { font-size: 44px; }
   body.fs .hero .art { padding: 40px 0 40px 40px; }
   body.fs .hero .info { padding: 40px 44px; }
   body.fs .pomo .time { font-size: 30px; min-width: 90px; }
+
+  /* ---------- Claude's advice ---------- */
+  .recs { margin: 48px 0 0; }
+  .recs .head { margin: 0 0 18px; }
+  .txtbtn { border: 0; background: none; padding: 0; color: var(--text-2); font-size: 14px; font-weight: 600; }
+  .txtbtn:hover { color: var(--text); }
+  .txtbtn:disabled { opacity: .5; }
+  .recgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .rec { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 18px;
+    background: var(--glass); -webkit-backdrop-filter: saturate(160%) blur(24px); backdrop-filter: saturate(160%) blur(24px);
+    border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .rec.gone { opacity: .35; pointer-events: none; }
+  .rec .top { display: flex; gap: 12px; align-items: flex-start; }
+  .rec .cv { width: 76px; height: 76px; flex: none; border-radius: 12px; overflow: hidden; background: var(--surface-2); }
+  .rec .cv img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .rec .t { font-size: 15px; font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .rec .s { font-size: 12.5px; color: var(--text-2); margin-top: 3px; }
+  .rec .why { font-size: 13.5px; color: var(--text-2); line-height: 1.45; }
+  .rec .acts { display: flex; gap: 8px; margin-top: auto; flex-wrap: wrap; }
+  .rec .acts button { height: 34px; padding: 0 14px; border: 0; border-radius: 999px; font-size: 13px; font-weight: 600;
+    background: color-mix(in srgb, var(--text) 10%, transparent); color: var(--text);
+    display: inline-flex; align-items: center; gap: 6px; transition: background .15s ease, color .15s ease; }
+  .rec .acts button:hover { background: color-mix(in srgb, var(--text) 18%, transparent); }
+  .rec .acts .play { background: var(--text); color: var(--bg); }
+  .rec .acts .play:hover { background: var(--text); opacity: .85; }
+  .rec .acts .like:hover { background: #34c759; color: #fff; }
+  .rec .acts .no:hover { background: #ff453a; color: #fff; }
+  .rec .acts svg { width: 13px; height: 13px; }
 
   /* ---------- list ---------- */
   .head { display: flex; align-items: center; gap: 14px; margin: 48px 0 18px; }
@@ -259,6 +287,16 @@
 
   <div class="embed" id="embed"></div>
 
+  <section class="recs" id="recs" hidden>
+    <div class="head">
+      <h2>Советует Claude</h2>
+      <div class="meta" id="recsMeta"></div>
+      <div class="spacer"></div>
+      <button class="txtbtn" id="recsRefresh">Обновить</button>
+    </div>
+    <div class="recgrid" id="recGrid"></div>
+  </section>
+
   <section class="collection" id="collection">
     <div class="head">
       <button class="toggle" id="collToggle" aria-expanded="false" aria-controls="collBody">
@@ -283,7 +321,7 @@
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const SRC_LABEL = { soundcloud: 'SoundCloud', youtube: 'YouTube', mixcloud: 'Mixcloud' };
-const state = { mixes: [], current: null, playing: false, history: [], pos: 0, dur: 0, backgrounds: [], bgIndex: -1, bgLayer: 0 };
+const state = { mixes: [], recs: [], current: null, playing: false, history: [], pos: 0, dur: 0, backgrounds: [], bgIndex: -1, bgLayer: 0 };
 const pomo = { mode: 'work', left: 25 * 60, endsAt: 0, running: false, done: 0, day: new Date().toDateString() };
 let pomoAudio = null;
 let player = null;      // { play(), pause(), seek(sec), destroy() }
@@ -376,6 +414,7 @@ function resumePoint(m) {
   return p;
 }
 function putPos(m, pos, force) {
+  if (m.rec) return;
   m.position = pos; m.playedAt = Math.floor(Date.now() / 1000);
   try { localStorage.setItem('mixes.last', JSON.stringify({ id: m.id, position: pos, at: m.playedAt })); } catch {}
   fetch('/api/mix/' + encodeURIComponent(m.id), {
@@ -404,7 +443,7 @@ function renderHero() {
   const cover = $('#heroCover');
   if (!m) { cover.textContent = '🎧'; return; }
   cover.innerHTML = m.artwork ? `<img src="${esc(m.artwork)}" alt="">` : '🎧';
-  $('#heroEyebrow').innerHTML = `<span class="src ${srcOf(m)}">${srcLabel(m)}</span>${m.genre ? `<span>${esc(m.genre)}</span>` : ''}`;
+  $('#heroEyebrow').innerHTML = `<span class="src ${srcOf(m)}">${srcLabel(m)}</span>${m.rec ? '<span>Советует Claude</span>' : ''}${m.genre ? `<span>${esc(m.genre)}</span>` : ''}`;
   $('#heroTitle').textContent = m.title;
   $('#heroArtist').textContent = m.artist || '';
   const at = resumePoint(m);
@@ -413,8 +452,11 @@ function renderHero() {
     ${m.nts ? `<a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(SRC_LABEL[m.source])} ↗</a>` : ''}
     ${at ? '<button id="heroRestart">Сначала</button>' : ''}
     ${m.source === 'youtube' ? '<button id="showVideo">Показать видео</button>' : ''}
-    <button id="heroDel" class="danger">Убрать из коллекции</button>`;
-  $('#heroDel').onclick = () => removeMix(m);
+    ${m.rec ? '<button id="heroLike">Нравится, в коллекцию</button><button id="heroNo" class="danger">Не то</button>'
+            : '<button id="heroDel" class="danger">Убрать из коллекции</button>'}`;
+  if ($('#heroDel')) $('#heroDel').onclick = () => removeMix(m);
+  if ($('#heroLike')) $('#heroLike').onclick = () => recVerdict(m.id, 'liked');
+  if ($('#heroNo')) $('#heroNo').onclick = () => { recVerdict(m.id, 'dismissed'); next(); };
   const rs = $('#heroRestart');
   if (rs) rs.onclick = () => { clearPos(m); playMix(m, 0); };
   const sv = $('#showVideo');
@@ -514,6 +556,7 @@ function playMix(m, startAt) {
   player = m.source === 'youtube' ? mountYouTube(m, at) : m.source === 'mixcloud' ? mountMixcloud(m, at) : mountSoundCloud(m, at);
   setProgress(at, m.duration);
   if (at) toast('Продолжаю с ' + fmtTime(at));
+  if (m.rec && !m.played) setTimeout(() => { if (state.current === m && state.pos > 45) recVerdict(m.id, 'played', true); }, 60000);
   history.replaceState(null, '', '#' + encodeURIComponent(m.id));
 }
 function next() {
@@ -554,6 +597,86 @@ async function addUrl(url) {
   } catch (e) { toast('Ошибка: ' + e.message); }
   finally { box.classList.remove('busy'); input.disabled = false; }
 }
+
+// ---------- Claude's advice ----------
+function fmtDay(iso) {
+  const d = new Date(iso);
+  return isNaN(d) ? '' : d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+}
+function renderRecs(db) {
+  const list = state.recs;
+  $('#recs').hidden = !list.length;
+  $('#recsMeta').textContent = db && db.updatedAt ? 'обновлено ' + fmtDay(db.updatedAt) : '';
+  $('#recGrid').innerHTML = list.map(r => `
+    <article class="rec" data-id="${esc(r.id)}">
+      <div class="top">
+        <div class="cv">${r.artwork ? `<img src="${esc(r.artwork)}" alt="" loading="lazy">` : ''}</div>
+        <div>
+          <div class="t">${esc(r.title)}</div>
+          <div class="s">${esc(r.artist || '')} · ${fmtDur(r.duration)}${r.played ? ' · включал' : ''}</div>
+        </div>
+      </div>
+      ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}
+      <div class="acts">
+        <button class="play" data-act="play">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5z"/></svg>
+          Послушать
+        </button>
+        <button class="like" data-act="liked">Нравится</button>
+        <button class="no" data-act="dismissed">Не то</button>
+      </div>
+    </article>`).join('');
+}
+async function loadRecs() {
+  try {
+    const db = await fetch('/api/mix-recs', { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
+    state.recs = (db && db.items || []).map(r => ({ ...r, rec: true }));
+    renderRecs(db);
+    return db;
+  } catch { return null; }
+}
+async function recVerdict(id, verdict, quiet) {
+  const card = $(`.rec[data-id="${CSS.escape(id)}"]`);
+  const r = state.recs.find(x => x.id === id);
+  if (card && verdict !== 'played') card.classList.add('gone');
+  try {
+    const out = await fetch('/api/mix-rec/' + encodeURIComponent(id), {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ verdict }),
+    }).then(async res => { if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || res.status); return res.json(); });
+    if (r) r.played = out.rec && out.rec.played;
+    if (out.mix) { state.mixes.unshift(out.mix); if (state.current && state.current.id === out.mix.id) state.current = out.mix; renderList(); }
+    state.recs = (out.recs.items || []).map(x => ({ ...x, rec: true }));
+    renderRecs(out.recs);
+    if (!quiet) toast(verdict === 'liked' ? 'В коллекции — учту в следующий раз' : 'Понял, больше такого не предлагаю');
+  } catch (e) {
+    if (card) card.classList.remove('gone');
+    if (!quiet) toast('Ошибка: ' + e.message);
+  }
+}
+$('#recGrid').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  const id = b.closest('.rec').dataset.id;
+  const r = state.recs.find(x => x.id === id);
+  if (!r) return;
+  if (b.dataset.act === 'play') { playMix(r); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  else recVerdict(id, b.dataset.act);
+});
+$('#recsRefresh').addEventListener('click', async () => {
+  const btn = $('#recsRefresh');
+  btn.disabled = true; btn.textContent = 'Ищу…'; toast('Claude подбирает миксы, это займёт минуту');
+  const before = $('#recsMeta').textContent;
+  try {
+    await fetch('/api/mix-recs/refresh', { method: 'POST' });
+    for (let i = 0; i < 24; i++) {
+      await new Promise(r => setTimeout(r, 15000));
+      const db = await loadRecs();
+      if (db && db.job && db.job.startsWith('error')) { toast('Не получилось: ' + db.job.slice(7, 120)); break; }
+      if (db && db.job === 'done' && $('#recsMeta').textContent !== before) { toast('Готово: новые советы'); break; }
+    }
+  } catch (e) { toast('Ошибка: ' + e.message); }
+  btn.disabled = false; btn.textContent = 'Обновить';
+});
 
 // ---------- focus mode ----------
 function fsOn() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
@@ -717,12 +840,14 @@ window.addEventListener('paste', e => {
 
 loadHistory();
 fetch('/api/backgrounds', { cache: 'no-store' }).then(r => r.ok ? r.json() : []).then(list => { state.backgrounds = list; nextBackground(); }).catch(() => {});
-fetch('mixes.json', { cache: 'no-store' })
-  .then(r => r.ok ? r.json() : [])
-  .then(list => {
+Promise.all([
+  fetch('mixes.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []),
+  loadRecs(),
+])
+  .then(([list]) => {
     state.mixes = list; renderList();
     const h = decodeURIComponent(location.hash.slice(1));
-    const m = h && list.find(x => x.id === h);
+    const m = (h && list.find(x => x.id === h)) || (h && state.recs.find(x => x.id === h));
     if (m) { state.current = m; renderHero(); renderList(); }
     else if (h === 'random') { const r = pickRandom(); if (r) { state.current = r; renderHero(); renderList(); history.replaceState(null, '', location.pathname); } }
     else {

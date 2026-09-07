@@ -1,0 +1,55 @@
+{
+  "updatedAt": "2026-09-07T11:04:06",
+  "model": "opus",
+  "items": [
+    {
+      "id": "sc:371135591",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/luckyme/rinse79",
+      "title": "LUCKYME X RINSE 79 ft Sega Bodega",
+      "artist": "LUCKYME®",
+      "duration": 7200,
+      "artwork": "https://i1.sndcdn.com/artworks-000419736390-2evzj7-t500x500.jpg",
+      "genre": "Electronic",
+      "published": "2017-12-18",
+      "reason": "NUXXE-эстетика: рваный деконструированный клуб с ватными эмбиент-провалами, прямое продолжение линии Oli XL с DJ Lostboi из твоей коллекции.",
+      "wanted": "Sega Bodega Rinse FM",
+      "suggestedAt": "2026-09-07",
+      "verdict": "new",
+      "played": false
+    },
+    {
+      "id": "sc:1146111595",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/space-afrika/sa-presents-evia-nts-radio-061021",
+      "title": "SA Presents èvia ~ NTS Radio ~ 06.10.21",
+      "artist": "Space Afrika",
+      "duration": 7200,
+      "artwork": "https://i1.sndcdn.com/artworks-Hjd7KliookwyMDVj-AloM9w-t500x500.jpg",
+      "genre": "èvia",
+      "published": "2021-10-22",
+      "reason": "Дымный даб-эмбиент с обрывками голосов и полевых записей — та же меланхоличная бесформенность, что в United In Flames с Malibu, но с манчестерским грувом внизу.",
+      "wanted": "Space Afrika NTS",
+      "suggestedAt": "2026-09-07",
+      "verdict": "new",
+      "played": false
+    },
+    {
+      "id": "sc:1248638704",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/iankjudd/fifth-world-w-ian-kim-judd-purelink-on-nts-radio-041322",
+      "title": "Fifth World w/ Ian Kim Judd & Purelink on NTS Radio ~ 04.13.22",
+      "artist": "Ian Kim Judd",
+      "duration": 3602,
+      "artwork": "https://i1.sndcdn.com/artworks-uFlEJkP89QPgcEmF-p73Ctg-t500x500.jpg",
+      "genre": "Ambient",
+      "published": "2022-04-12",
+      "reason": "Медленный dub-ambient с еле заметным пульсом: если Spaces In Between с Introspekt и эпизод с Oklou заходят, тут та же прозрачность, только растянутая на весь час.",
+      "wanted": "Purelink NTS",
+      "suggestedAt": "2026-09-07",
+      "verdict": "new",
+      "played": false
+    }
+  ],
+  "history": []
+}

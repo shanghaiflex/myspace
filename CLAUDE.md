@@ -107,7 +107,30 @@ python3 scripts/mixes.py list
   (seek via widget APIs). Page background: random photo from `backgrounds/` (listed by `/api/backgrounds`),
   crossfades on every new mix. The user can drop their own JPG/PNG there.
 - Mix ids: `sc:<n>`, `yt:<videoId>`, `mc:<uploader_slug>`. Fields: source, url, title, artist, duration (s),
-  artwork, genre, published, tags[], addedAt, optional `nts` (episode URL).
+  artwork, genre, published, tags[], addedAt, optional `nts` (episode URL), `position`/`playedAt` (resume).
+
+### Daily advice from Claude (`mix_recs.json`, `mixes/PROMPT.md`, `scripts/mix_recs.py`, `scripts/mix_recs.sh`)
+
+Once a day the mini asks Claude Code for new mixes. `mix_recs.py digest` = collection + what was actually
+played (position/playedAt) + verdicts on earlier advice; `mixes/PROMPT.md` asks for 6 candidates as JSON
+(`search`, `artist`, `title`, `why`); `mix_recs.py apply` resolves them through SoundCloud search
+(`/search/tracks`, ≥20 min, the asked-for artist must really be in the track, nothing already known) and
+keeps the first 3 in `mix_recs.json` (`items` + `history`). The mixes page shows them as «Советует Claude»
+cards (Послушать / Нравится / Не то) and the home page uses the top one as «Микс на сегодня».
+Feedback is the whole point: «Нравится» adds the mix to the collection (tag `claude-rec`), «Не то» is a
+rejection, playing one for a minute is an implicit signal — all three land in `history` and go into the
+next day's prompt.
+
+```
+python3 scripts/mix_recs.py digest | list        # what the model sees / current advice
+sh scripts/mix_recs.sh --force                   # ask for a new batch now (ssh mini 'cd movies && sh scripts/mix_recs.sh --force')
+python3 scripts/mix_recs.py verdict <sc:id> liked|dismissed|played
+ssh mini tail -20 movies/logs/mix-recs.log
+```
+
+launchd agent on the mini: `cc.bodywithoutorgans.mixrecs`, daily at 07:20 (`deploy/install-mix-recs.sh`).
+API: `GET /api/mix-recs`, `PATCH /api/mix-rec/<id>` `{verdict}`, `POST /api/mix-recs/refresh` (the «Обновить»
+button on the mixes page).
 
 ## Lectures (`lectures.html`, `lectures.json`, `scripts/lectures.py`)
 
