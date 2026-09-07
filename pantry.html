@@ -115,41 +115,37 @@ async function load() {
     ? `последний чек ${dmy(p.stats.last)} · пересчитано ${ago(p.generated)}` : 'чеков пока нет';
 
   const cards = [];
-  cards.push(`<div class="card"><div class="eyebrow">Заметка <span class="more">${p.note ? esc(fmtTs(p.note.ts)) + (p.note.model ? ' · ' + esc(p.note.model) : '') : ''}
+  cards.push(`<div class="card"><div class="eyebrow">Что приготовить
+      <span class="more">${p.recipes_ts ? 'идеи от ' + esc(fmtTs(p.recipes_ts)) : ''}
       <button class="btn" id="run" ${running ? 'disabled' : ''}>${running ? 'Считаю…' : 'Обновить'}</button></span></div>
-    ${p.note ? `<p class="note">${esc(p.note.text)}</p>` : `<div class="empty">Заметки пока нет — появится после первого прогона.</div>`}
-    ${p.job && String(p.job).startsWith('error') ? `<div class="foot">Последний запуск: ${esc(p.job)}</div>` : ''}
-    <div class="stats">
-      <div><b>${p.proposal ? p.proposal.length : 0}</b>кончается по расчёту</div>
-      <div><b>${p.stats && p.stats.receipts || 0}</b>чеков разобрано</div>
-      <div><b>${p.stats && p.stats.products || 0}</b>товаров в модели</div>
-    </div></div>`);
-
-  cards.push(`<div class="card"><div class="eyebrow">Похоже, пора докупить</div>
-    ${(p.proposal || []).length ? `<div class="list">${p.proposal.map(i => `
-        <div class="row"><span class="nm">${esc(i.name)}</span><span class="px">~${Math.round(i.median_price)} ₽</span></div>
-        <div class="why">${esc(i.why)}</div>`).join('')}</div>`
-      : `<div class="empty">Всё на месте.</div>`}
-    <div class="foot">Предложение появляется, только если товар покупался не меньше трёх раз и прошёл почти весь обычный цикл. Разовые покупки и сезонное сюда не попадают.</div></div>`);
-
-  if (p.recipes && p.recipes.length) {
-    cards.push(`<div class="card"><div class="eyebrow">Что приготовить
-      <span class="more">${p.recipes_ts ? 'идеи от ' + esc(fmtTs(p.recipes_ts)) : ''}</span></div>
-      <div class="dishes">${p.recipes.map(r => `
+    ${(p.recipes || []).length ? `<div class="dishes">${p.recipes.map(r => `
         <div class="dish">
           ${r.photo ? `<span class="pic" style="background-image:url('dishes/${esc(r.photo.file)}')"></span>`
-                    : `<span class="pic none">🍳</span>`}
+                    : `<span class="pic none">\u{1F373}</span>`}
           <div class="body">
             <h3>${esc(r.title)}${r.time_min ? `<span class="min">${r.time_min} мин</span>` : ''}</h3>
             ${r.why ? `<div class="why">${esc(r.why)}</div>` : ''}
             <div class="ing">${(r.ingredients || []).map(i => `<span>${esc(i)}</span>`).join('')}</div>
             <ol>${(r.steps || []).map(t => `<li>${esc(t)}</li>`).join('')}</ol>
             ${r.photo ? `<div class="cred">фото — иллюстрация, не снимок этого блюда:
-              <a href="${esc(r.photo.page)}" target="_blank" rel="noopener">Wikimedia Commons</a>${r.photo.credit ? ', ' + esc(r.photo.credit) : ''}${r.photo.license ? ', ' + esc(r.photo.license) : ''}</div>` : ''}
+              <a href="${esc(r.photo.page)}" target="_blank" rel="noopener">${esc(r.photo.credit || 'источник')}</a>${r.photo.license ? ', ' + esc(r.photo.license) : ''}</div>` : ''}
           </div>
-        </div>`).join('')}</div>
-      <div class="foot">Идеи собраны по тому, что ты покупаешь регулярно, и обновляются раз в несколько дней.</div></div>`);
-  }
+        </div>`).join('')}</div>`
+      : `<div class="empty">Идей пока нет — появятся после первого прогона.</div>`}
+    ${p.job && String(p.job).startsWith('error') ? `<div class="foot">Последний запуск: ${esc(p.job)}</div>` : ''}
+    <div class="foot">Идеи собраны по тому, что ты покупаешь регулярно, и обновляются раз в несколько дней.</div></div>`);
+
+  cards.push(`<div class="card"><div class="eyebrow">Похоже, пора докупить</div>
+    ${(p.proposal || []).length ? `<div class="list">${p.proposal.map(i => `
+        <div class="row"><span class="nm">${esc(i.name)}</span><span class="px">~${Math.round(i.median_price)} ₽</span></div>
+        <div class="why">${esc(i.why)}</div>`).join('')}</div>`
+      : `<div class="empty">Всё на месте.</div>`}
+    <div class="stats">
+      <div><b>${p.proposal ? p.proposal.length : 0}</b>кончается по расчёту</div>
+      <div><b>${p.stats && p.stats.receipts || 0}</b>чеков разобрано</div>
+      <div><b>${p.stats && p.stats.products || 0}</b>товаров в модели</div>
+    </div>
+    <div class="foot">Предложение появляется, только если товар покупался не меньше трёх раз и прошёл почти весь обычный цикл. Разовые покупки и сезонное сюда не попадают.</div></div>`);
 
   if (p.recent && p.recent.length) {
     cards.push(`<div class="card"><div class="eyebrow">Куплено за последние три недели</div><div class="tbl"><table>

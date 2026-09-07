@@ -3,12 +3,10 @@
 
     python3 scripts/pantry.py sync            # pull new receipts from Gmail
     python3 scripts/pantry.py summary         # recompute stock -> pantry.json
-    python3 scripts/pantry.py pending         # exit 1 if nothing changed since the last note
-    python3 scripts/pantry.py digest          # plain-text context for the note
-    python3 scripts/pantry.py review-save --file note.txt --model opus
+    python3 scripts/pantry.py profile         # what the model sees when inventing dishes
 
 Mirrors scripts/health.py: the pipeline is deterministic, the model only writes
-the prose at the end.
+the dish ideas at the end.
 """
 
 from __future__ import annotations
@@ -31,7 +29,6 @@ from pantrylib.shelf_life import guess  # noqa: E402
 
 STATE = os.path.join(ROOT, "pantry.json")
 PHOTO_DIR = os.path.join(ROOT, "dishes")
-KEEP_NOTES = 10
 MAX_INGREDIENTS = 6
 MAX_STEPS = 4
 RECIPES_STALE_DAYS = 5
@@ -164,22 +161,12 @@ def cmd_summary(a) -> None:
             "last": receipts[-1]["ts"][:10] if receipts else None,
         },
     })
+    # The daily note was dropped: nobody read it and it cost a model call.
+    st.pop("note", None); st.pop("notes", None)
     save(st)
     print(f"pantry.json: {len(st['proposal'])} к докупке, "
           f"{len(st['recent'])} свежих позиций, "
           f"{len(st.get('recipes') or [])} идей блюд")
-
-
-def cmd_pending(a) -> None:
-    """Exit 0 only when there is something new worth a note."""
-    st = load()
-    last_note = (st.get("note") or {}).get("basis")
-    fresh = inv.inventory()
-    basis = json.dumps([i["name"] for i in fresh["proposal"]], ensure_ascii=False)
-    if basis == last_note:
-        print("ничего не изменилось с прошлой заметки")
-        sys.exit(1)
-    print(basis)
 
 
 def digest_text() -> str:
@@ -207,37 +194,18 @@ def cmd_digest(a) -> None:
     print(digest_text())
 
 
-def cmd_review_save(a) -> None:
-    st = load()
-    text = open(a.file, encoding="utf-8").read().strip()
-    if not text:
-        sys.exit("пустая заметка, не сохраняю")
-    fresh = inv.inventory()
-    basis = json.dumps([i["name"] for i in fresh["proposal"]], ensure_ascii=False)
-    note = {"ts": datetime.now().isoformat(timespec="seconds"),
-            "model": a.model, "text": text, "basis": basis}
-    st["note"] = note
-    st["notes"] = ([note] + st.get("notes", []))[:KEEP_NOTES]
-    save(st)
-    print("заметка сохранена")
-
-
 def main() -> None:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("sync"); p.add_argument("--all", action="store_true")
     p.set_defaults(fn=cmd_sync)
     sub.add_parser("summary").set_defaults(fn=cmd_summary)
-    sub.add_parser("pending").set_defaults(fn=cmd_pending)
     sub.add_parser("digest").set_defaults(fn=cmd_digest)
     sub.add_parser("profile").set_defaults(fn=cmd_profile)
     sub.add_parser("recipes-stale").set_defaults(fn=cmd_recipes_stale)
     p = sub.add_parser("recipes-save")
     p.add_argument("--file", required=True); p.add_argument("--model", default="opus")
     p.set_defaults(fn=cmd_recipes_save)
-    p = sub.add_parser("review-save")
-    p.add_argument("--file", required=True); p.add_argument("--model", default="opus")
-    p.set_defaults(fn=cmd_review_save)
     a = ap.parse_args()
     a.fn(a)
 
