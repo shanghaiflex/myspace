@@ -119,7 +119,7 @@ class Handler(SimpleHTTPRequestHandler):
 
     def end_headers(self):
         # HTML/JS/CSS must not be cached: after a deploy the browser has to pick up the new page immediately.
-        if self.command == "GET" and self.path.split("?")[0].rsplit(".", 1)[-1] in ("html", "js", "css", "") and "/api/" not in self.path:
+        if self.command in ("GET", "HEAD") and self.path.split("?")[0].rsplit(".", 1)[-1] in ("html", "js", "css", "") and "/api/" not in self.path:
             self.send_header("Cache-Control", "no-cache")
         super().end_headers()
 
@@ -274,6 +274,10 @@ class Handler(SimpleHTTPRequestHandler):
             files = sorted(f for f in os.listdir(d) if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp"))) if os.path.isdir(d) else []
             return self.send_json(200, ["backgrounds/" + f for f in files])
         return super().do_GET()
+
+    def do_HEAD(self):
+        if self.require_login():
+            super().do_HEAD()
 
     def send_range_file(self, path):
         if not os.path.isfile(path):
