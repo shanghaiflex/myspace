@@ -105,6 +105,17 @@ python3 scripts/lectures.py add-channel <url>
 - Home page shows one card per lecture channel (channel `label` in lectures.json, e.g. «Макаров · Средневековье»,
   «Bushwacker · Древний Египет»: next up + queue/recommendations), a random mix, random to-watch posters.
 
+## Editing workflow (IMPORTANT — how to ship changes)
+
+When the user asks to change anything (add/remove/rate a film, book, mix, lecture; edit a page; etc.):
+1. Make the change on the laptop (the CLIs: `scripts/{movies,books,mixes,lectures}.py`, or edit the HTML/py).
+2. Run `scripts/deploy.sh "short message"`. This commits, pushes to GitHub, and updates the live mini in one step.
+   Do this automatically after the edit — the user expects the change to be live at https://bodywithoutorgans.cc.
+`deploy.sh` pulls the mini's live JSON for any catalog file you did NOT edit this session first, so in-site
+edits (ratings/status changed through the website) are never clobbered. If the mini is unreachable it still
+commits+pushes and tells you it skipped the deploy. Data files (`*.json`) need no restart; code changes get one
+automatically. Audio lives only on machines (gitignored) — download lecture audio on the laptop; deploy pushes it to the mini.
+
 ## Auth & deploy
 `serve.py` requires a password when `MOVIES_PASSWORD` is set (env or `.env`, gitignored); localhost runs open.
 Production: https://bodywithoutorgans.cc served by the home Mac mini (ssh alias `mini`, user sergeyfilatov,
@@ -113,7 +124,8 @@ LaunchDaemon `cc.bodywithoutorgans.vpn` (`/usr/local/sbin/awg-mini.sh` runs a he
 via the mini's OWN Server 1 config 10.8.1.5 — the ISP kills direct Cloudflare, the VPN's path is clean), and
 cloudflared (agent, http2). See `deploy/README.md`.
 The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`. Data sync is rsync:
-run `scripts/sync.sh` BEFORE editing catalogs (pulls site edits from the mini) and AFTER (pushes everything).
+after ANY change run `scripts/deploy.sh "message"` — it folds in live in-site edits for JSON you didn't touch,
+commits, pushes to GitHub, rsyncs to the mini, and restarts serve. That is the one command to ship to production.
 The mini reaches SoundCloud/Cloudflare/Open-Meteo directly but YouTube is blocked there without a VPN (its AmneziaVPN
 is currently not configured), so download lecture audio on the laptop (`scripts/lectures.py audio <id>`) and let
 `scripts/sync.sh` push `audio/` to the mini.
