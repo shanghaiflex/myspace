@@ -14,4 +14,6 @@ for f in $DATA; do rsync -az "$HOST:movies/$f" "./$f" 2>/dev/null; done
 git add -A
 git diff --cached --quiet || git commit -qm "Sync from $HOST $(date '+%Y-%m-%d %H:%M')"
 rsync -az --delete --exclude .git --exclude audio --exclude .env --exclude .session_secret --exclude logs --exclude __pycache__ --exclude .DS_Store ./ "$HOST:movies/"
+# lecture audio: the mini cannot reach YouTube without a VPN, so audio downloaded on the laptop is pushed too (never deleted remotely)
+[ -d audio ] && rsync -az --exclude '*.part' audio/ "$HOST:movies/audio/"
 echo "synced with $HOST"

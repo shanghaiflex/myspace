@@ -103,7 +103,9 @@ Production: https://bodywithoutorgans.cc served by the home Mac mini (ssh alias 
 site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), see `deploy/README.md`.
 The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`. Data sync is rsync:
 run `scripts/sync.sh` BEFORE editing catalogs (pulls site edits from the mini) and AFTER (pushes everything).
-Audio for lectures must be downloaded on the mini: `ssh mini '~/.local/python312/bin/python3 ~/movies/scripts/lectures.py audio <id>'`.
+The mini reaches SoundCloud/Cloudflare/Open-Meteo directly but YouTube is blocked there without a VPN (its AmneziaVPN
+is currently not configured), so download lecture audio on the laptop (`scripts/lectures.py audio <id>`) and let
+`scripts/sync.sh` push `audio/` to the mini.
 
 ## Data model (`movies.json`, array sorted by title)
 `id` (imdb), `title`, `year`, `director`, `genre[]`, `runtime` (min), `plot`, `imdbRating`,
