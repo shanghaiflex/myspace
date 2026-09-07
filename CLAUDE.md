@@ -81,6 +81,19 @@ sh scripts/health_review.sh --force              # run a note now (on the mini: 
 ssh mini tail -20 movies/logs/health-review.log
 ```
 
+Бэкап: `health.db` — единственная копия данных на mini (Time Machine там не настроен), а телефон повторно
+не присылает то, что уже отдал (анкеры HealthKit в `UserDefaults`, кнопки сброса в приложении нет), поэтому
+потерянную базу восстановить нечем — 2026-09-07 она пропала и вернулась только потому, что переустановка
+приложения обнулила анкеры. Отсюда ночной снимок: launchd `cc.bodywithoutorgans.healthbackup` (`deploy/install-health-backup.sh`)
+в 04:10 запускает `scripts/health_backup.sh` → `health.py backup` (онлайн-бэкап SQLite, безопасен при работающем serve)
+в `backups/health-YYYY-MM-DD.db`, хранит 7 последних. `backups/` — данные машины: в `.gitignore` и в исключениях
+`deploy.sh`, как `health.db` и `audio/`.
+
+```
+python3 scripts/health.py backup [--keep 7]      # снимок вручную
+ssh mini tail -5 movies/logs/health-backup.log
+```
+
 ## Mixes (`mixes.html`, `mixes.json`)
 
 Morning-mix player: random mix from the collection, "next" button, sources SoundCloud / YouTube /

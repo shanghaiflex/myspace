@@ -13,14 +13,17 @@ Every sample carries its HealthKit UUID, so re-sends are idempotent and deletion
   python3 scripts/health.py summary                  # JSON used by /api/health
   python3 scripts/health.py ingest <workouts|sleep|metrics> <batch.json>   # manual import (same JSON the app sends)
   python3 scripts/health.py stats                    # row counts per kind
+  python3 scripts/health.py backup [--keep 7]        # snapshot health.db into backups/ (the phone is the only other copy)
 
-Env: HEALTH_DB (default health.db next to serve.py), HEALTH_TZ (default WEATHER_TZ, then Europe/Moscow).
+Env: HEALTH_DB (default health.db next to serve.py), HEALTH_TZ (default WEATHER_TZ, then Europe/Moscow),
+HEALTH_BACKUP_DIR (default backups/ next to health.db).
 """
 import argparse, datetime as dt, json, os, sqlite3, sys
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.environ.get("HEALTH_DB") or os.path.join(ROOT, "health.db")
+BACKUP_DIR = os.environ.get("HEALTH_BACKUP_DIR") or os.path.join(ROOT, "backups")
 METRIC_KINDS = ("hrv_sdnn", "resting_heart_rate", "steps", "active_energy")
 WORKOUT_RU = {"running": "бег", "cycling": "велосипед", "walking": "ходьба", "swimming": "плавание", "yoga": "йога",
               "functionalStrengthTraining": "силовая", "functional_strength_training": "силовая", "traditionalStrengthTraining": "силовая",
@@ -109,6 +112,27 @@ def ingest(sample_type, batch):
             if sid and db.execute("UPDATE samples SET deleted_at=? WHERE id=? AND deleted_at IS NULL", (now, sid)).rowcount:
                 stats["deleted"] += 1
     return stats
+
+
+# ---------------------------------------------------------------- backup
+def backup(keep=7, db=None):
+    """Snapshot health.db into BACKUP_DIR, keeping the last `keep` days. The samples only exist here and on the
+    phone, and the phone re-sends nothing it has already delivered (anchors in UserDefaults), so this is the copy
+    that survives the database being lost."""
+    os.makedirs(BACKUP_DIR, exist_ok=True)
+    dest = os.path.join(BACKUP_DIR, "health-%s.db" % dt.datetime.now(tz()).strftime("%Y-%m-%d"))
+    src = db or connect()
+    out = sqlite3.connect(dest)
+    with out:
+        src.backup(out)  # online backup: consistent even while serve.py is writing
+    out.close()
+    old = sorted(f for f in os.listdir(BACKUP_DIR) if f.startswith("health-") and f.endswith(".db"))
+    dropped = old[:-keep] if keep > 0 else []
+    for f in dropped:
+        os.remove(os.path.join(BACKUP_DIR, f))
+    return {"file": dest, "bytes": os.path.getsize(dest),
+            "rows": src.execute("SELECT COUNT(*) c FROM samples").fetchone()["c"],
+            "kept": len(old) - len(dropped), "dropped": dropped}
 
 
 # ---------------------------------------------------------------- aggregation
@@ -280,6 +304,7 @@ def main(argv=None):
     sub.add_parser("summary")
     p = sub.add_parser("ingest"); p.add_argument("type", choices=["workouts", "sleep", "metrics"]); p.add_argument("file")
     sub.add_parser("stats")
+    p = sub.add_parser("backup"); p.add_argument("--keep", type=int, default=7)
     a = ap.parse_args(argv)
     db = connect()
     if a.cmd == "digest":
@@ -307,6 +332,10 @@ def main(argv=None):
             print(f"{r['type']:8} {r['kind']:22} {r['n']:7}  {r['first']} … {r['last']}")
         lr = last_review(db)
         print(f"reviews: {db.execute('SELECT COUNT(*) c FROM reviews').fetchone()['c']}, last at {lr['ts'] if lr else '—'}")
+    elif a.cmd == "backup":
+        r = backup(a.keep, db)
+        print(f"{r['file']}  {r['rows']} rows, {r['bytes'] // 1024} KB, {r['kept']} kept"
+              + (f", dropped {', '.join(r['dropped'])}" if r["dropped"] else ""))
 
 
 if __name__ == "__main__":

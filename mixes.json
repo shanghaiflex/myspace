@@ -25,7 +25,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 1298,
+    "playedAt": 1788809545
   },
   {
     "id": "yt:RVhN3a1Nm7Y",
@@ -220,7 +222,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 751,
+    "playedAt": 1788798217
   },
   {
     "id": "yt:yRi1sGsix_Q",
@@ -432,7 +436,9 @@
     "tags": [
       "soundcloud-likes"
     ],
-    "addedAt": "2025-07-14"
+    "addedAt": "2025-07-14",
+    "position": 3608,
+    "playedAt": 1788788297
   },
   {
     "id": "sc:1975628955",
