@@ -1,6 +1,6 @@
 # Movies — personal film catalog
 
-Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
+Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
 (stdlib only) which also exposes a tiny edit API (PATCH/DELETE `/api/movie/<id>`) used by the page for
 rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
 If the page is served by a plain static server the API is absent and the page becomes read-only.
@@ -57,6 +57,29 @@ so if both fail use `--manual --author ... --year ... --cover URL`. Ids are ISBN
 Home page shows today's weather: now, day min/max, precipitation (mm, probability, rainy hours) and an hourly strip.
 Open-Meteo by default (no key). Set `YANDEX_WEATHER_KEY` in `.env` to switch to Yandex Weather API;
 location via `WEATHER_CITY/LAT/LON/TZ` in `.env` (defaults Moscow). Cached 20 min server-side.
+
+## Health (`health.html`, `health.db`, `scripts/health.py`, `scripts/health_review.sh`, `health/`)
+
+Apple Health → the site. The Health Bridge iOS app (repo `~/workspace/healthbridge`, server URL
+`https://api.bodywithoutorgans.cc`, bearer token = `HEALTH_TOKENS` in the mini's `.env`) posts HealthKit batches
+(workouts, sleep, metrics: hrv_sdnn, resting_heart_rate, steps, active_energy) to `POST /v1/ingest/health/<kind>`;
+`serve.py` stores them in `health.db` (SQLite, gitignored, lives on the mini only — like `audio/`). `api.` is an extra
+ingress of the same Cloudflare tunnel. Nothing else from the old Go `lifeops` backend is used; it is dead on the mini
+(colima broken), its Postgres history was not migrated.
+
+Hourly note: launchd agent `cc.bodywithoutorgans.health` on the mini runs `scripts/health_review.sh` every hour.
+It skips when no new samples arrived, otherwise builds `health.py digest` (7-day table, 7/28-day averages, last notes),
+prepends `health/PROMPT.md` + `health/goals.md` and pipes it to `claude -p --model opus --tools ""` (Claude Code on the
+mini, `~/.local/bin/claude`, auth via `CLAUDE_CODE_OAUTH_TOKEN` in `.env` from `claude setup-token`). The 1–3 sentence
+answer is saved to `health.db` (`reviews`) and shown on the home page card and `health.html` (history + 14-day table,
+«Обновить» button = `POST /api/health/review`). Goals: edit `health/goals.md` (one per line) and deploy.
+
+```
+python3 scripts/health.py digest [--days 7]      # what the model sees
+python3 scripts/health.py stats | reviews | summary
+sh scripts/health_review.sh --force              # run a note now (on the mini: ssh mini 'cd movies && sh scripts/health_review.sh --force')
+ssh mini tail -20 movies/logs/health-review.log
+```
 
 ## Mixes (`mixes.html`, `mixes.json`)
 
@@ -123,7 +146,8 @@ site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), LI
 LaunchDaemon `cc.bodywithoutorgans.vpn` (`/usr/local/sbin/awg-mini.sh` runs a headless AmneziaWG full tunnel
 via the mini's OWN Server 1 config 10.8.1.5 — the ISP kills direct Cloudflare, the VPN's path is clean), and
 cloudflared (agent, http2). See `deploy/README.md`.
-The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`. Data sync is rsync:
+The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`, Claude Code in `~/.local/bin/claude`
+(native install, no node needed; `python3` is NOT on the default ssh PATH — use `~/.local/python312/bin/python3`). Data sync is rsync:
 after ANY change run `scripts/deploy.sh "message"` — it folds in live in-site edits for JSON you didn't touch,
 commits, pushes to GitHub, rsyncs to the mini, and restarts serve. That is the one command to ship to production.
 The mini reaches SoundCloud/Cloudflare/Open-Meteo directly but YouTube is blocked there without a VPN (its AmneziaVPN

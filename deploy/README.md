@@ -27,6 +27,19 @@ Cloudflared идёт через VPN Server 1 (у него чистый путь 
 проверка туннеля `printf 'get=1\n\n' | nc -U /var/run/amneziawg/utun11.sock | grep rx_bytes`;
 рукопожатие должно расти. Перезапуск VPN: `sudo launchctl kickstart -k system/cc.bodywithoutorgans.vpn`.
 
+## Apple Health (2026-09-07)
+
+- `api.bodywithoutorgans.cc` — третий hostname того же туннеля `movies`, тоже на `127.0.0.1:8787`: туда шлёт батчи
+  iOS-приложение Health Bridge (`POST /v1/ingest/health/*`, Bearer-токен из `HEALTH_TOKENS` в `~/movies/.env`,
+  тот же токен, что был у старого lifeops). Старый агент `com.lifeops.cloudflared.named` (туннель на мёртвый :8080)
+  выгружен, plist переименован в `.disabled`. Остальные `com.lifeops.*` агенты (startup, workout-notifier, swim-coach)
+  и `ai.openclaw.gateway` не трогал — colima там сломана, они просто падают.
+- Данные лежат в `~/movies/health.db` (SQLite), rsync его не трогает (`--exclude "health.db*"`).
+- Часовая заметка: `sh ~/movies/deploy/install-health-review.sh` ставит агент `cc.bodywithoutorgans.health`
+  (`scripts/health_review.sh` раз в час, лог `~/movies/logs/health-review.log`). Нужен `~/.local/bin/claude`
+  (`curl -fsSL https://claude.ai/install.sh | bash`) и `CLAUDE_CODE_OAUTH_TOKEN=` в `.env` (получить на ноутбуке:
+  `claude setup-token`).
+
 ## Исторические заметки по установке
 
 - Туннель `movies` (id c7369989-9758-43ca-acd9-33773f23d513) создан с mini, CNAME для bodywithoutorgans.cc и www.

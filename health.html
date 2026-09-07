@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Самочувствие</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafafa; --surface: #ffffff; --surface-2: #f2f2f4;
+    --text: #1d1d1f; --text-2: #6e6e73; --text-3: #a1a1a6;
+    --line: rgba(0,0,0,.08); --accent: #0071e3; --ok: #34c759; --warn: #ff9f0a;
+    --glass: rgba(250,250,250,.7);
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000; --surface: #1c1c1e; --surface-2: #2c2c2e;
+      --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
+      --line: rgba(255,255,255,.1); --accent: #2997ff; --ok: #30d158; --warn: #ffd60a;
+      --glass: rgba(0,0,0,.55);
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
+    background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.45; letter-spacing: -0.01em; }
+  a { color: inherit; text-decoration: none; }
+  .bar { position: sticky; top: 0; z-index: 20; background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
+  .bar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; }
+  .nav a { color: var(--text-3); font-weight: 600; }
+  .nav a.on { color: var(--text); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 36px 32px 80px; }
+  .head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .head h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; margin: 0; line-height: 1.1; }
+  .head .sub { color: var(--text-2); font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+  .card { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow); border: 1px solid var(--line); padding: 22px; min-width: 0; grid-column: span 12; }
+  .card .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-2); font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .card .eyebrow .more { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-3); display: flex; gap: 10px; align-items: center; }
+  .note { font-size: 20px; line-height: 1.4; letter-spacing: -0.02em; margin: 0; font-weight: 500; white-space: pre-wrap; }
+  .empty { color: var(--text-2); font-size: 15px; }
+  button.btn { font: inherit; font-size: 13px; font-weight: 600; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+  button.btn:disabled { opacity: .5; cursor: default; }
+  .stats { display: flex; gap: 26px; flex-wrap: wrap; color: var(--text-2); font-size: 13px; margin-top: 18px; }
+  .stats b { color: var(--text); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; display: block; font-variant-numeric: tabular-nums; }
+  .tbl { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: -4px; padding: 4px; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
+  th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); font-weight: 600; padding: 6px 10px 8px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  td.n, th.n { text-align: right; padding-right: 18px; }
+  td.dim { color: var(--text-3); }
+  td.day { font-weight: 600; }
+  td.day .dow { color: var(--text-3); font-weight: 500; margin-left: 4px; }
+  td.w { white-space: normal; min-width: 180px; color: var(--text-2); }
+  .hist { display: flex; flex-direction: column; gap: 14px; }
+  .hist .it { display: grid; grid-template-columns: 96px 1fr; gap: 12px; font-size: 14.5px; }
+  .hist .ts { color: var(--text-3); font-variant-numeric: tabular-nums; font-size: 13px; padding-top: 2px; }
+  .hist p { margin: 0; white-space: pre-wrap; }
+  .foot { color: var(--text-3); font-size: 12.5px; margin-top: 14px; }
+  @media (max-width: 640px) {
+    .bar-inner { padding: 12px 16px; } .nav { font-size: 15px; gap: 14px; }
+    .wrap { padding: 24px 16px 70px; } .head h1 { font-size: 28px; } .card { padding: 18px; border-radius: 18px; }
+    .note { font-size: 18px; } .hist .it { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+<header class="bar"><div class="bar-inner">
+  <nav class="nav"><a href="index.html">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html" class="on">Самочувствие</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="head"><h1>Самочувствие</h1><div class="sub" id="fresh"></div></div>
+  <div class="grid" id="grid"><div class="card"><div class="empty">Загружаю…</div></div></div>
+</main>
+
+<script>
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const hm = m => m == null ? '—' : `${Math.floor(m / 60)}ч${String(Math.round(m) % 60).padStart(2, '0')}`;
+const num = n => n == null ? '—' : Math.round(n).toLocaleString('ru-RU');
+const dt = s => s ? new Date(s) : null;
+const fmtTs = s => { const d = dt(s); return d ? d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) + ', ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '—'; };
+const ago = s => { const d = dt(s); if (!d) return 'данных ещё нет'; const m = Math.round((Date.now() - d) / 60000);
+  return m < 2 ? 'только что' : m < 60 ? `${m} мин назад` : m < 1440 ? `${Math.round(m / 60)} ч назад` : `${Math.round(m / 1440)} дн назад`; };
+const wk = w => `${w.ru} ${w.min} мин${w.km ? ` · ${w.km} км` : ''}${w.hr ? ` · пульс ${w.hr}` : ''}`;
+
+let busy = false;
+async function load() {
+  const r = await fetch('/api/health', { cache: 'no-store' });
+  if (!r.ok) { document.getElementById('grid').innerHTML = `<div class="card"><div class="empty">Не удалось загрузить: ${r.status}</div></div>`; return; }
+  const h = await r.json();
+  document.getElementById('fresh').textContent = h.lastIngest ? `данные с телефона: ${ago(h.lastIngest)}` : 'телефон ещё ничего не прислал';
+  const today = h.days[0], a = h.avg7;
+  const running = h.reviewJob === 'running';
+  const cards = [];
+  cards.push(`<div class="card"><div class="eyebrow">Заметка <span class="more">${h.review ? esc(fmtTs(h.review.ts)) + (h.review.model ? ' · ' + esc(h.review.model) : '') : ''}
+      <button class="btn" id="run" ${running ? 'disabled' : ''}>${running ? 'Считаю…' : 'Обновить'}</button></span></div>
+    ${h.review ? `<p class="note">${esc(h.review.text)}</p>` : `<div class="empty">Заметки пока нет — появится после первого прогона обзора.</div>`}
+    ${h.reviewJob && h.reviewJob.startsWith('error') ? `<div class="foot">Последний запуск: ${esc(h.reviewJob)}</div>` : ''}
+    <div class="stats">
+      <div><b>${today && today.sleep ? hm(today.sleep.total) : '—'}</b>сон этой ночью${a.sleep ? ` · ср. ${hm(a.sleep)}` : ''}</div>
+      <div><b>${today && today.rhr != null ? today.rhr : '—'}</b>пульс покоя${a.rhr ? ` · ср. ${a.rhr}` : ''}</div>
+      <div><b>${today && today.hrv != null ? today.hrv : '—'}</b>HRV, мс${a.hrv ? ` · ср. ${a.hrv}` : ''}</div>
+      <div><b>${today && today.steps != null ? num(today.steps) : '—'}</b>шагов сегодня${a.steps ? ` · ср. ${num(a.steps)}` : ''}</div>
+    </div></div>`);
+  cards.push(`<div class="card"><div class="eyebrow">Последние ${h.days.length} дней</div><div class="tbl"><table>
+    <tr><th>День</th><th>Сон</th><th>Глубокий / REM</th><th>Отбой – подъём</th><th class="n">RHR</th><th class="n">HRV</th><th class="n">Шаги</th><th class="n">Ккал</th><th>Тренировки</th></tr>
+    ${h.days.map(d => { const s = d.sleep; const dd = new Date(d.date + 'T12:00:00');
+      return `<tr><td class="day">${dd.getDate()} ${dd.toLocaleDateString('ru-RU', { month: 'short' }).replace('.', '')}<span class="dow">${d.dow}</span></td>
+        <td class="${s ? '' : 'dim'}">${s ? hm(s.total) : '—'}</td><td class="${s ? '' : 'dim'}">${s ? hm(s.deep) + ' / ' + hm(s.rem) : '—'}</td><td class="${s ? '' : 'dim'}">${s ? s.bed + ' – ' + s.wake : '—'}</td>
+        <td class="n ${d.rhr == null ? 'dim' : ''}">${d.rhr ?? '—'}</td><td class="n ${d.hrv == null ? 'dim' : ''}">${d.hrv ?? '—'}</td>
+        <td class="n ${d.steps == null ? 'dim' : ''}">${num(d.steps)}</td><td class="n ${d.kcal == null ? 'dim' : ''}">${num(d.kcal)}</td>
+        <td class="w">${d.workouts.length ? d.workouts.map(w => esc(wk(w))).join('<br>') : '<span style="color:var(--text-3)">—</span>'}</td></tr>`; }).join('')}
+    </table></div><div class="foot">Сон засчитывается на утро пробуждения. Шаги и калории — оценка, если часы и телефон считали одновременно.</div></div>`);
+  if (h.reviews && h.reviews.length > 1) {
+    cards.push(`<div class="card"><div class="eyebrow">Раньше</div><div class="hist">${h.reviews.slice(1).map(r => `<div class="it"><div class="ts">${esc(fmtTs(r.ts))}</div><p>${esc(r.text)}</p></div>`).join('')}</div></div>`);
+  }
+  document.getElementById('grid').innerHTML = cards.join('');
+  const btn = document.getElementById('run');
+  btn.onclick = async () => {
+    btn.disabled = true; btn.textContent = 'Считаю…';
+    await fetch('/api/health/review', { method: 'POST' }).catch(() => {});
+    busy = true;
+  };
+  if (running || busy) { busy = running; setTimeout(load, 5000); }
+}
+load();
+</script>
+</body>
+</html>

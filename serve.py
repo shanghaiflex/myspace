@@ -12,6 +12,10 @@
   GET    /api/weather             today's weather (Open-Meteo, or Yandex when YANDEX_WEATHER_KEY is set), cached 20 min
   POST   /api/lecture/<id>/audio  start audio download in the background; GET the same URL for status
   GET    /audio/<file>            audio files with HTTP Range support (needed by iOS)
+  GET    /healthz                 200 "ok" (no auth; the Health Bridge iOS app pings it)
+  POST   /v1/ingest/health/<workouts|sleep|metrics>   Apple Health batches from the iOS app, Authorization: Bearer <HEALTH_TOKENS>
+  GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
+  POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 
@@ -30,8 +34,10 @@ import mixes as X  # noqa: E402
 import lectures as L  # noqa: E402
 import books as B  # noqa: E402
 import weather as W  # noqa: E402
+import health as H  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
+REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
 
 STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
@@ -50,6 +56,14 @@ def load_dotenv():
 
 load_dotenv()
 PASSWORD = os.environ.get("MOVIES_PASSWORD") or ""
+# Bearer tokens for the Health Bridge iOS app: HEALTH_TOKENS="iphone=abc,ipad=def" or a single HEALTH_TOKEN.
+HEALTH_TOKENS = {}
+for _pair in (os.environ.get("HEALTH_TOKENS") or "").split(","):
+    if "=" in _pair:
+        _n, _, _t = _pair.partition("=")
+        HEALTH_TOKENS[_t.strip()] = _n.strip()
+if os.environ.get("HEALTH_TOKEN"):
+    HEALTH_TOKENS[os.environ["HEALTH_TOKEN"].strip()] = "default"
 SESSION_DAYS = 90
 COOKIE = "movies_session"
 FAILS = {}  # ip -> [count, first_ts]
@@ -104,7 +118,7 @@ class Handler(SimpleHTTPRequestHandler):
         super().__init__(*a, directory=ROOT, **kw)
 
     def log_message(self, fmt, *args):
-        if "/api/" in (args[0] if args else ""):
+        if "/api/" in (args[0] if args else "") or "/v1/" in (args[0] if args else ""):
             super().log_message(fmt, *args)
 
     # ---- auth helpers ----
@@ -145,6 +159,17 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_header("Location", "/login?next=" + urllib.parse.quote(self.path))
             self.end_headers()
         return False
+
+    def health_device(self):
+        """Name of the device whose bearer token matches, or None. Open when no password and no tokens (localhost dev)."""
+        auth = self.headers.get("Authorization") or ""
+        tok = auth[7:].strip() if auth.lower().startswith("bearer ") else ""
+        if HEALTH_TOKENS:
+            for t, name in HEALTH_TOKENS.items():
+                if hmac.compare_digest(tok.encode(), t.encode()):
+                    return name
+            return None
+        return "open" if not PASSWORD else None
 
     def handle_login_post(self):
         ip = self.client_ip()
@@ -205,8 +230,17 @@ class Handler(SimpleHTTPRequestHandler):
             return
         if route == "/api/ping":
             return self.send_json(200, {"ok": True, "auth": bool(PASSWORD)})
+        if route == "/healthz":
+            return self.send_json(200, {"ok": True})
         if not self.require_login():
             return
+        if route == "/api/health":
+            try:
+                out = H.summary()
+            except Exception as e:
+                return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
+            out["reviewJob"] = REVIEW_JOB["status"]
+            return self.send_json(200, out)
         if self.path.startswith("/movies.json"):
             return self.send_json(200, M.load())
         if self.path.startswith("/mixes.json"):
@@ -288,12 +322,47 @@ class Handler(SimpleHTTPRequestHandler):
         threading.Thread(target=run, daemon=True).start()
         return "running"
 
+    def start_review_job(self):
+        if REVIEW_JOB["status"] == "running" and time.time() - REVIEW_JOB["started"] < 900:
+            return "running"
+        REVIEW_JOB.update(status="running", started=time.time())
+
+        def run():
+            import subprocess
+            try:
+                r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", "health_review.sh"), "--force"], cwd=ROOT,
+                                   capture_output=True, text=True, timeout=900)
+                REVIEW_JOB["status"] = "done" if r.returncode == 0 else f"error: {(r.stderr or r.stdout).strip()[-300:]}"
+            except Exception as e:
+                REVIEW_JOB["status"] = f"error: {type(e).__name__}: {e}"
+
+        threading.Thread(target=run, daemon=True).start()
+        return "running"
+
     def do_POST(self):
         route = self.path.split("?")[0]
         if route == "/login":
             return self.handle_login_post() if PASSWORD else self.send_json(404, {"error": "auth disabled"})
+        if route.startswith("/v1/ingest/health/"):
+            kind = route.rsplit("/", 1)[1]
+            dev = self.health_device()
+            if not dev:
+                return self.send_json(401, {"error": "bad token"})
+            if kind not in ("workouts", "sleep", "metrics"):
+                return self.send_json(404, {"error": "unknown sample type"})
+            try:
+                batch = self.read_json()
+                stats = H.ingest(kind, batch)
+            except (ValueError, TypeError) as e:
+                return self.send_json(400, {"error": f"bad payload: {e}"})
+            except Exception as e:
+                return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
+            print(f"health ingest {kind} from {dev}: {stats}", flush=True)
+            return self.send_json(200, {"ok": True, **stats})
         if not self.require_login():
             return
+        if route == "/api/health/review":
+            return self.send_json(200, {"status": self.start_review_job()})
         if route.startswith("/api/lecture/") and route.endswith("/audio"):
             vid = urllib.parse.unquote(route.split("/")[3])
             if not any(l["id"] == vid for l in L.load()["lectures"]):

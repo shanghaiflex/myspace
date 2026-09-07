@@ -4,3 +4,5 @@ __pycache__/
 .session_secret
 audio/
 logs/
+health.db
+health.db-*
