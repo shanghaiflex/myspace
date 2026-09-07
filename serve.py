@@ -5,6 +5,7 @@
   PATCH  /api/movie/<imdbId>      body: {rating?, status?, note?, watchedAt?}
   DELETE /api/movie/<imdbId>
   POST   /api/mix                 body: {url}   → resolves metadata and adds the mix
+  PATCH  /api/mix/<id>            body: {position}  → remembers where the mix was left off
   DELETE /api/mix/<id>
   PATCH  /api/lecture/<id>        body: {status?, position?, note?}
   PATCH  /api/book/<id>           body: {status?, rating?, comment?}
@@ -434,6 +435,24 @@ class Handler(SimpleHTTPRequestHandler):
                 b["comment"] = (body["comment"] or "").strip() or None
             B.save(books)
             return self.send_json(200, b)
+        xid = self.path_id("/api/mix/")
+        if xid:
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            mixes = X.load()
+            m = next((x for x in mixes if x["id"] == xid), None)
+            if not m:
+                return self.send_json(404, {"error": "no such mix"})
+            if "position" in body:
+                try:
+                    m["position"] = max(0, int(float(body["position"])))
+                except (TypeError, ValueError):
+                    return self.send_json(400, {"error": "bad position"})
+                m["playedAt"] = int(time.time())
+            X.save(mixes)
+            return self.send_json(200, m)
         lid = self.path_id("/api/lecture/")
         if lid:
             try:

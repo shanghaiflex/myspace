@@ -113,6 +113,8 @@
   .btn.sec { height: 42px; padding: 0 18px; background: color-mix(in srgb, var(--hero-text) 12%, transparent); color: var(--hero-text); font-size: 14px; }
   .btn.sec:hover { background: color-mix(in srgb, var(--hero-text) 20%, transparent); }
   .btn.sec svg { width: 16px; height: 16px; }
+  #iconFsOff, body.fs #iconFsOn { display: none; }
+  body.fs #iconFsOff { display: block; }
   .hero .links { display: flex; gap: 14px; margin-top: 14px; font-size: 13px; flex-wrap: wrap; }
   .hero .links a, .hero .links button { color: var(--hero-text-2); font-weight: 500; border: 0; background: none; padding: 0; font-size: 13px; }
   .hero .links a:hover, .hero .links button:hover { color: var(--hero-text); }
@@ -126,6 +128,28 @@
   .embed.show { position: relative; left: auto; width: auto; height: auto; opacity: 1; pointer-events: auto;
     margin: 20px auto 0; max-width: 760px; border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-lg); background: #000; }
   .embed.show .yt { aspect-ratio: 16 / 9; }
+
+  /* ---------- pomodoro ---------- */
+  .pomo { display: inline-flex; align-items: center; gap: 12px; margin-top: 16px; padding: 8px 14px; border-radius: 16px;
+    background: color-mix(in srgb, var(--hero-text) 8%, transparent); }
+  .pomo .phase { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; color: var(--hero-text-3); }
+  .pomo.run.work .phase { color: var(--hero-text); }
+  .pomo.run.rest .phase { color: #34c759; }
+  .pomo .time { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; min-width: 74px; }
+  .pomo .btn.sec { height: 32px; padding: 0 13px; font-size: 13px; }
+  .pomo .btn.icon { width: 32px; padding: 0; }
+  .pomo .dots { display: inline-flex; gap: 5px; }
+  .pomo .dots i { width: 7px; height: 7px; border-radius: 50%; background: color-mix(in srgb, var(--hero-text) 55%, transparent); }
+
+  /* ---------- focus (fullscreen) ---------- */
+  body.fs { overflow: hidden; }
+  body.fs .bar, body.fs .collection, body.fs .hint { display: none; }
+  body.fs .wrap { max-width: none; padding: 0; height: 100vh; display: grid; align-content: center; justify-items: center; }
+  body.fs .hero { width: min(1180px, 92vw); }
+  body.fs .hero h1 { font-size: 44px; }
+  body.fs .hero .art { padding: 40px 0 40px 40px; }
+  body.fs .hero .info { padding: 40px 44px; }
+  body.fs .pomo .time { font-size: 30px; min-width: 90px; }
 
   /* ---------- list ---------- */
   .head { display: flex; align-items: center; gap: 14px; margin: 48px 0 18px; }
@@ -215,9 +239,21 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 5.5v13a1 1 0 0 0 1.5.86L15 14.2V18a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0v3.8L6.5 4.64A1 1 0 0 0 5 5.5z"/></svg>
           Следующий
         </button>
+        <button class="btn sec" id="fsBtn" title="Полный экран (F)">
+          <svg id="iconFsOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          <svg id="iconFsOff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h3a2 2 0 0 0 2-2V3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M21 16h-3a2 2 0 0 0-2 2v3"/></svg>
+          <span id="fsLabel">Фокус</span>
+        </button>
+      </div>
+      <div class="pomo" id="pomo">
+        <span class="phase" id="pomoPhase">Помодоро</span>
+        <span class="time" id="pomoTime">25:00</span>
+        <button class="btn sec" id="pomoBtn">Старт</button>
+        <button class="btn sec icon" id="pomoReset" title="Сброс">⟲</button>
+        <span class="dots" id="pomoDots"></span>
       </div>
       <div class="links" id="heroLinks"></div>
-      <div class="kbd"><kbd>Space</kbd> play / pause &nbsp; <kbd>→</kbd> следующий &nbsp; <kbd>Shift</kbd>+<kbd>←</kbd>/<kbd>→</kbd> ±30 с</div>
+      <div class="kbd"><kbd>Space</kbd> play / pause &nbsp; <kbd>→</kbd> следующий &nbsp; <kbd>Shift</kbd>+<kbd>←</kbd>/<kbd>→</kbd> ±30 с &nbsp; <kbd>F</kbd> фокус &nbsp; <kbd>P</kbd> помодоро</div>
     </div>
   </section>
 
@@ -248,6 +284,8 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const SRC_LABEL = { soundcloud: 'SoundCloud', youtube: 'YouTube', mixcloud: 'Mixcloud' };
 const state = { mixes: [], current: null, playing: false, history: [], pos: 0, dur: 0, backgrounds: [], bgIndex: -1, bgLayer: 0 };
+const pomo = { mode: 'work', left: 25 * 60, endsAt: 0, running: false, done: 0, day: new Date().toDateString() };
+let pomoAudio = null;
 let player = null;      // { play(), pause(), seek(sec), destroy() }
 let toastTimer;
 
@@ -261,6 +299,19 @@ function srcLabel(m) { return isNTS(m) ? 'NTS' : SRC_LABEL[m.source] || m.source
 function loadHistory() { try { state.history = JSON.parse(localStorage.getItem('mixes.history') || '[]'); } catch { state.history = []; } }
 function pushHistory(id) { state.history = [id, ...state.history.filter(x => x !== id)].slice(0, 30); try { localStorage.setItem('mixes.history', JSON.stringify(state.history)); } catch {} }
 const totalDur = () => state.dur || (state.current && state.current.duration) || 0;
+
+// the mix that was playing when the tab was closed — server-side position wins, localStorage is the fallback
+function lastPlayed(list) {
+  let best = null;
+  for (const m of list) if (resumePoint(m) && (!best || (m.playedAt || 0) > (best.playedAt || 0))) best = m;
+  if (best) return best;
+  try {
+    const v = JSON.parse(localStorage.getItem('mixes.last') || 'null');
+    const m = v && list.find(x => x.id === v.id);
+    if (m && v.position >= 30) { m.position = v.position; m.playedAt = v.at; return resumePoint(m) ? m : null; }
+  } catch {}
+  return null;
+}
 
 function pickRandom() {
   const all = state.mixes;
@@ -292,11 +343,17 @@ function nextBackground() {
 
 // ---------- rendering ----------
 function setPlayingUI(on) {
+  const was = state.playing;
   state.playing = on;
   $('#playBtn').classList.toggle('on', on);
   $('#playBtn').setAttribute('aria-label', on ? 'Pause' : 'Play');
   $('#hero').classList.toggle('playing', on);
-  document.title = (on && state.current ? '▶ ' + state.current.title + ' — ' : '') + 'Миксы';
+  if (was && !on) savePos(true);
+  renderMeta(); updateTitle();
+}
+function updateTitle() {
+  const t = (state.playing && state.current ? '▶ ' + state.current.title + ' — ' : '') + 'Миксы';
+  document.title = (pomo.running ? fmtTime(pomoLeft()) + ' · ' : '') + t;
 }
 function setProgress(pos, dur) {
   if (dur) state.dur = dur;
@@ -307,6 +364,40 @@ function setProgress(pos, dur) {
   $('#knob').style.left = pct + '%';
   $('#tCur').textContent = fmtTime(state.pos);
   $('#tRem').textContent = '–' + fmtTime(Math.max(0, d - state.pos));
+  if (state.playing) savePos();
+}
+
+// ---------- resume: where each mix was left off (server-side, shared across devices) ----------
+let saveAt = 0, savedPos = -1;
+function resumePoint(m) {
+  const p = Math.floor((m && m.position) || 0);
+  if (p < 30) return 0;
+  if (m.duration && p > m.duration - 60) return 0;
+  return p;
+}
+function putPos(m, pos, force) {
+  m.position = pos; m.playedAt = Math.floor(Date.now() / 1000);
+  try { localStorage.setItem('mixes.last', JSON.stringify({ id: m.id, position: pos, at: m.playedAt })); } catch {}
+  fetch('/api/mix/' + encodeURIComponent(m.id), {
+    method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ position: pos }), keepalive: !!force,
+  }).catch(() => {});
+}
+function savePos(force) {
+  const m = state.current;
+  if (!m) return;
+  const pos = Math.round(state.pos), now = Date.now();
+  if (pos === savedPos) return;
+  if (!force && (now - saveAt < 15000 || Math.abs(pos - savedPos) < 5)) return;
+  saveAt = now; savedPos = pos;
+  putPos(m, pos, force);
+}
+function clearPos(m) { if (m) { saveAt = Date.now(); savedPos = 0; putPos(m, 0); } }
+function renderMeta() {
+  const m = state.current;
+  if (!m) return;
+  const at = state.playing ? 0 : resumePoint(m);
+  $('#heroMeta').textContent = [fmtDur(m.duration), m.published, at ? 'продолжить с ' + fmtTime(at) : ''].filter(Boolean).join(' · ');
 }
 function renderHero() {
   const m = state.current;
@@ -316,15 +407,19 @@ function renderHero() {
   $('#heroEyebrow').innerHTML = `<span class="src ${srcOf(m)}">${srcLabel(m)}</span>${m.genre ? `<span>${esc(m.genre)}</span>` : ''}`;
   $('#heroTitle').textContent = m.title;
   $('#heroArtist').textContent = m.artist || '';
-  $('#heroMeta').textContent = [fmtDur(m.duration), m.published].filter(Boolean).join(' · ');
+  const at = resumePoint(m);
+  renderMeta();
   $('#heroLinks').innerHTML = `<a href="${esc(m.nts || m.url)}" target="_blank" rel="noopener">Открыть на ${esc(srcLabel(m))} ↗</a>
     ${m.nts ? `<a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(SRC_LABEL[m.source])} ↗</a>` : ''}
+    ${at ? '<button id="heroRestart">Сначала</button>' : ''}
     ${m.source === 'youtube' ? '<button id="showVideo">Показать видео</button>' : ''}
     <button id="heroDel" class="danger">Убрать из коллекции</button>`;
   $('#heroDel').onclick = () => removeMix(m);
+  const rs = $('#heroRestart');
+  if (rs) rs.onclick = () => { clearPos(m); playMix(m, 0); };
   const sv = $('#showVideo');
   if (sv) sv.onclick = () => { const on = $('#embed').classList.toggle('show'); sv.textContent = on ? 'Скрыть видео' : 'Показать видео'; };
-  state.dur = 0; setProgress(0, m.duration);
+  state.dur = 0; setProgress(at, m.duration);
 }
 function renderList() {
   const list = state.mixes;
@@ -348,21 +443,21 @@ function destroyPlayer() {
   const box = $('#embed'); box.className = 'embed'; box.innerHTML = '';
   setPlayingUI(false);
 }
-function mountSoundCloud(m) {
+function mountSoundCloud(m, startAt) {
   const f = document.createElement('iframe');
   f.allow = 'autoplay'; f.setAttribute('scrolling', 'no');
   f.src = 'https://w.soundcloud.com/player/?' + new URLSearchParams({ url: m.url, auto_play: 'true', visual: 'false', show_comments: 'false', hide_related: 'true', show_teaser: 'false' });
   $('#embed').appendChild(f);
   const w = SC.Widget(f);
-  w.bind(SC.Widget.Events.READY, () => w.getDuration(d => setProgress(0, d / 1000)));
+  w.bind(SC.Widget.Events.READY, () => { w.getDuration(d => setProgress(startAt || 0, d / 1000)); if (startAt) w.seekTo(startAt * 1000); });
   w.bind(SC.Widget.Events.PLAY, () => setPlayingUI(true));
   w.bind(SC.Widget.Events.PAUSE, () => setPlayingUI(false));
   w.bind(SC.Widget.Events.PLAY_PROGRESS, e => setProgress(e.currentPosition / 1000));
-  w.bind(SC.Widget.Events.FINISH, () => next());
+  w.bind(SC.Widget.Events.FINISH, ended);
   w.bind(SC.Widget.Events.ERROR, () => { toast('SoundCloud: не удалось воспроизвести, пропускаю'); setTimeout(next, 800); });
   return { play: () => w.play(), pause: () => w.pause(), seek: s => { w.seekTo(s * 1000); setProgress(s); }, destroy: () => {} };
 }
-function mountMixcloud(m) {
+function mountMixcloud(m, startAt) {
   const f = document.createElement('iframe');
   f.allow = 'autoplay';
   f.src = 'https://www.mixcloud.com/widget/iframe/?' + new URLSearchParams({ feed: new URL(m.url).pathname, autoplay: '1', hide_cover: '1', light: '0' });
@@ -373,8 +468,8 @@ function mountMixcloud(m) {
     w.events.play.on(() => setPlayingUI(true));
     w.events.pause.on(() => setPlayingUI(false));
     w.events.progress.on((pos, dur) => setProgress(pos, dur));
-    w.events.ended.on(() => next());
-    w.play();
+    w.events.ended.on(ended);
+    w.play().then(() => { if (startAt) w.seek(startAt); }).catch(() => {});
   });
   return p;
 }
@@ -388,7 +483,7 @@ function loadYT() {
   });
   return ytReady;
 }
-function mountYouTube(m) {
+function mountYouTube(m, startAt) {
   const holder = document.createElement('div'); holder.className = 'yt'; $('#embed').appendChild(holder);
   let timer = null, yt = null;
   const p = { play: () => {}, pause: () => {}, seek: () => {}, destroy: () => { clearInterval(timer); if (yt) yt.destroy(); } };
@@ -397,11 +492,11 @@ function mountYouTube(m) {
       videoId: m.id.replace(/^yt:/, ''), width: '100%', height: '100%',
       playerVars: { autoplay: 1, rel: 0, playsinline: 1 },
       events: {
-        onReady: e => { e.target.playVideo(); timer = setInterval(() => { try { setProgress(yt.getCurrentTime(), yt.getDuration()); } catch {} }, 500); },
+        onReady: e => { if (startAt) e.target.seekTo(startAt, true); e.target.playVideo(); timer = setInterval(() => { try { setProgress(yt.getCurrentTime(), yt.getDuration()); } catch {} }, 500); },
         onStateChange: e => {
           if (e.data === YT.PlayerState.PLAYING) setPlayingUI(true);
           else if (e.data === YT.PlayerState.PAUSED) setPlayingUI(false);
-          else if (e.data === YT.PlayerState.ENDED) next();
+          else if (e.data === YT.PlayerState.ENDED) ended();
         },
         onError: () => { toast('YouTube: видео недоступно, пропускаю'); setTimeout(next, 800); },
       },
@@ -410,11 +505,15 @@ function mountYouTube(m) {
   });
   return p;
 }
-function playMix(m) {
+function playMix(m, startAt) {
   destroyPlayer();
   state.current = m; pushHistory(m.id);
+  const at = startAt != null ? startAt : resumePoint(m);
+  saveAt = Date.now(); savedPos = Math.round(at);
   renderHero(); renderList(); nextBackground();
-  player = m.source === 'youtube' ? mountYouTube(m) : m.source === 'mixcloud' ? mountMixcloud(m) : mountSoundCloud(m);
+  player = m.source === 'youtube' ? mountYouTube(m, at) : m.source === 'mixcloud' ? mountMixcloud(m, at) : mountSoundCloud(m, at);
+  setProgress(at, m.duration);
+  if (at) toast('Продолжаю с ' + fmtTime(at));
   history.replaceState(null, '', '#' + encodeURIComponent(m.id));
 }
 function next() {
@@ -422,6 +521,7 @@ function next() {
   if (!m) return toast('Коллекция пуста');
   playMix(m);
 }
+function ended() { clearPos(state.current); next(); }
 function toggle() {
   if (!state.current || !player) return next();
   state.playing ? player.pause() : player.play();
@@ -454,6 +554,114 @@ async function addUrl(url) {
   } catch (e) { toast('Ошибка: ' + e.message); }
   finally { box.classList.remove('busy'); input.disabled = false; }
 }
+
+// ---------- focus mode ----------
+function fsOn() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+function toggleFullscreen() {
+  if (fsOn()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  else {
+    const el = document.documentElement;
+    const req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (req) req.call(el).catch(() => toast('Полный экран недоступен'));
+  }
+}
+function syncFullscreen() {
+  const on = fsOn();
+  document.body.classList.toggle('fs', on);
+  $('#fsLabel').textContent = on ? 'Выйти' : 'Фокус';
+}
+document.addEventListener('fullscreenchange', syncFullscreen);
+document.addEventListener('webkitfullscreenchange', syncFullscreen);
+$('#fsBtn').addEventListener('click', toggleFullscreen);
+
+// ---------- pomodoro: 25 работаем / 5 отдыхаем ----------
+const POMO = { work: 25 * 60, rest: 5 * 60 };
+const POMO_LABEL = { work: 'Фокус', rest: 'Перерыв' };
+function pomoLeft() { return pomo.running ? Math.max(0, Math.round((pomo.endsAt - Date.now()) / 1000)) : pomo.left; }
+function pomoSave() {
+  const { mode, left, endsAt, running, done, day } = pomo;
+  try { localStorage.setItem('mixes.pomodoro', JSON.stringify({ mode, left, endsAt, running, done, day })); } catch {}
+}
+function pomoLoad() {
+  let v = null;
+  try { v = JSON.parse(localStorage.getItem('mixes.pomodoro') || 'null'); } catch {}
+  if (!v || v.day !== new Date().toDateString()) return;
+  Object.assign(pomo, v);
+  // the phase ran out while the tab was closed: count it, stand ready at the next one
+  if (pomo.running && pomo.endsAt <= Date.now()) {
+    pomo.running = false;
+    if (pomo.mode === 'work') { pomo.done++; pomo.mode = 'rest'; } else pomo.mode = 'work';
+    pomo.left = POMO[pomo.mode];
+  }
+}
+function pomoRender() {
+  const el = $('#pomo'), left = pomoLeft();
+  el.classList.toggle('run', pomo.running);
+  el.classList.toggle('work', pomo.mode === 'work');
+  el.classList.toggle('rest', pomo.mode === 'rest');
+  $('#pomoPhase').textContent = pomo.running || pomo.left !== POMO[pomo.mode] ? POMO_LABEL[pomo.mode] : 'Помодоро';
+  $('#pomoTime').textContent = fmtTime(left);
+  $('#pomoBtn').textContent = pomo.running ? 'Пауза' : (pomo.left === POMO[pomo.mode] ? 'Старт' : 'Дальше');
+  $('#pomoDots').innerHTML = Array.from({ length: Math.min(pomo.done, 12) }, () => '<i></i>').join('');
+  $('#pomoDots').title = pomo.done ? pomo.done + ' помодоро сегодня' : '';
+  updateTitle();
+}
+// the AudioContext must be born inside a user gesture, so we prime it on Старт
+function pomoCtx() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    pomoAudio = pomoAudio || new Ctx();
+    if (pomoAudio.state === 'suspended') pomoAudio.resume();
+  } catch {}
+  return pomoAudio;
+}
+function pomoBeep(times) {
+  const ctx = pomoCtx();
+  if (!ctx) return;
+  try {
+    for (let i = 0; i < times; i++) {
+      const t = ctx.currentTime + i * 0.35, o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = 880; o.type = 'sine';
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.25, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.3);
+      o.connect(g).connect(ctx.destination); o.start(t); o.stop(t + 0.32);
+    }
+  } catch {}
+}
+function pomoNotify(text) {
+  try { if (window.Notification && Notification.permission === 'granted') new Notification('Помодоро', { body: text }); } catch {}
+}
+function pomoSwitch() {
+  if (pomo.mode === 'work') { pomo.done++; pomo.mode = 'rest'; } else pomo.mode = 'work';
+  pomo.left = POMO[pomo.mode];
+  pomo.endsAt = Date.now() + pomo.left * 1000;
+  pomo.running = true;
+  const text = pomo.mode === 'rest' ? 'Перерыв 5 минут' : 'Работаем 25 минут';
+  pomoBeep(pomo.mode === 'rest' ? 2 : 3); pomoNotify(text); toast(text);
+  pomoSave(); pomoRender();
+}
+function pomoToggle() {
+  if (pomo.running) { pomo.left = pomoLeft(); pomo.running = false; }
+  else {
+    pomo.running = true; pomo.endsAt = Date.now() + pomo.left * 1000;
+    pomoCtx();
+    try { if (window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch {}
+  }
+  pomo.day = new Date().toDateString();
+  pomoSave(); pomoRender();
+}
+function pomoReset() {
+  pomo.running = false; pomo.mode = 'work'; pomo.left = POMO.work;
+  pomoSave(); pomoRender();
+}
+setInterval(() => {
+  if (!pomo.running) return;
+  if (pomoLeft() <= 0) pomoSwitch(); else pomoRender();
+}, 500);
+$('#pomoBtn').addEventListener('click', pomoToggle);
+$('#pomoReset').addEventListener('click', pomoReset);
+pomoLoad(); pomoRender();
 
 // ---------- wiring ----------
 function setCollection(open) {
@@ -496,7 +704,11 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowRight' && e.shiftKey) seekBy(30);
   else if (e.key === 'ArrowLeft' && e.shiftKey) seekBy(-30);
   else if (e.key === 'ArrowRight') next();
+  else if (e.key === 'f' || e.key === 'а' || e.key === 'F' || e.key === 'А') toggleFullscreen();
+  else if (e.key === 'p' || e.key === 'з' || e.key === 'P' || e.key === 'З') pomoToggle();
 });
+window.addEventListener('pagehide', () => { if (state.current && state.pos > 0) savePos(true); });
+document.addEventListener('visibilitychange', () => { if (document.hidden && state.playing) savePos(true); });
 window.addEventListener('paste', e => {
   if (e.target.matches('input, textarea')) return;
   const t = (e.clipboardData || window.clipboardData).getData('text').trim();
@@ -513,6 +725,10 @@ fetch('mixes.json', { cache: 'no-store' })
     const m = h && list.find(x => x.id === h);
     if (m) { state.current = m; renderHero(); renderList(); }
     else if (h === 'random') { const r = pickRandom(); if (r) { state.current = r; renderHero(); renderList(); history.replaceState(null, '', location.pathname); } }
+    else {
+      const last = lastPlayed(list);
+      if (last) { state.current = last; renderHero(); renderList(); history.replaceState(null, '', '#' + encodeURIComponent(last.id)); }
+    }
   })
   .catch(() => toast('Не удалось загрузить mixes.json, запусти ./serve.sh'));
 </script>

@@ -97,6 +97,12 @@ python3 scripts/mixes.py list
 
 - Needs `yt-dlp` (brew) for YouTube/Mixcloud metadata; SoundCloud uses api-v2 with the client_id from yt-dlp's cache.
 - The SoundCloud username for imports is not stored anywhere yet; ask the user if unknown.
+- Playback position is remembered per mix on the server (`PATCH /api/mix/<id>` `{position}` → `position`,
+  `playedAt` in `mixes.json`), so a closed tab reopens on the mix that was playing and continues from there
+  («Сначала» in the hero starts over; the position is cleared when a mix plays to the end).
+- «Фокус» (or <kbd>F</kbd>) puts the player into real fullscreen with the nav and the collection hidden;
+  the hero carries a 25/5 pomodoro (<kbd>P</kbd>), which auto-switches phases with a beep and survives a reload
+  (localStorage, resets daily).
 - The player hides the SoundCloud/YouTube/Mixcloud widgets off-screen and draws its own progress bar
   (seek via widget APIs). Page background: random photo from `backgrounds/` (listed by `/api/backgrounds`),
   crossfades on every new mix. The user can drop their own JPG/PNG there.
