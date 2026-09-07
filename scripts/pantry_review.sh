@@ -59,4 +59,6 @@ if [ "$FORCE_RECIPES" -eq 1 ] || python3 scripts/pantry.py recipes-stale >/dev/n
   fi
 fi
 
-echo "$STAMP $(cat "$WORK/summary.txt")"; cat "$WORK/note.txt"; echo
+# Recount at the end: the earlier summary ran before the recipes were saved,
+# so reusing it logs "0 идей блюд" right after saving four of them.
+echo "$STAMP $(python3 scripts/pantry.py summary)"; cat "$WORK/note.txt"; echo
