@@ -117,6 +117,25 @@ def cmd_reject(a) -> None:
           + f"; осталось {len(st['recipes'])}, в отказах {len(st['rejected'])}")
 
 
+def cmd_set_photo_query(a) -> None:
+    """Override the photo search phrase for one dish.
+
+    The phrase decides everything about the candidates: "cold yogurt cucumber
+    soup" hands Commons the word "cold" and gets back a lake, while "okroshka"
+    gets the actual dish.
+    """
+    st = load()
+    hit = [r for r in (st.get("recipes") or []) if a.title.lower() in r["title"].lower()]
+    if not hit:
+        sys.exit(f"не нашёл блюдо по «{a.title}»")
+    for r in hit:
+        r["photo_query"] = a.query
+        if r.get("photo"):
+            r["photo"]["query"] = a.query
+    save(st)
+    print("запрос обновлён: " + ", ".join(f"«{r['title']}» → {a.query}" for r in hit))
+
+
 def cmd_photos_plan(a) -> None:
     """Download candidates for dishes already on the page, ready to be looked at."""
     st = load()
@@ -380,6 +399,8 @@ def main() -> None:
     sub.add_parser("recipes-stale").set_defaults(fn=cmd_recipes_stale)
     sub.add_parser("recipes-need").set_defaults(fn=cmd_recipes_need)
     sub.add_parser("photos-repair").set_defaults(fn=cmd_photos_repair)
+    p = sub.add_parser("set-photo-query"); p.add_argument("title"); p.add_argument("query")
+    p.set_defaults(fn=cmd_set_photo_query)
     p = sub.add_parser("photos-plan")
     p.add_argument("--out", required=True); p.add_argument("--limit", type=int, default=6)
     p.add_argument("--missing", action="store_true", help="only dishes without a photo")
