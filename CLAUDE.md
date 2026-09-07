@@ -108,7 +108,10 @@ python3 scripts/lectures.py add-channel <url>
 ## Auth & deploy
 `serve.py` requires a password when `MOVIES_PASSWORD` is set (env or `.env`, gitignored); localhost runs open.
 Production: https://bodywithoutorgans.cc served by the home Mac mini (ssh alias `mini`, user sergeyfilatov,
-site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), live since 2026-09-07, see `deploy/README.md`.
+site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), LIVE since 2026-09-07 at https://bodywithoutorgans.cc. Three services on the mini: serve (agent), a root VPN
+LaunchDaemon `cc.bodywithoutorgans.vpn` (`/usr/local/sbin/awg-mini.sh` runs a headless AmneziaWG full tunnel
+via the mini's OWN Server 1 config 10.8.1.5 — the ISP kills direct Cloudflare, the VPN's path is clean), and
+cloudflared (agent, http2). See `deploy/README.md`.
 The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`. Data sync is rsync:
 run `scripts/sync.sh` BEFORE editing catalogs (pulls site edits from the mini) and AFTER (pushes everything).
 The mini reaches SoundCloud/Cloudflare/Open-Meteo directly but YouTube is blocked there without a VPN (its AmneziaVPN

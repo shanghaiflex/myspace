@@ -10,7 +10,24 @@
 в git и заливает весь сайт обратно на mini. Запускать перед и после правок через Claude Code.
 Mini выходит в интернет только через AmneziaVPN, без него туннель, погода и загрузки не работают.
 
-## Что уже сделано (2026-09-07)
+## LIVE (2026-09-07): https://bodywithoutorgans.cc
+
+Работает и переживает перезагрузку mini. Три службы на mini (user sergeyfilatov, автологин включён):
+- `cc.bodywithoutorgans.serve` (LaunchAgent) — `serve.py` на 127.0.0.1:8787 (пароль в `~/movies/.env`).
+- `cc.bodywithoutorgans.vpn` (LaunchDaemon, root, `/usr/local/sbin/awg-mini.sh`) — AmneziaWG full-tunnel
+  на выделенном конфиге Server 1 (адрес 10.8.1.5, отдельные ключи — НЕ те же, что у ноутбука 10.8.1.1).
+  Через свой amneziawg-go, KeepAlive перезапускает при падении. Ключи только на mini, в git их нет.
+- `cc.bodywithoutorgans.tunnel` (LaunchAgent) — cloudflared `--protocol http2` (QUIC режет провайдер).
+
+Почему через VPN: домашний провайдер mini рвёт долгие соединения к Cloudflare и блокирует QUIC.
+Cloudflared идёт через VPN Server 1 (у него чистый путь до Cloudflare, 0% потерь). ВАЖНО: у mini
+свой конфиг Server 1 (10.8.1.5); общий с ноутбуком конфиг (10.8.1.1) давал конфликт одного WG-пира и 25–40% потерь.
+
+Диагностика: `ssh mini`, логи `~/movies/logs/{serve,tunnel}.log` и `/var/log/awg-mini.log`;
+проверка туннеля `printf 'get=1\n\n' | nc -U /var/run/amneziawg/utun11.sock | grep rx_bytes`;
+рукопожатие должно расти. Перезапуск VPN: `sudo launchctl kickstart -k system/cc.bodywithoutorgans.vpn`.
+
+## Исторические заметки по установке
 
 - Туннель `movies` (id c7369989-9758-43ca-acd9-33773f23d513) создан с mini, CNAME для bodywithoutorgans.cc и www.
 - Провайдер режет QUIC, поэтому агент запускает `cloudflared tunnel --protocol http2 … run` (см. plist).
