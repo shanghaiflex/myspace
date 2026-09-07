@@ -1132,6 +1132,24 @@
     "titleAlt": "Zur Genealogie der Moral"
   },
   {
+    "id": "гераклит-мартин-хайдеггер",
+    "title": "Гераклит",
+    "titleAlt": "Heraklit",
+    "author": "Мартин Хайдеггер",
+    "year": 1944,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1000844456/200x305/47ba/boocover.jpg",
+    "cover": "covers/гераклит-мартин-хайдеггер.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": []
+  },
+  {
     "id": "город-в-западной-европе-в-средние-века-ландшафты-власть-и-ко",
     "title": "Город в Западной Европе в Средние века. Ландшафты, власть и конфликты",
     "author": "Жак Эрс",
@@ -1860,24 +1878,6 @@
       "🟧"
     ],
     "titleAlt": "Les Anormaux"
-  },
-  {
-    "id": "основные-понятия-античной-философии-мартин-хайдеггер",
-    "title": "Основные понятия античной философии",
-    "author": "Мартин Хайдеггер",
-    "year": 1926,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://s1.livelib.ru/boocover/1015864681/200x305/261f/boocover.jpg",
-    "cover": "covers/основные-понятия-античной-философии-мартин-хайдеггер.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2026-09-07",
-    "finishedAt": null,
-    "tags": [],
-    "titleAlt": "Grundbegriffe der antiken Philosophie"
   },
   {
     "id": "парменид-мартин-хайдеггер",
