@@ -40,38 +40,10 @@ if [ "$FORCE_RECIPES" -eq 1 ] || python3 scripts/pantry.py recipes-stale >/dev/n
   fi
   cd "$ROOT"
 
-  # Second pass: pick the photo by looking at it. Name-matching heuristics
-  # returned a carbonara for creamy mushrooms and a jar of green sauce for
-  # pelmeni; only eyes catch that. The model gets Read and nothing else --
-  # the candidates are already on disk, so it needs no shell.
-  CAND="$WORK/cand"; rm -rf "$CAND"; mkdir -p "$CAND"
-  python3 - "$WORK/recipes.json" "$CAND" > "$WORK/photos-list.txt" <<'PYEOF'
-import json, re, subprocess, sys
-recipes_file, cand_dir = sys.argv[1], sys.argv[2]   # cwd is the repo root
-raw = open(recipes_file, encoding="utf-8").read()
-t = re.sub(r"^```(?:json)?|```$", "", raw.strip(), flags=re.M).strip()
-items = json.loads(t[t.find("["):t.rfind("]") + 1])
-for r in items[:4]:
-    q = (r.get("photo_query") or r.get("title") or "").strip()
-    if not q:
-        continue
-    print(f"\n## {r.get('title')}")
-    out = subprocess.run([sys.executable, "scripts/pantry.py", "photo-options", q,
-                          "--out", cand_dir, "--limit", "6"],
-                         capture_output=True, text=True)
-    for line in out.stdout.splitlines():
-        print(line.split("  ")[0])
-PYEOF
-  { cat pantry/PHOTOS.md; printf '\n## Блюда и кандидаты\n'; cat "$WORK/photos-list.txt"; } > "$WORK/photos-prompt.txt"
-  cd "$WORK"
-  if claude -p --model "$MODEL" --tools Read --add-dir "$CAND" --no-session-persistence --output-format text < photos-prompt.txt > photos.json 2> photos.err; then
-    cd "$ROOT"
-    python3 scripts/pantry.py recipes-merge-photos --recipes "$WORK/recipes.json" --choice "$WORK/photos.json"
-  else
-    cd "$ROOT"; echo "$STAMP claude (выбор фото) не отработал, беру автоматический подбор:"; cat "$WORK/photos.err"
-  fi
-  python3 scripts/pantry.py recipes-save --model "$MODEL" --file "$WORK/recipes.json" \
-    --candidates "$CAND" --append || echo "$STAMP рецепты не сохранились"
+  python3 scripts/pantry.py recipes-save --model "$MODEL" --file "$WORK/recipes.json" --append \
+    || echo "$STAMP рецепты не сохранились"
+  # Photos are picked by eye in their own step, shared with a manual re-run.
+  sh scripts/pantry_photos.sh || echo "$STAMP выбор фото не отработал"
   fi
 fi
 
