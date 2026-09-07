@@ -10,7 +10,9 @@ DATA="movies.json mixes.json lectures.json books.json"
 if ! ssh -o BatchMode=yes -o ConnectTimeout=5 "$HOST" true 2>/dev/null; then
   echo "$HOST is not reachable, nothing synced"; exit 1
 fi
-for f in $DATA; do rsync -az "$HOST:movies/$f" "./$f" 2>/dev/null; done
+# --update: never overwrite a local catalog that is newer than the mini's
+# (otherwise a sync right after editing here silently reverts the edit)
+for f in $DATA; do rsync -az --update "$HOST:movies/$f" "./$f" 2>/dev/null; done
 git add -A
 git diff --cached --quiet || git commit -qm "Sync from $HOST $(date '+%Y-%m-%d %H:%M')"
 rsync -az --delete --exclude .git --exclude audio --exclude .env --exclude .session_secret --exclude logs --exclude __pycache__ --exclude .DS_Store ./ "$HOST:movies/"
