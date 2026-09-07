@@ -19,22 +19,6 @@
       "played": true
     },
     {
-      "id": "sc:1170610075",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/user-637448757/eartheater-couture-mix-031221",
-      "title": "Eartheater - Couture Mix 011221",
-      "artist": "NTS Wednesday",
-      "duration": 3627,
-      "artwork": "https://i1.sndcdn.com/artworks-wXBhse5JtnZvSMFj-nIqzgg-t500x500.jpg",
-      "genre": null,
-      "published": "2021-12-02",
-      "reason": "Оперный вокал поверх деконструированного клуба и эмбиента — прямое продолжение линии Malibu и Bitter Babe, но острее и театральнее.",
-      "wanted": "Eartheater NTS Radio",
-      "suggestedAt": "2026-09-07",
-      "verdict": "new",
-      "played": true
-    },
-    {
       "id": "sc:1236933916",
       "source": "soundcloud",
       "url": "https://soundcloud.com/iankjudd/fifth-world-w-ian-kim-judd-perila-on-nts-radio-031622",
@@ -51,5 +35,16 @@
       "played": false
     }
   ],
-  "history": []
+  "history": [
+    {
+      "id": "sc:1170610075",
+      "artist": "NTS Wednesday",
+      "title": "Eartheater - Couture Mix 011221",
+      "url": "https://soundcloud.com/user-637448757/eartheater-couture-mix-031221",
+      "reason": "Оперный вокал поверх деконструированного клуба и эмбиента — прямое продолжение линии Malibu и Bitter Babe, но острее и театральнее.",
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-09-07"
+    }
+  ]
 }

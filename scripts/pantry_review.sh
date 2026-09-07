@@ -36,4 +36,18 @@ if ! claude -p --model "$MODEL" --tools "" --no-session-persistence --output-for
 fi
 cd "$ROOT"
 python3 scripts/pantry.py review-save --model "$MODEL" --file "$WORK/note.txt"
+
+# Dish ideas change far slower than stock: regenerate only every few days,
+# or when asked. Nobody cooks from a list that is different every morning.
+if [ "$1" = "--force-recipes" ] || python3 scripts/pantry.py recipes-stale >/dev/null 2>&1; then
+  { cat pantry/RECIPES.md; printf '\n## Мой профиль\n'; python3 scripts/pantry.py profile; } > "$WORK/recipes-prompt.txt"
+  cd "$WORK"
+  if claude -p --model "$MODEL" --tools "" --no-session-persistence --output-format text < recipes-prompt.txt > recipes.json 2> recipes.err; then
+    cd "$ROOT"
+    python3 scripts/pantry.py recipes-save --model "$MODEL" --file "$WORK/recipes.json" || echo "$STAMP рецепты не сохранились"
+  else
+    cd "$ROOT"; echo "$STAMP claude (рецепты) не отработал:"; cat "$WORK/recipes.err"
+  fi
+fi
+
 echo "$STAMP $(cat "$WORK/summary.txt")"; cat "$WORK/note.txt"; echo

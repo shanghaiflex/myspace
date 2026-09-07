@@ -8,3 +8,5 @@ health.db
 health.db-*
 pantry.json
 scripts/pantrylib/data/receipts.json
+dishes/
+scripts/pantrylib/data/commons_cache/

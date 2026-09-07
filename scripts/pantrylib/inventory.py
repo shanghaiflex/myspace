@@ -120,14 +120,11 @@ def inventory(today: date | None = None) -> dict:
         proposal.append(item)
 
     proposal.sort(key=lambda i: (-i["overdue_days"], i["name"]))
-    spoiling = sorted(
-        (i for i in items
-         if 0 <= (date.fromisoformat(i["spoils"]) - today).days <= 3
-         and i["days_since"] <= 14),
-        key=lambda i: i["spoils"])
-
-    return {"date": today.isoformat(), "items": items,
-            "proposal": proposal, "spoiling": spoiling}
+    # No spoilage list: receipts record what was bought, never what was eaten,
+    # so "eat this soon" was wrong about food already finished days earlier.
+    # Shelf life still runs -- it is what separates food from bags and prepaid
+    # top-ups, and it decides whether a pack counts as opened.
+    return {"date": today.isoformat(), "items": items, "proposal": proposal}
 
 
 def main() -> None:
