@@ -120,9 +120,9 @@ is currently not configured), so download lecture audio on the laptop (`scripts/
 
 ## Laptop
 `docker compose up -d` (colima) keeps an always-on local instance on http://localhost:8787 with the repo
-bind-mounted, so edits from Claude Code and from the site land in the same files. That URL is the Firefox
-homepage, set in the profile's `user.js`
-(`~/Library/Application Support/Firefox/Profiles/oswx4c6l.default-release/user.js`).
+bind-mounted, so edits from Claude Code and from the site land in the same files. The Firefox homepage is
+production, https://bodywithoutorgans.cc (it was localhost until the tunnel went live), set in the profile's
+`user.js` (`~/Library/Application Support/Firefox/Profiles/oswx4c6l.default-release/user.js`).
 The user wants it on startup and the Home button ONLY — new tabs must stay Firefox's own new-tab page.
 Do not install a new-tab-override extension for this: «New Tab Homepage» was tried, made every new tab
 open the catalog, and is now disabled (`extensions/{66E978CD-…}.xpi.disabled`).
