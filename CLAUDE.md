@@ -203,3 +203,37 @@ open the catalog, and is now disabled (`extensions/{66E978CD-…}.xpi.disabled`)
 ## Origin
 Imported once from the Obsidian vault (`~/Documents/Obsidian Vault/Movies/data`) via
 `scripts/import_obsidian.py`. This repo is now the source of truth; Obsidian is not synced.
+
+## Еда (`pantry.html`, `pantry.json`, `scripts/pantry.py`, `scripts/pantrylib/`)
+
+Инвентаризация продуктов из фискальных чеков в почте. Источник — электронные чеки ОФД,
+практически целиком ВкусВилл (~500 чеков с 2021 года, 4 в неделю). Читаются по IMAP,
+пароль приложения Gmail лежит в связке ключей (`security add-generic-password -a <адрес>
+-s gmail-imap-mcp -w`), доступ только на чтение.
+
+Конвейер в `scripts/pantrylib/` разделён по потоку данных: `gmail_tool` (почта) → `receipts`
+(два разных шаблона писем ОФД → позиции) → `analyze` (частота перекупок → расход в день) →
+`shelf_life` (ключевое слово → категория → срок годности) → `inventory` (остатки, порча,
+предложение докупить). Всё детерминированное; модель пишет только текст заметки в конце.
+
+```
+python3 scripts/pantry.py sync [--all]   # забрать новые чеки (--all: перечитать всё)
+python3 scripts/pantry.py summary        # пересчитать остатки → pantry.json
+python3 scripts/pantry.py digest         # текстовый контекст для заметки
+sh scripts/pantry_review.sh [--force]    # весь цикл: почта → расчёт → Claude → заметка
+```
+
+Чего в данных нет и что поэтому является догадкой: **срок годности** (в чеке его нет,
+берётся из `scripts/pantrylib/data/shelf_life.json` по категории — правь эту таблицу руками,
+когда оценка разойдётся с реальностью) и **расход** (никто не знает, что съедено; он выведен
+из того, как часто товар перекупается). Вес есть в названии примерно у половины позиций,
+у весовых товаров количество и есть вес в килограммах.
+
+Предложение докупить намеренно молчаливое — пороги вынесены константами наверху
+`scripts/pantrylib/inventory.py`. Товар попадает в список, только если покупался ≥3 раз,
+цикл ≤45 дней, прошло ≥80% цикла, запас кончается в ближайшие 3 дня, просрочка не больше
+одного цикла и месяц попадает в сезон прошлых покупок (иначе арбуз предлагается в сентябре).
+Если система станет навязчивой — крутить `DUE_FACTOR` и `HORIZON_DAYS`.
+
+Расписание на mini: `sh deploy/install-pantry.sh` (launchd, ежедневно в 09:30).
+Кнопка «Обновить» на странице дёргает `POST /api/pantry/review`.

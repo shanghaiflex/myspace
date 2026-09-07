@@ -20,6 +20,8 @@
   POST   /api/mix-recs/refresh    ask for a fresh batch now (scripts/mix_recs.sh --force) in the background
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
+  GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
+  POST   /api/pantry/review       refresh receipts and the note now (scripts/pantry_review.sh --force)
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 
@@ -44,6 +46,7 @@ import mix_recs as R  # noqa: E402
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
 RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
+PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
 
 STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
@@ -253,6 +256,17 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
             out["reviewJob"] = REVIEW_JOB["status"]
             return self.send_json(200, out)
+        if route == "/api/pantry":
+            path = os.path.join(ROOT, "pantry.json")
+            try:
+                with open(path, encoding="utf-8") as f:
+                    out = json.load(f)
+            except FileNotFoundError:
+                out = {"proposal": [], "spoiling": [], "recent": [], "stats": {}}
+            except Exception as e:
+                return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
+            out["job"] = PANTRY_JOB["status"]
+            return self.send_json(200, out)
         if self.path.startswith("/movies.json"):
             return self.send_json(200, M.load())
         if self.path.startswith("/mixes.json"):
@@ -359,6 +373,25 @@ class Handler(SimpleHTTPRequestHandler):
         threading.Thread(target=run, daemon=True).start()
         return "running"
 
+    def start_job(self, job, script, timeout=900):
+        """Run a scripts/*.sh refresher in the background, one at a time."""
+        if job["status"] == "running" and time.time() - job["started"] < timeout:
+            return "running"
+        job.update(status="running", started=time.time())
+
+        def run():
+            import subprocess
+            try:
+                r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", script), "--force"],
+                                   cwd=ROOT, capture_output=True, text=True, timeout=timeout)
+                job["status"] = ("done" if r.returncode == 0
+                                 else f"error: {(r.stderr or r.stdout).strip()[-300:]}")
+            except Exception as e:
+                job["status"] = f"error: {type(e).__name__}: {e}"
+
+        threading.Thread(target=run, daemon=True).start()
+        return "running"
+
     def start_review_job(self):
         if REVIEW_JOB["status"] == "running" and time.time() - REVIEW_JOB["started"] < 900:
             return "running"
@@ -402,6 +435,9 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, {"status": self.start_recs_job()})
         if route == "/api/health/review":
             return self.send_json(200, {"status": self.start_review_job()})
+        if route == "/api/pantry/review":
+            return self.send_json(200, {"status": self.start_job(
+                PANTRY_JOB, "pantry_review.sh")})
         if route.startswith("/api/lecture/") and route.endswith("/audio"):
             vid = urllib.parse.unquote(route.split("/")[3])
             if not any(l["id"] == vid for l in L.load()["lectures"]):

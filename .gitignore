@@ -6,3 +6,5 @@ audio/
 logs/
 health.db
 health.db-*
+pantry.json
+scripts/pantrylib/data/receipts.json

@@ -34,7 +34,7 @@ git push -q origin main && echo "pushed to github"
 
 # 4. deploy to the mini
 if [ -z "$NOMINI" ]; then
-  rsync -az --delete --exclude .git --exclude audio --exclude .env --exclude .session_secret --exclude logs --exclude "health.db*" --exclude __pycache__ --exclude .DS_Store ./ "$HOST:movies/"
+  rsync -az --delete --exclude .git --exclude audio --exclude .env --exclude .session_secret --exclude logs --exclude "health.db*" --exclude pantry.json --exclude "scripts/pantrylib/data/receipts.json" --exclude __pycache__ --exclude .DS_Store ./ "$HOST:movies/"
   [ -d audio ] && rsync -az --exclude '*.part' audio/ "$HOST:movies/audio/" 2>/dev/null || true
   ssh "$HOST" 'launchctl kickstart -k gui/$(id -u)/cc.bodywithoutorgans.serve >/dev/null 2>&1; sleep 1; curl -s -o /dev/null -w "mini origin: %{http_code}\n" http://127.0.0.1:8787/login'
   echo "deployed to $HOST"
