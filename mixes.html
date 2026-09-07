@@ -636,7 +636,7 @@ async function loadRecs() {
   } catch { return null; }
 }
 async function recVerdict(id, verdict, quiet) {
-  const card = $(`.rec[data-id="${CSS.escape(id)}"]`);
+  const card = [...$('#recGrid').children].find(el => el.dataset.id === id);
   const r = state.recs.find(x => x.id === id);
   if (card && verdict !== 'played') card.classList.add('gone');
   try {
