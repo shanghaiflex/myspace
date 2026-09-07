@@ -326,6 +326,10 @@ const pomo = { mode: 'work', left: 25 * 60, endsAt: 0, running: false, done: 0, 
 let pomoAudio = null;
 let player = null;      // { play(), pause(), seek(sec), destroy() }
 let toastTimer;
+// widget mounting: gen invalidates events from a widget we already replaced, tries counts the
+// retries of the current mix, lastPlay remembers how to remount it
+let mountGen = 0, mountReady = false, mountTries = 0, mountTimer = null, autoFails = 0;
+let lastPlay = null;
 
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('on'), 2200); }
 function fmtDur(s) { if (!s) return ''; const t = Math.round(s / 60), h = Math.floor(t / 60), m = t % 60; return h ? `${h} ч ${m} мин` : `${m} мин`; }
@@ -383,6 +387,7 @@ function nextBackground() {
 function setPlayingUI(on) {
   const was = state.playing;
   state.playing = on;
+  if (on) autoFails = 0;
   $('#playBtn').classList.toggle('on', on);
   $('#playBtn').setAttribute('aria-label', on ? 'Pause' : 'Play');
   $('#hero').classList.toggle('playing', on);
@@ -481,38 +486,66 @@ function renderList() {
 
 // ---------- players (widgets stay hidden; we drive them through their APIs) ----------
 function destroyPlayer() {
+  clearTimeout(mountTimer);
   if (player) { try { player.destroy(); } catch {} player = null; }
   const box = $('#embed'); box.className = 'embed'; box.innerHTML = '';
   setPlayingUI(false);
 }
-function mountSoundCloud(m, startAt) {
+// SoundCloud/YouTube widgets fail to load now and then (the same URL plays on a second try), and a
+// widget left over from the previous mix can shout after we already moved on. So: ignore events from
+// a stale mount, remount the same mix once on failure, and only then give up.
+const mountOk = gen => gen === mountGen;
+function mountFail(gen, msg) {
+  if (!mountOk(gen)) return;                                  // a widget we already replaced
+  const from = lastPlay ? lastPlay.at : 0;
+  if (mountReady && (state.playing || state.pos > from + 2)) return; // it did play — not a load failure
+  const m = state.current, at = from, auto = !!(lastPlay && lastPlay.auto);
+  mountGen++;                                                 // silence the dying widget
+  destroyPlayer();
+  if (mountTries < 2) {
+    toast(msg + ' — пробую ещё раз');
+    setTimeout(() => { if (state.current === m) playMix(m, at, { retry: true, auto }); }, 700);
+    return;
+  }
+  if (auto && ++autoFails < 3) { toast(msg + ' — беру следующий'); setTimeout(() => next(true), 800); }
+  else toast(msg + ' — не загрузилось, попробуй ещё раз');
+}
+function mountSoundCloud(m, startAt, gen) {
   const f = document.createElement('iframe');
   f.allow = 'autoplay'; f.setAttribute('scrolling', 'no');
   f.src = 'https://w.soundcloud.com/player/?' + new URLSearchParams({ url: m.url, auto_play: 'true', visual: 'false', show_comments: 'false', hide_related: 'true', show_teaser: 'false' });
   $('#embed').appendChild(f);
   const w = SC.Widget(f);
-  w.bind(SC.Widget.Events.READY, () => { w.getDuration(d => setProgress(startAt || 0, d / 1000)); if (startAt) w.seekTo(startAt * 1000); });
-  w.bind(SC.Widget.Events.PLAY, () => setPlayingUI(true));
-  w.bind(SC.Widget.Events.PAUSE, () => setPlayingUI(false));
-  w.bind(SC.Widget.Events.PLAY_PROGRESS, e => setProgress(e.currentPosition / 1000));
-  w.bind(SC.Widget.Events.FINISH, ended);
-  w.bind(SC.Widget.Events.ERROR, () => { toast('SoundCloud: не удалось воспроизвести, пропускаю'); setTimeout(next, 800); });
+  w.bind(SC.Widget.Events.READY, () => {
+    if (!mountOk(gen)) return;
+    mountReady = true; clearTimeout(mountTimer);
+    w.getDuration(d => setProgress(startAt || 0, d / 1000));
+    if (startAt) w.seekTo(startAt * 1000);
+    w.play();                                   // auto_play alone sometimes leaves it standing still
+  });
+  w.bind(SC.Widget.Events.PLAY, () => { if (mountOk(gen)) setPlayingUI(true); });
+  w.bind(SC.Widget.Events.PAUSE, () => { if (mountOk(gen)) setPlayingUI(false); });
+  w.bind(SC.Widget.Events.PLAY_PROGRESS, e => { if (mountOk(gen)) setProgress(e.currentPosition / 1000); });
+  w.bind(SC.Widget.Events.FINISH, () => { if (mountOk(gen)) ended(); });
+  w.bind(SC.Widget.Events.ERROR, () => mountFail(gen, 'SoundCloud не ответил'));
   return { play: () => w.play(), pause: () => w.pause(), seek: s => { w.seekTo(s * 1000); setProgress(s); }, destroy: () => {} };
 }
-function mountMixcloud(m, startAt) {
+function mountMixcloud(m, startAt, gen) {
   const f = document.createElement('iframe');
   f.allow = 'autoplay';
   f.src = 'https://www.mixcloud.com/widget/iframe/?' + new URLSearchParams({ feed: new URL(m.url).pathname, autoplay: '1', hide_cover: '1', light: '0' });
   $('#embed').appendChild(f);
   const p = { play: () => {}, pause: () => {}, seek: () => {}, destroy: () => {} };
   Mixcloud.PlayerWidget(f).ready.then(w => {
+    if (!mountOk(gen)) return;
+    mountReady = true; clearTimeout(mountTimer);
     p.play = () => w.play(); p.pause = () => w.pause(); p.seek = s => { w.seek(s); setProgress(s); };
-    w.events.play.on(() => setPlayingUI(true));
-    w.events.pause.on(() => setPlayingUI(false));
-    w.events.progress.on((pos, dur) => setProgress(pos, dur));
-    w.events.ended.on(ended);
-    w.play().then(() => { if (startAt) w.seek(startAt); }).catch(() => {});
-  });
+    w.events.play.on(() => { if (mountOk(gen)) setPlayingUI(true); });
+    w.events.pause.on(() => { if (mountOk(gen)) setPlayingUI(false); });
+    w.events.progress.on((pos, dur) => { if (mountOk(gen)) setProgress(pos, dur); });
+    w.events.ended.on(() => { if (mountOk(gen)) ended(); });
+    w.play().then(() => { if (startAt) w.seek(startAt); }).catch(() => mountFail(gen, 'Mixcloud не ответил'));
+  }, () => mountFail(gen, 'Mixcloud не ответил'));
   return p;
 }
 let ytReady = null;
@@ -525,7 +558,7 @@ function loadYT() {
   });
   return ytReady;
 }
-function mountYouTube(m, startAt) {
+function mountYouTube(m, startAt, gen) {
   const holder = document.createElement('div'); holder.className = 'yt'; $('#embed').appendChild(holder);
   let timer = null, yt = null;
   const p = { play: () => {}, pause: () => {}, seek: () => {}, destroy: () => { clearInterval(timer); if (yt) yt.destroy(); } };
@@ -534,39 +567,54 @@ function mountYouTube(m, startAt) {
       videoId: m.id.replace(/^yt:/, ''), width: '100%', height: '100%',
       playerVars: { autoplay: 1, rel: 0, playsinline: 1 },
       events: {
-        onReady: e => { if (startAt) e.target.seekTo(startAt, true); e.target.playVideo(); timer = setInterval(() => { try { setProgress(yt.getCurrentTime(), yt.getDuration()); } catch {} }, 500); },
+        onReady: e => {
+          if (!mountOk(gen)) return;
+          mountReady = true; clearTimeout(mountTimer);
+          if (startAt) e.target.seekTo(startAt, true);
+          e.target.playVideo();
+          timer = setInterval(() => { try { setProgress(yt.getCurrentTime(), yt.getDuration()); } catch {} }, 500);
+        },
         onStateChange: e => {
+          if (!mountOk(gen)) return;
           if (e.data === YT.PlayerState.PLAYING) setPlayingUI(true);
           else if (e.data === YT.PlayerState.PAUSED) setPlayingUI(false);
           else if (e.data === YT.PlayerState.ENDED) ended();
         },
-        onError: () => { toast('YouTube: видео недоступно, пропускаю'); setTimeout(next, 800); },
+        onError: () => mountFail(gen, 'YouTube не ответил'),
       },
     });
     p.play = () => yt.playVideo(); p.pause = () => yt.pauseVideo(); p.seek = s => { yt.seekTo(s, true); setProgress(s); };
   });
   return p;
 }
-function playMix(m, startAt) {
+function playMix(m, startAt, opts) {
+  opts = opts || {};
   destroyPlayer();
+  const gen = ++mountGen;
+  mountReady = false;
+  mountTries = opts.retry ? mountTries + 1 : 1;
   state.current = m; pushHistory(m.id);
   const at = startAt != null ? startAt : resumePoint(m);
+  lastPlay = { at, auto: !!opts.auto };
   saveAt = Date.now(); savedPos = Math.round(at);
-  renderHero(); renderList(); nextBackground();
-  player = m.source === 'youtube' ? mountYouTube(m, at) : m.source === 'mixcloud' ? mountMixcloud(m, at) : mountSoundCloud(m, at);
+  renderHero(); renderList();
+  if (!opts.retry) nextBackground();
+  player = m.source === 'youtube' ? mountYouTube(m, at, gen) : m.source === 'mixcloud' ? mountMixcloud(m, at, gen) : mountSoundCloud(m, at, gen);
   setProgress(at, m.duration);
-  if (at) toast('Продолжаю с ' + fmtTime(at));
+  mountTimer = setTimeout(() => mountFail(gen, 'Плеер не загрузился'), 12000);
+  if (at && !opts.retry) toast('Продолжаю с ' + fmtTime(at));
   if (m.rec && !m.played) setTimeout(() => { if (state.current === m && state.pos > 45) recVerdict(m.id, 'played', true); }, 60000);
   history.replaceState(null, '', '#' + encodeURIComponent(m.id));
 }
-function next() {
+function next(auto) {
   const m = pickRandom();
   if (!m) return toast('Коллекция пуста');
-  playMix(m);
+  playMix(m, undefined, { auto: auto !== false });
 }
-function ended() { clearPos(state.current); next(); }
+function ended() { clearPos(state.current); next(true); }
 function toggle() {
-  if (!state.current || !player) return next();
+  if (!state.current) return next(true);
+  if (!player) return playMix(state.current);   // a failed mount left us with nothing to press
   state.playing ? player.pause() : player.play();
 }
 function seekBy(delta) {
@@ -795,7 +843,7 @@ function setCollection(open) {
 $('#collToggle').addEventListener('click', () => setCollection(!$('#collection').classList.contains('open')));
 try { if (localStorage.getItem('mixes.collection') === '1') setCollection(true); } catch {}
 $('#playBtn').addEventListener('click', toggle);
-$('#nextBtn').addEventListener('click', next);
+$('#nextBtn').addEventListener('click', () => next(true));
 (() => {
   const wrap = $('#barWrap');
   const frac = e => { const r = wrap.getBoundingClientRect(); return Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)); };
