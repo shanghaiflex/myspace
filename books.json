@@ -1,83 +1,5 @@
 [
   {
-    "id": "all-hell-let-loose-max-hastings",
-    "title": "All Hell Let Loose",
-    "author": "Max Hastings",
-    "year": 2012,
-    "pages": null,
-    "isbn": "9780007450725",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=g0NTvgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/all-hell-let-loose-max-hastings.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Вторая мировая война. Ад на земле"
-  },
-  {
-    "id": "as-i-lay-dying-faulkner-w",
-    "title": "As I Lay Dying",
-    "author": "Faulkner W.",
-    "year": null,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://imo10.labirint.ru/books/885083/cover.jpg/484-0",
-    "cover": "covers/as-i-lay-dying-faulkner-w.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-05-08",
-    "finishedAt": null,
-    "tags": [],
-    "titleAlt": "Когда я умирала"
-  },
-  {
-    "id": "behave-robert-m-sapolsky",
-    "title": "Behave",
-    "author": "Robert M. Sapolsky",
-    "year": 2017,
-    "pages": null,
-    "isbn": "9781594205071",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=tPTGDgAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/behave-robert-m-sapolsky.jpg",
-    "status": "abandoned",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Биология добра и зла"
-  },
-  {
-    "id": "beyond-the-pleasure-principle-sigmund-freud",
-    "title": "Beyond the Pleasure Principle",
-    "author": "Sigmund Freud",
-    "year": 2015,
-    "pages": null,
-    "isbn": "9780486790305",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=XBoeBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/beyond-the-pleasure-principle-sigmund-freud.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "По ту сторону принципа удовольствия"
-  },
-  {
     "id": "black-holes-brian-cox-jeff-forshaw",
     "title": "Black Holes",
     "author": "Brian Cox, Jeff Forshaw",
@@ -98,146 +20,6 @@
     "titleAlt": null
   },
   {
-    "id": "capitalist-realism-mark-fisher",
-    "title": "Capitalist Realism",
-    "author": "Mark Fisher",
-    "year": 2009,
-    "pages": null,
-    "isbn": "9781780997346",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=75YnlcDv6ToC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/capitalist-realism-mark-fisher.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2025-11-14",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Капиталистический реализм"
-  },
-  {
-    "id": "comment-vivre-ensemble-roland-barthes",
-    "title": "Comment vivre ensemble",
-    "author": "Roland Barthes",
-    "year": 2002,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://covers.openlibrary.org/b/id/964425-L.jpg",
-    "cover": "covers/comment-vivre-ensemble-roland-barthes.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2025-01-01",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Как жить вместе"
-  },
-  {
-    "id": "darkness-take-my-hand-dennis-lehane",
-    "title": "Darkness, Take My Hand",
-    "author": "Dennis Lehane",
-    "year": 2010,
-    "pages": null,
-    "isbn": "9780748124756",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=JuXpajvZHVIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/darkness-take-my-hand-dennis-lehane.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-10-06",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Тьма, возьми меня за руку"
-  },
-  {
-    "id": "desire-and-its-interpretation-jacques-lacan",
-    "title": "Desire and its Interpretation",
-    "author": "Jacques Lacan",
-    "year": 2021,
-    "pages": null,
-    "isbn": "9781509500284",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=zAvZzQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/desire-and-its-interpretation-jacques-lacan.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Желание и его истолкование"
-  },
-  {
-    "id": "eichmann-in-jerusalem-hannah-arendt",
-    "title": "Eichmann in Jerusalem",
-    "author": "Hannah Arendt",
-    "year": 1964,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://covers.openlibrary.org/b/id/97789-L.jpg",
-    "cover": "covers/eichmann-in-jerusalem-hannah-arendt.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Банальность зла. Эйхман в Иерусалиме"
-  },
-  {
-    "id": "existentialism-is-a-humanism-jean-paul-sartre",
-    "title": "Existentialism is a Humanism",
-    "author": "Jean-Paul Sartre",
-    "year": 2007,
-    "pages": null,
-    "isbn": "9780300115468",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=IfNqvQXbuk8C&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/existentialism-is-a-humanism-jean-paul-sartre.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-09-23",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Экзистенциализм — это гуманизм"
-  },
-  {
-    "id": "franny-and-zooey-jerome-david-salinger",
-    "title": "Franny and Zooey",
-    "author": "Jerome David Salinger",
-    "year": 1981,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=CKfZAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/franny-and-zooey-jerome-david-salinger.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Фрэнни и Зуи"
-  },
-  {
     "id": "9780006499176",
     "title": "H.M.S. Surprise",
     "author": "Patrick O'Brian",
@@ -254,286 +36,6 @@
     "finishedAt": null,
     "tags": [],
     "titleAlt": "Фрегат Его Величества «Сюрприз»"
-  },
-  {
-    "id": "hatter-s-castle-archibald-joseph-cronin",
-    "title": "Hatter's Castle",
-    "author": "Archibald Joseph Cronin",
-    "year": 1959,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://covers.openlibrary.org/b/id/14600400-L.jpg",
-    "cover": "covers/hatter-s-castle-archibald-joseph-cronin.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Замок Броуди"
-  },
-  {
-    "id": "his-master-s-voice-stanislaw-lem",
-    "title": "His Master's Voice",
-    "author": "Stanislaw Lem",
-    "year": 2020,
-    "pages": null,
-    "isbn": "9780262538459",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=72PMDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/his-master-s-voice-stanislaw-lem.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Голос Господа"
-  },
-  {
-    "id": "light-in-august-william-faulkner",
-    "title": "Light in August",
-    "author": "William Faulkner",
-    "year": 2022,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=7ot_EAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/light-in-august-william-faulkner.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Свет в августе"
-  },
-  {
-    "id": "madness-and-civilization-michel-foucault",
-    "title": "Madness and Civilization",
-    "author": "Michel Foucault",
-    "year": 2001,
-    "pages": null,
-    "isbn": "9780415253857",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=Gs5PRR9-8BcC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/madness-and-civilization-michel-foucault.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "История безумия в классическую эпоху"
-  },
-  {
-    "id": "molecular-biology-of-the-cell-bruce-alberts",
-    "title": "Molecular Biology of the Cell",
-    "author": "Bruce Alberts",
-    "year": 2017,
-    "pages": null,
-    "isbn": "9781317563754",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=jK6UBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/molecular-biology-of-the-cell-bruce-alberts.jpg",
-    "status": "abandoned",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Молекулярная биология клетки"
-  },
-  {
-    "id": "napoleon-the-great-andrew-roberts",
-    "title": "Napoleon the Great",
-    "author": "Andrew Roberts",
-    "year": 2016,
-    "pages": null,
-    "isbn": "9780241294666",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=coM_DAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/napoleon-the-great-andrew-roberts.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Наполеон. Биография"
-  },
-  {
-    "id": "nexus-ramez-naam",
-    "title": "Nexus",
-    "author": "Ramez Naam",
-    "year": 2012,
-    "pages": null,
-    "isbn": "9781942948001",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=AUyzBgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/nexus-ramez-naam.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Нексус"
-  },
-  {
-    "id": "niels-bohr-and-the-development-of-physics-wolfgang-pauli",
-    "title": "Niels Bohr and the Development of Physics",
-    "author": "Wolfgang Pauli",
-    "year": 1955,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=voEKAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/niels-bohr-and-the-development-of-physics-wolfgang-pauli.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-05-08",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Нильс Бор и развитие физики"
-  },
-  {
-    "id": "on-human-nature-edward-o-wilson",
-    "title": "On Human Nature",
-    "author": "Edward O. Wilson",
-    "year": 2012,
-    "pages": null,
-    "isbn": "9780674076549",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=lJSq8APzEAgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/on-human-nature-edward-o-wilson.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-03-07",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "О природе человека"
-  },
-  {
-    "id": "pale-fire-vladimir-vladimirovich-nabokov",
-    "title": "Pale Fire",
-    "author": "Vladimir Vladimirovich Nabokov",
-    "year": 1992,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=NOcaAQAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/pale-fire-vladimir-vladimirovich-nabokov.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Бледный огонь"
-  },
-  {
-    "id": "pnin-vladimir-nabokov",
-    "title": "Pnin",
-    "author": "Vladimir Nabokov",
-    "year": 2012,
-    "pages": null,
-    "isbn": "9780141912981",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=RATM7PSkgmsC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/pnin-vladimir-nabokov.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2025-03-02",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Пнин"
-  },
-  {
-    "id": "post-captain-patrick-o-brian",
-    "title": "Post Captain",
-    "author": "Patrick O'Brian",
-    "year": 2009,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://covers.openlibrary.org/b/id/225770-L.jpg",
-    "cover": "covers/post-captain-patrick-o-brian.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2025-03-02",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Капитан первого ранга"
-  },
-  {
-    "id": "rameau-s-nephew-denis-diderot",
-    "title": "Rameau's Nephew",
-    "author": "Denis Diderot",
-    "year": 2011,
-    "pages": null,
-    "isbn": "9781849023573",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=Kp7MygAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/rameau-s-nephew-denis-diderot.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Племянник Рамо"
-  },
-  {
-    "id": "sevastopol-sketches-leo-nikolayevich-tolstoy",
-    "title": "Sevastopol Sketches",
-    "author": "Leo Nikolayevich Tolstoy",
-    "year": 2013,
-    "pages": null,
-    "isbn": "9781420949285",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=-BIxnwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/sevastopol-sketches-leo-nikolayevich-tolstoy.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2025-03-02",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Севастопольские рассказы"
   },
   {
     "id": "speaking-the-truth-about-oneself-michel-foucault",
@@ -596,106 +98,6 @@
     "titleAlt": null
   },
   {
-    "id": "the-bastard-brigade-sam-kean",
-    "title": "The Bastard Brigade",
-    "author": "Sam Kean",
-    "year": 2020,
-    "pages": null,
-    "isbn": "9781529374889",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=af67xQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/the-bastard-brigade-sam-kean.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Отряд отморозков"
-  },
-  {
-    "id": "the-birth-of-the-clinic-michel-foucault",
-    "title": "The Birth of the Clinic",
-    "author": "Michel Foucault",
-    "year": 2012,
-    "pages": null,
-    "isbn": "9781135864835",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=YSwk_A87B3AC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/the-birth-of-the-clinic-michel-foucault.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-04-01",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Рождение клиники"
-  },
-  {
-    "id": "the-death-of-ivan-ilyich-and-other-stories-leo-tolstoy-count",
-    "title": "The Death of Ivan Ilyich and Other Stories",
-    "author": "Leo Tolstoy",
-    "year": 2006,
-    "pages": null,
-    "isbn": "9781425008444",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=RPpIWuVyTTEC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/the-death-of-ivan-ilyich-and-other-stories-leo-tolstoy-count.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2025-03-02",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Смерть Ивана Ильича и другие рассказы"
-  },
-  {
-    "id": "the-druidry-handbook-john-michael-greer",
-    "title": "The Druidry Handbook",
-    "author": "John Michael Greer",
-    "year": 2006,
-    "pages": null,
-    "isbn": "9781609251475",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=8ZDSAhPwQ3MC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/the-druidry-handbook-john-michael-greer.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Настольная книга друида"
-  },
-  {
-    "id": "the-ego-in-freud-s-theory-and-in-the-technique-of-psychoanal",
-    "title": "The Ego in Freud's Theory and in the Technique of Psychoanalysis",
-    "author": "Jacques Lacan",
-    "year": 1991,
-    "pages": null,
-    "isbn": "9780393307092",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=uzJ9zwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/the-ego-in-freud-s-theory-and-in-the-technique-of-psychoanal.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Я в теории Фрейда и в технике психоанализа"
-  },
-  {
     "id": "the-end-is-always-near-dan-carlin",
     "title": "The End Is Always Near",
     "author": "Dan Carlin",
@@ -714,66 +116,6 @@
       "🟥"
     ],
     "titleAlt": null
-  },
-  {
-    "id": "the-gallic-wars-julius-caesar-aulus-hirtius",
-    "title": "The Gallic Wars",
-    "author": "Julius Caesar, Aulus Hirtius",
-    "year": 2013,
-    "pages": null,
-    "isbn": "9781491239988",
-    "description": null,
-    "coverUrl": "https://m.media-amazon.com/images/I/61bAQmnGOYL._AC_UF1000,1000_QL80_.jpg",
-    "cover": "covers/the-gallic-wars-julius-caesar-aulus-hirtius.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Записки о Галльской войне"
-  },
-  {
-    "id": "the-gospel-in-brief-count-leo-nikolayevich-tolstoy-1828-1910",
-    "title": "The Gospel in Brief",
-    "author": "Leo Tolstoy",
-    "year": 2009,
-    "pages": null,
-    "isbn": "9781442943476",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=IyIe3NxSTdwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/the-gospel-in-brief-count-leo-nikolayevich-tolstoy-1828-1910.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-04-01",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Краткое изложение Евангелия"
-  },
-  {
-    "id": "the-lies-of-locke-lamora-scott-lynch",
-    "title": "The Lies of Locke Lamora",
-    "author": "Scott Lynch",
-    "year": 2006,
-    "pages": null,
-    "isbn": "9780553902716",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=dG8disouIykC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/the-lies-of-locke-lamora-scott-lynch.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-06-28",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Хитрости Локка Ламоры"
   },
   {
     "id": "9780007429318",
@@ -814,126 +156,6 @@
     "titleAlt": null
   },
   {
-    "id": "the-plantagenets-dan-jones",
-    "title": "The Plantagenets",
-    "author": "Dan Jones",
-    "year": 2013,
-    "pages": null,
-    "isbn": "9780007213948",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=fCFTtQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/the-plantagenets-dan-jones.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Плантагенеты. Короли и королевы, создавшие Англию"
-  },
-  {
-    "id": "the-shadow-over-innsmouth-h-p-lovecraft",
-    "title": "The Shadow over Innsmouth",
-    "author": "H.P. Lovecraft",
-    "year": 2021,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=lY0FEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/the-shadow-over-innsmouth-h-p-lovecraft.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Тень над Иннсмутом"
-  },
-  {
-    "id": "the-sound-of-waves-yukio-mishima",
-    "title": "The Sound of Waves",
-    "author": "Yukio Mishima",
-    "year": 2013,
-    "pages": null,
-    "isbn": "9780307834348",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=Bx-B8eSBOckC&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/the-sound-of-waves-yukio-mishima.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Шум прибоя"
-  },
-  {
-    "id": "the-temple-of-the-golden-pavilion-yukio-mishima",
-    "title": "The Temple of the Golden Pavilion",
-    "author": "Yukio Mishima",
-    "year": 1995,
-    "pages": null,
-    "isbn": "9780679433156",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=-H6TEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": "covers/the-temple-of-the-golden-pavilion-yukio-mishima.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Золотой Храм"
-  },
-  {
-    "id": "the-wages-of-destruction-j-adam-tooze",
-    "title": "The Wages of Destruction",
-    "author": "J. Adam Tooze",
-    "year": 2007,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://covers.openlibrary.org/b/id/400830-L.jpg",
-    "cover": "covers/the-wages-of-destruction-j-adam-tooze.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Цена разрушения"
-  },
-  {
-    "id": "timaeus-платон",
-    "title": "Timaeus",
-    "author": "Платон",
-    "year": 2021,
-    "pages": null,
-    "isbn": "9785040828593",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=b6Q3DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/timaeus-платон.jpg",
-    "status": "to-read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-04-14",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Тимей"
-  },
-  {
     "id": "toward-a-new-philosophy-of-biology-ernst-mayr",
     "title": "Toward a New Philosophy of Biology",
     "author": "Ernst Mayr",
@@ -952,46 +174,6 @@
       "🟥"
     ],
     "titleAlt": null
-  },
-  {
-    "id": "tractatus-logico-philosophicus-ludwig-wittgenstein",
-    "title": "Tractatus Logico-Philosophicus",
-    "author": "Ludwig Wittgenstein",
-    "year": 2003,
-    "pages": null,
-    "isbn": "9781134524488",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=79OAAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/tractatus-logico-philosophicus-ludwig-wittgenstein.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-02-27",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ],
-    "titleAlt": "Логико-философский трактат"
-  },
-  {
-    "id": "wuthering-heights-emily-bronte",
-    "title": "Wuthering Heights",
-    "author": "Emily Bronte",
-    "year": 1858,
-    "pages": null,
-    "isbn": null,
-    "description": null,
-    "coverUrl": "https://ir.ozone.ru/s3/multimedia-1-d/wc1000/7045697389.jpg",
-    "cover": "covers/wuthering-heights-emily-bronte.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2025-04-22",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ],
-    "titleAlt": "Грозовой перевал"
   },
   {
     "id": "анатомия-архитектуры-сергей-кавтарадзе",
@@ -1030,6 +212,66 @@
       "🟥"
     ],
     "titleAlt": "L'Anti-Œdipe. Capitalisme et schizophrénie"
+  },
+  {
+    "id": "eichmann-in-jerusalem-hannah-arendt",
+    "title": "Банальность зла. Эйхман в Иерусалиме",
+    "author": "Hannah Arendt",
+    "year": 1964,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/97789-L.jpg",
+    "cover": "covers/eichmann-in-jerusalem-hannah-arendt.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Eichmann in Jerusalem"
+  },
+  {
+    "id": "behave-robert-m-sapolsky",
+    "title": "Биология добра и зла",
+    "author": "Robert M. Sapolsky",
+    "year": 2017,
+    "pages": null,
+    "isbn": "9781594205071",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=tPTGDgAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/behave-robert-m-sapolsky.jpg",
+    "status": "abandoned",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Behave"
+  },
+  {
+    "id": "pale-fire-vladimir-vladimirovich-nabokov",
+    "title": "Бледный огонь",
+    "author": "Vladimir Vladimirovich Nabokov",
+    "year": 1992,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=NOcaAQAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/pale-fire-vladimir-vladimirovich-nabokov.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Pale Fire"
   },
   {
     "id": "бык-культурная-история-мишель-паступо",
@@ -1112,6 +354,26 @@
     "titleAlt": "The Code Breaker"
   },
   {
+    "id": "all-hell-let-loose-max-hastings",
+    "title": "Вторая мировая война. Ад на земле",
+    "author": "Max Hastings",
+    "year": 2012,
+    "pages": null,
+    "isbn": "9780007450725",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=g0NTvgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/all-hell-let-loose-max-hastings.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "All Hell Let Loose"
+  },
+  {
     "id": "генеалогия-морали-фридрих-ницше",
     "title": "Генеалогия морали",
     "author": "Фридрих Ницше",
@@ -1150,6 +412,26 @@
     "tags": []
   },
   {
+    "id": "his-master-s-voice-stanislaw-lem",
+    "title": "Голос Господа",
+    "author": "Stanislaw Lem",
+    "year": 2020,
+    "pages": null,
+    "isbn": "9780262538459",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=72PMDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/his-master-s-voice-stanislaw-lem.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "His Master's Voice"
+  },
+  {
     "id": "город-в-западной-европе-в-средние-века-ландшафты-власть-и-ко",
     "title": "Город в Западной Европе в Средние века. Ландшафты, власть и конфликты",
     "author": "Жак Эрс",
@@ -1168,6 +450,26 @@
       "🟥"
     ],
     "titleAlt": "La ville au Moyen Âge en Occident"
+  },
+  {
+    "id": "wuthering-heights-emily-bronte",
+    "title": "Грозовой перевал",
+    "author": "Emily Bronte",
+    "year": 1858,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://ir.ozone.ru/s3/multimedia-1-d/wc1000/7045697389.jpg",
+    "cover": "covers/wuthering-heights-emily-bronte.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2025-04-22",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Wuthering Heights"
   },
   {
     "id": "джордано-бруно-и-герметическая-традиция-фрэнсис-йейтс",
@@ -1288,6 +590,26 @@
     "titleAlt": "Eugene Onegin"
   },
   {
+    "id": "desire-and-its-interpretation-jacques-lacan",
+    "title": "Желание и его истолкование",
+    "author": "Jacques Lacan",
+    "year": 2021,
+    "pages": null,
+    "isbn": "9781509500284",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=zAvZzQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/desire-and-its-interpretation-jacques-lacan.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Desire and its Interpretation"
+  },
+  {
     "id": "женщина-в-песках-кобо-абэ",
     "title": "Женщина в песках",
     "author": "Кобо Абэ",
@@ -1346,6 +668,26 @@
     "titleAlt": "Der Untergang des Abendlandes"
   },
   {
+    "id": "hatter-s-castle-archibald-joseph-cronin",
+    "title": "Замок Броуди",
+    "author": "Archibald Joseph Cronin",
+    "year": 1959,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/14600400-L.jpg",
+    "cover": "covers/hatter-s-castle-archibald-joseph-cronin.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Hatter's Castle"
+  },
+  {
     "id": "записки-из-подполья-федор-михайлович-достоевский",
     "title": "Записки из подполья",
     "author": "Федор Михайлович Достоевский",
@@ -1364,6 +706,46 @@
       "🟧"
     ],
     "titleAlt": "Notes from Underground"
+  },
+  {
+    "id": "the-gallic-wars-julius-caesar-aulus-hirtius",
+    "title": "Записки о Галльской войне",
+    "author": "Julius Caesar, Aulus Hirtius",
+    "year": 2013,
+    "pages": null,
+    "isbn": "9781491239988",
+    "description": null,
+    "coverUrl": "https://m.media-amazon.com/images/I/61bAQmnGOYL._AC_UF1000,1000_QL80_.jpg",
+    "cover": "covers/the-gallic-wars-julius-caesar-aulus-hirtius.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "The Gallic Wars"
+  },
+  {
+    "id": "the-temple-of-the-golden-pavilion-yukio-mishima",
+    "title": "Золотой Храм",
+    "author": "Yukio Mishima",
+    "year": 1995,
+    "pages": null,
+    "isbn": "9780679433156",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=-H6TEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/the-temple-of-the-golden-pavilion-yukio-mishima.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "The Temple of the Golden Pavilion"
   },
   {
     "id": "избранные-сочинения-карл-маркс-фридрих-энгельс",
@@ -1484,6 +866,26 @@
     "titleAlt": "The Historical Roots of the Wonder Tale"
   },
   {
+    "id": "madness-and-civilization-michel-foucault",
+    "title": "История безумия в классическую эпоху",
+    "author": "Michel Foucault",
+    "year": 2001,
+    "pages": null,
+    "isbn": "9780415253857",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=Gs5PRR9-8BcC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/madness-and-civilization-michel-foucault.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Madness and Civilization"
+  },
+  {
     "id": "история-нового-имени-моя-гениальная-подруга-элена-ферранте",
     "title": "История нового имени",
     "author": "Элена Ферранте",
@@ -1544,6 +946,66 @@
     "titleAlt": "A Prisoner in the Caucasus"
   },
   {
+    "id": "comment-vivre-ensemble-roland-barthes",
+    "title": "Как жить вместе",
+    "author": "Roland Barthes",
+    "year": 2002,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/964425-L.jpg",
+    "cover": "covers/comment-vivre-ensemble-roland-barthes.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2025-01-01",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Comment vivre ensemble"
+  },
+  {
+    "id": "capitalist-realism-mark-fisher",
+    "title": "Капиталистический реализм",
+    "author": "Mark Fisher",
+    "year": 2009,
+    "pages": null,
+    "isbn": "9781780997346",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=75YnlcDv6ToC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/capitalist-realism-mark-fisher.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2025-11-14",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Capitalist Realism"
+  },
+  {
+    "id": "post-captain-patrick-o-brian",
+    "title": "Капитан первого ранга",
+    "author": "Patrick O'Brian",
+    "year": 2009,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/225770-L.jpg",
+    "cover": "covers/post-captain-patrick-o-brian.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2025-03-02",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Post Captain"
+  },
+  {
     "id": "кит-культурная-история-мишель-пастуро",
     "title": "Кит. Культурная история",
     "author": "Мишель Пастуро",
@@ -1562,6 +1024,24 @@
       "🟥"
     ],
     "titleAlt": "La Baleine. Une histoire culturelle"
+  },
+  {
+    "id": "as-i-lay-dying-faulkner-w",
+    "title": "Когда я умирала",
+    "author": "Faulkner W.",
+    "year": null,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://imo10.labirint.ru/books/885083/cover.jpg/484-0",
+    "cover": "covers/as-i-lay-dying-faulkner-w.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-05-08",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "As I Lay Dying"
   },
   {
     "id": "король-дама-валет-владимир-набоков",
@@ -1602,6 +1082,26 @@
       "🟥"
     ],
     "titleAlt": "The Foundation Pit"
+  },
+  {
+    "id": "the-gospel-in-brief-count-leo-nikolayevich-tolstoy-1828-1910",
+    "title": "Краткое изложение Евангелия",
+    "author": "Leo Tolstoy",
+    "year": 2009,
+    "pages": null,
+    "isbn": "9781442943476",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=IyIe3NxSTdwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/the-gospel-in-brief-count-leo-nikolayevich-tolstoy-1828-1910.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-04-01",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "The Gospel in Brief"
   },
   {
     "id": "критика-чистого-разума-иммануил-кант",
@@ -1742,6 +1242,26 @@
     "titleAlt": null
   },
   {
+    "id": "tractatus-logico-philosophicus-ludwig-wittgenstein",
+    "title": "Логико-философский трактат",
+    "author": "Ludwig Wittgenstein",
+    "year": 2003,
+    "pages": null,
+    "isbn": "9781134524488",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=79OAAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/tractatus-logico-philosophicus-ludwig-wittgenstein.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Tractatus Logico-Philosophicus"
+  },
+  {
     "id": "мистические-культы-в-великой-греции-дж-касадио-и-п-а-джонсто",
     "title": "Мистические культы в Великой Греции",
     "author": "Дж. Касадио и П. А. Джонстон",
@@ -1780,6 +1300,26 @@
       "🟧"
     ],
     "titleAlt": "Mythologies"
+  },
+  {
+    "id": "molecular-biology-of-the-cell-bruce-alberts",
+    "title": "Молекулярная биология клетки",
+    "author": "Bruce Alberts",
+    "year": 2017,
+    "pages": null,
+    "isbn": "9781317563754",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=jK6UBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/molecular-biology-of-the-cell-bruce-alberts.jpg",
+    "status": "abandoned",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Molecular Biology of the Cell"
   },
   {
     "id": "моя-гениальная-подруга-элена-ферранте",
@@ -1822,6 +1362,46 @@
     "titleAlt": "Surveiller et punir. Naissance de la prison"
   },
   {
+    "id": "napoleon-the-great-andrew-roberts",
+    "title": "Наполеон. Биография",
+    "author": "Andrew Roberts",
+    "year": 2016,
+    "pages": null,
+    "isbn": "9780241294666",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=coM_DAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/napoleon-the-great-andrew-roberts.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Napoleon the Great"
+  },
+  {
+    "id": "the-druidry-handbook-john-michael-greer",
+    "title": "Настольная книга друида",
+    "author": "John Michael Greer",
+    "year": 2006,
+    "pages": null,
+    "isbn": "9781609251475",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=8ZDSAhPwQ3MC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/the-druidry-handbook-john-michael-greer.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "The Druidry Handbook"
+  },
+  {
     "id": "начала-христианства-владимир-бибихин",
     "title": "Начала христианства",
     "author": "Владимир Бибихин",
@@ -1838,6 +1418,26 @@
     "finishedAt": null,
     "tags": [],
     "titleAlt": null
+  },
+  {
+    "id": "nexus-ramez-naam",
+    "title": "Нексус",
+    "author": "Ramez Naam",
+    "year": 2012,
+    "pages": null,
+    "isbn": "9781942948001",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=AUyzBgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/nexus-ramez-naam.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Nexus"
   },
   {
     "id": "ненависть-к-поэзии-жорж-батай",
@@ -1878,6 +1478,66 @@
       "🟧"
     ],
     "titleAlt": "Les Anormaux"
+  },
+  {
+    "id": "niels-bohr-and-the-development-of-physics-wolfgang-pauli",
+    "title": "Нильс Бор и развитие физики",
+    "author": "Wolfgang Pauli",
+    "year": 1955,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=voEKAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/niels-bohr-and-the-development-of-physics-wolfgang-pauli.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-05-08",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Niels Bohr and the Development of Physics"
+  },
+  {
+    "id": "on-human-nature-edward-o-wilson",
+    "title": "О природе человека",
+    "author": "Edward O. Wilson",
+    "year": 2012,
+    "pages": null,
+    "isbn": "9780674076549",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=lJSq8APzEAgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/on-human-nature-edward-o-wilson.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-03-07",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "On Human Nature"
+  },
+  {
+    "id": "the-bastard-brigade-sam-kean",
+    "title": "Отряд отморозков",
+    "author": "Sam Kean",
+    "year": 2020,
+    "pages": null,
+    "isbn": "9781529374889",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=af67xQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/the-bastard-brigade-sam-kean.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "The Bastard Brigade"
   },
   {
     "id": "парменид-мартин-хайдеггер",
@@ -1938,6 +1598,66 @@
     "titleAlt": "Pinocchio. Le avventure di un burattino"
   },
   {
+    "id": "the-plantagenets-dan-jones",
+    "title": "Плантагенеты. Короли и королевы, создавшие Англию",
+    "author": "Dan Jones",
+    "year": 2013,
+    "pages": null,
+    "isbn": "9780007213948",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=fCFTtQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/the-plantagenets-dan-jones.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "The Plantagenets"
+  },
+  {
+    "id": "rameau-s-nephew-denis-diderot",
+    "title": "Племянник Рамо",
+    "author": "Denis Diderot",
+    "year": 2011,
+    "pages": null,
+    "isbn": "9781849023573",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=Kp7MygAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/rameau-s-nephew-denis-diderot.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Rameau's Nephew"
+  },
+  {
+    "id": "pnin-vladimir-nabokov",
+    "title": "Пнин",
+    "author": "Vladimir Nabokov",
+    "year": 2012,
+    "pages": null,
+    "isbn": "9780141912981",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=RATM7PSkgmsC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/pnin-vladimir-nabokov.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2025-03-02",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Pnin"
+  },
+  {
     "id": "по-ту-сторону-добра-и-зла-фридрих-ницше",
     "title": "По ту сторону добра и зла",
     "author": "Фридрих Ницше",
@@ -1956,6 +1676,26 @@
       "🟧"
     ],
     "titleAlt": "Jenseits von Gut und Böse"
+  },
+  {
+    "id": "beyond-the-pleasure-principle-sigmund-freud",
+    "title": "По ту сторону принципа удовольствия",
+    "author": "Sigmund Freud",
+    "year": 2015,
+    "pages": null,
+    "isbn": "9780486790305",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=XBoeBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/beyond-the-pleasure-principle-sigmund-freud.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Beyond the Pleasure Principle"
   },
   {
     "id": "предания-и-мифы-средневековой-ирландии-шкунаев-с-в",
@@ -2092,6 +1832,66 @@
     "titleAlt": "Reformation: Europe's House Divided"
   },
   {
+    "id": "the-birth-of-the-clinic-michel-foucault",
+    "title": "Рождение клиники",
+    "author": "Michel Foucault",
+    "year": 2012,
+    "pages": null,
+    "isbn": "9781135864835",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=YSwk_A87B3AC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/the-birth-of-the-clinic-michel-foucault.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-04-01",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "The Birth of the Clinic"
+  },
+  {
+    "id": "light-in-august-william-faulkner",
+    "title": "Свет в августе",
+    "author": "William Faulkner",
+    "year": 2022,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=7ot_EAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/light-in-august-william-faulkner.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Light in August"
+  },
+  {
+    "id": "sevastopol-sketches-leo-nikolayevich-tolstoy",
+    "title": "Севастопольские рассказы",
+    "author": "Leo Nikolayevich Tolstoy",
+    "year": 2013,
+    "pages": null,
+    "isbn": "9781420949285",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=-BIxnwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/sevastopol-sketches-leo-nikolayevich-tolstoy.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2025-03-02",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Sevastopol Sketches"
+  },
+  {
     "id": "символическая-история-европейского-средневековья-мишель-паст",
     "title": "Символическая история европейского Средневековья",
     "author": "Мишель Пастуро",
@@ -2108,6 +1908,26 @@
     "finishedAt": null,
     "tags": [],
     "titleAlt": "Une histoire symbolique du Moyen Âge occidental"
+  },
+  {
+    "id": "the-death-of-ivan-ilyich-and-other-stories-leo-tolstoy-count",
+    "title": "Смерть Ивана Ильича и другие рассказы",
+    "author": "Leo Tolstoy",
+    "year": 2006,
+    "pages": null,
+    "isbn": "9781425008444",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=RPpIWuVyTTEC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/the-death-of-ivan-ilyich-and-other-stories-leo-tolstoy-count.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2025-03-02",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "The Death of Ivan Ilyich and Other Stories"
   },
   {
     "id": "те-кто-уходит-и-те-кто-остается-элена-ферранте",
@@ -2128,6 +1948,46 @@
       "🟥"
     ],
     "titleAlt": "Storia di chi fugge e di chi resta"
+  },
+  {
+    "id": "the-shadow-over-innsmouth-h-p-lovecraft",
+    "title": "Тень над Иннсмутом",
+    "author": "H.P. Lovecraft",
+    "year": 2021,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=lY0FEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/the-shadow-over-innsmouth-h-p-lovecraft.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "The Shadow over Innsmouth"
+  },
+  {
+    "id": "timaeus-платон",
+    "title": "Тимей",
+    "author": "Платон",
+    "year": 2021,
+    "pages": null,
+    "isbn": "9785040828593",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=b6Q3DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/timaeus-платон.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-04-14",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Timaeus"
   },
   {
     "id": "труженики-моря-виктор-гюго",
@@ -2168,6 +2028,26 @@
     "titleAlt": "Mille plateaux. Capitalisme et schizophrénie 2"
   },
   {
+    "id": "darkness-take-my-hand-dennis-lehane",
+    "title": "Тьма, возьми меня за руку",
+    "author": "Dennis Lehane",
+    "year": 2010,
+    "pages": null,
+    "isbn": "9780748124756",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=JuXpajvZHVIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/darkness-take-my-hand-dennis-lehane.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-10-06",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Darkness, Take My Hand"
+  },
+  {
     "id": "фейнмановские-лекции-по-физике-том-1-ричард-фейнман-роберт-л",
     "title": "Фейнмановские лекции по физике. Том 1",
     "author": "Ричард Фейнман, Роберт Лейтон, Мэтью Сэндс",
@@ -2204,6 +2084,66 @@
       "🟥"
     ],
     "titleAlt": "Phänomenologie des Geistes"
+  },
+  {
+    "id": "franny-and-zooey-jerome-david-salinger",
+    "title": "Фрэнни и Зуи",
+    "author": "Jerome David Salinger",
+    "year": 1981,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=CKfZAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/franny-and-zooey-jerome-david-salinger.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Franny and Zooey"
+  },
+  {
+    "id": "the-lies-of-locke-lamora-scott-lynch",
+    "title": "Хитрости Локка Ламоры",
+    "author": "Scott Lynch",
+    "year": 2006,
+    "pages": null,
+    "isbn": "9780553902716",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=dG8disouIykC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/the-lies-of-locke-lamora-scott-lynch.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-06-28",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "The Lies of Locke Lamora"
+  },
+  {
+    "id": "the-wages-of-destruction-j-adam-tooze",
+    "title": "Цена разрушения",
+    "author": "J. Adam Tooze",
+    "year": 2007,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/400830-L.jpg",
+    "cover": "covers/the-wages-of-destruction-j-adam-tooze.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "The Wages of Destruction"
   },
   {
     "id": "чевенгур-андрей-платонов",
@@ -2244,5 +2184,65 @@
       "🟥"
     ],
     "titleAlt": "Über die Linie"
+  },
+  {
+    "id": "the-sound-of-waves-yukio-mishima",
+    "title": "Шум прибоя",
+    "author": "Yukio Mishima",
+    "year": 2013,
+    "pages": null,
+    "isbn": "9780307834348",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=Bx-B8eSBOckC&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/the-sound-of-waves-yukio-mishima.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "The Sound of Waves"
+  },
+  {
+    "id": "existentialism-is-a-humanism-jean-paul-sartre",
+    "title": "Экзистенциализм — это гуманизм",
+    "author": "Jean-Paul Sartre",
+    "year": 2007,
+    "pages": null,
+    "isbn": "9780300115468",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=IfNqvQXbuk8C&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/existentialism-is-a-humanism-jean-paul-sartre.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-09-23",
+    "finishedAt": null,
+    "tags": [
+      "🟥"
+    ],
+    "titleAlt": "Existentialism is a Humanism"
+  },
+  {
+    "id": "the-ego-in-freud-s-theory-and-in-the-technique-of-psychoanal",
+    "title": "Я в теории Фрейда и в технике психоанализа",
+    "author": "Jacques Lacan",
+    "year": 1991,
+    "pages": null,
+    "isbn": "9780393307092",
+    "description": null,
+    "coverUrl": "https://books.google.com/books/content?id=uzJ9zwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "cover": "covers/the-ego-in-freud-s-theory-and-in-the-technique-of-psychoanal.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2024-02-27",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "The Ego in Freud's Theory and in the Technique of Psychoanalysis"
   }
 ]
