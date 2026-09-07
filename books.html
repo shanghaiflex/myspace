@@ -69,6 +69,7 @@
     border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
   .badge svg { width: 10px; height: 10px; color: var(--star); }
   .card .t { font-size: 14px; font-weight: 600; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .card .alt { font-size: 12.5px; color: var(--text-3); line-height: 1.3; margin-top: 1px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
   .card .s { font-size: 12.5px; color: var(--text-2); margin-top: 2px; }
   .empty { color: var(--text-2); text-align: center; padding: 80px 0; }
 
@@ -82,6 +83,7 @@
   .sheet .left img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .sheet .right { padding: 32px 36px; overflow: auto; position: relative; }
   .sheet h2 { margin: 0 0 4px; font-size: 24px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; padding-right: 40px; }
+  .sheet .alt { color: var(--text-3); font-size: 15px; line-height: 1.25; margin: 0 0 6px; padding-right: 40px; }
   .sheet .sub { color: var(--text-2); font-size: 14px; margin-bottom: 18px; }
   .sheet .segmented { margin-bottom: 18px; }
   .sheet .segmented button { padding: 5px 11px; font-size: 12.5px; }
@@ -158,7 +160,7 @@ function restore() { try { const s = JSON.parse(localStorage.getItem('books.ui')
 function visible() {
   const q = state.q.trim().toLowerCase();
   let list = state.books.filter(b => b.status === state.tab);
-  if (q) list = state.books.filter(b => (b.title || '').toLowerCase().includes(q) || (b.author || '').toLowerCase().includes(q));
+  if (q) list = state.books.filter(b => [b.title, b.titleAlt, b.author].some(v => (v || '').toLowerCase().includes(q)));
   const key = { added: b => b.addedAt || '', rating: b => b.rating ?? -1, title: b => (b.title || '').toLowerCase(), author: b => (b.author || '').toLowerCase(), year: b => b.year || 0 }[state.sort];
   const sign = state.dir === 'desc' ? -1 : 1;
   list.sort((a, b) => { const x = key(a), y = key(b); return x < y ? -sign : x > y ? sign : (a.title || '').localeCompare(b.title || ''); });
@@ -175,7 +177,7 @@ function render() {
     <article class="card" data-id="${esc(b.id)}">
       <div class="cover">${b.cover ? `<img src="${esc(b.cover)}" alt="" loading="lazy">` : `<div class="ph">${esc(b.title)}</div>`}
         ${b.rating != null ? `<span class="badge">${STAR}${fmt(b.rating)}</span>` : ''}</div>
-      <div><div class="t">${esc(b.title)}</div><div class="s">${esc(b.author || '')}${b.year ? ' · ' + b.year : ''}</div></div>
+      <div><div class="t">${esc(b.title)}</div>${b.titleAlt ? `<div class="alt">${esc(b.titleAlt)}</div>` : ''}<div class="s">${esc(b.author || '')}${b.year ? ' · ' + b.year : ''}</div></div>
     </article>`).join('');
 }
 async function api(method, id, body) {
@@ -199,6 +201,7 @@ function openSheet(b, keep) {
     <div class="right">
       <button class="close" id="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       <h2>${esc(b.title)}</h2>
+      ${b.titleAlt ? `<div class="alt">${esc(b.titleAlt)}</div>` : ''}
       <div class="sub">${[b.author, b.year, b.pages && b.pages + ' стр.'].filter(Boolean).map(esc).join(' · ')}</div>
       ${canEdit ? `<div class="segmented" id="statusCtl">${Object.entries(STATUS_LABEL).map(([k, v]) => `<button data-status="${k}" class="${k === b.status ? 'on' : ''}">${v}</button>`).join('')}</div>` : `<div class="sub">${STATUS_LABEL[b.status]}</div>`}
       <div class="score"><div class="l">Моя оценка</div><div class="v">${fmt(b.rating)}<small>/ 10</small>${canEdit && b.rating != null ? '<button class="clear" data-act="clear">убрать</button>' : ''}</div>${canEdit ? starsHtml(b.rating ?? 0) : ''}</div>

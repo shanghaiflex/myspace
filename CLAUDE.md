@@ -44,6 +44,14 @@ are edited in the site (PATCH `/api/book/<id>`). Adding: `python3 scripts/books.
 lookup goes Google Books → Open Library (Google rate-limits VPN IPs; Cyrillic titles work only in Google),
 so if both fail use `--manual --author ... --year ... --cover URL`. Ids are ISBN-13 when known.
 
+- Every book carries a second title in `titleAlt` (`--title-alt "…"`): the Russian edition title for a foreign
+  book, the original title for a Russian one. The card and the sheet show it under the main title, and
+  search matches both. Leave it `null` rather than inventing a translation that was never published.
+- Cover sources when Google Books gives only a 500-byte placeholder: Open Library
+  (`https://covers.openlibrary.org/b/id/<cover_i>-L.jpg`, find `cover_i` via `openlibrary.org/search.json?title=…&author=…`)
+  for foreign editions, livelib.ru for Russian ones — search `https://www.livelib.ru/find/books/<query>`
+  and take the `boocover` URL out of the result block, bumping `/120x180/` to `/200x305/`.
+
 ## Weather (`scripts/weather.py`, `/api/weather`)
 
 Home page shows today's weather: now, day min/max, precipitation (mm, probability, rainy hours) and an hourly strip.

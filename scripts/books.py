@@ -4,7 +4,7 @@
 Usage:
   books.py search "query"                        Google Books candidates
   books.py add "Title" [--author A] [--status read|reading|to-read|abandoned] [--rating 8] [--isbn 978...]
-  books.py set "Title|id" [--status ...] [--rating N] [--comment "..."] [--finished-at YYYY-MM-DD]
+  books.py set "Title|id" [--status ...] [--rating N] [--comment "..."] [--finished-at YYYY-MM-DD] [--title-alt "..."]
   books.py remove "Title|id"
   books.py list [--status ...]
   books.py import-obsidian                       one-time import from the Obsidian vault (Books/data/*.md)
@@ -123,9 +123,9 @@ def lookup(q, author=None, isbn=None, n=5):
 def find(books, q):
     q = q.strip().lower()
     for b in books:
-        if b["id"] == q or (b.get("title") or "").lower() == q:
+        if b["id"] == q or q in ((b.get("title") or "").lower(), (b.get("titleAlt") or "").lower()):
             return b
-    hits = [b for b in books if q in (b.get("title") or "").lower()]
+    hits = [b for b in books if q in (b.get("title") or "").lower() or q in (b.get("titleAlt") or "").lower()]
     if len(hits) == 1:
         return hits[0]
     if hits:
@@ -144,6 +144,8 @@ def apply(b, args):
         b["comment"] = args.comment or None
     if getattr(args, "finished_at", None):
         b["finishedAt"] = args.finished_at
+    if getattr(args, "title_alt", None) is not None:
+        b["titleAlt"] = args.title_alt or None
 
 
 # ---------------------------------------------------------------- commands
@@ -164,7 +166,7 @@ def cmd_add(args):
     bid = r["isbn"] or slug(f"{r['title']}-{r['author']}")
     if any(b["id"] == bid for b in books):
         raise SystemExit(f"Already in catalog: {r['title']}")
-    b = {"id": bid, "title": r["title"], "author": r["author"], "year": r["year"], "pages": r["pages"], "isbn": r["isbn"],
+    b = {"id": bid, "title": r["title"], "titleAlt": args.title_alt, "author": r["author"], "year": r["year"], "pages": r["pages"], "isbn": r["isbn"],
          "description": (r.get("description") or "")[:600] or None, "coverUrl": r["coverUrl"],
          "cover": fetch_cover(bid, r["coverUrl"]), "status": "to-read", "rating": None, "comment": None,
          "addedAt": datetime.date.today().isoformat(), "finishedAt": None, "tags": []}
@@ -234,7 +236,7 @@ def cmd_import(args):
         cover_url = fm.get("Cover") if (fm.get("Cover") or "").startswith("http") else None
         tag = re.sub(r"^#📥/📚/", "", fm.get("Tags", "")).strip()
         added = fm.get("Date") or datetime.date.fromtimestamp(os.path.getmtime(path)).isoformat()
-        b = {"id": bid, "title": title, "author": author, "year": int(year.group()) if year else None, "pages": None,
+        b = {"id": bid, "title": title, "titleAlt": None, "author": author, "year": int(year.group()) if year else None, "pages": None,
              "isbn": isbn or None, "description": None, "coverUrl": cover_url, "cover": fetch_cover(bid, cover_url),
              "status": status, "rating": float(rating.group(1)) if rating else None,
              "comment": (fm.get("Comment") or "").strip() or None, "addedAt": added[:10],
@@ -253,6 +255,7 @@ def main():
     def common(sp):
         sp.add_argument("--status", choices=STATUSES); sp.add_argument("--rating", type=float)
         sp.add_argument("--comment"); sp.add_argument("--finished-at", dest="finished_at")
+        sp.add_argument("--title-alt", dest="title_alt", help="title in the other language (RU for a foreign book, original for a Russian one)")
     a = sub.add_parser("add"); a.add_argument("query"); a.add_argument("--author"); a.add_argument("--isbn")
     a.add_argument("--manual", action="store_true", help="don't look up, use the given fields"); a.add_argument("--year", type=int); a.add_argument("--cover", help="cover image URL")
     common(a); a.set_defaults(fn=cmd_add)
