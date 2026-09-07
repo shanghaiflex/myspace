@@ -75,6 +75,10 @@ PYEOF
   fi
 fi
 
+# Cheap no-op when everything is in place; a broken image is the one failure
+# the page cannot hide, and files go missing through bugs and half-deploys.
+python3 scripts/pantry.py photos-repair
+
 # Recount at the end: the earlier summary ran before the recipes were saved,
 # so reusing it logs "0 идей блюд" right after saving four of them.
 echo "$STAMP $(python3 scripts/pantry.py summary)"

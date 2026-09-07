@@ -117,6 +117,31 @@ def cmd_reject(a) -> None:
           + f"; осталось {len(st['recipes'])}, в отказах {len(st['rejected'])}")
 
 
+def cmd_photos_repair(a) -> None:
+    """Re-fetch any dish photo whose file went missing.
+
+    A safety net, not the main path: the file can disappear through a pruning
+    bug, a half-finished deploy or a manual cleanup, and a broken image is the
+    one failure the page cannot hide.
+    """
+    st = load()
+    fixed = 0
+    for r in st.get("recipes") or []:
+        photo = r.get("photo")
+        if photo and os.path.exists(os.path.join(PHOTO_DIR, photo["file"])):
+            continue
+        query = (photo or {}).get("query") or r.get("title", "")
+        try:
+            r["photo"] = ph.fetch(query, PHOTO_DIR) if query else None
+        except Exception as e:
+            print(f"  {r.get('title')}: {type(e).__name__}: {e}", file=sys.stderr)
+            r["photo"] = None
+        fixed += 1
+    if fixed:
+        save(st)
+    print(f"восстановлено фото: {fixed}")
+
+
 def cmd_recipes_need(a) -> None:
     """How many fresh ideas are missing to fill the page."""
     st = load()
@@ -186,16 +211,18 @@ def cmd_recipes_save(a) -> None:
             rec_["photo"] = None
         out.append(rec_)
 
-    # Photos accumulate every regeneration; keep only what is on the page.
+    st = load()
+    if a.append:
+        out = ((st.get("recipes") or []) + out)[:WANT_RECIPES]
+
+    # Prune only AFTER merging: pruning against the new batch alone deleted the
+    # photos of the dishes that were kept, leaving broken images on the page.
     keep = {r["photo"]["file"] for r in out if r.get("photo")}
     if os.path.isdir(PHOTO_DIR):
         for f in os.listdir(PHOTO_DIR):
             if f.endswith(".jpg") and f not in keep:
                 os.remove(os.path.join(PHOTO_DIR, f))
 
-    st = load()
-    if a.append:
-        out = ((st.get("recipes") or []) + out)[:WANT_RECIPES]
     st["recipes"] = out
     st["recipes_ts"] = datetime.now().isoformat(timespec="seconds")
     st["recipes_model"] = a.model
@@ -343,6 +370,7 @@ def main() -> None:
     sub.add_parser("profile").set_defaults(fn=cmd_profile)
     sub.add_parser("recipes-stale").set_defaults(fn=cmd_recipes_stale)
     sub.add_parser("recipes-need").set_defaults(fn=cmd_recipes_need)
+    sub.add_parser("photos-repair").set_defaults(fn=cmd_photos_repair)
     p = sub.add_parser("reject"); p.add_argument("title")
     p.set_defaults(fn=cmd_reject)
     p = sub.add_parser("photo-options")
