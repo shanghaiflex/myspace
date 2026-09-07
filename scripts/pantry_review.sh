@@ -10,6 +10,15 @@ cd "$(dirname "$0")/.."
 ROOT=$(pwd)
 export PATH="$HOME/.local/bin:$HOME/.local/python312/bin:$HOME/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 if [ -f .env ]; then set -a; . ./.env; set +a; fi
+# Flags in any order: --force writes a note even when nothing changed,
+# --force-recipes regenerates the dish ideas before they go stale.
+FORCE=0; FORCE_RECIPES=0
+for arg in "$@"; do
+  case "$arg" in
+    --force) FORCE=1 ;;
+    --force-recipes) FORCE=1; FORCE_RECIPES=1 ;;
+  esac
+done
 MODEL="${PANTRY_MODEL:-opus}"
 WORK="${PANTRY_WORKDIR:-$HOME/.pantry-review}"; mkdir -p "$WORK"
 STAMP=$(date '+%F %T')
@@ -20,7 +29,7 @@ if ! python3 scripts/pantry.py sync > "$WORK/sync.txt" 2>&1; then
 fi
 python3 scripts/pantry.py summary > "$WORK/summary.txt"
 
-if [ "$1" != "--force" ]; then
+if [ "$FORCE" -eq 0 ]; then
   python3 scripts/pantry.py pending > "$WORK/pending.txt" 2>&1 || {
     echo "$STAMP $(cat "$WORK/pending.txt")"; exit 0; }
 fi
@@ -39,7 +48,7 @@ python3 scripts/pantry.py review-save --model "$MODEL" --file "$WORK/note.txt"
 
 # Dish ideas change far slower than stock: regenerate only every few days,
 # or when asked. Nobody cooks from a list that is different every morning.
-if [ "$1" = "--force-recipes" ] || python3 scripts/pantry.py recipes-stale >/dev/null 2>&1; then
+if [ "$FORCE_RECIPES" -eq 1 ] || python3 scripts/pantry.py recipes-stale >/dev/null 2>&1; then
   { cat pantry/RECIPES.md; printf '\n## Мой профиль\n'; python3 scripts/pantry.py profile; } > "$WORK/recipes-prompt.txt"
   cd "$WORK"
   if claude -p --model "$MODEL" --tools "" --no-session-persistence --output-format text < recipes-prompt.txt > recipes.json 2> recipes.err; then
