@@ -99,6 +99,14 @@
   .hours .ic { font-size: 14px; line-height: 1.3; }
   .hours .t { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
   @media (max-width: 900px) { .hours { margin-left: 0; width: 100%; } }
+  .card.wx.c4 { padding: 18px 20px; border-radius: 24px; justify-content: space-between; }
+  .card.wx.c4 .wxrow { flex-wrap: nowrap; }
+  .card.wx.c4 .hours { margin-left: 0; width: 100%; }
+  .card.wx.c4 .hours .hr { min-width: 34px; }
+  .card.lc { padding: 18px 20px; gap: 10px; }
+  .card.lc h2 { font-size: 16px; }
+  .card.lc .img.sq { width: 64px; height: 64px; } .card.lc .img.wide { width: 104px; height: 60px; }
+  .card.lc .btn { height: 34px; padding: 0 14px; font-size: 13px; margin-top: 2px; }
   .stats { display: flex; gap: 26px; flex-wrap: wrap; color: var(--card-text-2); font-size: 13px; }
   .card.hl .note { font-size: 18px; line-height: 1.4; letter-spacing: -0.02em; margin: 0; font-weight: 500; white-space: pre-wrap; }
   .card.hl .stats { gap: 22px; }
@@ -134,7 +142,7 @@ const PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('movies.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null)]).then(([lect, mixes, movies, bgs, wx, books, hl]) => {
+Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null)]).then(([lect, mixes, bgs, wx, books, hl]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
   if (wx && wx.now) {
@@ -143,11 +151,12 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     const precip = wx.today.precipSum > 0 || wx.today.precipProbMax >= 40
       ? `${wx.today.precipSum > 0 ? wx.today.precipSum + ' мм' : 'осадки'}, ${wx.today.precipProbMax}%${rainy.length ? ` в ${rainy[0].time}–${rainy[rainy.length - 1].time}` : ''}`
       : 'без осадков';
-    cards.push(`<div class="card c12 wx"><div class="wxrow">
+    const side = !!(hl && (hl.review || hl.lastIngest));
+    cards.push(`<div class="card ${side ? 'c4' : 'c12'} wx"><div class="wxrow">
         <span class="wxicon">${wx.now.icon}</span><span class="wxtemp">${sign(wx.now.temp)}</span>
         <div class="wxtxt"><div class="t">${esc(wx.now.condition)}, ощущается ${sign(wx.now.feels)}</div>
           <div class="s">${esc(wx.city)} · днём ${sign(wx.today.tmax)}, ночью ${sign(wx.today.tmin)} · ${wx.today.icon} ${precip} · ветер ${wx.now.wind} м/с</div></div>
-        <div class="hours">${wx.hours.slice(0, 12).map(h => `<div class="hr ${(h.precipProb || 0) >= 40 ? 'wet' : ''}"><div class="s">${h.time.slice(0, 2)}</div><div class="ic">${h.icon}</div><div class="t">${sign(h.temp).replace('°', '')}</div></div>`).join('')}</div>
+        <div class="hours">${wx.hours.slice(0, side ? 8 : 12).map(h => `<div class="hr ${(h.precipProb || 0) >= 40 ? 'wet' : ''}"><div class="s">${h.time.slice(0, 2)}</div><div class="ic">${h.icon}</div><div class="t">${sign(h.temp).replace('°', '')}</div></div>`).join('')}</div>
       </div></div>`);
   }
   if (hl && (hl.review || hl.lastIngest)) {
@@ -155,7 +164,7 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     const t = hl.days[0] || {}, a = hl.avg7 || {};
     const when = hl.review ? new Date(hl.review.ts) : null;
     const whenTxt = when ? (when.toDateString() === new Date().toDateString() ? '' : when.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) + ', ') + when.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '';
-    cards.push(`<a class="card c12 hl" href="health.html"><div class="eyebrow">Самочувствие <span class="more">${whenTxt ? 'заметка ' + esc(whenTxt) : 'заметки пока нет'}</span></div>
+    cards.push(`<a class="card ${wx && wx.now ? 'c8' : 'c12'} hl" href="health.html"><div class="eyebrow">Самочувствие <span class="more">${whenTxt ? 'заметка ' + esc(whenTxt) : 'заметки пока нет'}</span></div>
       ${hl.review ? `<p class="note">${esc(hl.review.text)}</p>` : ''}
       <div class="stats"><div><b>${t.sleep ? hm(t.sleep.total) : '—'}</b>сон</div><div><b>${t.rhr ?? '—'}</b>пульс покоя</div><div><b>${t.hrv ?? '—'}</b>HRV</div>
         <div><b>${t.steps != null ? Math.round(t.steps).toLocaleString('ru-RU') : '—'}</b>шагов сегодня${a.steps ? ' · ср. ' + Math.round(a.steps).toLocaleString('ru-RU') : ''}</div>
@@ -164,26 +173,20 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   const mix = pick(mixes, 1)[0];
   const reading = books.filter(b => b.status === 'reading');
 
-  // One card per lecture channel: "next up" (listening, else first queued, else best recommendation) + what follows.
+  // One compact card per lecture channel: "next up" (listening, else first queued, else best recommendation).
   const chanCard = (ch, label) => {
     const mine = lect.lectures.filter(l => l.channel === ch.id);
     const listening = mine.filter(l => l.status === 'listening').sort((a, b) => (b.position || 0) - (a.position || 0));
     const queued = mine.filter(l => l.status === 'queued').sort((a, b) => (a.queuedAt || 0) - (b.queuedAt || 0));
-    const recs = recommend(lect, 6, ch.id).filter(l => l.status !== 'queued');
-    const next = listening[0] || queued[0] || recs[0];
+    const next = listening[0] || queued[0] || recommend(lect, 1, ch.id)[0];
     if (!next) return '';
-    const rest = [...listening.slice(1), ...queued.filter(l => l !== next), ...recs.filter(l => l !== next)].slice(0, 3);
     const pct = next.status === 'listening' && next.duration ? Math.min(100, (next.position || 0) / next.duration * 100) : 0;
-    const tag = l => l.status === 'listening' ? 'слушаю · ' + Lect.fmtTime(l.position || 0) : l.status === 'queued' ? 'в планах' : 'рекомендую';
     const sq = ch.type === 'soundcloud';
-    return `<div class="card c6"><div class="eyebrow">${esc(label)} <a class="more" href="lectures.html#channel=${encodeURIComponent(ch.id)}">все →</a></div>
+    return `<div class="card c6 lc"><div class="eyebrow">${esc(label)} <a class="more" href="lectures.html#channel=${encodeURIComponent(ch.id)}">все →</a></div>
       <a class="row" href="lectures.html#${esc(next.id)}"><div class="img ${sq ? 'sq' : 'wide'}">${thumb(next) ? `<img src="${esc(thumb(next))}" alt="" onerror="this.onerror=null;this.src=this.src.replace('mqdefault','hqdefault')">` : ''}</div>
-        <div class="txt"><h2>${esc(next.title)}</h2><div class="sub">${esc(seriesName(lect, next))}</div>
-        <div class="sub">${next.status === 'listening' ? Lect.fmtTime(next.position || 0) + ' из ' : ''}${fmtDur(next.duration)}</div>${pct ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}</div></a>
-      ${rest.length ? `<div class="sub" style="margin-top:4px">Дальше</div><div class="list plain">${rest.map(l => `<a href="lectures.html#${esc(l.id)}"><div style="min-width:0"><div class="t">${esc(l.title)}</div><div class="s">${tag(l)} · ${fmtDur(l.duration)}</div></div></a>`).join('')}</div>` : ''}
+        <div class="txt"><h2>${esc(next.title)}</h2><div class="sub">${esc(seriesName(lect, next))} · ${next.status === 'listening' ? Lect.fmtTime(next.position || 0) + ' из ' : next.status === 'queued' ? 'в планах · ' : 'рекомендую · '}${fmtDur(next.duration)}</div>${pct ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}</div></a>
       <a class="btn" href="lectures.html#${esc(next.id)}">${PLAY} ${next.status === 'listening' ? 'Слушать дальше' : 'Слушать'}</a></div>`;
   };
-  for (const ch of (lect.channels || [])) cards.push(chanCard(ch, ch.label || ch.name));
   if (mix) {
     cards.push(`<a class="card ${reading.length ? 'c6' : 'c12'}" href="mixes.html#${encodeURIComponent(mix.id)}">
       <div class="eyebrow">Микс на сегодня <span class="more">случайный</span></div>
@@ -195,10 +198,7 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     cards.push(`<a class="card c6" href="books.html#${esc(b.id)}"><div class="eyebrow">Читаю <span class="more">${reading.length > 1 ? 'и ещё ' + (reading.length - 1) : ''}</span></div>
       <div class="row"><div class="img book">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : ''}</div><div class="txt"><h2>${esc(b.title)}</h2><div class="sub">${esc(b.author || '')}</div></div></div></a>`);
   }
-  const watched = movies.filter(m => m.status === 'watched'), listened = lect.lectures.filter(l => l.status === 'listened');
-  cards.push(`<div class="card c12"><div class="stats">
-    <div><b>${watched.length}</b>фильмов посмотрел</div><div><b>${movies.filter(m => m.status === 'to-watch').length}</b>в планах</div>
-    <div><b>${books.filter(b => b.status === 'read').length}</b>книг прочитал</div><div><b>${mixes.length}</b>миксов</div><div><b>${listened.length}</b>лекций прослушано</div><div><b>${fmtDur(listened.reduce((s, l) => s + (l.duration || 0), 0)).replace(' мин', '')}</b>часов лекций</div></div></div>`);
+  for (const ch of (lect.channels || [])) cards.push(chanCard(ch, ch.label || ch.name));
   document.getElementById('cards').innerHTML = cards.join('');
 });
 </script>
