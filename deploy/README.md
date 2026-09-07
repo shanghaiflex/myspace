@@ -1,9 +1,14 @@
 # Деплой на bodywithoutorgans.cc
 
-Схема: сервер (Mac mini дома или Linux VPS) держит клон этого репозитория, запускает `serve.py`
-на localhost:8787 с паролем из `.env`, а Cloudflare Tunnel публикует его как https://bodywithoutorgans.cc.
-Открытых портов нет, HTTPS даёт Cloudflare. Данные ходят через git: `scripts/sync.sh` раз в 5 минут
-коммитит правки с сайта и пушит, ноутбук делает `git pull` перед своими правками.
+Схема: Mac mini дома держит копию сайта в `~/movies`, запускает `serve.py` на localhost:8787
+с паролем из `.env` (launchd-агент `cc.bodywithoutorgans.serve`), а Cloudflare Tunnel (агент
+`cc.bodywithoutorgans.tunnel`) публикует его как https://bodywithoutorgans.cc. Открытых портов нет, HTTPS даёт Cloudflare.
+
+На mini нет Xcode CLT, Homebrew и git, поэтому инструменты стоят автономно в домашней папке
+(`deploy/install-tools-offline.sh`: Python в `~/.local/python312`, `~/bin/yt-dlp`, `~/bin/cloudflared`),
+а данные ходят через rsync: `scripts/sync.sh` на ноутбуке забирает JSON с правками с сайта, коммитит
+в git и заливает весь сайт обратно на mini. Запускать перед и после правок через Claude Code.
+Mini выходит в интернет только через AmneziaVPN, без него туннель, погода и загрузки не работают.
 
 ## Один раз на сервере
 

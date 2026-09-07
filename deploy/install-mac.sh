@@ -3,7 +3,8 @@
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 AG="$HOME/Library/LaunchAgents"; mkdir -p "$AG" "$ROOT/logs"
-PY="$(command -v python3)"; PATHV="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+PY="${PYTHON:-$(command -v python3)}"; PATHV="$HOME/.local/python312/bin:$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+[ -x "$HOME/.local/python312/bin/python3" ] && [ -z "${PYTHON:-}" ] && PY="$HOME/.local/python312/bin/python3"
 [ -f "$ROOT/.env" ] || { echo "create $ROOT/.env with MOVIES_PASSWORD=... first (see .env.example)"; exit 1; }
 cat > "$AG/cc.bodywithoutorgans.serve.plist" <<PL
 <?xml version="1.0" encoding="UTF-8"?>
@@ -23,6 +24,7 @@ cat > "$AG/cc.bodywithoutorgans.sync.plist" <<PL
 <plist version="1.0"><dict>
   <key>Label</key><string>cc.bodywithoutorgans.sync</string>
   <key>ProgramArguments</key><array><string>/bin/sh</string><string>$ROOT/scripts/sync.sh</string></array>
+  <key>WorkingDirectory</key><string>$ROOT</string>
   <key>EnvironmentVariables</key><dict><key>PATH</key><string>$PATHV</string></dict>
   <key>StartInterval</key><integer>300</integer><key>RunAtLoad</key><true/>
   <key>StandardOutPath</key><string>$ROOT/logs/sync.log</string><key>StandardErrorPath</key><string>$ROOT/logs/sync.log</string>

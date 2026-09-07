@@ -99,9 +99,11 @@ python3 scripts/lectures.py add-channel <url>
 
 ## Auth & deploy
 `serve.py` requires a password when `MOVIES_PASSWORD` is set (env or `.env`, gitignored); localhost runs open.
-Production target: https://bodywithoutorgans.cc via Cloudflare Tunnel from a home Mac mini or a VPS, see
-`deploy/README.md`. Data syncs through git (`scripts/sync.sh`, runs every 5 min on the server), so on the
-laptop run `git pull --rebase` before editing and `git push` after.
+Production: https://bodywithoutorgans.cc served by the home Mac mini (ssh alias `mini`, user sergeyfilatov,
+site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), see `deploy/README.md`.
+The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`. Data sync is rsync:
+run `scripts/sync.sh` BEFORE editing catalogs (pulls site edits from the mini) and AFTER (pushes everything).
+Audio for lectures must be downloaded on the mini: `ssh mini '~/.local/python312/bin/python3 ~/movies/scripts/lectures.py audio <id>'`.
 
 ## Data model (`movies.json`, array sorted by title)
 `id` (imdb), `title`, `year`, `director`, `genre[]`, `runtime` (min), `plot`, `imdbRating`,

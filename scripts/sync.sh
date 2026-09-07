@@ -1,15 +1,17 @@
 #!/bin/sh
-# Two-way sync of the catalog through git: commit local edits, pull others', push.
-# Safe to run from cron/launchd every few minutes on the server, and by hand on the laptop.
+# Sync the catalog with the Mac mini that serves bodywithoutorgans.cc. Run from the laptop.
+#   1. pull data files edited on the site (movies/mixes/lectures/books json) from the mini
+#   2. commit them here
+#   3. push the whole site (code, posters, covers, backgrounds) to the mini
+# The mini has no git, so this is rsync over SSH. Host alias "mini" comes from ~/.ssh/config.
 cd "$(dirname "$0")/.." || exit 1
+HOST="${MINI_HOST:-mini}"
+DATA="movies.json mixes.json lectures.json books.json"
+if ! ssh -o BatchMode=yes -o ConnectTimeout=5 "$HOST" true 2>/dev/null; then
+  echo "$HOST is not reachable, nothing synced"; exit 1
+fi
+for f in $DATA; do rsync -az "$HOST:movies/$f" "./$f" 2>/dev/null; done
 git add -A
-if ! git diff --cached --quiet; then
-  git commit -qm "Sync from $(hostname -s) $(date '+%Y-%m-%d %H:%M')" || exit 1
-fi
-git remote get-url origin >/dev/null 2>&1 || { echo "no remote, local commit only"; exit 0; }
-if ! git pull -q --rebase; then
-  echo "rebase conflict, keeping local version of data files"
-  git checkout --theirs movies.json mixes.json 2>/dev/null
-  git add -A && GIT_EDITOR=true git rebase --continue || { git rebase --abort; exit 1; }
-fi
-git push -q
+git diff --cached --quiet || git commit -qm "Sync from $HOST $(date '+%Y-%m-%d %H:%M')"
+rsync -az --delete --exclude .git --exclude audio --exclude .env --exclude .session_secret --exclude logs --exclude __pycache__ --exclude .DS_Store ./ "$HOST:movies/"
+echo "synced with $HOST"
