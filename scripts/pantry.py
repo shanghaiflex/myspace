@@ -139,6 +139,13 @@ def cmd_recipes_save(a) -> None:
             rec_["photo"] = None
         out.append(rec_)
 
+    # Photos accumulate every regeneration; keep only what is on the page.
+    keep = {r["photo"]["file"] for r in out if r.get("photo")}
+    if os.path.isdir(PHOTO_DIR):
+        for f in os.listdir(PHOTO_DIR):
+            if f.endswith(".jpg") and f not in keep:
+                os.remove(os.path.join(PHOTO_DIR, f))
+
     st = load()
     st["recipes"] = out
     st["recipes_ts"] = datetime.now().isoformat(timespec="seconds")
