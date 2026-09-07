@@ -1,0 +1,6 @@
+.git
+audio
+logs
+.env
+.session_secret
+__pycache__

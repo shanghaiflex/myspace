@@ -1,0 +1,14 @@
+# Local always-on instance for the laptop: http://localhost:8787
+# The repo is bind-mounted, so Claude Code edits and site edits both land in the same files.
+services:
+  movies:
+    build: .
+    container_name: movies
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8787:8787"
+    volumes:
+      - ./:/app
+    env_file:
+      - path: .env
+        required: false
