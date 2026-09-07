@@ -16,7 +16,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Вторая мировая война. Ад на земле"
   },
   {
     "id": "as-i-lay-dying-faulkner-w",
@@ -33,7 +34,8 @@
     "comment": null,
     "addedAt": "2024-05-08",
     "finishedAt": null,
-    "tags": []
+    "tags": [],
+    "titleAlt": "Когда я умирала"
   },
   {
     "id": "behave-robert-m-sapolsky",
@@ -52,7 +54,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Биология добра и зла"
   },
   {
     "id": "beyond-the-pleasure-principle-sigmund-freud",
@@ -71,7 +74,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "По ту сторону принципа удовольствия"
   },
   {
     "id": "black-holes-brian-cox-jeff-forshaw",
@@ -90,7 +94,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "capitalist-realism-mark-fisher",
@@ -109,7 +114,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Капиталистический реализм"
   },
   {
     "id": "comment-vivre-ensemble-roland-barthes",
@@ -119,8 +125,8 @@
     "pages": null,
     "isbn": null,
     "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=F87WAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/964425-L.jpg",
+    "cover": "covers/comment-vivre-ensemble-roland-barthes.jpg",
     "status": "read",
     "rating": null,
     "comment": null,
@@ -128,7 +134,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Как жить вместе"
   },
   {
     "id": "darkness-take-my-hand-dennis-lehane",
@@ -147,7 +154,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Тьма, возьми меня за руку"
   },
   {
     "id": "desire-and-its-interpretation-jacques-lacan",
@@ -166,7 +174,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Желание и его истолкование"
   },
   {
     "id": "eichmann-in-jerusalem-hannah-arendt",
@@ -176,8 +185,8 @@
     "pages": null,
     "isbn": null,
     "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=jsDtAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/97789-L.jpg",
+    "cover": "covers/eichmann-in-jerusalem-hannah-arendt.jpg",
     "status": "read",
     "rating": null,
     "comment": null,
@@ -185,7 +194,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Банальность зла. Эйхман в Иерусалиме"
   },
   {
     "id": "existentialism-is-a-humanism-jean-paul-sartre",
@@ -204,7 +214,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Экзистенциализм — это гуманизм"
   },
   {
     "id": "franny-and-zooey-jerome-david-salinger",
@@ -223,7 +234,26 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Фрэнни и Зуи"
+  },
+  {
+    "id": "9780006499176",
+    "title": "H.M.S. Surprise",
+    "author": "Patrick O'Brian",
+    "year": 1973,
+    "pages": null,
+    "isbn": "9780006499176",
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/11645474-L.jpg",
+    "cover": "covers/9780006499176.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "Фрегат Его Величества «Сюрприз»"
   },
   {
     "id": "hatter-s-castle-archibald-joseph-cronin",
@@ -233,8 +263,8 @@
     "pages": null,
     "isbn": null,
     "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=gqaQZ9FDZ74C&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/14600400-L.jpg",
+    "cover": "covers/hatter-s-castle-archibald-joseph-cronin.jpg",
     "status": "to-read",
     "rating": null,
     "comment": null,
@@ -242,7 +272,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Замок Броуди"
   },
   {
     "id": "his-master-s-voice-stanislaw-lem",
@@ -261,7 +292,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Голос Господа"
   },
   {
     "id": "light-in-august-william-faulkner",
@@ -280,7 +312,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Свет в августе"
   },
   {
     "id": "madness-and-civilization-michel-foucault",
@@ -299,26 +332,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
-  },
-  {
-    "id": "mifologii-ролан-барт",
-    "title": "Mifologii",
-    "author": "Ролан Барт",
-    "year": 1996,
-    "pages": null,
-    "isbn": "9785824200485",
-    "description": null,
-    "coverUrl": null,
-    "cover": null,
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2025-04-15",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ]
+    ],
+    "titleAlt": "История безумия в классическую эпоху"
   },
   {
     "id": "molecular-biology-of-the-cell-bruce-alberts",
@@ -337,7 +352,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Молекулярная биология клетки"
   },
   {
     "id": "napoleon-the-great-andrew-roberts",
@@ -356,7 +372,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Наполеон. Биография"
   },
   {
     "id": "nexus-ramez-naam",
@@ -375,7 +392,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Нексус"
   },
   {
     "id": "niels-bohr-and-the-development-of-physics-wolfgang-pauli",
@@ -394,7 +412,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Нильс Бор и развитие физики"
   },
   {
     "id": "on-human-nature-edward-o-wilson",
@@ -413,7 +432,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "О природе человека"
   },
   {
     "id": "pale-fire-vladimir-vladimirovich-nabokov",
@@ -432,26 +452,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
-  },
-  {
-    "id": "parm-nides-martin-heidegger",
-    "title": "Parménides",
-    "author": "Martin Heidegger",
-    "year": 2005,
-    "pages": null,
-    "isbn": "9788446018889",
-    "description": null,
-    "coverUrl": "https://vse-svobodny.com/wp-content/uploads/2023/07/%D0%A5%D0%B0%D0%B9%D0%B4%D0%B5%D0%B3%D0%B3%D0%B5%D1%80.-%D0%9F%D0%B0%D1%80%D0%BC%D0%B5%D0%BD%D0%B8%D0%B4.jpg",
-    "cover": "covers/parm-nides-martin-heidegger.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-09-22",
-    "finishedAt": null,
-    "tags": [
-      "🟥"
-    ]
+    ],
+    "titleAlt": "Бледный огонь"
   },
   {
     "id": "pnin-vladimir-nabokov",
@@ -470,7 +472,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Пнин"
   },
   {
     "id": "post-captain-patrick-o-brian",
@@ -480,8 +483,8 @@
     "pages": null,
     "isbn": null,
     "description": null,
-    "coverUrl": null,
-    "cover": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/225770-L.jpg",
+    "cover": "covers/post-captain-patrick-o-brian.jpg",
     "status": "read",
     "rating": null,
     "comment": null,
@@ -489,7 +492,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Капитан первого ранга"
   },
   {
     "id": "rameau-s-nephew-denis-diderot",
@@ -508,7 +512,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Племянник Рамо"
   },
   {
     "id": "sevastopol-sketches-leo-nikolayevich-tolstoy",
@@ -527,7 +532,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Севастопольские рассказы"
   },
   {
     "id": "speaking-the-truth-about-oneself-michel-foucault",
@@ -546,7 +552,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Dire vrai sur soi-même"
   },
   {
     "id": "spqr-мэри-бирд",
@@ -565,7 +572,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "SPQR: A History of Ancient Rome"
   },
   {
     "id": "the-ashes-of-london-andrew-taylor",
@@ -584,7 +592,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "the-bastard-brigade-sam-kean",
@@ -603,7 +612,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Отряд отморозков"
   },
   {
     "id": "the-birth-of-the-clinic-michel-foucault",
@@ -622,7 +632,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Рождение клиники"
   },
   {
     "id": "the-death-of-ivan-ilyich-and-other-stories-leo-tolstoy-count",
@@ -641,7 +652,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Смерть Ивана Ильича и другие рассказы"
   },
   {
     "id": "the-druidry-handbook-john-michael-greer",
@@ -660,7 +672,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Настольная книга друида"
   },
   {
     "id": "the-ego-in-freud-s-theory-and-in-the-technique-of-psychoanal",
@@ -679,7 +692,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Я в теории Фрейда и в технике психоанализа"
   },
   {
     "id": "the-end-is-always-near-dan-carlin",
@@ -698,7 +712,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "the-gallic-wars-julius-caesar-aulus-hirtius",
@@ -717,7 +732,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Записки о Галльской войне"
   },
   {
     "id": "the-gospel-in-brief-count-leo-nikolayevich-tolstoy-1828-1910",
@@ -736,7 +752,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Краткое изложение Евангелия"
   },
   {
     "id": "the-lies-of-locke-lamora-scott-lynch",
@@ -755,7 +772,26 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Хитрости Локка Ламоры"
+  },
+  {
+    "id": "9780007429318",
+    "title": "The Mauritius Command",
+    "author": "Patrick O'Brian",
+    "year": 1977,
+    "pages": null,
+    "isbn": "9780007429318",
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/246877-L.jpg",
+    "cover": "covers/9780007429318.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "Миссия на Маврикий"
   },
   {
     "id": "the-maxwellians-bruce-j-hunt",
@@ -774,7 +810,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "the-plantagenets-dan-jones",
@@ -793,7 +830,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Плантагенеты. Короли и королевы, создавшие Англию"
   },
   {
     "id": "the-shadow-over-innsmouth-h-p-lovecraft",
@@ -812,7 +850,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Тень над Иннсмутом"
   },
   {
     "id": "the-sound-of-waves-yukio-mishima",
@@ -831,26 +870,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
-  },
-  {
-    "id": "the-story-of-a-new-name-elena-ferrante",
-    "title": "The Story of a New Name",
-    "author": "Elena Ferrante",
-    "year": 2013,
-    "pages": null,
-    "isbn": "9781609451479",
-    "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=hrTRDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "cover": "covers/the-story-of-a-new-name-elena-ferrante.jpg",
-    "status": "read",
-    "rating": null,
-    "comment": null,
-    "addedAt": "2024-09-22",
-    "finishedAt": null,
-    "tags": [
-      "🟧"
-    ]
+    ],
+    "titleAlt": "Шум прибоя"
   },
   {
     "id": "the-temple-of-the-golden-pavilion-yukio-mishima",
@@ -869,7 +890,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Золотой Храм"
   },
   {
     "id": "the-wages-of-destruction-j-adam-tooze",
@@ -879,8 +901,8 @@
     "pages": null,
     "isbn": null,
     "description": null,
-    "coverUrl": "https://books.google.com/books/content?id=8-LtAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-    "cover": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/400830-L.jpg",
+    "cover": "covers/the-wages-of-destruction-j-adam-tooze.jpg",
     "status": "read",
     "rating": null,
     "comment": null,
@@ -888,7 +910,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Цена разрушения"
   },
   {
     "id": "timaeus-платон",
@@ -907,7 +930,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Тимей"
   },
   {
     "id": "toward-a-new-philosophy-of-biology-ernst-mayr",
@@ -926,7 +950,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "tractatus-logico-philosophicus-ludwig-wittgenstein",
@@ -945,7 +970,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Логико-философский трактат"
   },
   {
     "id": "wuthering-heights-emily-bronte",
@@ -964,7 +990,26 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Грозовой перевал"
+  },
+  {
+    "id": "анатомия-архитектуры-сергей-кавтарадзе",
+    "title": "Анатомия архитектуры",
+    "author": "Сергей Кавтарадзе",
+    "year": 2015,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1013161903/200x305/dfc0/boocover.jpg",
+    "cover": "covers/анатомия-архитектуры-сергей-кавтарадзе.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": null
   },
   {
     "id": "анти-эдип-капитализм-и-шизофрения-жиль-делез",
@@ -983,7 +1028,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "L'Anti-Œdipe. Capitalisme et schizophrénie"
   },
   {
     "id": "бык-культурная-история-мишель-паступо",
@@ -1002,7 +1048,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Le Taureau. Une histoire culturelle"
   },
   {
     "id": "бытие-и-время-мартин-хайдеггер",
@@ -1021,7 +1068,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Sein und Zeit"
   },
   {
     "id": "вечера-на-хуторе-близ-диканьки-николай-гоголь",
@@ -1040,7 +1088,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Evenings on a Farm Near Dikanka"
   },
   {
     "id": "взломавшая-код-дженнифер-даудна-редактирование-генома-и-буду",
@@ -1059,7 +1108,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "The Code Breaker"
   },
   {
     "id": "генеалогия-морали-фридрих-ницше",
@@ -1078,7 +1128,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Zur Genealogie der Moral"
   },
   {
     "id": "город-в-западной-европе-в-средние-века-ландшафты-власть-и-ко",
@@ -1097,7 +1148,26 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "La ville au Moyen Âge en Occident"
+  },
+  {
+    "id": "джордано-бруно-и-герметическая-традиция-фрэнсис-йейтс",
+    "title": "Джордано Бруно и герметическая традиция",
+    "author": "Фрэнсис Йейтс",
+    "year": 1964,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1002884307/200x305/3671/boocover.jpg",
+    "cover": "covers/джордано-бруно-и-герметическая-традиция-фрэнсис-йейтс.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "Giordano Bruno and the Hermetic Tradition"
   },
   {
     "id": "дневники-льва-толстого-владимир-бибихин",
@@ -1116,7 +1186,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "доктор-живаго-борис-пастернак",
@@ -1135,7 +1206,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Doctor Zhivago"
   },
   {
     "id": "другие-берега-владимир-набоков",
@@ -1154,7 +1226,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Speak, Memory"
   },
   {
     "id": "дух-и-зубы-ник-ланд",
@@ -1173,7 +1246,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Spirit and Teeth"
   },
   {
     "id": "евгений-онегин-роман-с-комментариями-лотмана-ю-м-пушкин-а-с",
@@ -1192,7 +1266,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Eugene Onegin"
   },
   {
     "id": "женщина-в-песках-кобо-абэ",
@@ -1211,7 +1286,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "砂の女 / The Woman in the Dunes"
   },
   {
     "id": "жизнь-в-средневековом-городе-гис-джозеф-гис-фрэнсис",
@@ -1228,7 +1304,8 @@
     "comment": null,
     "addedAt": "2024-05-08",
     "finishedAt": null,
-    "tags": []
+    "tags": [],
+    "titleAlt": "Life in a Medieval City"
   },
   {
     "id": "закат-европы-освальд-шпенглер",
@@ -1247,7 +1324,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Der Untergang des Abendlandes"
   },
   {
     "id": "записки-из-подполья-федор-михайлович-достоевский",
@@ -1266,7 +1344,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Notes from Underground"
   },
   {
     "id": "избранные-сочинения-карл-маркс-фридрих-энгельс",
@@ -1276,8 +1355,8 @@
     "pages": null,
     "isbn": "9785250002240",
     "description": null,
-    "coverUrl": null,
-    "cover": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1001155244/200x305/933c/boocover.jpg",
+    "cover": "covers/избранные-сочинения-карл-маркс-фридрих-энгельс.jpg",
     "status": "to-read",
     "rating": null,
     "comment": null,
@@ -1285,11 +1364,12 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "избранные-труды-древние-германцы-гуревич-а-я",
-    "title": "Избранные труды. Древние германцы",
+    "title": "Избранные труды. Древние германцы. Викинги",
     "author": "Гуревич А.Я.",
     "year": null,
     "pages": null,
@@ -1297,12 +1377,13 @@
     "description": null,
     "coverUrl": "https://ir.ozone.ru/s3/multimedia-1-7/wc1000/7570690531.jpg",
     "cover": "covers/избранные-труды-древние-германцы-гуревич-а-я.jpg",
-    "status": "to-read",
+    "status": "read",
     "rating": null,
     "comment": null,
     "addedAt": "2024-05-08",
     "finishedAt": null,
-    "tags": []
+    "tags": [],
+    "titleAlt": null
   },
   {
     "id": "избранные-философские-работы-werner-heisenberg",
@@ -1321,7 +1402,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "исповедь-блаженный-августин",
@@ -1340,7 +1422,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Confessiones"
   },
   {
     "id": "испов-дь-жан-жак-руссо",
@@ -1359,7 +1442,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Les Confessions"
   },
   {
     "id": "исторические-корни-волшебной-сказки-пропп-владимир-яковлевич",
@@ -1378,18 +1462,19 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "The Historical Roots of the Wonder Tale"
   },
   {
     "id": "история-нового-имени-моя-гениальная-подруга-элена-ферранте",
-    "title": "История нового имени. Моя гениальная подруга",
+    "title": "История нового имени",
     "author": "Элена Ферранте",
     "year": 2017,
     "pages": null,
     "isbn": "9785906837417",
     "description": null,
-    "coverUrl": null,
-    "cover": null,
+    "coverUrl": "https://books.google.com/books/content?id=hrTRDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "cover": "covers/история-нового-имени-моя-гениальная-подруга-элена-ферранте.jpg",
     "status": "read",
     "rating": null,
     "comment": null,
@@ -1397,7 +1482,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Storia del nuovo cognome"
   },
   {
     "id": "история-о-пропавшем-ребенке-элена-ферранте",
@@ -1416,7 +1502,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Storia della bambina perduta"
   },
   {
     "id": "кавказский-пленник-лев-толстой",
@@ -1435,7 +1522,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "A Prisoner in the Caucasus"
   },
   {
     "id": "кит-культурная-история-мишель-пастуро",
@@ -1454,7 +1542,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "La Baleine. Une histoire culturelle"
   },
   {
     "id": "король-дама-валет-владимир-набоков",
@@ -1473,7 +1562,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "King, Queen, Knave"
   },
   {
     "id": "котлован-андрей-платонов",
@@ -1492,7 +1582,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "The Foundation Pit"
   },
   {
     "id": "критика-чистого-разума-иммануил-кант",
@@ -1511,7 +1602,26 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Kritik der reinen Vernunft"
+  },
+  {
+    "id": "круг-в-огне-фланнери-о-коннор",
+    "title": "Круг в огне",
+    "author": "Фланнери О'Коннор",
+    "year": 1955,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1015829518/200x305/09f9/boocover.jpg",
+    "cover": "covers/круг-в-огне-фланнери-о-коннор.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "A Circle in the Fire"
   },
   {
     "id": "кто-боится-вольных-каменщиков-александр-моисеевич-пятигорски",
@@ -1530,7 +1640,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Who's Afraid of Freemasons?"
   },
   {
     "id": "легенда-об-уленшпигеле-шарль-де-костер",
@@ -1549,7 +1660,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "La Légende d'Ulenspiegel"
   },
   {
     "id": "лекции-по-античной-философии-мераб-константинович-мамардашви",
@@ -1568,7 +1680,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "лекции-по-русской-литературе-владимир-владимирович-набоков",
@@ -1587,7 +1700,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Lectures on Russian Literature"
   },
   {
     "id": "лес-hyle-владимир-вениаминович-бибихин",
@@ -1606,7 +1720,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "мистические-культы-в-великой-греции-дж-касадио-и-п-а-джонсто",
@@ -1625,7 +1740,28 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Mystic Cults in Magna Graecia"
+  },
+  {
+    "id": "mifologii-ролан-барт",
+    "title": "Мифологии",
+    "author": "Ролан Барт",
+    "year": 1996,
+    "pages": null,
+    "isbn": "9785824200485",
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1001120934/200x305/e642/boocover.jpg",
+    "cover": "covers/mifologii-ролан-барт.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2025-04-15",
+    "finishedAt": null,
+    "tags": [
+      "🟧"
+    ],
+    "titleAlt": "Mythologies"
   },
   {
     "id": "моя-гениальная-подруга-элена-ферранте",
@@ -1644,7 +1780,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "L'amica geniale"
   },
   {
     "id": "надзирать-и-наказывать-рождение-тюрьмы-мишель-фуко",
@@ -1663,7 +1800,26 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Surveiller et punir. Naissance de la prison"
+  },
+  {
+    "id": "начала-христианства-владимир-бибихин",
+    "title": "Начала христианства",
+    "author": "Владимир Бибихин",
+    "year": null,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1016288173/200x305/ce22/boocover.jpg",
+    "cover": "covers/начала-христианства-владимир-бибихин.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": null
   },
   {
     "id": "ненависть-к-поэзии-жорж-батай",
@@ -1673,8 +1829,8 @@
     "pages": null,
     "isbn": "9785911034306",
     "description": null,
-    "coverUrl": "https://ladomirbook.ru/images/books/bataj-zh-nenavist-k-poezii/cover_hu4cb8451fa55616024fce205a2666e0f9_289935_1280x0_resize_q75_h2_box.webp",
-    "cover": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1002557303/200x305/6129/boocover.jpg",
+    "cover": "covers/ненависть-к-поэзии-жорж-батай.jpg",
     "status": "read",
     "rating": null,
     "comment": null,
@@ -1682,7 +1838,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "La Haine de la poésie"
   },
   {
     "id": "ненормальные-мишель-фуко",
@@ -1701,7 +1858,26 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Les Anormaux"
+  },
+  {
+    "id": "основные-понятия-античной-философии-мартин-хайдеггер",
+    "title": "Основные понятия античной философии",
+    "author": "Мартин Хайдеггер",
+    "year": 1926,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1015864681/200x305/261f/boocover.jpg",
+    "cover": "covers/основные-понятия-античной-философии-мартин-хайдеггер.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "Grundbegriffe der antiken Philosophie"
   },
   {
     "id": "парменид-мартин-хайдеггер",
@@ -1720,7 +1896,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Parmenides"
   },
   {
     "id": "печальные-тропики-к-леви-строс",
@@ -1739,7 +1916,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Tristes Tropiques"
   },
   {
     "id": "пиноккио-философский-анализ-агамбен-джорджо",
@@ -1756,7 +1934,8 @@
     "comment": null,
     "addedAt": "2024-05-08",
     "finishedAt": null,
-    "tags": []
+    "tags": [],
+    "titleAlt": "Pinocchio. Le avventure di un burattino"
   },
   {
     "id": "по-ту-сторону-добра-и-зла-фридрих-ницше",
@@ -1766,8 +1945,8 @@
     "pages": null,
     "isbn": "9789851802261",
     "description": null,
-    "coverUrl": "https://www.iprbookshop.ru/assets/images/20200608/books/1.1.1/978-5-521-00717-2.jpg",
-    "cover": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1010786327/200x305/65dc/boocover.jpg",
+    "cover": "covers/по-ту-сторону-добра-и-зла-фридрих-ницше.jpg",
     "status": "read",
     "rating": null,
     "comment": null,
@@ -1775,7 +1954,8 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Jenseits von Gut und Böse"
   },
   {
     "id": "предания-и-мифы-средневековой-ирландии-шкунаев-с-в",
@@ -1794,7 +1974,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": null
   },
   {
     "id": "призраки-моей-жизни-марк-фишер",
@@ -1813,7 +1994,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Ghosts of My Life"
   },
   {
     "id": "протестантская-этика-и-дух-капитализма-макс-вебер",
@@ -1832,7 +2014,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Die protestantische Ethik und der Geist des Kapitalismus"
   },
   {
     "id": "путешествие-натуралиста-вокруг-света-на-корабле-бигль-чарльз",
@@ -1849,7 +2032,8 @@
     "comment": null,
     "addedAt": "2024-05-08",
     "finishedAt": null,
-    "tags": []
+    "tags": [],
+    "titleAlt": "The Voyage of the Beagle"
   },
   {
     "id": "работы-фрейда-по-технике-психоанализа-семинар-книга-1-1953-1",
@@ -1868,7 +2052,26 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Le Séminaire, Livre I: Les écrits techniques de Freud"
+  },
+  {
+    "id": "размышления-о-революции-во-франции-эдмунд-бёрк",
+    "title": "Размышления о революции во Франции",
+    "author": "Эдмунд Бёрк",
+    "year": 1790,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1008916732/200x305/e751/boocover.jpg",
+    "cover": "covers/размышления-о-революции-во-франции-эдмунд-бёрк.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "Reflections on the Revolution in France"
   },
   {
     "id": "реформация-диармайд-маккалох",
@@ -1885,7 +2088,8 @@
     "comment": null,
     "addedAt": "2024-05-08",
     "finishedAt": null,
-    "tags": []
+    "tags": [],
+    "titleAlt": "Reformation: Europe's House Divided"
   },
   {
     "id": "символическая-история-европейского-средневековья-мишель-паст",
@@ -1902,7 +2106,8 @@
     "comment": null,
     "addedAt": "2024-05-08",
     "finishedAt": null,
-    "tags": []
+    "tags": [],
+    "titleAlt": "Une histoire symbolique du Moyen Âge occidental"
   },
   {
     "id": "те-кто-уходит-и-те-кто-остается-элена-ферранте",
@@ -1921,7 +2126,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Storia di chi fugge e di chi resta"
   },
   {
     "id": "труженики-моря-виктор-гюго",
@@ -1940,7 +2146,44 @@
     "finishedAt": null,
     "tags": [
       "🟧"
-    ]
+    ],
+    "titleAlt": "Les Travailleurs de la mer"
+  },
+  {
+    "id": "тысяча-плато-капитализм-и-шизофрения-жиль-делез-феликс-гватт",
+    "title": "Тысяча плато. Капитализм и шизофрения",
+    "author": "Жиль Делез, Феликс Гваттари",
+    "year": 1980,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1012692937/200x305/7723/boocover.jpg",
+    "cover": "covers/тысяча-плато-капитализм-и-шизофрения-жиль-делез-феликс-гватт.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "Mille plateaux. Capitalisme et schizophrénie 2"
+  },
+  {
+    "id": "фейнмановские-лекции-по-физике-том-1-ричард-фейнман-роберт-л",
+    "title": "Фейнмановские лекции по физике. Том 1",
+    "author": "Ричард Фейнман, Роберт Лейтон, Мэтью Сэндс",
+    "year": 1963,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1002955080/200x305/a2cb/boocover.jpg",
+    "cover": "covers/фейнмановские-лекции-по-физике-том-1-ричард-фейнман-роберт-л.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-07",
+    "finishedAt": null,
+    "tags": [],
+    "titleAlt": "The Feynman Lectures on Physics, Vol. 1"
   },
   {
     "id": "феноменология-духа-георг-вильгельм-фридрих-гегель",
@@ -1959,7 +2202,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Phänomenologie des Geistes"
   },
   {
     "id": "чевенгур-андрей-платонов",
@@ -1978,7 +2222,8 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Chevengur"
   },
   {
     "id": "через-линию-э-юнгер",
@@ -1997,6 +2242,7 @@
     "finishedAt": null,
     "tags": [
       "🟥"
-    ]
+    ],
+    "titleAlt": "Über die Linie"
   }
 ]
