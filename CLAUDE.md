@@ -131,10 +131,13 @@ is currently not configured), so download lecture audio on the laptop (`scripts/
 `scripts/sync.sh` push `audio/` to the mini.
 
 ## Laptop
-`docker compose up -d` (colima) keeps an always-on local instance on http://localhost:8787 with the repo
-bind-mounted, so edits from Claude Code and from the site land in the same files. The Firefox homepage is
-production, https://bodywithoutorgans.cc (it was localhost until the tunnel went live), set in the profile's
-`user.js` (`~/Library/Application Support/Firefox/Profiles/oswx4c6l.default-release/user.js`).
+The always-on local instance on http://localhost:8787 is OFF since 2026-09-07: production went live, so
+the laptop no longer needs its own copy running. Bring it back with `sh deploy/local-docker.sh` (colima +
+`docker run`, repo bind-mounted, image `movies:local` is still built); `docker rm -f movies` turns it off
+again. `docker-compose.yml` describes the same container but the compose plugin is not installed here —
+use the script. The Firefox homepage is production, https://bodywithoutorgans.cc (it was localhost until
+the tunnel went live), set in the profile's `user.js`
+(`~/Library/Application Support/Firefox/Profiles/oswx4c6l.default-release/user.js`).
 The user wants it on startup and the Home button ONLY — new tabs must stay Firefox's own new-tab page.
 Do not install a new-tab-override extension for this: «New Tab Homepage» was tried, made every new tab
 open the catalog, and is now disabled (`extensions/{66E978CD-…}.xpi.disabled`).
