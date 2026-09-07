@@ -10,6 +10,14 @@
 в git и заливает весь сайт обратно на mini. Запускать перед и после правок через Claude Code.
 Mini выходит в интернет только через AmneziaVPN, без него туннель, погода и загрузки не работают.
 
+## Что уже сделано (2026-09-07)
+
+- Туннель `movies` (id c7369989-9758-43ca-acd9-33773f23d513) создан с mini, CNAME для bodywithoutorgans.cc и www.
+- Провайдер режет QUIC, поэтому агент запускает `cloudflared tunnel --protocol http2 … run` (см. plist).
+- Сертификат и креды туннеля в `~/.cloudflared` на mini, конфиг там же в `config.yml`.
+- Пароль сайта в `~/movies/.env` на mini. Сменить: поправить файл и `launchctl kickstart -k gui/$(id -u)/cc.bodywithoutorgans.serve`.
+- Логи: `~/movies/logs/serve.log`, `~/movies/logs/tunnel.log`.
+
 ## Один раз на сервере
 
 ```

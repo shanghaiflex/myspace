@@ -100,7 +100,7 @@ python3 scripts/lectures.py add-channel <url>
 ## Auth & deploy
 `serve.py` requires a password when `MOVIES_PASSWORD` is set (env or `.env`, gitignored); localhost runs open.
 Production: https://bodywithoutorgans.cc served by the home Mac mini (ssh alias `mini`, user sergeyfilatov,
-site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), see `deploy/README.md`.
+site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), live since 2026-09-07, see `deploy/README.md`.
 The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`. Data sync is rsync:
 run `scripts/sync.sh` BEFORE editing catalogs (pulls site edits from the mini) and AFTER (pushes everything).
 The mini reaches SoundCloud/Cloudflare/Open-Meteo directly but YouTube is blocked there without a VPN (its AmneziaVPN
