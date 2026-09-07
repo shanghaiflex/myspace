@@ -171,10 +171,15 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
         <div><b>${t.steps != null ? Math.round(t.steps).toLocaleString('ru-RU') : '—'}</b>шагов сегодня${a.steps ? ' · ср. ' + Math.round(a.steps).toLocaleString('ru-RU') : ''}</div>
         ${t.workouts && t.workouts.length ? `<div><b>${esc(t.workouts.map(w => w.ru).join(', '))}</b>тренировка</div>` : ''}</div></a>`);
   }
-  // Claude's fresh advice beats a random pick; the one I haven't tried yet goes first
+  // two mix cards side by side: a random one from the collection and Claude's fresh advice
   const recItems = (recs && recs.items) || [];
   const rec = recItems.find(r => !r.played) || recItems[0];
-  const mix = rec || pick(mixes, 1)[0];
+  const mix = pick(mixes, 1)[0];
+  const mixCard = (m, cls, eyebrow, more, reason) => `<a class="card ${cls}" href="mixes.html#${encodeURIComponent(m.id)}">
+      <div class="eyebrow">${eyebrow}${more ? ` <span class="more">${more}</span>` : ''}</div>
+      <div class="row"><div class="img sq">${m.artwork ? `<img src="${esc(m.artwork)}" alt="">` : ''}</div><div class="txt"><h2>${esc(m.title)}</h2><div class="sub">${esc(m.artist || '')} · ${fmtDur(m.duration)}</div></div></div>
+      ${reason ? `<p class="note">${esc(reason)}</p>` : ''}
+      <span class="btn">${PLAY} ${reason ? 'Послушать' : 'Играть'}</span></a>`;
   const reading = books.filter(b => b.status === 'reading');
 
   // One compact card per lecture channel: "next up" (listening, else first queued, else best recommendation).
@@ -191,13 +196,8 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
         <div class="txt"><h2>${esc(next.title)}</h2><div class="sub">${esc(seriesName(lect, next))} · ${next.status === 'listening' ? Lect.fmtTime(next.position || 0) + ' из ' : next.status === 'queued' ? 'в планах · ' : 'рекомендую · '}${fmtDur(next.duration)}</div>${pct ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}</div></a>
       <a class="btn" href="lectures.html#${esc(next.id)}">${PLAY} ${next.status === 'listening' ? 'Слушать дальше' : 'Слушать'}</a></div>`;
   };
-  if (mix) {
-    cards.push(`<a class="card ${reading.length ? 'c6' : 'c12'}" href="mixes.html#${encodeURIComponent(mix.id)}">
-      <div class="eyebrow">Микс на сегодня <span class="more">${rec ? 'советует Claude' : 'случайный'}</span></div>
-      <div class="row"><div class="img sq">${mix.artwork ? `<img src="${esc(mix.artwork)}" alt="">` : ''}</div><div class="txt"><h2>${esc(mix.title)}</h2><div class="sub">${esc(mix.artist || '')} · ${fmtDur(mix.duration)}</div></div></div>
-      ${rec && rec.reason ? `<p class="note">${esc(rec.reason)}</p>` : ''}
-      <span class="btn">${PLAY} Играть</span></a>`);
-  }
+  if (mix) cards.push(mixCard(mix, (rec || reading.length) ? 'c6' : 'c12', 'Микс на сегодня', 'случайный'));
+  if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude', rec.played ? 'уже включал' : '', rec.reason));
   if (reading.length) {
     const b = reading[0];
     cards.push(`<a class="card c6" href="books.html#${esc(b.id)}"><div class="eyebrow">Читаю <span class="more">${reading.length > 1 ? 'и ещё ' + (reading.length - 1) : ''}</span></div>
