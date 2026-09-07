@@ -33,6 +33,8 @@ PHOTO_DIR = os.path.join(ROOT, "dishes")
 MAX_INGREDIENTS = 6
 MAX_STEPS = 4
 RECIPES_STALE_DAYS = 5
+KEEP_REJECTED = 40
+WANT_RECIPES = 4
 
 
 def load() -> dict:
@@ -65,6 +67,17 @@ def profile_text() -> str:
     out = ["## Структура моих покупок (доля позиций)"]
     for cat, n in cats.most_common(12):
         out.append(f"- {cat}: {n * 100 // total}%")
+    st = load()
+    kept = [r["title"] for r in (st.get("recipes") or [])]
+    if kept:
+        out.append("")
+        out.append("## Уже на странице — не повторяй и не предлагай вариации")
+        out += [f"- {t}" for t in kept]
+    rejected = st.get("rejected") or []
+    if rejected:
+        out.append("")
+        out.append("## Я это отклонил — не предлагай снова, и близкое тоже")
+        out += [f"- {t}" for t in rejected]
     out.append("")
     out.append("## Что я покупаю регулярно")
     for r in [x for x in rows if x["regular"]][:35]:
@@ -74,6 +87,40 @@ def profile_text() -> str:
 
 def cmd_profile(a) -> None:
     print(profile_text())
+
+
+def cmd_reject(a) -> None:
+    """Drop a dish and remember it: the same idea should not come back.
+
+    Mirrors the mix advice verdicts -- feedback is the point, otherwise the
+    model re-proposes what was already turned down.
+    """
+    st = load()
+    recipes = st.get("recipes") or []
+    q = a.title.lower()
+    hit = [r for r in recipes if q in r["title"].lower()]
+    if not hit:
+        sys.exit(f"не нашёл блюдо по «{a.title}». Есть: "
+                 + ", ".join(f"«{r['title']}»" for r in recipes))
+    rejected = st.get("rejected") or []
+    for r in hit:
+        if r["title"] not in rejected:
+            rejected.append(r["title"])
+        if r.get("photo"):
+            f = os.path.join(PHOTO_DIR, r["photo"]["file"])
+            if os.path.exists(f):
+                os.remove(f)
+    st["recipes"] = [r for r in recipes if r not in hit]
+    st["rejected"] = rejected[-KEEP_REJECTED:]
+    save(st)
+    print("убрано: " + ", ".join(f"«{r['title']}»" for r in hit)
+          + f"; осталось {len(st['recipes'])}, в отказах {len(st['rejected'])}")
+
+
+def cmd_recipes_need(a) -> None:
+    """How many fresh ideas are missing to fill the page."""
+    st = load()
+    print(max(0, WANT_RECIPES - len(st.get("recipes") or [])))
 
 
 def _clean_json(text: str) -> list:
@@ -111,7 +158,7 @@ def cmd_recipes_save(a) -> None:
         sys.exit("ожидался непустой массив рецептов")
 
     out = []
-    for r in items[:4]:
+    for r in items[:WANT_RECIPES]:
         title = str(r.get("title", "")).strip()
         query = str(r.get("photo_query", "") or title).strip()
         if not title:
@@ -147,6 +194,8 @@ def cmd_recipes_save(a) -> None:
                 os.remove(os.path.join(PHOTO_DIR, f))
 
     st = load()
+    if a.append:
+        out = ((st.get("recipes") or []) + out)[:WANT_RECIPES]
     st["recipes"] = out
     st["recipes_ts"] = datetime.now().isoformat(timespec="seconds")
     st["recipes_model"] = a.model
@@ -293,6 +342,9 @@ def main() -> None:
     sub.add_parser("digest").set_defaults(fn=cmd_digest)
     sub.add_parser("profile").set_defaults(fn=cmd_profile)
     sub.add_parser("recipes-stale").set_defaults(fn=cmd_recipes_stale)
+    sub.add_parser("recipes-need").set_defaults(fn=cmd_recipes_need)
+    p = sub.add_parser("reject"); p.add_argument("title")
+    p.set_defaults(fn=cmd_reject)
     p = sub.add_parser("photo-options")
     p.add_argument("query"); p.add_argument("--out", required=True)
     p.add_argument("--limit", type=int, default=6)
@@ -303,6 +355,7 @@ def main() -> None:
     p = sub.add_parser("recipes-save")
     p.add_argument("--file", required=True); p.add_argument("--model", default="opus")
     p.add_argument("--candidates", help="dir from photo-options; enables photo_file")
+    p.add_argument("--append", action="store_true", help="add to the kept ones")
     p.set_defaults(fn=cmd_recipes_save)
     a = ap.parse_args()
     a.fn(a)

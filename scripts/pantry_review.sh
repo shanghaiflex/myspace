@@ -29,7 +29,11 @@ python3 scripts/pantry.py summary > "$WORK/summary.txt"
 # or when asked. Nobody cooks from a list that is different every morning.
 if [ "$FORCE_RECIPES" -eq 1 ] || python3 scripts/pantry.py recipes-stale >/dev/null 2>&1; then
   command -v claude >/dev/null || { echo "$STAMP claude not installed"; exit 1; }
-  { cat pantry/RECIPES.md; printf '\n## Мой профиль\n'; python3 scripts/pantry.py profile; } > "$WORK/recipes-prompt.txt"
+  NEED=$(python3 scripts/pantry.py recipes-need)
+  [ "$FORCE_RECIPES" -eq 1 ] && NEED=$(python3 -c "print(max($NEED,1))")
+  if [ "$NEED" -eq 0 ]; then echo "$STAMP идей уже достаточно"; else
+  { cat pantry/RECIPES.md; printf '\n## Мой профиль\n'; python3 scripts/pantry.py profile;
+    printf '\n## Сколько блюд нужно\nРовно %s.\n' "$NEED"; } > "$WORK/recipes-prompt.txt"
   cd "$WORK"
   if ! claude -p --model "$MODEL" --tools "" --no-session-persistence --output-format text < recipes-prompt.txt > recipes.json 2> recipes.err; then
     cd "$ROOT"; echo "$STAMP claude (рецепты) не отработал:"; cat "$WORK/recipes.err"; exit 1
@@ -66,8 +70,9 @@ PYEOF
   else
     cd "$ROOT"; echo "$STAMP claude (выбор фото) не отработал, беру автоматический подбор:"; cat "$WORK/photos.err"
   fi
-  python3 scripts/pantry.py recipes-save --model "$MODEL" --file "$WORK/recipes.json" --candidates "$CAND" \
-    || echo "$STAMP рецепты не сохранились"
+  python3 scripts/pantry.py recipes-save --model "$MODEL" --file "$WORK/recipes.json" \
+    --candidates "$CAND" --append || echo "$STAMP рецепты не сохранились"
+  fi
 fi
 
 # Recount at the end: the earlier summary ran before the recipes were saved,
