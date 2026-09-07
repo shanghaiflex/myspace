@@ -66,7 +66,10 @@
   .dishes { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
   .dish { background: var(--surface-2); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--line); }
   .dish .pic { aspect-ratio: 4 / 3; background: var(--surface-2) center/cover no-repeat; display: block; }
-  .dish .pic.none { display: flex; align-items: center; justify-content: center; font-size: 40px; opacity: .25; }
+  .dish .pic.none { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 9%, var(--surface-2)), var(--surface-2)); }
+  .dish .pic.none i { font-size: 34px; font-style: normal; opacity: .5; }
+  .dish .pic.none em { font-size: 11.5px; font-style: normal; color: var(--text-3); letter-spacing: .01em; }
   .dish .body { padding: 15px 16px 16px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
   .dish h3 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; display: flex; gap: 8px; align-items: baseline; }
   .dish h3 .min { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--text-3); white-space: nowrap; }
@@ -121,7 +124,7 @@ async function load() {
     ${(p.recipes || []).length ? `<div class="dishes">${p.recipes.map(r => `
         <div class="dish">
           ${r.photo ? `<span class="pic" style="background-image:url('dishes/${esc(r.photo.file)}')"></span>`
-                    : `<span class="pic none">\u{1F373}</span>`}
+                    : `<span class="pic none"><i>\u{1F373}</i><em>подходящего фото не нашлось</em></span>`}
           <div class="body">
             <h3>${esc(r.title)}${r.time_min ? `<span class="min">${r.time_min} мин</span>` : ''}</h3>
             ${r.why ? `<div class="why">${esc(r.why)}</div>` : ''}

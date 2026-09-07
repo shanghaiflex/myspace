@@ -12,6 +12,7 @@ the dish ideas at the end.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -85,6 +86,24 @@ def _clean_json(text: str) -> list:
     return json.loads(t[start:end + 1])
 
 
+def _take_chosen(name: str, cand_dir: str) -> dict | None:
+    """Copy a candidate the model picked by eye into dishes/, with its credit."""
+    import shutil
+    name = os.path.basename(name)
+    src = os.path.join(cand_dir, name)
+    with open(os.path.join(cand_dir, "candidates.json"), encoding="utf-8") as f:
+        index = json.load(f)
+    meta = index.get(name)
+    if not meta or not os.path.exists(src):
+        return None
+    os.makedirs(PHOTO_DIR, exist_ok=True)
+    out = hashlib.sha1(name.encode()).hexdigest()[:16] + ".jpg"
+    shutil.copyfile(src, os.path.join(PHOTO_DIR, out))
+    return {"file": out, "credit": meta["credit"], "license": meta["license"],
+            "page": meta["page"], "query": meta["query"],
+            "source": meta.get("source", "")}
+
+
 def cmd_recipes_save(a) -> None:
     raw = open(a.file, encoding="utf-8").read()
     items = _clean_json(raw)
@@ -105,8 +124,15 @@ def cmd_recipes_save(a) -> None:
             "ingredients": [str(x).strip() for x in (r.get("ingredients") or [])][:MAX_INGREDIENTS],
             "steps": [str(x).strip() for x in (r.get("steps") or [])][:MAX_STEPS],
         }
+        chosen = str(r.get("photo_file") or "").strip()
         try:
-            rec_["photo"] = ph.fetch(query, PHOTO_DIR)
+            if a.candidates:
+                # The by-eye pass ran. If it rejected every candidate, respect
+                # that: the caption promises an illustration of *this* dish,
+                # and the name-matching fallback is exactly what got that wrong.
+                rec_["photo"] = _take_chosen(chosen, a.candidates) if chosen else None
+            else:
+                rec_["photo"] = ph.fetch(query, PHOTO_DIR)
         except Exception as e:                       # a missing photo is not fatal
             print(f"  фото для «{title}» не вышло: {type(e).__name__}: {e}",
                   file=sys.stderr)
@@ -120,6 +146,63 @@ def cmd_recipes_save(a) -> None:
     save(st)
     got = sum(1 for r in out if r.get("photo"))
     print(f"рецептов сохранено: {len(out)}, с фото: {got}")
+
+
+def cmd_photo_options(a) -> None:
+    """Download photo candidates so they can be looked at before choosing."""
+    os.makedirs(a.out, exist_ok=True)
+    index_path = os.path.join(a.out, "candidates.json")
+    index = {}
+    if os.path.exists(index_path):
+        with open(index_path, encoding="utf-8") as f:
+            index = json.load(f)
+
+    rows = []
+    for i, c in enumerate(ph.candidates(a.query, a.limit)):
+        name = f"{re.sub(r'[^a-z0-9]+', '-', a.query.lower())[:28]}-{i}.jpg"
+        path = os.path.join(a.out, name)
+        try:
+            if not os.path.exists(path):
+                ph.download(c["thumb"], path)
+        except Exception as e:
+            print(f"  {name}: не скачалось ({type(e).__name__})", file=sys.stderr)
+            continue
+        meta = {"file": name, "source": c.get("source", ""),
+                "title": (c.get("title") or "")[:90],
+                "credit": (c.get("artist") or "")[:80],
+                "license": c.get("license", ""), "page": c.get("page", ""),
+                "query": a.query}
+        index[name] = meta
+        rows.append(meta)
+
+    with open(index_path, "w", encoding="utf-8") as f:
+        json.dump(index, f, ensure_ascii=False, indent=1)
+    for r in rows:
+        print(f"{os.path.join(a.out, r['file'])}  [{r['source']}]  {r['title']}")
+    if not rows:
+        print("кандидатов не нашлось", file=sys.stderr)
+
+
+def cmd_recipes_merge_photos(a) -> None:
+    """Fold the model's by-eye choice back into the recipe list."""
+    raw = open(a.recipes, encoding="utf-8").read()
+    items = _clean_json(raw)
+    choice_raw = open(a.choice, encoding="utf-8").read().strip()
+    choice_raw = re.sub(r"^```(?:json)?|```$", "", choice_raw, flags=re.M).strip()
+    start, end = choice_raw.find("{"), choice_raw.rfind("}")
+    if start == -1 or end == -1:
+        sys.exit("в ответе про фото нет JSON-объекта")
+    choice = json.loads(choice_raw[start:end + 1])
+
+    picked = 0
+    for r in items:
+        f = choice.get(r.get("title"))
+        if isinstance(f, str) and f.strip():
+            r["photo_file"] = os.path.basename(f.strip())
+            picked += 1
+    with open(a.recipes, "w", encoding="utf-8") as fh:
+        json.dump(items, fh, ensure_ascii=False, indent=1)
+    print(f"фото выбрано глазами для {picked} из {len(items)} блюд")
 
 
 def cmd_recipes_stale(a) -> None:
@@ -203,8 +286,16 @@ def main() -> None:
     sub.add_parser("digest").set_defaults(fn=cmd_digest)
     sub.add_parser("profile").set_defaults(fn=cmd_profile)
     sub.add_parser("recipes-stale").set_defaults(fn=cmd_recipes_stale)
+    p = sub.add_parser("photo-options")
+    p.add_argument("query"); p.add_argument("--out", required=True)
+    p.add_argument("--limit", type=int, default=6)
+    p.set_defaults(fn=cmd_photo_options)
+    p = sub.add_parser("recipes-merge-photos")
+    p.add_argument("--recipes", required=True); p.add_argument("--choice", required=True)
+    p.set_defaults(fn=cmd_recipes_merge_photos)
     p = sub.add_parser("recipes-save")
     p.add_argument("--file", required=True); p.add_argument("--model", default="opus")
+    p.add_argument("--candidates", help="dir from photo-options; enables photo_file")
     p.set_defaults(fn=cmd_recipes_save)
     a = ap.parse_args()
     a.fn(a)

@@ -248,6 +248,41 @@ def from_pexels(query: str) -> dict | None:
             "title": p0.get("alt", "")}
 
 
+def candidates(query: str, limit: int = 6) -> list[dict]:
+    """Everything worth looking at, from every source, for a human to judge.
+
+    The automatic picker guesses from file names and gets it wrong in ways only
+    eyes catch: a carbonara for "creamy mushrooms", a jar of green sauce for
+    pelmeni. This hands the choice to something that can actually see.
+    """
+    out: list[dict] = []
+    px = from_pexels(query)
+    if px:
+        out.append({**px, "source": "Pexels"})
+    md = from_mealdb(query)
+    if md:
+        out.append({**md, "source": "TheMealDB"})
+
+    words = query.split()
+    seen = {c.get("title") for c in out}
+    for n in sorted({len(words), max(2, len(words) - 1), 2, 1}, reverse=True):
+        for c in info(search(" ".join(words[:n]))):
+            if (c["title"] in seen or c["mime"] not in ("image/jpeg", "image/png")
+                    or c["width"] < MIN_WIDTH or BAD.search(c["title"])):
+                continue
+            seen.add(c["title"])
+            out.append({**c, "source": "Commons"})
+            if len(out) >= limit:
+                return out
+    return out
+
+
+def download(url: str, path: str) -> None:
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=40) as r, open(path, "wb") as f:
+        f.write(r.read())
+
+
 def fetch(query: str, out_dir: str) -> dict | None:
     """Download the best photo we can get; returns {file, credit, license, page}.
 
