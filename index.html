@@ -123,7 +123,7 @@
 <body>
 <div class="backdrop"><div class="ph on" id="ph"></div><div class="veil"></div></div>
 <header class="bar"><div class="bar-inner">
-  <nav class="nav"><a href="index.html" class="on">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Самочувствие</a></nav>
+  <nav class="nav"><a href="index.html" class="on">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a></nav>
 </div></header>
 
 <main class="wrap">
@@ -164,7 +164,7 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     const t = hl.days[0] || {}, a = hl.avg7 || {};
     const when = hl.review ? new Date(hl.review.ts) : null;
     const whenTxt = when ? (when.toDateString() === new Date().toDateString() ? '' : when.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) + ', ') + when.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '';
-    cards.push(`<a class="card ${wx && wx.now ? 'c8' : 'c12'} hl" href="health.html"><div class="eyebrow">Самочувствие <span class="more">${whenTxt ? 'заметка ' + esc(whenTxt) : 'заметки пока нет'}</span></div>
+    cards.push(`<a class="card ${wx && wx.now ? 'c8' : 'c12'} hl" href="health.html"><div class="eyebrow">Well-being <span class="more">${whenTxt ? 'заметка ' + esc(whenTxt) : 'заметки пока нет'}</span></div>
       ${hl.review ? `<p class="note">${esc(hl.review.text)}</p>` : ''}
       <div class="stats"><div><b>${t.sleep ? hm(t.sleep.total) : '—'}</b>сон</div><div><b>${t.rhr ?? '—'}</b>пульс покоя</div><div><b>${t.hrv ?? '—'}</b>HRV</div>
         <div><b>${t.steps != null ? Math.round(t.steps).toLocaleString('ru-RU') : '—'}</b>шагов сегодня${a.steps ? ' · ср. ' + Math.round(a.steps).toLocaleString('ru-RU') : ''}</div>
