@@ -45,6 +45,10 @@ import mix_recs as R  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
+# A finished workout is the one health event worth a note right away instead of waiting for the hourly agent.
+# The pause lets the rest of that sync land first: the app sends workouts and their calories in separate batches,
+# and a note written between the two would talk about a workout that burned nothing.
+WORKOUT_REVIEW_DELAY = 90
 RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
 PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
 
@@ -392,13 +396,15 @@ class Handler(SimpleHTTPRequestHandler):
         threading.Thread(target=run, daemon=True).start()
         return "running"
 
-    def start_review_job(self):
+    def start_review_job(self, delay=0):
         if REVIEW_JOB["status"] == "running" and time.time() - REVIEW_JOB["started"] < 900:
             return "running"
         REVIEW_JOB.update(status="running", started=time.time())
 
         def run():
             import subprocess
+            if delay:
+                time.sleep(delay)
             try:
                 r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", "health_review.sh"), "--force"], cwd=ROOT,
                                    capture_output=True, text=True, timeout=900)
@@ -428,6 +434,10 @@ class Handler(SimpleHTTPRequestHandler):
             except Exception as e:
                 return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
             print(f"health ingest {kind} from {dev}: {stats}", flush=True)
+            # Only genuinely new workouts: a re-send updates existing rows and must not trigger anything.
+            if kind == "workouts" and stats["inserted"]:
+                print(f"health: {stats['inserted']} new workout(s) → review in {WORKOUT_REVIEW_DELAY}s", flush=True)
+                self.start_review_job(delay=WORKOUT_REVIEW_DELAY)
             return self.send_json(200, {"ok": True, **stats})
         if not self.require_login():
             return
