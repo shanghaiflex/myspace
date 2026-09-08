@@ -98,9 +98,12 @@ async function load() {
   const today = h.days[0], a = h.avg7;
   const running = h.reviewJob === 'running';
   const cards = [];
-  cards.push(`<div class="card"><div class="eyebrow">Заметка <span class="more">${h.review ? esc(fmtTs(h.review.ts)) + (h.review.model ? ' · ' + esc(h.review.model) : '') : ''}
+  // A note written during the night is marked stale by the server: it drops out of the card into the history
+  // below, so the morning does not open on advice about going to bed.
+  const note = h.review && !h.review.stale ? h.review : null;
+  cards.push(`<div class="card"><div class="eyebrow">Заметка <span class="more">${note ? esc(fmtTs(note.ts)) + (note.model ? ' · ' + esc(note.model) : '') : ''}
       <button class="btn" id="run" ${running ? 'disabled' : ''}>${running ? 'Считаю…' : 'Обновить'}</button></span></div>
-    ${h.review ? `<p class="note">${esc(h.review.text)}</p>` : `<div class="empty">Заметки пока нет — появится после первого прогона обзора.</div>`}
+    ${note ? `<p class="note">${esc(note.text)}</p>` : `<div class="empty">${h.review ? 'Ночная заметка убрана — свежая появится после первой синхронизации за утро.' : 'Заметки пока нет — появится после первого прогона обзора.'}</div>`}
     ${h.reviewJob && h.reviewJob.startsWith('error') ? `<div class="foot">Последний запуск: ${esc(h.reviewJob)}</div>` : ''}
     <div class="stats">
       <div><b>${today && today.sleep ? hm(today.sleep.total) : '—'}</b>сон этой ночью${a.sleep ? ` · ср. ${hm(a.sleep)}` : ''}</div>
@@ -117,8 +120,9 @@ async function load() {
         <td class="n ${d.steps == null ? 'dim' : ''}">${num(d.steps)}</td><td class="n ${d.kcal == null ? 'dim' : ''}">${num(d.kcal)}</td>
         <td class="w">${d.workouts.length ? d.workouts.map(w => esc(wk(w))).join('<br>') : '<span style="color:var(--text-3)">—</span>'}</td></tr>`; }).join('')}
     </table></div><div class="foot">Сон засчитывается на утро пробуждения. Шаги и калории — оценка, если часы и телефон считали одновременно.</div></div>`);
-  if (h.reviews && h.reviews.length > 1) {
-    cards.push(`<div class="card"><div class="eyebrow">Раньше</div><div class="hist">${h.reviews.slice(1).map(r => `<div class="it"><div class="ts">${esc(fmtTs(r.ts))}</div><p>${esc(r.text)}</p></div>`).join('')}</div></div>`);
+  const past = note ? h.reviews.slice(1) : h.reviews;
+  if (past && past.length) {
+    cards.push(`<div class="card"><div class="eyebrow">Раньше</div><div class="hist">${past.map(r => `<div class="it"><div class="ts">${esc(fmtTs(r.ts))}</div><p>${esc(r.text)}</p></div>`).join('')}</div></div>`);
   }
   document.getElementById('grid').innerHTML = cards.join('');
   const btn = document.getElementById('run');

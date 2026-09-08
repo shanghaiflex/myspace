@@ -25,6 +25,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.environ.get("HEALTH_DB") or os.path.join(ROOT, "health.db")
 BACKUP_DIR = os.environ.get("HEALTH_BACKUP_DIR") or os.path.join(ROOT, "backups")
 METRIC_KINDS = ("hrv_sdnn", "resting_heart_rate", "steps", "active_energy")
+NO_WATCH_KCAL = 50   # below this, with no sleep and no HRV, the watch simply was not on the wrist that day
+MORNING_HOUR = 6     # local hour that starts a new day for the note shown on the page
 WORKOUT_RU = {"running": "бег", "cycling": "велосипед", "walking": "ходьба", "swimming": "плавание", "yoga": "йога",
               "functionalStrengthTraining": "силовая", "functional_strength_training": "силовая", "traditionalStrengthTraining": "силовая",
               "hiking": "поход", "elliptical": "эллипс", "rowing": "гребля", "coreTraining": "кор", "other": "другое"}
@@ -208,6 +210,12 @@ def daily(db, days, today=None):
             d["kcal"] = round(lane_sum(ss))
     for d in out.values():
         d["workouts"].sort(key=lambda w: w["start"])
+        # The watch is not worn every day. Sleep, HRV and resting heart rate come only from it, and without it
+        # active energy falls to the handful of kilocalories the phone estimates. Such a day is a hole in the
+        # record, not a health event — it must not be read as an anomaly nor averaged in with the rest.
+        # Only a day the phone did record counts: a day with nothing at all is an empty day, not a bare wrist.
+        recorded = d["steps"] is not None or d["kcal"] is not None or d["workouts"]
+        d["noWatch"] = bool(recorded) and d["sleep"] is None and d["hrv"] is None and (d["kcal"] or 0) < NO_WATCH_KCAL
     return list(out.values())[::-1]
 
 
@@ -235,6 +243,13 @@ def fmt_local(s):
     return local(s).strftime("%d.%m %H:%M") if s else "—"
 
 
+def daybreak(now=None):
+    """Start of the current day for the note: today at MORNING_HOUR, or yesterday's if it is still night."""
+    now = now or dt.datetime.now(tz())
+    mark = now.replace(hour=MORNING_HOUR, minute=0, second=0, microsecond=0)
+    return mark if now >= mark else mark - dt.timedelta(days=1)
+
+
 def digest(db=None, days=7):
     """Human-readable digest for the review model: daily table, averages, workouts, freshness."""
     db = db or connect()
@@ -244,19 +259,26 @@ def digest(db=None, days=7):
     lines = [f"Сейчас: {now.strftime('%Y-%m-%d')} ({DOW[now.weekday()]}) {now.strftime('%H:%M')} {tz().key}",
              f"Последние данные с телефона: {fmt_local(li)}" + (f" ({int((utcnow() - parse_ts(li)).total_seconds() // 60)} мин назад)" if li else "") + f", всего образцов в базе: {n_all}", ""]
     table = daily(db, days, now.date())
-    lines.append("Дни (сон засчитан на утро пробуждения; шаги/ккал приблизительно, если часы и телефон считали одновременно):")
+    lines.append("Дни (сон засчитан на утро пробуждения; шаги/ккал приблизительно, если часы и телефон считали одновременно).")
+    lines.append("Пометка «без часов» = часы в этот день не носились: сна, HRV и калорий там нет не потому, что что-то не так.")
     lines.append("дата       сон    глуб/REM    отбой–подъём  RHR  HRV(n)   шаги   ккал  тренировки")
     for d in table:
         s = d["sleep"]
         sl = f"{hm(s['total']):6} {hm(s['deep'])}/{hm(s['rem'])}  {s['bed']}–{s['wake']}" if s else f"{'—':6} {'—':10} {'—':12}"
         w = "; ".join(f"{x['ru']} {x['min']} мин" + (f" {x['km']} км" if x['km'] else "") + (f" пульс {x['hr']}" if x['hr'] else "") for x in d["workouts"]) or "—"
-        lines.append(f"{d['date'][5:]} {d['dow']}  {sl}  {d['rhr'] or '—':>3}  {(str(d['hrv']) + '(' + str(d['hrvN']) + ')') if d['hrv'] else '—':7} {d['steps'] if d['steps'] is not None else '—':>6} {d['kcal'] if d['kcal'] is not None else '—':>5}  {w}")
+        lines.append(f"{d['date'][5:]} {d['dow']}  {sl}  {d['rhr'] or '—':>3}  {(str(d['hrv']) + '(' + str(d['hrvN']) + ')') if d['hrv'] else '—':7} {d['steps'] if d['steps'] is not None else '—':>6} {d['kcal'] if d['kcal'] is not None else '—':>5}  {w}"
+                     + ("   ← без часов" if d["noWatch"] else ""))
     lines.append("")
     long = daily(db, 28, now.date())
     for label, tbl in (("7 дней", table), ("28 дней", long)):
-        lines.append(f"Средние за {label}: сон {hm(avg([d['sleep']['total'] for d in tbl if d['sleep']]))}, глубокий {hm(avg([d['sleep']['deep'] for d in tbl if d['sleep']]))}, "
-                     f"RHR {avg([d['rhr'] for d in tbl]) or '—'}, HRV {avg([d['hrv'] for d in tbl]) or '—'}, шаги {avg([d['steps'] for d in tbl]) or '—'}, "
-                     f"ккал {avg([d['kcal'] for d in tbl]) or '—'}, тренировок {sum(len(d['workouts']) for d in tbl)}")
+        # Days without the watch are excluded from everything the watch measures, otherwise a week of not wearing
+        # it reads as a collapse in sleep and calories. Steps come from the phone, so they count every day.
+        worn = [d for d in tbl if not d["noWatch"]]
+        skipped = len(tbl) - len(worn)
+        lines.append(f"Средние за {label}: сон {hm(avg([d['sleep']['total'] for d in worn if d['sleep']]))}, глубокий {hm(avg([d['sleep']['deep'] for d in worn if d['sleep']]))}, "
+                     f"RHR {avg([d['rhr'] for d in worn]) or '—'}, HRV {avg([d['hrv'] for d in worn]) or '—'}, шаги {avg([d['steps'] for d in tbl]) or '—'}, "
+                     f"ккал {avg([d['kcal'] for d in worn]) or '—'}, тренировок {sum(len(d['workouts']) for d in tbl)}"
+                     + (f" (дней без часов: {skipped}, они в средние по сну/HRV/RHR/ккал не вошли)" if skipped else ""))
     lines.append("")
     prev = db.execute("SELECT ts, text FROM reviews ORDER BY id DESC LIMIT 3").fetchall()
     if prev:
@@ -285,8 +307,11 @@ def summary(db=None, days=14):
     db = db or connect()
     lr = last_review(db)
     tbl = daily(db, days)
+    # A note written during the night ("ложись спать") is worse than no note at all over breakfast, so anything
+    # older than this morning is marked stale and the pages stop showing it as current advice.
+    stale = bool(lr) and parse_ts(lr["ts"]) < daybreak().astimezone(dt.timezone.utc)
     return {"lastIngest": last_ingest(db), "tz": tz().key,
-            "review": {"ts": lr["ts"], "model": lr["model"], "text": lr["text"]} if lr else None,
+            "review": {"ts": lr["ts"], "model": lr["model"], "text": lr["text"], "stale": stale} if lr else None,
             "reviews": [{"ts": r["ts"], "model": r["model"], "text": r["text"]} for r in db.execute("SELECT ts, model, text FROM reviews ORDER BY id DESC LIMIT 30")],
             "days": tbl,
             "avg7": {"sleep": avg([d["sleep"]["total"] for d in tbl[:7] if d["sleep"]]), "rhr": avg([d["rhr"] for d in tbl[:7]]),

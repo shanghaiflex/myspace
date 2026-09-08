@@ -163,10 +163,13 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   if (hl && (hl.review || hl.lastIngest)) {
     const hm = m => m == null ? '—' : `${Math.floor(m / 60)}ч${String(Math.round(m) % 60).padStart(2, '0')}`;
     const t = hl.days[0] || {}, a = hl.avg7 || {};
-    const when = hl.review ? new Date(hl.review.ts) : null;
+    // A note written during the night is not advice worth reading over breakfast; the server marks it stale.
+    const note = hl.review && !hl.review.stale ? hl.review : null;
+    const when = note ? new Date(note.ts) : null;
     const whenTxt = when ? (when.toDateString() === new Date().toDateString() ? '' : when.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) + ', ') + when.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '';
-    cards.push(`<a class="card ${wx && wx.now ? 'c8' : 'c12'} hl" href="health.html"><div class="eyebrow">Well-being <span class="more">${whenTxt ? 'заметка ' + esc(whenTxt) : 'заметки пока нет'}</span></div>
-      ${hl.review ? `<p class="note">${esc(hl.review.text)}</p>` : ''}
+    const noteMore = whenTxt ? 'заметка ' + esc(whenTxt) : (hl.review ? 'свежей заметки ещё нет' : 'заметки пока нет');
+    cards.push(`<a class="card ${wx && wx.now ? 'c8' : 'c12'} hl" href="health.html"><div class="eyebrow">Well-being <span class="more">${noteMore}</span></div>
+      ${note ? `<p class="note">${esc(note.text)}</p>` : ''}
       <div class="stats"><div><b>${t.sleep ? hm(t.sleep.total) : '—'}</b>сон</div><div><b>${t.rhr ?? '—'}</b>пульс покоя</div><div><b>${t.hrv ?? '—'}</b>HRV</div>
         <div><b>${t.steps != null ? Math.round(t.steps).toLocaleString('ru-RU') : '—'}</b>шагов сегодня${a.steps ? ' · ср. ' + Math.round(a.steps).toLocaleString('ru-RU') : ''}</div>
         ${t.workouts && t.workouts.length ? `<div><b>${esc(t.workouts.map(w => w.ru).join(', '))}</b>тренировка</div>` : ''}</div></a>`);
