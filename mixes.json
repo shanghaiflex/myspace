@@ -87,7 +87,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 358,
+    "playedAt": 1788857255
   },
   {
     "id": "yt:a62c0Yf6BBE",
@@ -314,7 +316,9 @@
     "tags": [
       "soundcloud-likes"
     ],
-    "addedAt": "2026-01-05"
+    "addedAt": "2026-01-05",
+    "position": 701,
+    "playedAt": 1788848039
   },
   {
     "id": "sc:2170630185",
@@ -344,7 +348,9 @@
     "tags": [
       "soundcloud-likes"
     ],
-    "addedAt": "2025-11-21"
+    "addedAt": "2025-11-21",
+    "position": 400,
+    "playedAt": 1788852244
   },
   {
     "id": "sc:2212430897",
@@ -391,7 +397,9 @@
     "tags": [
       "soundcloud-likes"
     ],
-    "addedAt": "2025-09-01"
+    "addedAt": "2025-09-01",
+    "position": 67,
+    "playedAt": 1788855617
   },
   {
     "id": "sc:1655732562",
@@ -498,7 +506,9 @@
     "tags": [
       "soundcloud-likes"
     ],
-    "addedAt": "2024-12-15"
+    "addedAt": "2024-12-15",
+    "position": 381,
+    "playedAt": 1788856308
   },
   {
     "id": "sc:1736997918",
