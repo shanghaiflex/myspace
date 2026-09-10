@@ -1,6 +1,6 @@
 # Movies — personal film catalog
 
-Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
+Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`, `agent.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
 (stdlib only) which also exposes a tiny edit API (PATCH/DELETE `/api/movie/<id>`) used by the page for
 rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
 If the page is served by a plain static server the API is absent and the page becomes read-only.
@@ -187,6 +187,45 @@ python3 scripts/lectures.py add-channel <url>
 - Audio files live only on the machine that runs the server (the Mac mini in production): download there.
 - Home page shows one card per lecture channel (channel `label` in lectures.json, e.g. «Макаров · Средневековье»,
   «Bushwacker · Древний Египет»: next up + queue/recommendations), a random mix, random to-watch posters.
+
+## Агент (`agent.html`, `scripts/agent.py`, `scripts/agent_run.sh`, `agent/PROMPT.md`)
+
+Задача с телефона: «найди самокат для ребёнка 1.5 года на avito и ozon» → Claude Code на mini открывает
+сайты настоящим браузером и пишет отчёт, который читается на странице. `POST /api/agent {prompt}` кладёт
+задачу в `agent_tasks.json`, `serve.py` заводит воркер (одна задача за раз — браузер и профиль общие),
+`agent_run.sh` зовёт `claude -p --restricted` с MCP-сервером `@playwright/mcp`. Отчёт — `report.md`
+в `agent/reports/<id>/`, страница рендерит его своим маленьким markdown.
+
+```
+python3 scripts/agent.py add "…" | list | show <id> | remove <id>
+sh scripts/agent_run.sh <id>                    # выполнить задачу прямо сейчас
+ssh mini 'cd movies && ~/.local/python312/bin/python3 scripts/agent.py list'
+```
+
+- Инструменты агента урезаны намеренно: `--restricted` убирает Bash и запирает файловые инструменты
+  в каталоге задачи, остаются браузер, Read/Write, WebFetch/WebSearch. Задачу пишет человек с телефона,
+  и она уходит в модель как обычный текст — давать ей команды на домашней машине нельзя.
+  `bypassPermissions` в restricted-режиме запрещён, поэтому доступ выдаётся списком `--allowed-tools`.
+- Браузер: `@playwright/mcp` + Chromium от `playwright install` (`deploy/install-agent.sh` ставит node
+  в `~/.local/node`, пакет и браузер). MCP по умолчанию ищет системный Google Chrome, которого на mini нет,
+  поэтому `agent.py prepare` подставляет `--executable-path` к сборке playwright (путь версионный, ищется маской).
+- Профиль браузера общий и постоянный (`~/.agent-browser`): куки сохраняются между задачами, капчи реже.
+- `agent_tasks.json`, `agent/reports/` — данные машины: в `.gitignore` и в исключениях `deploy.sh`.
+  Хранятся последние 60 задач, отчёты старых удаляются вместе с ними. Задача, «выполняющаяся» дольше
+  45 минут (перезапуск serve, убитый процесс), помечается сорвавшейся.
+- Модель — opus, потолок 25 минут на задачу (`AGENT_TIMEOUT`), в карточке видно шаги и стоимость.
+
+### Split tunneling на mini (`deploy/direct-routes.txt`, `deploy/install-direct-routes.sh`)
+
+Avito и Ozon блокируют выходной IP VPN (хостинг Hostkey, общий): Avito отдаёт 429 «Доступ ограничен:
+проблема с IP», Ozon — 403 «выключите VPN». На ноутбуке это решает split tunneling внутри приложения
+AmneziaVPN (`Conf.ExceptSites` в `org.amneziavpn.AmneziaVPN.plist`); на mini приложения нет — тоннель
+поднимает `/usr/local/sbin/awg-mini.sh`, поэтому сети из `deploy/direct-routes.txt` уводит напрямую
+через домашний роутер отдельный LaunchDaemon `cc.bodywithoutorgans.directroutes` (раз в 5 минут, потому
+что перезапуск тоннеля стирает таблицу). Список префиксов взят с ноутбука: Avito, Ozon, Яндекс, Lamoda,
+okko, dtf. Ставится один раз от root: `ssh -t mini 'sudo sh movies/deploy/install-direct-routes.sh'`.
+Правишь список — деплой копирует его, а применить: `ssh mini 'sudo launchctl kickstart -k system/cc.bodywithoutorgans.directroutes'`.
+Если очередной сайт покажет капчу и попросит выключить VPN — узнай его сеть (`dig` + `whois`) и допиши сюда.
 
 ## Editing workflow (IMPORTANT — how to ship changes)
 
