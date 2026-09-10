@@ -8,6 +8,7 @@
   python3 scripts/agent.py list
   python3 scripts/agent.py show <id>
   python3 scripts/agent.py start <id>            # пометить «выполняется», напечатать рабочий каталог
+  python3 scripts/agent.py prepare <id>          # + положить в каталог task.txt и mcp.json
   python3 scripts/agent.py finish <id> [--report FILE] [--error TEXT] [--cost N] [--turns N]
   python3 scripts/agent.py remove <id>
 """
@@ -80,6 +81,30 @@ def start(tid):
     save(data)
     os.makedirs(task_dir(tid), exist_ok=True)
     return t
+
+
+BROWSER_GLOB = "~/Library/Caches/ms-playwright/chromium-*/chrome-mac*/*.app/Contents/MacOS/*"
+
+
+def prepare(tid, profile):
+    """Каталог задачи: task.txt (промпт + задача) и mcp.json (браузер)."""
+    import glob
+    d = task_dir(tid)
+    os.makedirs(d, exist_ok=True)
+    t = find(load(), tid) or sys.exit(f"нет задачи {tid}")
+    with open(os.path.join(d, "task.txt"), "w", encoding="utf-8") as f:
+        f.write(open(os.path.join(ROOT, "agent", "PROMPT.md"), encoding="utf-8").read())
+        f.write("\n## Задача\n\n" + t["prompt"] + "\n")
+    # @playwright/mcp по умолчанию ищет системный Google Chrome, которого на mini нет,
+    # поэтому указываем сборку Chromium от playwright install (путь версионный — ищем маской).
+    args = ["--headless", "--user-data-dir", profile, "--output-dir", d,
+            "--viewport-size", "1280x900", "--timeout-navigation", "60000", "--image-responses", "omit"]
+    found = sorted(glob.glob(os.path.expanduser(BROWSER_GLOB)))
+    if found:
+        args += ["--executable-path", found[-1]]
+    with open(os.path.join(d, "mcp.json"), "w", encoding="utf-8") as f:
+        json.dump({"mcpServers": {"playwright": {"command": "playwright-mcp", "args": args}}}, f)
+    return d
 
 
 def title_from_report(md):
@@ -171,6 +196,7 @@ def main():
     sub.add_parser("list")
     p = sub.add_parser("show"); p.add_argument("id")
     p = sub.add_parser("start"); p.add_argument("id")
+    p = sub.add_parser("prepare"); p.add_argument("id"); p.add_argument("--profile", default=os.path.expanduser("~/.agent-browser"))
     p = sub.add_parser("finish"); p.add_argument("id")
     p.add_argument("--report"); p.add_argument("--error"); p.add_argument("--cost"); p.add_argument("--turns")
     p = sub.add_parser("remove"); p.add_argument("id")
@@ -186,6 +212,8 @@ def main():
         print(open(p, encoding="utf-8").read() if os.path.exists(p) else "(отчёта нет)")
     elif a.cmd == "start":
         start(a.id); print(task_dir(a.id))
+    elif a.cmd == "prepare":
+        start(a.id); print(prepare(a.id, a.profile))
     elif a.cmd == "finish":
         t = finish(a.id, a.report, a.error, a.cost, a.turns); print(t["status"])
     elif a.cmd == "remove":

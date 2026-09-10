@@ -17,25 +17,8 @@ STAMP=$(date '+%F %T')
 command -v claude >/dev/null || { python3 scripts/agent.py finish "$ID" --error "claude не установлен"; exit 1; }
 command -v playwright-mcp >/dev/null || { python3 scripts/agent.py finish "$ID" --error "playwright-mcp не установлен (deploy/install-agent.sh)"; exit 1; }
 
-DIR=$(python3 scripts/agent.py start "$ID")
-mkdir -p "$DIR" "$PROFILE"
-
-# Конфиг MCP пишем в каталог задачи: браузер складывает скриншоты туда же, где отчёт.
-cat > "$DIR/mcp.json" <<JSON
-{"mcpServers":{"playwright":{"command":"playwright-mcp","args":[
-  "--headless","--user-data-dir","$PROFILE","--output-dir","$DIR",
-  "--viewport-size","1280x900","--timeout-navigation","60000","--image-responses","omit"]}}}
-JSON
-
-python3 - "$ID" > "$DIR/task.txt" <<'PY'
-import json, os, sys
-root = os.getcwd()
-tasks = json.load(open(os.path.join(root, "agent_tasks.json"), encoding="utf-8"))["tasks"]
-t = next(x for x in tasks if x["id"] == sys.argv[1])
-print(open(os.path.join(root, "agent", "PROMPT.md"), encoding="utf-8").read())
-print("\n## Задача\n")
-print(t["prompt"])
-PY
+DIR=$(python3 scripts/agent.py prepare "$ID" --profile "$PROFILE")
+mkdir -p "$PROFILE"
 
 # Работаем из каталога задачи: файловые инструменты заперты в нём, Bash в --restricted нет вовсе,
 # настройки и CLAUDE.md репозитория не подхватываются — у агента только браузер и этот каталог.
@@ -45,8 +28,8 @@ claude -p --model "$MODEL" \
   --restricted \
   --tools "Read,Write,Edit,WebFetch,WebSearch,TodoWrite" \
   --mcp-config mcp.json --strict-mcp-config \
-  --allowed-tools "mcp__playwright" \
-  --permission-mode bypassPermissions \
+  --allowed-tools "mcp__playwright,Read,Write,Edit,WebFetch,WebSearch,TodoWrite" \
+  --permission-mode acceptEdits \
   --no-session-persistence --output-format json \
   < task.txt > result.json 2> claude.err &
 PID=$!
