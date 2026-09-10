@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Агент</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔎</text></svg>">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafafa; --surface: #ffffff; --surface-2: #f2f2f4;
+    --text: #1d1d1f; --text-2: #6e6e73; --text-3: #a1a1a6;
+    --line: rgba(0,0,0,.08); --accent: #0071e3; --ok: #34c759; --warn: #ff9f0a; --bad: #ff3b30;
+    --glass: rgba(250,250,250,.7);
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000; --surface: #1c1c1e; --surface-2: #2c2c2e;
+      --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
+      --line: rgba(255,255,255,.1); --accent: #2997ff; --ok: #30d158; --warn: #ffd60a; --bad: #ff453a;
+      --glass: rgba(0,0,0,.55);
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
+    background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.45; letter-spacing: -0.01em; }
+  a { color: inherit; text-decoration: none; }
+  .bar { position: sticky; top: 0; z-index: 20; background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
+  .bar-inner { max-width: 900px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; flex-wrap: wrap; }
+  .nav a { color: var(--text-3); font-weight: 600; }
+  .nav a.on { color: var(--text); }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 36px 32px 80px; }
+  .head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .head h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; margin: 0; line-height: 1.1; }
+  .head .sub { color: var(--text-2); font-size: 14px; }
+
+  .ask { background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); padding: 16px; margin-bottom: 22px; }
+  .ask textarea { width: 100%; border: 0; background: transparent; color: inherit; font: inherit; font-size: 16px;
+    resize: none; outline: 0; min-height: 62px; line-height: 1.4; }
+  .ask .row { display: flex; align-items: center; gap: 12px; justify-content: space-between; margin-top: 8px; }
+  .ask .hint { color: var(--text-3); font-size: 12.5px; }
+  .btn { font: inherit; font-size: 14px; font-weight: 600; border: 0; border-radius: 999px; padding: 9px 20px;
+    background: var(--accent); color: #fff; cursor: pointer; }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .btn.ghost { background: var(--surface-2); color: var(--text-2); padding: 6px 14px; font-size: 13px; }
+
+  .task { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); margin-bottom: 12px; overflow: hidden; }
+  .task > .top { display: flex; gap: 12px; align-items: flex-start; padding: 15px 18px; cursor: pointer; }
+  .task .who { flex: 1; min-width: 0; }
+  .task .ttl { font-weight: 600; letter-spacing: -0.02em; }
+  .task .q { color: var(--text-2); font-size: 13px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .task .meta { color: var(--text-3); font-size: 12px; margin-top: 4px; }
+  .chip { font-size: 11.5px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px;
+    background: var(--surface-2); color: var(--text-2); white-space: nowrap; }
+  .chip.run { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+  .chip.ok { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); }
+  .chip.err { background: color-mix(in srgb, var(--bad) 18%, transparent); color: var(--bad); }
+  .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; margin-right: 5px; animation: pulse 1.2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+  .task .body { padding: 0 18px 18px; border-top: 1px solid var(--line); margin-top: -1px; }
+  .task .body .acts { display: flex; gap: 8px; justify-content: flex-end; padding-top: 12px; }
+
+  .md { font-size: 15.5px; line-height: 1.6; overflow-wrap: anywhere; }
+  .md h1 { font-size: 22px; letter-spacing: -0.02em; margin: 18px 0 8px; }
+  .md h2 { font-size: 18px; letter-spacing: -0.02em; margin: 22px 0 6px; }
+  .md h3 { font-size: 15.5px; margin: 18px 0 4px; color: var(--text-2); }
+  .md p { margin: 8px 0; }
+  .md ul, .md ol { margin: 8px 0; padding-left: 20px; }
+  .md li { margin: 3px 0; }
+  .md a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+  .md code { background: var(--surface-2); border-radius: 5px; padding: 1px 5px; font-size: 13px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .md pre { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; overflow-x: auto; }
+  .md pre code { background: none; padding: 0; }
+  .md img { max-width: 100%; border-radius: 12px; margin: 10px 0; }
+  .md blockquote { margin: 10px 0; padding-left: 12px; border-left: 3px solid var(--line); color: var(--text-2); }
+  .md hr { border: 0; border-top: 1px solid var(--line); margin: 18px 0; }
+  .md .tw { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 12px 0; }
+  .md table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  .md th, .md td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .md th { color: var(--text-3); font-size: 12px; text-transform: uppercase; letter-spacing: .03em; font-weight: 700; }
+  .empty { color: var(--text-3); padding: 26px 0; text-align: center; }
+  .err { color: var(--bad); font-size: 13.5px; padding: 12px 0; }
+
+  @media (max-width: 720px) {
+    .bar-inner { padding: 12px 16px; } .nav { font-size: 15px; gap: 14px; }
+    .wrap { padding: 22px 16px 60px; } .head h1 { font-size: 28px; }
+    .task > .top { padding: 13px 14px; } .task .body { padding: 0 14px 14px; }
+  }
+</style>
+</head>
+<body>
+<header class="bar"><div class="bar-inner">
+  <nav class="nav"><a href="index.html">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a><a href="agent.html" class="on">Агент</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="head"><h1>Агент</h1><div class="sub" id="sub">что найти?</div></div>
+
+  <form class="ask" id="ask">
+    <textarea id="q" rows="2" placeholder="Найди самокат для ребёнка 1.5 года на avito и ozon — что брать и почём"></textarea>
+    <div class="row">
+      <span class="hint">Claude откроет сайты в браузере на mini и напишет отчёт. Минут десять.</span>
+      <button class="btn" id="go" type="submit">Найти</button>
+    </div>
+  </form>
+
+  <div id="list"><div class="empty">Загружаю…</div></div>
+</main>
+
+<script>
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const ago = s => { if (!s) return ''; const m = Math.round((Date.now() - new Date(s)) / 60000);
+  return m < 1 ? 'только что' : m < 60 ? `${m} мин назад` : m < 1440 ? `${Math.round(m / 60)} ч назад` : `${Math.round(m / 1440)} дн назад`; };
+const mins = s => s == null ? '' : s < 90 ? `${s} с` : `${Math.round(s / 60)} мин`;
+
+// Маленький markdown: заголовки, списки, таблицы, картинки, код. Отчёт пишет модель,
+// поэтому сначала всё экранируем и только потом размечаем — в разметку не попадёт чужой html.
+function inline(t) {
+  return esc(t)
+    .replace(/`([^`]+)`/g, (m, c) => `<code>${c}</code>`)
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)[^)]*\)/g, (m, a, u) => `<img src="${u}" alt="${a}">`)
+    .replace(/\[([^\]]+)\]\(([^)\s]+)[^)]*\)/g, (m, a, u) =>
+      /^(https?:|\/|[\w.-]+\/)/.test(u) ? `<a href="${u}" target="_blank" rel="noopener">${a}</a>` : a)
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[\s(])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+}
+function md(src, base) {
+  const lines = String(src || '').replace(/\r/g, '').split('\n');
+  const out = []; let i = 0, list = null, para = [];
+  const flushP = () => { if (para.length) { out.push(`<p>${inline(para.join(' '))}</p>`); para = []; } };
+  const flushL = () => { if (list) { out.push(`</${list}>`); list = null; } };
+  const openL = tag => { if (list !== tag) { flushL(); out.push(`<${tag}>`); list = tag; } };
+  while (i < lines.length) {
+    const l = lines[i];
+    if (/^\s*```/.test(l)) {
+      flushP(); flushL(); const buf = []; i++;
+      while (i < lines.length && !/^\s*```/.test(lines[i])) buf.push(lines[i++]);
+      i++; out.push(`<pre><code>${esc(buf.join('\n'))}</code></pre>`); continue;
+    }
+    if (/^\s*\|/.test(l) && /^\s*\|?[\s:-]*-[\s:|-]*$/.test(lines[i + 1] || '')) {
+      flushP(); flushL();
+      const cells = r => r.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      const head = cells(l); i += 2; const rows = [];
+      while (i < lines.length && /^\s*\|/.test(lines[i])) rows.push(cells(lines[i++]));
+      out.push(`<div class="tw"><table><thead><tr>${head.map(c => `<th>${inline(c)}</th>`).join('')}</tr></thead><tbody>` +
+        rows.map(r => `<tr>${r.map(c => `<td>${inline(c)}</td>`).join('')}</tr>`).join('') + `</tbody></table></div>`);
+      continue;
+    }
+    let m;
+    if ((m = l.match(/^(#{1,6})\s+(.*)$/))) { flushP(); flushL(); const n = Math.min(m[1].length, 3); out.push(`<h${n}>${inline(m[2])}</h${n}>`); i++; continue; }
+    if (/^\s*(---+|\*\*\*+)\s*$/.test(l)) { flushP(); flushL(); out.push('<hr>'); i++; continue; }
+    if ((m = l.match(/^\s*[-*+]\s+(.*)$/))) { flushP(); openL('ul'); out.push(`<li>${inline(m[1])}</li>`); i++; continue; }
+    if ((m = l.match(/^\s*\d+[.)]\s+(.*)$/))) { flushP(); openL('ol'); out.push(`<li>${inline(m[1])}</li>`); i++; continue; }
+    if ((m = l.match(/^\s*>\s?(.*)$/))) { flushP(); flushL(); out.push(`<blockquote>${inline(m[1])}</blockquote>`); i++; continue; }
+    if (!l.trim()) { flushP(); flushL(); i++; continue; }
+    para.push(l.trim()); i++;
+  }
+  flushP(); flushL();
+  let html = out.join('\n');
+  if (base) html = html.replace(/(src|href)="(?!https?:|\/|#)/g, `$1="${base}`);
+  return html;
+}
+
+let open = null, reports = {}, timer = null;
+
+function chip(t) {
+  if (t.status === 'queued') return '<span class="chip">в очереди</span>';
+  if (t.status === 'running') return '<span class="chip run"><span class="dot"></span>ищет</span>';
+  if (t.status === 'error') return '<span class="chip err">не вышло</span>';
+  return '<span class="chip ok">готово</span>';
+}
+
+async function render(data) {
+  const tasks = data.tasks || [];
+  document.getElementById('sub').textContent = data.worker ? 'сейчас ищет…'
+    : tasks.length ? `${tasks.length} задач${tasks.length % 10 === 1 && tasks.length % 100 !== 11 ? 'а' : ''} в истории` : 'что найти?';
+  const list = document.getElementById('list');
+  if (!tasks.length) { list.innerHTML = '<div class="empty">Пока ничего не искали. Спроси что-нибудь наверху.</div>'; return; }
+  list.innerHTML = tasks.map(t => {
+    const done = t.status === 'done';
+    const body = open === t.id ? `<div class="body">
+        ${t.error ? `<div class="err">${esc(t.error)}</div>` : ''}
+        <div class="md">${reports[t.id] ? md(reports[t.id], `agent/reports/${t.id}/`) : (done ? 'Открываю…' : '')}</div>
+        <div class="acts"><button class="btn ghost" data-del="${t.id}">Удалить</button></div>
+      </div>` : '';
+    return `<div class="task"><div class="top" data-id="${t.id}">
+        <div class="who">
+          <div class="ttl">${esc(t.title || t.prompt.slice(0, 80))}</div>
+          ${t.title ? `<div class="q">${esc(t.prompt)}</div>` : ''}
+          <div class="meta">${esc(ago(t.createdAt))}${t.durationSec ? ' · ' + mins(t.durationSec) : ''}${t.turns ? ' · ' + t.turns + ' шагов' : ''}</div>
+        </div>${chip(t)}
+      </div>${body}</div>`;
+  }).join('');
+
+  list.querySelectorAll('.top').forEach(el => el.onclick = async () => {
+    const id = el.dataset.id;
+    open = open === id ? null : id;
+    if (open && !reports[open]) { await load(open); return; }
+    render(last);
+  });
+  list.querySelectorAll('[data-del]').forEach(el => el.onclick = async ev => {
+    ev.stopPropagation();
+    const id = el.dataset.del;
+    el.disabled = true;
+    await fetch('/api/agent/' + id, { method: 'DELETE' }).catch(() => {});
+    open = null; delete reports[id]; load();
+  });
+}
+
+let last = { tasks: [] };
+async function load(withReport) {
+  const r = await fetch('/api/agent' + (withReport ? '?report=' + encodeURIComponent(withReport) : ''), { cache: 'no-store' });
+  if (!r.ok) { document.getElementById('list').innerHTML = `<div class="empty">Не удалось загрузить: ${r.status}</div>`; return; }
+  const data = await r.json();
+  if (data.report) reports[data.report.id] = data.report.markdown;
+  last = data;
+  render(data);
+  clearTimeout(timer);
+  if (data.busy) timer = setTimeout(() => load(open && !reports[open] ? open : undefined), 5000);
+}
+
+document.getElementById('ask').onsubmit = async ev => {
+  ev.preventDefault();
+  const q = document.getElementById('q'), go = document.getElementById('go');
+  const prompt = q.value.trim();
+  if (prompt.length < 3) return;
+  go.disabled = true; go.textContent = 'Отправляю…';
+  const r = await fetch('/api/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt }) }).catch(() => null);
+  go.disabled = false; go.textContent = 'Найти';
+  if (r && r.ok) { q.value = ''; open = null; load(); }
+  else alert('Не отправилось' + (r ? ': ' + r.status : ''));
+};
+document.getElementById('q').addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') document.getElementById('ask').requestSubmit();
+});
+load();
+</script>
+</body>
+</html>

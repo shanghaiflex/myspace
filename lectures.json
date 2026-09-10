@@ -1286,7 +1286,7 @@
     {
       "id": "ERU6Klc6WOQ",
       "status": "listened",
-      "position": 0,
+      "position": 2,
       "listenedAt": "2026-09-06",
       "addedAt": "2026-09-06",
       "note": null,
@@ -1438,7 +1438,7 @@
     {
       "id": "h9WBC9Io25U",
       "status": "listening",
-      "position": 5273,
+      "position": 11679,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -3422,7 +3422,7 @@
     {
       "id": "DrL2lFd-LIw",
       "status": "new",
-      "position": 0,
+      "position": 3,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,

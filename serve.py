@@ -22,6 +22,9 @@
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
   GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
   POST   /api/pantry/review       refresh receipts and the note now (scripts/pantry_review.sh --force)
+  GET    /api/agent[?report=<id>] research tasks for Claude + the report of one of them
+  POST   /api/agent               body: {prompt}  → queue a task, a browser agent runs it on the mini
+  DELETE /api/agent/<id>          forget a task and its report
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 
@@ -42,6 +45,7 @@ import books as B  # noqa: E402
 import weather as W  # noqa: E402
 import health as H  # noqa: E402
 import mix_recs as R  # noqa: E402
+import agent as A  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
@@ -51,6 +55,10 @@ REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
 WORKOUT_REVIEW_DELAY = 90
 RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
 PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
+# Research tasks asked from the phone. One browser at a time: they share a Chromium profile,
+# and two agents clicking through Avito at once is neither faster nor less suspicious.
+AGENT_JOB = {"running": False, "id": None}
+AGENT_TIMEOUT = 1800
 
 STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
@@ -260,6 +268,14 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
             out["reviewJob"] = REVIEW_JOB["status"]
             return self.send_json(200, out)
+        if route == "/api/agent":
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            try:
+                out = A.summary((q.get("report") or [None])[0])
+            except Exception as e:
+                return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
+            out["worker"] = AGENT_JOB["id"] if AGENT_JOB["running"] else None
+            return self.send_json(200, out)
         if route == "/api/pantry":
             path = os.path.join(ROOT, "pantry.json")
             try:
@@ -396,6 +412,38 @@ class Handler(SimpleHTTPRequestHandler):
         threading.Thread(target=run, daemon=True).start()
         return "running"
 
+    def start_agent_worker(self):
+        """Drain queued research tasks one by one; the thread exits when the queue is empty."""
+        if AGENT_JOB["running"]:
+            return
+        AGENT_JOB["running"] = True
+
+        def run():
+            import subprocess
+            try:
+                while True:
+                    with LOCK:
+                        queued = [t["id"] for t in A.load()["tasks"] if t["status"] == "queued"]
+                        if not queued:
+                            AGENT_JOB.update(running=False, id=None)
+                            return
+                        AGENT_JOB["id"] = queued[-1]  # oldest first
+                    tid = AGENT_JOB["id"]
+                    try:
+                        r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", "agent_run.sh"), tid],
+                                           cwd=ROOT, capture_output=True, text=True, timeout=AGENT_TIMEOUT)
+                        print(f"agent {tid}: rc={r.returncode} {((r.stdout or '') + (r.stderr or '')).strip()[-300:]}", flush=True)
+                    except Exception as e:
+                        print(f"agent {tid} failed: {type(e).__name__}: {e}", flush=True)
+                        try:
+                            A.finish(tid, error=f"{type(e).__name__}: {e}")
+                        except Exception:
+                            pass
+            finally:
+                AGENT_JOB.update(running=False, id=None)
+
+        threading.Thread(target=run, daemon=True).start()
+
     def start_review_job(self, delay=0):
         if REVIEW_JOB["status"] == "running" and time.time() - REVIEW_JOB["started"] < 900:
             return "running"
@@ -445,6 +493,17 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, {"status": self.start_recs_job()})
         if route == "/api/health/review":
             return self.send_json(200, {"status": self.start_review_job()})
+        if route == "/api/agent":
+            try:
+                prompt = (self.read_json().get("prompt") or "").strip()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            if len(prompt) < 3:
+                return self.send_json(400, {"error": "напиши, что найти"})
+            with LOCK:
+                task = A.add(prompt)
+            self.start_agent_worker()
+            return self.send_json(200, task)
         if route == "/api/pantry/review":
             return self.send_json(200, {"status": self.start_job(
                 PANTRY_JOB, "pantry_review.sh")})
@@ -615,6 +674,12 @@ class Handler(SimpleHTTPRequestHandler):
             return self._delete()
 
     def _delete(self):
+        aid = self.path_id("/api/agent/")
+        if aid:
+            if not any(t["id"] == aid for t in A.load()["tasks"]):
+                return self.send_json(404, {"error": "no such task"})
+            A.remove(aid)
+            return self.send_json(200, {"ok": True})
         bid = self.path_id("/api/book/")
         if bid:
             books = B.load()

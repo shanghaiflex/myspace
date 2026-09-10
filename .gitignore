@@ -11,3 +11,5 @@ scripts/pantrylib/data/receipts.json
 dishes/
 scripts/pantrylib/data/commons_cache/
 backups/
+agent_tasks.json
+agent/reports/
