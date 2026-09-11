@@ -24,8 +24,18 @@ Cloudflared идёт через VPN Server 1 (у него чистый путь 
 свой конфиг Server 1 (10.8.1.5); общий с ноутбуком конфиг (10.8.1.1) давал конфликт одного WG-пира и 25–40% потерь.
 
 Диагностика: `ssh mini`, логи `~/movies/logs/{serve,tunnel}.log` и `/var/log/awg-mini.log`;
-проверка туннеля `printf 'get=1\n\n' | nc -U /var/run/amneziawg/utun11.sock | grep rx_bytes`;
-рукопожатие должно расти. Перезапуск VPN: `sudo launchctl kickstart -k system/cc.bodywithoutorgans.vpn`.
+состояние VPN одной командой: `ssh mini 'sudo -n /usr/local/sbin/vpn-status.sh'` (рукопожатие должно быть
+свежим, rx/tx расти). Перезапуск VPN: `ssh mini 'sudo -n launchctl kickstart -k system/cc.bodywithoutorgans.vpn'`.
+
+Пароль для этих двух команд не спрашивается: `deploy/install-vpn-sudoers.sh` (запускается от root один раз,
+`ssh -t mini 'sudo sh movies/deploy/install-vpn-sudoers.sh'`) кладёт `/etc/sudoers.d/cc-bodywithoutorgans-vpn`
+с закрытым списком — kickstart/bootout/bootstrap/print только для демонов `cc.bodywithoutorgans.{vpn,directroutes}`
+и read-only `vpn-status.sh` (он лежит у root, потому что сокет amneziawg в `/var/run` доступен только root).
+
+Типичная авария (2026-09-11): сайт отдаёт Cloudflare 1033, в `tunnel.log` — `failed to dial to edge:
+timeout: no recent network activity`. Причина почти всегда не в туннеле: `utun11` поднят и держит `0/1`,
+но сессия WG протухла, и с mini никуда нет выхода (`curl https://api.ipify.org` таймаутится, а LAN и сети
+из `direct-routes.txt` работают). Лечится kickstart'ом демона VPN.
 
 ## Apple Health (2026-09-07)
 
