@@ -227,6 +227,14 @@ okko, dtf. Ставится один раз от root: `ssh -t mini 'sudo sh mov
 Правишь список — деплой копирует его, а применить: `ssh mini 'sudo launchctl kickstart -k system/cc.bodywithoutorgans.directroutes'`.
 Если очередной сайт покажет капчу и попросит выключить VPN — узнай его сеть (`dig` + `whois`) и допиши сюда.
 
+Маршруты не спасают от антибот-проверки: с домашнего адреса Avito и Ozon всё равно заворачивают
+автоматизированный браузер (429 «Доступ ограничен» и 403 «Похоже, нет соединения»), хотя обычный
+браузер на ноутбуке с того же адреса открывает их нормально. Маскировка (свой user-agent,
+`--disable-blink-features=AutomationControlled`, `navigator.webdriver`, headed-режим) не помогла.
+Рабочий путь — один раз пройти проверку руками в профиле агента (`~/.agent-browser`) с экрана mini
+и жить на выданной куке; Screen Sharing на mini сейчас выключен. Промпт велит агенту не долбиться
+в такие сайты, а идти к магазинам и честно писать в отчёте, что площадки посмотреть не удалось.
+
 ## Editing workflow (IMPORTANT — how to ship changes)
 
 When the user asks to change anything (add/remove/rate a film, book, mix, lecture; edit a page; etc.):

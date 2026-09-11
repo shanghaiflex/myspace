@@ -1418,8 +1418,8 @@
     },
     {
       "id": "G5CB5MehT_k",
-      "status": "new",
-      "position": 0,
+      "status": "listening",
+      "position": 2481,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -1437,9 +1437,9 @@
     },
     {
       "id": "h9WBC9Io25U",
-      "status": "listening",
-      "position": 11679,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 12943,
+      "listenedAt": "2026-09-10",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Повседневная жизнь крестьян в Средние века.",
@@ -6723,7 +6723,7 @@
     {
       "id": "sc:839825947",
       "status": "queued",
-      "position": 0,
+      "position": 5535,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
