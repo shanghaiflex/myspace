@@ -42,8 +42,16 @@ timeout: no recent network activity`. Причина почти всегда н�
 - `api.bodywithoutorgans.cc` — третий hostname того же туннеля `movies`, тоже на `127.0.0.1:8787`: туда шлёт батчи
   iOS-приложение Health Bridge (`POST /v1/ingest/health/*`, Bearer-токен из `HEALTH_TOKENS` в `~/movies/.env`,
   тот же токен, что был у старого lifeops). Старый агент `com.lifeops.cloudflared.named` (туннель на мёртвый :8080)
-  выгружен, plist переименован в `.disabled`. Остальные `com.lifeops.*` агенты (startup, workout-notifier, swim-coach)
-  и `ai.openclaw.gateway` не трогал — colima там сломана, они просто падают.
+  выгружен, plist переименован в `.disabled`.
+- Стек lifeops выкорчеван 2026-09-12: агенты `com.lifeops.{startup,workout-notifier,swim-coach,cloudflared.quick}`
+  выгружены, их plist'ы переименованы в `.disabled`; все 11 контейнеров в OrbStack остановлены и лишены
+  автозапуска (`docker update --restart=no`), сама OrbStack закрыта (`app.start_at_login: false` — стартовала
+  из-за `restart=always` у контейнеров). Контейнеры и тома (`lifeops_pgdata` и др.) НЕ удалены, старая история
+  Postgres лежит там; оживить: `PATH=$HOME/.orbstack/bin:$PATH docker start <name>`. Живыми оставлены
+  `com.lifeops.amnezia.start` (запускает GUI AmneziaVPN, к туннелю отношения не имеет) и `ai.openclaw.gateway`
+  — это отдельный проект, не lifeops.
+  Зачем: nginx `lifeops-proxy-1` слушал 8080 и после перезагрузки mini успевал занять порт раньше Zigbee2MQTT —
+  тот падал по кругу с `EADDRINUSE`, и лампы не отвечали ни расписанию, ни командам.
 - Данные лежат в `~/movies/health.db` (SQLite), rsync его не трогает (`--exclude "health.db*"`).
 - Часовая заметка: `sh ~/movies/deploy/install-health-review.sh` ставит агент `cc.bodywithoutorgans.health`
   (`scripts/health_review.sh` раз в час, лог `~/movies/logs/health-review.log`). Нужен `~/.local/bin/claude`
