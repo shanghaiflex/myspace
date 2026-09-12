@@ -15,6 +15,13 @@ DATA = os.path.join(ROOT, "mixes.json")
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/128 Safari/537.36"
 
 
+def ytdlp():
+    """Путь к yt-dlp. На mini он лежит в ~/bin, которого нет в PATH у неинтерактивного ssh
+    и у launchd, поэтому ищем сами; переопределяется переменной YTDLP."""
+    import shutil
+    return (os.environ.get("YTDLP") or shutil.which("yt-dlp")
+            or os.path.expanduser("~/bin/yt-dlp"))
+
 def load():
     if not os.path.exists(DATA):
         return []
@@ -46,7 +53,7 @@ def sc_client_id():
         return _client_id
     path = os.path.expanduser("~/.cache/yt-dlp/soundcloud/client_id.json")
     if not os.path.exists(path):
-        subprocess.run(["yt-dlp", "--flat-playlist", "--playlist-end", "1", "-J",
+        subprocess.run([ytdlp(), "--flat-playlist", "--playlist-end", "1", "-J",
                         "https://soundcloud.com/resident-advisor/likes"], capture_output=True)
     with open(path) as f:
         _client_id = json.load(f)["data"]
@@ -82,7 +89,7 @@ def resolve_soundcloud(url):
 
 # ---------------------------------------------------------------- yt-dlp (YouTube, Mixcloud, anything else)
 def resolve_ytdlp(url):
-    r = subprocess.run(["yt-dlp", "-J", "--no-playlist", url], capture_output=True, text=True)
+    r = subprocess.run([ytdlp(), "-J", "--no-playlist", url], capture_output=True, text=True)
     if r.returncode != 0 or not r.stdout.strip():
         raise SystemExit(f"yt-dlp failed for {url}:\n{r.stderr.strip()[-400:]}")
     e = json.loads(r.stdout)

@@ -15,11 +15,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "lectures.json")
 AUDIO = os.path.join(ROOT, "audio")
 STATUSES = ("new", "queued", "listening", "listened")
+DOWNLOAD_ATTEMPTS = int(os.environ.get("AUDIO_ATTEMPTS", 8))
 DEFAULT_CHANNELS = [
     {"id": "UCFJjfwRP5CaKWxpbxjMzjsw", "name": "Семинары по истории Александра Макарова", "type": "youtube", "label": "Макаров · Средневековье"},
     {"id": "sc:589577313", "name": "Serj Bushwacker", "type": "soundcloud", "url": "https://soundcloud.com/serj-bushwacker", "label": "Bushwacker · Древний Египет"},
 ]
 
+
+def ytdlp():
+    """Путь к yt-dlp. На mini он лежит в ~/bin, которого нет в PATH у неинтерактивного ssh
+    и у launchd, поэтому ищем сами; переопределяется переменной YTDLP."""
+    import shutil
+    return (os.environ.get("YTDLP") or shutil.which("yt-dlp")
+            or os.path.expanduser("~/bin/yt-dlp"))
 
 def load():
     if not os.path.exists(DATA):
@@ -36,7 +44,7 @@ def save(db):
 
 
 def ytdlp_json(url, extra=()):
-    r = subprocess.run(["yt-dlp", "--flat-playlist", "-J", *extra, url], capture_output=True, text=True)
+    r = subprocess.run([ytdlp(), "--flat-playlist", "-J", *extra, url], capture_output=True, text=True)
     if not r.stdout.strip():
         raise SystemExit(f"yt-dlp failed for {url}: {r.stderr.strip()[-300:]}")
     return json.loads(r.stdout)
@@ -183,11 +191,22 @@ def download_audio(vid):
         url, fmt = f"https://api.soundcloud.com/tracks/{vid[3:]}", "bestaudio"
     else:
         url, fmt = f"https://www.youtube.com/watch?v={vid}", "140/bestaudio[ext=m4a]/bestaudio"
-    r = subprocess.run(["yt-dlp", "-f", fmt, "--no-playlist", "--no-progress",
-                        "-o", os.path.join(AUDIO, f"{safe_id(vid)}.%(ext)s"), url], capture_output=True, text=True)
-    if r.returncode != 0:
-        raise RuntimeError(r.stderr.strip()[-400:])
-    return audio_path(vid)
+    cmd = [ytdlp(), "-f", fmt, "--no-playlist", "--no-progress", "--continue",
+           "--socket-timeout", "20", "--retries", "10", "--fragment-retries", "10",
+           "-o", os.path.join(AUDIO, f"{safe_id(vid)}.%(ext)s"), url]
+    # YouTube рвёт длинные загрузки (часовые лекции — сотни мегабайт), десяти внутренних
+    # ретраев yt-dlp не хватает. Каждый новый заход продолжает .part с места обрыва,
+    # поэтому просто пробуем ещё несколько раз.
+    err = ""
+    for attempt in range(1, DOWNLOAD_ATTEMPTS + 1):
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        if r.returncode == 0:
+            return audio_path(vid)
+        err = r.stderr.strip()[-400:]
+        if attempt < DOWNLOAD_ATTEMPTS:
+            print(f"  обрыв ({attempt}/{DOWNLOAD_ATTEMPTS}), докачиваю …", flush=True)
+            time.sleep(5)
+    raise RuntimeError(err)
 
 
 def cmd_audio(args):
