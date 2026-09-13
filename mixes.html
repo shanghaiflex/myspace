@@ -237,7 +237,7 @@
 
 <header class="bar">
   <div class="bar-inner">
-    <nav class="nav"><a href="index.html">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html" class="on">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a><a href="agent.html">Агент</a></nav>
+    <nav class="nav"><a href="index.html">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html" class="on">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a></nav>
     <div class="spacer"></div>
     <label class="addbox" id="addbox">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -321,7 +321,7 @@
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const SRC_LABEL = { soundcloud: 'SoundCloud', youtube: 'YouTube', mixcloud: 'Mixcloud' };
-const state = { mixes: [], recs: [], current: null, playing: false, history: [], pos: 0, dur: 0, backgrounds: [], bgIndex: -1, bgLayer: 0 };
+const state = { mixes: [], recs: [], recsAt: null, current: null, playing: false, history: [], pos: 0, dur: 0, backgrounds: [], bgIndex: -1, bgLayer: 0 };
 const pomo = { mode: 'work', left: 25 * 60, endsAt: 0, running: false, done: 0, day: new Date().toDateString() };
 let pomoAudio = null;
 let player = null;      // { play(), pause(), seek(sec), destroy() }
@@ -679,6 +679,7 @@ async function loadRecs() {
   try {
     const db = await fetch('/api/mix-recs', { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
     state.recs = (db && db.items || []).map(r => ({ ...r, rec: true }));
+    state.recsAt = (db && db.updatedAt) || null;
     renderRecs(db);
     return db;
   } catch { return null; }
@@ -713,14 +714,17 @@ $('#recGrid').addEventListener('click', e => {
 $('#recsRefresh').addEventListener('click', async () => {
   const btn = $('#recsRefresh');
   btn.disabled = true; btn.textContent = 'Ищу…'; toast('Claude подбирает миксы, это займёт минуту');
-  const before = $('#recsMeta').textContent;
+  // Завершение ловим по статусу задания на сервере, а не по подписи под заголовком: она показывает
+  // только день ("обновлено 12 сентября"), и при повторном обновлении в тот же день не менялась —
+  // кнопка висела «Ищу…» все шесть минут опроса, хотя советы уже обновились.
+  const before = state.recsAt;
   try {
     await fetch('/api/mix-recs/refresh', { method: 'POST' });
-    for (let i = 0; i < 24; i++) {
-      await new Promise(r => setTimeout(r, 15000));
+    for (let i = 0; i < 72; i++) {
+      await new Promise(r => setTimeout(r, 5000));
       const db = await loadRecs();
       if (db && db.job && db.job.startsWith('error')) { toast('Не получилось: ' + db.job.slice(7, 120)); break; }
-      if (db && db.job === 'done' && $('#recsMeta').textContent !== before) { toast('Готово: новые советы'); break; }
+      if (db && db.job === 'done') { toast(db.updatedAt && db.updatedAt !== before ? 'Готово: новые советы' : 'Готово, список тот же'); break; }
     }
   } catch (e) { toast('Ошибка: ' + e.message); }
   btn.disabled = false; btn.textContent = 'Обновить';
