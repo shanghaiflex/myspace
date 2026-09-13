@@ -50,6 +50,9 @@ timeout: no recent network activity`. Причина почти всегда н�
   Postgres лежит там; оживить: `PATH=$HOME/.orbstack/bin:$PATH docker start <name>`. Живыми оставлены
   `com.lifeops.amnezia.start` (запускает GUI AmneziaVPN, к туннелю отношения не имеет) и `ai.openclaw.gateway`
   — это отдельный проект, не lifeops.
+  Главное, что поднимало стек после загрузки, — строка `@reboot ~/bin/lifeops-startup.sh` в crontab
+  (`docker compose up -d` в `~/workspace/lifeops`), а не политика рестарта у контейнеров; 2026-09-13 она
+  убрана, бэкап старого crontab — `~/crontab-backup-2026-09-13.txt` на mini.
   Зачем: nginx `lifeops-proxy-1` слушал 8080 и после перезагрузки mini успевал занять порт раньше Zigbee2MQTT —
   тот падал по кругу с `EADDRINUSE`, и лампы не отвечали ни расписанию, ни командам.
 - Данные лежат в `~/movies/health.db` (SQLite), rsync его не трогает (`--exclude "health.db*"`).
