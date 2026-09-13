@@ -13,13 +13,18 @@ if [ -f .env ]; then set -a; . ./.env; set +a; fi
 MODEL="${TASTE_RECS_MODEL:-opus}"
 WORK="${TASTE_RECS_WORKDIR:-$HOME/.taste-recs}"; mkdir -p "$WORK"
 
+# Разбираем аргументы без shift: `shift` при пустом списке возвращает ненулевой код,
+# а с `set -e` это молча убивало запуск из launchd (без аргументов вовсе).
 KINDS="film book"
-case "${1:-both}" in
-  film) KINDS="film"; shift ;;
-  book) KINDS="book"; shift ;;
-  both) shift ;;
-esac
-FORCE="${1:-}"
+FORCE=""
+for a in "$@"; do
+  case "$a" in
+    film|book) KINDS="$a" ;;
+    both) KINDS="film book" ;;
+    --force) FORCE="--force" ;;
+    *) echo "неизвестный аргумент: $a (film|book|both, --force)"; exit 2 ;;
+  esac
+done
 
 command -v claude >/dev/null || { echo "$(date '+%F %T') claude not installed (curl -fsSL https://claude.ai/install.sh | bash)"; exit 1; }
 
