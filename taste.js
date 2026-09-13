@@ -30,7 +30,7 @@ window.Taste = (() => {
             <div class="cv">${r.cover ? `<img src="${esc(r.cover)}" alt="" loading="lazy">` : ''}</div>
             <div>
               <div class="t">${esc(r.title)}${r.year ? ` <span class="y">${r.year}</span>` : ''}</div>
-              <div class="s">${esc(r.meta || r.author || '')}</div>
+              <div class="s">${esc(r.meta || r.author || '')}${r.unverified ? ' · <span class="warn">не нашёл в каталогах</span>' : ''}</div>
             </div>
           </div>
           ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}

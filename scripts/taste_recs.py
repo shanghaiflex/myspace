@@ -15,7 +15,7 @@ Usage:
 со статусом to-read. Запускается раз в день на mini (scripts/taste_recs.sh из launchd,
 deploy/install-taste-recs.sh) и по кнопке на странице (POST /api/recs/<kind>/refresh).
 """
-import argparse, datetime, json, os, re, sys
+import argparse, datetime, json, os, re, sys, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "taste_recs.json")
@@ -194,8 +194,15 @@ def resolve_book(c, exclude):
     if not res and c.get("author"):
         res = B.lookup(f"{c['title']} {c['author']}", None, None, 1)
     if not res:
-        print(f"  не нашёл в Google Books / Open Library: {c['title']}")
-        return None
+        # С mini оба каталога недоступны (Google Books — 429 с адреса VPN, Open Library не отвечает),
+        # и это не повод терять совет: оставляем его непроверенным, страница честно это показывает.
+        bid = B.slug(f"{c['title']}-{c.get('author') or ''}")
+        if bid in exclude:
+            return None
+        print(f"  не подтверждено в каталогах, оставляю как есть: {c['title']}")
+        return {"id": bid, "title": c["title"], "year": None, "author": c.get("author"),
+                "cover": None, "coverUrl": None, "isbn": None, "unverified": True,
+                "meta": c.get("author") or "", "plot": None}
     r = res[0]
     bid = r["isbn"] or B.slug(f"{r['title']}-{r['author']}")
     if bid in exclude:
@@ -218,6 +225,8 @@ def apply_answer(kind, text, model=None, keep=3):
     for c in parse_answer(text):
         if len(items) >= keep:
             break
+        if items and kind == "book":
+            time.sleep(2)  # Google Books считает частоту запросов, а не только их число
         r = resolve_film(c, exclude) if kind == "film" else resolve_book(c, exclude)
         if not r:
             continue

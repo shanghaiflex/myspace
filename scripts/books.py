@@ -84,7 +84,12 @@ def gb_search(q, author=None, isbn=None, n=5):
         q = f"isbn:{isbn}"
     elif author:
         q = f"intitle:{q} inauthor:{author}"
-    d = get_json("https://www.googleapis.com/books/v1/volumes?" + urllib.parse.urlencode({"q": q, "maxResults": n}))
+    params = {"q": q, "maxResults": n}
+    # Анонимные запросы Google режет по адресу (с VPN mini это стабильный 429).
+    # Бесплатный ключ в GOOGLE_BOOKS_KEY снимает лимит.
+    if os.environ.get("GOOGLE_BOOKS_KEY"):
+        params["key"] = os.environ["GOOGLE_BOOKS_KEY"]
+    d = get_json("https://www.googleapis.com/books/v1/volumes?" + urllib.parse.urlencode(params))
     out = []
     for it in d.get("items") or []:
         v = it.get("volumeInfo") or {}

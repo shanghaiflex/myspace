@@ -8,39 +8,42 @@
         "title": "The Handmaiden",
         "year": 2016,
         "author": "Park Chan-wook",
-        "cover": "https://m.media-amazon.com/images/M/MV5BOTllZDI1OGItOGUxNS00OGZhLWIzMjAtYzllZTY1YTA0ZmYwXkEyXkFqcGc@._V1_SX300.jpg",
+        "cover": "posters/tt4016934.jpg",
         "meta": "Drama, Romance, Thriller, 145 мин, IMDb 8.1",
         "runtime": 145,
         "plot": "In 1930s Korea, a girl is hired as a handmaiden to a Japanese heiress who lives a secluded life on a countryside estate. But the maid has a secret: She is a pickpocket recruited by a swindler to help seduce the Lady and steal her ...",
         "reason": "Единственный крупный Пак Чхан Ук, который ты пропустил: та же холодная орнаментальность, что в «Decision to Leave», плюс трёхчастная структура с перевёртышем мотивов из «Oldboy».",
         "suggestedAt": "2026-09-13",
-        "verdict": "new"
+        "verdict": "new",
+        "coverUrl": "https://m.media-amazon.com/images/M/MV5BOTllZDI1OGItOGUxNS00OGZhLWIzMjAtYzllZTY1YTA0ZmYwXkEyXkFqcGc@._V1_SX300.jpg"
       },
       {
         "id": "tt0456912",
         "title": "A Bittersweet Life",
         "year": 2005,
         "author": "Kim Jee-woon",
-        "cover": "https://m.media-amazon.com/images/M/MV5BNmQyNzdkZmItM2ZiMi00ZjQ3LWE4YjctZDdlNDEwNjFiMjJkXkEyXkFqcGc@._V1_SX300.jpg",
+        "cover": "posters/tt0456912.jpg",
         "meta": "Action, Crime, Drama, 119 мин, IMDb 7.5",
         "runtime": 119,
         "plot": "Things go wrong for a high ranking mobster when he doesn't follow his boss's orders.",
         "reason": "Корейский гангстерский нуар, выстроенный ровно на меланхолии одиночки из «Le Samouraï», но с той вязкой жестокостью и финальной расплатой, за которую ты поставил 9 «Oldboy».",
         "suggestedAt": "2026-09-13",
-        "verdict": "new"
+        "verdict": "new",
+        "coverUrl": "https://m.media-amazon.com/images/M/MV5BNmQyNzdkZmItM2ZiMi00ZjQ3LWE4YjctZDdlNDEwNjFiMjJkXkEyXkFqcGc@._V1_SX300.jpg"
       },
       {
         "id": "tt0443706",
         "title": "Zodiac",
         "year": 2007,
         "author": "David Fincher",
-        "cover": "https://m.media-amazon.com/images/M/MV5BNDFkMTRkZmQtM2I0NC00NjJjLWJlMDctNTNiZWYxYzhjZDZiXkEyXkFqcGc@._V1_QL75_UY562_CR1,0,380,562_.jpg",
+        "cover": "posters/tt0443706.jpg",
         "meta": "Crime, Drama, Mystery, 157 мин, IMDb 7.7",
         "runtime": 157,
         "plot": "Between 1968 and 1983, a San Francisco cartoonist becomes an amateur detective obsessed with tracking down the Zodiac Killer, an unidentified individual who terrorizes Northern California with a killing spree.",
         "reason": "Тот же провал следствия в бесконечность, что в «Memories of Murder», только Финчер меняет грязь и отчаяние на маниакальную точность архива — процедурал про людей, которых сжирает дело.",
         "suggestedAt": "2026-09-13",
-        "verdict": "new"
+        "verdict": "new",
+        "coverUrl": "https://m.media-amazon.com/images/M/MV5BNDFkMTRkZmQtM2I0NC00NjJjLWJlMDctNTNiZWYxYzhjZDZiXkEyXkFqcGc@._V1_QL75_UY562_CR1,0,380,562_.jpg"
       }
     ],
     "history": []
