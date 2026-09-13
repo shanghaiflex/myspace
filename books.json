@@ -1,5 +1,23 @@
 [
   {
+    "id": "9789811017896",
+    "title": "Analysis I",
+    "titleAlt": null,
+    "author": "Terence Tao",
+    "year": 2006,
+    "pages": null,
+    "isbn": "9789811017896",
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/8617298-L.jpg",
+    "cover": "covers/9789811017896.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-13",
+    "finishedAt": null,
+    "tags": []
+  },
+  {
     "id": "black-holes-brian-cox-jeff-forshaw",
     "title": "Black Holes",
     "author": "Brian Cox, Jeff Forshaw",
@@ -192,6 +210,24 @@
     "finishedAt": null,
     "tags": [],
     "titleAlt": null
+  },
+  {
+    "id": "анна-каренина-лев-толстой",
+    "title": "Анна Каренина",
+    "titleAlt": "Anna Karenina",
+    "author": "Лев Толстой",
+    "year": 1877,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1010906264/200x305/5a2a/boocover.jpg",
+    "cover": "covers/анна-каренина-лев-толстой.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-13",
+    "finishedAt": null,
+    "tags": []
   },
   {
     "id": "анти-эдип-капитализм-и-шизофрения-жиль-делез",
@@ -946,6 +982,24 @@
     "titleAlt": "A Prisoner in the Caucasus"
   },
   {
+    "id": "каждый-за-себя-а-бог-против-всех-мемуары-вернер-херцог",
+    "title": "Каждый за себя, а Бог против всех. Мемуары",
+    "titleAlt": "Every Man for Himself and God Against All",
+    "author": "Вернер Херцог",
+    "year": 2022,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1008702880/200x305/a4ef/boocover.jpg",
+    "cover": "covers/каждый-за-себя-а-бог-против-всех-мемуары-вернер-херцог.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-13",
+    "finishedAt": null,
+    "tags": []
+  },
+  {
     "id": "comment-vivre-ensemble-roland-barthes",
     "title": "Как жить вместе",
     "author": "Roland Barthes",
@@ -1004,6 +1058,24 @@
       "🟥"
     ],
     "titleAlt": "Post Captain"
+  },
+  {
+    "id": "9780521082303",
+    "title": "Кембриджская история древнего мира. Том II, часть 1: История Ближнего Востока и Эгейского региона, ок. 1800–1380 гг. до н. э.",
+    "titleAlt": "The Cambridge Ancient History, Vol. II Part 1: The Middle East and the Aegean Region c. 1800–1380 B.C.",
+    "author": "под ред. И. Э. С. Эдвардса, К. Дж. Гэдда, Н. Дж. Л. Хэммонда, Э. Зольбергера",
+    "year": 1973,
+    "pages": null,
+    "isbn": "9780521082303",
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1003625111/200x305/4996/boocover.jpg",
+    "cover": "covers/9780521082303.jpg",
+    "status": "reading",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-13",
+    "finishedAt": null,
+    "tags": []
   },
   {
     "id": "кит-культурная-история-мишель-пастуро",
@@ -2064,6 +2136,24 @@
     "finishedAt": null,
     "tags": [],
     "titleAlt": "The Feynman Lectures on Physics, Vol. 1"
+  },
+  {
+    "id": "фейнмановские-лекции-по-физике-том-2-пространство-время-движ",
+    "title": "Фейнмановские лекции по физике. Том 2: Пространство. Время. Движение",
+    "titleAlt": "The Feynman Lectures on Physics",
+    "author": "Ричард Фейнман, Роберт Лейтон, Мэтью Сэндс",
+    "year": 1963,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1000256466/200x305/4a02/boocover.jpg",
+    "cover": "covers/фейнмановские-лекции-по-физике-том-2-пространство-время-движ.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-13",
+    "finishedAt": null,
+    "tags": []
   },
   {
     "id": "феноменология-духа-георг-вильгельм-фридрих-гегель",
