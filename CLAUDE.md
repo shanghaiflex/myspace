@@ -1,6 +1,6 @@
 # Movies — personal film catalog
 
-Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
+Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`, `reads.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
 (stdlib only) which also exposes a tiny edit API (PATCH/DELETE `/api/movie/<id>`) used by the page for
 rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
 If the page is served by a plain static server the API is absent and the page becomes read-only.
@@ -198,6 +198,37 @@ API: `GET /api/recs/<film|book>`, `PATCH /api/rec/<kind>/<id>` `{verdict}`, `POS
 если этой ночью спал меньше 6 часов (или на 45 минут меньше недельного среднего) либо завтра рабочий
 день (вс–чт), предлагает до 110 минут, иначе длинное. Второй строкой — прогулка: если шагов меньше 80%
 от недельного среднего, показывает, сколько не хватает, и когда по почасовому прогнозу начнётся дождь.
+
+## Статьи (`reads.html`, `reads.json`, `reads/PROMPT.md`, `scripts/reads.py`, `scripts/reads.sh`)
+
+Единственная рекомендация, которая смотрит на всю картину сразу: `reads.py` строит дайджест вкуса
+по четырём каталогам разом — фильмы с оценками и заметками, прочитанные и брошенные книги, лекции
+в работе, состав музыки и что было забрано из советов по миксам, — и добавляет к нему пронумерованный
+список свежих статей, который сам скачал из RSS.
+
+Модель НЕ называет ссылки: она возвращает `[{"n": 12, "why": "…"}]`, то есть номер из списка кандидатов.
+Так сделано потому, что правдоподобные несуществующие URL — её любимая ошибка (ровно как выдуманные
+фильмы, пока их не начали проверять в OMDb). Ссылка всегда живая, потому что пришла из ленты.
+
+Ленты (`SOURCES` в `reads.py`, все проверены с mini через VPN): LessWrong (кураторская), Astral Codex Ten,
+Aeon, Psyche, Noema, London Review of Books, The Paris Review, Harper's, The New Yorker, Quanta, Nautilus.
+`PROMPT.md` требует, чтобы минимум две статьи из пяти открывали территорию, которой в каталогах нет
+вовсе, — запрос был именно на новое, а не на подтверждение вкуса.
+
+Состояние в `reads.json`: `items` (текущие советы), `saved` (список чтения), `history` (вердикты),
+`cache` (кандидаты из лент, странице не отдаётся). Кнопки: «Прочту» → `saved`, «Мимо» → история,
+«Прочитал» в списке чтения → история. Всё это идёт в следующий промпт.
+
+```
+python3 scripts/reads.py fetch | digest | list
+sh scripts/reads.sh [--force]                  # на mini: ssh mini 'cd movies && sh scripts/reads.sh --force'
+python3 scripts/reads.py verdict <id> saved|dismissed|read
+ssh mini tail -20 movies/logs/reads.log
+```
+
+launchd на mini: `cc.bodywithoutorgans.reads`, ежедневно в 07:50 (`deploy/install-reads.sh`).
+API: `GET /api/reads`, `PATCH /api/read/<id>` `{verdict}`, `POST /api/reads/refresh`.
+На главной — карточка «Почитать» со ссылкой прямо в текст.
 
 ## Lectures (`lectures.html`, `lectures.json`, `scripts/lectures.py`)
 

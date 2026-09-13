@@ -21,6 +21,9 @@
   GET    /api/recs/<film|book>    Claude's film / book advice (taste_recs.json) + job status
   PATCH  /api/rec/<kind>/<id>     body: {verdict: liked|dismissed}  liked also adds it to the catalog
   POST   /api/recs/<kind>/refresh ask for a fresh batch now (scripts/taste_recs.sh) in the background
+  GET    /api/reads               Claude's article picks from real RSS feeds (reads.json) + job status
+  PATCH  /api/read/<id>           body: {verdict: saved|dismissed|read}  saved goes to the reading list
+  POST   /api/reads/refresh       fetch the feeds and ask for fresh picks (scripts/reads.sh)
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
   GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
@@ -46,6 +49,7 @@ import weather as W  # noqa: E402
 import health as H  # noqa: E402
 import mix_recs as R  # noqa: E402
 import taste_recs as T  # noqa: E402
+import reads as RD  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
@@ -55,6 +59,7 @@ REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
 WORKOUT_REVIEW_DELAY = 90
 RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
 TASTE_JOBS = {k: {"status": "idle", "started": 0} for k in T.KINDS}  # manual film / book advice runs
+READS_JOB = {"status": "idle", "started": 0}   # manual article run (feeds + Claude)
 PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
 
 STATUSES = set(M.STATUSES)
@@ -284,6 +289,11 @@ class Handler(SimpleHTTPRequestHandler):
             db = R.load()
             db["job"] = RECS_JOB["status"]
             return self.send_json(200, db)
+        if route == "/api/reads":
+            db = RD.load()
+            db.pop("cache", None)      # сотни кандидатов из лент странице не нужны
+            db["job"] = READS_JOB["status"]
+            return self.send_json(200, db)
         if route.startswith("/api/recs/"):
             kind = route[len("/api/recs/"):]
             if kind not in T.KINDS:
@@ -455,6 +465,8 @@ class Handler(SimpleHTTPRequestHandler):
             return
         if route == "/api/mix-recs/refresh":
             return self.send_json(200, {"status": self.start_recs_job()})
+        if route == "/api/reads/refresh":
+            return self.send_json(200, {"status": self.start_job(READS_JOB, "reads.sh")})
         if route.startswith("/api/recs/") and route.endswith("/refresh"):
             kind = route[len("/api/recs/"):-len("/refresh")]
             if kind not in T.KINDS:
@@ -538,6 +550,19 @@ class Handler(SimpleHTTPRequestHandler):
             except SystemExit as e:
                 return self.send_json(400, {"error": str(e)})
             return self.send_json(200, {**out, "recs": R.load()})
+        rdid = self.path_id("/api/read/")
+        if rdid:
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            try:
+                out = RD.verdict(rdid, (body.get("verdict") or "").strip())
+            except SystemExit as e:
+                return self.send_json(400, {"error": str(e)})
+            db = RD.load()
+            db.pop("cache", None)
+            return self.send_json(200, {**out, "reads": db})
         parts = self.path_id("/api/rec/")
         if parts and "/" in parts:
             kind, rid = parts.split("/", 1)

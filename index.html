@@ -124,7 +124,7 @@
 <body>
 <div class="backdrop"><div class="ph on" id="ph"></div><div class="veil"></div></div>
 <header class="bar"><div class="bar-inner">
-  <nav class="nav"><a href="index.html" class="on">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a></nav>
+  <nav class="nav"><a href="index.html" class="on">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a><a href="reads.html">Читать</a></nav>
 </div></header>
 
 <main class="wrap">
@@ -181,7 +181,7 @@ function eveningCard(movies, hl, wx) {
       ${walk ? `<div class="sub">${esc(walk)}</div>` : ''}</div></div></a>`;
 }
 
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('movies.json', [])]).then(([lect, mixes, bgs, wx, books, hl, recs, movies]) => {
+Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('movies.json', []), j('/api/reads', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, movies, reads]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
   if (wx && wx.now) {
@@ -239,6 +239,15 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   };
   if (mix) cards.push(mixCard(mix, (rec || reading.length) ? 'c6' : 'c12', 'Микс на сегодня', 'случайный'));
   if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude', rec.played ? 'уже включал' : '', rec.reason));
+  // Статья дня: ссылка ведёт прямо в текст, вердикты остаются на странице «Читать».
+  const art = ((reads && reads.items) || [])[0];
+  if (art) {
+    const more = ((reads.items || []).length - 1) + ((reads.saved || []).length ? 0 : 0);
+    cards.push(`<a class="card c6" href="${esc(art.url)}" target="_blank" rel="noopener"><div class="eyebrow">Почитать <span class="more">${esc(art.source || '')}${art.minutes ? ' · ' + art.minutes + ' мин' : ''}</span></div>
+      <h2>${esc(art.title)}</h2>
+      <div class="sub">${esc(art.reason || '')}${more > 0 ? ` <span class="more">· ещё ${more} на странице «Читать»</span>` : ''}</div></a>`);
+  }
+
   // Вечер: что поставить и когда выйти. Без модели — на том, что и так загружено:
   // сон прошлой ночью и шаги из health, почасовой дождь из погоды, длина фильмов из каталога.
   const ev = eveningCard(movies, hl, wx);
