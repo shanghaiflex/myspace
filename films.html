@@ -239,6 +239,29 @@
 
   .hint { margin-top: 56px; text-align: center; color: var(--text-3); font-size: 12.5px; }
   .hint code { font-family: ui-monospace, SF Mono, Menlo, monospace; }
+
+  /* Советы Claude (taste.js) */
+  .recs { margin: 0 0 40px; }
+  .rechead { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; }
+  .rechead h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.02em; margin: 0; }
+  .rechead .meta { color: var(--text-3); font-size: 12.5px; }
+  .rechead .spacer { flex: 1; }
+  .rechead button { border: 0; background: none; color: var(--accent); font: inherit; font-size: 13px; cursor: pointer; padding: 4px 2px; }
+  .rechead button:disabled { color: var(--text-3); cursor: default; }
+  .recgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .rec { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); transition: opacity .18s, transform .18s; }
+  .rec.gone { opacity: 0; transform: scale(.97); pointer-events: none; }
+  .rec .top { display: flex; gap: 12px; }
+  .rec .cv { width: 56px; flex: 0 0 56px; aspect-ratio: 2/3; border-radius: 6px; overflow: hidden; background: var(--surface-2); }
+  .rec .cv img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .rec .t { font-size: 14.5px; font-weight: 600; line-height: 1.3; }
+  .rec .t .y { color: var(--text-3); font-weight: 400; }
+  .rec .s { font-size: 12.5px; color: var(--text-2); margin-top: 3px; }
+  .rec .why { font-size: 13px; line-height: 1.45; color: var(--text-2); }
+  .rec .acts { display: flex; gap: 8px; margin-top: auto; }
+  .rec .acts button { flex: 1; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+  .rec .acts .take { background: var(--accent); border-color: transparent; color: #fff; }
+  @media (max-width: 560px) { .recgrid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -277,6 +300,15 @@
     <h1 id="title">Посмотрел</h1>
     <div class="meta" id="meta"></div>
   </div>
+  <section class="recs" id="recs" hidden>
+    <div class="rechead">
+      <h2>Советует Claude</h2>
+      <div class="meta" id="recsMeta"></div>
+      <div class="spacer"></div>
+      <button id="recsRefresh">Обновить</button>
+    </div>
+    <div class="recgrid" id="recGrid"></div>
+  </section>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>Ничего не найдено</div>
   <div class="hint">Оценка, статус и заметка редактируются в карточке фильма. Добавить фильм: попроси Claude Code — <code>scripts/movies.py add "Название" --rating 8</code></div>
@@ -505,6 +537,15 @@ fetch('movies.json', { cache: 'no-store' })
       Страницу нужно открывать через локальный сервер, а не как файл. Запусти в папке проекта:<br><br>
       <code>./serve.sh</code> &nbsp;и открой&nbsp; <code>http://localhost:8787</code></div>`;
   });
+</script>
+<script src="taste.js"></script>
+<script>
+Taste.mount({
+  kind: 'film',
+  toast,
+  // принятый совет уезжает в каталог на сервере — перечитываем его, чтобы карточка появилась сразу
+  onAccepted: () => { fetch('movies.json', { cache: 'no-store' }).then(r => r.json()).then(list => { state.movies = list; render(); }).catch(() => {}); },
+});
 </script>
 </body>
 </html>

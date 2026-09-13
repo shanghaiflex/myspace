@@ -163,6 +163,42 @@ launchd agent on the mini: `cc.bodywithoutorgans.mixrecs`, daily at 07:20 (`depl
 API: `GET /api/mix-recs`, `PATCH /api/mix-rec/<id>` `{verdict}`, `POST /api/mix-recs/refresh` (the «Обновить»
 button on the mixes page).
 
+## Советы по фильмам и книгам (`taste_recs.json`, `taste.js`, `scripts/taste_recs.py`, `scripts/taste_recs.sh`)
+
+Тот же механизм, что у миксов, но для двух каталогов сразу. `taste_recs.py digest film|book` собирает
+контекст вкуса: фильмы — все оценённые с режиссёром, жанрами и моими заметками плюс список «посмотреть»;
+книги — что прочитано, что **брошено** (главный отрицательный сигнал) и что в планах. Оценок у книг нет
+(`rating` пустой у всех, теги — цветные квадраты из Obsidian), поэтому там вкус читается по составу;
+если оценки появятся через страницу, дайджест подхватит их сам.
+
+`films/PROMPT.md` и `books/PROMPT.md` просят 6 кандидатов в виде JSON (`title`, `year`/`author`, `why`),
+`taste_recs.py apply` проверяет каждого: фильм — через OMDb (`movies.py resolve` + `metadata`), книгу —
+через Google Books / Open Library (`books.py lookup`). Выдуманное название и то, что уже в каталоге,
+в истории или в советах, отсеивается; первые 3 подтверждённых ложатся в `taste_recs.json`.
+
+Обратная связь — весь смысл: «Хочу» переносит фильм в `movies.json` со статусом `to-watch` (постер
+скачивается локально, причина совета уезжает в `note`), книгу — в `books.json` со статусом `to-read`
+(тег `claude-rec`); «Не то» — отказ. И то, и другое ложится в `history` и попадает в следующий промпт.
+
+```
+python3 scripts/taste_recs.py digest film|book        # что видит модель
+python3 scripts/taste_recs.py list [film|book]        # текущие советы
+sh scripts/taste_recs.sh [film|book|both] [--force]   # спросить сейчас (на mini: ssh mini 'cd movies && sh scripts/taste_recs.sh both --force')
+python3 scripts/taste_recs.py verdict film <tt…> liked|dismissed
+ssh mini tail -20 movies/logs/taste-recs.log
+```
+
+launchd на mini: `cc.bodywithoutorgans.tasterecs`, ежедневно в 07:40 (`deploy/install-taste-recs.sh`).
+API: `GET /api/recs/<film|book>`, `PATCH /api/rec/<kind>/<id>` `{verdict}`, `POST /api/recs/<kind>/refresh`
+(кнопка «Обновить» в блоке «Советует Claude» на обеих страницах, общий код — `taste.js`).
+
+### Карточка «Вечер» на главной
+
+Без модели, на уже загруженных данных: после 16:00 берёт фильм из «посмотреть» и подбирает длину —
+если этой ночью спал меньше 6 часов (или на 45 минут меньше недельного среднего) либо завтра рабочий
+день (вс–чт), предлагает до 110 минут, иначе длинное. Второй строкой — прогулка: если шагов меньше 80%
+от недельного среднего, показывает, сколько не хватает, и когда по почасовому прогнозу начнётся дождь.
+
 ## Lectures (`lectures.html`, `lectures.json`, `scripts/lectures.py`)
 
 Tracks lecture channels: YouTube «Семинары по истории Александра Макарова» (mostly medieval everyday

@@ -18,6 +18,9 @@
   GET    /api/mix-recs            Claude's daily mix advice (mix_recs.json) + job status
   PATCH  /api/mix-rec/<id>        body: {verdict: liked|dismissed|played}  liked also adds the mix
   POST   /api/mix-recs/refresh    ask for a fresh batch now (scripts/mix_recs.sh --force) in the background
+  GET    /api/recs/<film|book>    Claude's film / book advice (taste_recs.json) + job status
+  PATCH  /api/rec/<kind>/<id>     body: {verdict: liked|dismissed}  liked also adds it to the catalog
+  POST   /api/recs/<kind>/refresh ask for a fresh batch now (scripts/taste_recs.sh) in the background
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
   GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
@@ -42,6 +45,7 @@ import books as B  # noqa: E402
 import weather as W  # noqa: E402
 import health as H  # noqa: E402
 import mix_recs as R  # noqa: E402
+import taste_recs as T  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
@@ -50,6 +54,7 @@ REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
 # and a note written between the two would talk about a workout that burned nothing.
 WORKOUT_REVIEW_DELAY = 90
 RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
+TASTE_JOBS = {k: {"status": "idle", "started": 0} for k in T.KINDS}  # manual film / book advice runs
 PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
 
 STATUSES = set(M.STATUSES)
@@ -279,6 +284,13 @@ class Handler(SimpleHTTPRequestHandler):
             db = R.load()
             db["job"] = RECS_JOB["status"]
             return self.send_json(200, db)
+        if route.startswith("/api/recs/"):
+            kind = route[len("/api/recs/"):]
+            if kind not in T.KINDS:
+                return self.send_json(404, {"error": "no such kind"})
+            out = T.load()[kind]
+            out["job"] = TASTE_JOBS[kind]["status"]
+            return self.send_json(200, out)
         if self.path.startswith("/books.json"):
             return self.send_json(200, B.load())
         if route == "/api/weather":
@@ -377,7 +389,7 @@ class Handler(SimpleHTTPRequestHandler):
         threading.Thread(target=run, daemon=True).start()
         return "running"
 
-    def start_job(self, job, script, timeout=900):
+    def start_job(self, job, script, timeout=900, args=("--force",)):
         """Run a scripts/*.sh refresher in the background, one at a time."""
         if job["status"] == "running" and time.time() - job["started"] < timeout:
             return "running"
@@ -386,7 +398,7 @@ class Handler(SimpleHTTPRequestHandler):
         def run():
             import subprocess
             try:
-                r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", script), "--force"],
+                r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", script), *args],
                                    cwd=ROOT, capture_output=True, text=True, timeout=timeout)
                 job["status"] = ("done" if r.returncode == 0
                                  else f"error: {(r.stderr or r.stdout).strip()[-300:]}")
@@ -443,6 +455,12 @@ class Handler(SimpleHTTPRequestHandler):
             return
         if route == "/api/mix-recs/refresh":
             return self.send_json(200, {"status": self.start_recs_job()})
+        if route.startswith("/api/recs/") and route.endswith("/refresh"):
+            kind = route[len("/api/recs/"):-len("/refresh")]
+            if kind not in T.KINDS:
+                return self.send_json(404, {"error": "no such kind"})
+            return self.send_json(200, {"status": self.start_job(
+                TASTE_JOBS[kind], "taste_recs.sh", args=[kind, "--force"])})
         if route == "/api/health/review":
             return self.send_json(200, {"status": self.start_review_job()})
         if route == "/api/pantry/review":
@@ -520,6 +538,20 @@ class Handler(SimpleHTTPRequestHandler):
             except SystemExit as e:
                 return self.send_json(400, {"error": str(e)})
             return self.send_json(200, {**out, "recs": R.load()})
+        parts = self.path_id("/api/rec/")
+        if parts and "/" in parts:
+            kind, rid = parts.split("/", 1)
+            if kind not in T.KINDS:
+                return self.send_json(404, {"error": "no such kind"})
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            try:
+                out = T.verdict(kind, rid, (body.get("verdict") or "").strip())
+            except SystemExit as e:
+                return self.send_json(400, {"error": str(e)})
+            return self.send_json(200, {**out, "recs": T.load()[kind]})
         xid = self.path_id("/api/mix/")
         if xid:
             try:

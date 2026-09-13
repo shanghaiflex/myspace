@@ -143,7 +143,45 @@ const PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null)]).then(([lect, mixes, bgs, wx, books, hl, recs]) => {
+function eveningCard(movies, hl, wx) {
+  const now = new Date(), hour = now.getHours();
+  if (hour < 16) return null;                       // до вечера советовать кино рано
+  const pool0 = (movies || []).filter(m => m.status === 'to-watch');
+  if (!pool0.length) return null;
+
+  const t = (hl && hl.days && hl.days[0]) || {}, a = (hl && hl.avg7) || {};
+  const slept = t.sleep && t.sleep.total;           // минут этой ночью
+  const tired = slept != null && (slept < 360 || (a.sleep && slept < a.sleep - 45));
+  // вс–чт: завтра рабочий день, длинное кино в такой вечер обычно не заходит
+  const workTomorrow = now.getDay() <= 4;
+  const wantShort = tired || workTomorrow;
+  const timed = pool0.filter(m => m.runtime);
+  const fit = timed.filter(m => wantShort ? m.runtime <= 110 : m.runtime >= 110);
+  const list = fit.length ? fit : (timed.length ? timed : pool0);
+  const m = list[Math.floor(Math.random() * list.length)];
+  const hm = x => x == null ? '' : `${Math.floor(x / 60)}ч${String(Math.round(x) % 60).padStart(2, '0')}`;
+  const why = tired ? `спал ${hm(slept)} — бери покороче`
+    : wantShort ? 'завтра рабочий день — что-нибудь покороче'
+    : 'выходной впереди — можно длинное';
+
+  // Прогулка: сколько шагов не хватает до обычного дня и успеваешь ли до дождя.
+  let walk = '';
+  const steps = t.steps, norm = a.steps;
+  if (steps != null && norm && steps < norm * 0.8) {
+    const left = Math.round(norm - steps);
+    const ahead = ((wx && wx.hours) || []).filter(h => parseInt(h.time, 10) > hour);
+    const rain = ahead.find(h => (h.precipProb || 0) >= 40);
+    walk = `До обычных ${Math.round(norm).toLocaleString('ru-RU')} шагов не хватает ${left.toLocaleString('ru-RU')}. `
+      + (rain ? `Дождь с ${rain.time} — лучше выйти сейчас.` : 'Осадков до ночи не обещают.');
+  }
+
+  return `<a class="card c6" href="films.html#${esc(m.id)}"><div class="eyebrow">Вечер <span class="more">${esc(why)}</span></div>
+    <div class="row"><div class="img book">${m.poster ? `<img src="${esc(m.poster)}" alt="">` : ''}</div>
+      <div class="txt"><h2>${esc(m.title)}</h2><div class="sub">${m.year || ''}${m.runtime ? ` · ${hm(m.runtime)}` : ''}${m.genre && m.genre.length ? ' · ' + esc(m.genre.slice(0, 2).join(', ')) : ''}</div>
+      ${walk ? `<div class="sub">${esc(walk)}</div>` : ''}</div></div></a>`;
+}
+
+Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('movies.json', [])]).then(([lect, mixes, bgs, wx, books, hl, recs, movies]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
   if (wx && wx.now) {
@@ -201,6 +239,11 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   };
   if (mix) cards.push(mixCard(mix, (rec || reading.length) ? 'c6' : 'c12', 'Микс на сегодня', 'случайный'));
   if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude', rec.played ? 'уже включал' : '', rec.reason));
+  // Вечер: что поставить и когда выйти. Без модели — на том, что и так загружено:
+  // сон прошлой ночью и шаги из health, почасовой дождь из погоды, длина фильмов из каталога.
+  const ev = eveningCard(movies, hl, wx);
+  if (ev) cards.push(ev);
+
   if (reading.length) {
     const b = reading[0];
     cards.push(`<a class="card c6" href="books.html#${esc(b.id)}"><div class="eyebrow">Читаю <span class="more">${reading.length > 1 ? 'и ещё ' + (reading.length - 1) : ''}</span></div>
