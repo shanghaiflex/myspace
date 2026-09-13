@@ -314,6 +314,44 @@ def _add_to_catalog(kind, r):
     return {"id": b["id"], "title": b["title"], "status": b["status"]}
 
 
+def refill_covers(kind=None):
+    """Дозаполняет картинки у текущих советов: книга, оставшаяся непроверенной (с mini каталоги
+    молчали), или файл, которого нет на диске (обложку скачал mini, а деплой с ноутбука её стёр —
+    до 2026-09-13 deploy.sh не забирал covers/ и posters/ обратно). Id совета не меняется, чтобы
+    вердикты со страницы продолжали находить его."""
+    db = load()
+    fixed = []
+    for k in ([kind] if kind else KINDS):
+        for r in db[k]["items"]:
+            has_file = str(r.get("cover") or "").startswith(("posters/", "covers/")) and \
+                os.path.exists(os.path.join(ROOT, r["cover"]))
+            if has_file:
+                continue
+            if k == "film":
+                got = M.fetch_poster(r["id"], r.get("coverUrl"))
+            else:
+                res = None
+                if not r.get("coverUrl") or r.get("unverified"):
+                    res = B.lookup(r["title"], r.get("author"), None, 1) or \
+                        (B.lookup(f"{r['title']} {r['author']}", None, None, 1) if r.get("author") else None)
+                if res:
+                    h = res[0]
+                    r["coverUrl"] = h.get("coverUrl") or r.get("coverUrl")
+                    r["isbn"] = r.get("isbn") or h.get("isbn")
+                    r["year"] = r.get("year") or h.get("year")
+                    r["meta"] = ", ".join(filter(None, [r.get("author"), str(r["year"]) if r.get("year") else None]))
+                    r.pop("unverified", None)
+                got = B.fetch_cover(r["id"], r.get("coverUrl"))
+            if got:
+                r["cover"] = got
+                fixed.append(f"{k}: {r['title']}")
+            else:
+                print(f"  без картинки: {r['title']}", file=sys.stderr)
+    if fixed:
+        save(db)
+    return fixed
+
+
 def due(kind):
     d = load()[check_kind(kind)]
     if not d["items"]:
@@ -348,6 +386,8 @@ def main():
     v.add_argument("verdict", choices=VERDICTS)
     ls = sub.add_parser("list")
     ls.add_argument("kind", nargs="?", choices=KINDS)
+    cv = sub.add_parser("covers", help="дозаполнить обложки/постеры у текущих советов")
+    cv.add_argument("kind", nargs="?", choices=KINDS)
     args = ap.parse_args()
 
     if args.cmd == "digest":
@@ -363,6 +403,9 @@ def main():
     elif args.cmd == "verdict":
         out = verdict(args.kind, args.id, args.verdict)
         print(f"{args.id}: {args.verdict}" + (" (уехало в каталог)" if out["added"] else ""))
+    elif args.cmd == "covers":
+        fixed = refill_covers(args.kind)
+        print("\n".join(fixed) if fixed else "нечего дозаполнять")
     elif args.cmd == "list":
         db = load()
         for kind in ([args.kind] if args.kind else KINDS):

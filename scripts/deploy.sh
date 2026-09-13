@@ -25,6 +25,14 @@ if [ -z "$NOMINI" ]; then
   done
 fi
 
+# 1b. pull images the mini fetched itself (posters/covers of Claude's suggestions): the rsync below
+# runs with --delete, so anything that exists only on the mini would be wiped on every deploy.
+if [ -z "$NOMINI" ]; then
+  for d in posters covers; do
+    rsync -az --ignore-existing "$HOST:movies/$d/" "./$d/" 2>/dev/null || true
+  done
+fi
+
 # 2. commit everything
 git add -A
 if git diff --cached --quiet; then echo "nothing to commit"; else git commit -q -m "$MSG"; echo "committed: $MSG"; fi

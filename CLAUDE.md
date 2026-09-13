@@ -41,8 +41,9 @@ Rules of thumb:
 Imported once from the Obsidian vault (`Books/data/*.md`, Dataview `Key:: value` fields). Statuses
 `read | reading | to-read | abandoned` (Obsidian's NotFinished), covers in `covers/`. Rating/status/comment
 are edited in the site (PATCH `/api/book/<id>`). Adding: `python3 scripts/books.py add "Title" --author "A" [--status read --rating 8]`;
-lookup goes Google Books → Open Library (Google rate-limits VPN IPs; Cyrillic titles work only in Google),
-so if both fail use `--manual --author ... --year ... --cover URL`. Ids are ISBN-13 when known.
+lookup goes Google Books → Open Library → livelib.ru (Google rate-limits VPN IPs, Open Library drops connections
+from the mini, livelib is the one source that reliably answers from the mini and knows Russian editions — but it
+gives no ISBN/year, only title/author/cover). If all fail use `--manual --author ... --year ... --cover URL`. Ids are ISBN-13 when known.
 
 - Every book carries a second title in `titleAlt` (`--title-alt "…"`): the Russian edition title for a foreign
   book, the original title for a Russian one. The card and the sheet show it under the main title, and
@@ -175,6 +176,10 @@ button on the mixes page).
 `taste_recs.py apply` проверяет каждого: фильм — через OMDb (`movies.py resolve` + `metadata`), книгу —
 через Google Books / Open Library (`books.py lookup`). Выдуманное название и то, что уже в каталоге,
 в истории или в советах, отсеивается; первые 3 подтверждённых ложатся в `taste_recs.json`.
+
+Картинки советов, скачанные на mini, раньше стирал каждый деплой (`rsync --delete` с ноутбука, где их не было);
+с 2026-09-13 `deploy.sh` сначала забирает `posters/` и `covers/` с mini. Совет без картинки или непроверенный
+(каталоги молчали) чинится на месте: `python3 scripts/taste_recs.py covers [film|book]` — на mini, это production.
 
 Обратная связь — весь смысл: «Хочу» переносит фильм в `movies.json` со статусом `to-watch` (постер
 скачивается локально, причина совета уезжает в `note`), книгу — в `books.json` со статусом `to-read`

@@ -9,7 +9,7 @@ Usage:
   books.py list [--status ...]
   books.py import-obsidian                       one-time import from the Obsidian vault (Books/data/*.md)
 """
-import argparse, datetime, glob, json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
+import argparse, datetime, glob, html as htmlmod, json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "books.json")
@@ -124,17 +124,52 @@ def ol_search(q, author=None, isbn=None, n=5):
     return out
 
 
+def ll_search(q, author=None, isbn=None, n=5):
+    """livelib.ru — единственный из трёх каталогов, который стабильно отвечает с mini и знает
+    русские издания. ISBN не отдаёт, год тоже, зато обложка есть почти всегда. Поиск по ISBN
+    тут бессмысленный, поэтому такой запрос сразу пустой."""
+    if isbn:
+        return []
+    query = f"{q} {author}" if author else q
+    url = "https://www.livelib.ru/find/books/" + urllib.parse.quote(query) + "/relevance"
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "ru"})
+    with urllib.request.urlopen(req, timeout=25) as r:
+        html = r.read().decode("utf-8", "replace")
+    pat = re.compile(r'<a href="/book/(\d+)-[^"]*" title="([^"]*)">\s*<span class="object-cover"'
+                     r' style="background:url\((https://s\d\.livelib\.ru/boocover/\d+/)140x220(/\w+/boocover\.jpg)\)')
+    words = lambda t: set(re.findall(r"[a-zа-яё0-9]{3,}", (t or "").lower()))
+    want = words(q)
+    out = []
+    for m in pat.finditer(html):
+        label = htmlmod.unescape(m.group(2))
+        a, _, t = label.partition(" - ")
+        if not t:
+            a, t = None, label
+        # выдача отсортирована по релевантности, но всё равно проверяем: сравниваем слова названия,
+        # иначе на «Осень Средневековья» прилетит первая попавшаяся книга про осень
+        got = words(t)
+        if want and len(want & got) < min(2, len(want)):
+            continue
+        out.append({"gbId": f"ll:{m.group(1)}", "title": t.strip(), "subtitle": None, "author": (a or "").strip() or None,
+                    "year": None, "pages": None, "isbn": None, "coverUrl": m.group(3) + "200x305" + m.group(4),
+                    "language": "ru", "description": None})
+        if len(out) >= n:
+            break
+    return out
+
+
 _DEAD = set()  # источники, которые в этом процессе уже не отвечают (см. lookup)
 
 
 def lookup(q, author=None, isbn=None, n=5):
-    """Google Books first (best for Russian titles), Open Library as fallback (Google rate-limits some IPs).
+    """Google Books first (best for Russian titles), Open Library as fallback (Google rate-limits some IPs),
+    livelib last — с mini это чаще всего единственный живой источник (см. ll_search).
 
     Если источник упал даже после повторов внутри get_json, в этом процессе его больше не трогаем:
     и 429 Google, и недоступность Open Library с адреса VPN держатся минутами, а подбор из шести
     кандидатов иначе превращается в четыре минуты ожидания на ровном месте."""
     errors = []
-    for fn in (gb_search, ol_search):
+    for fn in (gb_search, ol_search, ll_search):
         if fn.__name__ in _DEAD:
             continue
         try:
