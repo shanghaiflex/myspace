@@ -9,7 +9,7 @@ Usage:
   books.py list [--status ...]
   books.py import-obsidian                       one-time import from the Obsidian vault (Books/data/*.md)
 """
-import argparse, datetime, glob, json, os, re, sys, urllib.parse, urllib.request
+import argparse, datetime, glob, json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "books.json")
@@ -38,10 +38,24 @@ def slug(s):
     return s[:60] or "book"
 
 
-def get_json(url):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        return json.load(r)
+def get_json(url, attempts=3):
+    """С mini запросы идут через VPN, а с его адреса Google Books отвечает 429, и Open Library
+    иногда рвёт соединение. И то, и другое лечится повтором через паузу, поэтому не сдаёмся с первой."""
+    last = None
+    for i in range(attempts):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=20) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 502, 503, 504):
+                raise
+            last = e
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError) as e:
+            last = e
+        if i + 1 < attempts:
+            time.sleep(3 * (i + 1))
+    raise last
 
 
 def fetch_cover(bid, url):

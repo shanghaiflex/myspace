@@ -185,7 +185,11 @@ def resolve_film(c, exclude):
 
 
 def resolve_book(c, exclude):
+    # Строгий запрос Google Books (intitle/inauthor) часто промахивается по русским изданиям,
+    # поэтому вторым заходом ищем просто «название автор» без фильтров.
     res = B.lookup(c["title"], c.get("author"), None, 1)
+    if not res and c.get("author"):
+        res = B.lookup(f"{c['title']} {c['author']}", None, None, 1)
     if not res:
         print(f"  не нашёл в Google Books / Open Library: {c['title']}")
         return None
