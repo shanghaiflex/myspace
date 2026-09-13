@@ -124,16 +124,26 @@ def ol_search(q, author=None, isbn=None, n=5):
     return out
 
 
+_DEAD = set()  # источники, которые в этом процессе уже не отвечают (см. lookup)
+
+
 def lookup(q, author=None, isbn=None, n=5):
-    """Google Books first (best for Russian titles), Open Library as fallback (Google rate-limits some IPs)."""
+    """Google Books first (best for Russian titles), Open Library as fallback (Google rate-limits some IPs).
+
+    Если источник упал даже после повторов внутри get_json, в этом процессе его больше не трогаем:
+    и 429 Google, и недоступность Open Library с адреса VPN держатся минутами, а подбор из шести
+    кандидатов иначе превращается в четыре минуты ожидания на ровном месте."""
     errors = []
     for fn in (gb_search, ol_search):
+        if fn.__name__ in _DEAD:
+            continue
         try:
             res = fn(q, author, isbn, n)
             if res:
                 return res
         except Exception as e:
             errors.append(f"{fn.__name__}: {e}")
+            _DEAD.add(fn.__name__)
     if errors:
         print("lookup problems: " + "; ".join(errors), file=sys.stderr)
     return []
