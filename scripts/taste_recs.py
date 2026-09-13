@@ -176,8 +176,11 @@ def resolve_film(c, exclude):
     except SystemExit as e:
         print(f"  нет метаданных: {c['title']} ({e})")
         return None
+    # Обложку качаем сразу: внешние ссылки (m.media-amazon.com) с домашнего интернета не открываются,
+    # ровно поэтому постеры каталога и лежат локально. coverUrl остаётся запасным вариантом.
     return {"id": m["id"], "title": m["title"], "year": m["year"], "author": m.get("director"),
-            "cover": m.get("posterUrl"), "meta": ", ".join(filter(None, [
+            "cover": M.fetch_poster(m["id"], m.get("posterUrl")) or m.get("posterUrl"),
+            "coverUrl": m.get("posterUrl"), "meta": ", ".join(filter(None, [
                 ", ".join(m.get("genre") or []),
                 f"{m['runtime']} мин" if m.get("runtime") else None,
                 f"IMDb {m['imdbRating']}" if m.get("imdbRating") else None])),
@@ -199,7 +202,8 @@ def resolve_book(c, exclude):
         print(f"  уже известна: {c['title']}")
         return None
     return {"id": bid, "title": r["title"], "year": r.get("year"), "author": r.get("author"),
-            "cover": r.get("coverUrl"), "isbn": r.get("isbn"),
+            "cover": B.fetch_cover(bid, r.get("coverUrl")) or r.get("coverUrl"),
+            "coverUrl": r.get("coverUrl"), "isbn": r.get("isbn"),
             "meta": ", ".join(filter(None, [r.get("author"), str(r["year"]) if r.get("year") else None,
                                             f"{r['pages']} с." if r.get("pages") else None])),
             "plot": (r.get("description") or "")[:400] or None}
@@ -255,10 +259,22 @@ def verdict(kind, rid, v):
     added = None
     if v == "liked":
         added = _add_to_catalog(kind, r)
+    if not added:
+        _drop_cover(r)
     d["items"] = [x for x in d["items"] if x["id"] != rid]
     d["history"] = ([history_entry(r)] + d["history"])[:HISTORY_MAX]
     save(db)
     return {"rec": r, "added": added}
+
+
+def _drop_cover(r):
+    """Отвергнутый совет не должен оставлять картинку в posters/ или covers/."""
+    p = str(r.get("cover") or "")
+    if p.startswith(("posters/", "covers/")):
+        try:
+            os.remove(os.path.join(ROOT, p))
+        except OSError:
+            pass
 
 
 def _add_to_catalog(kind, r):
@@ -280,8 +296,9 @@ def _add_to_catalog(kind, r):
         return None
     b = {"id": r["id"], "title": r["title"], "titleAlt": None, "author": r.get("author"),
          "year": r.get("year"), "pages": None, "isbn": r.get("isbn"),
-         "description": r.get("plot"), "coverUrl": r.get("cover"),
-         "cover": B.fetch_cover(r["id"], r.get("cover")), "status": "to-read", "rating": None,
+         "description": r.get("plot"), "coverUrl": r.get("coverUrl") or r.get("cover"),
+         "cover": (r.get("cover") if str(r.get("cover") or "").startswith("covers/")
+                   else B.fetch_cover(r["id"], r.get("coverUrl") or r.get("cover"))), "status": "to-read", "rating": None,
          "comment": r.get("reason"), "addedAt": today(), "finishedAt": None, "tags": ["claude-rec"]}
     books.append(b)
     B.save(books)
