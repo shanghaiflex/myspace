@@ -29,17 +29,19 @@ TARGETS = ("lamps", "lamp", "lamp2", "plug")
 FIELDS = ("state", "brightness", "color_temp", "color", "color_mode", "power", "voltage", "current", "energy", "last_seen", "linkquality")
 ALLOWED = {"state", "brightness", "color_temp", "color", "transition"}
 
-# Static scenes, the same payloads as the `lamp` CLI (~/.claude/skills/lamp/lamp).
+# Static scenes: white light only. «Уютно» is the user's own; the rest are Philips Hue's default recipes
+# (Rest, Dimmed, Read, Bright, Concentrate, Nightlight — bri/ct as the Hue app sets them; Nightlight's bri 1 is
+# raised to 3, which the Tuya bulbs still show). The coloured WiZ-style presets (amber, sunset, tv…) were dropped
+# as ugly on 2026-09-14; the 22:00 amber schedule on the mini is untouched.
 SCENES = {
-    "cozy":    {"title": "Уютно",   "payload": {"state": "ON", "brightness": 110, "color_temp": 435, "transition": 3}},
-    "golden":  {"title": "Золотой", "payload": {"state": "ON", "brightness": 180, "color_temp": 370, "transition": 3}},
-    "amber":   {"title": "Янтарь",  "payload": {"state": "ON", "brightness": 140, "color": {"r": 255, "g": 163, "b": 48}, "transition": 3}},
-    "candle":  {"title": "Свеча",   "payload": {"state": "ON", "brightness": 70, "color": {"r": 255, "g": 110, "b": 15}, "transition": 3}},
-    "sunset":  {"title": "Закат",   "payload": {"state": "ON", "brightness": 120, "color": {"r": 255, "g": 70, "b": 10}, "transition": 3}},
-    "tv":      {"title": "Кино",    "payload": {"state": "ON", "brightness": 60, "color": {"r": 190, "g": 200, "b": 255}, "transition": 3}},
-    "green":   {"title": "Зелёный", "payload": {"state": "ON", "brightness": 70, "color": {"r": 80, "g": 255, "b": 120}, "transition": 3}},
-    "sleepy":  {"title": "Ко сну",  "payload": {"state": "ON", "brightness": 25, "color_temp": 500, "transition": 60}},
-    "night":   {"title": "Ночник",  "payload": {"state": "ON", "brightness": 8, "color_temp": 500, "transition": 2}},
+    "cozy":   {"title": "Уютно",       "payload": {"state": "ON", "brightness": 110, "color_temp": 435, "transition": 3}},
+    "rest":   {"title": "Отдых",       "payload": {"state": "ON", "brightness": 90, "color_temp": 500, "transition": 3}},
+    "dimmed": {"title": "Приглушённо", "payload": {"state": "ON", "brightness": 77, "color_temp": 366, "transition": 3}},
+    "read":   {"title": "Чтение",      "payload": {"state": "ON", "brightness": 254, "color_temp": 343, "transition": 3}},
+    "bright": {"title": "Ярко",        "payload": {"state": "ON", "brightness": 254, "color_temp": 367, "transition": 3}},
+    "focus":  {"title": "Собраться",   "payload": {"state": "ON", "brightness": 254, "color_temp": 230, "transition": 3}},
+    "night":  {"title": "Ночник",      "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
+    "sleepy": {"title": "Ко сну",      "payload": {"state": "ON", "brightness": 25, "color_temp": 500, "transition": 60}},
 }
 # Flicker effects run as a node process on the mini (~/mqtt/effect.js), like the CLI does over ssh.
 EFFECTS = {"fire": "Камин", "candlelight": "Свеча живая", "torch": "Факел"}

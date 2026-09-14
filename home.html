@@ -60,7 +60,8 @@
   .sketch::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5; mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .38 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   @media (prefers-color-scheme: dark) { .sketch::after { mix-blend-mode: screen; opacity: .35; } }
-  .sketch svg { display: block; width: 100%; height: auto; }
+  .sketch svg { display: block; width: 100%; height: 100%; }
+  @media (max-width: 960px) { .sketch svg { height: auto; } }
   .sketch .cap { position: absolute; left: 24px; bottom: 16px; font-family: var(--serif); font-style: italic; font-size: 13px; color: var(--ink-2); pointer-events: none; }
   .ink { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .ink .thin { stroke-width: 1.05; }
@@ -81,9 +82,10 @@
   .disabled { opacity: .5; pointer-events: none; }
 
   /* --- controls --- */
-  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: stretch; }
   .tiles { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-  .tile { background: var(--surface); border-radius: 26px; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 22px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+  .tile.scenes { flex: 1; }
+  .tile { background: var(--surface); border-radius: 26px; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 20px 22px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
   .tile .top { display: flex; align-items: center; gap: 14px; }
   .tile .ico { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; flex: 0 0 auto; color: var(--text-2); transition: background .4s, color .4s; }
   .tile .ico svg { width: 22px; height: 22px; }
@@ -107,13 +109,14 @@
   #warm { --track: linear-gradient(90deg, #f0a24a, #f7d9a8 45%, #fbf7ef 70%, #c5d7f2); }
   #bri { --track: linear-gradient(90deg, var(--line), var(--text-3)); }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { font: inherit; font-size: 13.5px; font-weight: 500; border: 1px solid var(--line-2); background: transparent; color: var(--text); border-radius: 999px; padding: 8px 14px 8px 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: transform .15s, background .2s, border-color .2s; }
+  .chip { font: inherit; font-size: 13px; font-weight: 500; border: 1px solid var(--line-2); background: transparent; color: var(--text); border-radius: 999px; padding: 7px 13px 7px 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: transform .15s, background .2s, border-color .2s; }
   .chip:hover { background: var(--surface-2); transform: translateY(-1px); }
   .chip:active { transform: scale(.97); }
   .chip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
   .chip i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; background: radial-gradient(circle at 35% 35%, #fff8, transparent 45%), var(--c, #ccc); box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset, 0 0 8px color-mix(in srgb, var(--c, #ccc) 55%, transparent); }
   .sched { margin-top: 4px; padding-top: 6px; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--text-3); }
   .grp + .grp { margin-top: 4px; }
+  @media (max-width: 1200px) { .layout { grid-template-columns: minmax(0, 1fr) 300px; } .tile h2 { font-size: 18px; } .tile .ico { width: 38px; height: 38px; } }
   @media (max-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr); } .layout > * { min-width: 0; max-width: 100%; } }
   @media (max-width: 640px) {
     .bar-inner { padding: 12px 16px; } .nav { font-size: 15px; gap: 6px 14px; }
@@ -135,7 +138,7 @@
 
   <div class="layout">
   <section class="sketch" id="sketch">
-<svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" aria-label="Кухня: окно, полка с лампой Varmblixt, диван, картина и два бра">
+<svg viewBox="0 0 1000 600" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg" aria-label="Кухня: окно, полка с лампой Varmblixt, диван, картина и два бра">
   <defs>
     <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="wobble" x="-2%" y="-2%" width="104%" height="104%">
@@ -154,11 +157,11 @@
   <!-- light, drawn under the ink -->
   <g class="glow" id="glow">
     <g id="glowA" class="lampglow a" opacity="0">
-      <path d="M590 128 L520 0 L680 0 Z" fill="url(#coneA)" opacity=".7" filter="url(#soft)"/>
+      <path d="M590 128 L500 -240 L710 -240 Z" fill="url(#coneA)" opacity=".7" filter="url(#soft)"/>
       <circle cx="604" cy="112" r="165" fill="url(#gA)"/>
     </g>
     <g id="glowB" class="lampglow b" opacity="0">
-      <path d="M918 128 L850 0 L1000 0 L1000 30 Z" fill="url(#coneB)" opacity=".7" filter="url(#soft)"/>
+      <path d="M918 128 L830 -240 L1040 -240 Z" fill="url(#coneB)" opacity=".7" filter="url(#soft)"/>
       <circle cx="932" cy="112" r="165" fill="url(#gB)"/>
     </g>
     <g id="glowV" opacity="0">
@@ -168,7 +171,7 @@
 
   <g class="ink" filter="url(#wobble)">
     <!-- the corner: the window wall runs from us to the corner, the sofa wall faces us -->
-    <path d="M362 0 L362 442" class="thin"/>
+    <path d="M362 -500 L362 442" class="thin"/>
     <path d="M362 442 L1000 442" class="thin"/>
     <path d="M362 442 L0 536.2" class="thin"/>
     <g class="hatch">
@@ -192,7 +195,7 @@
     <g class="hatch"><path d="M78 372.4V418.7 M92 370.8V416.4 M106 369.1V414.1 M120 367.4V411.8 M134 365.7V409.5 M148 364.1V407.2 M162 362.4V404.9 M176 360.7V402.5 M190 359.0V400.2 M204 357.4V397.9 M218 355.7V395.6 M232 354.0V393.3 M246 352.3V391.0 M260 350.6V388.7 M274 349.0V386.4"/></g>
     <!-- curtains: the near one at the left edge, the far one against the corner -->
     <path d="M0 -1.1 L362 81.5" class="thin"/>
-    <path d="M14 4 C26 120 8 260 22 380 C30 470 10 540 22 598" /><path d="M42 6 C52 130 32 270 46 390 C54 480 36 545 44 598" class="thin"/><path d="M28 6 C38 140 20 280 32 400" class="faint"/>
+    <path d="M14 -500 L14 4 C26 120 8 260 22 380 C30 470 10 540 22 598" /><path d="M42 -500 L42 6 C52 130 32 270 46 390 C54 480 36 545 44 598" class="thin"/><path d="M28 6 C38 140 20 280 32 400" class="faint"/>
     <path d="M316 76 C306 150 328 250 314 340 C308 400 326 430 316 458" /><path d="M342 80 C336 160 352 260 338 350 C332 410 350 440 340 462" class="thin"/><path d="M330 78 C322 170 340 280 328 380" class="faint"/>
 
     <!-- bookshelf: the niche in the corner, its lowest shelf at the sofa's arm -->
@@ -304,7 +307,6 @@
 
 <script>
 const $ = id => document.getElementById(id);
-const SCENE_COLOR = { cozy: '#ffc27a', golden: '#ffd9a0', amber: '#ffa330', candle: '#ff6e0f', sunset: '#ff460a', tv: '#bec8ff', green: '#50ff78', sleepy: '#ffb15a', night: '#ffb15a' };
 let S = { devices: {}, effect: null };       // last known state
 let localUntil = 0;                          // while dragging a slider, server polls must not fight the hand
 let timer = null;
@@ -415,12 +417,13 @@ async function load() {
 }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') load(); });
 
-const SCENE_PAYLOAD = { cozy: { brightness: 110, color_temp: 435 }, golden: { brightness: 180, color_temp: 370 }, amber: { brightness: 140, color: { r: 255, g: 163, b: 48 } },
-  candle: { brightness: 70, color: { r: 255, g: 110, b: 15 } }, sunset: { brightness: 120, color: { r: 255, g: 70, b: 10 } }, tv: { brightness: 60, color: { r: 190, g: 200, b: 255 } },
-  green: { brightness: 70, color: { r: 80, g: 255, b: 120 } }, sleepy: { brightness: 25, color_temp: 500 }, night: { brightness: 8, color_temp: 500 } };
+const SCENE_PAYLOAD = { cozy: { brightness: 110, color_temp: 435 }, rest: { brightness: 90, color_temp: 500 }, dimmed: { brightness: 77, color_temp: 366 },
+  read: { brightness: 254, color_temp: 343 }, bright: { brightness: 254, color_temp: 367 }, focus: { brightness: 254, color_temp: 230 },
+  night: { brightness: 3, color_temp: 447 }, sleepy: { brightness: 25, color_temp: 500 } };
+const sceneColor = p => p && p.color_temp ? hex(kelvinRgb(1e6 / p.color_temp)) : '#ff7a1e';
 function buildChips(j) {
   S.sceneMap = Object.fromEntries((j.scenes || []).map(s => [s.id, SCENE_PAYLOAD[s.id] || {}]));
-  $('scenes').innerHTML = (j.scenes || []).map(s => `<button class="chip" data-id="${s.id}" style="--c:${SCENE_COLOR[s.id] || '#ddd'}"><i></i>${s.title}</button>`).join('');
+  $('scenes').innerHTML = (j.scenes || []).map(s => `<button class="chip" data-id="${s.id}" style="--c:${sceneColor(SCENE_PAYLOAD[s.id])}"><i></i>${s.title}</button>`).join('');
   $('scenes').querySelectorAll('.chip').forEach(c => c.onclick = () => {
     const p = SCENE_PAYLOAD[c.dataset.id];
     // show it before the bulbs confirm: the transition takes seconds, the eye wants the answer now
@@ -438,7 +441,7 @@ function buildChips(j) {
     render();
     post('effect/' + (stop ? 'off' : c.dataset.id)).then(() => reloadSoon(2500));
   });
-  $('sched').textContent = j.schedule ? 'По расписанию: ' + j.schedule : '';
+  $('sched').textContent = j.schedule ? 'Расписание · ' + j.schedule : '';
 }
 function rgbXy({ r, g, b }) {   // only to preview a colour scene before the bulb reports back
   const lin = v => { v /= 255; return v > 0.04045 ? Math.pow((v + 0.055) / 1.055, 2.4) : v / 12.92; };
@@ -485,6 +488,16 @@ $('warm').addEventListener('input', e => { const v = +e.target.value; $('warmOut
 (function greet() {
   const h = new Date().getHours(), w = h < 6 ? 'ночь' : h < 12 ? 'утро' : h < 18 ? 'день' : 'вечер';
   document.querySelector('.hero h1 em').textContent = w;
+})();
+// Two-column layout: the tiles decide the height, the sketch shows its full width and grows the wall upward.
+(function fit() {
+  const card = $('sketch'), svg = card.querySelector('svg'), mq = matchMedia('(min-width: 961px)');
+  const apply = () => {
+    if (!mq.matches) { svg.setAttribute('viewBox', '0 0 1000 600'); return; }
+    const h = Math.max(600, Math.round(1000 * card.clientHeight / card.clientWidth));
+    svg.setAttribute('viewBox', `0 ${600 - h} 1000 ${h}`);
+  };
+  new ResizeObserver(apply).observe(card); apply();
 })();
 // The window: evening outside after seven, morning before.
 (function sky() {
