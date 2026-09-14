@@ -77,6 +77,12 @@
   .hit:hover .halo, .hit:focus-visible .halo { stroke: var(--terra); }
   .hit:focus { outline: none; }
   .disabled { opacity: .5; pointer-events: none; }
+  #rain path { animation: rainfall .7s linear infinite; }
+  #snow > g { animation: snowfall 9s linear infinite; }
+  #stars > g { animation: twinkle 4s ease-in-out infinite; }
+  @keyframes rainfall { from { transform: translateY(0) } to { transform: translateY(28px) } }
+  @keyframes snowfall { from { transform: translateY(-40px) } to { transform: translateY(40px) } }
+  @keyframes twinkle { 0%, 100% { opacity: .55 } 50% { opacity: 1 } }
 
   /* --- controls --- */
   .layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: stretch; }
@@ -146,9 +152,10 @@
     <radialGradient id="gB" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/><stop offset=".45" stop-color="#ffd27a" stop-opacity=".35"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
     <linearGradient id="coneA" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffd27a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></linearGradient>
     <linearGradient id="coneB" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffd27a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></linearGradient>
-    <radialGradient id="gV" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff9a2e" stop-opacity=".9"/><stop offset=".35" stop-color="#ff8a1e" stop-opacity=".35"/><stop offset="1" stop-color="#ff7a10" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gV" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff9a2e" stop-opacity=".7"/><stop offset=".3" stop-color="#ff8a1e" stop-opacity=".3"/><stop offset=".65" stop-color="#ff7a10" stop-opacity=".1"/><stop offset="1" stop-color="#ff7a10" stop-opacity="0"/></radialGradient>
     <radialGradient id="disc" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#ffc98a"/><stop offset=".55" stop-color="#ff9a3c"/><stop offset="1" stop-color="#e86a12"/></radialGradient>
-    <clipPath id="winclip"><path d="M56 43.2 L296 90.7 L296 327.4 L56 350.5 Z"/></clipPath>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16223a"/><stop offset=".6" stop-color="#223354"/><stop offset="1" stop-color="#223354"/></linearGradient>
+    <clipPath id="winclip"><path d="M56 43.2 L244 80.4 L244 332.4 L56 350.5 Z"/></clipPath>
   </defs>
 
   <!-- light, drawn under the ink -->
@@ -162,7 +169,8 @@
       <circle cx="830" cy="112" r="165" fill="url(#gB)"/>
     </g>
     <g id="glowV" opacity="0">
-      <circle cx="302" cy="366.3" r="110" fill="url(#gV)"/>
+      <circle cx="362" cy="355.2" r="230" fill="url(#gV)" filter="url(#soft)"/>
+      <circle cx="362" cy="355.2" r="90" fill="url(#gV)"/>
     </g>
   </g>
 
@@ -177,42 +185,55 @@
     </g>
 
     <!-- window on the left wall, in one-point perspective -->
-    <path d="M56 43.2 L296 90.7 L296 327.4 L56 350.5 Z" class="sky"/>
+    <path d="M56 43.2 L244 80.4 L244 332.4 L56 350.5 Z" fill="url(#skyGrad)"/>
     <g clip-path="url(#winclip)">
-      <path d="M56 43.2 L296 90.7 L296 204.5 L56 190.9 Z" class="sky2" opacity=".55"/>
-      <g class="fill" id="city"><path d="M70 327.7 L70 197.5 L104 199.3 L104 325.2Z M114 324.4 L114 157.0 L150 160.4 L150 321.7Z M164 320.6 L164 205.8 L206 207.8 L206 317.5Z M220 316.4 L220 145.4 L256 149.7 L256 313.7Z M266 312.9 L266 221.7 L292 222.6 L292 311.0Z"/></g>
-      <g class="faint" id="citywin"><path d="M90 213.8h6 M90 282.4h6 M134 217.2h6 M134 282.8h6 M184 262.1h6 M196 241.5h6 M240 160.8h6 M240 219.2h6 M240 277.6h6"/></g>
+      <path d="M56 43.2 L244 80.4 L244 201.5 L56 190.9 Z" class="sky2" opacity=".55"/>
+      <g id="wx">
+        <g id="stars" fill="#f3ecd2" opacity="0"><g><circle cx="177" cy="121" r="1"/><circle cx="177" cy="115" r="1.3"/><circle cx="110" cy="73" r="1.3"/><circle cx="183" cy="130" r="1.3"/><circle cx="109" cy="62" r="1"/><circle cx="139" cy="68" r="0.8"/><circle cx="199" cy="138" r="1.3"/><circle cx="72" cy="126" r="1"/><circle cx="177" cy="133" r="1.3"/><circle cx="219" cy="133" r="0.8"/><circle cx="221" cy="51" r="1.3"/><circle cx="78" cy="57" r="0.8"/><circle cx="110" cy="80" r="1.3"/><circle cx="69" cy="149" r="1"/><circle cx="145" cy="106" r="1.3"/><circle cx="112" cy="116" r="0.8"/></g></g>
+        <g id="sun" opacity="0"><circle r="30" fill="#ffd77a" opacity=".22"/><circle r="13" fill="#ffd77a"/></g>
+        <g id="moon" opacity="0"><circle r="11" fill="#f3ecd2"/><circle id="moonBite" cx="5" cy="-3" r="10" fill="#16223a"/></g>
+        <g id="clouds" opacity="0" fill="#f6f3ec" stroke="#c9cfd8" stroke-width="1" fill-opacity=".85">
+          <path d="M84 118 c-6-16 12-24 22-16 c6-14 30-12 32 4 c14-2 18 16 4 18 h-56 c-8 0-10-6-2-6z"/>
+          <path d="M160 150 c-5-12 10-18 18-12 c5-11 24-9 26 3 c11-2 14 12 3 14 h-46 c-7 0-8-5-1-5z"/>
+          <path d="M60 210 c-4-10 9-15 15-10 c4-9 20-8 21 2 c9-1 12 10 3 11 h-38 c-6 0-7-4-1-3z"/>
+        </g>
+        <g id="rain" opacity="0" stroke="#9fb4cc" stroke-width="1" stroke-linecap="round"><path d="M60 40l-4 12 M60 68l-4 12 M60 96l-4 12 M60 124l-4 12 M60 152l-4 12 M60 180l-4 12 M60 208l-4 12 M60 236l-4 12 M60 264l-4 12 M60 292l-4 12 M60 320l-4 12 M74 40l-4 12 M74 68l-4 12 M74 96l-4 12 M74 124l-4 12 M74 152l-4 12 M74 180l-4 12 M74 208l-4 12 M74 236l-4 12 M74 264l-4 12 M74 292l-4 12 M74 320l-4 12 M88 40l-4 12 M88 68l-4 12 M88 96l-4 12 M88 124l-4 12 M88 152l-4 12 M88 180l-4 12 M88 208l-4 12 M88 236l-4 12 M88 264l-4 12 M88 292l-4 12 M88 320l-4 12 M102 40l-4 12 M102 68l-4 12 M102 96l-4 12 M102 124l-4 12 M102 152l-4 12 M102 180l-4 12 M102 208l-4 12 M102 236l-4 12 M102 264l-4 12 M102 292l-4 12 M102 320l-4 12 M116 40l-4 12 M116 68l-4 12 M116 96l-4 12 M116 124l-4 12 M116 152l-4 12 M116 180l-4 12 M116 208l-4 12 M116 236l-4 12 M116 264l-4 12 M116 292l-4 12 M116 320l-4 12 M130 40l-4 12 M130 68l-4 12 M130 96l-4 12 M130 124l-4 12 M130 152l-4 12 M130 180l-4 12 M130 208l-4 12 M130 236l-4 12 M130 264l-4 12 M130 292l-4 12 M130 320l-4 12 M144 40l-4 12 M144 68l-4 12 M144 96l-4 12 M144 124l-4 12 M144 152l-4 12 M144 180l-4 12 M144 208l-4 12 M144 236l-4 12 M144 264l-4 12 M144 292l-4 12 M144 320l-4 12 M158 40l-4 12 M158 68l-4 12 M158 96l-4 12 M158 124l-4 12 M158 152l-4 12 M158 180l-4 12 M158 208l-4 12 M158 236l-4 12 M158 264l-4 12 M158 292l-4 12 M158 320l-4 12 M172 40l-4 12 M172 68l-4 12 M172 96l-4 12 M172 124l-4 12 M172 152l-4 12 M172 180l-4 12 M172 208l-4 12 M172 236l-4 12 M172 264l-4 12 M172 292l-4 12 M172 320l-4 12 M186 40l-4 12 M186 68l-4 12 M186 96l-4 12 M186 124l-4 12 M186 152l-4 12 M186 180l-4 12 M186 208l-4 12 M186 236l-4 12 M186 264l-4 12 M186 292l-4 12 M186 320l-4 12 M200 40l-4 12 M200 68l-4 12 M200 96l-4 12 M200 124l-4 12 M200 152l-4 12 M200 180l-4 12 M200 208l-4 12 M200 236l-4 12 M200 264l-4 12 M200 292l-4 12 M200 320l-4 12 M214 40l-4 12 M214 68l-4 12 M214 96l-4 12 M214 124l-4 12 M214 152l-4 12 M214 180l-4 12 M214 208l-4 12 M214 236l-4 12 M214 264l-4 12 M214 292l-4 12 M214 320l-4 12 M228 40l-4 12 M228 68l-4 12 M228 96l-4 12 M228 124l-4 12 M228 152l-4 12 M228 180l-4 12 M228 208l-4 12 M228 236l-4 12 M228 264l-4 12 M228 292l-4 12 M228 320l-4 12 M242 40l-4 12 M242 68l-4 12 M242 96l-4 12 M242 124l-4 12 M242 152l-4 12 M242 180l-4 12 M242 208l-4 12 M242 236l-4 12 M242 264l-4 12 M242 292l-4 12 M242 320l-4 12"/></g>
+        <g id="snow" opacity="0" fill="#ffffff"><g><circle cx="223" cy="190" r="1.6"/><circle cx="61" cy="83" r="1.6"/><circle cx="227" cy="182" r="1.6"/><circle cx="201" cy="82" r="2"/><circle cx="125" cy="201" r="1.2"/><circle cx="191" cy="187" r="1.2"/><circle cx="77" cy="328" r="1.2"/><circle cx="162" cy="95" r="1.6"/><circle cx="158" cy="74" r="1.2"/><circle cx="235" cy="40" r="1.2"/><circle cx="113" cy="66" r="1.6"/><circle cx="156" cy="243" r="1.6"/><circle cx="78" cy="329" r="2"/><circle cx="110" cy="178" r="1.6"/><circle cx="82" cy="199" r="1.6"/><circle cx="63" cy="249" r="1.2"/><circle cx="94" cy="166" r="2"/><circle cx="85" cy="45" r="1.2"/><circle cx="179" cy="289" r="1.2"/><circle cx="234" cy="326" r="1.2"/><circle cx="174" cy="300" r="1.2"/><circle cx="93" cy="254" r="2"/><circle cx="158" cy="99" r="1.6"/><circle cx="167" cy="148" r="1.2"/><circle cx="129" cy="195" r="1.2"/><circle cx="113" cy="135" r="1.6"/><circle cx="214" cy="91" r="1.2"/><circle cx="97" cy="149" r="1.6"/><circle cx="126" cy="44" r="2"/><circle cx="144" cy="191" r="1.6"/><circle cx="78" cy="78" r="1.2"/><circle cx="113" cy="164" r="1.2"/><circle cx="213" cy="228" r="1.6"/><circle cx="219" cy="272" r="1.2"/><circle cx="210" cy="287" r="2"/><circle cx="94" cy="237" r="1.2"/><circle cx="220" cy="118" r="1.6"/><circle cx="118" cy="167" r="2"/><circle cx="108" cy="121" r="2"/><circle cx="221" cy="323" r="1.2"/></g></g>
+        <g id="birds" opacity="0" fill="none" stroke="#2a2622" stroke-width="1"><path d="M120 104 q4-4 8 0 q4-4 8 0 M136 96 q3-3 6 0 q3-3 6 0 M150 108 q3-3 6 0 q3-3 6 0 M108 114 q3-3 6 0 q3-3 6 0"/></g>
+      </g>
+      <g class="fill" id="city"><path d="M66 328.0 L66 197.3 L98 199.0 L98 325.6Z M108 324.9 L108 156.4 L142 159.6 L142 322.3Z M152 321.5 L152 205.3 L190 207.1 L190 318.7Z M198 318.1 L198 142.8 L226 146.1 L226 316.0Z M232 315.5 L232 220.5 L246 221.0 L246 314.5Z"/></g>
+      <g id="snowcaps" opacity="0" stroke="#f4f1ea" stroke-width="3" stroke-linecap="round" fill="none"><path d="M65 196.3 L99 198.0 M107 155.4 L143 158.6 M151 204.3 L191 206.1 M197 141.8 L227 145.1 M231 219.5 L247 220.0"/></g>
+      <g class="faint" id="citywin"><path d="M72 213.1h6 M72 236.4h6 M72 259.7h6 M72 283.0h6 M114 171.9h6 M114 194.2h6 M114 216.5h6 M114 238.8h6 M114 261.2h6 M114 283.5h6 M158 219.8h6 M158 241.1h6 M158 262.4h6 M158 283.8h6 M204 157.0h6 M204 177.3h6 M204 197.6h6 M204 217.9h6 M204 238.2h6 M204 258.5h6 M204 278.7h6 M238 233.7h6 M238 253.3h6 M238 272.8h6"/></g>
     </g>
-    <path d="M46 29.3 L306 83.7 L306 335.4 L46 363.4 Z"/>
-    <path d="M56 43.2 L296 90.7 L296 327.4 L56 350.5 Z"/>
-    <path d="M176 66.9 L176 338.9"/><path d="M56 200.8 L296 212.1" class="thin"/>
-    <path d="M168 195.5 L168 218.3 M184 198.2 L184 215.4" class="thin"/>
+    <path d="M46 29.3 L254 72.8 L254 341.0 L46 363.4 Z"/>
+    <path d="M56 43.2 L244 80.4 L244 332.4 L56 350.5 Z"/>
+    <path d="M150 61.8 L150 341.4"/><path d="M56 200.8 L244 209.6" class="thin"/>
+    <path d="M142 194.0 L142 217.5 M158 196.7 L158 214.5" class="thin"/>
     <!-- radiator under the window -->
-    <path d="M64 371.2 L288 345.0 L288 386.4 L64 424.0 Z" class="thin"/>
-    <g class="hatch"><path d="M78 372.4V418.7 M92 370.8V416.4 M106 369.1V414.1 M120 367.4V411.8 M134 365.7V409.5 M148 364.1V407.2 M162 362.4V404.9 M176 360.7V402.5 M190 359.0V400.2 M204 357.4V397.9 M218 355.7V395.6 M232 354.0V393.3 M246 352.3V391.0 M260 350.6V388.7 M274 349.0V386.4"/></g>
+    <path d="M64 371.2 L240 350.6 L240 394.4 L64 424.0 Z" class="thin"/>
+    <g class="hatch"><path d="M78 372.4V418.7 M92 370.8V416.4 M106 369.1V414.1 M120 367.4V411.8 M134 365.7V409.5 M148 364.1V407.2 M162 362.4V404.9 M176 360.7V402.5 M190 359.0V400.2 M204 357.4V397.9 M218 355.7V395.6 M232 354.0V393.3"/></g>
     <!-- curtains: the near one at the left edge, the far one between the window and the shelf -->
     <path d="M0 -1.1 L362 81.5" class="thin"/>
     <path d="M14 -500 L14 4 C26 120 8 260 22 380 C30 470 10 540 22 598" /><path d="M42 -500 L42 6 C52 130 32 270 46 390 C54 480 36 545 44 598" class="thin"/><path d="M28 6 C38 140 20 280 32 400" class="faint"/>
-    <path d="M222 49.6 C214 140 234 260 220 360 C214 420 232 460 222 482.6" /><path d="M244 54.6 C238 150 254 270 240 370 C234 430 250 470 242 474.9" class="thin"/><path d="M233 53.7 C226 160 244 280 232 380" class="faint"/>
+    <path d="M258 57.8 C250 140 270 260 256 360 C250 420 268 460 258 473.2" /><path d="M278 62.3 C272 150 288 270 274 370 C268 430 284 470 276 466.0" class="thin"/><path d="M268 61.6 C261 160 279 280 267 380" class="faint"/>
 
-    <!-- bookshelf: stands against the window wall and runs into the corner, its end panel facing us where the sofa's arm meets it -->
-    <path d="M362 62.0 L402 62.0 L402 442.3 L362 442.3"/><path d="M369 66.0 L369 438.3 M376 66.0 L376 438.3 M383 66.0 L383 438.3 M390 66.0 L390 438.3 M397 66.0 L397 438.3" class="hatch"/>
-    <path d="M252 21.6 L402 62.0 L402 442.3 L252 483.6 Z" class="paper2"/><path d="M252 21.6 L402 62.0 L402 442.3 L252 483.6 Z"/>
-    <path d="M256 98.7 L362 117.7 M256 170.4 L362 180.4 M256 242.0 L362 243.0 M256 313.7 L362 305.7 M256 397.3 L362 378.8" class="hatch"/>
-    <path d="M252 89.3 L402 117.7 M252 165.4 L402 180.4 M252 241.5 L402 243.0 M252 317.7 L402 305.7 M252 406.5 L402 378.8"/>
+    <!-- bookshelf: stands against the window wall and runs into the corner; we see its near end and its front in perspective -->
+    <path d="M282 41.6 L326 41.6 L326 463.1 L282 463.1 Z" class="paper2"/><path d="M282 41.6 L326 41.6 L326 463.1 L282 463.1 Z"/><path d="M290 46.6 L290 458.1 M298 46.6 L298 458.1 M306 46.6 L306 458.1 M314 46.6 L314 458.1" class="hatch"/>
+    <path d="M326 41.6 L402 62.0 L402 442.3 L326 463.1 Z" class="paper2"/><path d="M326 41.6 L402 62.0 L402 442.3 L326 463.1 Z"/>
+    <path d="M326 103.4 L402 117.7 M326 172.8 L402 180.4 M326 242.3 L402 243.0 M326 311.7 L402 305.7 M326 392.8 L402 378.8"/>
     <g class="thin">
-      <path d="M258 90.4V35.0H266V91.9 M268 92.3V50.8H280V94.6 M282 95.0V41.2H291V96.7 M293 97.0V44.0H303V98.9 M305 99.3V47.0H312V100.6 M314 101.0V54.0H321V102.3 M323 102.7V51.6H332V104.4 M334 104.8V66.6H342V106.3 M344 106.7V57.0H354V108.6 M356 109.0V64.4H368V111.3 M370 111.6V75.2H380V113.5 M382 113.9V78.1H390V115.4 M258 166.0V115.6H270V167.2 M272 167.4V131.0H279V168.1 M281 168.3V114.4H289V169.1 M291 169.3V124.1H298V170.0 M300 170.2V125.5H307V170.9 M309 171.1V119.0H319V172.1 M321 172.3V125.7H331V173.3 M333 173.5V123.0H343V174.5 M345 174.7V137.1H355V175.7 M357 175.9V143.2H366V176.8 M368 177.0V140.5H375V177.7 M377 177.9V141.9H387V178.9 M258 241.6V191.3H267V241.6 M269 241.7V192.0H281V241.8 M283 241.8V196.2H295V241.9 M297 241.9V189.1H309V242.1 M311 242.1V190.2H321V242.2 M323 242.2V198.8H331V242.3 M333 242.3V199.5H340V242.4 M342 242.4V204.6H354V242.5 M356 242.5V193.6H365V242.6 M367 242.6V194.4H379V242.8 M381 242.8V206.9H388V242.9 M258 317.2V270.1H270V316.2 M272 316.1V279.8H281V315.4 M283 315.2V266.3H290V314.6 M292 314.5V279.1H302V313.7 M304 313.5V278.6H313V312.8 M315 312.6V273.5H325V311.8 M327 311.7V268.5H334V311.1 M336 311.0V265.2H346V310.2 M348 310.0V277.0H355V309.5 M357 309.3V260.3H369V308.3 M371 308.2V264.5H378V307.6 M380 307.5V267.2H392V306.5"/>
-      <path d="M338 390.6V352.6H346V389.1 M348 388.8V345.2H357V387.1 M359 386.7V352.8H366V385.4 M368 385.1V347.1H376V383.6 M378 383.2V342.9H387V381.6 M258 405.4V361.7H267V403.7 M269 403.3V366.9H277V401.9"/>
-      <path d="M258 415.5 L396 388.4 L396 441.1 L258 478.6 Z M326 402.1 L326 460.1" class="faint"/><path d="M320 432.8h2 M332 430.0h2" class="faint"/>
+      <path d="M331 104.3V61.4H341V106.2 M343 106.6V56.7H351V108.1 M353 108.5V63.8H359V109.6 M361 110.0V77.6H368V111.3 M370 111.7V79.6H377V113.0 M379 113.4V70.2H387V114.9 M389 115.3V72.7H396V116.6 M331 173.3V139.6H341V174.3 M343 174.5V136.8H353V175.5 M355 175.7V138.5H361V176.3 M363 176.5V135.3H372V177.4 M374 177.6V134.1H381V178.3 M383 178.5V147.0H390V179.2 M331 242.3V191.8H338V242.4 M340 242.4V197.0H350V242.5 M352 242.5V205.2H359V242.6 M361 242.6V210.2H367V242.7 M369 242.7V206.2H376V242.8 M378 242.8V206.8H385V242.8 M387 242.9V203.0H395V242.9 M331 311.3V260.7H338V310.8 M340 310.6V272.8H347V310.0 M349 309.9V264.9H356V309.3 M358 309.2V276.7H366V308.5 M368 308.4V264.6H376V307.8 M378 307.6V271.6H385V307.0 M387 306.9V275.6H395V306.3"/>
+      <path d="M332 391.7V353.4H340V390.2 M342 389.9V356.6H349V388.6 M386 381.7V344.7H393V380.5 M394 380.3V347.9H400V379.2"/>
+      <path d="M331 401.0 L397 388.2 L397 440.9 L331 458.7 Z M364 394.6 L364 449.8" class="faint"/><path d="M358 423.8h2 M370 421.1h2" class="faint"/>
     </g>
 
     <!-- VARMBLIXT: the round orange lamp on the arm-height shelf, fed by the smart plug -->
     <g class="hit" id="hitV" data-dev="plug" tabindex="0" role="button" aria-label="Лампа Varmblixt: переключить розетку">
-      <ellipse cx="302" cy="366.3" rx="34" ry="40" class="halo"/>
-      <ellipse cx="302" cy="366.3" rx="26" ry="31" id="discV" class="paper2"/>
-      <ellipse cx="302" cy="366.3" rx="26" ry="31"/>
-      <path d="M284 352.3 A24 28 0 0 1 298 337.3" class="faint"/>
-      <path d="M292 400.3 L312 400.3" class="thin"/>
+      <ellipse cx="362" cy="355.2" rx="34" ry="40" class="halo"/>
+      <ellipse cx="362" cy="355.2" rx="26" ry="31" id="discV" class="paper2"/>
+      <ellipse cx="362" cy="355.2" rx="26" ry="31"/>
+      <path d="M344 341.2 A24 28 0 0 1 358 326.2" class="faint"/>
+      <path d="M352 389.2 L372 389.2" class="thin"/>
     </g>
 
     <!-- sofa along the facing wall, its left arm in the corner against the shelf -->
@@ -230,7 +251,7 @@
     <path d="M700 408 C710 388 740 384 752 396" class="faint"/>
 
     <!-- plant between the window and the shelf -->
-    <g transform="translate(-60 -56)">
+    <g transform="translate(-74 -56)">
       <path d="M250 486 L260 556 L312 556 L322 486 Z" class="paper2"/><path d="M250 486 L260 556 L312 556 L322 486"/><ellipse cx="286" cy="486" rx="36" ry="8"/>
       <g class="hatch"><path d="M262 492v58M274 494v58M286 495v58M298 494v58M310 492v58"/></g>
       <path d="M286 480 C292 430 280 380 288 330 C294 290 284 250 292 210" /><path d="M288 330 C262 316 246 292 244 270" class="thin"/><path d="M290 268 C316 254 334 238 340 218" class="thin"/><path d="M292 210 C274 194 262 176 266 156" class="thin"/><path d="M292 210 C318 202 334 184 330 164" class="thin"/>
@@ -479,11 +500,46 @@ $('warm').addEventListener('input', e => { const v = +e.target.value; $('warmOut
   };
   new ResizeObserver(apply).observe(card); apply();
 })();
-// The window: evening outside after seven, morning before.
-(function sky() {
-  const h = new Date().getHours();
-  if (h >= 19 || h < 7) { document.documentElement.style.setProperty('--sky', '#182640'); document.documentElement.style.setProperty('--sky-2', '#26395c'); $('citywin').style.stroke = '#ffd98a'; $('citywin').style.strokeWidth = '2'; }
-})();
+// The window follows the clock, the season and the real weather (/api/weather: sunrise, sunset, what falls).
+const SKY = {
+  night:  { winter: ['#0b1020', '#182238'], spring: ['#0f1730', '#1f2d4c'], summer: ['#142442', '#2a4270'], autumn: ['#0e1426', '#1c2844'] },
+  dawn:   ['#5b6b9c', '#e8a58a', '#f6d6a4'],
+  dusk:   ['#3f4d7e', '#d98a6a', '#f2c48a'],
+  day:    { winter: ['#dfe6ee', '#c9d3de'], spring: ['#a9c8ec', '#dbe8f6'], summer: ['#79b1ee', '#cfe3f8'], autumn: ['#b5c6d8', '#e6d9c6'] },
+};
+let WX = null;
+const mins = t => { const [h, m] = (t || '').split(':').map(Number); return isNaN(h) ? null : h * 60 + m; };
+function paintWindow() {
+  const now = new Date(), m = now.getMonth(), t = now.getHours() * 60 + now.getMinutes();
+  const season = m <= 1 || m === 11 ? 'winter' : m <= 4 ? 'spring' : m <= 7 ? 'summer' : 'autumn';
+  const rise = mins(WX && WX.today && WX.today.sunrise) ?? 7 * 60, set = mins(WX && WX.today && WX.today.sunset) ?? 19 * 60;
+  const phase = t < rise - 40 || t > set + 40 ? 'night' : t < rise + 40 ? 'dawn' : t > set - 40 ? 'dusk' : 'day';
+  const icon = (WX && WX.now && WX.now.icon) || '';
+  const rain = /🌧|🌦|⛈|🌂/.test(icon), snow = /❄|🌨/.test(icon), cloudy = rain || snow || /☁|⛅|🌫/.test(icon);
+  const cols = phase === 'night' ? SKY.night[season] : phase === 'day' ? SKY.day[season] : SKY[phase];
+  const stops = document.querySelectorAll('#skyGrad stop');
+  stops[0].setAttribute('stop-color', cols[0]); stops[1].setAttribute('stop-color', cols[1]); stops[2].setAttribute('stop-color', cols[2] || cols[1]);
+  const show = (id, on) => $(id).setAttribute('opacity', on ? 1 : 0);
+  // the sun crosses the glass from left to right between sunrise and sunset; the moon does the same at night
+  const arc = (fr) => ({ x: 70 + 160 * fr, y: 150 - 90 * Math.sin(Math.PI * Math.max(0, Math.min(1, fr))) });
+  const sunUp = t >= rise && t <= set, sf = (t - rise) / Math.max(1, set - rise);
+  const p = arc(sunUp ? sf : t > set ? (t - set) / Math.max(1, 1440 - (set - rise)) : (t + 1440 - set) / Math.max(1, 1440 - (set - rise)));
+  $('sun').setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);
+  $('moon').setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);
+  $('moonBite').setAttribute('fill', cols[0]);
+  const cl = $('clouds'); cl.setAttribute('fill', phase === 'night' ? '#2b3652' : phase === 'day' ? '#f6f3ec' : '#e9c9b4'); cl.setAttribute('stroke', phase === 'night' ? '#46567a' : '#c9cfd8');
+  show('sun', sunUp && !cloudy); show('moon', phase === 'night' && !cloudy);
+  show('stars', phase === 'night' && !cloudy); show('clouds', cloudy); show('rain', rain); show('snow', snow);
+  show('snowcaps', season === 'winter' || snow); show('birds', phase === 'day' && !rain && (season === 'spring' || season === 'autumn'));
+  // lit windows in the towers: all at night, some at dusk, none by day
+  $('citywin').style.stroke = '#ffd98a'; $('citywin').style.strokeWidth = '2';
+  $('citywin').setAttribute('opacity', phase === 'night' ? 1 : phase === 'dusk' || phase === 'dawn' ? .6 : 0);
+}
+async function weather() {
+  try { const r = await fetch('/api/weather', { cache: 'no-store' }); if (r.ok) WX = await r.json(); } catch (e) {}
+  paintWindow();
+}
+weather(); setInterval(weather, 30 * 60 * 1000); setInterval(paintWindow, 60 * 1000);
 load();
 </script>
 </body>
