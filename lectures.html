@@ -346,12 +346,17 @@ function mountSoundCloud(l) {
   return { play: () => w.play(), pause: () => w.pause(), seek: s => { w.seekTo(s * 1000); setProgress(s); }, rate: () => {}, destroy: () => {},
     start: pos => { startAt = pos; if (ready) { if (pos) w.seekTo(pos * 1000); w.play(); } } };
 }
+// Inside the BoW iPhone app the page runs in a WebView; lectures the phone has downloaded are played by the app's
+// own player (works with the screen locked, no network) — the app injects window.BoW.downloaded and a message handler.
+const BoW = (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.bow) || null;
+const onPhone = l => !!(BoW && window.BoW && (window.BoW.downloaded || []).includes(l.id));
 function playLecture(l, fromPos) {
   destroyPlayer();
   state.current = l; state.dur = 0;
   let pos = fromPos != null ? fromPos : (l.position || 0);
   if (l.duration && pos > l.duration - 30) pos = 0;
   state.pos = pos;
+  if (onPhone(l)) { renderHero(); renderList(); BoW.postMessage({ type: 'play', id: l.id, position: pos }); toast('Играет в приложении'); return; }
   renderHero(); renderList();
   history.replaceState(null, '', '#' + l.id);
   player = l.audio ? mountAudio(l) : l.source === 'soundcloud' ? mountSoundCloud(l) : mountYouTube(l);

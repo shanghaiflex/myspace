@@ -8,6 +8,7 @@
   PATCH  /api/mix/<id>            body: {position}  → remembers where the mix was left off
   DELETE /api/mix/<id>
   PATCH  /api/lecture/<id>        body: {status?, position?, note?}
+  GET    /app/login?t=<bearer>&next=/   the BoW app trades its bearer token for the session cookie (WebView)
   GET    /api/lectures/preload    the lectures the phone keeps offline (listening first, then queued); kicks off audio downloads
   PATCH  /api/book/<id>           body: {status?, rating?, comment?}
   DELETE /api/book/<id>
@@ -255,6 +256,23 @@ class Handler(SimpleHTTPRequestHandler):
                 self.send_response(302); self.send_header("Location", "/"); self.end_headers(); return
             q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
             return self.login_page("", (q.get("next") or ["/"])[0])
+        if route == "/app/login":
+            # The BoW app opens the site in a WebView: it has the bearer token but no password, so it trades the
+            # token for the same signed session cookie the login form sets, then lands on `next`.
+            q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            tok = (q.get("t") or [""])[0]
+            nxt = (q.get("next") or ["/"])[0]
+            if not nxt.startswith("/") or nxt.startswith("//"):
+                nxt = "/"
+            ok = not PASSWORD or any(hmac.compare_digest(tok.encode(), t.encode()) for t in HEALTH_TOKENS)
+            if not ok:
+                return self.send_json(401, {"error": "bad token"})
+            self.send_response(302)
+            if PASSWORD:
+                self.send_header("Set-Cookie", f"{COOKIE}={make_token()}; Path=/; Max-Age={SESSION_DAYS * 86400}; HttpOnly; SameSite=Lax" + ("; Secure" if self.is_https() else ""))
+            self.send_header("Location", nxt)
+            self.end_headers()
+            return
         if route == "/logout":
             self.send_response(302)
             self.send_header("Set-Cookie", f"{COOKIE}=; Path=/; Max-Age=0")
@@ -366,6 +384,11 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_header("Accept-Ranges", "bytes")
         self.send_header("Content-Length", str(end - start + 1))
         self.send_header("Cache-Control", "private, max-age=86400")
+        # ETag + Last-Modified are what lets the phone resume a broken download instead of starting over:
+        # without a validator URLSession throws the partial file away.
+        mtime = int(os.path.getmtime(path))
+        self.send_header("ETag", f'"{size}-{mtime}"')
+        self.send_header("Last-Modified", __import__("email.utils").utils.formatdate(mtime, usegmt=True))
         if rng:
             self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
         self.end_headers()
@@ -381,6 +404,8 @@ class Handler(SimpleHTTPRequestHandler):
                 except (BrokenPipeError, ConnectionResetError):
                     return
                 left -= len(chunk)
+        if end == size - 1 and (end - start + 1) > (1 << 20):
+            print(f"audio {os.path.basename(path)} → {self.health_device() or 'browser'} complete", flush=True)
 
     def start_audio_job(self, vid):
         if L.has_audio(vid):
