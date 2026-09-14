@@ -34,7 +34,7 @@ ALLOWED = {"state", "brightness", "color_temp", "color", "transition"}
 # Static scenes: white light only, built around the user's «Уютно» (43 %, 2300 K). Hue's numbers do not transfer
 # one to one: the Tuya TS0505B dims more linearly, so Hue Dimmed (30 %) looked like a reading light here — Hue bri
 # is scaled by 0.76 = cozy / Hue Relax. Trimmed to four on 2026-09-14 (dimmed, rest, bright, focus, sleepy removed
-# by request); «Кино» follows bias-lighting practice (SMPTE / MediaLight): 6500 K, the white point the picture was graded
+# by request); the 22:00 launchd job on the mini is «Ночник» too since 2026-09-14 (was amber); «Кино» follows bias-lighting practice (SMPTE / MediaLight): 6500 K, the white point the picture was graded
 # for, at 5–10 %. The user wanted it bluer than the bulb's coldest white (6500 K = mired 153), so it is a pale
 # sky-blue in colour mode (2026-09-14).
 SCENES = {
@@ -43,7 +43,7 @@ SCENES = {
     "movie":  {"title": "Кино",   "payload": {"state": "ON", "brightness": 22, "color": {"r": 175, "g": 200, "b": 255}, "transition": 5}},
     "night":  {"title": "Ночник", "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
 }
-SCHEDULE = "19:00 уютно · 22:00 янтарь · 23:00 выкл"   # launchd on the mini (local.lamp.*, local.plug.*)
+SCHEDULE = "19:00 уютно · 22:00 ночник · 23:00 выкл"   # launchd on the mini (local.lamp.*, local.plug.*)
 
 _host = {"name": None, "at": 0}
 _seq = {}          # target -> number of the latest command; a verify for an older one is dropped

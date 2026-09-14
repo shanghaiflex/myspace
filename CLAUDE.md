@@ -244,7 +244,9 @@ payload адресно (unicast подтверждается); проверяе�
 клики по сценам дрались бы друг с другом. В логе serve: `home verify lamp2: shows … — resending …`. Брокер: `MQTT_HOST`, иначе localhost
 там, где есть `~/mqtt/effect.js` (mini), иначе LAN-имя mini → VPN 10.8.1.5. **На ноутбуке стоит свой
 пустой mosquitto на localhost** — он отвечает, но устройств не знает, поэтому localhost на ноутбуке не пробуется.
-Расписание (19:00/22:00/23:00) живёт в launchd на mini и страницей не правится, только показывается.
+Расписание живёт в launchd на mini и страницей не правится, только показывается: 19:00 уютно (`local.lamp.evening`),
+22:00 ночник (`local.lamp.nightlight`, до 14.09.2026 был янтарь `local.lamp.amber`), 23:00 выкл (`local.lamp.night`);
+`~/mqtt/lamp-catchup.sh` после перезагрузки зажигает то же по часу.
 
 ```
 python3 scripts/home.py state                       # что видит страница
