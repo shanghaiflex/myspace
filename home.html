@@ -417,8 +417,8 @@ async function load() {
 }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') load(); });
 
-const SCENE_PAYLOAD = { cozy: { brightness: 110, color_temp: 435 }, rest: { brightness: 90, color_temp: 500 }, dimmed: { brightness: 77, color_temp: 366 },
-  read: { brightness: 254, color_temp: 343 }, bright: { brightness: 254, color_temp: 367 }, focus: { brightness: 254, color_temp: 230 },
+const SCENE_PAYLOAD = { cozy: { brightness: 110, color_temp: 435 }, dimmed: { brightness: 46, color_temp: 435 }, rest: { brightness: 68, color_temp: 500 },
+  read: { brightness: 193, color_temp: 343 }, bright: { brightness: 254, color_temp: 367 }, focus: { brightness: 254, color_temp: 230 },
   night: { brightness: 3, color_temp: 447 }, sleepy: { brightness: 25, color_temp: 500 } };
 const sceneColor = p => p && p.color_temp ? hex(kelvinRgb(1e6 / p.color_temp)) : '#ff7a1e';
 function buildChips(j) {

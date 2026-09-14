@@ -29,15 +29,16 @@ TARGETS = ("lamps", "lamp", "lamp2", "plug")
 FIELDS = ("state", "brightness", "color_temp", "color", "color_mode", "power", "voltage", "current", "energy", "last_seen", "linkquality")
 ALLOWED = {"state", "brightness", "color_temp", "color", "transition"}
 
-# Static scenes: white light only. «Уютно» is the user's own; the rest are Philips Hue's default recipes
-# (Rest, Dimmed, Read, Bright, Concentrate, Nightlight — bri/ct as the Hue app sets them; Nightlight's bri 1 is
-# raised to 3, which the Tuya bulbs still show). The coloured WiZ-style presets (amber, sunset, tv…) were dropped
-# as ugly on 2026-09-14; the 22:00 amber schedule on the mini is untouched.
+# Static scenes: white light only, built around the user's «Уютно» (43 %, 2300 K). Philips Hue's recipes gave the
+# temperatures and the proportions, but Hue's brightness numbers do not transfer: the Tuya TS0505B dims more linearly,
+# so Hue Dimmed (30 %, 2730 K) looked like a reading light here (2026-09-14). Hue bri is scaled by 0.76 = cozy/Hue Relax,
+# and «Приглушённо» is simply cozy at a lower level. Coloured WiZ-style presets were dropped as ugly the same day;
+# the 22:00 amber schedule on the mini is untouched.
 SCENES = {
     "cozy":   {"title": "Уютно",       "payload": {"state": "ON", "brightness": 110, "color_temp": 435, "transition": 3}},
-    "rest":   {"title": "Отдых",       "payload": {"state": "ON", "brightness": 90, "color_temp": 500, "transition": 3}},
-    "dimmed": {"title": "Приглушённо", "payload": {"state": "ON", "brightness": 77, "color_temp": 366, "transition": 3}},
-    "read":   {"title": "Чтение",      "payload": {"state": "ON", "brightness": 254, "color_temp": 343, "transition": 3}},
+    "dimmed": {"title": "Приглушённо", "payload": {"state": "ON", "brightness": 46, "color_temp": 435, "transition": 3}},
+    "rest":   {"title": "Отдых",       "payload": {"state": "ON", "brightness": 68, "color_temp": 500, "transition": 3}},
+    "read":   {"title": "Чтение",      "payload": {"state": "ON", "brightness": 193, "color_temp": 343, "transition": 3}},
     "bright": {"title": "Ярко",        "payload": {"state": "ON", "brightness": 254, "color_temp": 367, "transition": 3}},
     "focus":  {"title": "Собраться",   "payload": {"state": "ON", "brightness": 254, "color_temp": 230, "transition": 3}},
     "night":  {"title": "Ночник",      "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
