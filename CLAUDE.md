@@ -76,12 +76,19 @@ the background. If only `foreground`/`manual` ever show up, background delivery 
 контента» for BoW in iOS Settings and that the app was not swiped away from the switcher. The app itself keeps a
 journal (tab «Здоровье») of launches, syncs and downloads.
 
-**Signing.** The Apple ID is a free Personal Team (8NCN36FYGA): the provisioning profile lives 7 days, after
-which the app refuses to launch (no background sync, no lectures) until it is rebuilt and reinstalled:
-`cd ~/workspace/bow && xcodebuild -project BoW.xcodeproj -scheme BoW -destination 'id=00008030-001119CA0E3B802E'
--derivedDataPath build/device -allowProvisioningUpdates build && xcrun devicectl device install app --device
-00008030-001119CA0E3B802E build/device/Build/Products/Debug-iphoneos/BoW.app`. The only way out of the weekly
-ritual is the paid Apple Developer Program (profiles for a year, TestFlight over the air).
+**Signing / «посинкай приложение».** The Apple ID is a free Personal Team (8NCN36FYGA): the provisioning
+profile lives 7 days, after which the app refuses to launch (no background sync, no lectures) until it is rebuilt
+and reinstalled. When the user says «посинкай/обнови приложение (на телефоне)» run `sh ~/workspace/bow/phone.sh`
+— it builds, installs and launches over the cable or over Wi-Fi (the phone is paired for network use; the script
+prints how it is reached and when the new profile expires; `--check` only probes). Reinstalling kills downloads in
+progress, so don't reinstall for fun. The only way out of the weekly ritual is the paid Apple Developer Program.
+
+**The site inside the app.** The first tab «Сайт» is a WKWebView on https://bodywithoutorgans.cc, logged in via
+`GET /app/login?t=<bearer>&next=/` (token → the usual session cookie). Pages know they run in the app
+(`window.BoW`, user agent contains `BoW/2`); `lectures.html` hands lectures that are downloaded on the phone
+(`window.BoW.downloaded`) to the native player through `webkit.messageHandlers.bow` (`{type:'play', id, position}`).
+Everything else is the plain site. New phone-specific behaviour goes the same way: a small hook in the page, the
+heavy part native.
 
 Hourly note: launchd agent `cc.bodywithoutorgans.health` on the mini runs `scripts/health_review.sh` every hour.
 It skips when no new samples arrived, otherwise builds `health.py digest` (7-day table, 7/28-day averages, last notes),
