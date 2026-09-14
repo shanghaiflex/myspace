@@ -140,8 +140,8 @@
     "published": "2022-07-29",
     "tags": [],
     "addedAt": "2026-09-06",
-    "position": 112,
-    "playedAt": 1789398257
+    "position": 4304,
+    "playedAt": 1789402999
   },
   {
     "id": "yt:ZfIYFK4TB8I",
@@ -190,7 +190,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 49,
+    "playedAt": 1789403048
   },
   {
     "id": "yt:Po5j_LB3csk",
@@ -570,7 +572,9 @@
     "tags": [
       "soundcloud-likes"
     ],
-    "addedAt": "2025-07-14"
+    "addedAt": "2025-07-14",
+    "position": 6,
+    "playedAt": 1789403009
   },
   {
     "id": "sc:2108817861",
