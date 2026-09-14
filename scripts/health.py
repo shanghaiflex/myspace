@@ -18,7 +18,7 @@ Every sample carries its HealthKit UUID, so re-sends are idempotent and deletion
 Env: HEALTH_DB (default health.db next to serve.py), HEALTH_TZ (default WEATHER_TZ, then Europe/Moscow),
 HEALTH_BACKUP_DIR (default backups/ next to health.db).
 """
-import argparse, datetime as dt, json, os, sqlite3, sys
+import argparse, datetime as dt, json, os, re, sqlite3, sys
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,7 +29,26 @@ NO_WATCH_KCAL = 50   # below this, with no sleep and no HRV, the watch simply wa
 MORNING_HOUR = 6     # local hour that starts a new day for the note shown on the page
 WORKOUT_RU = {"running": "бег", "cycling": "велосипед", "walking": "ходьба", "swimming": "плавание", "yoga": "йога",
               "functionalStrengthTraining": "силовая", "functional_strength_training": "силовая", "traditionalStrengthTraining": "силовая",
-              "hiking": "поход", "elliptical": "эллипс", "rowing": "гребля", "coreTraining": "кор", "other": "другое"}
+              "hiking": "поход", "elliptical": "эллипс", "rowing": "гребля", "coreTraining": "кор", "other": "другое",
+              "tennis": "теннис", "tableTennis": "настольный теннис", "crossTraining": "кросс-тренинг", "pilates": "пилатес",
+              "highIntensityIntervalTraining": "HIIT", "swimBikeRun": "триатлон", "mixedCardio": "кардио", "dance": "танцы",
+              "stairClimbing": "лестница", "climbing": "скалолазание", "boxing": "бокс", "martialArts": "единоборства",
+              "flexibility": "растяжка", "cooldown": "заминка", "preparationAndRecovery": "разминка", "jumpRope": "скакалка",
+              "basketball": "баскетбол", "soccer": "футбол", "volleyball": "волейбол", "badminton": "бадминтон",
+              "skatingSports": "коньки", "snowSports": "лыжи", "crossCountrySkiing": "беговые лыжи", "downhillSkiing": "горные лыжи",
+              "waterFitness": "аквафитнес", "surfingSports": "сёрфинг", "paddleSports": "гребля на каяке", "golf": "гольф",
+              "mindAndBody": "тело и дыхание", "taiChi": "тайцзи", "barre": "барре", "stepTraining": "степ", "play": "игра"}
+# The app translates only a handful of HealthKit types (HealthKitManager.swift) and sends the rest verbatim as
+# "HKWorkoutActivityType(rawValue: 48)". Half of what is actually trained — tennis, силовая, кор, HIIT, триатлон —
+# reached the note as a rawValue, so it could neither name a workout nor notice that one kind of them is missing.
+HK_RAW = {3: "australianFootball", 6: "basketball", 8: "boxing", 9: "climbing", 11: "crossTraining", 13: "cycling",
+          14: "dance", 16: "elliptical", 20: "functionalStrengthTraining", 21: "golf", 24: "hiking", 28: "martialArts",
+          29: "mindAndBody", 31: "paddleSports", 32: "play", 33: "preparationAndRecovery", 35: "rowing", 37: "running",
+          39: "skatingSports", 40: "snowSports", 41: "soccer", 44: "stairClimbing", 45: "surfingSports", 46: "swimming",
+          47: "tableTennis", 48: "tennis", 50: "traditionalStrengthTraining", 51: "volleyball", 52: "walking",
+          53: "waterFitness", 57: "yoga", 58: "barre", 59: "coreTraining", 60: "crossCountrySkiing", 61: "downhillSkiing",
+          62: "flexibility", 63: "highIntensityIntervalTraining", 64: "jumpRope", 66: "pilates", 69: "stepTraining",
+          72: "taiChi", 73: "mixedCardio", 80: "cooldown", 82: "swimBikeRun", 3000: "other"}
 DOW = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"]
 
 SCHEMA = """
@@ -96,7 +115,10 @@ def ingest(sample_type, batch):
                 if sample_type == "workouts":
                     row = ("workout", str(it["workoutType"]), float(it["durationMinutes"]), "min")
                 elif sample_type == "sleep":
-                    row = ("sleep", "sleep", float(it["totalMinutes"]), "min")
+                    # Since 2026-09-14 the app sends HealthKit's stage samples as they are (kind = rem/deep/core/
+                    # awake/inBed, one stretch each); older builds sent one summary per day under the kind "sleep".
+                    row = (("sleep", str(it["stage"]), float(it["minutes"]), "min") if it.get("stage")
+                           else ("sleep", "sleep", float(it["totalMinutes"]), "min"))
                 else:
                     row = ("metric", str(it["kind"]), float(it["value"]), str(it.get("unit") or ""))
                 sid, start, end = str(it["id"]), iso(parse_ts(it["start"])), iso(parse_ts(it["end"]))
@@ -161,8 +183,128 @@ def lane_sum(samples):
     return max((l[1] for l in lanes), default=0)
 
 
+def workout_kind(kind):
+    """Canonical name for a workout type the app did not translate (see HK_RAW)."""
+    m = re.fullmatch(r"HKWorkoutActivityType\(rawValue: (\d+)\)", (kind or "").strip())
+    return HK_RAW.get(int(m.group(1)), kind) if m else kind
+
+
+def sleep_stretch(s):
+    """How much longer the payload's interval is than the sleep inside it. A record of one stretch of sleep is
+    tight (the two agree to a minute); a payload the app rebuilt around several nights covers a whole day."""
+    return (parse_ts(s["end"]) - parse_ts(s["start"])).total_seconds() / 60 - (s["value"] or 0)
+
+
+def merge_sleep(samples):
+    """One night can sit in the database several times over. The app groups a night's stages into a single payload
+    with a fresh UUID on every sync (SleepAssembler), so a re-sync after a reinstall stores the same night again,
+    and a night later regrouped together with the next evening's dozing arrives as one interval covering both.
+    Summed blindly that gave 20 hours of sleep a night and a 7-day average of 17. Cluster the payloads by
+    overlapping time and keep the tightest of each cluster — the copy that describes one stretch of sleep and
+    nothing else, which also throws away the day-long regroupings. Stretches that really are separate (a nap, an
+    awakening in the middle of the night) do not overlap and all of them are kept."""
+    clusters = []  # [cluster end, tightest sample]
+    for s in sorted(samples, key=lambda r: (r["start"], r["end"])):
+        if clusters and s["start"] < clusters[-1][0]:
+            c = clusters[-1]
+            c[0] = max(c[0], s["end"])
+            if (sleep_stretch(s), -(s["value"] or 0)) < (sleep_stretch(c[1]), -(c[1]["value"] or 0)):
+                c[1] = s
+        else:
+            clusters.append([s["end"], s])
+    return [c[1] for c in clusters]
+
+
+def union_minutes(intervals):
+    """Length of the union of time intervals. Two sources (watch and phone) can describe the same stretch of
+    sleep at once; adding them up would double it."""
+    total, cur = 0.0, None
+    for s, e in sorted(intervals):
+        if cur is None or s > cur[1]:
+            if cur:
+                total += (cur[1] - cur[0]).total_seconds() / 60
+            cur = [s, e]
+        else:
+            cur[1] = max(cur[1], e)
+    return total + ((cur[1] - cur[0]).total_seconds() / 60 if cur else 0)
+
+
+def night_from_stages(ss):
+    """One night out of HealthKit's own stage samples: asleep is rem + deep + core, the minutes awake in bed are
+    not sleep, and a phone without a watch only ever knows «in bed»."""
+    def mins(kinds):
+        return union_minutes([(parse_ts(r["start"]), parse_ts(r["end"])) for r in ss if r["kind"] in kinds])
+    asleep = [r for r in ss if r["kind"] in ASLEEP_STAGES]
+    span = asleep or [r for r in ss if r["kind"] == "inBed"]
+    if not span:
+        return None
+    return {"start": min(r["start"] for r in span), "end": max(r["end"] for r in span),
+            "total": mins(ASLEEP_STAGES) or mins(("inBed",)), "deep": mins(("deep",)), "rem": mins(("rem",)),
+            "core": mins(("core", "asleep")), "awake": mins(("awake",)), "sessions": 1}
+
+
+def stage_nights(ss):
+    """Stage samples grouped into nights: stretches less than SLEEP_GAP apart are one night, so waking at four and
+    falling asleep again is still one night, while an afternoon nap is its own."""
+    nights, cur, cur_end = [], [], None
+    for r in sorted(ss, key=lambda r: r["start"]):
+        if cur and parse_ts(r["start"]) - cur_end > dt.timedelta(minutes=SLEEP_GAP):
+            nights.append(cur); cur = []
+        cur.append(r)
+        end = parse_ts(r["end"])
+        cur_end = end if cur_end is None or len(cur) == 1 else max(cur_end, end)
+    if cur:
+        nights.append(cur)
+    return [n for n in (night_from_stages(c) for c in nights) if n]
+
+
+def legacy_night(s):
+    """A night as the app used to send it: one payload per local day with the stages already added up."""
+    b = json.loads(s["data"]).get("breakdown") or {}
+    awake = b.get("awakeMinutes") or 0
+    return {"start": s["start"], "end": s["end"], "total": (s["value"] or 0) - awake, "deep": b.get("deepMinutes") or 0,
+            "rem": b.get("remMinutes") or 0, "core": b.get("coreMinutes") or 0, "awake": awake, "sessions": 1}
+
+
+def nights(ss):
+    """Every night the database knows about, newest format first. The app sent day-long summaries until 2026-09-14
+    and sends the stage samples themselves since; a summary is used only where no stage sample covers it, so the
+    two never count the same night twice."""
+    out = stage_nights([r for r in ss if r["kind"] != "sleep"])
+    covered = [(n["start"], n["end"]) for n in out]
+    # The old payloads are compared only within the morning they belong to: one of them can span a whole day and
+    # would otherwise bridge two separate nights into a single cluster and swallow one of them.
+    legacy = {}
+    for r in ss:
+        if r["kind"] == "sleep":
+            legacy.setdefault(sleep_key(r["end"]), []).append(r)
+    for group in legacy.values():
+        kept = merge_sleep(group)
+        # A payload stretched over a whole day holds the previous night as well as this one and there is no way to
+        # tell them apart; where the same morning also has a payload describing one stretch of sleep, trust that one.
+        tight = [s for s in kept if sleep_stretch(s) <= SLEEP_STRETCH_MAX]
+        for s in (tight or kept):
+            if not any(s["start"] < e and b < s["end"] for b, e in covered):
+                out.append(legacy_night(s))
+    return out
+
+
 def day_key(s):
     return local(s).strftime("%Y-%m-%d")
+
+
+SLEEP_EVENING = 18   # a stretch of sleep ending at or after this local hour belongs to the night now beginning
+SLEEP_GAP = 180      # minutes between two stretches of sleep that still count as one night
+SLEEP_STRETCH_MAX = 120   # minutes a payload may exceed the sleep inside it before it is a regrouping, not a night
+ASLEEP_STAGES = ("rem", "deep", "core", "asleep")
+
+
+def sleep_key(s):
+    """The morning a stretch of sleep counts towards. Falling asleep at 22:40 and waking at 23:55 is not a nap and
+    not a night of its own: it is the first hour of the night that ends tomorrow morning, and the app files it
+    under today because that is the day it ended. Counted as its own night it read as «сон 1ч17»."""
+    end = local(s)
+    return (end.date() + dt.timedelta(days=1 if end.hour >= SLEEP_EVENING else 0)).strftime("%Y-%m-%d")
 
 
 def daily(db, days, today=None):
@@ -175,28 +317,42 @@ def daily(db, days, today=None):
         d = first + dt.timedelta(days=i)
         out[d.strftime("%Y-%m-%d")] = {"date": d.strftime("%Y-%m-%d"), "dow": DOW[d.weekday()], "sleep": None, "rhr": None,
                                       "hrv": None, "hrvN": 0, "steps": None, "kcal": None, "workouts": []}
-    buckets = {}
+    buckets, sleep_rows = {}, []
     for r in rows(db, since):
-        key = day_key(r["end"] if r["type"] == "sleep" else r["start"])
-        if key in out:
-            buckets.setdefault((key, r["type"], r["kind"]), []).append(r)
+        if r["type"] == "sleep":
+            sleep_rows.append(r)
+        elif day_key(r["start"]) in out:
+            buckets.setdefault((day_key(r["start"]), r["type"], r["kind"]), []).append(r)
+    for n in nights(sleep_rows):
+        key = sleep_key(n["end"])
+        if key not in out:
+            continue
+        d = out[key]
+        tot = d["sleep"] or {"total": 0, "deep": 0, "rem": 0, "core": 0, "awake": 0, "sessions": 0, "main": 0, "last": ""}
+        for k in ("total", "deep", "rem", "core", "awake"):
+            tot[k] += n[k]
+        tot["sessions"] += 1
+        tot["last"] = max(tot["last"], n["end"])
+        if n["total"] >= tot["main"]:   # bed and wake describe the main stretch, not the dozing around it
+            tot["main"] = n["total"]
+            tot["bed"] = local(n["start"]).strftime("%H:%M"); tot["wake"] = local(n["end"]).strftime("%H:%M")
+        d["sleep"] = tot
+    for d in out.values():
+        if d["sleep"]:
+            # A night ends in the morning. If everything recorded for this one ends late in the evening, the record
+            # breaks off where sleep went on — the watch stopped writing, or the app filed the rest under the next
+            # day — and the hour and a half before midnight is not a night to report as «спал 1ч24».
+            if local(d["sleep"]["last"]).hour >= SLEEP_EVENING:
+                d["sleep"] = None
+                continue
+            d["sleep"] = {k: (round(v) if isinstance(v, float) else v) for k, v in d["sleep"].items() if k not in ("main", "last")}
     for (key, type_, kind), ss in buckets.items():
         d = out[key]
-        if type_ == "sleep":
-            tot = {"total": 0, "deep": 0, "rem": 0, "core": 0, "awake": 0}
-            for s in ss:
-                raw = json.loads(s["data"]); b = raw.get("breakdown") or {}
-                tot["total"] += s["value"] or 0
-                tot["deep"] += b.get("deepMinutes") or 0; tot["rem"] += b.get("remMinutes") or 0
-                tot["core"] += b.get("coreMinutes") or 0; tot["awake"] += b.get("awakeMinutes") or 0
-            main = max(ss, key=lambda s: s["value"] or 0)
-            tot["bed"] = local(main["start"]).strftime("%H:%M"); tot["wake"] = local(main["end"]).strftime("%H:%M")
-            tot["sessions"] = len(ss)
-            d["sleep"] = {k: (round(v) if isinstance(v, float) else v) for k, v in tot.items()}
-        elif type_ == "workout":
+        if type_ == "workout":
             for s in ss:
                 raw = json.loads(s["data"])
-                d["workouts"].append({"type": kind, "ru": WORKOUT_RU.get(kind, kind), "start": local(s["start"]).strftime("%H:%M"),
+                k = workout_kind(kind)
+                d["workouts"].append({"type": k, "ru": WORKOUT_RU.get(k, k), "start": local(s["start"]).strftime("%H:%M"),
                                       "min": round(s["value"] or 0), "km": round((raw.get("distanceMeters") or 0) / 1000, 2) or None,
                                       "kcal": round(raw["calories"]) if raw.get("calories") else None,
                                       "hr": round(raw["averageHeartRate"]) if raw.get("averageHeartRate") else None})
