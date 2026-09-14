@@ -162,45 +162,7 @@ const isCalm = m => m.mood === 'calm' || (m.tags || []).includes('calm');
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
-function eveningCard(movies, hl, wx) {
-  const now = new Date(), hour = now.getHours();
-  if (hour < 16) return null;                       // до вечера советовать кино рано
-  const pool0 = (movies || []).filter(m => m.status === 'to-watch');
-  if (!pool0.length) return null;
-
-  const t = (hl && hl.days && hl.days[0]) || {}, a = (hl && hl.avg7) || {};
-  const slept = t.sleep && t.sleep.total;           // минут этой ночью
-  const tired = slept != null && (slept < 360 || (a.sleep && slept < a.sleep - 45));
-  // вс–чт: завтра рабочий день, длинное кино в такой вечер обычно не заходит
-  const workTomorrow = now.getDay() <= 4;
-  const wantShort = tired || workTomorrow;
-  const timed = pool0.filter(m => m.runtime);
-  const fit = timed.filter(m => wantShort ? m.runtime <= 110 : m.runtime >= 110);
-  const list = fit.length ? fit : (timed.length ? timed : pool0);
-  const m = list[Math.floor(Math.random() * list.length)];
-  const hm = x => x == null ? '' : `${Math.floor(x / 60)}ч${String(Math.round(x) % 60).padStart(2, '0')}`;
-  const why = tired ? `спал ${hm(slept)} — бери покороче`
-    : wantShort ? 'завтра рабочий день — что-нибудь покороче'
-    : 'выходной впереди — можно длинное';
-
-  // Прогулка: сколько шагов не хватает до обычного дня и успеваешь ли до дождя.
-  let walk = '';
-  const steps = t.steps, norm = a.steps;
-  if (steps != null && norm && steps < norm * 0.8) {
-    const left = Math.round(norm - steps);
-    const ahead = ((wx && wx.hours) || []).filter(h => parseInt(h.time, 10) > hour);
-    const rain = ahead.find(h => (h.precipProb || 0) >= 40);
-    walk = `До обычных ${Math.round(norm).toLocaleString('ru-RU')} шагов не хватает ${left.toLocaleString('ru-RU')}. `
-      + (rain ? `Дождь с ${rain.time} — лучше выйти сейчас.` : 'Осадков до ночи не обещают.');
-  }
-
-  return `<a class="card c6" href="films.html#${esc(m.id)}"><div class="eyebrow">Вечер <span class="more">${esc(why)}</span></div>
-    <div class="row"><div class="img book">${m.poster ? `<img src="${esc(m.poster)}" alt="">` : ''}</div>
-      <div class="txt"><h2>${esc(m.title)}</h2><div class="sub">${m.year || ''}${m.runtime ? ` · ${hm(m.runtime)}` : ''}${m.genre && m.genre.length ? ' · ' + esc(m.genre.slice(0, 2).join(', ')) : ''}</div>
-      ${walk ? `<div class="sub">${esc(walk)}</div>` : ''}</div></div></a>`;
-}
-
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('movies.json', []), j('/api/reads', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, movies, reads]) => {
+Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, reads]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
   if (wx && wx.now) {
@@ -245,25 +207,26 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
       <span class="btn">${PLAY} ${reason ? 'Послушать' : 'Играть'}</span></a>`;
   const reading = books.filter(b => b.status === 'reading');
 
-  // One compact card per lecture channel: "next up" (listening, else first queued, else best recommendation).
-  const chanCard = (ch, label) => {
-    const mine = lect.lectures.filter(l => l.channel === ch.id);
-    const listening = mine.filter(l => l.status === 'listening').sort((a, b) => (b.position || 0) - (a.position || 0));
-    const queued = mine.filter(l => l.status === 'queued').sort((a, b) => (a.queuedAt || 0) - (b.queuedAt || 0));
-    const next = listening[0] || queued[0] || recommend(lect, 1, ch.id)[0];
+  // One card for lectures, not one per channel: what matters is the lecture actually in progress — the most
+  // recently touched one — and the two channels were two half-empty cards saying the same thing twice.
+  const lectureCard = () => {
+    const all = lect.lectures || [];
+    const listening = all.filter(l => l.status === 'listening')
+      .sort((a, b) => (b.touchedAt || 0) - (a.touchedAt || 0) || (b.position || 0) - (a.position || 0));
+    const queued = all.filter(l => l.status === 'queued').sort((a, b) => (a.queuedAt || 0) - (b.queuedAt || 0));
+    const next = listening[0] || queued[0] || recommend(lect, 1)[0];
     if (!next) return '';
+    const ch = (lect.channels || []).find(c => c.id === next.channel) || {};
     const pct = next.status === 'listening' && next.duration ? Math.min(100, (next.position || 0) / next.duration * 100) : 0;
-    const sq = ch.type === 'soundcloud';
-    return `<div class="card c6 lc"><div class="eyebrow">${esc(label)} <a class="more" href="lectures.html#channel=${encodeURIComponent(ch.id)}">все →</a></div>
-      <a class="row" href="lectures.html#${esc(next.id)}"><div class="img ${sq ? 'sq' : 'wide'}">${thumb(next) ? `<img src="${esc(thumb(next))}" alt="" onerror="this.onerror=null;this.src=this.src.replace('mqdefault','hqdefault')">` : ''}</div>
-        <div class="txt"><h2>${esc(next.title)}</h2><div class="sub">${esc(seriesName(lect, next))} · ${next.status === 'listening' ? Lect.fmtTime(next.position || 0) + ' из ' : next.status === 'queued' ? 'в планах · ' : 'рекомендую · '}${fmtDur(next.duration)}</div>${pct ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}</div></a>
+    const ahead = queued.filter(l => l.id !== next.id).length;
+    const state = next.status === 'listening' ? Lect.fmtTime(next.position || 0) + ' из '
+      : next.status === 'queued' ? 'в планах · ' : 'рекомендую · ';
+    return `<div class="card c6 lc"><div class="eyebrow">Лекция <a class="more" href="lectures.html">${esc(ch.label || ch.name || 'все')} →</a></div>
+      <a class="row" href="lectures.html#${esc(next.id)}"><div class="img ${ch.type === 'soundcloud' ? 'sq' : 'wide'}">${thumb(next) ? `<img src="${esc(thumb(next))}" alt="" onerror="this.onerror=null;this.src=this.src.replace('mqdefault','hqdefault')">` : ''}</div>
+        <div class="txt"><h2>${esc(next.title)}</h2><div class="sub">${esc(seriesName(lect, next))} · ${state}${fmtDur(next.duration)}${ahead ? ` · в планах ещё ${ahead}` : ''}</div>${pct ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}</div></a>
       <a class="btn" href="lectures.html#${esc(next.id)}">${PLAY} ${next.status === 'listening' ? 'Слушать дальше' : 'Слушать'}</a></div>`;
   };
-  if (mix) cards.push(mixCard(mix, (rec || reading.length) ? 'c6' : 'c12',
-    morning && isCalm(mix) ? 'Под утреннее чтение' : 'Микс на сегодня',
-    morning && isCalm(mix) ? 'спокойный' : 'случайный'));
-  if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude',
-    rec.played ? 'уже включал' : (morning && isCalm(rec) ? 'спокойное' : ''), rec.reason));
+
   // Статья дня: ссылка ведёт в текст, а «Прочту»/«Мимо» — те же вердикты, что на странице «Читать»
   // (первую версию карточки без кнопок пользователь принял за отсутствие оценок вовсе).
   const artCard = (r) => {
@@ -275,19 +238,21 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
       <div class="sub">${esc(art.reason || '')}${more > 0 ? ` <span class="more">· ещё ${more} на странице «Читать»</span>` : ''}</div>
       <div class="acts"><a class="btn" href="${esc(art.url)}" target="_blank" rel="noopener">Открыть</a><button class="btn" data-act="saved">Прочту</button><button class="btn" data-act="dismissed">Мимо</button></div></div>`;
   };
+
+  // Порядок карточек задан пользователем 14.09.2026: погода, самочувствие, лекция, статья, миксы, книга.
+  const lc = lectureCard();
+  if (lc) cards.push(lc);
   if (artCard(reads)) cards.push(artCard(reads));
-
-  // Вечер: что поставить и когда выйти. Без модели — на том, что и так загружено:
-  // сон прошлой ночью и шаги из health, почасовой дождь из погоды, длина фильмов из каталога.
-  const ev = eveningCard(movies, hl, wx);
-  if (ev) cards.push(ev);
-
+  if (mix) cards.push(mixCard(mix, 'c6',
+    morning && isCalm(mix) ? 'Под утреннее чтение' : 'Микс на сегодня',
+    morning && isCalm(mix) ? 'спокойный' : 'случайный'));
+  if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude',
+    rec.played ? 'уже включал' : (morning && isCalm(rec) ? 'спокойное' : ''), rec.reason));
   if (reading.length) {
     const b = reading[0];
     cards.push(`<a class="card c6" href="books.html#${esc(b.id)}"><div class="eyebrow">Читаю <span class="more">${reading.length > 1 ? 'и ещё ' + (reading.length - 1) : ''}</span></div>
       <div class="row"><div class="img book">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : ''}</div><div class="txt"><h2>${esc(b.title)}</h2><div class="sub">${esc(b.author || '')}</div></div></div></a>`);
   }
-  for (const ch of (lect.channels || [])) cards.push(chanCard(ch, ch.label || ch.name));
   document.getElementById('cards').innerHTML = cards.join('');
   document.getElementById('cards').addEventListener('click', async e => {
     const b = e.target.closest('button[data-act]'); if (!b) return;

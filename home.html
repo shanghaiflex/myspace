@@ -5,64 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Дом</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap">
 <style>
   :root {
     color-scheme: light dark;
-    --bg: #fafafa; --surface: #ffffff; --surface-2: #f2f2f4;
-    --text: #1d1d1f; --text-2: #6e6e73; --text-3: #a1a1a6;
-    --line: rgba(0,0,0,.08); --accent: #0071e3; --ok: #34c759; --warn: #ff9f0a;
-    --glass: rgba(250,250,250,.7);
-    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
-    --paper: #f6f2ea; --paper-2: #ece6da; --ink: #2b2925; --ink-2: rgba(43,41,37,.45); --ink-3: rgba(43,41,37,.18);
-    --sky: #cbd6e4; --sky-2: #e8eef5; --blend: multiply;
+    --bg: #f3eee4; --surface: #fbf8f2; --surface-2: #efe8db; --paper: #faf6ee; --paper-2: #efe8da;
+    --text: #1f1c18; --text-2: #756d61; --text-3: #a59c8e;
+    --line: rgba(60,45,25,.1); --line-2: rgba(60,45,25,.18);
+    --terra: #d9704a; --terra-2: #e8905f; --sage: #8c9b7c; --sun: #f0b567; --warn: #b8552f;
+    --glass: rgba(243,238,228,.72);
+    --shadow: 0 1px 2px rgba(60,45,25,.06), 0 12px 32px rgba(60,45,25,.08);
+    --ink: #2a2622; --ink-2: rgba(42,38,34,.45); --ink-3: rgba(42,38,34,.17);
+    --sky: #c9d5e3; --sky-2: #e6edf4; --blend: multiply;
+    --serif: "Fraunces", ui-serif, "New York", "Iowan Old Style", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Inter, system-ui, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #000; --surface: #1c1c1e; --surface-2: #2c2c2e;
-      --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
-      --line: rgba(255,255,255,.1); --accent: #2997ff; --ok: #30d158; --warn: #ffd60a;
-      --glass: rgba(0,0,0,.55);
-      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
-      --paper: #17171a; --paper-2: #1f1f23; --ink: #d9d3c6; --ink-2: rgba(217,211,198,.45); --ink-3: rgba(217,211,198,.16);
+      --bg: #161513; --surface: #201e1b; --surface-2: #2a2723; --paper: #1c1a17; --paper-2: #262320;
+      --text: #efe8dc; --text-2: #a69d8f; --text-3: #6f685e;
+      --line: rgba(255,240,220,.09); --line-2: rgba(255,240,220,.16);
+      --terra: #e07f57; --terra-2: #f0a070; --sage: #93a284; --sun: #f2be74; --warn: #f0a070;
+      --glass: rgba(22,21,19,.7);
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.45);
+      --ink: #dcd4c6; --ink-2: rgba(220,212,198,.45); --ink-3: rgba(220,212,198,.15);
       --sky: #16223a; --sky-2: #223354; --blend: screen;
     }
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
-    background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.45; letter-spacing: -0.01em; }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.5; letter-spacing: -0.005em; min-height: 100vh; position: relative; }
+  /* warm light spilling across the page, like sun through linen */
+  body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(60% 45% at 8% 0%, color-mix(in srgb, var(--sun) 22%, transparent), transparent 70%),
+                radial-gradient(45% 40% at 100% 100%, color-mix(in srgb, var(--sage) 18%, transparent), transparent 70%); }
   a { color: inherit; text-decoration: none; }
-  .bar { position: sticky; top: 0; z-index: 20; background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
-  .bar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; flex-wrap: wrap; }
-  .nav a { color: var(--text-3); font-weight: 600; }
+  .bar { position: sticky; top: 0; z-index: 20; background: var(--glass); -webkit-backdrop-filter: saturate(140%) blur(18px); backdrop-filter: saturate(140%) blur(18px); border-bottom: 1px solid var(--line); }
+  .bar-inner { max-width: 1180px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .nav { display: flex; gap: 18px; font-size: 16px; letter-spacing: -0.01em; flex-wrap: wrap; }
+  .nav a { color: var(--text-3); font-weight: 500; }
   .nav a.on { color: var(--text); }
-  .wrap { max-width: 1280px; margin: 0 auto; padding: 36px 32px 80px; }
-  .head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
-  .head h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; margin: 0; line-height: 1.1; }
-  .head .sub { color: var(--text-2); font-size: 14px; }
-  .head .sub.err { color: var(--warn); }
-  .layout { display: grid; grid-template-columns: minmax(0, 8fr) minmax(300px, 4fr); gap: 18px; align-items: start; }
-  .card { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow); border: 1px solid var(--line); padding: 22px; min-width: 0; }
-  .card .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-2); font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  .card .eyebrow .more { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-3); }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 48px 32px 96px; }
+
+  .hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; flex-wrap: wrap; }
+  .hero .eyebrow { font-size: 12.5px; text-transform: uppercase; letter-spacing: .14em; color: var(--text-2); font-weight: 500; margin-bottom: 10px; }
+  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: 60px; line-height: .98; letter-spacing: -0.02em; margin: 0; font-variation-settings: "opsz" 144; }
+  .hero h1 em { font-style: italic; color: var(--terra); }
+  .hero .sub { font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--text-2); margin: 0 0 6px; }
+  .hero .sub.err { color: var(--warn); }
 
   /* --- the sketch --- */
-  .sketch { padding: 0; overflow: hidden; background: var(--paper); border-radius: 26px; position: relative; }
+  .sketch { padding: 0; overflow: hidden; background: var(--paper); border-radius: 30px; position: relative; box-shadow: var(--shadow); border: 1px solid var(--line); }
+  .sketch::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .38 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  @media (prefers-color-scheme: dark) { .sketch::after { mix-blend-mode: screen; opacity: .35; } }
   .sketch svg { display: block; width: 100%; height: auto; }
-  .sketch .cap { position: absolute; left: 20px; bottom: 14px; font-size: 12px; color: var(--ink-2); font-style: italic; letter-spacing: 0; pointer-events: none; }
-  .ink { fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .ink .thin { stroke-width: 1.1; }
-  .ink .faint { stroke: var(--ink-2); stroke-width: 1; }
-  .ink .hatch { stroke: var(--ink-3); stroke-width: .9; }
+  .sketch .cap { position: absolute; left: 24px; bottom: 16px; font-family: var(--serif); font-style: italic; font-size: 13px; color: var(--ink-2); pointer-events: none; }
+  .ink { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .ink .thin { stroke-width: 1.05; }
+  .ink .faint { stroke: var(--ink-2); stroke-width: .95; }
+  .ink .hatch { stroke: var(--ink-3); stroke-width: .85; }
   .ink .fill { fill: var(--ink-3); stroke: none; }
   .ink .paper2 { fill: var(--paper-2); }
   .sky { fill: var(--sky); } .sky2 { fill: var(--sky-2); }
   .glow { mix-blend-mode: var(--blend); pointer-events: none; }
   .glow circle, .glow path { transition: opacity .6s ease; }
   .hit { cursor: pointer; }
-  .hit .halo { fill: transparent; stroke: transparent; stroke-width: 1.5; stroke-dasharray: 4 5; transition: stroke .2s; }
-  .hit:hover .halo, .hit:focus-visible .halo { stroke: var(--accent); }
+  .hit .halo { fill: transparent; stroke: transparent; stroke-width: 1.4; stroke-dasharray: 3 5; transition: stroke .2s; }
+  .hit:hover .halo, .hit:focus-visible .halo { stroke: var(--terra); }
   .hit:focus { outline: none; }
   .fx .lampglow { animation: flicker 1.1s infinite ease-in-out; }
   .fx .lampglow.b { animation-duration: 1.4s; animation-delay: .35s; }
@@ -70,40 +81,43 @@
   .disabled { opacity: .5; pointer-events: none; }
 
   /* --- controls --- */
-  .panel { display: flex; flex-direction: column; gap: 18px; }
-  .dev { display: flex; flex-direction: column; gap: 14px; }
-  .dev .top { display: flex; align-items: center; gap: 14px; }
-  .dev .top .t { flex: 1; min-width: 0; }
-  .dev .top h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.2; }
-  .dev .top .s { color: var(--text-2); font-size: 13px; margin-top: 2px; font-variant-numeric: tabular-nums; }
-  .sw { position: relative; width: 52px; height: 32px; border-radius: 999px; background: color-mix(in srgb, var(--text) 18%, transparent); border: 0; cursor: pointer; flex: 0 0 auto; transition: background .25s; padding: 0; }
-  .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.25); transition: transform .25s cubic-bezier(.2,.7,.2,1); }
-  .sw.on { background: var(--ok); }
-  .sw.on::after { transform: translateX(20px); }
+  .tiles { display: grid; grid-template-columns: 4fr 3fr 5fr; gap: 18px; margin-top: 18px; align-items: stretch; }
+  .tile { background: var(--surface); border-radius: 26px; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 24px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+  .tile .top { display: flex; align-items: center; gap: 14px; }
+  .tile .ico { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; flex: 0 0 auto; color: var(--text-2); transition: background .4s, color .4s; }
+  .tile .ico svg { width: 22px; height: 22px; }
+  .tile.lit .ico { background: color-mix(in srgb, var(--sun) 35%, var(--surface-2)); color: var(--terra); }
+  .tile .t { flex: 1; min-width: 0; }
+  .tile h2 { font-family: var(--serif); font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin: 0; line-height: 1.15; }
+  .tile .s { color: var(--text-2); font-size: 13px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .tile .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); font-weight: 500; margin-bottom: 10px; }
+  .sw { position: relative; width: 58px; height: 34px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface-2); box-shadow: inset 0 1px 3px rgba(60,45,25,.12); cursor: pointer; flex: 0 0 auto; transition: background .3s, border-color .3s, box-shadow .3s; padding: 0; }
+  .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fffaf2; box-shadow: 0 1px 2px rgba(60,45,25,.25), 0 3px 8px rgba(60,45,25,.12); transition: transform .3s cubic-bezier(.2,.7,.2,1), background .3s; }
+  .sw.on { background: linear-gradient(135deg, var(--terra-2), var(--terra)); border-color: transparent; box-shadow: 0 6px 18px color-mix(in srgb, var(--terra) 35%, transparent); }
+  .sw.on::after { transform: translateX(24px); }
   .sw:disabled { opacity: .4; cursor: default; }
-  .sl { display: grid; grid-template-columns: 72px 1fr 58px; align-items: center; gap: 12px; font-size: 13px; color: var(--text-2); }
-  .sl output { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; }
+  .sl { display: grid; grid-template-columns: 64px 1fr 62px; align-items: center; gap: 12px; font-size: 13px; color: var(--text-2); }
+  .sl output { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 500; font-family: var(--serif); font-size: 15px; }
   input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 30px; background: transparent; margin: 0; }
-  input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: var(--track, color-mix(in srgb, var(--text) 14%, transparent)); }
-  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 0; box-shadow: 0 1px 4px rgba(0,0,0,.3); margin-top: -9px; cursor: pointer; }
-  input[type=range]::-moz-range-track { height: 6px; border-radius: 999px; background: var(--track, color-mix(in srgb, var(--text) 14%, transparent)); }
-  input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 0; box-shadow: 0 1px 4px rgba(0,0,0,.3); cursor: pointer; }
-  #warm { --track: linear-gradient(90deg, #ff9a3c, #ffd9a6 45%, #ffffff 70%, #c9dcff); }
-  #bri { --track: linear-gradient(90deg, color-mix(in srgb, var(--text) 10%, transparent), color-mix(in srgb, var(--text) 45%, transparent)); }
+  input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 999px; background: var(--track, var(--line-2)); }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #fffaf2; border: 1px solid var(--line-2); box-shadow: 0 2px 6px rgba(60,45,25,.2); margin-top: -9px; cursor: pointer; }
+  input[type=range]::-moz-range-track { height: 4px; border-radius: 999px; background: var(--track, var(--line-2)); }
+  input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fffaf2; border: 1px solid var(--line-2); box-shadow: 0 2px 6px rgba(60,45,25,.2); cursor: pointer; }
+  #warm { --track: linear-gradient(90deg, #f0a24a, #f7d9a8 45%, #fbf7ef 70%, #c5d7f2); }
+  #bri { --track: linear-gradient(90deg, var(--line), var(--text-3)); }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { font: inherit; font-size: 13px; font-weight: 600; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 999px; padding: 7px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: transform .15s; }
-  .chip:hover { transform: translateY(-1px); }
+  .chip { font: inherit; font-size: 13.5px; font-weight: 500; border: 1px solid var(--line-2); background: transparent; color: var(--text); border-radius: 999px; padding: 8px 14px 8px 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: transform .15s, background .2s, border-color .2s; }
+  .chip:hover { background: var(--surface-2); transform: translateY(-1px); }
   .chip:active { transform: scale(.97); }
   .chip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
-  .chip i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; background: var(--c, #ccc); box-shadow: 0 0 0 1px rgba(0,0,0,.08) inset; }
-  .sched { margin-top: 14px; font-size: 12.5px; color: var(--text-3); }
-  .grp { margin-top: 16px; }
-  .grp:first-child { margin-top: 0; }
-  .grp .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); font-weight: 600; margin-bottom: 8px; }
-  @media (max-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr); } .layout > * { min-width: 0; max-width: 100%; } }
+  .chip i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; background: radial-gradient(circle at 35% 35%, #fff8, transparent 45%), var(--c, #ccc); box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset, 0 0 8px color-mix(in srgb, var(--c, #ccc) 55%, transparent); }
+  .sched { margin-top: auto; padding-top: 6px; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--text-3); }
+  .grp + .grp { margin-top: 4px; }
+  @media (max-width: 960px) { .tiles { grid-template-columns: 1fr 1fr; } .tile.scenes { grid-column: span 2; } }
   @media (max-width: 640px) {
     .bar-inner { padding: 12px 16px; } .nav { font-size: 15px; gap: 6px 14px; }
-    .wrap { padding: 24px 16px 70px; } .head h1 { font-size: 28px; } .card { padding: 18px; border-radius: 20px; }
+    .wrap { padding: 28px 16px 70px; } .hero h1 { font-size: 42px; } .sketch { border-radius: 22px; }
+    .tiles { grid-template-columns: 1fr; } .tile.scenes { grid-column: auto; } .tile { padding: 20px; border-radius: 22px; }
   }
 </style>
 </head>
@@ -113,15 +127,18 @@
 </div></header>
 
 <main class="wrap">
-  <div class="head"><h1>Дом</h1><span class="sub" id="status">Спрашиваю mini…</span></div>
-  <div class="layout" id="layout">
-    <section class="card sketch" id="sketch">
+  <div class="hero">
+    <div><div class="eyebrow">Кухня · свет</div><h1>Дом, <em>вечер</em></h1></div>
+    <p class="sub" id="status">Спрашиваю mini…</p>
+  </div>
+
+  <section class="sketch" id="sketch">
 <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" aria-label="Кухня: окно, полка с лампой Varmblixt, диван, картина и два бра">
   <defs>
     <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
     <filter id="wobble" x="-2%" y="-2%" width="104%" height="104%">
       <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="7" result="n"/>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
     <radialGradient id="gA" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/><stop offset=".45" stop-color="#ffd27a" stop-opacity=".35"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
     <radialGradient id="gB" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/><stop offset=".45" stop-color="#ffd27a" stop-opacity=".35"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
@@ -129,7 +146,7 @@
     <linearGradient id="coneB" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffd27a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></linearGradient>
     <radialGradient id="gV" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff9a2e" stop-opacity=".9"/><stop offset=".35" stop-color="#ff8a1e" stop-opacity=".35"/><stop offset="1" stop-color="#ff7a10" stop-opacity="0"/></radialGradient>
     <radialGradient id="disc" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#ffc98a"/><stop offset=".55" stop-color="#ff9a3c"/><stop offset="1" stop-color="#e86a12"/></radialGradient>
-    <clipPath id="winclip"><path d="M62 112 L296 56 L296 338 L62 300 Z"/></clipPath>
+    <clipPath id="winclip"><path d="M56 43.2 L296 90.7 L296 327.4 L56 350.5 Z"/></clipPath>
   </defs>
 
   <!-- light, drawn under the ink -->
@@ -148,37 +165,33 @@
   </g>
 
   <g class="ink" filter="url(#wobble)">
-    <!-- the corner: window wall on the left runs away from us, the sofa wall faces us -->
+    <!-- the corner: the window wall runs from us to the corner, the sofa wall faces us -->
     <path d="M362 0 L362 442" class="thin"/>
     <path d="M362 442 L1000 442" class="thin"/>
-    <path d="M362 442 L0 536" class="thin"/>
+    <path d="M362 442 L0 536.2" class="thin"/>
     <g class="hatch">
       <path d="M0 480 L1000 480 M0 528 L1000 528 M0 574 L1000 574" />
-      <path d="M140 490 L40 600 M320 470 L300 600 M500 442 L520 600 M700 442 L760 600 M880 442 L960 600"/>
+      <path d="M180 512 L100 600 M330 452 L316 600 M500 442 L520 600 M700 442 L760 600 M880 442 L960 600"/>
     </g>
 
-    <!-- window, in perspective -->
-    <path d="M62 112 L296 56 L296 338 L62 300 Z" class="sky"/>
+    <!-- window on the left wall, in one-point perspective -->
+    <path d="M56 43.2 L296 90.7 L296 327.4 L56 350.5 Z" class="sky"/>
     <g clip-path="url(#winclip)">
-      <path d="M62 112 L296 56 L296 200 L62 208 Z" class="sky2" opacity=".55"/>
-      <g class="fill" id="city">
-        <path d="M84 300 L84 190 L112 186 L112 300Z"/><path d="M126 300 L126 150 L156 146 L156 300Z"/><path d="M170 300 L170 200 L212 196 L212 300Z"/><path d="M226 320 L226 132 L262 128 L262 320Z"/><path d="M272 330 L272 210 L292 208 L292 330Z"/>
-      </g>
-      <g class="faint" id="citywin">
-        <path d="M90 205h6M100 205h6M90 225h6M100 245h6M132 165h6M144 165h6M132 190h6M144 215h6M178 212h7M192 212h7M178 232h7M200 252h7M234 150h7M248 150h7M234 175h7M248 200h7M234 225h7M276 228h6M276 250h6"/>
-      </g>
+      <path d="M56 43.2 L296 90.7 L296 204.5 L56 190.9 Z" class="sky2" opacity=".55"/>
+      <g class="fill" id="city"><path d="M70 327.7 L70 197.5 L104 199.3 L104 325.2Z M114 324.4 L114 157.0 L150 160.4 L150 321.7Z M164 320.6 L164 205.8 L206 207.8 L206 317.5Z M220 316.4 L220 145.4 L256 149.7 L256 313.7Z M266 312.9 L266 221.7 L292 222.6 L292 311.0Z"/></g>
+      <g class="faint" id="citywin"><path d="M90 213.8h6 M90 236.7h6 M90 259.5h6 M90 282.4h6 M134 173.4h6 M134 195.3h6 M134 217.2h6 M134 239.1h6 M134 260.9h6 M134 282.8h6 M184 220.6h6 M184 241.4h6 M184 262.1h6 M184 282.8h6 M196 221.0h6 M196 241.5h6 M196 261.9h6 M196 282.4h6 M240 160.8h6 M240 180.2h6 M240 199.7h6 M240 219.2h6 M240 238.6h6 M240 258.1h6 M240 277.6h6"/></g>
     </g>
-    <path d="M52 100 L304 44 L304 350 L52 310 Z"/>
-    <path d="M62 112 L296 56 L296 338 L62 300 Z"/>
-    <path d="M186 82 L186 322" /><path d="M62 206 L296 197" class="thin"/>
-    <path d="M178 186 L178 210" class="thin"/><path d="M194 190 L194 208" class="thin"/>
+    <path d="M46 29.3 L306 83.7 L306 335.4 L46 363.4 Z"/>
+    <path d="M56 43.2 L296 90.7 L296 327.4 L56 350.5 Z"/>
+    <path d="M176 66.9 L176 338.9"/><path d="M56 200.8 L296 212.1" class="thin"/>
+    <path d="M168 195.5 L168 218.3 M184 198.2 L184 215.4" class="thin"/>
     <!-- radiator under the window -->
-    <path d="M70 336 L286 372 L286 428 L70 380 Z" class="thin"/>
-    <g class="hatch"><path d="M84 340v46M98 342v46M112 344v46M126 347v46M140 349v46M154 351v46M168 354v46M182 356v46M196 358v46M210 361v46M224 363v46M238 365v46M252 368v46M266 370v46"/></g>
-    <!-- curtains: the far one by the far window edge, the near one against the corner -->
-    <path d="M0 96 L340 22" class="thin"/>
-    <path d="M18 106 C30 200 12 320 26 420 C34 490 14 540 26 596" /><path d="M46 100 C56 210 36 330 50 430 C58 500 40 550 48 596" class="thin"/><path d="M32 104 C42 220 24 340 36 440" class="faint"/>
-    <path d="M312 40 C300 140 324 260 308 380 C300 460 322 530 310 594" /><path d="M338 34 C330 150 348 280 332 400 C326 480 344 540 336 594" class="thin"/><path d="M326 38 C318 160 336 290 322 410" class="faint"/>
+    <path d="M64 371.2 L288 345.0 L288 386.4 L64 424.0 Z" class="thin"/>
+    <g class="hatch"><path d="M78 372.4V418.7 M92 370.8V416.4 M106 369.1V414.1 M120 367.4V411.8 M134 365.7V409.5 M148 364.1V407.2 M162 362.4V404.9 M176 360.7V402.5 M190 359.0V400.2 M204 357.4V397.9 M218 355.7V395.6 M232 354.0V393.3 M246 352.3V391.0 M260 350.6V388.7 M274 349.0V386.4"/></g>
+    <!-- curtains: the near one at the left edge, the far one against the corner -->
+    <path d="M0 -1.1 L362 81.5" class="thin"/>
+    <path d="M14 4 C26 120 8 260 22 380 C30 470 10 540 22 598" /><path d="M42 6 C52 130 32 270 46 390 C54 480 36 545 44 598" class="thin"/><path d="M28 6 C38 140 20 280 32 400" class="faint"/>
+    <path d="M316 76 C306 150 328 250 314 340 C308 400 326 430 316 458" /><path d="M342 80 C336 160 352 260 338 350 C332 410 350 440 340 462" class="thin"/><path d="M330 78 C322 170 340 280 328 380" class="faint"/>
 
     <!-- bookshelf: the niche in the corner, its lowest shelf at the sofa's arm -->
     <rect x="378" y="24" width="150" height="418"/>
@@ -188,10 +201,8 @@
       <path d="M390 108v-50h10v50M402 108v-58h12v58M416 108v-48h9v48M427 108v-60h14v60M443 108v-50h10v50M455 108v-56h13v56M470 108v-44h10v44M482 108v-58h12v58M496 108v-50h11v50M509 108v-54h13v54"/>
       <path d="M388 186v-50h12v50M402 186v-60h10v60M414 186v-46h14v46M430 186v-58h9v58M441 186v-52h13v52M456 186v-40h20v40M478 186v-56h10v56M490 186v-48h12v48M504 186v-60h9v60M515 186v-50h10v50"/>
       <path d="M390 264v-46h12v46M404 264v-58h11v58M417 264v-52h9v52M428 264v-44h15v44M445 264v-60h10v60M457 264v-50h12v50M471 264v-56h9v56M482 264v-42h16v42M500 264v-54h11v54M513 264v-48h11v48"/>
-      <!-- next to the lamp: a couple of books and the little black box -->
       <path d="M486 372v-52h12v52M500 372v-60h10v60M512 372v-44h10v44"/>
       <path d="M388 372v-58h14v58M404 372v-50h10v50" />
-      <!-- the compartment under it -->
       <path d="M392 442v-58h122v58" class="faint"/><path d="M453 384v58" class="faint"/><circle cx="446" cy="414" r="2" class="faint"/><circle cx="460" cy="414" r="2" class="faint"/>
     </g>
 
@@ -210,7 +221,6 @@
     <path d="M536 380 Q526 380 526 392 L526 474 L556 474" /><path d="M910 474 L938 474 L938 392 Q938 380 928 380 L910 380" />
     <path d="M556 408 L910 408" class="thin"/><path d="M733 408 L733 474" class="faint"/>
     <path d="M526 474 L938 474"/><path d="M536 474v12M928 474v12M606 474v12M860 474v12" class="thin"/>
-    <!-- cushions -->
     <path d="M606 406 L596 352 Q596 340 608 340 L668 340 Q680 340 680 352 L672 406" class="thin"/>
     <g class="faint"><path d="M620 360 q4-6 8 0 q4 6 8 0M644 376 q4-6 8 0 q4 6 8 0M614 384 q4-6 8 0M654 356 q3-5 6 0"/><circle cx="630" cy="376" r="2"/><circle cx="658" cy="390" r="2"/></g>
     <path d="M836 406 L826 352 Q826 340 838 340 L892 340 L888 406" class="thin"/>
@@ -219,15 +229,17 @@
     <path d="M574 406 C578 384 598 376 610 380 C602 392 590 400 586 406" class="faint"/>
     <path d="M764 408 C774 388 804 384 816 396" class="faint"/>
 
-    <!-- plant in front of the window, side table in the foreground -->
-    <path d="M250 486 L260 556 L312 556 L322 486 Z" class="paper2"/><path d="M250 486 L260 556 L312 556 L322 486"/><ellipse cx="286" cy="486" rx="36" ry="8"/>
-    <g class="hatch"><path d="M262 492v58M274 494v58M286 495v58M298 494v58M310 492v58"/></g>
-    <path d="M286 480 C292 430 280 380 288 330 C294 290 284 250 292 210" /><path d="M288 330 C262 316 246 292 244 270" class="thin"/><path d="M290 268 C316 254 334 238 340 218" class="thin"/><path d="M292 210 C274 194 262 176 266 156" class="thin"/><path d="M292 210 C318 202 334 184 330 164" class="thin"/>
-    <g class="thin">
-      <ellipse cx="236" cy="262" rx="34" ry="15" transform="rotate(-30 236 262)"/><ellipse cx="350" cy="206" rx="36" ry="15" transform="rotate(25 350 206)"/>
-      <ellipse cx="258" cy="140" rx="34" ry="15" transform="rotate(-45 258 140)"/><ellipse cx="342" cy="152" rx="36" ry="15" transform="rotate(40 342 152)"/>
-      <ellipse cx="290" cy="124" rx="17" ry="38" transform="rotate(-6 290 124)"/><ellipse cx="318" cy="252" rx="32" ry="13" transform="rotate(20 318 252)"/>
-      <path d="M212 270 L258 250 M322 194 L374 214 M234 116 L282 162 M320 126 L364 172 M290 90 L290 158 M292 246 L346 258" class="faint"/>
+    <!-- plant by the window, side table in the foreground -->
+    <g transform="translate(0 -70)">
+      <path d="M250 486 L260 556 L312 556 L322 486 Z" class="paper2"/><path d="M250 486 L260 556 L312 556 L322 486"/><ellipse cx="286" cy="486" rx="36" ry="8"/>
+      <g class="hatch"><path d="M262 492v58M274 494v58M286 495v58M298 494v58M310 492v58"/></g>
+      <path d="M286 480 C292 430 280 380 288 330 C294 290 284 250 292 210" /><path d="M288 330 C262 316 246 292 244 270" class="thin"/><path d="M290 268 C316 254 334 238 340 218" class="thin"/><path d="M292 210 C274 194 262 176 266 156" class="thin"/><path d="M292 210 C318 202 334 184 330 164" class="thin"/>
+      <g class="thin">
+        <ellipse cx="236" cy="262" rx="34" ry="15" transform="rotate(-30 236 262)"/><ellipse cx="350" cy="206" rx="36" ry="15" transform="rotate(25 350 206)"/>
+        <ellipse cx="258" cy="140" rx="34" ry="15" transform="rotate(-45 258 140)"/><ellipse cx="342" cy="152" rx="36" ry="15" transform="rotate(40 342 152)"/>
+        <ellipse cx="290" cy="124" rx="17" ry="38" transform="rotate(-6 290 124)"/><ellipse cx="318" cy="252" rx="32" ry="13" transform="rotate(20 318 252)"/>
+        <path d="M212 270 L258 250 M322 194 L374 214 M234 116 L282 162 M320 126 L364 172 M290 90 L290 158 M292 246 L346 258" class="faint"/>
+      </g>
     </g>
     <ellipse cx="150" cy="492" rx="44" ry="12" class="paper2"/><ellipse cx="150" cy="492" rx="44" ry="12"/>
     <path d="M106 492 L106 570 M194 492 L194 570"/><path d="M106 570 A44 12 0 0 0 194 570"/>
@@ -262,28 +274,28 @@
       <path d="M916 134 L922 98 Q932 90 942 98 L948 134 Q932 142 916 134 Z" />
       <path d="M922 98 Q932 104 942 98" class="faint"/><path d="M932 290 L926 298 M932 290 L938 298" class="thin"/>
     </g>
-    <!-- wall socket -->
     <rect x="640" y="326" width="14" height="14" rx="2" class="thin"/>
   </g>
 </svg>
-      <div class="cap">кухня · нажми на лампу</div>
-    </section>
+    <div class="cap">кухня · нажми на лампу</div>
+  </section>
 
-    <aside class="panel" id="panel">
-      <div class="card dev" id="d-lamps">
-        <div class="top"><div class="t"><h2>Бра у картины</h2><div class="s" id="lampsSub">…</div></div><button class="sw" id="swLamps" aria-label="Бра вкл/выкл"></button></div>
-        <label class="sl">Яркость <input type="range" id="bri" min="1" max="100" value="43"><output id="briOut">43%</output></label>
-        <label class="sl">Тепло <input type="range" id="warm" min="2000" max="6500" step="50" value="2300"><output id="warmOut">2300 K</output></label>
-      </div>
-      <div class="card dev" id="d-plug">
-        <div class="top"><div class="t"><h2>Varmblixt</h2><div class="s" id="plugSub">…</div></div><button class="sw" id="swPlug" aria-label="Varmblixt вкл/выкл"></button></div>
-      </div>
-      <div class="card" id="d-scenes">
-        <div class="grp"><div class="lbl">Сцены</div><div class="chips" id="scenes"></div></div>
-        <div class="grp" id="fxGrp" hidden><div class="lbl">Живой огонь</div><div class="chips" id="effects"></div></div>
-        <div class="sched" id="sched"></div>
-      </div>
-    </aside>
+  <div class="tiles" id="panel">
+    <div class="tile" id="d-lamps">
+      <div class="top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10 L9.5 4 Q12 2.5 14.5 4 L16 10 Q12 12 8 10Z"/><path d="M12 11.5 V21 M12 17 H15 V15"/></svg></div>
+        <div class="t"><h2>Бра у картины</h2><div class="s" id="lampsSub">…</div></div><button class="sw" id="swLamps" aria-label="Бра вкл/выкл"></button></div>
+      <label class="sl">Яркость <input type="range" id="bri" min="1" max="100" value="43"><output id="briOut">43%</output></label>
+      <label class="sl">Тепло <input type="range" id="warm" min="2000" max="6500" step="50" value="2300"><output id="warmOut">2300 K</output></label>
+    </div>
+    <div class="tile" id="d-plug">
+      <div class="top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="11" r="7"/><path d="M8 21 H16"/></svg></div>
+        <div class="t"><h2>Varmblixt</h2><div class="s" id="plugSub">…</div></div><button class="sw" id="swPlug" aria-label="Varmblixt вкл/выкл"></button></div>
+    </div>
+    <div class="tile scenes" id="d-scenes">
+      <div class="grp"><div class="lbl">Сцены</div><div class="chips" id="scenes"></div></div>
+      <div class="grp" id="fxGrp" hidden><div class="lbl">Живой огонь</div><div class="chips" id="effects"></div></div>
+      <div class="sched" id="sched"></div>
+    </div>
   </div>
 </main>
 
@@ -355,12 +367,14 @@ function render() {
     if (kelvin) { $('warm').value = kelvin; $('warmOut').textContent = kelvin + ' K'; }
   }
   $('d-lamps').classList.toggle('disabled', !lamp);
+  $('d-lamps').classList.toggle('lit', on);
 
   $('swPlug').classList.toggle('on', !!plugOn);
   $('swPlug').disabled = !p;
   $('plugSub').textContent = !p ? (S.error ? 'нет связи' : 'не отвечает')
     : plugOn ? (p.power ? `горит · ${Math.round(p.power)} Вт` : 'розетка включена') + (p.voltage ? ` · ${Math.round(p.voltage)} В` : '') : 'выключена';
   $('d-plug').classList.toggle('disabled', !p);
+  $('d-plug').classList.toggle('lit', !!plugOn);
 
   document.querySelectorAll('#effects .chip').forEach(c => c.classList.toggle('on', c.dataset.id === S.effect));
   document.querySelectorAll('#scenes .chip').forEach(c => c.classList.toggle('on', !S.effect && on && c.dataset.id === matchScene(lamp)));
@@ -465,6 +479,10 @@ function slide(payload) {
 $('bri').addEventListener('input', e => { const v = +e.target.value; $('briOut').textContent = v + '%'; slide({ brightness: Math.max(1, Math.round(v * 254 / 100)) }); });
 $('warm').addEventListener('input', e => { const v = +e.target.value; $('warmOut').textContent = v + ' K'; slide({ color_temp: Math.round(1e6 / v) }); });
 
+(function greet() {
+  const h = new Date().getHours(), w = h < 6 ? 'ночь' : h < 12 ? 'утро' : h < 18 ? 'день' : 'вечер';
+  document.querySelector('.hero h1 em').textContent = w;
+})();
 // The window: evening outside after seven, morning before.
 (function sky() {
   const h = new Date().getHours();
