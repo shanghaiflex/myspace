@@ -1419,7 +1419,7 @@
     {
       "id": "G5CB5MehT_k",
       "status": "listening",
-      "position": 2481,
+      "position": 2569,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -1956,8 +1956,8 @@
     },
     {
       "id": "DmYS9ZmZClA",
-      "status": "new",
-      "position": 0,
+      "status": "listening",
+      "position": 3600,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -1971,13 +1971,14 @@
         "PL4LDgp2NYb8lyo20PKMcuGam0s-xbjbQm"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=DmYS9ZmZClA"
+      "url": "https://www.youtube.com/watch?v=DmYS9ZmZClA",
+      "touchedAt": 1789371689
     },
     {
       "id": "VEVXBe_1GXE",
-      "status": "listening",
-      "position": 7508,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 14935,
+      "listenedAt": "2026-09-14",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Повседневная жизнь римского легионера в эпоху Империи.",

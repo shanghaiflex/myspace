@@ -8,6 +8,7 @@
   PATCH  /api/mix/<id>            body: {position}  → remembers where the mix was left off
   DELETE /api/mix/<id>
   PATCH  /api/lecture/<id>        body: {status?, position?, note?}
+  GET    /api/lectures/preload    the lectures the phone keeps offline (listening first, then queued); kicks off audio downloads
   PATCH  /api/book/<id>           body: {status?, rating?, comment?}
   DELETE /api/book/<id>
   GET    /api/weather             today's weather (Open-Meteo, or Yandex when YANDEX_WEATHER_KEY is set), cached 20 min
@@ -161,7 +162,10 @@ class Handler(SimpleHTTPRequestHandler):
         if not PASSWORD:
             return True
         c = SimpleCookie(self.headers.get("Cookie") or "")
-        return COOKIE in c and token_ok(c[COOKIE].value)
+        if COOKIE in c and token_ok(c[COOKIE].value):
+            return True
+        # The BoW iOS app has no cookie jar: its bearer token (HEALTH_TOKENS) opens the same door as the password.
+        return bool(HEALTH_TOKENS) and self.health_device() is not None
 
     def send_html(self, code, html, extra=None):
         body = html.encode()
@@ -317,6 +321,16 @@ class Handler(SimpleHTTPRequestHandler):
             vid = urllib.parse.unquote(route.split("/")[3])
             st = "done" if L.has_audio(vid) else AUDIO_JOBS.get(vid, "none")
             return self.send_json(200, {"id": vid, "status": st})
+        if route == "/api/lectures/preload":
+            # What the phone should hold offline. Asking is enough to make the mini fetch the audio it lacks,
+            # so the next lecture is usually ready by the time the app comes back for it.
+            db = L.load()
+            items = []
+            for l in L.preload(db):
+                it = L.preload_item(db, l)
+                it["audioStatus"] = self.start_audio_job(l["id"]) if not it["audio"] else "done"
+                items.append(it)
+            return self.send_json(200, {"items": items, "count": L.PRELOAD_COUNT})
         if route.startswith("/audio/"):
             return self.send_range_file(L.audio_path(urllib.parse.unquote(os.path.basename(route)).rsplit(".", 1)[0]) or "")
         if self.path.startswith("/api/backgrounds"):
@@ -455,7 +469,8 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(400, {"error": f"bad payload: {e}"})
             except Exception as e:
                 return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
-            print(f"health ingest {kind} from {dev}: {stats}", flush=True)
+            trigger = self.headers.get("X-Trigger") or "?"
+            print(f"health ingest {kind} from {dev} ({trigger}): {stats}", flush=True)
             # Only genuinely new workouts: a re-send updates existing rows and must not trigger anything.
             if kind == "workouts" and stats["inserted"]:
                 print(f"health: {stats['inserted']} new workout(s) → review in {WORKOUT_REVIEW_DELAY}s", flush=True)
@@ -617,9 +632,14 @@ class Handler(SimpleHTTPRequestHandler):
                     l["position"] = 0
             if "position" in body:
                 try:
-                    l["position"] = max(0, int(float(body["position"])))
+                    pos = max(0, int(float(body["position"])))
                 except (TypeError, ValueError):
                     return self.send_json(400, {"error": "bad position"})
+                # A position past the end (the legionnaires lecture once sat at 4:08 of 2:51) is a player glitch, not progress.
+                if l.get("duration"):
+                    pos = min(pos, l["duration"])
+                l["position"] = pos
+                l["touchedAt"] = int(time.time())
                 if l["status"] == "new" and l["position"] > 60:
                     l["status"] = "listening"
             if "note" in body:

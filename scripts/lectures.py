@@ -7,6 +7,7 @@ Usage:
   lectures.py series "<name>" <id|title> ...   put lectures into a named (custom) series
   lectures.py audio <id|title> [...]     download audio-only (m4a) for offline/phone listening
   lectures.py list [--status ...]
+  lectures.py preload [-n 2]             what the phone app keeps downloaded (listening first, then the queue)
   lectures.py add-channel <url>          add another channel to track
 """
 import argparse, datetime, glob, json, os, re, subprocess, sys, time
@@ -94,6 +95,38 @@ def has_audio(vid):
     return audio_path(vid) is not None
 
 
+PRELOAD_COUNT = 2
+
+
+def preload(db, n=PRELOAD_COUNT):
+    """Какие лекции телефон должен держать скачанными: сначала те, что слушаются (последняя
+    тронутая — первой), потом очередь «в планах» в порядке постановки. Всего n штук."""
+    ls = [l for l in db["lectures"] if not l.get("live")]
+    listening = sorted((l for l in ls if l["status"] == "listening"),
+                       key=lambda l: (-(l.get("touchedAt") or 0), -(l.get("position") or 0)))
+    queued = sorted((l for l in ls if l["status"] == "queued"), key=lambda l: (l.get("queuedAt") or 0, l.get("order", 0)))
+    out = []
+    for l in listening + queued:
+        if l not in out:
+            out.append(l)
+        if len(out) >= n:
+            break
+    return out
+
+
+def preload_item(db, l):
+    """Плоская запись для приложения: всё, что нужно, чтобы показать карточку и скачать звук."""
+    ch = next((c for c in db["channels"] if c["id"] == l.get("channel")), {})
+    series = next((db["series"].get(s) for s in (l.get("series") or []) if db["series"].get(s)), None)
+    p = audio_path(l["id"])
+    art = l.get("artwork") or (None if l.get("source") == "soundcloud" else f"https://i.ytimg.com/vi/{l['id']}/hqdefault.jpg")
+    return {"id": l["id"], "title": l["title"], "status": l["status"], "position": l.get("position") or 0,
+            "duration": l.get("duration") or 0, "channel": l.get("channel"), "channelLabel": ch.get("label") or ch.get("name"),
+            "series": (series or "").rstrip("."), "source": l.get("source"), "url": l.get("url"), "artwork": art,
+            "touchedAt": l.get("touchedAt"), "queuedAt": l.get("queuedAt"),
+            "audio": ("/audio/" + os.path.basename(p)) if p else None, "size": os.path.getsize(p) if p else None}
+
+
 # ---------------------------------------------------------------- commands
 def cmd_sync(args):
     db = load()
@@ -177,6 +210,7 @@ def cmd_set(args):
             l["position"] = 0
     if args.position is not None:
         l["position"] = max(0, int(args.position))
+        l["touchedAt"] = int(datetime.datetime.now().timestamp())
     if args.note is not None:
         l["note"] = args.note or None
     save(db)
@@ -245,6 +279,14 @@ def cmd_list(args):
         print(f"{l['status']:9} {a} {d // 3600}:{d % 3600 // 60:02d}  {l['id']:<14} {l['title']}")
 
 
+def cmd_preload(args):
+    db = load()
+    for l in preload(db, args.n):
+        it = preload_item(db, l)
+        d = it["duration"]
+        print(f"{it['status']:9} {'♪' if it['audio'] else ' '} {d // 3600}:{d % 3600 // 60:02d}  {it['id']:<14} {it['title']}  [{it['channelLabel']}]")
+
+
 def cmd_add_channel(args):
     db = load()
     info = ytdlp_json(args.url, ("--playlist-items", "0"))
@@ -265,6 +307,7 @@ def main():
     a = sub.add_parser("audio"); a.add_argument("query", nargs="+"); a.set_defaults(fn=cmd_audio)
     se = sub.add_parser("series"); se.add_argument("name"); se.add_argument("query", nargs="+"); se.set_defaults(fn=cmd_series)
     l = sub.add_parser("list"); l.add_argument("--status", choices=STATUSES); l.set_defaults(fn=cmd_list)
+    pr = sub.add_parser("preload"); pr.add_argument("-n", type=int, default=PRELOAD_COUNT); pr.set_defaults(fn=cmd_preload)
     c = sub.add_parser("add-channel"); c.add_argument("url"); c.set_defaults(fn=cmd_add_channel)
     args = p.parse_args()
     args.fn(args)
