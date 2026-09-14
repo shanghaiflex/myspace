@@ -179,8 +179,11 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
   const cards = [];
   // Дела на сегодня — плашка над всем остальным: события Яндекс.Календаря (все календари, кроме чужих
   // тренировок — их отсеивает сервер) и свободные окна дня. Утром это первое, что нужно видеть.
+  // Рабочий блок 10:00–18:00 стоит в календаре каждый будний день и делом не является: если кроме него
+  // на сегодня ничего нет, плашки нет вовсе — пустая полоса «Работа» каждое утро не нужна.
+  const ROUTINE = /^\s*работа\s*$/i;
   const schedCard = (sc) => {
-    if (!sc || !sc.events || (!sc.events.length && !sc.tomorrow)) return '';
+    if (!sc || !(sc.events || []).some(e => !ROUTINE.test(e.title))) return '';
     const now = new Date();
     const chip = e => {
       const st = new Date(e.start), en = new Date(e.end);
@@ -192,11 +195,10 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     };
     const ahead = sc.events.filter(e => e.allday || new Date(e.end) > now);
     const more = [];
-    // Свободные окна имеют смысл, только когда день чем-то занят: «свободно 08:00–23:00» рядом с «день свободен» — шум.
-    if (sc.events.length && (sc.free || []).length) more.push('свободно ' + sc.free.slice(0, 2).map(f => `${f.from}–${f.to}`).join(', '));
+    if ((sc.free || []).length) more.push('свободно ' + sc.free.slice(0, 2).map(f => `${f.from}–${f.to}`).join(', '));
     if (!ahead.length && sc.tomorrow) more.push(`завтра с ${sc.tomorrow.from} — ${sc.tomorrow.title}`);
     return `<div class="card c12 sc"><div class="eyebrow">Дела на сегодня${more.length ? ` <span class="more">${esc(more.join(' · '))}</span>` : ''}</div>
-      <div class="chips">${sc.events.length ? sc.events.map(chip).join('') : '<span class="ch empty">день свободен</span>'}</div></div>`;
+      <div class="chips">${sc.events.map(chip).join('')}</div></div>`;
   };
 
   const sd = schedCard(sched);
