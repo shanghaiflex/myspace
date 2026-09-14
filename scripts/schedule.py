@@ -84,8 +84,9 @@ def caldav_ics():
     """Every event of every calendar collection, one file. Each event is stamped with the calendar it came from —
     CATEGORIES would be the natural place, but Yandex fills it in for one calendar and leaves it empty in the rest."""
     out = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//bodywithoutorgans//schedule.py//RU"]
+    only = [c.strip() for c in (env("SCHEDULE_CALENDARS") or "").split(",") if c.strip()]
     for c in calendars():
-        if "/todos-" in c["href"]:
+        if "/todos-" in c["href"] or (only and c["name"] not in only):
             continue
         for e in calendar_events(c["href"]):
             block = re.search(r"BEGIN:VEVENT.*?END:VEVENT", unfold(e["ics"]), re.S)
@@ -453,6 +454,31 @@ def end_rule(events_, title, until_date, dry_run=False, at=None):
     return done
 
 
+def remove_rule(events_, title, dry_run=False, at=None, every=False):
+    """Delete an event outright. Unlike `end` this takes the past with it, so every deleted event is first written
+    to data/calendar-deleted/ — a rule the calendar no longer has is otherwise unrecoverable."""
+    matches = [e for e in events_ if e["rrule"] and title.lower() in (e["summary"] or "").lower()
+               and (not at or e["dtstart"][-6:-4] + ":" + e["dtstart"][-4:-2] == at)]
+    if len(matches) > 1 and not every:
+        raise SystemExit("под это название подходит несколько правил, уточни --at HH:MM или разреши --all:\n  "
+                         + "\n  ".join(f"{e['summary']} {e['dtstart'][-6:-4]}:{e['dtstart'][-4:-2]}  {e['rrule']}" for e in matches))
+    done = []
+    for e in matches:
+        done.append((e["summary"], e["dtstart"][-6:-4] + ":" + e["dtstart"][-4:-2], e["rrule"]))
+        if not dry_run:
+            backup = os.path.join(ROOT, "data", "calendar-deleted")
+            os.makedirs(backup, exist_ok=True)
+            name = f"{dt.datetime.now():%Y%m%d-%H%M%S}-{e['summary'].replace('/', '-')}.ics"
+            with open(os.path.join(backup, name), "w", encoding="utf-8") as f:
+                f.write(e["ics"])
+            import urllib.parse
+            status, body, _ = dav("DELETE", urllib.parse.urljoin(CALDAV_URL, e["href"]),
+                                  headers={"If-Match": e["etag"]} if e["etag"] else None)
+            if status not in (200, 204, 404):
+                raise SystemExit(f"CalDAV DELETE {status}: {body[:200]}")
+    return done
+
+
 def bump_sequence(ics):
     """A changed event needs a higher SEQUENCE and a fresh DTSTAMP, or clients may keep showing the old one."""
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
@@ -495,6 +521,8 @@ def main():
     sub.add_parser("rules")
     p = sub.add_parser("end"); p.add_argument("title"); p.add_argument("--date"); p.add_argument("--at", help="HH:MM, если правил с таким названием несколько")
     p.add_argument("--dry-run", action="store_true")
+    p = sub.add_parser("remove"); p.add_argument("title"); p.add_argument("--at", help="HH:MM")
+    p.add_argument("--all", action="store_true"); p.add_argument("--dry-run", action="store_true")
     p = sub.add_parser("add"); p.add_argument("title"); p.add_argument("--day", required=True, help="MO..SU")
     p.add_argument("--time", required=True, help="HH:MM"); p.add_argument("--minutes", type=int, default=60)
     p.add_argument("--once", action="store_true", help="одно событие, а не еженедельное правило")
@@ -522,6 +550,12 @@ def main():
         for c in calendars():
             for summary, was, now_ in end_rule(calendar_events(c["href"]), a.title, until, a.dry_run, a.at):
                 print(("(сухой прогон) " if a.dry_run else "") + f"{summary}: {was} → {now_}")
+    elif a.cmd == "remove":
+        for c in calendars():
+            if "/todos-" in c["href"]:
+                continue
+            for summary, at, rule in remove_rule(calendar_events(c["href"]), a.title, a.dry_run, a.at, a.all):
+                print(("(сухой прогон) " if a.dry_run else "удалено: ") + f"{summary} {at}  {rule}")
     elif a.cmd == "add":
         zone = tz()
         hh, mm = (int(x) for x in a.time.split(":"))
