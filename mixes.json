@@ -32,22 +32,6 @@
     "addedAt": "2026-09-14"
   },
   {
-    "id": "yt:RI390Zk-RaU",
-    "source": "youtube",
-    "url": "https://www.youtube.com/watch?v=RI390Zk-RaU",
-    "title": "Cliffhaven Escape | Medieval Music for Relax and Study",
-    "artist": "Bard of the Greenwood",
-    "duration": 7201,
-    "artwork": "https://i.ytimg.com/vi/RI390Zk-RaU/hqdefault.jpg",
-    "genre": null,
-    "published": "2026-03-24",
-    "tags": [
-      "youtube-likes",
-      "calm"
-    ],
-    "addedAt": "2026-09-14"
-  },
-  {
     "id": "yt:I3voQGTnP9A",
     "source": "youtube",
     "url": "https://www.youtube.com/watch?v=I3voQGTnP9A",
@@ -114,24 +98,6 @@
     "addedAt": "2026-09-14"
   },
   {
-    "id": "yt:vYtE1lY9a1w",
-    "source": "youtube",
-    "url": "https://www.youtube.com/watch?v=vYtE1lY9a1w",
-    "title": "Study with Irulan - DEEP Focus Dune Ambient Music for Concentration, Read & Work",
-    "artist": "Symbology Cinematics",
-    "duration": 3600,
-    "artwork": "https://i.ytimg.com/vi/vYtE1lY9a1w/maxresdefault.jpg",
-    "genre": null,
-    "published": "2024-03-20",
-    "tags": [
-      "youtube-likes",
-      "calm"
-    ],
-    "addedAt": "2026-09-14",
-    "position": 3271,
-    "playedAt": 1789383998
-  },
-  {
     "id": "yt:TU19yNF6Ab8",
     "source": "youtube",
     "url": "https://www.youtube.com/watch?v=TU19yNF6Ab8",
@@ -173,7 +139,9 @@
     "genre": null,
     "published": "2022-07-29",
     "tags": [],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 112,
+    "playedAt": 1789398257
   },
   {
     "id": "yt:ZfIYFK4TB8I",
@@ -346,7 +314,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 9,
+    "playedAt": 1789398137
   },
   {
     "id": "yt:zIvQElyO3Ts",

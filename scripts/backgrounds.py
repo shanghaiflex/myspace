@@ -16,6 +16,7 @@ perfectly sharp and completely wrong behind a music player.
   python3 scripts/backgrounds.py keep --all
   python3 scripts/backgrounds.py drop <file>... | --all              # delete candidates
   python3 scripts/backgrounds.py list                                # what the site currently shows
+  python3 scripts/backgrounds.py slim [--max-mb 4]                   # re-fetch too-heavy photos smaller
   python3 scripts/backgrounds.py remove <name>
 
 Attribution: most Commons photos are CC-BY / CC-BY-SA, which asks for credit. There is nowhere on the page to
@@ -184,7 +185,7 @@ def candidates(count, width, theme="all"):
 
 def download(item, dest_dir):
     os.makedirs(dest_dir, exist_ok=True)
-    path = os.path.join(dest_dir, item["id"] + ".jpg")
+    path = os.path.join(dest_dir, item["id"] if item["id"].endswith(".new") else item["id"] + ".jpg")
     req = urllib.request.Request(item["url"], headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=120) as r, open(path, "wb") as f:
         shutil.copyfileobj(r, f)
@@ -238,6 +239,50 @@ def cmd_drop(a):
             print(f"выброшено: {n}")
 
 
+def render_url(title, width):
+    """URL of the Commons-rendered version of this file at the given width."""
+    data = api(titles=title, prop="imageinfo", iiprop="url|size", iiurlwidth=str(width))
+    page = next(iter((data.get("query") or {}).get("pages", {}).values()), {})
+    info = (page.get("imageinfo") or [None])[0]
+    if not info:
+        return None
+    return info.get("thumburl") or info.get("url")
+
+
+def cmd_slim(a):
+    """A background is a background, not a print: a 12 MB JPEG behind the player is a phone's data plan
+    for nothing. Anything heavier than --max-mb is re-fetched at a smaller render of the same photo."""
+    creds = load_credits()
+    for f in sorted(os.listdir(BG_DIR)):
+        if not f.lower().endswith((".jpg", ".jpeg", ".png")):
+            continue
+        path = os.path.join(BG_DIR, f)
+        mb = os.path.getsize(path) / 1e6
+        if mb <= a.max_mb:
+            continue
+        title = (creds.get(os.path.splitext(f)[0]) or {}).get("title")
+        if not title:
+            print(f"{f}: {mb:.1f} МБ, но источник неизвестен — оставляю", file=sys.stderr)
+            continue
+        for width in (2560, 1920, 1600):
+            try:
+                url = render_url(title, width)
+                if not url:
+                    break
+                tmp = path + ".new"
+                download({"id": os.path.basename(tmp), "url": url}, BG_DIR)
+                new_mb = os.path.getsize(tmp) / 1e6
+            except Exception as e:
+                print(f"{f}: {e}", file=sys.stderr)
+                break
+            if new_mb <= a.max_mb or width == 1600:
+                os.replace(tmp, path)
+                print(f"{f}: {mb:.1f} → {new_mb:.1f} МБ ({width}px)")
+                break
+            os.remove(tmp)
+            time.sleep(PAUSE)
+
+
 def cmd_themes(a):
     for name, cats in THEMES.items():
         print(f"{name}:")
@@ -278,10 +323,11 @@ def main(argv=None):
     p = sub.add_parser("keep"); p.add_argument("files", nargs="*"); p.add_argument("--all", action="store_true")
     p = sub.add_parser("drop"); p.add_argument("files", nargs="*"); p.add_argument("--all", action="store_true")
     sub.add_parser("list")
+    p = sub.add_parser("slim"); p.add_argument("--max-mb", type=float, default=4.0)
     p = sub.add_parser("remove"); p.add_argument("name")
     a = ap.parse_args(argv)
     {"fetch": cmd_fetch, "keep": cmd_keep, "drop": cmd_drop, "list": cmd_list, "remove": cmd_remove,
-     "themes": cmd_themes}[a.cmd](a)
+     "themes": cmd_themes, "slim": cmd_slim}[a.cmd](a)
 
 
 if __name__ == "__main__":

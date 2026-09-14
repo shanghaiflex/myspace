@@ -1,11 +1,19 @@
 {
  "19-11-09-alte-nationalgalerie-dsf4154": {
   "author": "Ralf Roletschek",
-  "kept": false,
+  "kept": true,
   "licence": "GFDL 1.2",
   "orig": "4721x3216",
   "page": "https://commons.wikimedia.org/wiki/File:19-11-09-Alte-Nationalgalerie_DSF4154.jpg",
   "title": "File:19-11-09-Alte-Nationalgalerie DSF4154.jpg"
+ },
+ "2012-03-14-21-42-55-file-etoiles-14f-2min-3d": {
+  "author": "Thomas Bresson",
+  "kept": false,
+  "licence": "CC BY 3.0",
+  "orig": "4288x2848",
+  "page": "https://commons.wikimedia.org/wiki/File:2012-03-14_21-42-55-file-etoiles-14f-2min-3d.jpg",
+  "title": "File:2012-03-14 21-42-55-file-etoiles-14f-2min-3d.jpg"
  },
  "2014-l-dek-zdr-j-ko-ci-narodzenia-nmp-07": {
   "author": "Jacek Halicki",
@@ -15,9 +23,17 @@
   "page": "https://commons.wikimedia.org/wiki/File:2014_L%C4%85dek-Zdr%C3%B3j,_ko%C5%9Bci%C3%B3%C5%82_Narodzenia_NMP_07.JPG",
   "title": "File:2014 Lądek-Zdrój, kościół Narodzenia NMP 07.JPG"
  },
+ "2017-04-circumpolar-trails-sunset-at-la-hague-lighthouse": {
+  "author": "Antoine Lamielle",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5944x3344",
+  "page": "https://commons.wikimedia.org/wiki/File:2017-04_Circumpolar_trails_sunset_at_La_Hague_lighthouse.jpg",
+  "title": "File:2017-04 Circumpolar trails sunset at La Hague lighthouse.jpg"
+ },
  "20170902-koenigslutter-kaiserdom-dsc05568-ptrqs": {
   "author": "PtrQs",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 4.0",
   "orig": "5945x2941",
   "page": "https://commons.wikimedia.org/wiki/File:20170902_Koenigslutter_Kaiserdom_DSC05568_PtrQs.JPG",
@@ -41,19 +57,43 @@
  },
  "2h-namur-13": {
   "author": "Luc Viatour",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 3.0",
   "orig": "4233x2799",
   "page": "https://commons.wikimedia.org/wiki/File:2h_Namur_13.jpg",
   "title": "File:2h Namur 13.jpg"
  },
+ "30-doradus-tarantula-nebula": {
+  "author": "NASA, ESA, ESO, D. Lennon and E. Sabbi (ESA/STScI), J. Anderson, S. E. de Mink, R. van der Marel, T. Sohn, and N. Walborn (STScI), N. Bastian (Excellence Cluster, Munich), L. Bedin (INAF, Padua), E. Bressert (ESO), P. Crowther (Sheffield), A. de Koter (Amsterdam), C. Evans (UKATC/STFC, Edinburgh), A. Herrero (IAC, Tenerife), N. Langer (AifA, Bonn), I. Platais (JHU) and H. Sana (Amsterdam)",
+  "kept": false,
+  "licence": "Public domain",
+  "orig": "20323x16259",
+  "page": "https://commons.wikimedia.org/wiki/File:30_Doradus,_Tarantula_Nebula.jpg",
+  "title": "File:30 Doradus, Tarantula Nebula.jpg"
+ },
+ "a-new-view-of-the-tarantula-nebula": {
+  "author": "NASA",
+  "kept": true,
+  "licence": "Public domain",
+  "orig": "3600x2880",
+  "page": "https://commons.wikimedia.org/wiki/File:A_New_View_of_the_Tarantula_Nebula.jpg",
+  "title": "File:A New View of the Tarantula Nebula.jpg"
+ },
  "abbotsford-house-study-room": {
   "author": "Michael D Beckwith",
-  "kept": false,
+  "kept": true,
   "licence": "CC0",
   "orig": "8687x5791",
   "page": "https://commons.wikimedia.org/wiki/File:Abbotsford_House_Study_Room.jpg",
   "title": "File:Abbotsford House Study Room.jpg"
+ },
+ "agence-rol-l-clipse-gare-saint-lazare-1921": {
+  "author": "Agence Rol",
+  "kept": true,
+  "licence": "Public domain",
+  "orig": "3320x2400",
+  "page": "https://commons.wikimedia.org/wiki/File:Agence_Rol,_L%E2%80%99%C3%A9clipse,_gare_Saint-Lazare,_1921.jpg",
+  "title": "File:Agence Rol, L’éclipse, gare Saint-Lazare, 1921.jpg"
  },
  "aguarales-de-valpalmas-zaragoza-espa-a-2015-01-06-dd-26": {
   "author": "Diego Delso",
@@ -111,9 +151,17 @@
   "page": "https://commons.wikimedia.org/wiki/File:Arc_de_triomphe_du_carrousel_in_Paris_France.jpg",
   "title": "File:Arc de triomphe du carrousel in Paris France.jpg"
  },
+ "aurora-and-perseids": {
+  "author": "Stephan Sprinz",
+  "kept": true,
+  "licence": "CC BY 4.0",
+  "orig": "5978x3977",
+  "page": "https://commons.wikimedia.org/wiki/File:Aurora_and_perseids.jpg",
+  "title": "File:Aurora and perseids.jpg"
+ },
  "austria-g-ttweig-abbey-2015": {
   "author": "Jorge Royan",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 3.0",
   "orig": "4368x2912",
   "page": "https://commons.wikimedia.org/wiki/File:Austria_-_G%C3%B6ttweig_Abbey_-_2015.jpg",
@@ -137,7 +185,7 @@
  },
  "biblioteca-vasconcelos-ciudad-de-m-xico-m-xico-2015-07-20-dd": {
   "author": "Diego Delso",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 4.0",
   "orig": "8306x5639",
   "page": "https://commons.wikimedia.org/wiki/File:Biblioteca_Vasconcelos,_Ciudad_de_M%C3%A9xico,_M%C3%A9xico,_2015-07-20,_DD_16-18_HDR.JPG",
@@ -153,7 +201,7 @@
  },
  "bruxels-april-2012-11a": {
   "author": "Alvesgaspar",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 3.0",
   "orig": "5251x3395",
   "page": "https://commons.wikimedia.org/wiki/File:Bruxels_April_2012-11a.jpg",
@@ -161,7 +209,7 @@
  },
  "claudius-lavergne-saint-louis-senlis": {
   "author": "BastienM",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 3.0",
   "orig": "3770x1980",
   "page": "https://commons.wikimedia.org/wiki/File:Claudius_Lavergne_-_Saint_Louis_-_Senlis.jpg",
@@ -169,7 +217,7 @@
  },
  "cour-carr-e-louvre-museum-2-april-2009": {
   "author": "Benh LIEU SONG",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 3.0",
   "orig": "8000x3551",
   "page": "https://commons.wikimedia.org/wiki/File:Cour_Carr%C3%A9e,_Louvre_Museum,_2_April_2009.jpg",
@@ -193,7 +241,7 @@
  },
  "fauti-masjid-interior": {
   "author": "DeepanjanGhosh",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 4.0",
   "orig": "6570x4380",
   "page": "https://commons.wikimedia.org/wiki/File:Fauti_Masjid_Interior.jpg",
@@ -201,7 +249,7 @@
  },
  "golden-spiral-by-brad-hammonds": {
   "author": "Brad Hammonds",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY 2.0",
   "orig": "5108x3405",
   "page": "https://commons.wikimedia.org/wiki/File:Golden_Spiral_by_Brad_Hammonds.jpg",
@@ -209,7 +257,7 @@
  },
  "gran-mezquita-de-isfah-n-isfah-n-ir-n-2016-09-20-dd-49-51-hd": {
   "author": "Diego Delso",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 4.0",
   "orig": "6675x5309",
   "page": "https://commons.wikimedia.org/wiki/File:Gran_Mezquita_de_Isfah%C3%A1n,_Isfah%C3%A1n,_Ir%C3%A1n,_2016-09-20,_DD_49-51_HDR.jpg",
@@ -217,7 +265,7 @@
  },
  "grande-galerie-louvre-by-thomas-allom": {
   "author": "Thomas Allom",
-  "kept": false,
+  "kept": true,
   "licence": "Public domain",
   "orig": "3738x2549",
   "page": "https://commons.wikimedia.org/wiki/File:Grande_Galerie_Louvre_by_Thomas_Allom.jpg",
@@ -233,7 +281,7 @@
  },
  "les-joueurs-de-cartes-par-paul-c-zanne": {
   "author": "Paul Cézanne",
-  "kept": false,
+  "kept": true,
   "licence": "Public domain",
   "orig": "6048x4961",
   "page": "https://commons.wikimedia.org/wiki/File:Les_Joueurs_de_cartes,_par_Paul_C%C3%A9zanne.jpg",
@@ -249,7 +297,7 @@
  },
  "metro-msk-line5-novoslobodskaya": {
   "author": "Florstein (Telegram:WikiPhoto.Space)",
-  "kept": false,
+  "kept": true,
   "licence": "CC BY-SA 4.0",
   "orig": "3200x2133",
   "page": "https://commons.wikimedia.org/wiki/File:Metro_MSK_Line5_Novoslobodskaya.jpg",
@@ -257,7 +305,7 @@
  },
  "moscow-elektrozavodskaya-metro-station-asv2018-09": {
   "author": "A.Savin",
-  "kept": false,
+  "kept": true,
   "licence": "FAL",
   "orig": "7423x4639",
   "page": "https://commons.wikimedia.org/wiki/File:Moscow_Elektrozavodskaya_metro_station_asv2018-09.jpg",

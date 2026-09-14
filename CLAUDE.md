@@ -90,6 +90,13 @@ bodywithoutorgans.cc from the home Wi-Fi. `serve.py` on the mini therefore liste
 every sync/refresh and uses it when it answers — otherwise the internet address. The journal logs «Маршрут» on
 every switch. If the mini's LAN IP changes, fix it in the app's Settings and in `SettingsStore` default.
 
+Вкладка «Сайт» на домашней сети требует **отдельного разрешения ATS**: `NSAllowsLocalNetworking` в `Info.plist`
+покрывает только `URLSession`, а содержимое `WKWebView` под него не попадает. Симптом обманчивый — синк, лекции
+и здоровье по `http://192.168.1.40:8787` работают, а сайт открывается пустым, и на mini при этом **нет ни одного
+запроса** `/app/login`: страницу не выпускает сам iOS, до сервера дело не доходит. Лечится ключом
+`NSAllowsArbitraryLoadsInWebContent` (2026-09-14, он влияет только на вебвью). Ошибка загрузки страницы теперь
+уходит в журнал приложения («Сайт не открылся» + адрес и причина) — пустая вкладка иначе не оставляет следов.
+
 **The site inside the app.** The first tab «Сайт» is a WKWebView on https://bodywithoutorgans.cc, logged in via
 `GET /app/login?t=<bearer>&next=/` (token → the usual session cookie). Pages know they run in the app
 (`window.BoW`, user agent contains `BoW/2`); `lectures.html` hands lectures that are downloaded on the phone
