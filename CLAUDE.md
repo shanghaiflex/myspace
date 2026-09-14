@@ -243,8 +243,15 @@ Aeon, Psyche, Noema, London Review of Books, The Paris Review, Harper's, The New
 python3 scripts/reads.py fetch | digest | list
 sh scripts/reads.sh [--force]                  # на mini: ssh mini 'cd movies && sh scripts/reads.sh --force'
 python3 scripts/reads.py verdict <id> saved|dismissed|read
+python3 scripts/reads.py images            # дозаполнить превью (на mini — это production)
 ssh mini tail -20 movies/logs/reads.log
 ```
+
+Превью: у лент картинок почти нет, поэтому `apply` берёт `og:image` со страницы статьи, ужимает через `sips`
+до 1200 px и кладёт в `reads/img/<id>.jpg` (`image` в записи). Это данные машины, как `dishes/`: в `.gitignore`
+и в исключениях `deploy.sh`; картинка удаляется вместе с вердиктом «мимо»/«прочитал» и когда совет уезжает
+в историю без ответа. `why` по просьбе пользователя (2026-09-14) — одна фраза до 20 слов с одной зацепкой,
+а не перечисление всего прочитанного по теме.
 
 launchd на mini: `cc.bodywithoutorgans.reads`, ежедневно в 07:50 (`deploy/install-reads.sh`).
 API: `GET /api/reads`, `PATCH /api/read/<id>` `{verdict}`, `POST /api/reads/refresh`.
