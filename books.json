@@ -508,6 +508,24 @@
     "titleAlt": "Wuthering Heights"
   },
   {
+    "id": "9785170057382",
+    "title": "Дар",
+    "titleAlt": "The Gift",
+    "author": "Vladimir Nabokov, Eiichiro Otsu",
+    "year": 1923,
+    "pages": 378,
+    "isbn": "9785170057382",
+    "description": null,
+    "coverUrl": "https://covers.openlibrary.org/b/id/8349007-L.jpg",
+    "cover": "covers/9785170057382.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-14",
+    "finishedAt": "2026-09-14",
+    "tags": []
+  },
+  {
     "id": "джордано-бруно-и-герметическая-традиция-фрэнсис-йейтс",
     "title": "Джордано Бруно и герметическая традиция",
     "author": "Фрэнсис Йейтс",

@@ -5,6 +5,8 @@ Usage:
   mixes.py add <url> [--tag ...]                soundcloud / youtube / mixcloud / nts.live URL
   mixes.py import-soundcloud <user> [--min-minutes 20] [--dry-run]
                                                 import the user's SoundCloud likes, keep only long ones
+  mixes.py import-youtube [playlist] [--min-minutes 20] [--browser firefox] [--pick 1,3,yt-id]
+                                                my YouTube likes: list long candidates, add the picked ones
   mixes.py remove <id|url|title>
   mixes.py list
 """
@@ -116,6 +118,20 @@ def resolve_ytdlp(url):
     }
 
 
+def yt_playlist(playlist, browser="firefox"):
+    """Flat listing of a YouTube playlist. The liked videos (`LL`) are private, so the cookies of a
+    logged-in browser are the only way in; flat mode gives title/channel/duration without a request
+    per video (the picked ones are resolved properly afterwards)."""
+    url = playlist if "://" in playlist else f"https://www.youtube.com/playlist?list={playlist}"
+    cmd = [ytdlp(), "--flat-playlist", "-J"]
+    if browser:
+        cmd += ["--cookies-from-browser", browser]
+    r = subprocess.run(cmd + [url], capture_output=True, text=True)
+    if r.returncode != 0 or not r.stdout.strip():
+        raise SystemExit(f"yt-dlp failed for {url}:\n{r.stderr.strip()[-400:]}")
+    return json.loads(r.stdout).get("entries") or []
+
+
 # ---------------------------------------------------------------- NTS
 def resolve_nts(url):
     m = re.search(r"nts\.live/shows/([^/]+)/episodes/([^/?#]+)", url)
@@ -200,6 +216,48 @@ def cmd_import_sc(args):
     print(f"\nAdded {added} mixes, skipped {skipped} tracks shorter than {args.min_minutes} min.")
 
 
+def cmd_import_yt(args):
+    """YouTube likes are not a mix collection: the same list holds lectures, let's plays and music.
+    So this never adds in bulk — it prints the long unknown videos and adds only what --pick names."""
+    mixes = load()
+    known = {m["id"] for m in mixes}
+    cands = []
+    for e in yt_playlist(args.playlist, args.browser):
+        if (e.get("duration") or 0) < args.min_minutes * 60:
+            continue
+        if f"yt:{e['id']}" in known:
+            continue
+        cands.append(e)
+    if not cands:
+        print(f"No new likes longer than {args.min_minutes} min.")
+        return
+    want = {w.strip() for w in (args.pick or "").split(",") if w.strip()}
+    picked = []
+    for i, e in enumerate(cands, 1):
+        take = str(i) in want or e["id"] in want
+        print(f"{'+' if take else ' '} {i:3} {fmt_dur(round(e['duration'])):>7}  {e['id']}  "
+              f"{e.get('channel') or '?'} — {e.get('title') or ''}")
+        if take:
+            picked.append(e)
+    unknown = want - {str(i) for i in range(1, len(cands) + 1)} - {e["id"] for e in cands}
+    if unknown:
+        raise SystemExit("not among the candidates: " + ", ".join(sorted(unknown)))
+    if not picked:
+        print(f"\n{len(cands)} candidates. Add them with --pick 1,4,7 (numbers or video ids).")
+        return
+    print()
+    for e in picked:
+        mix = resolve_ytdlp(f"https://www.youtube.com/watch?v={e['id']}")
+        mix["tags"] = ["youtube-likes"] + (args.tag or [])
+        mix["addedAt"] = datetime.date.today().isoformat()
+        if not args.dry_run:
+            mixes.append(mix)
+        print(f"Added {mix['artist']} — {mix['title']} ({fmt_dur(mix['duration'])})"
+              + (f" [{', '.join(mix['tags'])}]" if mix["tags"] else ""))
+    if not args.dry_run:
+        save(mixes)
+
+
 def find(mixes, q):
     q = q.strip().lower()
     for m in mixes:
@@ -232,6 +290,10 @@ def main():
     a = sub.add_parser("add"); a.add_argument("url"); a.add_argument("--tag", action="append"); a.set_defaults(fn=cmd_add)
     i = sub.add_parser("import-soundcloud"); i.add_argument("user"); i.add_argument("--min-minutes", type=int, default=20)
     i.add_argument("--dry-run", action="store_true"); i.set_defaults(fn=cmd_import_sc)
+    y = sub.add_parser("import-youtube"); y.add_argument("playlist", nargs="?", default="LL", help="playlist id or URL; LL = my liked videos")
+    y.add_argument("--min-minutes", type=int, default=20); y.add_argument("--browser", default="firefox", help="cookies source, '' for none")
+    y.add_argument("--pick", help="comma-separated candidate numbers or video ids to add")
+    y.add_argument("--tag", action="append"); y.add_argument("--dry-run", action="store_true"); y.set_defaults(fn=cmd_import_yt)
     r = sub.add_parser("remove"); r.add_argument("query"); r.set_defaults(fn=cmd_remove)
     l = sub.add_parser("list"); l.set_defaults(fn=cmd_list)
     args = p.parse_args()

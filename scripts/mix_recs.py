@@ -6,7 +6,7 @@ queries, and we resolve them into real tracks. Data lives in mix_recs.json.
 Usage:
   mix_recs.py digest                     # the taste context the model sees
   mix_recs.py due                        # exit 0 when a run is due (used by mix_recs.sh)
-  mix_recs.py apply --file answer.json [--model opus] [--keep 3]
+  mix_recs.py apply --file answer.json [--model opus] [--keep 3] [--keep-calm 2]
   mix_recs.py verdict <id> liked|dismissed|played
   mix_recs.py list
 
@@ -21,6 +21,10 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import mixes as X  # noqa: E402
 
 VERDICTS = ("new", "played", "liked", "dismissed")
+# Утро (до MORNING_UNTIL) читается, а не танцуется: часть советов — спокойные, без ритма, и страница
+# ставит их первыми до девяти. Модель сама помечает mood, проверить это машинно всё равно нечем.
+MOODS = ("rhythmic", "calm")
+CALM_WORDS = ("calm", "спокой")
 MIN_MINUTES = 20
 HISTORY_MAX = 120
 EVERY_HOURS = 20  # a daily job that may fire late (the mini sleeps) should not refuse to run
@@ -46,6 +50,15 @@ def save(db):
         f.write("\n")
 
 
+def mood_of(value):
+    v = (value or "").strip().lower()
+    return "calm" if any(w in v for w in CALM_WORDS) else "rhythmic"
+
+
+def is_calm(item):
+    return item.get("mood") == "calm" or "calm" in (item.get("tags") or [])
+
+
 def fmt_dur(s):
     s = int(s or 0)
     return f"{s // 3600}:{s % 3600 // 60:02d}" if s >= 3600 else f"{s // 60} мин"
@@ -61,6 +74,12 @@ def digest():
     for m in sorted(mixes, key=lambda m: m.get("addedAt") or "", reverse=True):
         bits = [b for b in (m.get("genre"), fmt_dur(m.get("duration")), m.get("published")) if b]
         out.append(f"- {m.get('artist') or '?'} — {m.get('title')} ({', '.join(bits)})")
+
+    calm = [m for m in mixes if is_calm(m)]
+    if calm:
+        out.append("\n## Из этого я слушаю спокойное по утрам, под чтение (не повторяй, но держи в уме уровень)")
+        for m in calm:
+            out.append(f"- {m.get('artist') or '?'} — {m.get('title')}")
 
     played = [m for m in mixes if m.get("playedAt")]
     played.sort(key=lambda m: m.get("playedAt") or 0, reverse=True)
@@ -80,6 +99,7 @@ def digest():
         out.append("\n## Твои советы, которые сейчас висят у меня на странице (не повторяй их)")
         for r in db["items"]:
             out.append(f"- {r.get('artist')} — {r.get('title')}"
+                       + (" [спокойное]" if is_calm(r) else "")
                        + (" (уже включал)" if r.get("played") else ""))
     if db["history"]:
         out.append("\n## Вердикты по прошлым советам (свежие сверху)")
@@ -87,7 +107,9 @@ def digest():
         for h in db["history"][:40]:
             played_note = " (включал)" if h.get("played") and h.get("verdict") != "played" else ""
             out.append(f"- {h.get('at')} · {word.get(h.get('verdict'), h.get('verdict'))}{played_note}: "
-                       f"{h.get('artist')} — {h.get('title')} — {h.get('reason') or ''}")
+                       f"{h.get('artist')} — {h.get('title')}"
+                       + (" [спокойное]" if is_calm(h) else "")
+                       + f" — {h.get('reason') or ''}")
     else:
         out.append("\n## Вердикты по прошлым советам\n(это первый подбор, вердиктов ещё нет)")
     return "\n".join(out)
@@ -158,24 +180,31 @@ def parse_answer(text):
     return [c for c in data if isinstance(c, dict) and (c.get("search") or c.get("artist"))]
 
 
-def apply_answer(text, model=None, keep=3):
+def apply_answer(text, model=None, keep=3, keep_calm=2):
+    """Two quotas, not one list: спокойные советы нужны утром, и если брать просто первые N,
+    то ритмичные съедят всю выдачу и до девяти утра показывать будет нечего."""
     db = load()
     mixes = X.load()
     exclude = known_ids(db, mixes)
+    need = {"rhythmic": keep, "calm": keep_calm}
     items = []
     for c in parse_answer(text):
-        if len(items) >= keep:
+        if sum(need.values()) <= 0:
             break
+        mood = mood_of(c.get("mood"))
+        if need[mood] <= 0:
+            continue
         query = (c.get("search") or f"{c.get('artist','')} {c.get('title','')}").strip()
         m = search_soundcloud(query, c.get("artist"), exclude)
         if not m:
             print(f"  no long track for: {query}")
             continue
         exclude.add(m["id"])
-        m.update(reason=(c.get("why") or "").strip() or None, wanted=query,
+        m.update(reason=(c.get("why") or "").strip() or None, wanted=query, mood=mood,
                  suggestedAt=today(), verdict="new", played=False)
         items.append(m)
-        print(f"  + {m['artist']} — {m['title']} ({fmt_dur(m['duration'])})")
+        need[mood] -= 1
+        print(f"  + [{'спокойное' if mood == 'calm' else 'ритм'}] {m['artist']} — {m['title']} ({fmt_dur(m['duration'])})")
     if not items:
         raise SystemExit("nothing resolved on SoundCloud")
     # advice that is still unanswered goes to history as such: a new batch replaces it
@@ -191,7 +220,7 @@ def apply_answer(text, model=None, keep=3):
 
 def history_entry(r):
     return {"id": r["id"], "artist": r.get("artist"), "title": r.get("title"), "url": r.get("url"),
-            "reason": r.get("reason"), "verdict": r.get("verdict") or "new", "played": bool(r.get("played")),
+            "reason": r.get("reason"), "mood": r.get("mood") or "rhythmic", "verdict": r.get("verdict") or "new", "played": bool(r.get("played")),
             "at": r.get("decidedAt") or r.get("suggestedAt") or today()}
 
 
@@ -215,7 +244,7 @@ def verdict(rid, v):
         if not any(m["id"] == r["id"] for m in mixes):
             added = {k: r.get(k) for k in ("id", "source", "url", "title", "artist", "duration",
                                            "artwork", "genre", "published")}
-            added["tags"] = ["claude-rec"]
+            added["tags"] = ["claude-rec"] + (["calm"] if is_calm(r) else [])
             added["addedAt"] = today()
             mixes.append(added)
             X.save(mixes)
@@ -251,7 +280,8 @@ def main():
     a = sub.add_parser("apply")
     a.add_argument("--file", required=True, help="the model answer (JSON array), - for stdin")
     a.add_argument("--model")
-    a.add_argument("--keep", type=int, default=3)
+    a.add_argument("--keep", type=int, default=3, help="ритмичных советов")
+    a.add_argument("--keep-calm", type=int, default=2, help="спокойных советов на утро")
     v = sub.add_parser("verdict")
     v.add_argument("id")
     v.add_argument("verdict", choices=VERDICTS)
@@ -265,7 +295,7 @@ def main():
         sys.exit(0 if ok else 1)
     elif args.cmd == "apply":
         text = sys.stdin.read() if args.file == "-" else open(args.file, encoding="utf-8").read()
-        items = apply_answer(text, args.model, args.keep)
+        items = apply_answer(text, args.model, args.keep, args.keep_calm)
         print(f"{len(items)} suggestions saved to mix_recs.json")
     elif args.cmd == "verdict":
         r = verdict(args.id, args.verdict)
@@ -274,7 +304,8 @@ def main():
         db = load()
         print(f"updated {db.get('updatedAt')} ({db.get('model')})")
         for r in db["items"]:
-            print(f"  {r['id']}  {r.get('artist')} — {r.get('title')} ({fmt_dur(r.get('duration'))})"
+            print(f"  {r['id']}  {'спокойное · ' if is_calm(r) else ''}{r.get('artist')} — "
+                  f"{r.get('title')} ({fmt_dur(r.get('duration'))})"
                   + ("  [включал]" if r.get("played") else ""))
             if r.get("reason"):
                 print(f"      {r['reason']}")

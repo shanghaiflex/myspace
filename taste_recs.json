@@ -1,102 +1,156 @@
 {
   "film": {
-    "updatedAt": "2026-09-13T09:43:56",
+    "updatedAt": "2026-09-14T07:40:49",
     "model": "opus",
     "items": [
       {
+        "id": "tt0123948",
+        "title": "Cure",
+        "year": 1997,
+        "author": "Kiyoshi Kurosawa",
+        "cover": "posters/tt0123948.jpg",
+        "coverUrl": "https://m.media-amazon.com/images/M/MV5BNDcyMTRiMWQtMjA4MS00OTk3LTkxYmMtMjI4ODAyNGVlZTU0XkEyXkFqcGc@._V1_SX300.jpg",
+        "meta": "Crime, Horror, Mystery, 111 мин, IMDb 7.5",
+        "runtime": 111,
+        "plot": "A frustrated detective deals with the case of several gruesome murders committed by people who have no recollection of what they've done.",
+        "reason": "Киёси Куросава снял ровно тот же нерв, что в «Memories of Murder», но вместо провинциальной беспомощности — гипнотическая пустота: расследование, где сыщик заражается злом, как в «Oldboy».",
+        "suggestedAt": "2026-09-14",
+        "verdict": "new"
+      },
+      {
+        "id": "tt0097202",
+        "title": "The Killer",
+        "year": 1989,
+        "author": "John Woo",
+        "cover": "posters/tt0097202.jpg",
+        "coverUrl": "https://m.media-amazon.com/images/M/MV5BMjQyZDJhNTktYjZiZC00ODU4LTg5OTYtYjc2MzA2OGFjMzZmXkEyXkFqcGc@._V1_SX300.jpg",
+        "meta": "Action, Crime, Drama, 111 мин, IMDb 7.7",
+        "runtime": 111,
+        "plot": "A disillusioned assassin accepts one last hit in hopes of using his earnings to restore the vision of a singer he accidentally blinded.",
+        "reason": "Джон Ву открыто переписывает «Le Samouraï» — киллер с кодексом и ритуалом, — но добавляет ту же меланхолию обречённого гангстера, за которую ты поставил 8 «Sonatine» и «Fireworks».",
+        "suggestedAt": "2026-09-14",
+        "verdict": "new"
+      },
+      {
+        "id": "tt21749726",
+        "title": "233 - ONCE UPON A TIME IN THE WEST (1968) + MY DARLING CLEMENTINE (1946) ft. Eddie Averill",
+        "year": 1968,
+        "author": null,
+        "cover": null,
+        "coverUrl": null,
+        "meta": "",
+        "runtime": null,
+        "plot": null,
+        "reason": "Леоне — прямой источник того, как Тарантино тянет паузы в «The Hateful Eight», плюс тот же взгляд на выдыхающийся Запад, что в «Unforgiven».",
+        "suggestedAt": "2026-09-14",
+        "verdict": "new"
+      }
+    ],
+    "history": [
+      {
         "id": "tt4016934",
         "title": "The Handmaiden",
-        "year": 2016,
         "author": "Park Chan-wook",
-        "cover": "posters/tt4016934.jpg",
-        "meta": "Drama, Romance, Thriller, 145 мин, IMDb 8.1",
-        "runtime": 145,
-        "plot": "In 1930s Korea, a girl is hired as a handmaiden to a Japanese heiress who lives a secluded life on a countryside estate. But the maid has a secret: She is a pickpocket recruited by a swindler to help seduce the Lady and steal her ...",
+        "year": 2016,
         "reason": "Единственный крупный Пак Чхан Ук, который ты пропустил: та же холодная орнаментальность, что в «Decision to Leave», плюс трёхчастная структура с перевёртышем мотивов из «Oldboy».",
-        "suggestedAt": "2026-09-13",
         "verdict": "new",
-        "coverUrl": "https://m.media-amazon.com/images/M/MV5BOTllZDI1OGItOGUxNS00OGZhLWIzMjAtYzllZTY1YTA0ZmYwXkEyXkFqcGc@._V1_SX300.jpg"
+        "at": "2026-09-13"
       },
       {
         "id": "tt0456912",
         "title": "A Bittersweet Life",
-        "year": 2005,
         "author": "Kim Jee-woon",
-        "cover": "posters/tt0456912.jpg",
-        "meta": "Action, Crime, Drama, 119 мин, IMDb 7.5",
-        "runtime": 119,
-        "plot": "Things go wrong for a high ranking mobster when he doesn't follow his boss's orders.",
+        "year": 2005,
         "reason": "Корейский гангстерский нуар, выстроенный ровно на меланхолии одиночки из «Le Samouraï», но с той вязкой жестокостью и финальной расплатой, за которую ты поставил 9 «Oldboy».",
-        "suggestedAt": "2026-09-13",
         "verdict": "new",
-        "coverUrl": "https://m.media-amazon.com/images/M/MV5BNmQyNzdkZmItM2ZiMi00ZjQ3LWE4YjctZDdlNDEwNjFiMjJkXkEyXkFqcGc@._V1_SX300.jpg"
+        "at": "2026-09-13"
       },
       {
         "id": "tt0443706",
         "title": "Zodiac",
-        "year": 2007,
         "author": "David Fincher",
-        "cover": "posters/tt0443706.jpg",
-        "meta": "Crime, Drama, Mystery, 157 мин, IMDb 7.7",
-        "runtime": 157,
-        "plot": "Between 1968 and 1983, a San Francisco cartoonist becomes an amateur detective obsessed with tracking down the Zodiac Killer, an unidentified individual who terrorizes Northern California with a killing spree.",
+        "year": 2007,
         "reason": "Тот же провал следствия в бесконечность, что в «Memories of Murder», только Финчер меняет грязь и отчаяние на маниакальную точность архива — процедурал про людей, которых сжирает дело.",
-        "suggestedAt": "2026-09-13",
         "verdict": "new",
-        "coverUrl": "https://m.media-amazon.com/images/M/MV5BNDFkMTRkZmQtM2I0NC00NjJjLWJlMDctNTNiZWYxYzhjZDZiXkEyXkFqcGc@._V1_QL75_UY562_CR1,0,380,562_.jpg"
+        "at": "2026-09-13"
       }
-    ],
-    "history": []
+    ]
   },
   "book": {
-    "updatedAt": "2026-09-13T09:58:32",
+    "updatedAt": "2026-09-14T07:42:30",
     "model": "opus",
     "items": [
       {
+        "id": "слова-и-вещи-археология-гуманитарных-наук-мишель-фуко",
+        "title": "Слова и вещи. Археология гуманитарных наук",
+        "year": null,
+        "author": "Мишель Фуко",
+        "cover": "covers/слова-и-вещи-археология-гуманитарных-наук-мишель-фуко.jpg",
+        "coverUrl": "https://s1.livelib.ru/boocover/1000262857/200x305/3584/boocover.jpg",
+        "isbn": null,
+        "meta": "Мишель Фуко",
+        "plot": null,
+        "reason": "Ты прошёл через «Историю безумия», «Надзирать и наказывать» и «Ненормальных» — здесь тот же Фуко, но копает не институты, а сами решётки знания, и это прямо стыкуется с твоим Хайдеггером и «Логико-философским трактатом».",
+        "suggestedAt": "2026-09-14",
+        "verdict": "new"
+      },
+      {
+        "id": "цивилизация-средневекового-запада-жак-ле-гофф",
+        "title": "Цивилизация средневекового запада",
+        "year": null,
+        "author": "Жак Ле Гофф",
+        "cover": "covers/цивилизация-средневекового-запада-жак-ле-гофф.jpg",
+        "coverUrl": "https://s1.livelib.ru/boocover/1008435607/200x305/3739/boocover.jpg",
+        "isbn": null,
+        "meta": "Жак Ле Гофф",
+        "plot": null,
+        "reason": "После Гуревича, «Города в Западной Европе» Эрса и пастуровских «Быка» с «Китом» тебе зайдёт книга, которая собирает те же ментальности, время и воображаемое в одну картину, а не в один сюжет.",
+        "suggestedAt": "2026-09-14",
+        "verdict": "new"
+      },
+      {
+        "id": "9785170057382",
+        "title": "Дар",
+        "year": 1923,
+        "author": "Vladimir Nabokov, Eiichiro Otsu",
+        "cover": "covers/9785170057382.jpg",
+        "coverUrl": "https://covers.openlibrary.org/b/id/8349007-L.jpg",
+        "isbn": "9785170057382",
+        "meta": "Vladimir Nabokov, Eiichiro Otsu, 1923, 378 с.",
+        "plot": null,
+        "reason": "Если «Бледный огонь» тебя устроил как машина из комментария, то здесь Набоков встраивает внутрь романа целую биографию Чернышевского — и это тот же жест, что в его «Лекциях по русской литературе», только изнутри вымысла.",
+        "suggestedAt": "2026-09-14",
+        "verdict": "new"
+      }
+    ],
+    "history": [
+      {
         "id": "9780393541625",
         "title": "Desolation Island Audio",
-        "year": 1978,
         "author": "Patrick O'Brian",
-        "cover": "covers/9780393541625.jpg",
-        "coverUrl": "https://covers.openlibrary.org/b/id/3327119-L.jpg",
-        "isbn": "9780393541625",
-        "meta": "Patrick O'Brian, 1978, 325 с.",
-        "plot": null,
+        "year": 1978,
         "reason": "Ты прошёл \"Капитана первого ранга\", \"H.M.S. Surprise\" и \"Мауриций\" подряд — пятая книга про Обри и Мэтьюрина уводит их в южные широты, где корабельная рутина держится на той же сухой точности, что тебя в серии и зацепила.",
-        "suggestedAt": "2026-09-13",
-        "verdict": "new"
+        "verdict": "new",
+        "at": "2026-09-13"
       },
       {
         "id": "синий-история-цвета-мишель-пастуро",
         "title": "Синий. История цвета",
-        "year": null,
         "author": "Мишель Пастуро",
-        "cover": null,
-        "coverUrl": null,
-        "isbn": null,
-        "unverified": true,
-        "meta": "Мишель Пастуро",
-        "plot": null,
+        "year": null,
         "reason": "После \"Быка\", \"Кита\" и \"Символической истории европейского Средневековья\" это тот же метод Пастуро, только применённый не к зверю, а к пигменту: как из технологии красильщиков и геральдики вырастает иерархия значений.",
-        "suggestedAt": "2026-09-13",
-        "verdict": "new"
+        "verdict": "new",
+        "at": "2026-09-13"
       },
       {
         "id": "весенний-снег-юкио-мисима",
         "title": "Весенний снег",
-        "year": null,
         "author": "Юкио Мисима",
-        "cover": null,
-        "coverUrl": null,
-        "isbn": null,
-        "unverified": true,
-        "meta": "Юкио Мисима",
-        "plot": null,
+        "year": null,
         "reason": "Ты читал \"Золотой Храм\" и \"Шум прибоя\" — здесь Мисима берёт ту же одержимость красотой, которую нужно разрушить, но разворачивает её на медленной аристократической Японии начала века.",
-        "suggestedAt": "2026-09-13",
-        "verdict": "new"
+        "verdict": "new",
+        "at": "2026-09-13"
       }
-    ],
-    "history": []
+    ]
   }
 }
