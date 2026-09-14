@@ -332,6 +332,8 @@ class Handler(SimpleHTTPRequestHandler):
                 items.append(it)
             return self.send_json(200, {"items": items, "count": L.PRELOAD_COUNT})
         if route.startswith("/audio/"):
+            # The phone's background downloads: one line per request, so the mini's log shows them (Range = a resume).
+            print(f"audio {os.path.basename(route)} → {self.health_device() or 'browser'} {self.headers.get('Range') or ''}".rstrip(), flush=True)
             return self.send_range_file(L.audio_path(urllib.parse.unquote(os.path.basename(route)).rsplit(".", 1)[0]) or "")
         if self.path.startswith("/api/backgrounds"):
             d = os.path.join(ROOT, "backgrounds")
