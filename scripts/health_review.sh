@@ -20,9 +20,14 @@ command -v claude >/dev/null || { echo "$STAMP claude not installed (curl -fsSL 
 
 python3 scripts/health.py digest --days 7 > "$WORK/digest.txt"
 GOALS=$(grep -v '^\s*#' health/goals.md 2>/dev/null | grep -v '^\s*$' || true)
+# The calendar is what the body data cannot say: whether there is room in the day and how early tomorrow starts.
+# It is optional — no link, no network, a broken export, and the note is simply written without it, as before.
+SCHEDULE=$(python3 scripts/schedule.py digest 2>/dev/null || true)
 {
   cat health/PROMPT.md
-  printf '\n## Мои цели\n%s\n\n## Данные\n' "${GOALS:-(целей пока нет — ориентируйся на мои средние и общие нормы)}"
+  printf '\n## Мои цели\n%s\n' "${GOALS:-(целей пока нет — ориентируйся на мои средние и общие нормы)}"
+  [ -n "$SCHEDULE" ] && printf '\n## Мой день\n%s\n' "$SCHEDULE"
+  printf '\n## Данные\n'
   cat "$WORK/digest.txt"
 } > "$WORK/prompt.txt"
 

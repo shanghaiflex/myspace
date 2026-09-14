@@ -158,6 +158,33 @@ python3 scripts/health.py backup [--keep 7]      # снимок вручную
 ssh mini tail -5 movies/logs/health-backup.log
 ```
 
+## Расписание (`scripts/schedule.py`)
+
+Заметка о здоровье знала тело, но не знала день: могла звать гулять в занятый час и не видела, что завтра рано
+вставать. `schedule.py` читает приватную ссылку экспорта Яндекс.Календаря (`YANDEX_CALENDAR_ICS` в `.env`,
+Календарь → Настройки → экспорт; ссылка — секрет, `.env` в `.gitignore`), сам разворачивает RRULE (weekly/daily/
+monthly/yearly, EXDATE, переносы отдельных встреч через RECURRENCE-ID) и отвечает на два вопроса: что сегодня и
+где в дне дыра. Только чтение: добавить или удалить событие этой ссылкой нельзя, для записи нужен CalDAV
+(`caldav.yandex.ru`) с паролем приложения. Кэш — `data/calendar.ics`, 30 минут, при сбое сети берётся старая
+копия (данные машины: в `.gitignore` и в исключениях `deploy.sh`). Файл назван `schedule.py`, а не `calendar.py`,
+потому что второе имя затеняет стандартный модуль и ломает `strptime`.
+
+События, помеченные в Яндексе как «свободен» (`TRANSP:TRANSPARENT`), в списке дня показываются с пометкой
+«не занимает», но свободное окно не съедают — урок идёт, а человек при этом не занят. Свободным окном считается
+дыра не меньше `FREE_MIN` (45 мин) между `DAY_START` и `DAY_END` (8:00–23:00).
+
+`health_review.sh` подставляет `schedule.py digest` в промпт секцией «Мой день»; если ссылки нет, сети нет или
+экспорт сломался — заметка пишется как раньше, без расписания. `health/PROMPT.md` велит использовать его как
+рамку: советовать прогулку в свободное окно и называть его время, не пересказывать календарь и не комментировать
+события; ранний старт завтра — единственный повод сказать «ложись раньше» не вечером.
+
+```
+python3 scripts/schedule.py fetch [--force]   # обновить кэш
+python3 scripts/schedule.py list [--days 7]   # ближайшие дни
+python3 scripts/schedule.py digest            # то, что видит модель
+python3 scripts/schedule.py free [--date ...] # свободные окна дня
+```
+
 ## Mixes (`mixes.html`, `mixes.json`)
 
 Morning-mix player: random mix from the collection, "next" button, sources SoundCloud / YouTube /
