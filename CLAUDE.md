@@ -61,12 +61,27 @@ location via `WEATHER_CITY/LAT/LON/TZ` in `.env` (defaults Moscow). Cached 20 mi
 
 ## Health (`health.html`, `health.db`, `scripts/health.py`, `scripts/health_review.sh`, `health/`)
 
-Apple Health → the site. The Health Bridge iOS app (repo `~/workspace/healthbridge`, server URL
-`https://api.bodywithoutorgans.cc`, bearer token = `HEALTH_TOKENS` in the mini's `.env`) posts HealthKit batches
+Apple Health → the site. The BoW iOS app (repo `~/workspace/bow`, until 2026-09-14 «Health Bridge» in
+`~/workspace/healthbridge`; bundle `cc.bodywithoutorgans.bow`, server URL `https://api.bodywithoutorgans.cc`,
+bearer token = `HEALTH_TOKENS` in the mini's `.env` — the same token now also opens every `/api/` and `/audio/`
+route, see `logged_in()` in `serve.py`) posts HealthKit batches
 (workouts, sleep, metrics: hrv_sdnn, resting_heart_rate, steps, active_energy) to `POST /v1/ingest/health/<kind>`;
 `serve.py` stores them in `health.db` (SQLite, gitignored, lives on the mini only — like `audio/`). `api.` is an extra
 ingress of the same Cloudflare tunnel. Nothing else from the old Go `lifeops` backend is used; it is dead on the mini
 (colima broken), its Postgres history was not migrated.
+
+Every ingest request carries `X-Trigger` (foreground / healthkit:<type> / bg-refresh / manual) and the mini logs it
+(`health ingest metrics from iphone (healthkit:StepCount): …`) — that line is the proof that iOS woke the app in
+the background. If only `foreground`/`manual` ever show up, background delivery is not working: check «Обновление
+контента» for BoW in iOS Settings and that the app was not swiped away from the switcher. The app itself keeps a
+journal (tab «Здоровье») of launches, syncs and downloads.
+
+**Signing.** The Apple ID is a free Personal Team (8NCN36FYGA): the provisioning profile lives 7 days, after
+which the app refuses to launch (no background sync, no lectures) until it is rebuilt and reinstalled:
+`cd ~/workspace/bow && xcodebuild -project BoW.xcodeproj -scheme BoW -destination 'id=00008030-001119CA0E3B802E'
+-derivedDataPath build/device -allowProvisioningUpdates build && xcrun devicectl device install app --device
+00008030-001119CA0E3B802E build/device/Build/Products/Debug-iphoneos/BoW.app`. The only way out of the weekly
+ritual is the paid Apple Developer Program (profiles for a year, TestFlight over the air).
 
 Hourly note: launchd agent `cc.bodywithoutorgans.health` on the mini runs `scripts/health_review.sh` every hour.
 It skips when no new samples arrived, otherwise builds `health.py digest` (7-day table, 7/28-day averages, last notes),
@@ -279,6 +294,14 @@ python3 scripts/lectures.py add-channel <url>
   "Хочу послушать X" → `set --status queued` (queue order = time of queuing, shown on the home page).
 - `sync` re-fetches both channels; YouTube playlists take minutes, use `--no-playlists` for a quick refresh.
 - Audio files live only on the machine that runs the server (the Mac mini in production): download there.
+- **Телефон держит две лекции офлайн** (BoW, `~/workspace/bow`): `GET /api/lectures/preload` отдаёт
+  `lectures.py preload` — сначала `listening` (последняя тронутая первой, `touchedAt` ставится при каждом
+  PATCH позиции), потом `queued` по времени постановки, всего `PRELOAD_COUNT` = 2; сам запрос запускает
+  `start_audio_job` для тех, у кого нет звука, так что mini качает следующую лекцию заранее (yt-dlp с mini
+  до YouTube дотягивается). Приложение скачивает файлы фоновой URLSession, шлёт позицию каждые 15 с и на паузе,
+  по концу ставит `listened`, удаляет файл и берёт следующую. Список обновляется при открытии, по BGTask и после
+  каждой прослушанной. Позиция на сервере обрезается по длительности лекции (была 4:08 у лекции на 2:51).
+  Запросы к `/audio/` mini логирует строкой `audio <file> → iphone [Range]` (Range = докачка после обрыва).
 - Home page shows one card per lecture channel (channel `label` in lectures.json, e.g. «Макаров · Средневековье»,
   «Bushwacker · Древний Египет»: next up + queue/recommendations), a random mix, random to-watch posters.
 
