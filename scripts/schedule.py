@@ -562,7 +562,11 @@ def main():
         day = next_weekday(dt.datetime.now(zone).date(), a.day.upper())
         start = dt.datetime.combine(day, dt.time(hh, mm), zone)
         uid, ics = build_event(a.title, start, a.minutes, None if a.once else [a.day.upper()], zone)
-        target = calendars()[0]["href"].rstrip("/") + f"/{uid}.ics"
+        # Into my own calendar, not whichever collection the server happens to list first.
+        only = [c.strip() for c in (env("SCHEDULE_CALENDARS") or "").split(",") if c.strip()]
+        cals = calendars()
+        mine = next((c for c in cals if c["name"] in only), None) or cals[0]
+        target = mine["href"].rstrip("/") + f"/{uid}.ics"
         print(("(сухой прогон) " if a.dry_run else "") + f"{a.title}: {start:%a %d.%m %H:%M}"
               + (f" еженедельно {a.day.upper()}" if not a.once else "") + f", {a.minutes} мин")
         if not a.dry_run:

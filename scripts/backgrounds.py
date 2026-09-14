@@ -10,7 +10,8 @@ Candidates land in backgrounds/_candidates/ and are NOT used by the site until t
 that somebody (me or the model) looks at them first. Commons is full of documentary photographs that are
 perfectly sharp and completely wrong behind a music player.
 
-  python3 scripts/backgrounds.py fetch [--count 20] [--width 3840]   # download candidates to look at
+  python3 scripts/backgrounds.py fetch [--theme all] [--count 20] [--width 3840]   # candidates to look at
+  python3 scripts/backgrounds.py themes                              # what themes there are
   python3 scripts/backgrounds.py keep <file>...                      # candidate -> backgrounds/
   python3 scripts/backgrounds.py keep --all
   python3 scripts/backgrounds.py drop <file>... | --all              # delete candidates
@@ -30,26 +31,57 @@ API = "https://commons.wikimedia.org/w/api.php"
 UA = "bodywithoutorgans-backgrounds/1.0 (personal site; contact via github)"
 
 # Curated categories only. "Quality images" is far larger but mostly documentary — buildings, signs, insects.
-CATEGORIES = [
-    "Featured pictures of landscapes",
-    "Featured pictures of nature",
-    "Featured pictures of sunsets",
-    "Featured pictures of mountains",
-    "Featured pictures of forests",
-    "Featured pictures of clouds",
-    "Featured pictures of seas",
-]
+# Not everything should be a view out of a window: a library, a vaulted ceiling or a nebula sits behind a
+# player just as well and gets you out of the postcard mood. Fetch a theme by name, or all of them at once.
+THEMES = {
+    "nature": [
+        "Featured pictures of landscapes",
+        "Featured pictures of nature",
+        "Featured pictures of sunsets",
+        "Featured pictures of mountains",
+        "Featured pictures of forests",
+        "Featured pictures of clouds",
+        "Featured pictures of seas",
+    ],
+    # уютное: тёплый свет, дерево, книги, залы, в которых хочется сидеть
+    "interiors": [
+        "Featured pictures of libraries",
+        "Featured pictures of church interiors",
+        "Featured pictures of mosque interiors",
+        "Featured pictures of the Louvre",
+        "Featured pictures of Moscow Metro",
+        "Featured pictures of railway stations",
+    ],
+    # стильное: узор, витраж, роспись — картинка, а не пейзаж
+    "art": [
+        "Featured pictures of ceilings",
+        "Featured pictures of stained-glass windows of churches",
+        "Featured pictures of Islamic art",
+        "Featured pictures of paintings in Paris",
+        "Featured pictures of light painting",
+    ],
+    "space": [
+        "Featured pictures of astronomy",
+    ],
+}
 MIN_WIDTH = 2560          # anything smaller is not worth a full-screen background
 MIN_RATIO, MAX_RATIO = 1.2, 2.4   # panoramas (13000x1486) and tall portraits crop to nothing on a wide screen
-PAUSE = 1.0               # be polite to the API
+PAUSE = 2.0               # be polite to the API: it answers 429 to a faster walk through the categories
 
 
 def api(**params):
     params.setdefault("format", "json")
     params.setdefault("action", "query")
     req = urllib.request.Request(API + "?" + urllib.parse.urlencode(params), headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=45) as r:
-        return json.load(r)
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=45) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or attempt == 3:
+                raise
+            time.sleep(PAUSE * (attempt + 2))   # 429 means "slow down", not "give up"
+
 
 
 def slug(title):
@@ -91,14 +123,27 @@ def plain(html):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", html or "")).strip()
 
 
-def candidates(count, width):
-    """Walk the curated categories and yield photos big enough and shaped right for a background."""
+def theme_categories(theme):
+    if theme == "all":
+        return [c for cats in THEMES.values() for c in cats]
+    if theme not in THEMES:
+        sys.exit(f"нет такой темы: {theme}. Есть: all, " + ", ".join(THEMES))
+    return THEMES[theme]
+
+
+def candidates(count, width, theme="all"):
+    """Walk the curated categories and yield photos big enough and shaped right for a background.
+
+    Round-robin по категориям, а не подряд: иначе первая же категория с сотней снимков съедает всю квоту
+    и тема «уютное» приезжает одними потолками."""
+    cats = theme_categories(theme)
+    per_cat = max(1, count // len(cats) + 1)
     seen, out = known_ids(), []
-    for cat in CATEGORIES:
+    for cat in cats:
         if len(out) >= count:
             break
         cont, taken = None, 0
-        while len(out) < count and taken < count:
+        while len(out) < count and taken < per_cat:
             params = dict(generator="categorymembers", gcmtitle="Category:" + cat, gcmlimit="50", gcmtype="file",
                           prop="imageinfo", iiprop="url|size|extmetadata", iiurlwidth=str(width))
             if cont:
@@ -128,7 +173,7 @@ def candidates(count, width):
                             "author": plain((meta.get("Artist") or {}).get("value")),
                             "licence": plain((meta.get("LicenseShortName") or {}).get("value"))})
                 taken += 1
-                if len(out) >= count:
+                if len(out) >= count or taken >= per_cat:
                     break
             cont = (data.get("continue") or {}).get("gcmcontinue")
             if not cont:
@@ -147,7 +192,7 @@ def download(item, dest_dir):
 
 
 def cmd_fetch(a):
-    items = candidates(a.count, a.width)
+    items = candidates(a.count, a.width, a.theme)
     if not items:
         print("новых кандидатов не нашлось")
         return
@@ -193,6 +238,13 @@ def cmd_drop(a):
             print(f"выброшено: {n}")
 
 
+def cmd_themes(a):
+    for name, cats in THEMES.items():
+        print(f"{name}:")
+        for c in cats:
+            print(f"  {c}")
+
+
 def cmd_list(a):
     files = sorted(f for f in os.listdir(BG_DIR) if f.lower().endswith((".jpg", ".jpeg", ".png")))
     creds = load_credits()
@@ -221,12 +273,15 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("fetch"); p.add_argument("--count", type=int, default=20); p.add_argument("--width", type=int, default=3840)
+    p.add_argument("--theme", default="all", help="all | " + " | ".join(THEMES))
+    sub.add_parser("themes")
     p = sub.add_parser("keep"); p.add_argument("files", nargs="*"); p.add_argument("--all", action="store_true")
     p = sub.add_parser("drop"); p.add_argument("files", nargs="*"); p.add_argument("--all", action="store_true")
     sub.add_parser("list")
     p = sub.add_parser("remove"); p.add_argument("name")
     a = ap.parse_args(argv)
-    {"fetch": cmd_fetch, "keep": cmd_keep, "drop": cmd_drop, "list": cmd_list, "remove": cmd_remove}[a.cmd](a)
+    {"fetch": cmd_fetch, "keep": cmd_keep, "drop": cmd_drop, "list": cmd_list, "remove": cmd_remove,
+     "themes": cmd_themes}[a.cmd](a)
 
 
 if __name__ == "__main__":
