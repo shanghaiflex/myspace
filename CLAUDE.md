@@ -123,11 +123,17 @@ The user adds single mixes by pasting a URL into the site (POST `/api/mix`) or b
 ```
 python3 scripts/mixes.py add <url>                                  # soundcloud / youtube / mixcloud / nts.live
 python3 scripts/mixes.py import-soundcloud <user> [--min-minutes 20] [--dry-run]   # user's public likes, long tracks only
+python3 scripts/mixes.py import-youtube [LL] [--pick 1,4,videoId] [--tag calm]      # my YouTube likes
 python3 scripts/mixes.py remove <id|url|title>
 python3 scripts/mixes.py list
 ```
 
 - Needs `yt-dlp` (brew) for YouTube/Mixcloud metadata; SoundCloud uses api-v2 with the client_id from yt-dlp's cache.
+- `import-youtube` reads the private «Liked videos» playlist (`LL`) through the cookies of a logged-in
+  browser (`--browser firefox`, works on the laptop; the mini has no browser and no YouTube without VPN).
+  It never adds in bulk on purpose: the same likes hold lectures, let's plays and Мэддисон, so it prints
+  the long unknown videos numbered and adds only what `--pick` names (numbers or video ids). Tag the
+  ambient ones `--tag calm` — see below.
 - The SoundCloud username for imports is not stored anywhere yet; ask the user if unknown.
 - Playback position is remembered per mix on the server (`PATCH /api/mix/<id>` `{position}` → `position`,
   `playedAt` in `mixes.json`), so a closed tab reopens on the mix that was playing and continues from there
@@ -140,14 +146,23 @@ python3 scripts/mixes.py list
   crossfades on every new mix. The user can drop their own JPG/PNG there.
 - Mix ids: `sc:<n>`, `yt:<videoId>`, `mc:<uploader_slug>`. Fields: source, url, title, artist, duration (s),
   artwork, genre, published, tags[], addedAt, optional `nts` (episode URL), `position`/`playedAt` (resume).
+- **До 9 утра (`MORNING_UNTIL` в `index.html` и `mixes.html`) сайт показывает только спокойное**: в это
+  время человек читает, а не танцует. Спокойный микс в коллекции помечен тегом `calm`, спокойный совет —
+  полем `mood: "calm"`. До девяти «Микс на сегодня» на главной превращается в «Под утреннее чтение» и
+  берётся из `calm`-части коллекции, случайный микс на странице миксов (и кнопка «дальше») тоже, а советы
+  Claude сортируются спокойными вперёд. Если спокойного нет вовсе — всё как обычно, без пустых блоков.
 
 ### Daily advice from Claude (`mix_recs.json`, `mixes/PROMPT.md`, `scripts/mix_recs.py`, `scripts/mix_recs.sh`)
 
 Once a day the mini asks Claude Code for new mixes. `mix_recs.py digest` = collection + what was actually
-played (position/playedAt) + verdicts on earlier advice; `mixes/PROMPT.md` asks for 6 candidates as JSON
-(`search`, `artist`, `title`, `why`); `mix_recs.py apply` resolves them through SoundCloud search
+played (position/playedAt) + verdicts on earlier advice; `mixes/PROMPT.md` asks for 9 candidates as JSON
+(`search`, `artist`, `title`, `mood`, `why`); `mix_recs.py apply` resolves them through SoundCloud search
 (`/search/tracks`, ≥20 min, the asked-for artist must really be in the track, nothing already known) and
-keeps the first 3 in `mix_recs.json` (`items` + `history`). The mixes page shows them as «Советует Claude»
+keeps the first 3 rhythmic + 2 calm in `mix_recs.json` (`items` + `history`) — two quotas (`--keep`,
+`--keep-calm`), because with one list the rhythmic ones eat the whole batch and mornings stay empty.
+The calm half is a separate brief in the prompt (ambient, drone, modern classical, quiet jazz, game
+soundtracks — no dance pulse), and the digest shows the model what `calm` mixes already are in the
+collection. «Нравится» on a calm suggestion adds it with tags `claude-rec` + `calm`. The mixes page shows them as «Советует Claude»
 cards (Послушать / Нравится / Не то) and the home page uses the top one as «Микс на сегодня».
 Feedback is the whole point: «Нравится» adds the mix to the collection (tag `claude-rec`), «Не то» is a
 rejection, playing one for a minute is an implicit signal — all three land in `history` and go into the

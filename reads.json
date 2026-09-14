@@ -3,20 +3,6 @@
   "model": "opus",
   "items": [
     {
-      "id": "8b6d5449db",
-      "url": "https://aeon.co/essays/the-curio-cabinet-of-medieval-mental-health",
-      "title": "Medieval mental health",
-      "author": "Katherine Harvey",
-      "source": "Aeon",
-      "sourceId": "aeon",
-      "date": "2026-09-10",
-      "minutes": null,
-      "summary": "Saffron and ostrich liver were prescribed but so were exercise, gardens, animals, socialising, and music - by Katherine Harvey Read on Aeon",
-      "reason": "У тебя прочитана «История безумия в классическую эпоху» и в планах «Рождение клиники», а рядом в лекциях — «Хирургия, стоматология и аптекарское дело в Средние века» и «Повседневная жизнь врачей и пациентов». Здесь как раз тот пласт, который Фуко пропускает: не изоляция безумных, а средневековые рецепты вроде садов, музыки и животных — интересно читать это против фукианской схемы разрыва.",
-      "suggestedAt": "2026-09-13",
-      "verdict": "new"
-    },
-    {
       "id": "67ff19dcf0",
       "url": "https://www.lrb.co.uk/the-paper/v48/n16/colin-burrow/good-weird-or-bad-weird",
       "title": "Colin Burrow: Good Weird or Bad Weird",
@@ -45,8 +31,35 @@
       "verdict": "new"
     }
   ],
-  "saved": [],
-  "history": [],
+  "saved": [
+    {
+      "id": "8b6d5449db",
+      "url": "https://aeon.co/essays/the-curio-cabinet-of-medieval-mental-health",
+      "title": "Medieval mental health",
+      "author": "Katherine Harvey",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-10",
+      "minutes": null,
+      "summary": "Saffron and ostrich liver were prescribed but so were exercise, gardens, animals, socialising, and music - by Katherine Harvey Read on Aeon",
+      "reason": "У тебя прочитана «История безумия в классическую эпоху» и в планах «Рождение клиники», а рядом в лекциях — «Хирургия, стоматология и аптекарское дело в Средние века» и «Повседневная жизнь врачей и пациентов». Здесь как раз тот пласт, который Фуко пропускает: не изоляция безумных, а средневековые рецепты вроде садов, музыки и животных — интересно читать это против фукианской схемы разрыва.",
+      "suggestedAt": "2026-09-13",
+      "verdict": "saved",
+      "decidedAt": "2026-09-14",
+      "savedAt": "2026-09-14"
+    }
+  ],
+  "history": [
+    {
+      "id": "8b6d5449db",
+      "title": "Medieval mental health",
+      "url": "https://aeon.co/essays/the-curio-cabinet-of-medieval-mental-health",
+      "source": "Aeon",
+      "reason": "У тебя прочитана «История безумия в классическую эпоху» и в планах «Рождение клиники», а рядом в лекциях — «Хирургия, стоматология и аптекарское дело в Средние века» и «Повседневная жизнь врачей и пациентов». Здесь как раз тот пласт, который Фуко пропускает: не изоляция безумных, а средневековые рецепты вроде садов, музыки и животных — интересно читать это против фукианской схемы разрыва.",
+      "verdict": "saved",
+      "at": "2026-09-14"
+    }
+  ],
   "cache": [
     {
       "id": "b43359f4fe",
