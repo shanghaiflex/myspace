@@ -42,11 +42,11 @@
                 radial-gradient(45% 40% at 100% 100%, color-mix(in srgb, var(--sage) 18%, transparent), transparent 70%); }
   a { color: inherit; text-decoration: none; }
   .bar { position: sticky; top: 0; z-index: 20; background: var(--glass); -webkit-backdrop-filter: saturate(140%) blur(18px); backdrop-filter: saturate(140%) blur(18px); border-bottom: 1px solid var(--line); }
-  .bar-inner { max-width: 1180px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .bar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
   .nav { display: flex; gap: 18px; font-size: 16px; letter-spacing: -0.01em; flex-wrap: wrap; }
   .nav a { color: var(--text-3); font-weight: 500; }
   .nav a.on { color: var(--text); }
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 48px 32px 96px; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 48px 32px 96px; }
 
   .hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; flex-wrap: wrap; }
   .hero .eyebrow { font-size: 12.5px; text-transform: uppercase; letter-spacing: .14em; color: var(--text-2); font-weight: 500; margin-bottom: 10px; }
@@ -81,14 +81,15 @@
   .disabled { opacity: .5; pointer-events: none; }
 
   /* --- controls --- */
-  .tiles { display: grid; grid-template-columns: 4.2fr 3.3fr 4.5fr; gap: 18px; margin-top: 18px; align-items: stretch; }
-  .tile { background: var(--surface); border-radius: 26px; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 24px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+  .tiles { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .tile { background: var(--surface); border-radius: 26px; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 22px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
   .tile .top { display: flex; align-items: center; gap: 14px; }
   .tile .ico { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; flex: 0 0 auto; color: var(--text-2); transition: background .4s, color .4s; }
   .tile .ico svg { width: 22px; height: 22px; }
   .tile.lit .ico { background: color-mix(in srgb, var(--sun) 35%, var(--surface-2)); color: var(--terra); }
   .tile .t { flex: 1; min-width: 0; }
-  .tile h2 { font-family: var(--serif); font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin: 0; line-height: 1.15; }
+  .tile h2 { font-family: var(--serif); font-weight: 500; font-size: 21px; letter-spacing: -0.01em; margin: 0; line-height: 1.15; }
   .tile .s { color: var(--text-2); font-size: 13px; margin-top: 3px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tile .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); font-weight: 500; margin-bottom: 10px; }
   .sw { position: relative; width: 58px; height: 34px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface-2); box-shadow: inset 0 1px 3px rgba(60,45,25,.12); cursor: pointer; flex: 0 0 auto; transition: background .3s, border-color .3s, box-shadow .3s; padding: 0; }
@@ -111,13 +112,13 @@
   .chip:active { transform: scale(.97); }
   .chip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
   .chip i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; background: radial-gradient(circle at 35% 35%, #fff8, transparent 45%), var(--c, #ccc); box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset, 0 0 8px color-mix(in srgb, var(--c, #ccc) 55%, transparent); }
-  .sched { margin-top: auto; padding-top: 6px; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--text-3); }
+  .sched { margin-top: 4px; padding-top: 6px; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--text-3); }
   .grp + .grp { margin-top: 4px; }
-  @media (max-width: 960px) { .tiles { grid-template-columns: 1fr 1fr; } .tile.scenes { grid-column: span 2; } }
+  @media (max-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr); } .layout > * { min-width: 0; max-width: 100%; } }
   @media (max-width: 640px) {
     .bar-inner { padding: 12px 16px; } .nav { font-size: 15px; gap: 6px 14px; }
     .wrap { padding: 28px 16px 70px; } .hero h1 { font-size: 42px; } .sketch { border-radius: 22px; }
-    .tiles { grid-template-columns: 1fr; } .tile.scenes { grid-column: auto; } .tile { padding: 20px; border-radius: 22px; }
+    .tile { padding: 20px; border-radius: 22px; }
   }
 </style>
 </head>
@@ -132,6 +133,7 @@
     <p class="sub" id="status">Спрашиваю mini…</p>
   </div>
 
+  <div class="layout">
   <section class="sketch" id="sketch">
 <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" aria-label="Кухня: окно, полка с лампой Varmblixt, диван, картина и два бра">
   <defs>
@@ -296,6 +298,7 @@
       <div class="grp" id="fxGrp" hidden><div class="lbl">Живой огонь</div><div class="chips" id="effects"></div></div>
       <div class="sched" id="sched"></div>
     </div>
+  </div>
   </div>
 </main>
 
