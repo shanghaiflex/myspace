@@ -1,4 +1,4 @@
-// Советы Claude по фильмам и книгам — общий блок для films.html и books.html.
+// Советы Claude по фильмам, книгам и лекциям — общий блок для films.html, books.html и lectures.html.
 // Разметку и стили страница даёт сама (секция #recs с .rechead/.recgrid), здесь только данные,
 // отрисовка карточек, вердикты и кнопка «Обновить».
 //   Taste.mount({ kind: 'film'|'book', onAccepted(added) })
@@ -17,7 +17,7 @@ window.Taste = (() => {
     const meta = sec.querySelector('#recsMeta');
     const btn = sec.querySelector('#recsRefresh');
     const toast = opts.toast || (() => {});
-    const noun = kind === 'film' ? 'фильм' : 'книгу';
+    const noun = { film: 'фильм', book: 'книгу', lecture: 'лекцию' }[kind] || 'это';
     let updatedAt = null;
 
     function render(db) {

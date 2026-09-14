@@ -88,6 +88,30 @@
   .embed { position: fixed; left: -10000px; top: 0; width: 640px; height: 360px; opacity: 0; pointer-events: none; }
   .embed iframe, .embed .yt { display: block; width: 100%; height: 100%; border: 0; }
 
+  /* ---------- Советы Claude (taste.js). Превью лекции — кадр с YouTube, то есть 16:9, а не обложка книги. ---------- */
+  .recs { margin: 40px 0 0; }
+  .rechead { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; }
+  .rechead h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.02em; margin: 0; }
+  .rechead .meta { color: var(--text-3); font-size: 12.5px; }
+  .rechead .spacer { flex: 1; }
+  .rechead button { border: 0; background: none; color: var(--accent); font: inherit; font-size: 13px; cursor: pointer; padding: 4px 2px; }
+  .rechead button:disabled { color: var(--text-3); cursor: default; }
+  .recgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .rec { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); transition: opacity .18s, transform .18s; }
+  .rec.gone { opacity: 0; transform: scale(.97); pointer-events: none; }
+  .rec .top { display: flex; gap: 12px; }
+  .rec .cv { width: 96px; flex: 0 0 96px; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: var(--surface-2); }
+  .rec .cv img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .rec .t { font-size: 14.5px; font-weight: 600; line-height: 1.3; }
+  .rec .t .y { color: var(--text-3); font-weight: 400; }
+  .rec .s { font-size: 12.5px; color: var(--text-2); margin-top: 3px; }
+  .rec .warn { color: var(--text-3); }
+  .rec .why { font-size: 13px; line-height: 1.45; color: var(--text-2); }
+  .rec .acts { display: flex; gap: 8px; margin-top: auto; }
+  .rec .acts button { flex: 1; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+  .rec .acts .take { background: var(--accent); border-color: transparent; color: #fff; }
+  @media (max-width: 560px) { .recgrid { grid-template-columns: 1fr; } }
+
   /* ---------- list ---------- */
   .toolbar { display: flex; align-items: center; gap: 14px; margin: 40px 0 18px; flex-wrap: wrap; }
   .segmented { display: inline-flex; background: var(--surface-2); border-radius: 10px; padding: 3px; gap: 2px; }
@@ -178,6 +202,16 @@
   </section>
   <div class="embed" id="embed"></div>
 
+  <section class="recs" id="recs" hidden>
+    <div class="rechead">
+      <h2>Советует Claude</h2>
+      <div class="meta" id="recsMeta"></div>
+      <div class="spacer"></div>
+      <button id="recsRefresh">Обновить</button>
+    </div>
+    <div class="recgrid" id="recGrid"></div>
+  </section>
+
   <div class="toolbar">
     <div class="segmented" id="tabs">
       <button data-tab="rec">Рекомендации</button>
@@ -239,7 +273,7 @@ function renderList() {
         <span class="dur">${l.audio ? '♪ ' : ''}${fmtDur(l.duration)}</span>
         ${pct && l.status === 'listening' ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}
       </div>
-      <div><div class="t">${esc(l.title)}</div><div class="s">${esc(seriesName(state.db, l) || channelName(state.db, l))}</div></div>
+      <div><div class="t">${esc(l.title)}</div><div class="s">${esc(seriesName(state.db, l) || l.author || channelName(state.db, l))}</div></div>
     </article>`;
   }).join('');
 }
@@ -273,7 +307,7 @@ function renderHero() {
   if (!l) return;
   $('#heroCover').innerHTML = `<img src="${esc(bigThumb(l))}" alt="">`;
   $('#heroCover').classList.toggle('sq', l.source === 'soundcloud');
-  $('#heroEyebrow').innerHTML = `<span class="chip ${l.status}">${STATUS_LABEL[l.status]}</span><span>${esc(channelName(state.db, l))}</span>${seriesName(state.db, l) ? `<span>· ${esc(seriesName(state.db, l))}</span>` : ''}`;
+  $('#heroEyebrow').innerHTML = `<span class="chip ${l.status}">${STATUS_LABEL[l.status]}</span><span>${esc(l.author || channelName(state.db, l))}</span>${seriesName(state.db, l) ? `<span>· ${esc(seriesName(state.db, l))}</span>` : ''}`;
   $('#heroTitle').textContent = l.title;
   $('#heroMeta').textContent = [fmtDur(l.duration), l.listenedAt && 'прослушано ' + l.listenedAt].filter(Boolean).join(' · ');
   $('#doneBtn').classList.toggle('on', l.status === 'listened');
@@ -462,6 +496,16 @@ fetch('lectures.json', { cache: 'no-store' }).then(r => r.json()).then(db => {
   const l = (h && byId(h)) || db.lectures.find(x => x.status === 'listening' && (!state.channel || x.channel === state.channel)) || recommend(db, 1, state.channel || null)[0];
   if (l) selectLecture(l);
 }).catch(() => toast('Не удалось загрузить lectures.json'));
+</script>
+<script src="taste.js"></script>
+<script>
+Taste.mount({
+  kind: 'lecture',
+  toast,
+  // Принятая лекция уезжает в lectures.json как «в планах» — перечитываем каталог, чтобы она сразу
+  // оказалась в списке (и в очереди на скачивание для телефона).
+  onAccepted: () => { fetch('lectures.json', { cache: 'no-store' }).then(r => r.json()).then(db => { state.db = db; renderSeries(); renderList(); }).catch(() => {}); },
+});
 </script>
 </body>
 </html>

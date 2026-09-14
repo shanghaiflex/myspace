@@ -1,7 +1,7 @@
 #!/bin/sh
-# Советы по фильмам и книгам: дайджест вкуса → Claude Code (Opus) → проверка в OMDb / Google Books
-# → taste_recs.json → страницы «Фильмы» и «Книги».
-#   scripts/taste_recs.sh [film|book|both] [--force]     --force: не ждать сутки с прошлого подбора
+# Советы по фильмам, книгам и лекциям: дайджест вкуса → Claude Code (Opus) → проверка в OMDb /
+# Google Books / поиске YouTube → taste_recs.json → страницы «Фильмы», «Книги», «Лекции».
+#   scripts/taste_recs.sh [film|book|lecture|all] [--force]   --force: не ждать сутки с прошлого подбора
 # Запускается на mini из launchd раз в день (deploy/install-taste-recs.sh) и по кнопке
 # на странице (POST /api/recs/<kind>/refresh). Нужен `claude` (Claude Code CLI) и
 # CLAUDE_CODE_OAUTH_TOKEN или ANTHROPIC_API_KEY в .env. TASTE_RECS_MODEL переопределяет модель.
@@ -15,14 +15,14 @@ WORK="${TASTE_RECS_WORKDIR:-$HOME/.taste-recs}"; mkdir -p "$WORK"
 
 # Разбираем аргументы без shift: `shift` при пустом списке возвращает ненулевой код,
 # а с `set -e` это молча убивало запуск из launchd (без аргументов вовсе).
-KINDS="film book"
+KINDS="film book lecture"
 FORCE=""
 for a in "$@"; do
   case "$a" in
-    film|book) KINDS="$a" ;;
-    both) KINDS="film book" ;;
+    film|book|lecture) KINDS="$a" ;;
+    both|all) KINDS="film book lecture" ;;
     --force) FORCE="--force" ;;
-    *) echo "неизвестный аргумент: $a (film|book|both, --force)"; exit 2 ;;
+    *) echo "неизвестный аргумент: $a (film|book|lecture|all, --force)"; exit 2 ;;
   esac
 done
 
@@ -40,6 +40,7 @@ for KIND in $KINDS; do
   case "$KIND" in
     film) PROMPT=films/PROMPT.md ;;
     book) PROMPT=books/PROMPT.md ;;
+    lecture) PROMPT=lectures/PROMPT.md ;;
   esac
   { cat "$PROMPT"; printf '\n'; cat "$WORK/digest-$KIND.txt"; } > "$WORK/prompt-$KIND.txt"
 

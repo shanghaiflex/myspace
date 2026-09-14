@@ -3,6 +3,7 @@
 
 Usage:
   lectures.py sync                       refresh the channel list (videos + streams + playlists), keep statuses
+  lectures.py import-likes [--pick 1,4,<id>]   my YouTube likes → lectures marked as already listened
   lectures.py set <id|title> --status new|queued|listening|listened [--position SEC]
   lectures.py series "<name>" <id|title> ...   put lectures into a named (custom) series
   lectures.py audio <id|title> [...]     download audio-only (m4a) for offline/phone listening
@@ -17,6 +18,11 @@ DATA = os.path.join(ROOT, "lectures.json")
 AUDIO = os.path.join(ROOT, "audio")
 STATUSES = ("new", "queued", "listening", "listened")
 DOWNLOAD_ATTEMPTS = int(os.environ.get("AUDIO_ATTEMPTS", 8))
+# Два канала без канала: лекции, пришедшие не из подписки, а поштучно. `likes` — разовый импорт
+# моих лайков с YouTube (их слушали давно, статус сразу `listened`: они нужны как вкус, а не как план),
+# `claude` — принятые советы. У обоих type не youtube/soundcloud, поэтому sync их не трогает.
+LIKES_CHANNEL = {"id": "likes", "name": "Лайки на YouTube", "type": "manual", "label": "Лайки · YouTube"}
+RECS_CHANNEL = {"id": "claude", "name": "Советы Claude", "type": "manual", "label": "Совет Claude"}
 DEFAULT_CHANNELS = [
     {"id": "UCFJjfwRP5CaKWxpbxjMzjsw", "name": "Семинары по истории Александра Макарова", "type": "youtube", "label": "Макаров · Средневековье"},
     {"id": "sc:589577313", "name": "Serj Bushwacker", "type": "soundcloud", "url": "https://soundcloud.com/serj-bushwacker", "label": "Bushwacker · Древний Египет"},
@@ -127,12 +133,89 @@ def preload_item(db, l):
             "audio": ("/audio/" + os.path.basename(p)) if p else None, "size": os.path.getsize(p) if p else None}
 
 
+def ensure_channel(db, ch):
+    if not any(c["id"] == ch["id"] for c in db["channels"]):
+        db["channels"].append(dict(ch))
+
+
+def add_external(db, ch, l):
+    """Лекция не из подписки: лайк с YouTube или принятый совет. Канал заводится по требованию,
+    `order` — следующий свободный внутри него (save сортирует по каналу и order)."""
+    ensure_channel(db, ch)
+    known = next((x for x in db["lectures"] if x["id"] == l["id"]), None)
+    if known:
+        return known, False
+    order = max((x.get("order", 0) for x in db["lectures"] if x.get("channel") == ch["id"]), default=-1) + 1
+    rec = {"id": l["id"], "status": l.get("status") or "new", "position": 0, "listenedAt": None,
+           "addedAt": datetime.date.today().isoformat(), "note": l.get("note"), "series": [],
+           "title": l["title"], "duration": round(l.get("duration") or 0), "channel": ch["id"],
+           "author": l.get("author"), "order": order, "live": False,
+           "source": "youtube", "url": l.get("url") or f"https://www.youtube.com/watch?v={l['id']}",
+           "artwork": l.get("artwork")}
+    if rec["status"] == "queued":
+        rec["queuedAt"] = int(datetime.datetime.now().timestamp())
+    db["lectures"].append(rec)
+    return rec, True
+
+
 # ---------------------------------------------------------------- commands
+def cmd_import_likes(args):
+    """Лайки на YouTube — не каталог лекций: там же музыка, лет'с плеи и Мэддисон. Поэтому команда
+    никогда не добавляет пачкой: печатает длинные незнакомые видео с номерами, а кладёт только то,
+    что названо в --pick. Всё добавленное сразу `listened` — это прошлое, а не планы, и нужно оно
+    затем, чтобы советам было на чём стоять."""
+    db = load()
+    known = {l["id"]: l for l in db["lectures"]}
+    url = args.playlist if "://" in args.playlist else f"https://www.youtube.com/playlist?list={args.playlist}"
+    cmd = [ytdlp(), "--flat-playlist", "-J"]
+    if args.browser:
+        cmd += ["--cookies-from-browser", args.browser]
+    r = subprocess.run(cmd + [url], capture_output=True, text=True)
+    if r.returncode != 0 or not r.stdout.strip():
+        raise SystemExit(f"yt-dlp failed for {url}:\n{r.stderr.strip()[-400:]}")
+    entries = json.loads(r.stdout).get("entries") or []
+    cands = [e for e in entries if e.get("id") and (e.get("duration") or 0) >= args.min_minutes * 60]
+    want = {w.strip() for w in (args.pick or "").split(",") if w.strip()}
+    picked, added, marked = [], 0, 0
+    for i, e in enumerate(cands, 1):
+        take = str(i) in want or e["id"] in want
+        d = round(e.get("duration") or 0)
+        flag = "=" if e["id"] in known else " "
+        print(f"{'+' if take else ' '}{flag}{i:3} {d // 3600}:{d % 3600 // 60:02d}  {e['id']}  "
+              f"{(e.get('channel') or '?')[:30]:<30} {(e.get('title') or '')[:70]}")
+        if take:
+            picked.append(e)
+    unknown = want - {str(i) for i in range(1, len(cands) + 1)} - {e["id"] for e in cands}
+    if unknown:
+        raise SystemExit("нет среди кандидатов: " + ", ".join(sorted(unknown)))
+    if not picked:
+        print(f"\n{len(cands)} кандидатов (= уже в каталоге). Добавить: --pick 1,4,7 (номера или id).")
+        return
+    tracked = {c["id"] for c in db["channels"]}
+    for e in picked:
+        # Лайк на ролике канала, за которым я и так слежу, принадлежит этому каналу, а не «лайкам»:
+        # иначе он выпал бы из серий и из фильтра по каналу.
+        ch = next((c for c in db["channels"] if c["id"] == e.get("channel_id")), LIKES_CHANNEL) \
+            if e.get("channel_id") in tracked else LIKES_CHANNEL
+        l, is_new = add_external(db, ch, {
+            "id": e["id"], "title": (e.get("title") or "").strip(), "duration": e.get("duration"),
+            "author": e.get("channel") or e.get("uploader"), "url": e.get("url"), "status": "listened"})
+        if is_new:
+            added += 1
+        elif l["status"] != "listened":
+            marked += 1
+        l["status"] = "listened"
+    save(db)
+    print(f"\nдобавлено {added}, отмечено прослушанными из каталога {marked}")
+
+
 def cmd_sync(args):
     db = load()
     known = {l["id"]: l for l in db["lectures"]}
     today = datetime.date.today().isoformat()
     for ch in db["channels"]:
+        if ch.get("type") == "manual":
+            continue
         if ch.get("type") == "soundcloud":
             sync_soundcloud(db, ch, known, today)
             continue
@@ -302,6 +385,12 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("sync"); s.add_argument("--no-playlists", action="store_true"); s.set_defaults(fn=cmd_sync)
+    il = sub.add_parser("import-likes", help="мои лайки на YouTube → лекции со статусом «прослушано»")
+    il.add_argument("playlist", nargs="?", default="LL", help="плейлист или URL; LL — мои лайки")
+    il.add_argument("--browser", default="firefox", help="откуда взять куки, '' — без них")
+    il.add_argument("--min-minutes", type=int, default=20)
+    il.add_argument("--pick", help="номера или id видео через запятую")
+    il.set_defaults(fn=cmd_import_likes)
     st = sub.add_parser("set"); st.add_argument("query"); st.add_argument("--status", choices=STATUSES)
     st.add_argument("--position", type=int); st.add_argument("--note"); st.set_defaults(fn=cmd_set)
     a = sub.add_parser("audio"); a.add_argument("query", nargs="+"); a.set_defaults(fn=cmd_audio)

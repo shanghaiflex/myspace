@@ -22,7 +22,7 @@
   GET    /api/mix-recs            Claude's daily mix advice (mix_recs.json) + job status
   PATCH  /api/mix-rec/<id>        body: {verdict: liked|dismissed|played}  liked also adds the mix
   POST   /api/mix-recs/refresh    ask for a fresh batch now (scripts/mix_recs.sh --force) in the background
-  GET    /api/recs/<film|book>    Claude's film / book advice (taste_recs.json) + job status
+  GET    /api/recs/<film|book|lecture>   Claude's film / book / lecture advice (taste_recs.json) + job status
   PATCH  /api/rec/<kind>/<id>     body: {verdict: liked|dismissed}  liked also adds it to the catalog
   POST   /api/recs/<kind>/refresh ask for a fresh batch now (scripts/taste_recs.sh) in the background
   GET    /api/reads               Claude's article picks from real RSS feeds (reads.json) + job status
@@ -67,7 +67,7 @@ REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
 # and a note written between the two would talk about a workout that burned nothing.
 WORKOUT_REVIEW_DELAY = 90
 RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
-TASTE_JOBS = {k: {"status": "idle", "started": 0} for k in T.KINDS}  # manual film / book advice runs
+TASTE_JOBS = {k: {"status": "idle", "started": 0} for k in T.KINDS}  # manual film / book / lecture advice runs
 READS_JOB = {"status": "idle", "started": 0}   # manual article run (feeds + Claude)
 PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
 # The calendar itself is cached on disk for half an hour; this keeps the home page from re-parsing 350 events

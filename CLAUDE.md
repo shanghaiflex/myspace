@@ -334,18 +334,27 @@ launchd agent on the mini: `cc.bodywithoutorgans.mixrecs`, daily at 07:20 (`depl
 API: `GET /api/mix-recs`, `PATCH /api/mix-rec/<id>` `{verdict}`, `POST /api/mix-recs/refresh` (the «Обновить»
 button on the mixes page).
 
-## Советы по фильмам и книгам (`taste_recs.json`, `taste.js`, `scripts/taste_recs.py`, `scripts/taste_recs.sh`)
+## Советы по фильмам, книгам и лекциям (`taste_recs.json`, `taste.js`, `scripts/taste_recs.py`, `scripts/taste_recs.sh`)
 
-Тот же механизм, что у миксов, но для двух каталогов сразу. `taste_recs.py digest film|book` собирает
+Тот же механизм, что у миксов, но для трёх каталогов сразу. `taste_recs.py digest film|book` собирает
 контекст вкуса: фильмы — все оценённые с режиссёром, жанрами и моими заметками плюс список «посмотреть»;
 книги — что прочитано, что **брошено** (главный отрицательный сигнал) и что в планах. Оценок у книг нет
 (`rating` пустой у всех, теги — цветные квадраты из Obsidian), поэтому там вкус читается по составу;
 если оценки появятся через страницу, дайджест подхватит их сам.
 
-`films/PROMPT.md` и `books/PROMPT.md` просят 6 кандидатов в виде JSON (`title`, `year`/`author`, `why`),
-`taste_recs.py apply` проверяет каждого: фильм — через OMDb (`movies.py resolve` + `metadata`), книгу —
-через Google Books / Open Library (`books.py lookup`). Выдуманное название и то, что уже в каталоге,
-в истории или в советах, отсеивается; первые 3 подтверждённых ложатся в `taste_recs.json`.
+Лекции (2026-09-15) — третий вид, `digest lecture`: что дослушано и что слушается (у лекций нет
+оценок, а «не слушал» ничего не значит — в каталоге лежат все 400 роликов двух каналов целиком,
+руками их никто не выбирал), что в планах, темы серий и **запрет на сами эти каналы**: они уже
+выкачаны, советовать оттуда нечего.
+
+`films/PROMPT.md`, `books/PROMPT.md` и `lectures/PROMPT.md` просят 6 кандидатов в виде JSON
+(`title`, `year`/`author`, `why`; у лекций ещё `search`), `taste_recs.py apply` проверяет каждого:
+фильм — через OMDb (`movies.py resolve` + `metadata`), книгу — через Google Books / Open Library
+(`books.py lookup`), лекцию — через поиск YouTube (`yt-dlp ytsearch8:`, ≥25 минут, названный лектор
+должен реально быть в канале или названии, не live, не с уже выкачанных каналов). Модель не даёт ссылок
+вовсе — ровно как в `reads.py`: ссылку подставляет поиск, поэтому выдуманного URL быть не может.
+Выдуманное название и то, что уже в каталоге, в истории или в советах, отсеивается; первые
+3 подтверждённых ложатся в `taste_recs.json`.
 
 Картинки советов, скачанные на mini, раньше стирал каждый деплой (`rsync --delete` с ноутбука, где их не было);
 с 2026-09-13 `deploy.sh` сначала забирает `posters/` и `covers/` с mini. Совет без картинки или непроверенный
@@ -353,19 +362,24 @@ button on the mixes page).
 
 Обратная связь — весь смысл: «Хочу» переносит фильм в `movies.json` со статусом `to-watch` (постер
 скачивается локально, причина совета уезжает в `note`), книгу — в `books.json` со статусом `to-read`
-(тег `claude-rec`); «Не то» — отказ. И то, и другое ложится в `history` и попадает в следующий промпт.
+(тег `claude-rec`), лекцию — в `lectures.json` со статусом `queued` в канал «Советы Claude»
+(`L.RECS_CHANNEL`), откуда её сразу подхватывают и очередь на странице, и `preload` телефона —
+mini качает звук заранее; «Не то» — отказ. И то, и другое ложится в `history` и попадает в следующий
+промпт. Превью лекции — ссылка на `i.ytimg.com`, локально ничего не лежит, поэтому `covers` лекции
+пропускает.
 
 ```
-python3 scripts/taste_recs.py digest film|book        # что видит модель
-python3 scripts/taste_recs.py list [film|book]        # текущие советы
-sh scripts/taste_recs.sh [film|book|both] [--force]   # спросить сейчас (на mini: ssh mini 'cd movies && sh scripts/taste_recs.sh both --force')
+python3 scripts/taste_recs.py digest film|book|lecture   # что видит модель
+python3 scripts/taste_recs.py list [film|book|lecture]   # текущие советы
+sh scripts/taste_recs.sh [film|book|lecture|all] [--force]   # спросить сейчас (на mini: ssh mini 'cd movies && sh scripts/taste_recs.sh all --force')
 python3 scripts/taste_recs.py verdict film <tt…> liked|dismissed
 ssh mini tail -20 movies/logs/taste-recs.log
 ```
 
 launchd на mini: `cc.bodywithoutorgans.tasterecs`, ежедневно в 07:40 (`deploy/install-taste-recs.sh`).
-API: `GET /api/recs/<film|book>`, `PATCH /api/rec/<kind>/<id>` `{verdict}`, `POST /api/recs/<kind>/refresh`
-(кнопка «Обновить» в блоке «Советует Claude» на обеих страницах, общий код — `taste.js`).
+API: `GET /api/recs/<film|book|lecture>`, `PATCH /api/rec/<kind>/<id>` `{verdict}`,
+`POST /api/recs/<kind>/refresh` (кнопка «Обновить» в блоке «Советует Claude» на всех трёх страницах,
+общий код — `taste.js`).
 
 ### Порядок карточек на главной
 
@@ -439,6 +453,7 @@ Recommendations (`rec.js`) rank unlistened lectures by shared playlists/keywords
 
 ```
 python3 scripts/lectures.py sync                       # refresh channel videos + streams + playlists (minutes)
+python3 scripts/lectures.py import-likes [--pick 3,5,…]  # мои лайки на YouTube → лекции «прослушано»
 python3 scripts/lectures.py set "<title|id>" --status listened|listening|new [--position SEC]
 python3 scripts/lectures.py audio "<title|id>" ...     # download m4a into audio/ (gitignored, per machine)
 python3 scripts/lectures.py list [--status ...]
@@ -457,6 +472,16 @@ python3 scripts/lectures.py add-channel <url>
   по концу ставит `listened`, удаляет файл и берёт следующую. Список обновляется при открытии, по BGTask и после
   каждой прослушанной. Позиция на сервере обрезается по длительности лекции (была 4:08 у лекции на 2:51).
   Запросы к `/audio/` mini логирует строкой `audio <file> → iphone [Range]` (Range = докачка после обрыва).
+- **Два канала без канала.** Кроме двух отслеживаемых каналов в `lectures.json` есть синтетические,
+  с `"type": "manual"` (их пропускает `sync`): `likes` — «Лайки на YouTube», разовый импорт
+  `lectures.py import-likes` (лайки — не каталог лекций, там же музыка, лет'с плеи и Мэддисон,
+  поэтому команда печатает длинные незнакомые видео с номерами и добавляет только то, что названо
+  в `--pick`; всё добавленное сразу `listened` — это прошлое, а не планы, и нужно оно затем, чтобы
+  советам было на чём стоять), и `claude` — принятые советы (см. ниже). Лайк на ролике канала, за
+  которым я и так слежу, уезжает в этот канал, а не в «лайки», иначе он выпал бы из серий и из фильтра.
+  У такой лекции есть поле `author` (настоящий автор ролика) — карточка и плеер показывают его вместо
+  имени канала. 15.09.2026 так импортировано 37 лекций: Макаров, Bushwacker с YouTube, Карпаты про LLM,
+  SHIZ про дзета-функцию, Фуко, Жижек, Смулянский, Галковский, Redroom, Пятигорский, Хомский.
 - Home page shows one card per lecture channel (channel `label` in lectures.json, e.g. «Макаров · Средневековье»,
   «Bushwacker · Древний Египет»: next up + queue/recommendations), a random mix, random to-watch posters.
 
@@ -482,9 +507,11 @@ The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/
 (native install, no node needed; `python3` is NOT on the default ssh PATH — use `~/.local/python312/bin/python3`). Data sync is rsync:
 after ANY change run `scripts/deploy.sh "message"` — it folds in live in-site edits for JSON you didn't touch,
 commits, pushes to GitHub, rsyncs to the mini, and restarts serve. That is the one command to ship to production.
-The mini reaches SoundCloud/Cloudflare/Open-Meteo directly but YouTube is blocked there without a VPN (its AmneziaVPN
-is currently not configured), so download lecture audio on the laptop (`scripts/lectures.py audio <id>`) and let
-`scripts/sync.sh` push `audio/` to the mini.
+The mini reaches SoundCloud/Cloudflare/Open-Meteo directly, and since the VPN LaunchDaemon became a full tunnel
+it reaches YouTube too (проверено 15.09.2026: `yt-dlp ytsearch` и `curl youtube.com` → 200) — на этом стоят
+и `start_audio_job` (mini сам качает звук лекций из `preload`), и поиск советов по лекциям. Скачивать звук
+на ноутбуке (`scripts/lectures.py audio <id>`) и толкать `audio/` на mini через `scripts/sync.sh` по-прежнему
+можно, но это уже запасной путь, а не единственный.
 
 ## Laptop
 The always-on local instance on http://localhost:8787 is OFF since 2026-09-07: production went live, so

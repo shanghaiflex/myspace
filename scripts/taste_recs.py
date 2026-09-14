@@ -1,29 +1,36 @@
 #!/usr/bin/env python3
-"""Советы по фильмам и книгам. Claude Code (Opus) смотрит на то, что я оценил, что бросил
+"""Советы по фильмам, книгам и лекциям. Claude Code (Opus) смотрит на то, что я оценил, что бросил
 и какие вердикты я вынес его прошлым советам, предлагает новое — а мы проверяем, что оно
-существует, через OMDb (фильмы) и Google Books / Open Library (книги). Данные — taste_recs.json.
+существует, через OMDb (фильмы), Google Books / Open Library (книги) и поиск YouTube (лекции).
+Данные — taste_recs.json.
 
 Usage:
-  taste_recs.py digest film|book              # контекст вкуса, который видит модель
-  taste_recs.py due film|book                 # код 0, если пора обновлять (для taste_recs.sh)
-  taste_recs.py apply film|book --file answer.json [--model opus] [--keep 3]
-  taste_recs.py verdict film|book <id> liked|dismissed
-  taste_recs.py list [film|book]
+  taste_recs.py digest film|book|lecture      # контекст вкуса, который видит модель
+  taste_recs.py due film|book|lecture         # код 0, если пора обновлять (для taste_recs.sh)
+  taste_recs.py apply <kind> --file answer.json [--model opus] [--keep 3]
+  taste_recs.py verdict <kind> <id> liked|dismissed
+  taste_recs.py list [kind]
 
 Механизм повторяет mix_recs.py, разница только в способе проверки кандидата и в том,
 куда уезжает принятый совет: фильм — в movies.json со статусом to-watch, книга — в books.json
-со статусом to-read. Запускается раз в день на mini (scripts/taste_recs.sh из launchd,
+со статусом to-read, лекция — в lectures.json со статусом queued («в планах»), откуда её
+подхватывает телефон. Запускается раз в день на mini (scripts/taste_recs.sh из launchd,
 deploy/install-taste-recs.sh) и по кнопке на странице (POST /api/recs/<kind>/refresh).
 """
-import argparse, datetime, json, os, re, sys, time
+import argparse, datetime, json, os, re, subprocess, sys, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "taste_recs.json")
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import movies as M  # noqa: E402
 import books as B  # noqa: E402
+import lectures as L  # noqa: E402
 
-KINDS = ("film", "book")
+KINDS = ("film", "book", "lecture")
+# Лекция — это не ролик: час и больше. Порог отсекает анонсы, нарезки и трейлеры,
+# которые поиск YouTube выдаёт вперемешку с самими лекциями.
+LECTURE_MIN_MINUTES = 25
+LECTURE_SEARCH_N = 8
 VERDICTS = ("liked", "dismissed")
 HISTORY_MAX = 120
 EVERY_HOURS = 20  # суточная задача, которая может запуститься поздно (mini выключали), не должна отказываться
@@ -56,8 +63,13 @@ def save(db):
 
 def check_kind(kind):
     if kind not in KINDS:
-        raise SystemExit(f"bad kind: {kind} (film|book)")
+        raise SystemExit(f"bad kind: {kind} ({'|'.join(KINDS)})")
     return kind
+
+
+def fmt_dur(s):
+    t = round((s or 0) / 60)
+    return f"{t // 60} ч {t % 60:02d} мин" if t >= 60 else f"{t} мин"
 
 
 # ---------------------------------------------------------------- digest
@@ -119,9 +131,52 @@ def _book_digest(d):
     return out
 
 
+def _lecture_digest(d):
+    """Вкус здесь — это то, что дослушано и что слушается: у лекций нет оценок, а «не слушал» ничего
+    не значит (в каталоге лежат все 400 роликов двух каналов целиком, руками их никто не выбирал).
+    Отсюда и главное правило промпта: не предлагать эти два канала — они уже выкачаны."""
+    db = L.load()
+    ls = db["lectures"]
+    chan = {c["id"]: c for c in db["channels"]}
+    out = []
+
+    def line(l):
+        who = l.get("author") or (chan.get(l.get("channel")) or {}).get("name") or "?"
+        series = next((db["series"].get(x) for x in (l.get("series") or []) if db["series"].get(x)), None)
+        s = f"- {l['title']} — {who}, {fmt_dur(l.get('duration'))}"
+        if series:
+            s += f" (серия «{series.rstrip('.')}»)"
+        return s
+
+    done = [l for l in ls if l.get("status") == "listened"]
+    out.append(f"## Что я слушал целиком ({len(done)}) — это и есть мой вкус")
+    out += [line(l) for l in done] or ["(пусто)"]
+
+    now = [l for l in ls if l.get("status") == "listening"]
+    if now:
+        out.append(f"\n## Что слушаю прямо сейчас ({len(now)})")
+        out += [line(l) for l in now]
+
+    plans = [l for l in ls if l.get("status") == "queued"]
+    out.append(f"\n## Уже в планах — не предлагай это ({len(plans)})")
+    out += [line(l) for l in plans] or ["(пусто)"]
+
+    tracked = [c for c in db["channels"] if c.get("type") in ("youtube", "soundcloud")]
+    counts = {c["id"]: sum(1 for l in ls if l.get("channel") == c["id"]) for c in tracked}
+    out.append("\n## Каналы, которые у меня выкачаны целиком — с них не предлагай НИЧЕГО")
+    out += [f"- {c['name']}: все {counts[c['id']]} лекций уже лежат в каталоге" for c in tracked]
+
+    series = sorted({(db["series"].get(x) or "").rstrip(".") for l in ls
+                     for x in (l.get("series") or []) if db["series"].get(x)})
+    if series:
+        out.append("\n## Темы серий в каталоге (по ним видно, что мне интересно)")
+        out.append(", ".join(s for s in series if s))
+    return out
+
+
 def digest(kind):
     d = load()[check_kind(kind)]
-    out = _film_digest(d) if kind == "film" else _book_digest(d)
+    out = {"film": _film_digest, "book": _book_digest, "lecture": _lecture_digest}[kind](d)
 
     if d["items"]:
         out.append("\n## Твои советы, которые сейчас висят у меня на странице (не повторяй их)")
@@ -140,7 +195,7 @@ def digest(kind):
 
 
 # ---------------------------------------------------------------- разбор ответа модели
-def parse_answer(text):
+def parse_answer(text, kind="film"):
     """Модель просят отдать голый JSON-массив; прощаем ```-заборы и болтовню вокруг."""
     text = re.sub(r"```[a-z]*", "", text)
     i, j = text.find("["), text.rfind("]")
@@ -149,15 +204,20 @@ def parse_answer(text):
     data = json.loads(text[i:j + 1])
     if not isinstance(data, list):
         raise SystemExit("model answer is not a list")
-    return [c for c in data if isinstance(c, dict) and c.get("title")]
+    # У лекции название необязательно (промпт просит его «если знаешь»): там достаточно запроса,
+    # а resolve_film / resolve_book без названия искать нечего.
+    need = ("title", "search") if kind == "lecture" else ("title",)
+    return [c for c in data if isinstance(c, dict) and any(c.get(k) for k in need)]
 
 
 def known_ids(kind, d):
     ids = {r["id"] for r in d["items"]} | {h["id"] for h in d["history"]}
     if kind == "film":
         ids |= {m["id"] for m in M.load()}
-    else:
+    elif kind == "book":
         ids |= {b["id"] for b in B.load()}
+    else:
+        ids |= {l["id"] for l in L.load()["lectures"]}
     return ids
 
 
@@ -216,18 +276,79 @@ def resolve_book(c, exclude):
             "plot": (r.get("description") or "")[:400] or None}
 
 
+def _words(s):
+    return re.sub(r"[^0-9a-zA-Zа-яёА-ЯЁ]+", " ", s or "").lower().split()
+
+
+def _match(e, author):
+    """Насколько найденное отвечает на «кого просили»: попадание в канал > в название > мимо.
+    Без этого поиск охотно отдаёт самый популярный ролик по словам запроса, и на странице
+    оказалась бы лекция, не имеющая отношения к причине, которую написала модель."""
+    want = _words(author)
+    if not want:
+        return 1
+    if all(w in _words(e.get("channel") or e.get("uploader")) for w in want):
+        return 2
+    if all(w in _words(e.get("title")) for w in want):
+        return 1
+    return 0
+
+
+def yt_search(query, n=LECTURE_SEARCH_N):
+    r = subprocess.run([L.ytdlp(), "--flat-playlist", "-J", f"ytsearch{n}:{query}"],
+                       capture_output=True, text=True)
+    if r.returncode != 0 or not r.stdout.strip():
+        print(f"  поиск не отработал ({query}): {r.stderr.strip()[-200:]}", file=sys.stderr)
+        return []
+    return json.loads(r.stdout).get("entries") or []
+
+
+def resolve_lecture(c, exclude):
+    """Совет модели → реальное видео на YouTube. Проверка здесь — тот же поиск, что у миксов:
+    модель называет запрос и лектора, а ссылку даёт YouTube, поэтому выдуманного URL быть не может."""
+    query = (c.get("search") or f"{c.get('author') or ''} {c.get('title') or ''}").strip()
+    tracked = {ch["id"] for ch in L.load()["channels"]}
+    best = None
+    for e in yt_search(query):
+        if not e.get("id") or e["id"] in exclude:
+            continue
+        if (e.get("duration") or 0) < LECTURE_MIN_MINUTES * 60:
+            continue
+        if e.get("live_status") == "is_live":
+            continue
+        if e.get("channel_id") in tracked:   # этот канал у меня уже выкачан целиком
+            continue
+        hit = _match(e, c.get("author"))
+        if not hit:
+            continue
+        score = (hit, e.get("view_count") or 0)
+        if best is None or score > best[0]:
+            best = (score, e)
+    if not best:
+        print(f"  ничего длинного не нашлось: {query}")
+        return None
+    e = best[1]
+    who = e.get("channel") or e.get("uploader") or None
+    return {"id": e["id"], "title": (e.get("title") or "").strip(), "year": None, "author": who,
+            "cover": f"https://i.ytimg.com/vi/{e['id']}/hqdefault.jpg", "coverUrl": None,
+            "url": e.get("url") or f"https://www.youtube.com/watch?v={e['id']}",
+            "duration": round(e.get("duration") or 0), "wanted": query,
+            "meta": " · ".join(filter(None, [who, fmt_dur(e.get("duration"))])),
+            "plot": (e.get("description") or "")[:400] or None}
+
+
 def apply_answer(kind, text, model=None, keep=3):
     check_kind(kind)
     db = load()
     d = db[kind]
     exclude = known_ids(kind, d)
     items = []
-    for c in parse_answer(text):
+    for c in parse_answer(text, kind):
         if len(items) >= keep:
             break
         if items and kind == "book":
             time.sleep(2)  # Google Books считает частоту запросов, а не только их число
-        r = resolve_film(c, exclude) if kind == "film" else resolve_book(c, exclude)
+        r = {"film": resolve_film, "book": resolve_book, "lecture": resolve_lecture}[kind](c, exclude)
         if not r:
             continue
         exclude.add(r["id"])
@@ -287,7 +408,20 @@ def _drop_cover(r):
 
 
 def _add_to_catalog(kind, r):
-    """Принятый совет уезжает в каталог как «хочу посмотреть/прочитать» — с локальной обложкой."""
+    """Принятый совет уезжает в каталог как «хочу посмотреть/прочитать/послушать»."""
+    if kind == "lecture":
+        # Лекция встаёт в планы (`queued`) в канал «Советы Claude»: оттуда её берёт и очередь
+        # на странице, и preload телефона — mini сам скачает звук заранее.
+        db = L.load()
+        l, is_new = L.add_external(db, L.RECS_CHANNEL, {
+            "id": r["id"], "title": r["title"], "duration": r.get("duration"),
+            "author": r.get("author"), "url": r.get("url"), "status": "queued",
+            "note": r.get("reason")})
+        if not is_new:
+            return None
+        L.save(db)
+        return {"id": l["id"], "title": l["title"], "status": l["status"]}
+
     if kind == "film":
         movies = M.load()
         if any(m["id"] == r["id"] for m in movies):
@@ -322,6 +456,8 @@ def refill_covers(kind=None):
     db = load()
     fixed = []
     for k in ([kind] if kind else KINDS):
+        if k == "lecture":      # превью лекции — ссылка на i.ytimg.com, скачивать нечего
+            continue
         for r in db[k]["items"]:
             has_file = str(r.get("cover") or "").startswith(("posters/", "covers/")) and \
                 os.path.exists(os.path.join(ROOT, r["cover"]))
