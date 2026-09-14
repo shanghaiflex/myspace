@@ -111,6 +111,17 @@
   .card.wx.c4 .wxrow { flex-wrap: nowrap; }
   .card.wx.c4 .hours { margin-left: 0; width: 100%; }
   .card.wx.c4 .hours .hr { min-width: 34px; }
+  /* Дела на сегодня: одна полоса «плашек» — событие за событием, прошедшие приглушены, текущее подсвечено. */
+  .card.sc { padding: 14px 20px; border-radius: 18px; gap: 10px; }
+  .sc .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sc .ch { display: inline-flex; align-items: baseline; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: 14.5px; font-weight: 600;
+    background: color-mix(in srgb, var(--card-text) 9%, transparent); }
+  .sc .ch .tm { font-size: 12.5px; font-weight: 600; color: var(--card-text-3); font-variant-numeric: tabular-nums; }
+  .sc .ch.past { opacity: .42; }
+  .sc .ch.now { background: color-mix(in srgb, var(--accent) 34%, transparent); }
+  .sc .ch.now .tm { color: var(--card-text-2); }
+  .sc .ch.free-ev { background: transparent; border: 1px dashed color-mix(in srgb, var(--card-text) 22%, transparent); }
+  .sc .ch.empty { background: transparent; padding: 0; color: var(--card-text-2); font-weight: 500; }
   .card.lc { padding: 18px 20px; gap: 10px; }
   .card.lc h2 { font-size: 16px; }
   .card.lc .img.sq { width: 64px; height: 64px; } .card.lc .img.wide { width: 104px; height: 60px; }
@@ -163,9 +174,34 @@ const isCalm = m => m.mood === 'calm' || (m.tags || []).includes('calm');
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, reads]) => {
+Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, reads, sched]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
+  // Дела на сегодня — плашка над всем остальным: события Яндекс.Календаря (все календари, кроме чужих
+  // тренировок — их отсеивает сервер) и свободные окна дня. Утром это первое, что нужно видеть.
+  const schedCard = (sc) => {
+    if (!sc || !sc.events || (!sc.events.length && !sc.tomorrow)) return '';
+    const now = new Date();
+    const chip = e => {
+      const st = new Date(e.start), en = new Date(e.end);
+      const on = !e.allday && st <= now && en > now;
+      const cls = e.allday ? '' : en <= now ? 'past' : on ? 'now' : '';
+      // У того, что идёт сейчас, видно и когда оно кончится, — остальное читается одним временем начала.
+      const tm = e.allday ? 'весь день' : on ? `${e.from}–${e.to}` : e.from;
+      return `<span class="ch ${cls} ${e.busy ? '' : 'free-ev'}"><span class="tm">${esc(tm)}</span>${esc(e.title)}</span>`;
+    };
+    const ahead = sc.events.filter(e => e.allday || new Date(e.end) > now);
+    const more = [];
+    // Свободные окна имеют смысл, только когда день чем-то занят: «свободно 08:00–23:00» рядом с «день свободен» — шум.
+    if (sc.events.length && (sc.free || []).length) more.push('свободно ' + sc.free.slice(0, 2).map(f => `${f.from}–${f.to}`).join(', '));
+    if (!ahead.length && sc.tomorrow) more.push(`завтра с ${sc.tomorrow.from} — ${sc.tomorrow.title}`);
+    return `<div class="card c12 sc"><div class="eyebrow">Дела на сегодня${more.length ? ` <span class="more">${esc(more.join(' · '))}</span>` : ''}</div>
+      <div class="chips">${sc.events.length ? sc.events.map(chip).join('') : '<span class="ch empty">день свободен</span>'}</div></div>`;
+  };
+
+  const sd = schedCard(sched);
+  if (sd) cards.push(sd);
+
   if (wx && wx.now) {
     const sign = t => (t > 0 ? '+' : '') + t + '°';
     const rainy = wx.hours.filter(h => h.day && (h.precipProb || 0) >= 40);
@@ -240,7 +276,7 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
       <div class="acts"><a class="btn" href="${esc(art.url)}" target="_blank" rel="noopener">Открыть</a><button class="btn" data-act="saved">Прочту</button><button class="btn" data-act="dismissed">Мимо</button></div></div>`;
   };
 
-  // Порядок карточек задан пользователем 14.09.2026: погода, самочувствие, лекция, статья, миксы, книга.
+  // Порядок карточек задан пользователем 14.09.2026: дела на сегодня, погода, самочувствие, лекция, статья, миксы, книга.
   const lc = lectureCard();
   if (lc) cards.push(lc);
   if (artCard(reads)) cards.push(artCard(reads));

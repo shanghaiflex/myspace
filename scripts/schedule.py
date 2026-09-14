@@ -15,7 +15,7 @@ is a secret like any password: .env is gitignored and the URL is never printed. 
 adding or deleting events needs CalDAV with an app password.
 """
 
-import argparse, datetime as dt, os, re, sys, urllib.error, urllib.request
+import argparse, datetime as dt, json, os, re, sys, urllib.error, urllib.request
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -44,6 +44,18 @@ def env(name, default=None):
 
 def tz():
     return ZoneInfo(env("WEATHER_TZ", "Europe/Moscow"))
+
+
+def only_calendars():
+    """The calendars the health note is allowed to see (SCHEDULE_CALENDARS); empty means all of them.
+
+    The cache holds every collection — «Семья» is what the page shows — so the narrowing happens here,
+    at the reader, and not at fetch time: the model gets one calendar, the page gets the day."""
+    return [c.strip() for c in (env("SCHEDULE_CALENDARS") or "").split(",") if c.strip()]
+
+
+def free_calendars():
+    return [c.strip() for c in env("SCHEDULE_FREE_CALENDARS", FREE_CALENDARS).split(",") if c.strip()]
 
 
 # ---------------------------------------------------------------- fetch
@@ -84,9 +96,8 @@ def caldav_ics():
     """Every event of every calendar collection, one file. Each event is stamped with the calendar it came from —
     CATEGORIES would be the natural place, but Yandex fills it in for one calendar and leaves it empty in the rest."""
     out = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//bodywithoutorgans//schedule.py//RU"]
-    only = [c.strip() for c in (env("SCHEDULE_CALENDARS") or "").split(",") if c.strip()]
     for c in calendars():
-        if "/todos-" in c["href"] or (only and c["name"] not in only):
+        if "/todos-" in c["href"]:
             continue
         for e in calendar_events(c["href"]):
             block = re.search(r"BEGIN:VEVENT.*?END:VEVENT", unfold(e["ics"]), re.S)
@@ -162,7 +173,7 @@ def events(text, zone):
               "calendar": unescape(first(p, "X-BOW-CALENDAR") or first(p, "CATEGORIES")),
               "cancelled": first(p, "STATUS").upper() == "CANCELLED",
               "busy": first(p, "TRANSP").upper() != "TRANSPARENT"}
-        ev["busy"] = ev["busy"] and ev["calendar"] not in [c.strip() for c in env("SCHEDULE_FREE_CALENDARS", FREE_CALENDARS).split(",")]
+        ev["busy"] = ev["busy"] and ev["calendar"] not in free_calendars()
         if "RECURRENCE-ID" in p:
             overrides[(ev["uid"], parse_dt(*p["RECURRENCE-ID"][0], zone)[0])] = ev
         else:
@@ -259,11 +270,18 @@ def month_days(year, month):
 
 
 # ---------------------------------------------------------------- agenda
-def agenda(days=7, start_date=None, text=None):
-    """Day by day: what is on, in order. Cancelled instances and events marked free (TRANSP) are left out."""
+def agenda(days=7, start_date=None, text=None, only=None, skip=None):
+    """Day by day: what is on, in order. Cancelled instances and events marked free (TRANSP) are left out.
+
+    `only` keeps just those calendars (the note reads one), `skip` drops some (the page has no use for four
+    hours of someone else's swimming)."""
     zone = tz()
     text = text or fetch()
     evs, overrides = events(text, zone)
+    if only:
+        evs = [e for e in evs if e["calendar"] in only]
+    if skip:
+        evs = [e for e in evs if e["calendar"] not in skip]
     today = start_date or dt.datetime.now(zone).date()
     window_start = dt.datetime.combine(today, dt.time(0), zone)
     window_end = window_start + dt.timedelta(days=days)
@@ -302,19 +320,20 @@ def free_windows(day_events, date, zone):
     return out
 
 
-def fmt_event(e):
-    return ("весь день " if e["allday"] else f"{e['start']:%H:%M}–{e['end']:%H:%M} ") + e["summary"] + ("" if e["busy"] else " (не занимает)")
+def fmt_event(e, calendar=False):
+    return (("весь день " if e["allday"] else f"{e['start']:%H:%M}–{e['end']:%H:%M} ") + e["summary"]
+            + (f" [{e['calendar']}]" if calendar and e["calendar"] else "") + ("" if e["busy"] else " (не занимает)"))
 
 
-def fmt_day(date, day_events):
-    return f"{DOW[date.weekday()]} {date:%d.%m}: " + ("; ".join(fmt_event(e) for e in day_events) or "пусто")
+def fmt_day(date, day_events, calendar=False):
+    return f"{DOW[date.weekday()]} {date:%d.%m}: " + ("; ".join(fmt_event(e, calendar) for e in day_events) or "пусто")
 
 
 def digest(days=2):
     """The block the health note is given: today, tomorrow, and where the day has room."""
     zone = tz()
     now = dt.datetime.now(zone)
-    days_ = agenda(days=max(days, 2))
+    days_ = agenda(days=max(days, 2), only=only_calendars())
     dates = sorted(days_)
     lines = ["Расписание (Яндекс.Календарь):"]
     for i, date in enumerate(dates[:days]):
@@ -328,6 +347,34 @@ def digest(days=2):
     if first_tomorrow:
         lines.append(f"- завтра начинается в {first_tomorrow['start']:%H:%M} ({first_tomorrow['summary']})")
     return "\n".join(lines)
+
+
+def day_plan(date=None):
+    """Дела на сегодня — то, что рисует плашка на главной (и в приложении: там та же страница).
+
+    В отличие от дайджеста здесь все календари, кроме чужих тренировок: врачи и няня из «Семьи» — это дела дня,
+    а четыре часа плавания Полины делом не являются. Времена уезжают и строкой (для подписи), и ISO
+    (чтобы страница сама решила, что уже прошло)."""
+    zone = tz()
+    now = dt.datetime.now(zone)
+    days_ = agenda(days=2, start_date=date, skip=free_calendars())
+    dates = sorted(days_)
+    today, tomorrow = dates[0], dates[1]
+
+    def item(e):
+        return {"title": e["summary"], "allday": e["allday"], "busy": e["busy"], "calendar": e["calendar"] or None,
+                "start": e["start"].isoformat(), "end": e["end"].isoformat(),
+                "from": None if e["allday"] else f"{e['start']:%H:%M}", "to": None if e["allday"] else f"{e['end']:%H:%M}"}
+
+    free = []
+    for s_, e_ in free_windows(days_[today], today, zone):
+        s_ = max(s_, now)
+        if e_ - s_ >= dt.timedelta(minutes=FREE_MIN):
+            free.append({"from": f"{s_:%H:%M}", "to": f"{e_:%H:%M}", "minutes": round((e_ - s_).total_seconds() / 60)})
+    first = next((e for e in days_[tomorrow] if not e["allday"]), None)
+    return {"date": today.isoformat(), "now": now.isoformat(), "dow": DOW[today.weekday()],
+            "events": [item(e) for e in days_[today]], "free": free,
+            "tomorrow": {"title": first["summary"], "from": f"{first['start']:%H:%M}"} if first else None}
 
 
 # ---------------------------------------------------------------- caldav (writing)
@@ -516,6 +563,7 @@ def main():
     p = sub.add_parser("fetch"); p.add_argument("--force", action="store_true")
     p = sub.add_parser("list"); p.add_argument("--days", type=int, default=7)
     p = sub.add_parser("digest"); p.add_argument("--days", type=int, default=2)
+    p = sub.add_parser("today"); p.add_argument("--date")
     p = sub.add_parser("free"); p.add_argument("--date")
     sub.add_parser("calendars")
     sub.add_parser("rules")
@@ -534,9 +582,11 @@ def main():
         print(f"{len(text)} bytes, {len(evs)} событий, {sum(1 for e in evs if e['rrule'])} из них повторяются")
     elif a.cmd == "list":
         for date, day in sorted(agenda(a.days).items()):
-            print(fmt_day(date, day))
+            print(fmt_day(date, day, calendar=True))
     elif a.cmd == "digest":
         print(digest(a.days))
+    elif a.cmd == "today":
+        print(json.dumps(day_plan(dt.date.fromisoformat(a.date) if a.date else None), ensure_ascii=False, indent=2))
     elif a.cmd == "calendars":
         for c in calendars():
             print(f"{c['name']}\t{c['href']}")
@@ -574,7 +624,7 @@ def main():
     elif a.cmd == "free":
         zone = tz()
         date = dt.date.fromisoformat(a.date) if a.date else dt.datetime.now(zone).date()
-        days_ = agenda(1, start_date=date)
+        days_ = agenda(1, start_date=date, only=only_calendars())
         for s, e in free_windows(days_[date], date, zone):
             print(f"{s:%H:%M}–{e:%H:%M}")
 

@@ -14,6 +14,7 @@
   PATCH  /api/book/<id>           body: {status?, rating?, comment?}
   DELETE /api/book/<id>
   GET    /api/weather             today's weather (Open-Meteo, or Yandex when YANDEX_WEATHER_KEY is set), cached 20 min
+  GET    /api/schedule            дела на сегодня из Яндекс.Календаря (scripts/schedule.py day_plan), cached 10 min
   POST   /api/lecture/<id>/audio  start audio download in the background; GET the same URL for status
   GET    /audio/<file>            audio files with HTTP Range support (needed by iOS)
   GET    /healthz                 200 "ok" (no auth; the Health Bridge iOS app pings it)
@@ -57,6 +58,7 @@ import mix_recs as R  # noqa: E402
 import taste_recs as T  # noqa: E402
 import reads as RD  # noqa: E402
 import home as HM  # noqa: E402
+import schedule as S  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
@@ -68,6 +70,10 @@ RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
 TASTE_JOBS = {k: {"status": "idle", "started": 0} for k in T.KINDS}  # manual film / book advice runs
 READS_JOB = {"status": "idle", "started": 0}   # manual article run (feeds + Claude)
 PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
+# The calendar itself is cached on disk for half an hour; this keeps the home page from re-parsing 350 events
+# on every reload, and holds the last good answer when Yandex (or the VPN) is down.
+SCHEDULE_CACHE = {"ts": 0.0, "data": None}
+SCHEDULE_TTL = 600
 
 STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
@@ -338,6 +344,15 @@ class Handler(SimpleHTTPRequestHandler):
             try:
                 return self.send_json(200, W.today())
             except Exception as e:
+                return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
+        if route == "/api/schedule":
+            try:
+                if not SCHEDULE_CACHE["data"] or time.time() - SCHEDULE_CACHE["ts"] > SCHEDULE_TTL:
+                    SCHEDULE_CACHE.update(ts=time.time(), data=S.day_plan())
+                return self.send_json(200, SCHEDULE_CACHE["data"])
+            except Exception as e:
+                if SCHEDULE_CACHE["data"]:
+                    return self.send_json(200, SCHEDULE_CACHE["data"])
                 return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
         if self.path.startswith("/lectures.json"):
             db = L.load()
