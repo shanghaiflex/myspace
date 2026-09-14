@@ -15,7 +15,7 @@ is a secret like any password: .env is gitignored and the URL is never printed. 
 adding or deleting events needs CalDAV with an app password.
 """
 
-import argparse, datetime as dt, os, re, sys, urllib.request
+import argparse, datetime as dt, os, re, sys, urllib.error, urllib.request
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -300,6 +300,148 @@ def digest(days=2):
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------- caldav (writing)
+# The export link is read only. Changing the calendar goes through CalDAV with an app password
+# (id.yandex.ru → Безопасность → Пароли приложений → Календарь): YANDEX_CALDAV_USER / YANDEX_CALDAV_PASSWORD in .env.
+CALDAV_URL = "https://caldav.yandex.ru"
+NS = {"d": "DAV:", "c": "urn:ietf:params:xml:ns:caldav"}
+
+
+def dav(method, url, body=None, depth=None, headers=None):
+    user, password = env("YANDEX_CALDAV_USER"), env("YANDEX_CALDAV_PASSWORD")
+    if not user or not password:
+        raise SystemExit("YANDEX_CALDAV_USER / YANDEX_CALDAV_PASSWORD are not set in .env "
+                         "(id.yandex.ru → Безопасность → Пароли приложений → Календарь)")
+    import base64
+    req = urllib.request.Request(url, data=body.encode("utf-8") if body else None, method=method)
+    req.add_header("Authorization", "Basic " + base64.b64encode(f"{user}:{password}".encode()).decode())
+    if body:
+        req.add_header("Content-Type", "application/xml; charset=utf-8" if body.lstrip().startswith("<") else "text/calendar; charset=utf-8")
+    if depth is not None:
+        req.add_header("Depth", str(depth))
+    for k, v in (headers or {}).items():
+        req.add_header(k, v)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            return r.status, r.read().decode("utf-8", "replace"), dict(r.headers)
+    except urllib.error.HTTPError as e:
+        return e.code, e.read().decode("utf-8", "replace"), dict(e.headers)
+
+
+def dav_tree(body):
+    import xml.etree.ElementTree as ET
+    return ET.fromstring(body)
+
+
+def calendars():
+    """The calendar collections of the account, discovered the standard way and falling back to the path Yandex
+    actually uses if a step of the discovery is not answered."""
+    import urllib.parse
+    status, body, _ = dav("PROPFIND", CALDAV_URL + "/", depth=0,
+                          body='<d:propfind xmlns:d="DAV:"><d:prop><d:current-user-principal/></d:prop></d:propfind>')
+    principal = ""
+    if status in (207, 200):
+        el = dav_tree(body).find(".//d:current-user-principal/d:href", NS)
+        principal = el.text if el is not None else ""
+    home = ""
+    if principal:
+        status, body, _ = dav("PROPFIND", urllib.parse.urljoin(CALDAV_URL, principal), depth=0,
+                              body='<d:propfind xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav"><d:prop><c:calendar-home-set/></d:prop></d:propfind>')
+        el = dav_tree(body).find(".//c:calendar-home-set/d:href", NS) if status in (207, 200) else None
+        home = el.text if el is not None else ""
+    home = home or f"/calendars/{env('YANDEX_CALDAV_USER', '').split('@')[0]}/"
+    status, body, _ = dav("PROPFIND", urllib.parse.urljoin(CALDAV_URL, home), depth=1,
+                          body='<d:propfind xmlns:d="DAV:"><d:prop><d:resourcetype/><d:displayname/></d:prop></d:propfind>')
+    if status not in (207, 200):
+        raise SystemExit(f"CalDAV {status}: {body[:200]}")
+    out = []
+    for resp in dav_tree(body).findall(".//d:response", NS):
+        href = resp.find("d:href", NS)
+        if resp.find(".//d:resourcetype/c:calendar", NS) is not None and href is not None:
+            name = resp.find(".//d:displayname", NS)
+            out.append({"href": href.text, "name": (name.text if name is not None else "") or href.text})
+    return out
+
+
+def calendar_events(href):
+    """Every VEVENT of one collection with its href and etag — enough to change one in place."""
+    import urllib.parse
+    body = ('<c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav"><d:prop><d:getetag/>'
+            '<c:calendar-data/></d:prop><c:filter><c:comp-filter name="VCALENDAR">'
+            '<c:comp-filter name="VEVENT"/></c:comp-filter></c:filter></c:calendar-query>')
+    status, xml, _ = dav("REPORT", urllib.parse.urljoin(CALDAV_URL, href), body=body, depth=1)
+    if status not in (207, 200):
+        raise SystemExit(f"CalDAV REPORT {status}: {xml[:200]}")
+    out = []
+    for resp in dav_tree(xml).findall(".//d:response", NS):
+        data = resp.find(".//c:calendar-data", NS)
+        if data is None or not data.text:
+            continue
+        p = parse_props(re.search(r"BEGIN:VEVENT\n(.*?)\nEND:VEVENT", unfold(data.text), re.S).group(1)) \
+            if "BEGIN:VEVENT" in data.text else {}
+        out.append({"href": resp.find("d:href", NS).text, "etag": (resp.find(".//d:getetag", NS).text or "").strip(),
+                    "ics": data.text, "summary": unescape(first(p, "SUMMARY")), "rrule": first(p, "RRULE"),
+                    "dtstart": first(p, "DTSTART"), "uid": first(p, "UID")})
+    return out
+
+
+def put_event(href, ics, etag=None):
+    import urllib.parse
+    headers = {"If-Match": etag} if etag else {"If-None-Match": "*"}
+    status, body, _ = dav("PUT", urllib.parse.urljoin(CALDAV_URL, href), body=ics, headers=headers)
+    if status not in (200, 201, 204):
+        raise SystemExit(f"CalDAV PUT {status}: {body[:300]}")
+    return status
+
+
+def end_rule(events_, title, until_date, dry_run=False):
+    """Close a repeating rule with UNTIL instead of deleting it: the past stays in the calendar, the future stops.
+    Deleting the series would take the history with it, and history is the only record of what was actually done."""
+    stamp = until_date.strftime("%Y%m%dT235959Z")
+    done = []
+    for e in events_:
+        if not e["rrule"] or title.lower() not in (e["summary"] or "").lower():
+            continue
+        rule = re.sub(r";?UNTIL=[0-9TZ]+", "", e["rrule"]) + f";UNTIL={stamp}"
+        ics = re.sub(r"^RRULE:.*$", "RRULE:" + rule, e["ics"], count=1, flags=re.M)
+        ics = bump_sequence(ics)
+        done.append((e["summary"], e["rrule"], rule))
+        if not dry_run:
+            put_event(e["href"], ics, e["etag"])
+    return done
+
+
+def bump_sequence(ics):
+    """A changed event needs a higher SEQUENCE and a fresh DTSTAMP, or clients may keep showing the old one."""
+    now = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    ics = re.sub(r"^DTSTAMP:.*$", f"DTSTAMP:{now}", ics, count=1, flags=re.M)
+    m = re.search(r"^SEQUENCE:(\d+)$", ics, re.M)
+    if m:
+        return re.sub(r"^SEQUENCE:\d+$", f"SEQUENCE:{int(m.group(1)) + 1}", ics, count=1, flags=re.M)
+    return ics.replace("BEGIN:VEVENT\n", "BEGIN:VEVENT\nSEQUENCE:1\n", 1)
+
+
+def build_event(summary, start, minutes, byday=None, zone=None):
+    """A minimal VEVENT. Times are written with a TZID, so the event keeps its wall-clock hour."""
+    import uuid
+    zone = zone or tz()
+    end = start + dt.timedelta(minutes=minutes)
+    uid = f"{uuid.uuid4()}@bodywithoutorgans.cc"
+    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//bodywithoutorgans//schedule.py//RU", "BEGIN:VEVENT",
+             f"UID:{uid}", f"DTSTAMP:{dt.datetime.now(dt.timezone.utc):%Y%m%dT%H%M%SZ}",
+             f"DTSTART;TZID={zone.key}:{start:%Y%m%dT%H%M%S}", f"DTEND;TZID={zone.key}:{end:%Y%m%dT%H%M%S}",
+             f"SUMMARY:{summary}"]
+    if byday:
+        lines.append(f"RRULE:FREQ=WEEKLY;BYDAY={','.join(byday)};INTERVAL=1")
+    lines += ["TRANSP:OPAQUE", "END:VEVENT", "END:VCALENDAR"]
+    return uid, "\r\n".join(lines) + "\r\n"
+
+
+def next_weekday(day, code):
+    """The first `code` (MO..SU) on or after `day`."""
+    return day + dt.timedelta(days=(WEEKDAYS[code] - day.weekday()) % 7)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -307,6 +449,13 @@ def main():
     p = sub.add_parser("list"); p.add_argument("--days", type=int, default=7)
     p = sub.add_parser("digest"); p.add_argument("--days", type=int, default=2)
     p = sub.add_parser("free"); p.add_argument("--date")
+    sub.add_parser("calendars")
+    sub.add_parser("rules")
+    p = sub.add_parser("end"); p.add_argument("title"); p.add_argument("--date"); p.add_argument("--dry-run", action="store_true")
+    p = sub.add_parser("add"); p.add_argument("title"); p.add_argument("--day", required=True, help="MO..SU")
+    p.add_argument("--time", required=True, help="HH:MM"); p.add_argument("--minutes", type=int, default=60)
+    p.add_argument("--once", action="store_true", help="одно событие, а не еженедельное правило")
+    p.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     if a.cmd == "fetch":
         text = fetch(force=a.force)
@@ -317,6 +466,30 @@ def main():
             print(fmt_day(date, day))
     elif a.cmd == "digest":
         print(digest(a.days))
+    elif a.cmd == "calendars":
+        for c in calendars():
+            print(f"{c['name']}\t{c['href']}")
+    elif a.cmd == "rules":
+        for c in calendars():
+            for e in calendar_events(c["href"]):
+                if e["rrule"]:
+                    print(f"{e['summary']:24} {e['dtstart'][-13:]}  {e['rrule']}\t{e['href']}")
+    elif a.cmd == "end":
+        until = dt.date.fromisoformat(a.date) if a.date else dt.datetime.now(tz()).date() - dt.timedelta(days=1)
+        for c in calendars():
+            for summary, was, now_ in end_rule(calendar_events(c["href"]), a.title, until, a.dry_run):
+                print(("(сухой прогон) " if a.dry_run else "") + f"{summary}: {was} → {now_}")
+    elif a.cmd == "add":
+        zone = tz()
+        hh, mm = (int(x) for x in a.time.split(":"))
+        day = next_weekday(dt.datetime.now(zone).date(), a.day.upper())
+        start = dt.datetime.combine(day, dt.time(hh, mm), zone)
+        uid, ics = build_event(a.title, start, a.minutes, None if a.once else [a.day.upper()], zone)
+        target = calendars()[0]["href"].rstrip("/") + f"/{uid}.ics"
+        print(("(сухой прогон) " if a.dry_run else "") + f"{a.title}: {start:%a %d.%m %H:%M}"
+              + (f" еженедельно {a.day.upper()}" if not a.once else "") + f", {a.minutes} мин")
+        if not a.dry_run:
+            put_event(target, ics)
     elif a.cmd == "free":
         zone = tz()
         date = dt.date.fromisoformat(a.date) if a.date else dt.datetime.now(zone).date()
