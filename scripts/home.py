@@ -40,7 +40,7 @@ ALLOWED = {"state", "brightness", "color_temp", "color", "transition"}
 SCENES = {
     "cozy":   {"title": "Уютно",  "payload": {"state": "ON", "brightness": 110, "color_temp": 435, "transition": 3}},
     "read":   {"title": "Чтение", "payload": {"state": "ON", "brightness": 193, "color_temp": 343, "transition": 3}},
-    "movie":  {"title": "Кино",   "payload": {"state": "ON", "brightness": 22, "color": {"r": 150, "g": 190, "b": 255}, "transition": 5}},
+    "movie":  {"title": "Кино",   "payload": {"state": "ON", "brightness": 22, "color": {"r": 175, "g": 200, "b": 255}, "transition": 5}},
     "night":  {"title": "Ночник", "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
 }
 SCHEDULE = "19:00 уютно · 22:00 янтарь · 23:00 выкл"   # launchd on the mini (local.lamp.*, local.plug.*)

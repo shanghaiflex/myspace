@@ -409,7 +409,7 @@ async function load() {
 }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') load(); });
 
-const SCENE_PAYLOAD = { cozy: { brightness: 110, color_temp: 435 }, read: { brightness: 193, color_temp: 343 }, movie: { brightness: 22, color: { r: 150, g: 190, b: 255 } }, night: { brightness: 3, color_temp: 447 } };
+const SCENE_PAYLOAD = { cozy: { brightness: 110, color_temp: 435 }, read: { brightness: 193, color_temp: 343 }, movie: { brightness: 22, color: { r: 175, g: 200, b: 255 } }, night: { brightness: 3, color_temp: 447 } };
 const sceneColor = p => !p ? '#ccc' : p.color ? hex([p.color.r, p.color.g, p.color.b]) : hex(kelvinRgb(1e6 / p.color_temp));
 function buildChips(j) {
   S.sceneMap = Object.fromEntries((j.scenes || []).map(s => [s.id, SCENE_PAYLOAD[s.id] || {}]));
