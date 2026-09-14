@@ -80,6 +80,8 @@
   #rain path { animation: rainfall .7s linear infinite; }
   #snow > g { animation: snowfall 9s linear infinite; }
   #stars > g { animation: twinkle 4s ease-in-out infinite; }
+  #fallLeaves > g { animation: leaffall 6s ease-in infinite; }
+  @keyframes leaffall { from { transform: translate(0, -30px) } to { transform: translate(10px, 40px) } }
   @keyframes rainfall { from { transform: translateY(0) } to { transform: translateY(28px) } }
   @keyframes snowfall { from { transform: translateY(-40px) } to { transform: translateY(40px) } }
   @keyframes twinkle { 0%, 100% { opacity: .55 } 50% { opacity: 1 } }
@@ -202,6 +204,20 @@
         <g id="birds" opacity="0" fill="none" stroke="#2a2622" stroke-width="1"><path d="M120 104 q4-4 8 0 q4-4 8 0 M136 96 q3-3 6 0 q3-3 6 0 M150 108 q3-3 6 0 q3-3 6 0 M108 114 q3-3 6 0 q3-3 6 0"/></g>
       </g>
       <g class="fill" id="city"><path d="M66 328.0 L66 197.3 L98 199.0 L98 325.6Z M108 324.9 L108 156.4 L142 159.6 L142 322.3Z M152 321.5 L152 205.3 L190 207.1 L190 318.7Z M198 318.1 L198 142.8 L226 146.1 L226 316.0Z M232 315.5 L232 220.5 L246 221.0 L246 314.5Z"/></g>
+      <g id="trees">
+        <g class="thin" stroke="#3a2f26" fill="none">
+          <path d="M92 348 L92 300 M92 318 L80 304 M92 310 L104 296 M92 326 L82 318 M80 304 L74 296 M104 296 L110 286"/>
+          <path d="M156 350 L156 292 M156 318 L142 300 M156 308 L170 290 M142 300 L136 290 M170 290 L178 282 M156 330 L166 322"/>
+          <path d="M214 346 L214 304 M214 322 L204 312 M214 314 L224 302 M204 312 L198 302 M224 302 L232 296 M214 332 L206 326"/>
+        </g>
+        <g id="crowns" fill="#4f8a4a" opacity="1">
+          <ellipse cx="92" cy="292" rx="22" ry="18"/><ellipse cx="82" cy="300" rx="12" ry="10"/><ellipse cx="104" cy="286" rx="13" ry="11"/>
+          <ellipse cx="156" cy="280" rx="20" ry="24"/><ellipse cx="144" cy="292" rx="11" ry="10"/><ellipse cx="172" cy="286" rx="12" ry="10"/>
+          <ellipse cx="214" cy="298" rx="26" ry="15"/><ellipse cx="202" cy="304" rx="12" ry="9"/><ellipse cx="228" cy="292" rx="12" ry="10"/>
+        </g>
+        <g id="crownSnow" opacity="0" stroke="#f4f1ea" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M82 303 L88 300 M96 309 L104 296 M143 299 L150 293 M160 300 L169 290 M204 311 L212 304 M218 313 L224 302"/></g>
+        <g id="fallLeaves" opacity="0" fill="#d0782e"><g><circle cx="120" cy="300" r="1.6"/><circle cx="176" cy="316" r="1.4"/><circle cx="196" cy="290" r="1.6"/><circle cx="70" cy="320" r="1.3"/><circle cx="238" cy="326" r="1.4"/></g></g>
+      </g>
       <g id="snowcaps" opacity="0" stroke="#f4f1ea" stroke-width="3" stroke-linecap="round" fill="none"><path d="M65 196.3 L99 198.0 M107 155.4 L143 158.6 M151 204.3 L191 206.1 M197 141.8 L227 145.1 M231 219.5 L247 220.0"/></g>
       <g class="faint" id="citywin"><path d="M72 213.1h6 M72 236.4h6 M72 259.7h6 M72 283.0h6 M114 171.9h6 M114 194.2h6 M114 216.5h6 M114 238.8h6 M114 261.2h6 M114 283.5h6 M158 219.8h6 M158 241.1h6 M158 262.4h6 M158 283.8h6 M204 157.0h6 M204 177.3h6 M204 197.6h6 M204 217.9h6 M204 238.2h6 M204 258.5h6 M204 278.7h6 M238 233.7h6 M238 253.3h6 M238 272.8h6"/></g>
     </g>
@@ -531,6 +547,11 @@ function paintWindow() {
   show('sun', sunUp && !cloudy); show('moon', phase === 'night' && !cloudy);
   show('stars', phase === 'night' && !cloudy); show('clouds', cloudy); show('rain', rain); show('snow', snow);
   show('snowcaps', season === 'winter' || snow); show('birds', phase === 'day' && !rain && (season === 'spring' || season === 'autumn'));
+  // the trees outside: bare in winter, fresh green in spring, full in summer, amber in autumn
+  const crown = { spring: ['#8fbf68', '#6f9f50'], summer: ['#4f8a4a', '#396d38'], autumn: ['#d0782e', '#c9a23a'], winter: ['#6b6b6b', '#6b6b6b'] }[season];
+  document.querySelectorAll('#crowns ellipse').forEach((e, i) => e.setAttribute('fill', crown[i % 2]));
+  $('crowns').setAttribute('opacity', season === 'winter' ? 0 : phase === 'night' ? .55 : 1);
+  show('crownSnow', season === 'winter'); show('fallLeaves', season === 'autumn' && phase !== 'night');
   // lit windows in the towers: all at night, some at dusk, none by day
   $('citywin').style.stroke = '#ffd98a'; $('citywin').style.strokeWidth = '2';
   $('citywin').setAttribute('opacity', phase === 'night' ? 1 : phase === 'dusk' || phase === 'dawn' ? .6 : 0);
