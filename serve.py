@@ -31,6 +31,10 @@
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
   GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
   POST   /api/pantry/review       refresh receipts and the note now (scripts/pantry_review.sh --force)
+  GET    /api/home                the lamps and the plug as Zigbee2MQTT reports them (scripts/home.py) + scenes
+  POST   /api/home/<lamps|lamp|lamp2|plug>   body: {state?, brightness?, color_temp?, color?, transition?} → MQTT set
+  POST   /api/home/scene/<name>   a static scene on the lamps (cozy, amber, tv, …)
+  POST   /api/home/effect/<name|off>   start / stop a flicker effect (fire, candlelight, torch; node on the mini)
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 
@@ -53,6 +57,7 @@ import health as H  # noqa: E402
 import mix_recs as R  # noqa: E402
 import taste_recs as T  # noqa: E402
 import reads as RD  # noqa: E402
+import home as HM  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
@@ -295,6 +300,8 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
             out["reviewJob"] = REVIEW_JOB["status"]
             return self.send_json(200, out)
+        if route == "/api/home":
+            return self.send_json(200, HM.summary())
         if route == "/api/pantry":
             path = os.path.join(ROOT, "pantry.json")
             try:
@@ -533,6 +540,8 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(404, {"error": "no such kind"})
             return self.send_json(200, {"status": self.start_job(
                 TASTE_JOBS[kind], "taste_recs.sh", args=[kind, "--force"])})
+        if route.startswith("/api/home/"):
+            return self.home_post(route[len("/api/home/"):])
         if route == "/api/health/review":
             return self.send_json(200, {"status": self.start_review_job()})
         if route == "/api/pantry/review":
@@ -559,6 +568,27 @@ class Handler(SimpleHTTPRequestHandler):
             except Exception as e:
                 return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
         return self.send_json(200, mix)
+
+    def home_post(self, what):
+        """/api/home/<device> | scene/<name> | effect/<name|off> — publishes to Zigbee2MQTT and answers at once;
+        the page re-reads the state a moment later, when the bulbs have reported back."""
+        try:
+            if what.startswith("scene/"):
+                out = {"sent": HM.scene(what[6:])}
+            elif what.startswith("effect/"):
+                name = what[7:]
+                if name == "off":
+                    HM.stop_effect(); out = {"effect": None}
+                else:
+                    out = {"effect": HM.start_effect(name)}
+            else:
+                out = {"sent": HM.set_device(what, self.read_json())}
+        except (ValueError, FileNotFoundError) as e:
+            return self.send_json(400, {"error": str(e)})
+        except Exception as e:
+            return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
+        print(f"home {what} {json.dumps(out, ensure_ascii=False)}", flush=True)
+        return self.send_json(200, {"ok": True, **out})
 
     def do_PATCH(self):
         if not self.require_login():

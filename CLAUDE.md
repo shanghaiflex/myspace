@@ -1,6 +1,6 @@
 # Movies — personal film catalog
 
-Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`, `reads.html`. Films page over `movies.json` with posters in `posters/`, served by `serve.py`
+Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`, `reads.html`, `pantry.html`, `home.html` (умный дом). Films page over `movies.json` with posters in `posters/`, served by `serve.py`
 (stdlib only) which also exposes a tiny edit API (PATCH/DELETE `/api/movie/<id>`) used by the page for
 rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
 If the page is served by a plain static server the API is absent and the page becomes read-only.
@@ -216,6 +216,28 @@ python3 scripts/schedule.py add "ЛФК" --day WE --time 18:00 --minutes 60 [--o
 удалены правила «Теннис сб 16:00» и «Тренировка в зале» ср 09:00 / вс 10:00 — по просьбе пользователя, копии
 удалённого лежат в `data/calendar-deleted/` (данные машины, в `.gitignore`). Действуют: «Работа пн–пт 10:00–18:00»,
 «Французский Сережи вт/чт 19:00» (не занимает), «ЛФК ср 18:00».
+
+## Дом (`home.html`, `scripts/home.py`, `/api/home`)
+
+Умный дом на сайте: скетч кухни (SVG, окно, полка, диван, картина с двумя бра), свечение ламп рисуется
+по реальному состоянию — цвет из `color_temp`/`xy`, яркость в прозрачность, эффект «камин» мерцает.
+Клик по бра переключает группу `lamps`, клик по оранжевому диску Varmblixt — розетку `plug`; рядом
+панель: тумблеры, яркость, тепло (кельвины → mired), сцены и эффекты. Всё то же, что делает CLI
+`lamp` из скилла (`~/.claude/skills/lamp/lamp`), но через `serve.py`.
+
+`scripts/home.py` — MQTT 3.1.1 клиент на голых сокетах (paho на mini нет): `state()` подписывается на
+`zigbee2mqtt/{lamp,lamp2,plug}`, шлёт `/get` и ждёт до 2 с; `set_device()` пропускает только
+`state/brightness/color_temp/color/transition` и гасит бегущий эффект; эффекты — `node ~/mqtt/effect.js`
+на mini (на ноутбуке их нет, страница просто не показывает блок). Брокер: `MQTT_HOST`, иначе localhost
+там, где есть `~/mqtt/effect.js` (mini), иначе LAN-имя mini → VPN 10.8.1.5. **На ноутбуке стоит свой
+пустой mosquitto на localhost** — он отвечает, но устройств не знает, поэтому localhost на ноутбуке не пробуется.
+Расписание (19:00/22:00/23:00) живёт в launchd на mini и страницей не правится, только показывается.
+
+```
+python3 scripts/home.py state                       # что видит страница
+python3 scripts/home.py set lamps '{"state":"ON","brightness":120}'
+python3 scripts/home.py scene cozy | effect fire | effect off
+```
 
 ## Mixes (`mixes.html`, `mixes.json`)
 
