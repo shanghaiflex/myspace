@@ -336,6 +336,10 @@ function fmtDur(s) { if (!s) return ''; const t = Math.round(s / 60), h = Math.f
 function fmtShort(s) { if (!s) return ''; const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h ? `${h}:${String(m).padStart(2, '0')}` : `${m}m`; }
 function fmtTime(s) { s = Math.max(0, Math.floor(s || 0)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(sec).padStart(2, '0'); }
 const isNTS = m => !!m.nts || /^NTS\b/i.test(m.artist || '');
+// До девяти утра я читаю, а не танцую: спокойное (тег calm в коллекции, mood у советов) идёт первым.
+const MORNING_UNTIL = 9;
+const isMorning = () => new Date().getHours() < MORNING_UNTIL;
+const isCalm = m => m.mood === 'calm' || (m.tags || []).includes('calm');
 function srcOf(m) { return isNTS(m) ? 'nts' : m.source; }
 function srcLabel(m) { return isNTS(m) ? 'NTS' : SRC_LABEL[m.source] || m.source; }
 function loadHistory() { try { state.history = JSON.parse(localStorage.getItem('mixes.history') || '[]'); } catch { state.history = []; } }
@@ -356,7 +360,8 @@ function lastPlayed(list) {
 }
 
 function pickRandom() {
-  const all = state.mixes;
+  const calm = isMorning() ? state.mixes.filter(isCalm) : [];
+  const all = calm.length ? calm : state.mixes;
   if (!all.length) return null;
   const recent = new Set(state.history.slice(0, Math.min(all.length - 1, 10)));
   const pool = all.filter(m => !recent.has(m.id) && m !== state.current);
@@ -652,16 +657,18 @@ function fmtDay(iso) {
   return isNaN(d) ? '' : d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
 }
 function renderRecs(db) {
-  const list = state.recs;
+  const morning = isMorning();
+  const list = morning ? [...state.recs].sort((a, b) => (isCalm(b) ? 1 : 0) - (isCalm(a) ? 1 : 0)) : state.recs;
   $('#recs').hidden = !list.length;
-  $('#recsMeta').textContent = db && db.updatedAt ? 'обновлено ' + fmtDay(db.updatedAt) : '';
+  $('#recsMeta').textContent = [db && db.updatedAt ? 'обновлено ' + fmtDay(db.updatedAt) : '',
+    morning && list.some(isCalm) ? 'до 9 утра — спокойное сверху' : ''].filter(Boolean).join(' · ');
   $('#recGrid').innerHTML = list.map(r => `
     <article class="rec" data-id="${esc(r.id)}">
       <div class="top">
         <div class="cv">${r.artwork ? `<img src="${esc(r.artwork)}" alt="" loading="lazy">` : ''}</div>
         <div>
           <div class="t">${esc(r.title)}</div>
-          <div class="s">${esc(r.artist || '')} · ${fmtDur(r.duration)}${r.played ? ' · включал' : ''}</div>
+          <div class="s">${esc(r.artist || '')} · ${fmtDur(r.duration)}${isCalm(r) ? ' · спокойное, под чтение' : ''}${r.played ? ' · включал' : ''}</div>
         </div>
       </div>
       ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}

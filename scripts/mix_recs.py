@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import mixes as X  # noqa: E402
 
 VERDICTS = ("new", "played", "liked", "dismissed")
-# Утро (до MORNING_UNTIL) читается, а не танцуется: часть советов — спокойные, без ритма, и страница
+# Утро читается, а не танцуется: часть советов — спокойные, без ритма, и страница
 # ставит их первыми до девяти. Модель сама помечает mood, проверить это машинно всё равно нечем.
 MOODS = ("rhythmic", "calm")
 CALM_WORDS = ("calm", "спокой")

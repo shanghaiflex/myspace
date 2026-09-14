@@ -1,5 +1,23 @@
 [
   {
+    "id": "450-лет-лидерства-технологический-расцвет-голландии-в-xiv-xv",
+    "title": "450 лет лидерства. Технологический расцвет Голландии в XIV-XVIII вв. и что за ним последовало",
+    "titleAlt": "The Rise and Decline of Dutch Technological Leadership",
+    "author": "Карел Дэвидс",
+    "year": 2008,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1002994638/200x305/6ac4/boocover.jpg",
+    "cover": "covers/450-лет-лидерства-технологический-расцвет-голландии-в-xiv-xv.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-14",
+    "finishedAt": "2026-09-14",
+    "tags": []
+  },
+  {
     "id": "9789811017896",
     "title": "Analysis I",
     "titleAlt": null,
@@ -511,8 +529,8 @@
     "id": "9785170057382",
     "title": "Дар",
     "titleAlt": "The Gift",
-    "author": "Vladimir Nabokov, Eiichiro Otsu",
-    "year": 1923,
+    "author": "Владимир Набоков",
+    "year": 1938,
     "pages": 378,
     "isbn": "9785170057382",
     "description": null,
@@ -1114,6 +1132,24 @@
       "🟥"
     ],
     "titleAlt": "La Baleine. Une histoire culturelle"
+  },
+  {
+    "id": "книга-нового-солнца-том-1-сборник-джин-вулф",
+    "title": "Книга Нового Солнца. Том 1",
+    "titleAlt": "The Book of the New Sun (Shadow & Claw)",
+    "author": "Джин Вулф",
+    "year": 1980,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1002974533/200x305/bba3/boocover.jpg",
+    "cover": "covers/книга-нового-солнца-том-1-сборник-джин-вулф.jpg",
+    "status": "to-read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-14",
+    "finishedAt": null,
+    "tags": []
   },
   {
     "id": "as-i-lay-dying-faulkner-w",

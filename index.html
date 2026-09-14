@@ -145,6 +145,10 @@ const h = new Date().getHours();
 document.getElementById('greet').textContent = h < 5 ? 'Доброй ночи' : h < 12 ? 'Доброе утро' : h < 18 ? 'Добрый день' : 'Добрый вечер';
 document.getElementById('date').textContent = new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
 const PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5z"/></svg>';
+// До девяти утра — спокойное: читать под ритмичный микс нельзя (тег calm в коллекции, mood у советов).
+const MORNING_UNTIL = 9;
+const isMorning = () => new Date().getHours() < MORNING_UNTIL;
+const isCalm = m => m.mood === 'calm' || (m.tags || []).includes('calm');
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
@@ -218,9 +222,12 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
         ${t.workouts && t.workouts.length ? `<div><b>${esc(t.workouts.map(w => w.ru).join(', '))}</b>тренировка</div>` : ''}</div></a>`);
   }
   // two mix cards side by side: a random one from the collection and Claude's fresh advice
+  const morning = isMorning();
   const recItems = (recs && recs.items) || [];
-  const rec = recItems.find(r => !r.played) || recItems[0];
-  const mix = pick(mixes, 1)[0];
+  const recPool = morning && recItems.some(isCalm) ? recItems.filter(isCalm) : recItems;
+  const rec = recPool.find(r => !r.played) || recPool[0];
+  const mixPool = morning && mixes.some(isCalm) ? mixes.filter(isCalm) : mixes;
+  const mix = pick(mixPool, 1)[0];
   const mixCard = (m, cls, eyebrow, more, reason) => `<a class="card ${cls}" href="mixes.html#${encodeURIComponent(m.id)}">
       <div class="eyebrow">${eyebrow}${more ? ` <span class="more">${more}</span>` : ''}</div>
       <div class="row"><div class="img sq">${m.artwork ? `<img src="${esc(m.artwork)}" alt="">` : ''}</div><div class="txt"><h2>${esc(m.title)}</h2><div class="sub">${esc(m.artist || '')} · ${fmtDur(m.duration)}</div></div></div>
@@ -242,8 +249,11 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
         <div class="txt"><h2>${esc(next.title)}</h2><div class="sub">${esc(seriesName(lect, next))} · ${next.status === 'listening' ? Lect.fmtTime(next.position || 0) + ' из ' : next.status === 'queued' ? 'в планах · ' : 'рекомендую · '}${fmtDur(next.duration)}</div>${pct ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}</div></a>
       <a class="btn" href="lectures.html#${esc(next.id)}">${PLAY} ${next.status === 'listening' ? 'Слушать дальше' : 'Слушать'}</a></div>`;
   };
-  if (mix) cards.push(mixCard(mix, (rec || reading.length) ? 'c6' : 'c12', 'Микс на сегодня', 'случайный'));
-  if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude', rec.played ? 'уже включал' : '', rec.reason));
+  if (mix) cards.push(mixCard(mix, (rec || reading.length) ? 'c6' : 'c12',
+    morning && isCalm(mix) ? 'Под утреннее чтение' : 'Микс на сегодня',
+    morning && isCalm(mix) ? 'спокойный' : 'случайный'));
+  if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude',
+    rec.played ? 'уже включал' : (morning && isCalm(rec) ? 'спокойное' : ''), rec.reason));
   // Статья дня: ссылка ведёт в текст, а «Прочту»/«Мимо» — те же вердикты, что на странице «Читать»
   // (первую версию карточки без кнопок пользователь принял за отсутствие оценок вовсе).
   const artCard = (r) => {
