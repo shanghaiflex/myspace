@@ -8,6 +8,7 @@
   PATCH  /api/mix/<id>            body: {position}  → remembers where the mix was left off
   DELETE /api/mix/<id>
   PATCH  /api/lecture/<id>        body: {status?, position?, note?}
+  POST   /v1/app/log              {entries:[{at,event,detail}]} — the app's journal, appended to logs/bow.log
   GET    /app/login?t=<bearer>&next=/   the BoW app trades its bearer token for the session cookie (WebView)
   GET    /api/lectures/preload    the lectures the phone keeps offline (listening first, then queued); kicks off audio downloads
   PATCH  /api/book/<id>           body: {status?, rating?, comment?}
@@ -150,7 +151,9 @@ class Handler(SimpleHTTPRequestHandler):
 
     def log_message(self, fmt, *args):
         if "/api/" in (args[0] if args else "") or "/v1/" in (args[0] if args else ""):
-            super().log_message(fmt, *args)
+            # Requests from the BoW app carry a bearer token: tag them so the app and the browser can be told apart.
+            dev = self.health_device() if (self.headers.get("Authorization") or "").lower().startswith("bearer ") else None
+            super().log_message(fmt + (f" [{dev}]" if dev else ""), *args)
 
     # ---- auth helpers ----
     def client_ip(self):
@@ -482,6 +485,21 @@ class Handler(SimpleHTTPRequestHandler):
         route = self.path.split("?")[0]
         if route == "/login":
             return self.handle_login_post() if PASSWORD else self.send_json(404, {"error": "auth disabled"})
+        if route == "/v1/app/log":
+            # The BoW app mirrors its journal here (logs/bow.log): the only way to see what it did on the phone
+            # — background launches, sync errors, downloads — without a cable and Console.app.
+            dev = self.health_device()
+            if not dev:
+                return self.send_json(401, {"error": "bad token"})
+            try:
+                entries = self.read_json().get("entries") or []
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            os.makedirs(os.path.join(ROOT, "logs"), exist_ok=True)
+            with open(os.path.join(ROOT, "logs", "bow.log"), "a", encoding="utf-8") as f:
+                for e in entries[:500]:
+                    f.write(f"{e.get('at', '?')} [{dev}] {e.get('event', '')}" + (f" — {e['detail']}" if e.get("detail") else "") + "\n")
+            return self.send_json(200, {"ok": True, "n": len(entries)})
         if route.startswith("/v1/ingest/health/"):
             kind = route.rsplit("/", 1)[1]
             dev = self.health_device()
