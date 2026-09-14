@@ -142,6 +142,13 @@
   .rec .acts button { flex: 1; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 13px; cursor: pointer; }
   .rec .acts .take { background: var(--accent); border-color: transparent; color: #fff; }
   @media (max-width: 560px) { .recgrid { grid-template-columns: 1fr; } }
+/* Phone: the nav wraps onto a second row instead of pushing the page sideways (the sticky bar ended at «Еда»
+   and the whole page scrolled horizontally in the BoW app). */
+@media (max-width: 760px) {
+  html, body { overflow-x: hidden; }
+  .bar-inner { flex-wrap: wrap; }
+  .nav { flex-wrap: wrap; gap: 6px 14px; font-size: 15px; }
+}
 </style>
 </head>
 <body>

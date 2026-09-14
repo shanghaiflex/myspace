@@ -129,6 +129,13 @@
     .toolbar { gap: 10px; }
     .segmented { overflow-x: auto; max-width: 100%; }
   }
+/* Phone: the nav wraps onto a second row instead of pushing the page sideways (the sticky bar ended at «Еда»
+   and the whole page scrolled horizontally in the BoW app). */
+@media (max-width: 760px) {
+  html, body { overflow-x: hidden; }
+  .bar-inner { flex-wrap: wrap; }
+  .nav { flex-wrap: wrap; gap: 6px 14px; font-size: 15px; }
+}
 </style>
 </head>
 <body>

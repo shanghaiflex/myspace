@@ -86,6 +86,13 @@
     .wrap { padding: 24px 16px 70px; } .head h1 { font-size: 28px; } .card { padding: 18px; border-radius: 18px; }
     .note { font-size: 18px; }
   }
+/* Phone: the nav wraps onto a second row instead of pushing the page sideways (the sticky bar ended at «Еда»
+   and the whole page scrolled horizontally in the BoW app). */
+@media (max-width: 760px) {
+  html, body { overflow-x: hidden; }
+  .bar-inner { flex-wrap: wrap; }
+  .nav { flex-wrap: wrap; gap: 6px 14px; font-size: 15px; }
+}
 </style>
 </head>
 <body>

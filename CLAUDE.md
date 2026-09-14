@@ -83,6 +83,13 @@ and reinstalled. When the user says «посинкай/обнови прилож
 prints how it is reached and when the new profile expires; `--check` only probes). Reinstalling kills downloads in
 progress, so don't reinstall for fun. The only way out of the weekly ritual is the paid Apple Developer Program.
 
+**Two routes to the mini.** Without a VPN the home ISP drops Cloudflare, so the app cannot reach
+bodywithoutorgans.cc from the home Wi-Fi. `serve.py` on the mini therefore listens on the LAN too
+(`MOVIES_BIND=0.0.0.0` in the mini's `.env`; default is localhost) and the app probes
+`http://192.168.1.40:8787/healthz` (Settings → «Адрес mini в домашней сети», 1.5 s, cached a minute) before
+every sync/refresh and uses it when it answers — otherwise the internet address. The journal logs «Маршрут» on
+every switch. If the mini's LAN IP changes, fix it in the app's Settings and in `SettingsStore` default.
+
 **The site inside the app.** The first tab «Сайт» is a WKWebView on https://bodywithoutorgans.cc, logged in via
 `GET /app/login?t=<bearer>&next=/` (token → the usual session cookie). Pages know they run in the app
 (`window.BoW`, user agent contains `BoW/2`); `lectures.html` hands lectures that are downloaded on the phone

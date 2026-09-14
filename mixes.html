@@ -229,6 +229,13 @@
     .hero h1 { font-size: 26px; }
     .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 18px 12px; }
   }
+/* Phone: the nav wraps onto a second row instead of pushing the page sideways (the sticky bar ended at «Еда»
+   and the whole page scrolled horizontally in the BoW app). */
+@media (max-width: 760px) {
+  html, body { overflow-x: hidden; }
+  .bar-inner { flex-wrap: wrap; }
+  .nav { flex-wrap: wrap; gap: 6px 14px; font-size: 15px; }
+}
 </style>
 </head>
 <body>
