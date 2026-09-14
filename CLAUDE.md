@@ -5,6 +5,12 @@ Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mix
 rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
 If the page is served by a plain static server the API is absent and the page becomes read-only.
 
+**Оформление.** Общая палитра сайта — `theme.css` (2026-09-14, стиль страницы «Дом»: кремовая бумага, терракотовый
+акцент, шалфей, серифный Fraunces для заголовков страниц). Каждая страница держит свою вёрстку в inline `<style>`
+и подключает `theme.css` последним, так что его `:root` переопределяет одноимённые токены (`--bg`, `--surface`,
+`--text`, `--line`, `--accent`, `--ok`, `--glass`, `--shadow`, `--card`, `--photo-veil`…). Новую страницу делай на
+тех же токенах и подключай `theme.css`; цвета в самих страницах не правь — только в `theme.css`.
+
 ## Editing the catalog
 
 The user changes rating/status/note and deletes films directly in the site. Adding new films is done via
