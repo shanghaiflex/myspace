@@ -34,7 +34,6 @@
   GET    /api/home                the lamps and the plug as Zigbee2MQTT reports them (scripts/home.py) + scenes
   POST   /api/home/<lamps|lamp|lamp2|plug>   body: {state?, brightness?, color_temp?, color?, transition?} → MQTT set
   POST   /api/home/scene/<name>   a static scene on the lamps (cozy, amber, tv, …)
-  POST   /api/home/effect/<name|off>   start / stop a flicker effect (fire, candlelight, torch; node on the mini)
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 
@@ -570,17 +569,11 @@ class Handler(SimpleHTTPRequestHandler):
         return self.send_json(200, mix)
 
     def home_post(self, what):
-        """/api/home/<device> | scene/<name> | effect/<name|off> — publishes to Zigbee2MQTT and answers at once;
-        the page re-reads the state a moment later, when the bulbs have reported back."""
+        """/api/home/<device> | scene/<name> — publishes to Zigbee2MQTT and answers at once; home.py verifies
+        after the transition and resends to any bulb that missed the broadcast."""
         try:
             if what.startswith("scene/"):
                 out = {"sent": HM.scene(what[6:])}
-            elif what.startswith("effect/"):
-                name = what[7:]
-                if name == "off":
-                    HM.stop_effect(); out = {"effect": None}
-                else:
-                    out = {"effect": HM.start_effect(name)}
             else:
                 out = {"sent": HM.set_device(what, self.read_json())}
         except (ValueError, FileNotFoundError) as e:

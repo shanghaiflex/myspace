@@ -11,15 +11,17 @@ Devices (names are Zigbee2MQTT friendly names):
 
   python3 scripts/home.py state                 # what every device reports
   python3 scripts/home.py set lamps '{"state":"ON","brightness":120}'
-  python3 scripts/home.py scene cozy | amber | tv | ...
-  python3 scripts/home.py effect fire | candle | torch | off
+  python3 scripts/home.py scene cozy | dimmed | read | ...
+
+Every set is verified: group commands are Zigbee broadcasts without acknowledgement, and a bulb that missed one
+keeps the old light. `transition` + 1.5 s after a command the bulbs are asked what they show, and any bulb that
+disagrees gets the same payload again, unicast (acknowledged). Only the latest command per target is verified.
 """
-import json, os, select, socket, struct, subprocess, sys, time
+import json, os, select, socket, struct, subprocess, sys, threading, time
 
 # Broker: MQTT_HOST wins; otherwise localhost on the mini (where ~/mqtt lives), else the mini's LAN name and VPN
 # address — the laptop has its own idle mosquitto on localhost that knows no devices, so it must not be tried there.
-EFFECT_JS = os.path.expanduser(os.environ.get("HOME_EFFECT_JS") or "~/mqtt/effect.js")
-ON_MINI = os.path.exists(EFFECT_JS)
+ON_MINI = os.path.exists(os.path.expanduser("~/mqtt/broker.js"))
 HOSTS = ([os.environ["MQTT_HOST"]] if os.environ.get("MQTT_HOST") else ["localhost"] if ON_MINI else ["Mac-mini-Sergey.local", "10.8.1.5"])
 PORT = int(os.environ.get("MQTT_PORT") or 1883)
 PREFIX = "zigbee2mqtt"
@@ -44,13 +46,11 @@ SCENES = {
     "night":  {"title": "Ночник",      "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
     "sleepy": {"title": "Ко сну",      "payload": {"state": "ON", "brightness": 25, "color_temp": 500, "transition": 60}},
 }
-# Flicker effects run as a node process on the mini (~/mqtt/effect.js), like the CLI does over ssh.
-EFFECTS = {"fire": "Камин", "candlelight": "Свеча живая", "torch": "Факел"}
-EFFECT_ARG = {"fire": "fire", "candlelight": "candle", "torch": "torch"}
-NODE = os.path.expanduser("~/node/bin/node")
 SCHEDULE = "19:00 уютно · 22:00 янтарь · 23:00 выкл"   # launchd on the mini (local.lamp.*, local.plug.*)
 
 _host = {"name": None, "at": 0}
+_seq = {}          # target -> number of the latest command; a verify for an older one is dropped
+VERIFY_GRACE = 1.5
 
 
 # ---------------------------------------------------------------- tiny MQTT
@@ -203,7 +203,7 @@ def state(timeout=2.0):
     return out
 
 
-def set_device(name, payload):
+def set_device(name, payload, verify=True):
     """Publish a Zigbee2MQTT `set` for a device or the group; only the light keys are let through."""
     if name not in TARGETS:
         raise ValueError(f"unknown device {name}")
@@ -229,57 +229,75 @@ def set_device(name, payload):
     if not body:
         raise ValueError("nothing to set")
     if name != "plug" and any(k in body for k in ("brightness", "color_temp", "color")):
-        stop_effect()  # a static setting ends a flicker, like the CLI
+        _stop_cli_effect()  # a static setting ends a flicker started by the `lamp` CLI over ssh
+    publish(name, body)
+    if verify:
+        _seq[name] = seq = _seq.get(name, 0) + 1
+        threading.Thread(target=_verify, args=(name, body, seq), daemon=True).start()
+    return body
+
+
+def publish(name, body):
     c = connect()
     try:
         c.publish(f"{PREFIX}/{name}/set", body)
     finally:
         c.close()
-    return body
+
+
+def _matches(rep, body):
+    if not rep:
+        return False
+    want = body.get("state")
+    if want == "TOGGLE":
+        return True
+    if want and rep.get("state") != want:
+        return False
+    if rep.get("state") == "OFF":
+        return True          # nothing else is visible while off
+    if "brightness" in body and abs((rep.get("brightness") or 0) - body["brightness"]) > 2:
+        return False
+    if "color_temp" in body and (rep.get("color_mode") != "color_temp" or abs((rep.get("color_temp") or 0) - body["color_temp"]) > 3):
+        return False
+    if "color" in body and rep.get("color_mode") != "xy":
+        return False
+    return True
+
+
+def _verify(name, body, seq):
+    """After the transition, ask the bulbs and resend, one by one, to those that missed the command."""
+    time.sleep(float(body.get("transition", 0)) + VERIFY_GRACE)
+    if _seq.get(name) != seq:
+        return            # a newer command took over; verifying this one would fight it
+    members = LAMPS if name == "lamps" else (name,)
+    try:
+        rep = state()
+    except Exception as e:
+        print(f"home verify {name}: no state ({e})", flush=True)
+        return
+    again = {**body, "transition": 1}
+    again.pop("state", None) if body.get("state") == "TOGGLE" else None
+    for m in members:
+        if not _matches(rep.get(m), body):
+            print(f"home verify {m}: shows {rep.get(m)} — resending {again}", flush=True)
+            try:
+                publish(m, again)
+            except Exception as e:
+                print(f"home verify {m}: resend failed ({e})", flush=True)
 
 
 def scene(name, target="lamps"):
     if name not in SCENES:
         raise ValueError(f"unknown scene {name}")
-    stop_effect()
     return set_device(target, SCENES[name]["payload"])
 
 
-# ---------------------------------------------------------------- effects
-
-def effect_running():
-    """Name of the flicker effect currently running on this machine, or None."""
-    try:
-        r = subprocess.run(["pgrep", "-fl", "mqtt/effect.js"], capture_output=True, text=True, timeout=5)
-    except Exception:
-        return None
-    for line in r.stdout.splitlines():
-        arg = line.strip().split()[-1]
-        for name, a in EFFECT_ARG.items():
-            if arg == a:
-                return name
-    return "fire" if r.stdout.strip() else None
-
-
-def stop_effect():
+def _stop_cli_effect():
     subprocess.run(["pkill", "-f", "mqtt/effect.js"], capture_output=True, timeout=5)
 
 
-def start_effect(name, target="lamps"):
-    if name not in EFFECTS:
-        raise ValueError(f"unknown effect {name}")
-    if not os.path.exists(EFFECT_JS):
-        raise FileNotFoundError("effects run on the mini only (no ~/mqtt/effect.js here)")
-    stop_effect()
-    node = NODE if os.path.exists(NODE) else "node"
-    log = open(os.path.expanduser("~/logs/effect.log"), "ab") if os.path.isdir(os.path.expanduser("~/logs")) else subprocess.DEVNULL
-    subprocess.Popen([node, EFFECT_JS, EFFECT_ARG[name]], env={**os.environ, "LAMP": target},
-                     stdout=log, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL, start_new_session=True)
-    return name
-
-
 def summary():
-    """What the page shows: devices, running effect, the scene/effect catalogue."""
+    """What the page shows: devices and the scene catalogue."""
     try:
         devs = state()
         err = None
@@ -287,9 +305,7 @@ def summary():
         devs, err = {d: None for d in DEVICES}, f"{type(e).__name__}: {e}"
     return {
         "devices": devs,
-        "effect": effect_running(),
         "scenes": [{"id": k, "title": v["title"]} for k, v in SCENES.items()],
-        "effects": [{"id": k, "title": v} for k, v in EFFECTS.items()] if os.path.exists(EFFECT_JS) else [],
         "schedule": SCHEDULE,
         "error": err,
     }
@@ -302,14 +318,9 @@ def main(argv):
     if cmd == "state":
         print(json.dumps(summary(), ensure_ascii=False, indent=2))
     elif cmd == "set":
-        print(set_device(argv[2], json.loads(argv[3])))
+        body = set_device(argv[2], json.loads(argv[3])); print(body); time.sleep(float(body.get("transition", 0)) + VERIFY_GRACE + 3)
     elif cmd == "scene":
-        print(scene(argv[2]))
-    elif cmd == "effect":
-        if argv[2] == "off":
-            stop_effect(); print("stopped")
-        else:
-            print(start_effect(argv[2]))
+        print(scene(argv[2])); time.sleep(float(SCENES[argv[2]]["payload"].get("transition", 0)) + VERIFY_GRACE + 3)
     else:
         print(__doc__)
 

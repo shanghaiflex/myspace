@@ -76,9 +76,6 @@
   .hit .halo { fill: transparent; stroke: transparent; stroke-width: 1.4; stroke-dasharray: 3 5; transition: stroke .2s; }
   .hit:hover .halo, .hit:focus-visible .halo { stroke: var(--terra); }
   .hit:focus { outline: none; }
-  .fx .lampglow { animation: flicker 1.1s infinite ease-in-out; }
-  .fx .lampglow.b { animation-duration: 1.4s; animation-delay: .35s; }
-  @keyframes flicker { 0% { opacity: .55 } 18% { opacity: .95 } 33% { opacity: .62 } 51% { opacity: 1 } 67% { opacity: .7 } 84% { opacity: .9 } 100% { opacity: .55 } }
   .disabled { opacity: .5; pointer-events: none; }
 
   /* --- controls --- */
@@ -298,7 +295,6 @@
     </div>
     <div class="tile scenes" id="d-scenes">
       <div class="grp"><div class="lbl">Сцены</div><div class="chips" id="scenes"></div></div>
-      <div class="grp" id="fxGrp" hidden><div class="lbl">Живой огонь</div><div class="chips" id="effects"></div></div>
       <div class="sched" id="sched"></div>
     </div>
   </div>
@@ -307,7 +303,7 @@
 
 <script>
 const $ = id => document.getElementById(id);
-let S = { devices: {}, effect: null };       // last known state
+let S = { devices: {} };                     // last known state
 let localUntil = 0;                          // while dragging a slider, server polls must not fight the hand
 let timer = null;
 
@@ -355,7 +351,6 @@ function render() {
     setGrad(colId, c); setGrad(coneId, c);
     g.setAttribute('opacity', isOn ? (0.35 + 0.65 * ((dev.brightness ?? 200) / 254)).toFixed(2) : 0);
   }
-  $('glow').classList.toggle('fx', !!S.effect);
   const plugOn = p && p.state === 'ON';
   $('glowV').setAttribute('opacity', plugOn ? 0.9 : 0);
   $('discV').setAttribute('fill', plugOn ? 'url(#disc)' : '');
@@ -365,7 +360,6 @@ function render() {
   $('swLamps').disabled = !lamp;
   $('lampsSub').textContent = !lamp ? (S.error ? 'нет связи' : 'не отвечают')
     : !on ? 'выключены'
-    : S.effect ? `${effName(S.effect)} · ${bri}%`
     : colorMode ? `${bri}% · цвет` : `${bri}% · ${kelvin} K${a && b && a.state !== b.state ? ' · одна из двух' : ''}`;
   if (Date.now() > localUntil) {
     if (bri != null) { $('bri').value = bri; $('briOut').textContent = bri + '%'; }
@@ -381,13 +375,11 @@ function render() {
   $('d-plug').classList.toggle('disabled', !p);
   $('d-plug').classList.toggle('lit', !!plugOn);
 
-  document.querySelectorAll('#effects .chip').forEach(c => c.classList.toggle('on', c.dataset.id === S.effect));
-  document.querySelectorAll('#scenes .chip').forEach(c => c.classList.toggle('on', !S.effect && on && c.dataset.id === matchScene(lamp)));
+  document.querySelectorAll('#scenes .chip').forEach(c => c.classList.toggle('on', on && c.dataset.id === matchScene(lamp)));
   const st = $('status');
   st.classList.toggle('err', !!S.error);
   st.textContent = S.error ? 'mini не отвечает: ' + S.error : (lamp || p) ? `обновлено ${new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}` : 'устройства молчат';
 }
-const effName = id => ({ fire: 'камин', candlelight: 'свеча', torch: 'факел' }[id] || id);
 // The chip lights up only when the bulb reports exactly what the scene asked for.
 function matchScene(d) {
   if (!d || !S.sceneMap) return null;
@@ -428,18 +420,8 @@ function buildChips(j) {
     const p = SCENE_PAYLOAD[c.dataset.id];
     // show it before the bulbs confirm: the transition takes seconds, the eye wants the answer now
     for (const k of ['lamp', 'lamp2']) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: 'ON', ...p, color_mode: p.color ? 'xy' : 'color_temp', color: p.color ? rgbXy(p.color) : S.devices[k].color };
-    S.effect = null; render();
-    post('scene/' + c.dataset.id).then(() => reloadSoon(3500));
-  });
-  const fx = j.effects || [];
-  $('fxGrp').hidden = !fx.length;
-  $('effects').innerHTML = fx.map(e => `<button class="chip" data-id="${e.id}" style="--c:#ff7a1e"><i></i>${e.title}</button>`).join('');
-  $('effects').querySelectorAll('.chip').forEach(c => c.onclick = () => {
-    const stop = S.effect === c.dataset.id;
-    S.effect = stop ? null : c.dataset.id;
-    for (const k of ['lamp', 'lamp2']) if (S.devices[k] && !stop) S.devices[k] = { ...S.devices[k], state: 'ON' };
     render();
-    post('effect/' + (stop ? 'off' : c.dataset.id)).then(() => reloadSoon(2500));
+    post('scene/' + c.dataset.id).then(() => reloadSoon(5500));   // after the 3 s transition and the server's check
   });
   $('sched').textContent = j.schedule ? 'Расписание · ' + j.schedule : '';
 }
@@ -455,7 +437,6 @@ function toggleLamps() {
   const lamp = S.devices.lamp || S.devices.lamp2; if (!lamp) return;
   const to = lamp.state === 'ON' ? 'OFF' : 'ON';
   for (const k of ['lamp', 'lamp2']) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: to };
-  if (to === 'OFF') S.effect = null;
   render();
   post('lamps', { state: to, transition: 1 }).then(() => reloadSoon());
 }
@@ -478,7 +459,7 @@ let slideT = null;
 function slide(payload) {
   localUntil = Date.now() + 2500;
   for (const k of ['lamp', 'lamp2']) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: 'ON', ...payload, ...(payload.color_temp ? { color_mode: 'color_temp' } : {}) };
-  S.effect = null; render();
+  render();
   clearTimeout(slideT);
   slideT = setTimeout(() => post('lamps', { state: 'ON', transition: 0.4, ...payload }).then(() => reloadSoon(2500)), 220);
 }
