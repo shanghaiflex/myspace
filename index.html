@@ -78,6 +78,9 @@
   .card.art .acts button.btn { border: 1px solid color-mix(in srgb, var(--card-text) 28%, transparent); background: transparent; color: var(--card-text); font: inherit; font-weight: 600; font-size: 14px; cursor: pointer; }
   .card.art .acts button.btn:hover { background: color-mix(in srgb, var(--card-text) 10%, transparent); }
   .card.art.gone { opacity: .4; pointer-events: none; }
+  .card.art .thumb { flex: 0 0 auto; width: 132px; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: rgba(127,127,127,.2); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+  .card.art .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 680px) { .card.art .thumb { width: 96px; } }
   .list { display: flex; flex-direction: column; gap: 10px; }
   .list a { display: flex; gap: 12px; align-items: center; min-width: 0; padding: 6px; margin: -6px; border-radius: 12px; }
   .list a:hover { background: color-mix(in srgb, var(--card-text) 8%, transparent); }
@@ -261,7 +264,7 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     if (!art) return '';
     const more = (r.items || []).length - 1;
     return `<div class="card c6 art" data-id="${esc(art.id)}"><div class="eyebrow">Почитать <span class="more">${esc(art.source || '')}${art.minutes ? ' · ' + art.minutes + ' мин' : ''}</span></div>
-      <h2><a href="${esc(art.url)}" target="_blank" rel="noopener">${esc(art.title)}</a></h2>
+      <div class="row">${art.image ? `<a class="thumb" href="${esc(art.url)}" target="_blank" rel="noopener"><img src="${esc(art.image)}" alt=""></a>` : ''}<h2><a href="${esc(art.url)}" target="_blank" rel="noopener">${esc(art.title)}</a></h2></div>
       <div class="sub">${esc(art.reason || '')}${more > 0 ? ` <span class="more">· ещё ${more} на странице «Читать»</span>` : ''}</div>
       <div class="acts"><a class="btn" href="${esc(art.url)}" target="_blank" rel="noopener">Открыть</a><button class="btn" data-act="saved">Прочту</button><button class="btn" data-act="dismissed">Мимо</button></div></div>`;
   };

@@ -151,17 +151,35 @@
   .sechead .spacer { flex: 1; }
   .sechead button { border: 0; background: none; color: var(--accent); font: inherit; font-size: 13px; cursor: pointer; padding: 4px 2px; }
   .sechead button:disabled { color: var(--text-3); cursor: default; }
-  .arts { display: grid; gap: 14px; }
-  .art { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); transition: opacity .18s, transform .18s; }
+  .arts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+  .art { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column;
+    transition: opacity .18s, transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s ease; }
+  .art:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
   .art.gone { opacity: 0; transform: scale(.98); pointer-events: none; }
+  .art .pic { display: block; aspect-ratio: 16 / 10; background: var(--surface-2); overflow: hidden; position: relative; }
+  .art .pic img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .art:hover .pic img { transform: scale(1.03); }
+  .art .pic .ph { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; text-align: center; color: var(--text-3); font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, var(--surface-2)), var(--surface-2) 70%); }
+  .art .body { padding: 14px 18px 16px; display: flex; flex-direction: column; flex: 1; }
   .art .src { font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: .04em; }
-  .art h3 { margin: 4px 0 0; font-size: 17px; font-weight: 620; line-height: 1.3; letter-spacing: -0.01em; }
+  .art h3 { margin: 5px 0 0; font-size: 17px; font-weight: 620; line-height: 1.28; letter-spacing: -0.01em; }
   .art h3 a { color: var(--text); }
   .art h3 a:hover { color: var(--accent); }
   .art .why { margin: 8px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--text-2); }
-  .art .acts { display: flex; gap: 8px; margin-top: 12px; }
+  .art .acts { display: flex; gap: 8px; margin-top: 14px; padding-top: 2px; }
   .art .acts button { border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 8px; padding: 7px 14px; font: inherit; font-size: 13px; cursor: pointer; }
   .art .acts .take { background: var(--accent); border-color: transparent; color: #fff; }
+  /* список чтения — компактные строки с миниатюрой */
+  .arts.rows { grid-template-columns: 1fr; gap: 10px; }
+  .arts.rows .art { flex-direction: row; align-items: stretch; }
+  .arts.rows .art:hover { transform: none; box-shadow: var(--shadow); }
+  .arts.rows .pic { width: 168px; flex: 0 0 168px; aspect-ratio: auto; min-height: 96px; }
+  .arts.rows .body { padding: 12px 16px; }
+  .arts.rows h3 { font-size: 15.5px; }
+  .arts.rows .why { display: none; }
+  .arts.rows .acts { margin-top: auto; padding-top: 10px; }
+  @media (max-width: 560px) { .arts { grid-template-columns: 1fr; } .arts.rows .pic { width: 112px; flex-basis: 112px; } }
   .empty { color: var(--text-3); font-size: 13.5px; }
   .done li { font-size: 13.5px; color: var(--text-2); margin: 6px 0; }
   .done a { color: var(--text-2); }
@@ -188,7 +206,7 @@
 
   <section class="sec">
     <div class="sechead"><h2>Список чтения</h2><div class="meta" id="savedMeta"></div></div>
-    <div class="arts" id="saved"></div>
+    <div class="arts rows" id="saved"></div>
     <div class="empty" id="savedEmpty" hidden>Ничего не отложено.</div>
   </section>
 
@@ -210,11 +228,15 @@ const sub = a => [a.author, a.date ? fmtDay(a.date) : '', a.minutes ? a.minutes 
 let updatedAt = null;
 
 function card(a, acts) {
+  const pic = a.image ? `<img src="${esc(a.image)}" alt="" loading="lazy">` : `<div class="ph">${esc(a.source)}</div>`;
   return `<article class="art" data-id="${esc(a.id)}">
-    <div class="src">${esc(a.source)}${sub(a) ? ' · ' + esc(sub(a)) : ''}</div>
-    <h3><a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a></h3>
-    ${a.reason ? `<div class="why">${esc(a.reason)}</div>` : ''}
-    <div class="acts">${acts}</div>
+    <a class="pic" href="${esc(a.url)}" target="_blank" rel="noopener">${pic}</a>
+    <div class="body">
+      <div class="src">${esc(a.source)}${sub(a) ? ' · ' + esc(sub(a)) : ''}</div>
+      <h3><a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a></h3>
+      ${a.reason ? `<div class="why">${esc(a.reason)}</div>` : ''}
+      <div class="acts">${acts}</div>
+    </div>
   </article>`;
 }
 

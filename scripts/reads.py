@@ -8,6 +8,7 @@ Usage:
   reads.py due                      # код 0, если пора обновлять (для reads.sh)
   reads.py apply --file answer.json [--model opus] [--keep 3]
   reads.py verdict <id> saved|dismissed|read
+  reads.py images                         скачать недостающие превью (og:image) в reads/img/
   reads.py list
 
 Почему так: модель прекрасно сочиняет правдоподобные ссылки на несуществующие статьи — ровно как
@@ -17,7 +18,7 @@ Usage:
 Запускается раз в день на mini (scripts/reads.sh из launchd, deploy/install-reads.sh)
 и по кнопке на странице (POST /api/reads/refresh).
 """
-import argparse, datetime, email.utils, hashlib, html, json, os, re, sys, urllib.error, urllib.request
+import argparse, datetime, email.utils, hashlib, html, json, os, re, subprocess, sys, urllib.error, urllib.parse, urllib.request
 import xml.etree.ElementTree as ET
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,6 +37,9 @@ CACHE_MAX = 400          # сколько кандидатов держим в r
 PER_SOURCE = 25          # свежих статей с одной ленты за раз
 SUMMARY_CHARS = 280
 EVERY_HOURS = 20
+IMG_DIR = os.path.join(ROOT, "reads", "img")   # превью статей: данные машины, не репозитория (см. .gitignore)
+IMG_MAX = 12 * 1024 * 1024      # потолок скачивания; дальше sips ужимает до IMG_WIDTH
+IMG_WIDTH = 1200
 
 # Ленты проверены с mini (он ходит через VPN): все отдают 200 и настоящий XML.
 SOURCES = [
@@ -198,6 +202,93 @@ def fetch(days=45, verbose=True):
     return db["cache"]
 
 
+# ---------------------------------------------------------------- превью
+def og_image(url):
+    """Картинка статьи — og:image (или twitter:image) со страницы. Лент с картинками почти нет,
+    а вот социальную карточку отдают все одиннадцать источников. Читаем только начало страницы:
+    мета-теги живут в <head>."""
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html"})
+    with urllib.request.urlopen(req, timeout=25) as r:
+        page = r.read(400_000).decode("utf-8", "replace")
+    for prop in ("og:image:secure_url", "og:image", "twitter:image", "twitter:image:src"):
+        m = re.search(r'<meta[^>]+(?:property|name)=["\']%s["\'][^>]+content=["\']([^"\']+)' % re.escape(prop), page, re.I) or \
+            re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\']%s["\']' % re.escape(prop), page, re.I)
+        if m:
+            return urllib.parse.urljoin(url, html.unescape(m.group(1)).strip())
+    return None
+
+
+def fetch_image(art, verbose=True):
+    """Скачивает превью в reads/img/<id>.<ext> и прописывает art["image"]. Локально — потому что
+    картинки со сторонних CDN дома открываются не всегда, а mini ходит через VPN. Уже скачанное
+    не трогаем."""
+    cur = art.get("image")
+    if cur and os.path.exists(os.path.join(ROOT, cur)):
+        return cur
+    try:
+        src = art.get("imageUrl") or og_image(art["url"])
+        if not src:
+            if verbose:
+                print(f"  без превью (нет og:image): {art['title']}", file=sys.stderr)
+            return None
+        req = urllib.request.Request(src, headers={"User-Agent": UA, "Accept": "image/*,*/*;q=0.5", "Referer": art["url"]})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            ctype = (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+            data = r.read(IMG_MAX + 1)
+    except Exception as e:
+        if verbose:
+            print(f"  превью не скачалось: {art['title']} ({type(e).__name__}: {e})", file=sys.stderr)
+        return None
+    if len(data) < 2000 or len(data) > IMG_MAX or ctype.startswith("text/"):
+        return None
+    os.makedirs(IMG_DIR, exist_ok=True)
+    tmp = os.path.join(IMG_DIR, f"{art['id']}.tmp")
+    with open(tmp, "wb") as f:
+        f.write(data)
+    # og:image часто отдают исходник на несколько мегабайт; sips (штатный на macOS, есть и на mini без brew)
+    # ужимает до IMG_WIDTH по длинной стороне и переводит в jpeg. Без sips кладём как есть.
+    ext = "jpg"
+    path = os.path.join(IMG_DIR, f"{art['id']}.{ext}")
+    try:
+        subprocess.run(["sips", "-Z", str(IMG_WIDTH), "-s", "format", "jpeg", "-s", "formatOptions", "82", tmp, "--out", path],
+                       check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
+        os.remove(tmp)
+    except (OSError, subprocess.SubprocessError):
+        if data[:8] == b"\x89PNG\r\n\x1a\n":
+            ext = "png"
+        elif data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+            ext = "webp"
+        path = os.path.join(IMG_DIR, f"{art['id']}.{ext}")
+        os.replace(tmp, path)
+    art["image"] = f"reads/img/{art['id']}.{ext}"
+    art["imageUrl"] = src
+    return art["image"]
+
+
+def drop_image(art):
+    """Статья ушла в историю — её превью больше никто не увидит."""
+    p = str(art.get("image") or "")
+    if p.startswith("reads/img/"):
+        try:
+            os.remove(os.path.join(ROOT, p))
+        except OSError:
+            pass
+
+
+def fill_images(db=None):
+    """Дозаполняет превью у текущих советов и списка чтения (reads.py images)."""
+    own = db is None
+    db = db or load()
+    got = []
+    for art in db["items"] + db["saved"]:
+        before = art.get("image")
+        if fetch_image(art) and art.get("image") != before:
+            got.append(art["title"])
+    if own and got:
+        save(db)
+    return got
+
+
 # ---------------------------------------------------------------- дайджест
 def taste():
     """Вкус по всем четырём каталогам сразу — ради этого всё и затевалось."""
@@ -301,11 +392,14 @@ def apply_answer(text, model=None, keep=3):
         if any(i["id"] == art["id"] for i in items):
             continue
         art.update(reason=(c.get("why") or "").strip() or None, suggestedAt=today(), verdict="new")
+        fetch_image(art)
         items.append(art)
         print(f"  + [{art['source']}] {art['title']}")
     if not items:
         raise SystemExit("модель не выбрала ни одной статьи из списка")
     stale = [r for r in db["items"] if r["id"] not in {i["id"] for i in items}]
+    for r in stale:
+        drop_image(r)
     db["history"] = [history_entry(r) for r in stale] + db["history"]
     db["history"] = db["history"][:HISTORY_MAX]
     db["items"] = items
@@ -334,6 +428,7 @@ def verdict(rid, v):
             raise SystemExit(f"нет такой статьи в списке: {rid}")
         s["verdict"] = "read"
         s["decidedAt"] = today()
+        drop_image(s)
         db["saved"] = [x for x in db["saved"] if x["id"] != rid]
         db["history"] = ([history_entry(s)] + db["history"])[:HISTORY_MAX]
         save(db)
@@ -346,6 +441,8 @@ def verdict(rid, v):
     r["decidedAt"] = today()
     if v == "saved":
         db["saved"] = [dict(r, savedAt=today())] + [x for x in db["saved"] if x["id"] != rid]
+    else:
+        drop_image(r)
     db["items"] = [x for x in db["items"] if x["id"] != rid]
     db["history"] = ([history_entry(r)] + db["history"])[:HISTORY_MAX]
     save(db)
@@ -377,6 +474,7 @@ def main():
     sub.add_parser("digest")
     sub.add_parser("due")
     sub.add_parser("list")
+    sub.add_parser("images", help="дозаполнить превью у советов и списка чтения")
     a = sub.add_parser("apply")
     a.add_argument("--file", required=True)
     a.add_argument("--model")
@@ -402,6 +500,9 @@ def main():
     elif args.cmd == "verdict":
         verdict(args.id, args.verdict)
         print(f"{args.id}: {args.verdict}")
+    elif args.cmd == "images":
+        got = fill_images()
+        print("\n".join(got) if got else "нечего дозаполнять")
     elif args.cmd == "list":
         db = load()
         print(f"обновлено {db.get('updatedAt')} ({db.get('model')}), кандидатов в кэше {len(db['cache'])}")
