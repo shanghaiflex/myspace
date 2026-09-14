@@ -22,6 +22,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE = os.path.join(ROOT, "data", "calendar.ics")
 CACHE_MINUTES = 30
 DAY_START, DAY_END = 8, 23      # the hours a free window is worth naming
+# Calendars shown in the day but not counted as busy. «Тренировки» holds someone else's swimming — four hours of
+# every Monday and Friday morning — and taking it as occupied left the day with no room in it at all.
+FREE_CALENDARS = "Тренировки"
 FREE_MIN = 45                   # minutes below which a gap between events is not a window, it is a gap
 DOW = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"]
 MAX_OCCURRENCES = 3000          # a guard against a daily rule that started years ago
@@ -45,19 +48,16 @@ def tz():
 
 # ---------------------------------------------------------------- fetch
 def fetch(force=False):
-    """The cached .ics, refreshed at most every CACHE_MINUTES. A stale copy beats no schedule at all, so a failed
-    request falls back to whatever is on disk."""
+    """Everything the account has, cached for CACHE_MINUTES.
+
+    Over CalDAV, because the export link publishes exactly one calendar: it pointed at «Мои события», which was
+    abandoned in April, while the day actually lives in «Семья» — the note was reading a calendar nobody keeps.
+    Without a password the export link still works as a fallback, and a stale copy beats no schedule at all."""
     fresh = os.path.exists(CACHE) and dt.datetime.now().timestamp() - os.path.getmtime(CACHE) < CACHE_MINUTES * 60
     if fresh and not force:
         return open(CACHE, encoding="utf-8").read()
-    url = env("YANDEX_CALENDAR_ICS")
-    if not url:
-        raise SystemExit("YANDEX_CALENDAR_ICS is not set in .env (Календарь → Настройки → экспорт)")
     try:
-        with urllib.request.urlopen(url, timeout=25) as r:
-            text = r.read().decode("utf-8")
-        if "BEGIN:VCALENDAR" not in text:
-            raise ValueError("the export did not return a calendar")
+        text = caldav_ics() if env("YANDEX_CALDAV_PASSWORD") else export_ics()
         os.makedirs(os.path.dirname(CACHE), exist_ok=True)
         with open(CACHE, "w", encoding="utf-8") as f:
             f.write(text)
@@ -67,6 +67,32 @@ def fetch(force=False):
             print(f"calendar: {e}; using the cached copy from {dt.datetime.fromtimestamp(os.path.getmtime(CACHE)):%d.%m %H:%M}", file=sys.stderr)
             return open(CACHE, encoding="utf-8").read()
         raise
+
+
+def export_ics():
+    url = env("YANDEX_CALENDAR_ICS")
+    if not url:
+        raise SystemExit("neither YANDEX_CALDAV_PASSWORD nor YANDEX_CALENDAR_ICS is set in .env")
+    with urllib.request.urlopen(url, timeout=25) as r:
+        text = r.read().decode("utf-8")
+    if "BEGIN:VCALENDAR" not in text:
+        raise ValueError("the export did not return a calendar")
+    return text
+
+
+def caldav_ics():
+    """Every event of every calendar collection, one file. Each event is stamped with the calendar it came from —
+    CATEGORIES would be the natural place, but Yandex fills it in for one calendar and leaves it empty in the rest."""
+    out = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//bodywithoutorgans//schedule.py//RU"]
+    for c in calendars():
+        if "/todos-" in c["href"]:
+            continue
+        for e in calendar_events(c["href"]):
+            block = re.search(r"BEGIN:VEVENT.*?END:VEVENT", unfold(e["ics"]), re.S)
+            if block:
+                out.append(block.group(0).replace("BEGIN:VEVENT", f"BEGIN:VEVENT\nX-BOW-CALENDAR:{c['name']}", 1))
+    out.append("END:VCALENDAR")
+    return "\n".join(out)
 
 
 # ---------------------------------------------------------------- parse
@@ -132,8 +158,10 @@ def events(text, zone):
               "start": start, "end": end, "allday": allday,
               "rrule": parse_rrule(first(p, "RRULE")) if "RRULE" in p else None,
               "exdate": {parse_dt(prm, one, zone)[0] for prm, val in p.get("EXDATE", []) for one in val.split(",")},
+              "calendar": unescape(first(p, "X-BOW-CALENDAR") or first(p, "CATEGORIES")),
               "cancelled": first(p, "STATUS").upper() == "CANCELLED",
               "busy": first(p, "TRANSP").upper() != "TRANSPARENT"}
+        ev["busy"] = ev["busy"] and ev["calendar"] not in [c.strip() for c in env("SCHEDULE_FREE_CALENDARS", FREE_CALENDARS).split(",")]
         if "RECURRENCE-ID" in p:
             overrides[(ev["uid"], parse_dt(*p["RECURRENCE-ID"][0], zone)[0])] = ev
         else:
@@ -250,7 +278,8 @@ def agenda(days=7, start_date=None, text=None):
                 # An event the calendar shows as free (TRANSP) still pins an hour of the day — the lesson happens —
                 # it just does not make the person busy, so it is listed but never eats a free window.
                 out[start.date()].append({"summary": item["summary"], "start": start, "end": end,
-                                          "allday": item["allday"], "busy": item["busy"]})
+                                          "allday": item["allday"], "busy": item["busy"],
+                                          "calendar": item["calendar"]})
     for day in out.values():
         day.sort(key=lambda e: (not e["allday"], e["start"]))
     return out
@@ -394,20 +423,33 @@ def put_event(href, ics, etag=None):
     return status
 
 
-def end_rule(events_, title, until_date, dry_run=False):
+def set_rrule(ics, rule):
+    """Replace the rule of the event itself. Only inside the VEVENT: the VTIMEZONE block that comes before it in
+    the file carries seven RRULE lines of its own — the daylight-saving history of the zone — and replacing «the
+    first RRULE in the file» rewrites one of those while the event keeps its old rule."""
+    body = re.sub(r"^RRULE:.*$", "RRULE:" + rule, re.search(r"BEGIN:VEVENT.*?END:VEVENT", ics, re.S).group(0),
+                  count=1, flags=re.M)
+    return re.sub(r"BEGIN:VEVENT.*?END:VEVENT", lambda _: body, ics, count=1, flags=re.S)
+
+
+def end_rule(events_, title, until_date, dry_run=False, at=None):
     """Close a repeating rule with UNTIL instead of deleting it: the past stays in the calendar, the future stops.
     Deleting the series would take the history with it, and history is the only record of what was actually done."""
     stamp = until_date.strftime("%Y%m%dT235959Z")
     done = []
-    for e in events_:
-        if not e["rrule"] or title.lower() not in (e["summary"] or "").lower():
-            continue
+    # A title alone is not an identifier: «ЛФК» matched both the rule being retired and the replacement created a
+    # minute earlier, and closed them both. Where several rules answer to the name, the hour has to be given.
+    matches = [e for e in events_ if e["rrule"] and title.lower() in (e["summary"] or "").lower()
+               and (not at or e["dtstart"][-6:-4] + ":" + e["dtstart"][-4:-2] == at)]
+    if len(matches) > 1:
+        raise SystemExit("под это название подходит несколько правил, уточни время через --at HH:MM:\n  "
+                         + "\n  ".join(f"{e['summary']} {e['dtstart'][-6:-4]}:{e['dtstart'][-4:-2]}  {e['rrule']}" for e in matches))
+    for e in matches:
         rule = re.sub(r";?UNTIL=[0-9TZ]+", "", e["rrule"]) + f";UNTIL={stamp}"
-        ics = re.sub(r"^RRULE:.*$", "RRULE:" + rule, e["ics"], count=1, flags=re.M)
-        ics = bump_sequence(ics)
         done.append((e["summary"], e["rrule"], rule))
         if not dry_run:
-            put_event(e["href"], ics, e["etag"])
+            ics = bump_sequence(set_rrule(e["ics"].replace("\r\n", "\n"), rule))
+            put_event(e["href"], ics.replace("\n", "\r\n"), e["etag"])
     return done
 
 
@@ -451,7 +493,8 @@ def main():
     p = sub.add_parser("free"); p.add_argument("--date")
     sub.add_parser("calendars")
     sub.add_parser("rules")
-    p = sub.add_parser("end"); p.add_argument("title"); p.add_argument("--date"); p.add_argument("--dry-run", action="store_true")
+    p = sub.add_parser("end"); p.add_argument("title"); p.add_argument("--date"); p.add_argument("--at", help="HH:MM, если правил с таким названием несколько")
+    p.add_argument("--dry-run", action="store_true")
     p = sub.add_parser("add"); p.add_argument("title"); p.add_argument("--day", required=True, help="MO..SU")
     p.add_argument("--time", required=True, help="HH:MM"); p.add_argument("--minutes", type=int, default=60)
     p.add_argument("--once", action="store_true", help="одно событие, а не еженедельное правило")
@@ -477,7 +520,7 @@ def main():
     elif a.cmd == "end":
         until = dt.date.fromisoformat(a.date) if a.date else dt.datetime.now(tz()).date() - dt.timedelta(days=1)
         for c in calendars():
-            for summary, was, now_ in end_rule(calendar_events(c["href"]), a.title, until, a.dry_run):
+            for summary, was, now_ in end_rule(calendar_events(c["href"]), a.title, until, a.dry_run, a.at):
                 print(("(сухой прогон) " if a.dry_run else "") + f"{summary}: {was} → {now_}")
     elif a.cmd == "add":
         zone = tz()
