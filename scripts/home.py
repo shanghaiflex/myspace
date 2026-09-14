@@ -31,20 +31,15 @@ TARGETS = ("lamps", "lamp", "lamp2", "plug")
 FIELDS = ("state", "brightness", "color_temp", "color", "color_mode", "power", "voltage", "current", "energy", "last_seen", "linkquality")
 ALLOWED = {"state", "brightness", "color_temp", "color", "transition"}
 
-# Static scenes: white light only, built around the user's «Уютно» (43 %, 2300 K). Philips Hue's recipes gave the
-# temperatures and the proportions, but Hue's brightness numbers do not transfer: the Tuya TS0505B dims more linearly,
-# so Hue Dimmed (30 %, 2730 K) looked like a reading light here (2026-09-14). Hue bri is scaled by 0.76 = cozy/Hue Relax,
-# and «Приглушённо» is simply cozy at a lower level. Coloured WiZ-style presets were dropped as ugly the same day;
-# the 22:00 amber schedule on the mini is untouched.
+# Static scenes: white light only, built around the user's «Уютно» (43 %, 2300 K). Hue's numbers do not transfer
+# one to one: the Tuya TS0505B dims more linearly, so Hue Dimmed (30 %) looked like a reading light here — Hue bri
+# is scaled by 0.76 = cozy / Hue Relax. Trimmed to four on 2026-09-14 (dimmed, rest, bright, focus, sleepy removed
+# by request); «Кино» is bias-light practice — dim and warm behind the viewer, nothing that competes with the screen.
 SCENES = {
-    "cozy":   {"title": "Уютно",       "payload": {"state": "ON", "brightness": 110, "color_temp": 435, "transition": 3}},
-    "dimmed": {"title": "Приглушённо", "payload": {"state": "ON", "brightness": 46, "color_temp": 435, "transition": 3}},
-    "rest":   {"title": "Отдых",       "payload": {"state": "ON", "brightness": 68, "color_temp": 500, "transition": 3}},
-    "read":   {"title": "Чтение",      "payload": {"state": "ON", "brightness": 193, "color_temp": 343, "transition": 3}},
-    "bright": {"title": "Ярко",        "payload": {"state": "ON", "brightness": 254, "color_temp": 367, "transition": 3}},
-    "focus":  {"title": "Собраться",   "payload": {"state": "ON", "brightness": 254, "color_temp": 230, "transition": 3}},
-    "night":  {"title": "Ночник",      "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
-    "sleepy": {"title": "Ко сну",      "payload": {"state": "ON", "brightness": 25, "color_temp": 500, "transition": 60}},
+    "cozy":   {"title": "Уютно",  "payload": {"state": "ON", "brightness": 110, "color_temp": 435, "transition": 3}},
+    "read":   {"title": "Чтение", "payload": {"state": "ON", "brightness": 193, "color_temp": 343, "transition": 3}},
+    "movie":  {"title": "Кино",   "payload": {"state": "ON", "brightness": 30, "color_temp": 370, "transition": 5}},
+    "night":  {"title": "Ночник", "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
 }
 SCHEDULE = "19:00 уютно · 22:00 янтарь · 23:00 выкл"   # launchd on the mini (local.lamp.*, local.plug.*)
 
