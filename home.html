@@ -154,15 +154,15 @@
   <!-- light, drawn under the ink -->
   <g class="glow" id="glow">
     <g id="glowA" class="lampglow a" opacity="0">
-      <path d="M590 128 L500 -240 L710 -240 Z" fill="url(#coneA)" opacity=".7" filter="url(#soft)"/>
-      <circle cx="604" cy="112" r="165" fill="url(#gA)"/>
+      <path d="M426 128 L336 -240 L546 -240 Z" fill="url(#coneA)" opacity=".7" filter="url(#soft)"/>
+      <circle cx="440" cy="112" r="165" fill="url(#gA)"/>
     </g>
     <g id="glowB" class="lampglow b" opacity="0">
-      <path d="M918 128 L830 -240 L1040 -240 Z" fill="url(#coneB)" opacity=".7" filter="url(#soft)"/>
-      <circle cx="932" cy="112" r="165" fill="url(#gB)"/>
+      <path d="M816 128 L726 -240 L936 -240 Z" fill="url(#coneB)" opacity=".7" filter="url(#soft)"/>
+      <circle cx="830" cy="112" r="165" fill="url(#gB)"/>
     </g>
     <g id="glowV" opacity="0">
-      <circle cx="446" cy="336" r="110" fill="url(#gV)"/>
+      <circle cx="300" cy="358.6" r="110" fill="url(#gV)"/>
     </g>
   </g>
 
@@ -190,49 +190,46 @@
     <!-- radiator under the window -->
     <path d="M64 371.2 L288 345.0 L288 386.4 L64 424.0 Z" class="thin"/>
     <g class="hatch"><path d="M78 372.4V418.7 M92 370.8V416.4 M106 369.1V414.1 M120 367.4V411.8 M134 365.7V409.5 M148 364.1V407.2 M162 362.4V404.9 M176 360.7V402.5 M190 359.0V400.2 M204 357.4V397.9 M218 355.7V395.6 M232 354.0V393.3 M246 352.3V391.0 M260 350.6V388.7 M274 349.0V386.4"/></g>
-    <!-- curtains: the near one at the left edge, the far one against the corner -->
+    <!-- curtains: the near one at the left edge, the far one between the window and the shelf -->
     <path d="M0 -1.1 L362 81.5" class="thin"/>
     <path d="M14 -500 L14 4 C26 120 8 260 22 380 C30 470 10 540 22 598" /><path d="M42 -500 L42 6 C52 130 32 270 46 390 C54 480 36 545 44 598" class="thin"/><path d="M28 6 C38 140 20 280 32 400" class="faint"/>
-    <path d="M316 76 C306 150 328 250 314 340 C308 400 326 430 316 458" /><path d="M342 80 C336 160 352 260 338 350 C332 410 350 440 340 462" class="thin"/><path d="M330 78 C322 170 340 280 328 380" class="faint"/>
+    <path d="M222 49.6 C214 140 234 260 220 360 C214 420 232 460 222 482.6" /><path d="M244 54.6 C238 150 254 270 240 370 C234 430 250 470 242 474.9" class="thin"/><path d="M233 53.7 C226 160 244 280 232 380" class="faint"/>
 
-    <!-- bookshelf: the niche in the corner, its lowest shelf at the sofa's arm -->
-    <rect x="378" y="24" width="150" height="418"/>
-    <path d="M378 108h150M378 186h150M378 264h150M378 372h150" />
-    <g class="hatch"><path d="M378 24 L372 32 L372 450 L378 442 M528 24 L534 32 L534 450 L528 442"/></g>
+    <!-- bookshelf: a niche in the window wall, running into the corner; its arm-height shelf holds the lamp -->
+    <path d="M252 34.0 L356 60.5 L356 443.9 L252 471.0 Z"/>
+    <path d="M252 98.0 L356 116.6 M252 170.0 L356 179.8 M252 242.0 L356 243.0 M252 314.0 L356 306.2 M252 398.0 L356 379.8"/>
+    <path d="M252 34.0 L247 26.700000000000003 L247 478.3" class="hatch"/>
     <g class="thin">
-      <path d="M390 108v-50h10v50M402 108v-58h12v58M416 108v-48h9v48M427 108v-60h14v60M443 108v-50h10v50M455 108v-56h13v56M470 108v-44h10v44M482 108v-58h12v58M496 108v-50h11v50M509 108v-54h13v54"/>
-      <path d="M388 186v-50h12v50M402 186v-60h10v60M414 186v-46h14v46M430 186v-58h9v58M441 186v-52h13v52M456 186v-40h20v40M478 186v-56h10v56M490 186v-48h12v48M504 186v-60h9v60M515 186v-50h10v50"/>
-      <path d="M390 264v-46h12v46M404 264v-58h11v58M417 264v-52h9v52M428 264v-44h15v44M445 264v-60h10v60M457 264v-50h12v50M471 264v-56h9v56M482 264v-42h16v42M500 264v-54h11v54M513 264v-48h11v48"/>
-      <path d="M486 372v-52h12v52M500 372v-60h10v60M512 372v-44h10v44"/>
-      <path d="M388 372v-58h14v58M404 372v-50h10v50" />
-      <path d="M392 442v-58h122v58" class="faint"/><path d="M453 384v58" class="faint"/><circle cx="446" cy="414" r="2" class="faint"/><circle cx="460" cy="414" r="2" class="faint"/>
+      <path d="M258 99.1V46.6H266V100.5 M268 100.9V61.6H280V103.0 M282 103.4V52.4H291V105.0 M293 105.3V55.1H303V107.1 M305 107.5V58.0H312V108.8 M314 109.1V64.6H321V110.4 M323 110.7V62.3H332V112.3 M334 112.7V76.6H342V114.1 M258 170.6V122.9H270V171.7 M272 171.9V132.8H282V172.8 M284 173.0V134.5H292V173.8 M294 174.0V128.3H306V175.1 M308 175.3V142.4H315V175.9 M317 176.1V127.4H325V176.9 M327 177.1V136.2H334V177.7 M336 177.9V137.6H343V178.6 M258 242.1V194.4H268V242.2 M270 242.2V190.5H280V242.3 M282 242.3V203.7H292V242.4 M294 242.4V208.9H303V242.5 M305 242.5V205.0H312V242.6 M314 242.6V205.5H324V242.7 M326 242.7V198.9H335V242.8 M337 242.8V199.6H346V242.9 M258 313.5V265.9H270V312.6 M272 312.5V268.7H284V311.6 M286 311.4V260.8H298V310.5 M300 310.4V260.6H310V309.6 M312 309.5V267.8H320V308.9 M322 308.7V267.6H329V308.2 M331 308.0V271.8H343V307.1"/>
+      <path d="M326 385.1V348.6H334V383.7 M336 383.3V341.5H345V381.8 M347 381.4V348.7H354V380.2 M258 397.0V355.6H267V395.4 M269 395.0V360.5H277V393.6"/>
+      <path d="M258 406.5 L352 389.0 L352 442.1 L258 466.2 Z M304 397.9 L304 454.4" class="faint"/><path d="M298 427.8h2 M310 425.1h2" class="faint"/>
     </g>
 
-    <!-- VARMBLIXT: the round orange lamp standing on the arm-height shelf, fed by the smart plug -->
+    <!-- VARMBLIXT: the round orange lamp on the arm-height shelf, fed by the smart plug -->
     <g class="hit" id="hitV" data-dev="plug" tabindex="0" role="button" aria-label="Лампа Varmblixt: переключить розетку">
-      <circle cx="446" cy="336" r="40" class="halo"/>
-      <circle cx="446" cy="336" r="31" id="discV" class="paper2"/>
-      <circle cx="446" cy="336" r="31"/>
-      <path d="M424 320 A28 28 0 0 1 442 307" class="faint"/>
-      <path d="M432 372 L460 372" class="thin"/>
+      <ellipse cx="300" cy="358.6" rx="34" ry="40" class="halo"/>
+      <ellipse cx="300" cy="358.6" rx="26" ry="31" id="discV" class="paper2"/>
+      <ellipse cx="300" cy="358.6" rx="26" ry="31"/>
+      <path d="M282 344.6 A24 28 0 0 1 296 329.6" class="faint"/>
+      <path d="M290 392.6 L310 392.6" class="thin"/>
     </g>
 
-    <!-- sofa: its left arm meets the shelf -->
-    <path d="M556 474 L556 372 Q556 356 574 356 L892 356 Q910 356 910 372 L910 474" />
-    <path d="M574 356 L574 340 Q574 328 586 328 L880 328 Q892 328 892 340 L892 356" class="thin"/>
-    <path d="M536 380 Q526 380 526 392 L526 474 L556 474" /><path d="M910 474 L938 474 L938 392 Q938 380 928 380 L910 380" />
-    <path d="M556 408 L910 408" class="thin"/><path d="M733 408 L733 474" class="faint"/>
-    <path d="M526 474 L938 474"/><path d="M536 474v12M928 474v12M606 474v12M860 474v12" class="thin"/>
-    <path d="M606 406 L596 352 Q596 340 608 340 L668 340 Q680 340 680 352 L672 406" class="thin"/>
-    <g class="faint"><path d="M620 360 q4-6 8 0 q4 6 8 0M644 376 q4-6 8 0 q4 6 8 0M614 384 q4-6 8 0M654 356 q3-5 6 0"/><circle cx="630" cy="376" r="2"/><circle cx="658" cy="390" r="2"/></g>
-    <path d="M836 406 L826 352 Q826 340 838 340 L892 340 L888 406" class="thin"/>
-    <g class="faint"><path d="M846 360 q4-6 8 0 q4 6 8 0M866 376 q4-6 8 0M840 384 q4-6 8 0"/><circle cx="858" cy="380" r="2"/></g>
-    <path d="M704 406 Q704 376 732 374 Q764 374 766 406" class="thin"/><path d="M716 388 Q732 382 752 390" class="faint"/>
-    <path d="M574 406 C578 384 598 376 610 380 C602 392 590 400 586 406" class="faint"/>
-    <path d="M764 408 C774 388 804 384 816 396" class="faint"/>
+    <!-- sofa along the facing wall, its left arm in the corner against the shelf -->
+    <path d="M412 474 L412 372 Q412 356 430 356 L846 356 Q864 356 864 372 L864 474" />
+    <path d="M430 356 L430 340 Q430 328 442 328 L834 328 Q846 328 846 340 L846 356" class="thin"/>
+    <path d="M392 380 Q382 380 382 392 L382 474 L412 474" /><path d="M864 474 L892 474 L892 392 Q892 380 882 380 L864 380" />
+    <path d="M412 408 L864 408" class="thin"/><path d="M638 408 L638 474" class="faint"/>
+    <path d="M382 474 L892 474"/><path d="M392 474v12M882 474v12M470 474v12M800 474v12" class="thin"/>
+    <path d="M462 406 L452 352 Q452 340 464 340 L524 340 Q536 340 536 352 L528 406" class="thin"/>
+    <g class="faint"><path d="M476 360 q4-6 8 0 q4 6 8 0M500 376 q4-6 8 0 q4 6 8 0M470 384 q4-6 8 0M510 356 q3-5 6 0"/><circle cx="486" cy="376" r="2"/><circle cx="514" cy="390" r="2"/></g>
+    <path d="M790 406 L780 352 Q780 340 792 340 L846 340 L842 406" class="thin"/>
+    <g class="faint"><path d="M800 360 q4-6 8 0 q4 6 8 0M820 376 q4-6 8 0M794 384 q4-6 8 0"/><circle cx="812" cy="380" r="2"/></g>
+    <path d="M610 406 Q610 376 638 374 Q670 374 672 406" class="thin"/><path d="M622 388 Q638 382 658 390" class="faint"/>
+    <path d="M430 406 C434 384 454 376 466 380 C458 392 446 400 442 406" class="faint"/>
+    <path d="M700 408 C710 388 740 384 752 396" class="faint"/>
 
-    <!-- plant by the window, side table in the foreground -->
-    <g transform="translate(34 -70)">
+    <!-- plant between the window and the shelf -->
+    <g transform="translate(-60 -56)">
       <path d="M250 486 L260 556 L312 556 L322 486 Z" class="paper2"/><path d="M250 486 L260 556 L312 556 L322 486"/><ellipse cx="286" cy="486" rx="36" ry="8"/>
       <g class="hatch"><path d="M262 492v58M274 494v58M286 495v58M298 494v58M310 492v58"/></g>
       <path d="M286 480 C292 430 280 380 288 330 C294 290 284 250 292 210" /><path d="M288 330 C262 316 246 292 244 270" class="thin"/><path d="M290 268 C316 254 334 238 340 218" class="thin"/><path d="M292 210 C274 194 262 176 266 156" class="thin"/><path d="M292 210 C318 202 334 184 330 164" class="thin"/>
@@ -243,40 +240,41 @@
         <path d="M212 270 L258 250 M322 194 L374 214 M234 116 L282 162 M320 126 L364 172 M290 90 L290 158 M292 246 L346 258" class="faint"/>
       </g>
     </g>
-    <ellipse cx="150" cy="492" rx="44" ry="12" class="paper2"/><ellipse cx="150" cy="492" rx="44" ry="12"/>
-    <path d="M106 492 L106 570 M194 492 L194 570"/><path d="M106 570 A44 12 0 0 0 194 570"/>
-    <g class="hatch"><path d="M116 498v70M126 502v70M136 504v70M146 504v70M156 504v70M166 504v70M176 502v70M186 498v70"/></g>
 
-    <!-- rug -->
-    <path d="M210 504 L700 504 L740 592 L150 592 Z" class="thin"/><path d="M230 514 L682 514 L716 582 L176 582 Z" class="hatch"/>
-    <g class="hatch"><path d="M280 524 l14 24 M340 524 l14 24 M400 524 l14 24 M460 524 l14 24 M520 524 l14 24 M580 524 l14 24 M640 524 l14 24"/></g>
+    <!-- rug and the fluted side table in front of the sofa -->
+    <path d="M300 500 L880 500 L920 592 L250 592 Z" class="thin"/><path d="M322 510 L862 510 L896 582 L278 582 Z" class="hatch"/>
+    <g class="hatch"><path d="M380 520 l14 24 M440 520 l14 24 M500 520 l14 24 M560 520 l14 24 M760 520 l14 24 M820 520 l14 24"/></g>
+    <ellipse cx="640" cy="506" rx="44" ry="12" class="paper2"/><ellipse cx="640" cy="506" rx="44" ry="12"/>
+    <path d="M596 506 L596 576 M684 506 L684 576"/><path d="M596 576 A44 12 0 0 0 684 576"/>
+    <g class="hatch"><path d="M606 512v64M616 516v64M626 518v64M636 518v64M646 518v64M656 518v64M666 516v64M676 512v64"/></g>
+    <ellipse cx="640" cy="500" rx="10" ry="4" class="faint"/><path d="M640 496 L640 486" class="faint"/>
 
     <!-- painting -->
-    <rect x="690" y="86" width="152" height="124" rx="2"/><rect x="700" y="96" width="132" height="104" class="thin"/>
-    <rect x="696" y="92" width="140" height="112" class="hatch"/>
+    <rect x="560" y="86" width="152" height="124" rx="2"/><rect x="570" y="96" width="132" height="104" class="thin"/>
+    <rect x="566" y="92" width="140" height="112" class="hatch"/>
     <g class="thin">
-      <path d="M722 174 C736 158 746 148 760 146 C770 144 778 134 786 126 C790 122 796 126 794 132 L788 140 C800 144 808 154 806 168 L804 176"/>
-      <path d="M760 146 L756 174 M782 148 L788 174 M740 166 L734 176 M798 160 L810 174" />
-      <path d="M780 126 C776 116 782 106 792 108 C800 110 798 122 792 126" class="faint"/>
-      <path d="M710 188 C740 182 770 186 820 184" class="faint"/>
+      <path d="M592 174 C606 158 616 148 630 146 C640 144 648 134 656 126 C660 122 666 126 664 132 L658 140 C670 144 678 154 676 168 L674 176"/>
+      <path d="M630 146 L626 174 M652 148 L658 174 M610 166 L604 176 M668 160 L680 174" />
+      <path d="M650 126 C646 116 652 106 662 108 C670 110 668 122 662 126" class="faint"/>
+      <path d="M580 188 C610 182 640 186 690 184" class="faint"/>
     </g>
 
     <!-- sconces: lamp + lamp2 -->
     <g class="hit" id="hitA" data-dev="lamps" tabindex="0" role="button" aria-label="Бра у картины: переключить">
-      <rect x="572" y="82" width="64" height="214" rx="20" class="halo"/>
-      <path d="M604 136 L604 290" /><circle cx="604" cy="218" r="9"/><path d="M604 218 L622 218 L622 202 L604 202" class="thin"/>
-      <path d="M588 134 L594 98 Q604 90 614 98 L620 134 Q604 142 588 134 Z" class="paper2"/>
-      <path d="M588 134 L594 98 Q604 90 614 98 L620 134 Q604 142 588 134 Z" />
-      <path d="M594 98 Q604 104 614 98" class="faint"/><path d="M604 290 L598 298 M604 290 L610 298" class="thin"/>
+      <rect x="408" y="82" width="64" height="214" rx="20" class="halo"/>
+      <path d="M440 136 L440 290" /><circle cx="440" cy="218" r="9"/><path d="M440 218 L458 218 L458 202 L440 202" class="thin"/>
+      <path d="M424 134 L430 98 Q440 90 450 98 L456 134 Q440 142 424 134 Z" class="paper2"/>
+      <path d="M424 134 L430 98 Q440 90 450 98 L456 134 Q440 142 424 134 Z" />
+      <path d="M430 98 Q440 104 450 98" class="faint"/><path d="M440 290 L434 298 M440 290 L446 298" class="thin"/>
     </g>
     <g class="hit" id="hitB" data-dev="lamps" tabindex="0" role="button" aria-label="Бра у картины: переключить">
-      <rect x="900" y="82" width="64" height="214" rx="20" class="halo"/>
-      <path d="M932 136 L932 290" /><circle cx="932" cy="218" r="9"/><path d="M932 218 L914 218 L914 202 L932 202" class="thin"/>
-      <path d="M916 134 L922 98 Q932 90 942 98 L948 134 Q932 142 916 134 Z" class="paper2"/>
-      <path d="M916 134 L922 98 Q932 90 942 98 L948 134 Q932 142 916 134 Z" />
-      <path d="M922 98 Q932 104 942 98" class="faint"/><path d="M932 290 L926 298 M932 290 L938 298" class="thin"/>
+      <rect x="798" y="82" width="64" height="214" rx="20" class="halo"/>
+      <path d="M830 136 L830 290" /><circle cx="830" cy="218" r="9"/><path d="M830 218 L812 218 L812 202 L830 202" class="thin"/>
+      <path d="M814 134 L820 98 Q830 90 840 98 L846 134 Q830 142 814 134 Z" class="paper2"/>
+      <path d="M814 134 L820 98 Q830 90 840 98 L846 134 Q830 142 814 134 Z" />
+      <path d="M820 98 Q830 104 840 98" class="faint"/><path d="M830 290 L824 298 M830 290 L836 298" class="thin"/>
     </g>
-    <rect x="640" y="326" width="14" height="14" rx="2" class="thin"/>
+    <rect x="930" y="326" width="14" height="14" rx="2" class="thin"/>
   </g>
 </svg>
     <div class="cap">кухня · нажми на лампу</div>
