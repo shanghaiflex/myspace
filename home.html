@@ -81,7 +81,7 @@
   .disabled { opacity: .5; pointer-events: none; }
 
   /* --- controls --- */
-  .tiles { display: grid; grid-template-columns: 4fr 3fr 5fr; gap: 18px; margin-top: 18px; align-items: stretch; }
+  .tiles { display: grid; grid-template-columns: 4.2fr 3.3fr 4.5fr; gap: 18px; margin-top: 18px; align-items: stretch; }
   .tile { background: var(--surface); border-radius: 26px; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 24px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
   .tile .top { display: flex; align-items: center; gap: 14px; }
   .tile .ico { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; flex: 0 0 auto; color: var(--text-2); transition: background .4s, color .4s; }
@@ -89,7 +89,7 @@
   .tile.lit .ico { background: color-mix(in srgb, var(--sun) 35%, var(--surface-2)); color: var(--terra); }
   .tile .t { flex: 1; min-width: 0; }
   .tile h2 { font-family: var(--serif); font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin: 0; line-height: 1.15; }
-  .tile .s { color: var(--text-2); font-size: 13px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+  .tile .s { color: var(--text-2); font-size: 13px; margin-top: 3px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tile .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); font-weight: 500; margin-bottom: 10px; }
   .sw { position: relative; width: 58px; height: 34px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface-2); box-shadow: inset 0 1px 3px rgba(60,45,25,.12); cursor: pointer; flex: 0 0 auto; transition: background .3s, border-color .3s, box-shadow .3s; padding: 0; }
   .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fffaf2; box-shadow: 0 1px 2px rgba(60,45,25,.25), 0 3px 8px rgba(60,45,25,.12); transition: transform .3s cubic-bezier(.2,.7,.2,1), background .3s; }
@@ -179,7 +179,7 @@
     <g clip-path="url(#winclip)">
       <path d="M56 43.2 L296 90.7 L296 204.5 L56 190.9 Z" class="sky2" opacity=".55"/>
       <g class="fill" id="city"><path d="M70 327.7 L70 197.5 L104 199.3 L104 325.2Z M114 324.4 L114 157.0 L150 160.4 L150 321.7Z M164 320.6 L164 205.8 L206 207.8 L206 317.5Z M220 316.4 L220 145.4 L256 149.7 L256 313.7Z M266 312.9 L266 221.7 L292 222.6 L292 311.0Z"/></g>
-      <g class="faint" id="citywin"><path d="M90 213.8h6 M90 236.7h6 M90 259.5h6 M90 282.4h6 M134 173.4h6 M134 195.3h6 M134 217.2h6 M134 239.1h6 M134 260.9h6 M134 282.8h6 M184 220.6h6 M184 241.4h6 M184 262.1h6 M184 282.8h6 M196 221.0h6 M196 241.5h6 M196 261.9h6 M196 282.4h6 M240 160.8h6 M240 180.2h6 M240 199.7h6 M240 219.2h6 M240 238.6h6 M240 258.1h6 M240 277.6h6"/></g>
+      <g class="faint" id="citywin"><path d="M90 213.8h6 M90 282.4h6 M134 217.2h6 M134 282.8h6 M184 262.1h6 M196 241.5h6 M240 160.8h6 M240 219.2h6 M240 277.6h6"/></g>
     </g>
     <path d="M46 29.3 L306 83.7 L306 335.4 L46 363.4 Z"/>
     <path d="M56 43.2 L296 90.7 L296 327.4 L56 350.5 Z"/>
@@ -230,7 +230,7 @@
     <path d="M764 408 C774 388 804 384 816 396" class="faint"/>
 
     <!-- plant by the window, side table in the foreground -->
-    <g transform="translate(0 -70)">
+    <g transform="translate(34 -70)">
       <path d="M250 486 L260 556 L312 556 L322 486 Z" class="paper2"/><path d="M250 486 L260 556 L312 556 L322 486"/><ellipse cx="286" cy="486" rx="36" ry="8"/>
       <g class="hatch"><path d="M262 492v58M274 494v58M286 495v58M298 494v58M310 492v58"/></g>
       <path d="M286 480 C292 430 280 380 288 330 C294 290 284 250 292 210" /><path d="M288 330 C262 316 246 292 244 270" class="thin"/><path d="M290 268 C316 254 334 238 340 218" class="thin"/><path d="M292 210 C274 194 262 176 266 156" class="thin"/><path d="M292 210 C318 202 334 184 330 164" class="thin"/>
@@ -282,7 +282,7 @@
 
   <div class="tiles" id="panel">
     <div class="tile" id="d-lamps">
-      <div class="top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 10 L9.5 4 Q12 2.5 14.5 4 L16 10 Q12 12 8 10Z"/><path d="M12 11.5 V21 M12 17 H15 V15"/></svg></div>
+      <div class="top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 9.5 L10 3.5 H14 L15.5 9.5 Z"/><path d="M12 9.5 V21 M12 16 H15"/><circle cx="16.5" cy="16" r="1.5"/></svg></div>
         <div class="t"><h2>Бра у картины</h2><div class="s" id="lampsSub">…</div></div><button class="sw" id="swLamps" aria-label="Бра вкл/выкл"></button></div>
       <label class="sl">Яркость <input type="range" id="bri" min="1" max="100" value="43"><output id="briOut">43%</output></label>
       <label class="sl">Тепло <input type="range" id="warm" min="2000" max="6500" step="50" value="2300"><output id="warmOut">2300 K</output></label>
@@ -372,7 +372,7 @@ function render() {
   $('swPlug').classList.toggle('on', !!plugOn);
   $('swPlug').disabled = !p;
   $('plugSub').textContent = !p ? (S.error ? 'нет связи' : 'не отвечает')
-    : plugOn ? (p.power ? `горит · ${Math.round(p.power)} Вт` : 'розетка включена') + (p.voltage ? ` · ${Math.round(p.voltage)} В` : '') : 'выключена';
+    : plugOn ? (p.power ? `горит · ${Math.round(p.power)} Вт` : 'включена') + (p.voltage ? ` · ${Math.round(p.voltage)} В` : '') : 'выключена';
   $('d-plug').classList.toggle('disabled', !p);
   $('d-plug').classList.toggle('lit', !!plugOn);
 
