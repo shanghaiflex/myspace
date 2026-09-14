@@ -34,11 +34,12 @@ ALLOWED = {"state", "brightness", "color_temp", "color", "transition"}
 # Static scenes: white light only, built around the user's «Уютно» (43 %, 2300 K). Hue's numbers do not transfer
 # one to one: the Tuya TS0505B dims more linearly, so Hue Dimmed (30 %) looked like a reading light here — Hue bri
 # is scaled by 0.76 = cozy / Hue Relax. Trimmed to four on 2026-09-14 (dimmed, rest, bright, focus, sleepy removed
-# by request); «Кино» is bias-light practice — dim and warm behind the viewer, nothing that competes with the screen.
+# by request); «Кино» follows bias-lighting practice (SMPTE / MediaLight): 6500 K, the white point the picture was graded
+# for, at 5–10 % — it reads faintly blue next to the warm room light and keeps the screen's contrast honest.
 SCENES = {
     "cozy":   {"title": "Уютно",  "payload": {"state": "ON", "brightness": 110, "color_temp": 435, "transition": 3}},
     "read":   {"title": "Чтение", "payload": {"state": "ON", "brightness": 193, "color_temp": 343, "transition": 3}},
-    "movie":  {"title": "Кино",   "payload": {"state": "ON", "brightness": 30, "color_temp": 370, "transition": 5}},
+    "movie":  {"title": "Кино",   "payload": {"state": "ON", "brightness": 20, "color_temp": 153, "transition": 5}},
     "night":  {"title": "Ночник", "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
 }
 SCHEDULE = "19:00 уютно · 22:00 янтарь · 23:00 выкл"   # launchd on the mini (local.lamp.*, local.plug.*)
