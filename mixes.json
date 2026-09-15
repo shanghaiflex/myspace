@@ -1,5 +1,22 @@
 [
   {
+    "id": "sc:1746973884",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/evianchrist/evian-christ-bbc-radio-1-essential-mix",
+    "title": "Evian Christ — BBC Radio 1 Essential Mix",
+    "artist": "evian christ",
+    "duration": 7275,
+    "artwork": "https://i1.sndcdn.com/artworks-Uq1jYKmIiHanRxkv-umQ0zw-t500x500.jpg",
+    "genre": null,
+    "published": "2024-02-14",
+    "tags": [
+      "claude-rec"
+    ],
+    "addedAt": "2026-09-15",
+    "position": 2473,
+    "playedAt": 1789462749
+  },
+  {
     "id": "yt:n6f4cqyZHIA",
     "source": "youtube",
     "url": "https://www.youtube.com/watch?v=n6f4cqyZHIA",

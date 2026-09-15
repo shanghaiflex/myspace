@@ -37,23 +37,6 @@
       "played": false
     },
     {
-      "id": "sc:1746973884",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/evianchrist/evian-christ-bbc-radio-1-essential-mix",
-      "title": "Evian Christ — BBC Radio 1 Essential Mix",
-      "artist": "evian christ",
-      "duration": 7275,
-      "artwork": "https://i1.sndcdn.com/artworks-Uq1jYKmIiHanRxkv-umQ0zw-t500x500.jpg",
-      "genre": null,
-      "published": "2024-02-14",
-      "reason": "Эйфорический транс без вокальных хуков: те же плывущие арпеджио, из-за которых ты сидишь в эпизодах с Ssaliva, только собранные в час нарастания — соседняя территория, а не копия.",
-      "wanted": "Evian Christ NTS Radio",
-      "mood": "rhythmic",
-      "suggestedAt": "2026-09-15",
-      "verdict": "new",
-      "played": true
-    },
-    {
       "id": "sc:806960014",
       "source": "soundcloud",
       "url": "https://soundcloud.com/bean-boy-348902595/hiroshi-yoshimura-wet-land",
@@ -72,6 +55,17 @@
     }
   ],
   "history": [
+    {
+      "id": "sc:1746973884",
+      "artist": "evian christ",
+      "title": "Evian Christ — BBC Radio 1 Essential Mix",
+      "url": "https://soundcloud.com/evianchrist/evian-christ-bbc-radio-1-essential-mix",
+      "reason": "Эйфорический транс без вокальных хуков: те же плывущие арпеджио, из-за которых ты сидишь в эпизодах с Ssaliva, только собранные в час нарастания — соседняя территория, а не копия.",
+      "mood": "rhythmic",
+      "verdict": "liked",
+      "played": true,
+      "at": "2026-09-15"
+    },
     {
       "id": "sc:868398157",
       "artist": "kelman duran",
