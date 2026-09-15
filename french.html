@@ -255,7 +255,10 @@ function nextDue(cards) {
 function matCard(m) {
   const les = m.lesson || {};
   const n = (les.quiz || []).length, w = (les.words || []).length;
-  const pic = m.image ? `<img src="${esc(m.image)}" alt="" loading="lazy">` : `<div class="ph">${esc(m.source || '')}</div>`;
+  // Заглушка лежит под картинкой всегда: файла превью может не быть (french/img/ — данные машины),
+  // и тогда img просто убирает себя, открывая подпись источника вместо битой иконки.
+  const pic = `<div class="ph">${esc(m.source || '')}</div>`
+    + (m.image ? `<img src="${esc(m.image)}" alt="" loading="lazy" onerror="this.remove()">` : '');
   const sub = [m.source, m.minutes ? m.minutes + ' мин' : '', m.hard].filter(Boolean).join(' · ');
   return `<article class="art" data-id="${esc(m.id)}">
     <div class="pic" data-open="1">${pic}<span class="tag">${m.kind === 'video' ? '▶ видео' : 'статья'}</span></div>

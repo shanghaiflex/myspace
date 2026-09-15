@@ -298,6 +298,35 @@ def material_text(m, verbose=True):
     return video_text(m["id"][3:], verbose) if m["kind"] == "video" else article_text(m["url"], verbose)
 
 
+def fetch_cover(m):
+    """Превью статьи — og:image со страницы, скачанный локально (как в reads.py: внешние CDN
+    дома открываются не всегда). У видео превью — ссылка на i.ytimg.com, скачивать нечего."""
+    if m.get("kind") != "article":
+        return None
+    return RD.fetch_image(m, dir_=IMG_DIR, name=m["id"].replace(":", "-"))
+
+
+def fill_images(db=None):
+    """Дозаполняет превью у текущих материалов. Нужно потому, что `french/img/` — данные машины:
+    картинку скачал ноутбук, а показывает страницу mini, и файла там нет. Запускать НА MINI,
+    это production (ровно как `reads.py images` и `taste_recs.py covers`)."""
+    own = db is None
+    db = db or load()
+    got = []
+    for m in db["items"]:
+        cur = m.get("image") or ""
+        if cur.startswith("http") or (cur and os.path.exists(os.path.join(ROOT, cur))):
+            continue
+        m.pop("image", None)          # битый путь: пусть fetch_image скачает заново
+        if fetch_cover(m):
+            got.append(m["title"])
+        else:
+            m["image"] = m.get("imageUrl") or None   # не скачалось — пусть хоть внешняя ссылка
+    if own and got:
+        save(db)
+    return got
+
+
 def drop_image(m):
     p = str(m.get("image") or "")
     if p.startswith("french/img/"):
@@ -456,8 +485,7 @@ def apply_answer(text, model=None, keep=KEEP):
                  addedAt=today(), verdict="new", lesson=None)
         if m["kind"] == "article":
             m["imageUrl"] = m.get("image")
-            # Двоеточию из id («rd:abc») в имени файла делать нечего: путь уезжает и в URL, и в rsync.
-            RD.fetch_image(m, dir_=IMG_DIR, name=m["id"].replace(":", "-"))
+            fetch_cover(m)
         items.append(m)
         print(f"  + [{'видео' if m['kind'] == 'video' else 'статья'}] {m['title']} ({len(body)} зн.)")
     if not items:
@@ -765,6 +793,7 @@ def main():
     sub.add_parser("list")
     sub.add_parser("cards")
     sub.add_parser("stats")
+    sub.add_parser("images", help="дозаполнить превью материалов (на mini — это production)")
     a = sub.add_parser("apply")
     a.add_argument("--file", required=True)
     a.add_argument("--model")
@@ -782,6 +811,9 @@ def main():
     if args.cmd == "fetch":
         cache = fetch(args.days)
         print(f"кандидатов: {len(cache)} ({sum(1 for c in cache if c['kind'] == 'video')} видео)")
+    elif args.cmd == "images":
+        got = fill_images()
+        print("\n".join(got) if got else "нечего дозаполнять")
     elif args.cmd == "digest":
         print(digest())
     elif args.cmd == "lesson-digest":

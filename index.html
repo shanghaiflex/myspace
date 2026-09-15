@@ -301,7 +301,7 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
       <div class="row"><div class="txt"><h2>Повторить слова</h2><div class="sub">материалы кончились — на странице можно попросить новые</div></div></div>
       <span class="btn">Повторить</span></a>`;
     return `<a class="card c6" href="french.html"><div class="eyebrow">Французский${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
-      <div class="row"><div class="img ${m.kind === 'video' ? 'wide' : 'sq'}">${m.image ? `<img src="${esc(m.image)}" alt="">` : ''}</div>
+      <div class="row"><div class="img ${m.kind === 'video' ? 'wide' : 'sq'}">${m.image ? `<img src="${esc(m.image)}" alt="" onerror="this.remove()">` : ''}</div>
         <div class="txt"><h2>${esc(m.title)}</h2><div class="sub">${esc([m.source, m.minutes ? m.minutes + ' мин' : '', les.builtAt ? `${w} слов · тест из ${n}` : 'разбор собирается'].filter(Boolean).join(' · '))}</div></div></div>
       ${m.why ? `<p class="note">${esc(m.why)}</p>` : ''}
       <span class="btn">Заниматься</span></a>`;
