@@ -151,7 +151,7 @@
 <body>
 <div class="backdrop"><div class="ph on" id="ph"></div><div class="veil"></div></div>
 <header class="bar"><div class="bar-inner">
-  <nav class="nav"><a href="index.html" class="on">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a><a href="reads.html">Читать</a><a href="home.html">Дом</a></nav>
+  <nav class="nav"><a href="index.html" class="on">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a><a href="reads.html">Читать</a><a href="french.html">Французский</a><a href="home.html">Дом</a></nav>
 </div></header>
 
 <main class="wrap">
@@ -174,7 +174,7 @@ const isCalm = m => m.mood === 'calm' || (m.tags || []).includes('calm');
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, reads, sched]) => {
+Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, reads, sched, fr]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
   // Дела на сегодня — плашка над всем остальным: события Яндекс.Календаря (все календари, кроме чужих
@@ -287,11 +287,33 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     morning && isCalm(mix) ? 'спокойный' : 'случайный'));
   if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude',
     rec.played ? 'уже включал' : (morning && isCalm(rec) ? 'спокойное' : ''), rec.reason));
+  // Французский: то, чем заниматься сегодня, и сколько слов ждёт повторения. Карточка последняя —
+  // порядок остальных пользователь задал 14.09.2026 и трогать его незачем.
+  const frenchCard = (f) => {
+    if (!f) return '';
+    const m = (f.items || []).find(x => x.lesson) || (f.items || [])[0];
+    const due = (f.due || []).length;
+    if (!m && !due) return '';
+    const les = (m && m.lesson) || {};
+    const n = (les.quiz || []).length, w = (les.words || []).length;
+    const more = due ? `${due} ${due % 10 === 1 && due % 100 !== 11 ? 'слово' : 'слов'} к повторению` : '';
+    if (!m) return `<a class="card c6" href="french.html"><div class="eyebrow">Французский <span class="more">${esc(more)}</span></div>
+      <div class="row"><div class="txt"><h2>Повторить слова</h2><div class="sub">материалы кончились — на странице можно попросить новые</div></div></div>
+      <span class="btn">Повторить</span></a>`;
+    return `<a class="card c6" href="french.html"><div class="eyebrow">Французский${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
+      <div class="row"><div class="img ${m.kind === 'video' ? 'wide' : 'sq'}">${m.image ? `<img src="${esc(m.image)}" alt="">` : ''}</div>
+        <div class="txt"><h2>${esc(m.title)}</h2><div class="sub">${esc([m.source, m.minutes ? m.minutes + ' мин' : '', les.builtAt ? `${w} слов · тест из ${n}` : 'разбор собирается'].filter(Boolean).join(' · '))}</div></div></div>
+      ${m.why ? `<p class="note">${esc(m.why)}</p>` : ''}
+      <span class="btn">Заниматься</span></a>`;
+  };
+
   if (reading.length) {
     const b = reading[0];
     cards.push(`<a class="card c6" href="books.html#${esc(b.id)}"><div class="eyebrow">Читаю <span class="more">${reading.length > 1 ? 'и ещё ' + (reading.length - 1) : ''}</span></div>
       <div class="row"><div class="img book">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : ''}</div><div class="txt"><h2>${esc(b.title)}</h2><div class="sub">${esc(b.author || '')}</div></div></div></a>`);
   }
+  const fc = frenchCard(fr);
+  if (fc) cards.push(fc);
   document.getElementById('cards').innerHTML = cards.join('');
   document.getElementById('cards').addEventListener('click', async e => {
     const b = e.target.closest('button[data-act]'); if (!b) return;

@@ -28,6 +28,11 @@
   GET    /api/reads               Claude's article picks from real RSS feeds (reads.json) + job status
   PATCH  /api/read/<id>           body: {verdict: saved|dismissed|read}  saved goes to the reading list
   POST   /api/reads/refresh       fetch the feeds and ask for fresh picks (scripts/reads.sh)
+  GET    /api/french              французский: материалы с разборами, колода слов, ошибки (scripts/french.py)
+  PATCH  /api/french/<id>         body: {verdict: done|dismissed, answers:[{i,given}]}  закрыть материал
+  POST   /api/french/cards        body: {results:[{id,correct}]}  итог сессии карточек
+  POST   /api/french/level        body: {level: A1..C1}
+  POST   /api/french/refresh      найти новые материалы и собрать разборы (scripts/french.sh)
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
   GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
@@ -57,6 +62,7 @@ import health as H  # noqa: E402
 import mix_recs as R  # noqa: E402
 import taste_recs as T  # noqa: E402
 import reads as RD  # noqa: E402
+import french as FR  # noqa: E402
 import home as HM  # noqa: E402
 import schedule as S  # noqa: E402
 
@@ -69,6 +75,7 @@ WORKOUT_REVIEW_DELAY = 90
 RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
 TASTE_JOBS = {k: {"status": "idle", "started": 0} for k in T.KINDS}  # manual film / book / lecture advice runs
 READS_JOB = {"status": "idle", "started": 0}   # manual article run (feeds + Claude)
+FRENCH_JOB = {"status": "idle", "started": 0}  # французский: подбор материалов + разборы
 PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
 # The calendar itself is cached on disk for half an hour; this keeps the home page from re-parsing 350 events
 # on every reload, and holds the last good answer when Yandex (or the VPN) is down.
@@ -331,6 +338,10 @@ class Handler(SimpleHTTPRequestHandler):
             db.pop("cache", None)      # сотни кандидатов из лент странице не нужны
             db["job"] = READS_JOB["status"]
             return self.send_json(200, db)
+        if route == "/api/french":
+            out = FR.summary()
+            out["job"] = FRENCH_JOB["status"]
+            return self.send_json(200, out)
         if route.startswith("/api/recs/"):
             kind = route[len("/api/recs/"):]
             if kind not in T.KINDS:
@@ -548,6 +559,28 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, {"status": self.start_recs_job()})
         if route == "/api/reads/refresh":
             return self.send_json(200, {"status": self.start_job(READS_JOB, "reads.sh")})
+        if route == "/api/french/refresh":
+            return self.send_json(200, {"status": self.start_job(FRENCH_JOB, "french.sh")})
+        if route == "/api/french/cards":
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            with LOCK:
+                out = FR.review(body.get("results") or [])
+                out["french"] = FR.summary()
+            return self.send_json(200, out)
+        if route == "/api/french/level":
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            try:
+                with LOCK:
+                    level = FR.set_level((body.get("level") or "").strip())
+            except SystemExit as e:
+                return self.send_json(400, {"error": str(e)})
+            return self.send_json(200, {"level": level})
         if route.startswith("/api/recs/") and route.endswith("/refresh"):
             kind = route[len("/api/recs/"):-len("/refresh")]
             if kind not in T.KINDS:
@@ -661,6 +694,23 @@ class Handler(SimpleHTTPRequestHandler):
             db = RD.load()
             db.pop("cache", None)
             return self.send_json(200, {**out, "reads": db})
+        fid = self.path_id("/api/french/")
+        if fid:
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            try:
+                # do_PATCH уже держит LOCK — второй раз его брать нельзя, threading.Lock не рекурсивный.
+                out = FR.finish(fid, body.get("answers") or [],
+                                (body.get("verdict") or "done").strip())
+            except SystemExit as e:
+                return self.send_json(400, {"error": str(e)})
+            # Материалы кончились — ищем новые прямо сейчас, не дожидаясь утреннего агента:
+            # «закончил предыдущее» и есть самый честный повод за ними пойти.
+            if not out["left"]:
+                out["job"] = self.start_job(FRENCH_JOB, "french.sh", timeout=1800)
+            return self.send_json(200, {**out, "french": FR.summary()})
         parts = self.path_id("/api/rec/")
         if parts and "/" in parts:
             kind, rid = parts.split("/", 1)

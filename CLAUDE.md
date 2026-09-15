@@ -1,6 +1,6 @@
 # Movies — personal film catalog
 
-Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`, `reads.html`, `pantry.html`, `home.html` (умный дом). Films page over `movies.json` with posters in `posters/`, served by `serve.py`
+Pages: `index.html` (home / morning dashboard), `films.html`, `books.html`, `mixes.html`, `lectures.html`, `health.html`, `reads.html`, `french.html`, `pantry.html`, `home.html` (умный дом). Films page over `movies.json` with posters in `posters/`, served by `serve.py`
 (stdlib only) which also exposes a tiny edit API (PATCH/DELETE `/api/movie/<id>`) used by the page for
 rating / status / note / delete. Run `./serve.sh` and open http://localhost:8787.
 If the page is served by a plain static server the API is absent and the page becomes read-only.
@@ -402,7 +402,8 @@ API: `GET /api/recs/<film|book|lecture>`, `PATCH /api/rec/<kind>/<id>` `{verdict
 ### Порядок карточек на главной
 
 Задан пользователем 14.09.2026 и держится в одном месте — в конце обработчика `Promise.all` в `index.html`:
-«Дела на сегодня», погода, «Well-being», лекция, «Почитать», два микса (случайный + совет Claude), «Читаю». На телефоне сетка
+«Дела на сегодня», погода, «Well-being», лекция, «Почитать», два микса (случайный + совет Claude), «Читаю»,
+«Французский» (добавлен 15.09.2026 в конец — чтобы не двигать уже заданный порядок). На телефоне сетка
 складывается в одну колонку (`@media (max-width: 900px)`), то есть порядок в приложении BoW — тот же самый.
 
 «Дела на сегодня» — узкая полоса над погодой (`/api/schedule`): события дня «плашками», прошедшие приглушены,
@@ -458,6 +459,66 @@ ssh mini tail -20 movies/logs/reads.log
 launchd на mini: `cc.bodywithoutorgans.reads`, ежедневно в 07:50 (`deploy/install-reads.sh`).
 API: `GET /api/reads`, `PATCH /api/read/<id>` `{verdict}`, `POST /api/reads/refresh`.
 На главной — карточка «Почитать» со ссылкой прямо в текст.
+
+## Французский (`french.html`, `french.json`, `french/PROMPT.md`, `french/LESSON.md`, `scripts/french.py`, `scripts/french.sh`)
+
+Занятия между уроками с преподавателем (они по вторникам и четвергам в 19:00, видны в календаре):
+одно короткое видео или одна статья на раз, к ним разбор — слова и маленький тест, — а из ответов
+растёт колода с интервальным повторением. Уровень задаётся на странице (`french.py level B1`,
+по умолчанию B1) и уходит в оба промпта.
+
+**Два прохода, и оба нужны.** Первый: скрипт сам скачивает кандидатов (десять французских лент +
+поиск YouTube), модель выбирает три **номером** из списка — ссылок она не пишет вовсе, ровно как
+в `reads.py`, потому что правдоподобный несуществующий URL это её любимая ошибка. Второй: скрипт
+качает настоящий текст выбранного — французские субтитры ролика (`yt-dlp --write-auto-subs
+--sub-langs "fr.*"`, VTT → сплошной текст) или абзацы `<p>` статьи — и модель собирает разбор
+**по этому тексту**: 6–8 слов с примерами из него и 5–6 вопросов. Без второго прохода тест был бы
+про название ролика, а не про ролик. Побочный, но важный эффект: нет французских субтитров — нет
+и материала, и это единственная надёжная проверка, что «французское» видео действительно французское.
+
+Кандидаты: `SOURCES` — 1jour1actu, Français Authentique, RFI, France Info, Slate, Courrier
+International, Le Monde, The Conversation, Philosophie Magazine, France Culture (у каждого в
+дайджесте помечена сложность языка: модель не видит уровня текста иначе). `SEARCHES` — 22 запроса
+к YouTube: половина каналы для изучающих, половина настоящие французские каналы по моим темам
+(история, философия, наука, экономика, кино) — язык учится на том, что и без языка интересно.
+За раз крутятся `SEARCH_ROTATE` = 6 запросов по кругу (`searchCursor`), иначе каждый день
+предлагались бы одни и те же ролики. Видео берётся длиной 2,5–20 минут: час французского
+«когда-нибудь потом» не смотрится никогда (именно поэтому innerFrench с его получасовыми
+выпусками в выдачу не проходит).
+
+**Память об ошибках** — то, ради чего всё это. У каждого вопроса модель ставит `tag`
+(«passé composé», «род существительных», «лексика: работа»); ответы (и по тесту, и по карточкам)
+ложатся в `answers`, а `weak_tags()` складывает их в «где я сыплюсь». Это уходит и в первый промпт
+(«материал, который даёт потренировать именно это, ценнее просто интересного»), и во второй
+(«хотя бы один вопрос целься в мою слабую тему»). Ответы на «впиши слово» сервер пересчитывает
+сам по сохранённому тесту — клиенту верят только на слово «я ответил вот это». Регистр и диакритика
+при сравнении не учитываются (`norm()` есть и в `french.py`, и в странице — учу язык, а не раскладку).
+
+**Карточки** — коробки Лейтнера (`BOX_DAYS` = 0/1/3/7/16/35 дней): верный ответ поднимает коробку,
+ошибка возвращает в первую. До третьей коробки спрашивается узнавание (фр → рус), дальше
+вспоминание (рус → фр); варианты набираются из соседних карточек. Слова уезжают в колоду, когда
+материал закрыт кнопкой «Готово», а не при показе.
+
+**Новое ищется, когда кончилось старое.** `PATCH /api/french/<id>` видит, что материалов не
+осталось, и сам запускает `french.sh --force` (`start_job`) — «закончил предыдущее» и есть самый
+честный повод идти за новым; плюс launchd раз в день. Календарь (`schedule.py digest`) идёт в промпт
+не ради темы, а ради размера: в плотный день материал должен быть короче; на странице из него же
+строка «Занятие сегодня в 19:00» и свободное окно.
+
+```
+python3 scripts/french.py fetch | digest | lesson-digest    # кандидаты / что видит модель в 1-м и 2-м проходе
+python3 scripts/french.py list | cards | stats
+python3 scripts/french.py level B2
+sh scripts/french.sh [--force] [--lessons]   # --lessons: досбор разборов, без нового подбора
+                                             # (на mini: ssh mini 'cd movies && sh scripts/french.sh --force')
+ssh mini tail -20 movies/logs/french.log
+```
+
+launchd на mini: `cc.bodywithoutorgans.french`, ежедневно в 08:10 (`deploy/install-french.sh`).
+API: `GET /api/french`, `PATCH /api/french/<id>` `{verdict: done|dismissed, answers:[{i,given}]}`,
+`POST /api/french/cards` `{results:[{id,correct}]}`, `POST /api/french/level`, `POST /api/french/refresh`.
+`french.json` правится через сайт (ответы, вердикты, уровень), поэтому он в списке `DATA` в `deploy.sh`;
+превью статей `french/img/` — данные машины, в `.gitignore` и в исключениях `deploy.sh`, как `reads/img/`.
 
 ## Lectures (`lectures.html`, `lectures.json`, `scripts/lectures.py`)
 

@@ -9,7 +9,7 @@ set -e
 cd "$(dirname "$0")/.."
 HOST="${MINI_HOST:-mini}"
 MSG="${1:-Update site}"
-DATA="movies.json mixes.json lectures.json books.json mix_recs.json taste_recs.json reads.json"
+DATA="movies.json mixes.json lectures.json books.json mix_recs.json taste_recs.json reads.json french.json"
 
 reach() { ssh -o BatchMode=yes -o ConnectTimeout=6 "$HOST" true 2>/dev/null; }
 if ! reach; then echo "mini ($HOST) unreachable — committing + pushing only, NOT deploying"; NOMINI=1; fi
@@ -42,7 +42,7 @@ git push -q origin main && echo "pushed to github"
 
 # 4. deploy to the mini
 if [ -z "$NOMINI" ]; then
-  rsync -az --delete --exclude .git --exclude audio --exclude .env --exclude .session_secret --exclude logs --exclude "health.db*" --exclude backups --exclude pantry.json --exclude dishes --exclude reads/img --exclude data/calendar.ics --exclude data/calendar-deleted --exclude commons_cache --exclude "scripts/pantrylib/data/receipts.json" --exclude __pycache__ --exclude .DS_Store ./ "$HOST:movies/"
+  rsync -az --delete --exclude .git --exclude audio --exclude .env --exclude .session_secret --exclude logs --exclude "health.db*" --exclude backups --exclude pantry.json --exclude dishes --exclude reads/img --exclude french/img --exclude data/calendar.ics --exclude data/calendar-deleted --exclude commons_cache --exclude "scripts/pantrylib/data/receipts.json" --exclude __pycache__ --exclude .DS_Store ./ "$HOST:movies/"
   [ -d audio ] && rsync -az --exclude '*.part' audio/ "$HOST:movies/audio/" 2>/dev/null || true
   ssh "$HOST" 'launchctl kickstart -k gui/$(id -u)/cc.bodywithoutorgans.serve >/dev/null 2>&1; sleep 1; curl -s -o /dev/null -w "mini origin: %{http_code}\n" http://127.0.0.1:8787/login'
   echo "deployed to $HOST"

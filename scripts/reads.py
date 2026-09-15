@@ -218,10 +218,12 @@ def og_image(url):
     return None
 
 
-def fetch_image(art, verbose=True):
+def fetch_image(art, verbose=True, dir_=IMG_DIR, name=None):
     """Скачивает превью в reads/img/<id>.<ext> и прописывает art["image"]. Локально — потому что
     картинки со сторонних CDN дома открываются не всегда, а mini ходит через VPN. Уже скачанное
-    не трогаем."""
+    не трогаем. `dir_`/`name` — для чужих страниц с той же нуждой (french.py кладёт в french/img/,
+    и id материала там с двоеточием, которому в имени файла делать нечего)."""
+    name = name or art["id"]
     cur = art.get("image")
     if cur and os.path.exists(os.path.join(ROOT, cur)):
         return cur
@@ -241,14 +243,14 @@ def fetch_image(art, verbose=True):
         return None
     if len(data) < 2000 or len(data) > IMG_MAX or ctype.startswith("text/"):
         return None
-    os.makedirs(IMG_DIR, exist_ok=True)
-    tmp = os.path.join(IMG_DIR, f"{art['id']}.tmp")
+    os.makedirs(dir_, exist_ok=True)
+    tmp = os.path.join(dir_, f"{name}.tmp")
     with open(tmp, "wb") as f:
         f.write(data)
     # og:image часто отдают исходник на несколько мегабайт; sips (штатный на macOS, есть и на mini без brew)
     # ужимает до IMG_WIDTH по длинной стороне и переводит в jpeg. Без sips кладём как есть.
     ext = "jpg"
-    path = os.path.join(IMG_DIR, f"{art['id']}.{ext}")
+    path = os.path.join(dir_, f"{name}.{ext}")
     try:
         subprocess.run(["sips", "-Z", str(IMG_WIDTH), "-s", "format", "jpeg", "-s", "formatOptions", "82", tmp, "--out", path],
                        check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60)
@@ -258,9 +260,9 @@ def fetch_image(art, verbose=True):
             ext = "png"
         elif data[:4] == b"RIFF" and data[8:12] == b"WEBP":
             ext = "webp"
-        path = os.path.join(IMG_DIR, f"{art['id']}.{ext}")
+        path = os.path.join(dir_, f"{name}.{ext}")
         os.replace(tmp, path)
-    art["image"] = f"reads/img/{art['id']}.{ext}"
+    art["image"] = os.path.relpath(path, ROOT)
     art["imageUrl"] = src
     return art["image"]
 
