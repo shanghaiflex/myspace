@@ -338,40 +338,14 @@ def drop_image(m):
 
 # ---------------------------------------------------------------- дайджест (первый проход)
 def interests():
-    """Интересы — коротко, по каталогам сайта. Полный вкус, как у статей, здесь не нужен:
-    на французском важна тема, а не то, какую оценку я поставил «Сталкеру»."""
-    out = ["## Что мне интересно (каталоги сайта)"]
-    movies = M.load()
-    rated = sorted([m for m in movies if m.get("rating")], key=lambda m: -m["rating"])[:12]
-    if rated:
-        out.append("- Любимые фильмы: " + "; ".join(
-            m["title"] + (f" — {m['director']}" if m.get("director") else "") for m in rated))
-    genres = {}
-    for m in movies:
-        for g in (m.get("genre") or []):
-            genres[g] = genres.get(g, 0) + 1
-    if genres:
-        out.append("- Жанры кино: " + ", ".join(g for g, _ in sorted(genres.items(), key=lambda kv: -kv[1])[:7]))
-    books = B.load()
-    read = [b for b in books if b.get("status") == "read"][-14:]
-    if read:
-        out.append("- Из прочитанных книг: " + "; ".join(f"{b['title']} ({b.get('author') or '?'})" for b in read))
-    lec = L.load()
-    series = sorted({(lec["series"].get(x) or "").rstrip(".") for l in lec["lectures"]
-                     for x in (l.get("series") or []) if lec["series"].get(x)})
-    listened = [l["title"] for l in lec["lectures"] if l.get("status") in ("listened", "listening")][-10:]
-    if series:
-        out.append("- Темы лекций, которые я слушаю: " + ", ".join(s for s in series if s)[:400])
-    if listened:
-        out.append("- Последнее из лекций: " + "; ".join(listened))
-    mixes = X.load()
-    tags = {}
-    for m in mixes:
-        if m.get("genre"):
-            tags[m["genre"]] = tags.get(m["genre"], 0) + 1
-    if tags:
-        out.append("- Музыка: " + ", ".join(g for g, _ in sorted(tags.items(), key=lambda kv: -kv[1])[:8]))
-    return out
+    """Вкус — тот же полный, что видят советы по статьям (`reads.taste()`): фильмы с оценками и
+    моими заметками, фильмы, которые не зашли, все прочитанные книги, брошенные (сильный сигнал
+    против), планы, лекции и музыка. Сначала здесь была выжимка на семь строк, но язык учится на
+    том, что интересно и без языка, — значит и материал надо выбирать по всему вкусу, а не по его
+    тени: «La Nueve» нашлась именно потому, что в лекциях лежит гражданская война в Испании."""
+    return ["## Мой вкус по каталогам сайта — по нему выбирай ТЕМУ материала",
+            "(те же данные, по которым мне подбираются статьи; оценки здесь важны не сами по себе,",
+            "а как указание, куда смотреть)"] + RD.taste()
 
 
 def weak_tags(db, limit=12):

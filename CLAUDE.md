@@ -476,6 +476,13 @@ API: `GET /api/reads`, `PATCH /api/read/<id>` `{verdict}`, `POST /api/reads/refr
 про название ролика, а не про ролик. Побочный, но важный эффект: нет французских субтитров — нет
 и материала, и это единственная надёжная проверка, что «французское» видео действительно французское.
 
+**Интересы — полный вкус, а не выжимка** (15.09.2026). `interests()` отдаёт то же самое, что видят
+советы по статьям (`reads.taste()`): фильмы с оценками и заметками, фильмы, которые не зашли, все
+прочитанные книги, брошенные (сигнал против), планы, лекции и музыка. Первая версия давала семь
+строк выжимки — но язык учится на том, что интересно и без языка, и выбирать материал надо по всему
+вкусу: «La Nueve, ces Espagnols qui ont libéré Paris» нашлась именно потому, что в лекциях лежит
+гражданская война в Испании.
+
 Кандидаты: `SOURCES` — 1jour1actu, Français Authentique, RFI, France Info, Slate, Courrier
 International, Le Monde, The Conversation, Philosophie Magazine, France Culture (у каждого в
 дайджесте помечена сложность языка: модель не видит уровня текста иначе). `SEARCHES` — 22 запроса
@@ -519,6 +526,9 @@ API: `GET /api/french`, `PATCH /api/french/<id>` `{verdict: done|dismissed, answ
 `POST /api/french/cards` `{results:[{id,correct}]}`, `POST /api/french/level`, `POST /api/french/refresh`.
 `french.json` правится через сайт (ответы, вердикты, уровень), поэтому он в списке `DATA` в `deploy.sh`;
 превью статей `french/img/` — данные машины, в `.gitignore` и в исключениях `deploy.sh`, как `reads/img/`.
+Отсюда же и грабли: картинку, скачанную ноутбуком, mini не увидит — `python3 scripts/french.py images`
+**на mini** дозаполняет превью текущих материалов (как `reads.py images`). На странице заглушка с именем
+источника лежит под картинкой всегда, так что пропавший файл даёт подпись, а не битую иконку.
 
 ## Lectures (`lectures.html`, `lectures.json`, `scripts/lectures.py`)
 
