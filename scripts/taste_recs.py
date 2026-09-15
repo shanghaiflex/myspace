@@ -31,7 +31,12 @@ KINDS = ("film", "book", "lecture")
 # которые поиск YouTube выдаёт вперемешку с самими лекциями.
 LECTURE_MIN_MINUTES = 25
 LECTURE_SEARCH_N = 8
-VERDICTS = ("liked", "dismissed")
+VERDICTS = ("liked", "dismissed", "listened")
+# «Уже слушал» есть только у лекций, и это не то же самое, что «не то»: направление верное,
+# просто я это знаю. Совет уезжает в каталог сразу как прослушанный, то есть становится частью
+# вкуса, на который опирается следующий подбор, — а «не то» остаётся отказом.
+KIND_VERDICTS = {"film": ("liked", "dismissed"), "book": ("liked", "dismissed"),
+                 "lecture": ("liked", "dismissed", "listened")}
 HISTORY_MAX = 120
 EVERY_HOURS = 20  # суточная задача, которая может запуститься поздно (mini выключали), не должна отказываться
 
@@ -184,7 +189,7 @@ def digest(kind):
             out.append(f"- {r.get('title')}" + (f" — {r.get('author')}" if r.get("author") else ""))
     if d["history"]:
         out.append("\n## Вердикты по прошлым советам (свежие сверху)")
-        word = {"liked": "ВЗЯЛ", "dismissed": "НЕ ТО", "new": "без ответа"}
+        word = {"liked": "ВЗЯЛ", "dismissed": "НЕ ТО", "listened": "УЖЕ СЛУШАЛ", "new": "без ответа"}
         for h in d["history"][:40]:
             out.append(f"- {h.get('at')} · {word.get(h.get('verdict'), h.get('verdict'))}: "
                        f"{h.get('title')}" + (f" — {h.get('author')}" if h.get("author") else "")
@@ -377,8 +382,8 @@ def history_entry(r):
 # ---------------------------------------------------------------- вердикты
 def verdict(kind, rid, v):
     check_kind(kind)
-    if v not in VERDICTS:
-        raise SystemExit(f"bad verdict: {v}")
+    if v not in KIND_VERDICTS[kind]:
+        raise SystemExit(f"bad verdict: {v} ({'|'.join(KIND_VERDICTS[kind])})")
     db = load()
     d = db[kind]
     r = next((x for x in d["items"] if x["id"] == rid), None)
@@ -388,7 +393,9 @@ def verdict(kind, rid, v):
     r["decidedAt"] = today()
     added = None
     if v == "liked":
-        added = _add_to_catalog(kind, r)
+        added = _add_to_catalog(kind, r, "queued")
+    elif v == "listened":
+        added = _add_to_catalog(kind, r, "listened")
     if not added:
         _drop_cover(r)
     d["items"] = [x for x in d["items"] if x["id"] != rid]
@@ -407,18 +414,21 @@ def _drop_cover(r):
             pass
 
 
-def _add_to_catalog(kind, r):
+def _add_to_catalog(kind, r, status="queued"):
     """Принятый совет уезжает в каталог как «хочу посмотреть/прочитать/послушать»."""
     if kind == "lecture":
-        # Лекция встаёт в планы (`queued`) в канал «Советы Claude»: оттуда её берёт и очередь
-        # на странице, и preload телефона — mini сам скачает звук заранее.
+        # `queued` — в планы, в канал «Советы Claude»: оттуда лекцию берёт и очередь на странице,
+        # и preload телефона (mini скачает звук заранее). `listened` — «уже слушал»: лекция ложится
+        # в каталог прослушанной и дальше работает как вкус, а не как план.
         db = L.load()
         l, is_new = L.add_external(db, L.RECS_CHANNEL, {
             "id": r["id"], "title": r["title"], "duration": r.get("duration"),
-            "author": r.get("author"), "url": r.get("url"), "status": "queued",
+            "author": r.get("author"), "url": r.get("url"), "status": status,
             "note": r.get("reason")})
         if not is_new:
-            return None
+            if l.get("status") == status:
+                return None
+            l["status"] = status   # лекция уже в каталоге, но с другим статусом — поправляем
         L.save(db)
         return {"id": l["id"], "title": l["title"], "status": l["status"]}
 
@@ -519,7 +529,7 @@ def main():
     v = sub.add_parser("verdict")
     v.add_argument("kind", choices=KINDS)
     v.add_argument("id")
-    v.add_argument("verdict", choices=VERDICTS)
+    v.add_argument("verdict", choices=VERDICTS, help="listened — только у лекций")
     ls = sub.add_parser("list")
     ls.add_argument("kind", nargs="?", choices=KINDS)
     cv = sub.add_parser("covers", help="дозаполнить обложки/постеры у текущих советов")

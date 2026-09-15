@@ -18,6 +18,12 @@
       "name": "Лайки на YouTube",
       "type": "manual",
       "label": "Лайки · YouTube"
+    },
+    {
+      "id": "claude",
+      "name": "Советы Claude",
+      "type": "manual",
+      "label": "Совет Claude"
     }
   ],
   "series": {
@@ -5844,6 +5850,24 @@
       "live": false,
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=8jwJy3M1Ga8",
+      "artwork": null
+    },
+    {
+      "id": "7HRnj_ILa-Y",
+      "status": "listened",
+      "position": 0,
+      "listenedAt": null,
+      "addedAt": "2026-09-15",
+      "note": "Его же «Эдип и Анти-Эдип» ты прослушал у Blood Pact — здесь тот же Смулянский ведёт собственный многочасовой курс по Лакану, с той же дотошностью к формулировкам, что и на конференции по Фуко.",
+      "series": [],
+      "title": "Александр Смулянский. Лакан Ликбез. Лекция 1 - Работа воображаемого в акте сексуального влечения.",
+      "duration": 3865,
+      "channel": "claude",
+      "author": "Александр Смулянский",
+      "order": 0,
+      "live": false,
+      "source": "youtube",
+      "url": "https://www.youtube.com/watch?v=7HRnj_ILa-Y",
       "artwork": null
     },
     {

@@ -1,7 +1,7 @@
 // Советы Claude по фильмам, книгам и лекциям — общий блок для films.html, books.html и lectures.html.
 // Разметку и стили страница даёт сама (секция #recs с .rechead/.recgrid), здесь только данные,
 // отрисовка карточек, вердикты и кнопка «Обновить».
-//   Taste.mount({ kind: 'film'|'book', onAccepted(added) })
+//   Taste.mount({ kind: 'film'|'book'|'lecture', onAccepted(added) })
 window.Taste = (() => {
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const fmtDay = iso => {
@@ -18,6 +18,13 @@ window.Taste = (() => {
     const btn = sec.querySelector('#recsRefresh');
     const toast = opts.toast || (() => {});
     const noun = { film: 'фильм', book: 'книгу', lecture: 'лекцию' }[kind] || 'это';
+    // У лекций есть третий ответ: «уже слушал» — направление верное, просто я это знаю.
+    // Он не отказ: лекция уезжает в каталог прослушанной и работает дальше как вкус.
+    const ACTS = {
+      listened: { label: 'Уже слушал', toast: 'Отметил прослушанным — учту во вкусе' },
+      dismissed: { label: 'Не то', toast: 'Понял, больше такого не предлагаю' },
+    };
+    const acts = opts.acts || ['liked', 'dismissed'];
     let updatedAt = null;
 
     function render(db) {
@@ -35,8 +42,9 @@ window.Taste = (() => {
           </div>
           ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}
           <div class="acts">
-            <button class="take" data-act="liked">Хочу</button>
-            <button class="no" data-act="dismissed">Не то</button>
+            ${acts.map(a => a === 'liked'
+              ? '<button class="take" data-act="liked">Хочу</button>'
+              : `<button class="no" data-act="${a}">${ACTS[a].label}</button>`).join('')}
           </div>
         </article>`).join('');
     }
@@ -64,10 +72,11 @@ window.Taste = (() => {
         render(out.recs);
         if (b.dataset.act === 'liked') {
           toast(out.added ? `Добавил ${noun} в планы` : 'Уже в каталоге');
-          if (out.added && opts.onAccepted) opts.onAccepted(out.added);
         } else {
-          toast('Понял, больше такого не предлагаю');
+          toast(ACTS[b.dataset.act].toast);
         }
+        // «Уже слушал» тоже кладёт запись в каталог — страницу надо перечитать так же, как после «Хочу».
+        if (out.added && opts.onAccepted) opts.onAccepted(out.added);
       } catch (err) {
         card.classList.remove('gone');
         toast('Ошибка: ' + err.message);

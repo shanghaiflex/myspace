@@ -107,8 +107,9 @@
   .rec .s { font-size: 12.5px; color: var(--text-2); margin-top: 3px; }
   .rec .warn { color: var(--text-3); }
   .rec .why { font-size: 13px; line-height: 1.45; color: var(--text-2); }
-  .rec .acts { display: flex; gap: 8px; margin-top: auto; }
-  .rec .acts button { flex: 1; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+  /* Кнопок три, и «Уже слушал» вдвое шире «Хочу» — при flex: 1 её бы обрезало, поэтому по содержимому. */
+  .rec .acts { display: flex; gap: 8px; margin-top: auto; flex-wrap: wrap; }
+  .rec .acts button { flex: 1 1 auto; white-space: nowrap; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 8px; padding: 7px 9px; font: inherit; font-size: 13px; cursor: pointer; }
   .rec .acts .take { background: var(--accent); border-color: transparent; color: #fff; }
   @media (max-width: 560px) { .recgrid { grid-template-columns: 1fr; } }
 
@@ -501,9 +502,10 @@ fetch('lectures.json', { cache: 'no-store' }).then(r => r.json()).then(db => {
 <script>
 Taste.mount({
   kind: 'lecture',
+  acts: ['liked', 'listened', 'dismissed'],
   toast,
-  // Принятая лекция уезжает в lectures.json как «в планах» — перечитываем каталог, чтобы она сразу
-  // оказалась в списке (и в очереди на скачивание для телефона).
+  // Ответ «Хочу» кладёт лекцию в lectures.json как «в планах», «Уже слушал» — как прослушанную;
+  // в обоих случаях перечитываем каталог, чтобы она сразу оказалась в нужной вкладке.
   onAccepted: () => { fetch('lectures.json', { cache: 'no-store' }).then(r => r.json()).then(db => { state.db = db; renderSeries(); renderList(); }).catch(() => {}); },
 });
 </script>
