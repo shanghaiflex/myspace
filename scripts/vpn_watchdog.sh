@@ -47,7 +47,8 @@ save_state() {
     "$1" "$2" "$last_vpn" "$last_tunnel" > "$STATE"
 }
 
-probe() { curl -sS -m "$TIMEOUT" -o /dev/null -w '%{http_code}' "$1" 2>/dev/null || echo 000; }
+# curl и при неудаче печатает код (000), поэтому запасное значение нужно только на случай пустого вывода.
+probe() { c=$(curl -sS -m "$TIMEOUT" -o /dev/null -w '%{http_code}' "$1" 2>/dev/null); echo "${c:-000}"; }
 
 # Сайт вернулся (или не уходил): сообщаем только если до этого было плохо.
 report_ok() {
@@ -71,8 +72,10 @@ log "сайт не отвечает: $URL → $code, повтор → $code2"
 
 if [ "$DRY" = 1 ]; then log "--dry-run: дальше был бы разбор и kickstart"; save_state down "$down_since"; exit 1; fi
 
+acted=0                                    # чинили ли что-нибудь в этот заход
 kick_agent() {  # LaunchAgent пользователя: cloudflared и serve, пароль не нужен
   launchctl kickstart -k "gui/$(id -u)/$1" 2>/dev/null && log "перезапущен $1" || log "не удалось перезапустить $1"
+  acted=1
 }
 
 # 1. serve.py. Если не отвечает даже локально — до VPN дело не дошло, чинить надо его.
@@ -95,7 +98,7 @@ if [ "$hs_age" -lt 0 ] || [ "$hs_age" -gt "$STALE" ]; then
     log "VPN перезапускался $(( (now - last_vpn) / 60 )) мин назад — жду, не рву повторно"
   else
     sudo -n launchctl kickstart -k system/cc.bodywithoutorgans.vpn 2>/dev/null \
-      && { log "перезапущен VPN"; last_vpn=$now; } || log "не удалось перезапустить VPN"
+      && { log "перезапущен VPN"; last_vpn=$now; acted=1; } || log "не удалось перезапустить VPN"
     i=0; while [ $i -lt 20 ]; do
       sleep 2; i=$((i + 2))
       age=$(sudo -n /usr/local/sbin/vpn-status.sh 2>/dev/null | awk '/рукопожатие/ { if ($2 ~ /^[0-9]+$/) print $2; else print -1 }')
@@ -113,6 +116,8 @@ else
 fi
 
 # 3. Проверяем, что починили: тоннель регистрирует соединения несколько секунд.
+# Если чинить было нечего (кулдаун), ждать нечего — следующий заход через 2 минуты.
+[ "$acted" = 0 ] && { save_state down "$down_since"; exit 1; }
 i=0; while [ $i -lt 45 ]; do
   sleep 5; i=$((i + 5))
   if [ "$(probe "$URL")" = 200 ]; then
