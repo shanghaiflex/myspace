@@ -171,9 +171,11 @@ def events(text, zone):
               "rrule": parse_rrule(first(p, "RRULE")) if "RRULE" in p else None,
               "exdate": {parse_dt(prm, one, zone)[0] for prm, val in p.get("EXDATE", []) for one in val.split(",")},
               "calendar": unescape(first(p, "X-BOW-CALENDAR") or first(p, "CATEGORIES")),
-              "cancelled": first(p, "STATUS").upper() == "CANCELLED",
-              "busy": first(p, "TRANSP").upper() != "TRANSPARENT"}
-        ev["busy"] = ev["busy"] and ev["calendar"] not in free_calendars()
+              "cancelled": first(p, "STATUS").upper() == "CANCELLED"}
+        # Yandex's «свободен» (TRANSP:TRANSPARENT) says an invitation may double-book the hour, not that the hour
+        # is free: «Французский» is marked that way and still takes the evening. Only someone else's calendar
+        # (FREE_CALENDARS) is time that is not mine, so that — and nothing else — leaves a window open.
+        ev["busy"] = ev["calendar"] not in free_calendars()
         if "RECURRENCE-ID" in p:
             overrides[(ev["uid"], parse_dt(*p["RECURRENCE-ID"][0], zone)[0])] = ev
         else:
@@ -294,7 +296,7 @@ def agenda(days=7, start_date=None, text=None, only=None, skip=None):
             start = item["start"] if item is not ev else when
             end = start + (item["end"] - item["start"])
             if start.date() in out:
-                # An event the calendar shows as free (TRANSP) still pins an hour of the day — the lesson happens —
+                # An event from someone else's calendar still pins an hour of the day — the swimming happens —
                 # it just does not make the person busy, so it is listed but never eats a free window.
                 out[start.date()].append({"summary": item["summary"], "start": start, "end": end,
                                           "allday": item["allday"], "busy": item["busy"],
