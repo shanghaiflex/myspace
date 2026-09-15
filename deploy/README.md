@@ -37,6 +37,23 @@ timeout: no recent network activity`. Причина почти всегда н�
 но сессия WG протухла, и с mini никуда нет выхода (`curl https://api.ipify.org` таймаутится, а LAN и сети
 из `direct-routes.txt` работают). Лечится kickstart'ом демона VPN.
 
+**Теперь это чинится само** (2026-09-15, после третьего такого падения). `scripts/vpn_watchdog.sh`,
+launchd-агент `cc.bodywithoutorgans.vpnwatchdog` (`deploy/install-vpn-watchdog.sh`), раз в 2 минуты
+спрашивает снаружи `https://bodywithoutorgans.cc/healthz` — один запрос через VPN, край Cloudflare,
+тоннель и `serve.py`, то есть ровно то, что видит пользователь. Проверять процессы бессмысленно:
+в этой аварии все три живы. Первая неудача не считается (икота края), вторая запускает разбор:
+`serve.py` молчит локально → kickstart агента serve; рукопожатия нет или оно старше 3 минут →
+kickstart демона VPN, ожидание рукопожатия и сразу kickstart cloudflared (иначе он досиживает
+свой бэкофф до 64 с); путь наружу цел, а сайта нет → перезапуск одного cloudflared. Повторно рвать
+VPN сторож не станет чаще раза в 10 минут (`WATCHDOG_COOLDOWN`) — при обрыве у провайдера это
+мешало бы тоннелю подняться. Пока всё хорошо, в лог не пишется ничего: `logs/vpn-watchdog.log` —
+это список аварий и починок, а не тиканье.
+
+```
+ssh mini tail -20 movies/logs/vpn-watchdog.log
+ssh mini 'cd movies && sh scripts/vpn_watchdog.sh --verbose --dry-run'   # проверить, не трогая ничего
+```
+
 ## Apple Health (2026-09-07)
 
 - `api.bodywithoutorgans.cc` — третий hostname того же туннеля `movies`, тоже на `127.0.0.1:8787`: туда шлёт батчи

@@ -599,6 +599,18 @@ The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/
 (native install, no node needed; `python3` is NOT on the default ssh PATH — use `~/.local/python312/bin/python3`). Data sync is rsync:
 after ANY change run `scripts/deploy.sh "message"` — it folds in live in-site edits for JSON you didn't touch,
 commits, pushes to GitHub, rsyncs to the mini, and restarts serve. That is the one command to ship to production.
+**Сайт поднимается сам.** Демон VPN переживает падение процесса, но настоящая авария (11.09, 15.09.2026)
+выглядит иначе: `amneziawg-go` жив, `utun11` держит `0/1`, а WG-сессия протухла — рукопожатия нет, `rx` стоит,
+наружу с mini не выходит ничего, cloudflared крутит `dial tcp …:7844: i/o timeout`, сайт отдаёт 530 (Cloudflare 1033).
+`scripts/vpn_watchdog.sh` (launchd `cc.bodywithoutorgans.vpnwatchdog`, раз в 2 минуты, `deploy/install-vpn-watchdog.sh`)
+поэтому проверяет не процессы, а результат: `GET /healthz` снаружи, одним запросом через VPN → край Cloudflare →
+тоннель → `serve.py`. Две неудачи подряд — и лечение лестницей: serve → VPN (+ сразу cloudflared, он бы досиживал
+бэкофф до 64 с) → cloudflared. Подробности и ручные команды — `deploy/README.md`.
+```
+ssh mini tail -20 movies/logs/vpn-watchdog.log      # только аварии и починки, молчит когда всё хорошо
+ssh mini 'sudo -n /usr/local/sbin/vpn-status.sh'    # рукопожатие и rx/tx руками
+```
+
 The mini reaches SoundCloud/Cloudflare/Open-Meteo directly, and since the VPN LaunchDaemon became a full tunnel
 it reaches YouTube too (проверено 15.09.2026: `yt-dlp ytsearch` и `curl youtube.com` → 200) — на этом стоят
 и `start_audio_job` (mini сам качает звук лекций из `preload`), и поиск советов по лекциям. Скачивать звук
