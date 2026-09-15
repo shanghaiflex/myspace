@@ -408,6 +408,24 @@
     "titleAlt": "The Code Breaker"
   },
   {
+    "id": "вторая-жизнь-уве-фредрик-бакман",
+    "title": "Вторая жизнь Уве",
+    "titleAlt": "En man som heter Ove",
+    "author": "Фредрик Бакман",
+    "year": 2012,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1005586864/200x305/ad09/boocover.jpg",
+    "cover": "covers/вторая-жизнь-уве-фредрик-бакман.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-15",
+    "finishedAt": "2026-09-15",
+    "tags": []
+  },
+  {
     "id": "all-hell-let-loose-max-hastings",
     "title": "Вторая мировая война. Ад на земле",
     "author": "Max Hastings",
@@ -1686,6 +1704,24 @@
     "titleAlt": "Parmenides"
   },
   {
+    "id": "первая-мировая-война-катастрофа-1914-года-макс-гастингс",
+    "title": "Первая мировая война. Катастрофа 1914 года",
+    "titleAlt": "Catastrophe 1914: Europe Goes to War",
+    "author": "Max Hastings",
+    "year": 2013,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1003629696/200x305/dbad/boocover.jpg",
+    "cover": "covers/первая-мировая-война-катастрофа-1914-года-макс-гастингс.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-15",
+    "finishedAt": "2026-09-15",
+    "tags": []
+  },
+  {
     "id": "печальные-тропики-к-леви-строс",
     "title": "Печальные тропики",
     "author": "К. Леви-Строс",
@@ -2056,6 +2092,24 @@
     "titleAlt": "The Death of Ivan Ilyich and Other Stories"
   },
   {
+    "id": "тамплиеры-рождение-и-гибель-великого-ордена-дэн-джонс",
+    "title": "Тамплиеры: Рождение и гибель великого ордена",
+    "titleAlt": "The Templars: The Rise and Spectacular Fall of God's Holy Warriors",
+    "author": "Dan Jones",
+    "year": 2017,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1006847518/200x305/1608/boocover.jpg",
+    "cover": "covers/тамплиеры-рождение-и-гибель-великого-ордена-дэн-джонс.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-15",
+    "finishedAt": "2026-09-15",
+    "tags": []
+  },
+  {
     "id": "те-кто-уходит-и-те-кто-остается-элена-ферранте",
     "title": "Те, кто уходит и те, кто остается",
     "author": "Элена Ферранте",
@@ -2074,6 +2128,24 @@
       "🟥"
     ],
     "titleAlt": "Storia di chi fugge e di chi resta"
+  },
+  {
+    "id": "темные-теории-философия-после-постмодерна-дмитрий-хаустов",
+    "title": "Темные теории. Философия после постмодерна",
+    "titleAlt": null,
+    "author": "Дмитрий Хаустов",
+    "year": null,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1017876244/200x305/cc2c/boocover.jpg",
+    "cover": "covers/темные-теории-философия-после-постмодерна-дмитрий-хаустов.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-15",
+    "finishedAt": "2026-09-15",
+    "tags": []
   },
   {
     "id": "the-shadow-over-innsmouth-h-p-lovecraft",
@@ -2388,5 +2460,23 @@
       "🟧"
     ],
     "titleAlt": "The Ego in Freud's Theory and in the Technique of Psychoanalysis"
+  },
+  {
+    "id": "япония-история-и-культура-от-самураев-до-манги-нэнси-сталкер",
+    "title": "Япония. История и культура: от самураев до манги",
+    "titleAlt": "Japan: History and Culture from Classical to Cool",
+    "author": "Нэнси Сталкер",
+    "year": 2018,
+    "pages": null,
+    "isbn": null,
+    "description": null,
+    "coverUrl": "https://s1.livelib.ru/boocover/1008403018/200x305/7a0a/boocover.jpg",
+    "cover": "covers/япония-история-и-культура-от-самураев-до-манги-нэнси-сталкер.jpg",
+    "status": "read",
+    "rating": null,
+    "comment": null,
+    "addedAt": "2026-09-15",
+    "finishedAt": "2026-09-15",
+    "tags": []
   }
 ]

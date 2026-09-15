@@ -1,42 +1,76 @@
 {
-  "updatedAt": "2026-09-13T15:50:58",
+  "updatedAt": "2026-09-15T07:51:06",
   "model": "opus",
   "items": [
     {
-      "id": "67ff19dcf0",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n16/colin-burrow/good-weird-or-bad-weird",
-      "title": "Colin Burrow: Good Weird or Bad Weird",
+      "id": "d49d53bfc2",
+      "url": "https://www.astralcodexten.com/p/king-ludd",
+      "title": "King Ludd",
+      "author": "Scott Alexander",
+      "source": "Astral Codex Ten",
+      "sourceId": "acx",
+      "date": "2026-09-14",
+      "minutes": 13,
+      "summary": "I. In the gods’ great scramble for human followers, Nodens would seem to have lost decisively. We know of him only from vague inscriptions at two archaeological sites near the Welsh-English border. One might have been his temple. He seems to have been a Romano-British-Celtic god ",
+      "reason": "После «Тени над Иннсмутом» — про Ноденса, того самого кельтского бога, которого Лавкрафт утащил себе.",
+      "suggestedAt": "2026-09-15",
+      "verdict": "new",
+      "image": "reads/img/d49d53bfc2.jpg",
+      "imageUrl": "https://substackcdn.com/image/fetch/$s_!JEqL!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F017c9c94-ad3d-490e-90b4-1306c0e97122_575x339.png"
+    },
+    {
+      "id": "c08087dce2",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/lucy-wooding/made-to-eat-wax",
+      "title": "Lucy Wooding: Made to Eat Wax",
       "author": null,
       "source": "London Review of Books",
       "sourceId": "lrb",
       "date": "2026-08-28",
       "minutes": null,
-      "summary": "Literary criticism is a supremely occasional skill, where you have to be bold enough to operate where there aren’t any clear rules and make up your own, and decide for yourself what you think, and maybe set that beside what other cleverer people have thought. Someone else might c",
-      "reason": "После «Тени над Иннсмутом» и Набокова о литературе — как критик судит странное, когда правил нет.",
-      "suggestedAt": "2026-09-13",
+      "summary": "Thomas Arundel is badly in need of historical rehabilitation. The man who stands accused of spiritual tyranny over the people because he required the licensing of English Bibles played a central role in first managing and then deposing England’s most complicated royal tyrant. At ",
+      "reason": "К «Плантагенетам» Дэна Джонса: архиепископ, который сперва держал Ричарда II, а потом его низложил.",
+      "suggestedAt": "2026-09-15",
       "verdict": "new",
-      "image": "reads/img/67ff19dcf0.jpg",
-      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/8/3/8/8/31108838-1-eng-GB/027962be26af-Collage-with-letters.jpg"
+      "image": "reads/img/c08087dce2.jpg",
+      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/4/5/8/8/31108854-1-eng-GB/997e7886f2e4-Thomas-Arundel.jpg"
     },
     {
-      "id": "c614017bb1",
-      "url": "https://psyche.co/ideas/logistics-underpins-power-and-logistics-is-female",
-      "title": "Logistics underpins power – and logistics is female",
-      "author": "Susan Zieger",
-      "source": "Psyche",
-      "sourceId": "psyche",
-      "date": "2026-09-01",
+      "id": "76d42a4701",
+      "url": "https://www.quantamagazine.org/what-is-maths-mysterious-langlands-program-really-about-20260909/",
+      "title": "What Is Math’s Mysterious Langlands Program Really About?",
+      "author": "Natalie Wolchover",
+      "source": "Quanta",
+      "sourceId": "quanta",
+      "date": "2026-09-09",
       "minutes": null,
-      "summary": "A women’s history of logistics from the battlefields of 19th-century Europe to middle-class households and sex trafficking - by Susan Zieger Read on Psyche",
-      "reason": "Территория, которой у тебя нет: логистика как оптика власти — рифма с «Ценой разрушения» Туза.",
-      "suggestedAt": "2026-09-13",
+      "summary": "The mathematical universe is boundless and heterogeneous, encompassing, over here, truths about numbers and equations; there, the logic of shapes and spaces; and over there, the study of change and probability. Its domains have grown organically over centuries, each centered arou",
+      "reason": "Ты слушал «Шиз поясняет. Дзета-функция Римана» — здесь карта страны, где эта дзета живёт.",
+      "suggestedAt": "2026-09-15",
       "verdict": "new",
-      "image": "reads/img/c614017bb1.jpg",
-      "imageUrl": "https://images.aeonmedia.co/images/bae94660-e877-4281-8f9b-b8b683f7cd25/this-master-pnp-ppmsca-51700-51756a.jpg?top=212&left=9&cropWidth=2656&cropHeight=1494&width=1200&quality=75&format=jpeg"
+      "image": "reads/img/76d42a4701.jpg",
+      "imageUrl": "https://www.quantamagazine.org/wp-content/uploads/2026/09/Qualia-Langlands-cr.Samuel-Velasco-Social.jpg"
     }
   ],
   "saved": [],
   "history": [
+    {
+      "id": "67ff19dcf0",
+      "title": "Colin Burrow: Good Weird or Bad Weird",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/colin-burrow/good-weird-or-bad-weird",
+      "source": "London Review of Books",
+      "reason": "После «Тени над Иннсмутом» и Набокова о литературе — как критик судит странное, когда правил нет.",
+      "verdict": "new",
+      "at": "2026-09-13"
+    },
+    {
+      "id": "c614017bb1",
+      "title": "Logistics underpins power – and logistics is female",
+      "url": "https://psyche.co/ideas/logistics-underpins-power-and-logistics-is-female",
+      "source": "Psyche",
+      "reason": "Территория, которой у тебя нет: логистика как оптика власти — рифма с «Ценой разрушения» Туза.",
+      "verdict": "new",
+      "at": "2026-09-13"
+    },
     {
       "id": "8b6d5449db",
       "title": "Medieval mental health",
@@ -58,6 +92,292 @@
   ],
   "cache": [
     {
+      "id": "fb4050ac94",
+      "url": "https://aeon.co/videos/are-we-ever-really-done-seeing-a-movie-on-platoon-and-memory",
+      "title": "Once upon a screen: explosive paradox",
+      "author": "Aeon Video",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Decades after seeing ‘Platoon’, Kevin recalls how the film stirred generational trauma in his family and racism at school - by Aeon Video Watch on Aeon"
+    },
+    {
+      "id": "207102c81e",
+      "url": "https://aeon.co/essays/its-not-just-screen-time-kids-are-bombarded-by-hectic-media",
+      "title": "The bombarding of childhood",
+      "author": "Natalia Kucirkova",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "It’s not just screen time: the problem with children’s media is that it has become relentlessly hectic, loud and bright - by Natalia Kucirkova Read on Aeon"
+    },
+    {
+      "id": "9e3fc00239",
+      "url": "https://psyche.co/videos/step-into-the-joyful-world-of-annabel-a-performer-with-down-syndrome",
+      "title": "My name is Annabel",
+      "author": "Psyche Video",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "A creative collaboration between participant and filmmaker explores how it feels to live and perform with Down syndrome - Directed by Ida Joglar Watch on Psyche"
+    },
+    {
+      "id": "8d6fbc6d47",
+      "url": "https://psyche.co/guides/how-to-uncover-your-blind-spots",
+      "title": "How to uncover your blind spots",
+      "author": "Jennifer Farrell",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "We all have parts of ourselves others know but we don’t. Gain greater self-awareness by seeing yourself from the outside in - by Jennifer Farrell Read on Psyche"
+    },
+    {
+      "id": "53231bf03e",
+      "url": "https://www.noemamag.com/conceding-ai-danger-raises-not-reduces-public-anxiety",
+      "title": "Conceding AI Danger Raises, Not Reduces, Public Anxiety",
+      "author": "Nathan Gardels",
+      "source": "Noema",
+      "sourceId": "noema",
+      "date": "2026-09-14",
+      "minutes": 6,
+      "summary": "When a patient is considered brain dead, the ethical decision is whether or when to pull the plug on a human life. With artificial intelligences, the issue is whether to pull the plug when its chain-of-reasoning capacity comes alive through recursive self-improvement unguided by "
+    },
+    {
+      "id": "e19afa689e",
+      "url": "https://www.theparisreview.org/blog/2026/09/14/you-have-to-ask-questions-svetlana-alexievich-unlocked/",
+      "title": "You Have to Ask Questions: Svetlana Alexievich, Unlocked",
+      "author": "The Paris Review",
+      "source": "The Paris Review",
+      "sourceId": "parisreview",
+      "date": "2026-09-14",
+      "minutes": 2,
+      "summary": "Svetlana Alexievich with a cameraman in Kabul, 1988. Courtesy of Svetlana Alexievich. Each week, The Paris Review unlocks stories, poems, and interviews from our archive for our readers. This week, to read alongside our inaugural Art of Oral History interview with Alexievich, we’"
+    },
+    {
+      "id": "16522dd0f4",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/ke-huy-quan-keeps-smiling",
+      "title": "Ke Huy Quan Keeps Smiling",
+      "author": "Sarah Larson",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "On a trip to Liberty Island, the actor chats about his new memoir, “Never Say Die,” which chronicles his journey from refugee to child star in “Indiana Jones” to winning an Oscar, for “Everything Everywhere All at Once.”"
+    },
+    {
+      "id": "66baa69241",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/paula-cole-doesnt-want-to-wait",
+      "title": "Paula Cole Doesn’t Want to Wait",
+      "author": "Rachel Syme",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "At the Conservatory Garden, the singer reflects on her new two-album set, “Sonic Memoir: Demos 1989-1998”; launching Lilith Fair with Sarah McLachlan; and the time Jay Leno made fun of her armpit hair."
+    },
+    {
+      "id": "9ed97196b7",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/the-hearing-aid-that-plays-it-by-ear",
+      "title": "The Hearing Aid That Plays It by Ear",
+      "author": "David Owen",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "A company called Fortell made an A.I.-powered device that tries to tune out background noise in real time. Does it work? Ask Fortell’s test subject, Steve Martin."
+    },
+    {
+      "id": "d15c90ba46",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/the-incredible-journey-of-a-migratory-shorebird",
+      "title": "The Incredible Journey of a Migratory Shorebird",
+      "author": "Rivka Galchen",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Godwits make the longest non-stop migration in the bird world. That might be the least of their marvels. Can they survive a changing planet?"
+    },
+    {
+      "id": "decfbd3785",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/the-american-religion-of-self-storage-facilities",
+      "title": "The American Religion of Self-Storage Facilities",
+      "author": "David Owen",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Why are we so obsessed with putting our belongings in metal boxes and then never looking at them again?"
+    },
+    {
+      "id": "6ad389fcb1",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/the-violent-feud-that-shocked-the-horse-world",
+      "title": "She Made Me Do It",
+      "author": "Ian Parker",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "A prominent dressage trainer shot a belligerent student—and now maintains that he’s the real victim."
+    },
+    {
+      "id": "bd9acf0452",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/jared-kushners-dollar-diplomacy",
+      "title": "Jared Kushner’s Dollar Diplomacy",
+      "author": "Dexter Filkins",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Donald Trump’s son-in-law represents the kind of Washington figure for whom public office serves as a means to extraordinary wealth."
+    },
+    {
+      "id": "dbab6a4e18",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/my-surefire-cant-lose-polymarket-bets",
+      "title": "My Surefire, Can’t-Lose Polymarket Bets",
+      "author": "Shalom Auslander",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Spot on my neck: Cancer? 88% Yes. 12% More tests are needed, none of which are covered by my insurance."
+    },
+    {
+      "id": "05fe8fe15f",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/the-everywhere-millionaire-owen-zidar-and-eric-zwick-book-review",
+      "title": "The Wealthiest—and Stealthiest—Class in America",
+      "author": "John Lanchester",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "America’s everywhere millionaires built fortunes from hot dogs, car dealerships, medical practices, and convenience stores. Then they learned how to protect them."
+    },
+    {
+      "id": "69b3e2647e",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/dey-etna-are-they-dead-yet-unbelonging",
+      "title": "Briefly Noted Book Reviews",
+      "author": null,
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "“Dèy,” “Etna,” “Are They Dead Yet?,” and “Unbelonging.”"
+    },
+    {
+      "id": "272c917845",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/situated-angela-duckworth-book-review",
+      "title": "In “Situated,” Angela Duckworth, the Author of “Grit,” Does an About-Face",
+      "author": "Meghan O’Gieblyn",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "In “Situated,” Angela Duckworth challenges the conventional wisdom that says we shouldn’t run away from our problems."
+    },
+    {
+      "id": "9ad0d5cd72",
+      "url": "https://www.newyorker.com/gallery/cartoons-from-the-september-21-2026-issue",
+      "title": "Slide Show: New Yorker Cartoons September 21, 2026",
+      "author": null,
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Drawings from the September 21, 2026, magazine."
+    },
+    {
+      "id": "0a076ef91a",
+      "url": "https://www.quantamagazine.org/black-holes-or-black-hole-stars-astronomers-spar-over-webb-telescopes-little-red-dots-20260914/",
+      "title": "Black Holes or Black Hole Stars? Astronomers Spar Over Webb Telescope’s ‘Little Red Dots.’",
+      "author": "Charlie Wood",
+      "source": "Quanta",
+      "sourceId": "quanta",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Astronomers built the James Webb Space Telescope to pick up faint light from the first billion years after the Big Bang, a chaotic era when vast swaths of hydrogen and helium gas gathered into the chains of galaxies we see today. Even in the telescope’s first images, astronomers "
+    },
+    {
+      "id": "6156eb2973",
+      "url": "https://nautil.us/all-the-ways-reading-for-pleasure-is-good-for-your-mental-health-1285027/",
+      "title": "All the Ways Reading for Pleasure is Good for Your Mental Health",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Even though it might be a dying past time The post All the Ways Reading for Pleasure is Good for Your Mental Health appeared first on Nautilus ."
+    },
+    {
+      "id": "7fa441ef2a",
+      "url": "https://nautil.us/the-brutal-origins-of-bear-baiting-1285024/",
+      "title": "The Brutal Origins of Bear-Baiting",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "The practice exploded in popularity following the Norman Conquest The post The Brutal Origins of Bear-Baiting appeared first on Nautilus ."
+    },
+    {
+      "id": "e02c767eea",
+      "url": "https://nautil.us/did-venus-eat-its-own-moon-1285021/",
+      "title": "Did Venus Eat its Own Moon?",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "The mystery of why our sister planet is alone The post Did Venus Eat its Own Moon? appeared first on Nautilus ."
+    },
+    {
+      "id": "2f13c2fa26",
+      "url": "https://nautil.us/taylor-swift-drops-new-insect-species-1285010/",
+      "title": "Taylor Swift Drops New Insect Species",
+      "author": "Devin Reese",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Thanks to a graduate student who is a “lifelong Swiftie” The post Taylor Swift Drops New Insect Species appeared first on Nautilus ."
+    },
+    {
+      "id": "bed492b4da",
+      "url": "https://nautil.us/drcs-ebola-outbreak-has-the-potential-to-become-a-global-pandemic-how-to-make-sure-it-doesnt-1285005/",
+      "title": "DRC’s Ebola Outbreak Has the Potential to Become a Global Pandemic. How to Make Sure It Doesn’t",
+      "author": "Jia B. Kangbai",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Bundibugyo is spreading exponentially in the DRC The post DRC’s Ebola Outbreak Has the Potential to Become a Global Pandemic. How to Make Sure It Doesn’t appeared first on Nautilus ."
+    },
+    {
+      "id": "86b0109a6d",
+      "url": "https://nautil.us/the-promise-and-peril-of-toad-smoking-the-everest-of-psychedelics-1284999/",
+      "title": "The Promise and Peril of Toad Smoking, the Everest of Psychedelics",
+      "author": "Kristen French",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "A conversation with author Kimon de Greef about his new book “The Ego Trip” The post The Promise and Peril of Toad Smoking, the Everest of Psychedelics appeared first on Nautilus ."
+    },
+    {
+      "id": "55d80b9f09",
+      "url": "https://nautil.us/why-the-discovery-of-the-first-short-tailed-tsushima-leopard-cat-worried-researchers-1285013/",
+      "title": "Why the Discovery of the First Short-Tailed Tsushima Leopard Cat Worried Researchers",
+      "author": "David Nield",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "They were concerned its existence could actually threaten its survival The post Why the Discovery of the First Short-Tailed Tsushima Leopard Cat Worried Researchers appeared first on Nautilus ."
+    },
+    {
       "id": "b43359f4fe",
       "url": "https://nautil.us/gondwana-really-was-a-supercontinent-1284991/",
       "title": "Gondwana Really Was a Supercontinent",
@@ -69,6 +389,83 @@
       "summary": "And it helped kick‑start life on Earth The post Gondwana Really Was a Supercontinent appeared first on Nautilus ."
     },
     {
+      "id": "480433fae9",
+      "url": "https://www.astralcodexten.com/p/open-thread-451",
+      "title": "Open Thread 451",
+      "author": "Scott Alexander",
+      "source": "Astral Codex Ten",
+      "sourceId": "acx",
+      "date": "2026-09-13",
+      "minutes": 4,
+      "summary": "This is the weekly visible open thread. Post about anything you want, ask random questions, whatever. ACX has an unofficial subreddit , Discord , and bulletin board , and in-person meetups around the world . Most content is free, some is subscriber only; you can subscribe here . "
+    },
+    {
+      "id": "aecced5dd7",
+      "url": "/2026/09/general-interest-kyle-berlin-will-stephenson-kamel-daoud-houris/",
+      "title": "A Perfect Victim",
+      "author": "Will Stephenson",
+      "source": "Harper's",
+      "sourceId": "harpers",
+      "date": "2026-09-13",
+      "minutes": 6,
+      "summary": "Photograph by Derek Schmidt The Algerian writer Kamel Daoud’s early years as a journalist were particularly notable for his coverage of the country’s civil war—the so-called black decade that began in the early Nineties. He published his debut novel, The Meursault Investigation ,"
+    },
+    {
+      "id": "1a8837490a",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/how-to-protect-democracy",
+      "title": "How to Protect Democracy",
+      "author": "Joshua Yaffa",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-13",
+      "minutes": null,
+      "summary": "The emergence of Germany’s far right as a political force represents an old dilemma."
+    },
+    {
+      "id": "b3ef0f7279",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/lost-child-fiction-joyce-carol-oates",
+      "title": "“Lost Child,” by Joyce Carol Oates",
+      "author": "Joyce Carol Oates",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-13",
+      "minutes": null,
+      "summary": "It almost returned to Kit then—what this place was, and who was waiting for them inside."
+    },
+    {
+      "id": "fa1645305f",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/anti-zionism-benjamin-moser-book-review",
+      "title": "Is Zionism’s Moral Crisis About Roads Not Taken—or Original Sin?",
+      "author": "Isaac Chotiner",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-13",
+      "minutes": null,
+      "summary": "Where Benjamin Moser replaces one story of Jewish exceptionalism with another, Omer Bartov shows what’s lost when polemic takes the place of history."
+    },
+    {
+      "id": "740c1179b4",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/driveway-stephanie-horvath-poem",
+      "title": "“Driveway,” by Stephanie Horvath",
+      "author": "Stephanie Horvath",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-13",
+      "minutes": null,
+      "summary": "“In the gut, / In the mouth, / In the irreducible / ‘Bile’ humor.”"
+    },
+    {
+      "id": "b3b8f3e709",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/late-september-jodie-hollander-poem",
+      "title": "“Late September,” by Jodie Hollander",
+      "author": "Jodie Hollander",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-13",
+      "minutes": null,
+      "summary": "“Now the air / is darker; my garden plots are empty.”"
+    },
+    {
       "id": "94057c0500",
       "url": "https://nautil.us/rope-twine-and-thread-invisible-technologies-of-the-stone-age-1284982/",
       "title": "Rope, Twine and Thread: Invisible Technologies of the Stone Age",
@@ -78,6 +475,17 @@
       "date": "2026-09-12",
       "minutes": null,
       "summary": "Missing from the archaeological record, fiber innovations like string played a huge role in the daily lives of our ancestors. Researchers are working to weave together new insights from the traces they left behind The post Rope, Twine and Thread: Invisible Technologies of the Sto"
+    },
+    {
+      "id": "e61ff6fd10",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/ric-burns-nyc-optimist",
+      "title": "Ric Burns, N.Y.C. Optimist",
+      "author": "Eric Lach",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-12",
+      "minutes": null,
+      "summary": "The director—and brother of Ken Burns—is releasing two new episodes of his long-running “New York: A Documentary Film,” this time covering Superstorm Sandy, COVID, and Eric Adams."
     },
     {
       "id": "013ba3aaa7",
@@ -234,6 +642,17 @@
       "summary": "A cascade of regret and apocalyptic short-term forecasts hit social media this week The post AI Engineers Are Having Their Oppenheimer “Destroyer of Worlds” Moment appeared first on Nautilus ."
     },
     {
+      "id": "2fb26943a9",
+      "url": "https://www.newyorker.com/culture/goings-on/the-sartorial-riches-of-the-silent-film-era",
+      "title": "The Sartorial Riches of the Silent-Film Era",
+      "author": "Rachel Syme, Dan Stahl, Sheldon Pearce, Marina Harss, Brian Seibert, Richard Brody, Taran Dugal",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Also: the neo-soul of Erykah Badu, a festival of Indian classical dance, John Wilson’s ode to concrete, and more."
+    },
+    {
       "id": "50a5e559c8",
       "url": "https://www.astralcodexten.com/p/royce-on-san-francisco",
       "title": "Royce On San Francisco",
@@ -366,17 +785,6 @@
       "summary": "Alternative for Germany, the country’s right-wing populist party, fell short of an outright majority in Saxony-Anhalt, but may still come to power, in which case Ulrich Siegmund, a former air-freshener salesman whose supporters chant his surname in the style of “Sieg heil,” would"
     },
     {
-      "id": "76d42a4701",
-      "url": "https://www.quantamagazine.org/what-is-maths-mysterious-langlands-program-really-about-20260909/",
-      "title": "What Is Math’s Mysterious Langlands Program Really About?",
-      "author": "Natalie Wolchover",
-      "source": "Quanta",
-      "sourceId": "quanta",
-      "date": "2026-09-09",
-      "minutes": null,
-      "summary": "The mathematical universe is boundless and heterogeneous, encompassing, over here, truths about numbers and equations; there, the logic of shapes and spaces; and over there, the study of change and probability. Its domains have grown organically over centuries, each centered arou"
-    },
-    {
       "id": "8e5ec382be",
       "url": "https://www.astralcodexten.com/p/god-help-us-lets-try-to-learn-about",
       "title": "God Help Us, Let’s Try To Learn About Mechanistic Interpretability Techniques",
@@ -430,6 +838,17 @@
       "date": "2026-09-08",
       "minutes": null,
       "summary": "On the morning of Tuesday, September 8, mathematicians at OpenAI announced that a group of 10,000 autonomous AI agents under their direction, running on an advanced model not available to the public, had found a “singularity” in the Navier-Stokes equations in three dimensions — t"
+    },
+    {
+      "id": "11adc41a23",
+      "url": "https://www.newyorker.com/puzzles-and-games-dept/crossword/2026/09/08",
+      "title": "The Crossword: Tuesday, September 8, 2026",
+      "author": "Wyna Liu",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-08",
+      "minutes": null,
+      "summary": "A moderately challenging puzzle."
     },
     {
       "id": "7fd9f3d341",
@@ -694,6 +1113,17 @@
       "date": "2026-09-05",
       "minutes": null,
       "summary": "The comedians Harris Alterman and Dave Ross have been putting up posters for fake tech products across the city, including a wearable grandpa, underwear that thinks, and A.I. cutlery."
+    },
+    {
+      "id": "58f48bcfc8",
+      "url": "https://www.newyorker.com/culture/photo-booth/how-a-professional-skateboarder-sees-los-angeles",
+      "title": "How a Skateboarder Sees Los Angeles",
+      "author": "Hua Hsu",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-05",
+      "minutes": null,
+      "summary": "Jerry Hsu captures the city’s manic extremes, with photographs of overturned cars, collisions, and a bank building ablaze."
     },
     {
       "id": "a45fa6dac8",
@@ -1156,17 +1586,6 @@
       "date": "2026-08-28",
       "minutes": null,
       "summary": "Project a Black Planet, the Barbican’s exhibition of the art and culture of Pan-Africa, doesn’t try to offer a history lesson. It is neither a comprehensive account of Pan-Africanism nor of the art associated with the movement; rather, the curators claim, the Pan-Africa explored "
-    },
-    {
-      "id": "c08087dce2",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n16/lucy-wooding/made-to-eat-wax",
-      "title": "Lucy Wooding: Made to Eat Wax",
-      "author": null,
-      "source": "London Review of Books",
-      "sourceId": "lrb",
-      "date": "2026-08-28",
-      "minutes": null,
-      "summary": "Thomas Arundel is badly in need of historical rehabilitation. The man who stands accused of spiritual tyranny over the people because he required the licensing of English Bibles played a central role in first managing and then deposing England’s most complicated royal tyrant. At "
     },
     {
       "id": "d094a8d410",
@@ -1650,7 +2069,7 @@
       "sourceId": "parisreview",
       "date": "2026-08-17",
       "minutes": 3,
-      "summary": "In the Lake District, 1994. Each week, The Paris Review unlocks stories, poems, and interviews for our readers from our archive. This week, we’ve unlocked our interview with Hermione Lee, selected from the archive by Daisy Hildyard, whose story “ Two Lives ” appears in our recent"
+      "summary": "In the Lake District, 1994. Each week, The Paris Review unlocks stories, poems, and interviews from our archive for our readers. This week, we’ve unlocked our interview with Hermione Lee, selected by Daisy Hildyard, whose story “ Two Lives ” appears in our recent Summer issue. Si"
     },
     {
       "id": "448bdbf017",
@@ -1796,5 +2215,5 @@
       "summary": "I propose the Long Self-Correction [1] as an alternative name/idea/concept to AI Pause and Long Reflection. Problem with AI Pause : Pause until when, and for what purpose? Presumably to make AI (that we'll build later) safer, but the deeper problem is that humans aren't safe, and"
     }
   ],
-  "fetchedAt": "2026-09-13T15:50:09"
+  "fetchedAt": "2026-09-15T07:50:09"
 }
