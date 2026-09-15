@@ -482,6 +482,44 @@ def set_rrule(ics, rule):
     return re.sub(r"BEGIN:VEVENT.*?END:VEVENT", lambda _: body, ics, count=1, flags=re.S)
 
 
+def ical_escape(value):
+    return value.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", "\\n")
+
+
+def set_summary(ics, summary):
+    """Rename the event itself. Like set_rrule this stays inside the VEVENT, and additionally outside its VALARM
+    blocks: a reminder carries a SUMMARY of its own, and rewriting that renames the notification, not the event."""
+    def rename(block):
+        alarms = []
+
+        def stash(m):
+            alarms.append(m.group(0))
+            return f"\x00{len(alarms) - 1}\x00"
+
+        body = re.sub(r"BEGIN:VALARM.*?END:VALARM", stash, block, flags=re.S)
+        body = re.sub(r"^SUMMARY:.*$", lambda _: "SUMMARY:" + ical_escape(summary), body, count=1, flags=re.M)
+        return re.sub(r"\x00(\d+)\x00", lambda m: alarms[int(m.group(1))], body)
+
+    return re.sub(r"BEGIN:VEVENT.*?END:VEVENT", lambda m: rename(m.group(0)), ics, count=1, flags=re.S)
+
+
+def rename_rule(events_, title, new_title, dry_run=False, at=None, once=False):
+    """Give a rule another name, keeping its UID: the series, its history and its exceptions stay one event, which
+    is what deleting and re-adding would lose. As with `end`, a title is not an identifier — hence --at."""
+    matches = [e for e in events_ if (e["rrule"] or once) and title.lower() in (e["summary"] or "").lower()
+               and (not at or e["dtstart"][-6:-4] + ":" + e["dtstart"][-4:-2] == at)]
+    if len(matches) > 1:
+        raise SystemExit("под это название подходит несколько событий, уточни время через --at HH:MM:\n  "
+                         + "\n  ".join(f"{e['summary']} {e['dtstart'][-6:-4]}:{e['dtstart'][-4:-2]}  {e['rrule']}" for e in matches))
+    done = []
+    for e in matches:
+        done.append((e["summary"], new_title, e["dtstart"][-6:-4] + ":" + e["dtstart"][-4:-2]))
+        if not dry_run:
+            ics = bump_sequence(set_summary(e["ics"].replace("\r\n", "\n"), new_title))
+            put_event(e["href"], ics.replace("\n", "\r\n"), e["etag"])
+    return done
+
+
 def end_rule(events_, title, until_date, dry_run=False, at=None):
     """Close a repeating rule with UNTIL instead of deleting it: the past stays in the calendar, the future stops.
     Deleting the series would take the history with it, and history is the only record of what was actually done."""
@@ -571,6 +609,10 @@ def main():
     sub.add_parser("rules")
     p = sub.add_parser("end"); p.add_argument("title"); p.add_argument("--date"); p.add_argument("--at", help="HH:MM, если правил с таким названием несколько")
     p.add_argument("--dry-run", action="store_true")
+    p = sub.add_parser("rename"); p.add_argument("title"); p.add_argument("new_title")
+    p.add_argument("--at", help="HH:MM, если событий с таким названием несколько")
+    p.add_argument("--once", action="store_true", help="переименовать и одиночное событие, не только правило")
+    p.add_argument("--dry-run", action="store_true")
     p = sub.add_parser("remove"); p.add_argument("title"); p.add_argument("--at", help="HH:MM")
     p.add_argument("--all", action="store_true"); p.add_argument("--dry-run", action="store_true")
     p = sub.add_parser("add"); p.add_argument("title"); p.add_argument("--day", required=True, help="MO..SU")
@@ -602,6 +644,12 @@ def main():
         for c in calendars():
             for summary, was, now_ in end_rule(calendar_events(c["href"]), a.title, until, a.dry_run, a.at):
                 print(("(сухой прогон) " if a.dry_run else "") + f"{summary}: {was} → {now_}")
+    elif a.cmd == "rename":
+        for c in calendars():
+            if "/todos-" in c["href"]:
+                continue
+            for was, now_, at in rename_rule(calendar_events(c["href"]), a.title, a.new_title, a.dry_run, a.at, a.once):
+                print(("(сухой прогон) " if a.dry_run else "") + f"{at}  {was} → {now_}  [{c['name']}]")
     elif a.cmd == "remove":
         for c in calendars():
             if "/todos-" in c["href"]:
