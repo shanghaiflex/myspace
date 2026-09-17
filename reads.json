@@ -1,58 +1,97 @@
 {
-  "updatedAt": "2026-09-15T07:51:06",
+  "updatedAt": "2026-09-16T07:50:53",
   "model": "opus",
   "items": [
     {
-      "id": "d49d53bfc2",
-      "url": "https://www.astralcodexten.com/p/king-ludd",
-      "title": "King Ludd",
-      "author": "Scott Alexander",
-      "source": "Astral Codex Ten",
-      "sourceId": "acx",
-      "date": "2026-09-14",
-      "minutes": 13,
-      "summary": "I. In the gods’ great scramble for human followers, Nodens would seem to have lost decisively. We know of him only from vague inscriptions at two archaeological sites near the Welsh-English border. One might have been his temple. He seems to have been a Romano-British-Celtic god ",
-      "reason": "После «Тени над Иннсмутом» — про Ноденса, того самого кельтского бога, которого Лавкрафт утащил себе.",
-      "suggestedAt": "2026-09-15",
-      "verdict": "new",
-      "image": "reads/img/d49d53bfc2.jpg",
-      "imageUrl": "https://substackcdn.com/image/fetch/$s_!JEqL!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F017c9c94-ad3d-490e-90b4-1306c0e97122_575x339.png"
-    },
-    {
-      "id": "c08087dce2",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n16/lucy-wooding/made-to-eat-wax",
-      "title": "Lucy Wooding: Made to Eat Wax",
+      "id": "126f0a2b07",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/chal-ravens/all-kinds-of-not-much",
+      "title": "Chal Ravens: All Kinds of Not Much",
       "author": null,
       "source": "London Review of Books",
       "sourceId": "lrb",
       "date": "2026-08-28",
       "minutes": null,
-      "summary": "Thomas Arundel is badly in need of historical rehabilitation. The man who stands accused of spiritual tyranny over the people because he required the licensing of English Bibles played a central role in first managing and then deposing England’s most complicated royal tyrant. At ",
-      "reason": "К «Плантагенетам» Дэна Джонса: архиепископ, который сперва держал Ричарда II, а потом его низложил.",
-      "suggestedAt": "2026-09-15",
+      "summary": "Like the hippies and punks before them, slackers were characterised as figures of generational discontent. But theirs was a low-energy refusal. They weren’t writing protest songs, or getting their kicks by offending polite society.",
+      "reason": "После «Призраков моей жизни» Фишера — слэкеры как отказ без протеста, тихая версия той же тоски",
+      "suggestedAt": "2026-09-16",
       "verdict": "new",
-      "image": "reads/img/c08087dce2.jpg",
-      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/4/5/8/8/31108854-1-eng-GB/997e7886f2e4-Thomas-Arundel.jpg"
+      "image": "reads/img/126f0a2b07.jpg",
+      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/6/4/8/8/31108846-1-eng-GB/f570c0528ad0-Cocteau-Twins-perform-live.jpg"
+    },
+    {
+      "id": "5011053347",
+      "url": "https://www.theparisreview.org/blog/2026/09/11/richard-wagners-opera-festival-in-the-age-of-ai/",
+      "title": "Kiss The Ring: Richard Wagner’s Opera Festival in the Age of AI",
+      "author": "Krithika Varagur",
+      "source": "The Paris Review",
+      "sourceId": "parisreview",
+      "date": "2026-09-11",
+      "minutes": 13,
+      "summary": "Richard Wagner Theater, Bayreuth, 1908, via Wikimedia Commons . Public domain. Nothing at Bayreuth, the hundred-and-fifty-year-old opera festival created by and dedicated to the works of Richard Wagner, adheres to the pleasure principle. It can take years to get tickets to the Fe",
+      "reason": "Оперы у тебя нет вовсе; после лекции Хабермаса о мифе и ритуале — Байройт как культ",
+      "suggestedAt": "2026-09-16",
+      "verdict": "new",
+      "image": "reads/img/5011053347.jpg",
+      "imageUrl": "https://www.theparisreview.org/blog/wp-content/uploads/2026/09/ak-bayreuth-richard-wagner-theater-1908.jpg"
+    }
+  ],
+  "saved": [
+    {
+      "id": "8daec57205",
+      "url": "https://aeon.co/essays/what-palmistry-and-medicine-have-always-had-in-common",
+      "title": "Our eloquent hands",
+      "author": "Alison Bashford",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-08",
+      "minutes": null,
+      "summary": "Physicians reject palmistry as nonsense. But reading the creases of our palms for hidden meaning is what doctors have always done - by Alison Bashford Read on Aeon",
+      "reason": "После Йейтс о герметической традиции — как врач читает ладонь и почему хиромантия не ушла",
+      "suggestedAt": "2026-09-16",
+      "verdict": "saved",
+      "image": "reads/img/8daec57205.jpg",
+      "imageUrl": "https://images.aeonmedia.co/images/4efb216a-7579-4e44-b972-2f527d9d4854/test-fig_-1.jpg?width=1200&quality=75&format=jpeg",
+      "decidedAt": "2026-09-16",
+      "savedAt": "2026-09-16"
+    }
+  ],
+  "history": [
+    {
+      "id": "8daec57205",
+      "title": "Our eloquent hands",
+      "url": "https://aeon.co/essays/what-palmistry-and-medicine-have-always-had-in-common",
+      "source": "Aeon",
+      "reason": "После Йейтс о герметической традиции — как врач читает ладонь и почему хиромантия не ушла",
+      "verdict": "saved",
+      "at": "2026-09-16"
+    },
+    {
+      "id": "d49d53bfc2",
+      "title": "King Ludd",
+      "url": "https://www.astralcodexten.com/p/king-ludd",
+      "source": "Astral Codex Ten",
+      "reason": "После «Тени над Иннсмутом» — про Ноденса, того самого кельтского бога, которого Лавкрафт утащил себе.",
+      "verdict": "new",
+      "at": "2026-09-15"
+    },
+    {
+      "id": "c08087dce2",
+      "title": "Lucy Wooding: Made to Eat Wax",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/lucy-wooding/made-to-eat-wax",
+      "source": "London Review of Books",
+      "reason": "К «Плантагенетам» Дэна Джонса: архиепископ, который сперва держал Ричарда II, а потом его низложил.",
+      "verdict": "new",
+      "at": "2026-09-15"
     },
     {
       "id": "76d42a4701",
-      "url": "https://www.quantamagazine.org/what-is-maths-mysterious-langlands-program-really-about-20260909/",
       "title": "What Is Math’s Mysterious Langlands Program Really About?",
-      "author": "Natalie Wolchover",
+      "url": "https://www.quantamagazine.org/what-is-maths-mysterious-langlands-program-really-about-20260909/",
       "source": "Quanta",
-      "sourceId": "quanta",
-      "date": "2026-09-09",
-      "minutes": null,
-      "summary": "The mathematical universe is boundless and heterogeneous, encompassing, over here, truths about numbers and equations; there, the logic of shapes and spaces; and over there, the study of change and probability. Its domains have grown organically over centuries, each centered arou",
       "reason": "Ты слушал «Шиз поясняет. Дзета-функция Римана» — здесь карта страны, где эта дзета живёт.",
-      "suggestedAt": "2026-09-15",
       "verdict": "new",
-      "image": "reads/img/76d42a4701.jpg",
-      "imageUrl": "https://www.quantamagazine.org/wp-content/uploads/2026/09/Qualia-Langlands-cr.Samuel-Velasco-Social.jpg"
-    }
-  ],
-  "saved": [],
-  "history": [
+      "at": "2026-09-15"
+    },
     {
       "id": "67ff19dcf0",
       "title": "Colin Burrow: Good Weird or Bad Weird",
@@ -91,6 +130,116 @@
     }
   ],
   "cache": [
+    {
+      "id": "d6031cb4af",
+      "url": "https://aeon.co/essays/italianness-is-a-state-of-travelling-in-both-directions",
+      "title": "Chasing la dolce vita",
+      "author": "Ben Faccini",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-15",
+      "minutes": null,
+      "summary": "Homecomings, fantasies, food and ghosts – how the myth of eternal return keeps the Italian diaspora in a state of longing - by Ben Faccini Read on Aeon"
+    },
+    {
+      "id": "460f58c1fc",
+      "url": "https://psyche.co/turning-points/how-a-to-do-task-stopped-the-ruminative-loop-of-my-grief",
+      "title": "Say yes to regret",
+      "author": "Sandra Lamb",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-15",
+      "minutes": null,
+      "summary": "After my husband died, I fell into a dark ruminative spiral. The way back would begin at 2pm tomorrow - by Sandra Lamb Read on Psyche"
+    },
+    {
+      "id": "fdf28e1b12",
+      "url": "https://www.noemamag.com/a-new-form-of-life",
+      "title": "A New Form Of Life",
+      "author": "William Haseltine",
+      "source": "Noema",
+      "sourceId": "noema",
+      "date": "2026-09-15",
+      "minutes": 19,
+      "summary": "We are in the process of creating a second form of life. The emergence of this new form of life is an inevitable result of the fundamental laws of the universe — forces similar to those that brought about humans’ own existence. This new form of life is gradually taking shape in t"
+    },
+    {
+      "id": "548b689d3e",
+      "url": "/2026/09/weekly-review-september-11-attacks-mamdani-exclusion-trump-ceremony-skip-war-on-terror-iran-russia-escalation-charlie-kirk-assassination-tiktok-dance-build-the-wall-tetris-meat-pic-history-horse-traff/",
+      "title": "Weekly Review",
+      "author": "Harper’s Magazine",
+      "source": "Harper's",
+      "sourceId": "harpers",
+      "date": "2026-09-15",
+      "minutes": 4,
+      "summary": "Memorials across the country marked the twenty-fifth anniversary of the September 11 attacks and the CIA released seventy-one intelligence reports showing that U.S. officials had been warned as early as 1998 that the terrorist group planned to “fly an explosive-packed airplane in"
+    },
+    {
+      "id": "60bbfc1234",
+      "url": "https://nautil.us/did-wildfires-spark-the-invention-of-pottery-1285052/",
+      "title": "Did Wildfires Spark the Invention of Pottery?",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-15",
+      "minutes": null,
+      "summary": "Introducing the “natural kiln hypothesis” The post Did Wildfires Spark the Invention of Pottery? appeared first on Nautilus ."
+    },
+    {
+      "id": "8739a07a0d",
+      "url": "https://nautil.us/why-elon-musks-self-growing-moon-cities-are-tragically-flawed-1285049/",
+      "title": "Why Elon Musk’s “Self-Growing” Moon Cities Are Tragically Flawed",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-15",
+      "minutes": null,
+      "summary": "There’s simply not enough water The post Why Elon Musk’s “Self-Growing” Moon Cities Are Tragically Flawed appeared first on Nautilus ."
+    },
+    {
+      "id": "c18972ef58",
+      "url": "https://nautil.us/mercury-has-gotten-smaller-than-we-thought-1285044/",
+      "title": "Mercury Has Gotten Smaller Than We Thought",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-15",
+      "minutes": null,
+      "summary": "The first planet from the sun has been hiding its wrinkles The post Mercury Has Gotten Smaller Than We Thought appeared first on Nautilus ."
+    },
+    {
+      "id": "266e87e00d",
+      "url": "https://nautil.us/a-process-made-for-mars-is-now-uncovering-ancient-art-on-earth-1285039/",
+      "title": "A Process Made for Mars is Now Uncovering Ancient Art on Earth",
+      "author": "David Nield",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-15",
+      "minutes": null,
+      "summary": "And you can even run it on your own phone The post A Process Made for Mars is Now Uncovering Ancient Art on Earth appeared first on Nautilus ."
+    },
+    {
+      "id": "8cd00ee015",
+      "url": "https://nautil.us/heres-how-fast-an-adult-tyrannosaurus-rex-walked-1285033/",
+      "title": "Here’s How Fast An Adult Tyrannosaurus Rex Walked",
+      "author": "David Nield",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-15",
+      "minutes": null,
+      "summary": "The first fossilized adult T. rex trackway tells us a lot about how these predators got around The post Here’s How Fast An Adult Tyrannosaurus Rex Walked appeared first on Nautilus ."
+    },
+    {
+      "id": "aca0ba634d",
+      "url": "https://nautil.us/how-your-brain-see-saws-between-risk-and-reward-1285030/",
+      "title": "How Your Brain See-Saws between Risk and Reward",
+      "author": "Kristen French",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-15",
+      "minutes": null,
+      "summary": "Tough decisions get calculated from a spot right above the eyes involved in impulse control The post How Your Brain See-Saws between Risk and Reward appeared first on Nautilus ."
+    },
     {
       "id": "fb4050ac94",
       "url": "https://aeon.co/videos/are-we-ever-really-done-seeing-a-movie-on-platoon-and-memory",
@@ -309,7 +458,7 @@
       "sourceId": "nautilus",
       "date": "2026-09-14",
       "minutes": null,
-      "summary": "Even though it might be a dying past time The post All the Ways Reading for Pleasure is Good for Your Mental Health appeared first on Nautilus ."
+      "summary": "Even though it might be a dying pastime The post All the Ways Reading for Pleasure is Good for Your Mental Health appeared first on Nautilus ."
     },
     {
       "id": "7fa441ef2a",
@@ -530,17 +679,6 @@
       "date": "2026-09-11",
       "minutes": 8,
       "summary": "OSLO, Norway — Generational discontent carries within it the seeds of the future. While its eruptions herald change, the changes it brings can take many forms. The cultural consequences of the youth revolt that shook the West in the 1960s only became apparent decades later as the"
-    },
-    {
-      "id": "5011053347",
-      "url": "https://www.theparisreview.org/blog/2026/09/11/richard-wagners-opera-festival-in-the-age-of-ai/",
-      "title": "Kiss The Ring: Richard Wagner’s Opera Festival in the Age of AI",
-      "author": "Krithika Varagur",
-      "source": "The Paris Review",
-      "sourceId": "parisreview",
-      "date": "2026-09-11",
-      "minutes": 13,
-      "summary": "Richard Wagner Theater, Bayreuth, 1908, via Wikimedia Commons . Public domain. Nothing at Bayreuth, the hundred-and-fifty-year-old opera festival created by and dedicated to the works of Richard Wagner, adheres to the pleasure principle. It can take years to get tickets to the Fe"
     },
     {
       "id": "f5f2b21c2c",
@@ -794,17 +932,6 @@
       "date": "2026-09-08",
       "minutes": 22,
       "summary": "The Story So Far Mechanistic interpretability is the science of “reading an AI’s mind”. Large language models are “grown, not built”. Researchers run training data through a neural network. Eventually this creates a working AI; nobody really knows how. But a neural network is jus"
-    },
-    {
-      "id": "8daec57205",
-      "url": "https://aeon.co/essays/what-palmistry-and-medicine-have-always-had-in-common",
-      "title": "Our eloquent hands",
-      "author": "Alison Bashford",
-      "source": "Aeon",
-      "sourceId": "aeon",
-      "date": "2026-09-08",
-      "minutes": null,
-      "summary": "Physicians reject palmistry as nonsense. But reading the creases of our palms for hidden meaning is what doctors have always done - by Alison Bashford Read on Aeon"
     },
     {
       "id": "23b3524982",
@@ -1511,17 +1638,6 @@
       "summary": "If every accusation​ is a confession, then the US State Department report released on 20 July, which describes Cuba as ‘the capital of 21st-century communism’, must rank as one of..."
     },
     {
-      "id": "126f0a2b07",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n16/chal-ravens/all-kinds-of-not-much",
-      "title": "Chal Ravens: All Kinds of Not Much",
-      "author": null,
-      "source": "London Review of Books",
-      "sourceId": "lrb",
-      "date": "2026-08-28",
-      "minutes": null,
-      "summary": "Like the hippies and punks before them, slackers were characterised as figures of generational discontent. But theirs was a low-energy refusal. They weren’t writing protest songs, or getting their kicks by offending polite society."
-    },
-    {
       "id": "73632778ff",
       "url": "https://www.lrb.co.uk/the-paper/v48/n16/liam-shaw/i-just-wanted-to-touch-it",
       "title": "Liam Shaw: I just wanted to touch it",
@@ -1585,7 +1701,7 @@
       "sourceId": "lrb",
       "date": "2026-08-28",
       "minutes": null,
-      "summary": "Project a Black Planet, the Barbican’s exhibition of the art and culture of Pan-Africa, doesn’t try to offer a history lesson. It is neither a comprehensive account of Pan-Africanism nor of the art associated with the movement; rather, the curators claim, the Pan-Africa explored "
+      "summary": "Project a Black Planet, the Barbican’s exhibition of the art and culture of Pan-Africa, is neither a comprehensive account of Pan-Africanism nor of the art associated with the movement; rather, the curators claim, the Pan-Africa explored here is an ‘imagined geography’. Viewers a"
     },
     {
       "id": "d094a8d410",
@@ -1596,7 +1712,7 @@
       "sourceId": "lrb",
       "date": "2026-08-28",
       "minutes": null,
-      "summary": "What is Pedro Almodóvar telling us? All these years of giving actresses the roles of a lifetime, of seeming to adore women and to understand them in all their complexity – have those years in fact been marred by vanity and theft?"
+      "summary": "​​‘I think it is the riskiest film I’ve ever made,’ Pedro Almodóvar said in a recent interview. ‘I took a whole bunch of risks, even knowing that some might not land.’ If what he means by this is that he risked making a diffuse and somewhat mannered movie, then I would say he has"
     },
     {
       "id": "bdbeee2fe5",
@@ -1652,6 +1768,17 @@
       "date": "2026-08-28",
       "minutes": null,
       "summary": "Table of contents from London Review of Books Vol. 48 No. 16 (28 August 2026)"
+    },
+    {
+      "id": "f13e169e69",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/meredith-hale/at-the-british-museum",
+      "title": "Meredith Hale: At the British Museum",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-08-28",
+      "minutes": null,
+      "summary": "The works in this exhibition are visually, iconographically and materially diverse but, when considered together, they present a comprehensive overview of drawing in the Low Countries during a period of great political and societal change. Some, including the only known drawing b"
     },
     {
       "id": "de67a0e71f",
@@ -2215,5 +2342,5 @@
       "summary": "I propose the Long Self-Correction [1] as an alternative name/idea/concept to AI Pause and Long Reflection. Problem with AI Pause : Pause until when, and for what purpose? Presumably to make AI (that we'll build later) safer, but the deeper problem is that humans aren't safe, and"
     }
   ],
-  "fetchedAt": "2026-09-15T07:50:09"
+  "fetchedAt": "2026-09-16T07:50:05"
 }

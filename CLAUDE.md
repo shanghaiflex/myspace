@@ -103,12 +103,29 @@ every switch. If the mini's LAN IP changes, fix it in the app's Settings and in 
 `NSAllowsArbitraryLoadsInWebContent` (2026-09-14, он влияет только на вебвью). Ошибка загрузки страницы теперь
 уходит в журнал приложения («Сайт не открылся» + адрес и причина) — пустая вкладка иначе не оставляет следов.
 
-**The site inside the app.** The first tab «Сайт» is a WKWebView on https://bodywithoutorgans.cc, logged in via
-`GET /app/login?t=<bearer>&next=/` (token → the usual session cookie). Pages know they run in the app
+**The site inside the app.** Каждый таб — WKWebView на https://bodywithoutorgans.cc, залогиненный через
+`GET /app/login?t=<bearer>&next=<путь>` (токен → обычная сессионная cookie). Pages know they run in the app
 (`window.BoW`, user agent contains `BoW/2`); `lectures.html` hands lectures that are downloaded on the phone
 (`window.BoW.downloaded`) to the native player through `webkit.messageHandlers.bow` (`{type:'play', id, position}`).
 Everything else is the plain site. New phone-specific behaviour goes the same way: a small hook in the page, the
 heavy part native.
+
+**Табы внизу — весь сайт** (17.09.2026, порядок задан пользователем). iOS показывает пять табов и не больше:
+шестой он сам уносит в системное «More», которое мы не упорядочиваем и не оформляем, — поэтому пять и есть:
+«Главная», «Лекции» (нативный плеер), «Миксы», «Дом» и «Ещё». В «Ещё» (`MoreView.swift`) списком лежит
+остальной сайт — «Французский», «Фильмы», «Книги», «Почитать», «Well-being» — и два своих экрана приложения:
+«Синк и журнал» (прежний таб «Здоровье»: что ушло на mini и что делала iOS в фоне) и «Настройки».
+**«Еда» (`pantry.html`) в приложении не показывается вовсе** — ни таба, ни строки в «Ещё» (просьба
+пользователя 17.09.2026). Страница живёт своим списком: `SiteController.Page` (id = `window.BoW.tab`, путь,
+название, SF Symbol), `SiteController.controller(for:)` держит по вебвью на страницу, а `SitePage` создаёт его
+**на первом заходе** — иначе TabView поднял бы весь сайт сразу на старте. Позиция в миксах и лекциях поэтому
+переживает переключение табов: вебвью не умирает.
+
+**Меню сайта внутри приложения скрыто** (`app.js`, подключён во всех страницах после `theme.css`): когда у
+каждой страницы свой таб, `.nav` ведёт туда же, но мимо табов — и показывает «Еду». Скрывает стилем сразу,
+до отрисовки (иначе меню мигает), а полосу, в которой кроме меню ничего не было (главная, Well-being,
+Почитать, Дом), убирает целиком. Где в полосе есть своё (фильтры фильмов и книг, поиск лекций, плюс в миксах,
+уровень во французском) — полоса остаётся без меню. Раньше это делал частный случай в `home.html`; его больше нет.
 
 Hourly note: launchd agent `cc.bodywithoutorgans.health` on the mini runs `scripts/health_review.sh` every hour.
 It skips when no new samples arrived, otherwise builds `health.py digest` (7-day table, 7/28-day averages, last notes),

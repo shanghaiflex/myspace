@@ -7,6 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💡</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap">
+<script src="app.js"></script>
 <style>
   :root {
     color-scheme: light dark;
@@ -346,8 +347,6 @@
 
 <script>
 const $ = id => document.getElementById(id);
-// Inside the BoW app this page is a tab of its own: the site's menu would only lead out of it.
-if (window.BoW && window.BoW.tab === 'home') { document.querySelector('.bar').remove(); document.querySelector('.wrap').style.paddingTop = '20px'; }
 let S = { devices: {} };                     // last known state
 let localUntil = 0;                          // while dragging a slider, server polls must not fight the hand
 let timer = null;

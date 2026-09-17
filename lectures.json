@@ -1431,7 +1431,7 @@
     {
       "id": "G5CB5MehT_k",
       "status": "listening",
-      "position": 2569,
+      "position": 5637,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -1445,7 +1445,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=G5CB5MehT_k"
+      "url": "https://www.youtube.com/watch?v=G5CB5MehT_k",
+      "touchedAt": 1789594856
     },
     {
       "id": "h9WBC9Io25U",
@@ -1968,9 +1969,9 @@
     },
     {
       "id": "DmYS9ZmZClA",
-      "status": "listening",
-      "position": 6844,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 10493,
+      "listenedAt": "2026-09-16",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Повседневная жизнь римского легионера. Семья, религия, развлечения.",
@@ -1984,7 +1985,7 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=DmYS9ZmZClA",
-      "touchedAt": 1789462540
+      "touchedAt": 1789556896
     },
     {
       "id": "VEVXBe_1GXE",
