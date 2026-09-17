@@ -1,38 +1,54 @@
 {
-  "updatedAt": "2026-09-16T07:50:53",
+  "updatedAt": "2026-09-17T07:51:06",
   "model": "opus",
   "items": [
     {
-      "id": "126f0a2b07",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n16/chal-ravens/all-kinds-of-not-much",
-      "title": "Chal Ravens: All Kinds of Not Much",
+      "id": "692cccef92",
+      "url": "https://www.noemamag.com/whose-ai-will-rule-the-world",
+      "title": "Whose AI Will Rule The World?",
+      "author": "Jacob Dreyer",
+      "source": "Noema",
+      "sourceId": "noema",
+      "date": "2026-09-10",
+      "minutes": 17,
+      "summary": "“ What appears to humanity as the history of capitalism is an invasion from the future by an artificial intelligent space that must assemble itself entirely from its enemy’s resources. “ —Nick Land SHANGHAI — Today, China and the United States are co-creating a powerful new techn",
+      "reason": "Открывается цитатой Ника Ланда — после дебатов Ланда с Дугиным тот же тезис, но про Шанхай.",
+      "suggestedAt": "2026-09-17",
+      "verdict": "new",
+      "image": "reads/img/692cccef92.jpg",
+      "imageUrl": "https://noemamag.imgix.net/2026/09/illustration-Bright-Woo-scaled.jpg?fit=crop&fm=pjpg&h=628&ixlib=php-3.3.1&w=1200&wpsize=noema-social-facebook&s=b7ed92a7710aa2d6f020e64240c52980"
+    },
+    {
+      "id": "0998d7c901",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/nick-richardson/cradle-scissors",
+      "title": "Nick Richardson: Cradle Scissors",
       "author": null,
       "source": "London Review of Books",
       "sourceId": "lrb",
       "date": "2026-08-28",
       "minutes": null,
-      "summary": "Like the hippies and punks before them, slackers were characterised as figures of generational discontent. But theirs was a low-energy refusal. They weren’t writing protest songs, or getting their kicks by offending polite society.",
-      "reason": "После «Призраков моей жизни» Фишера — слэкеры как отказ без протеста, тихая версия той же тоски",
-      "suggestedAt": "2026-09-16",
+      "summary": "Fairies are notorious shapeshifters. Their mutability has allowed them to survive, dodging censure by reinventing themselves as nature spirits, angels, birds and insects, monsters, Santa’s helpers, icons of body positivity. Spirits less skilled in glamour have been consigned to o",
+      "reason": "После Проппа — как фейри меняли облик, чтобы выжить: корни сказки, дожившие до нас.",
+      "suggestedAt": "2026-09-17",
       "verdict": "new",
-      "image": "reads/img/126f0a2b07.jpg",
-      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/6/4/8/8/31108846-1-eng-GB/f570c0528ad0-Cocteau-Twins-perform-live.jpg"
+      "image": "reads/img/0998d7c901.jpg",
+      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/8/8/7/8/31108788-1-eng-GB/960ee0f724e4-Oberion-book-of-magic-fairy.jpg"
     },
     {
-      "id": "5011053347",
-      "url": "https://www.theparisreview.org/blog/2026/09/11/richard-wagners-opera-festival-in-the-age-of-ai/",
-      "title": "Kiss The Ring: Richard Wagner’s Opera Festival in the Age of AI",
-      "author": "Krithika Varagur",
-      "source": "The Paris Review",
-      "sourceId": "parisreview",
+      "id": "7a1fb72445",
+      "url": "https://aeon.co/essays/four-islamic-polymaths-prove-breadth-beats-specialisation",
+      "title": "Penchants of the polymaths",
+      "author": "Mariam Sabri",
+      "source": "Aeon",
+      "sourceId": "aeon",
       "date": "2026-09-11",
-      "minutes": 13,
-      "summary": "Richard Wagner Theater, Bayreuth, 1908, via Wikimedia Commons . Public domain. Nothing at Bayreuth, the hundred-and-fifty-year-old opera festival created by and dedicated to the works of Richard Wagner, adheres to the pleasure principle. It can take years to get tickets to the Fe",
-      "reason": "Оперы у тебя нет вовсе; после лекции Хабермаса о мифе и ритуале — Байройт как культ",
-      "suggestedAt": "2026-09-16",
+      "minutes": null,
+      "summary": "The fathers of Islamic science hold lessons for students: breadth over specialisation, and never let constraints get in the way - by Mariam Sabri Read on Aeon",
+      "reason": "Исламской науки у тебя нет вовсе — а это прямая рифма с герметической традицией Йейтс.",
+      "suggestedAt": "2026-09-17",
       "verdict": "new",
-      "image": "reads/img/5011053347.jpg",
-      "imageUrl": "https://www.theparisreview.org/blog/wp-content/uploads/2026/09/ak-bayreuth-richard-wagner-theater-1908.jpg"
+      "image": "reads/img/7a1fb72445.jpg",
+      "imageUrl": "https://images.aeonmedia.co/images/1024a5cb-d702-4ff5-b6b1-6c3e993da1eb/essay-chronology-of-ancient-nations-biruni.jpg?width=1200&quality=75&format=jpeg"
     }
   ],
   "saved": [
@@ -56,6 +72,24 @@
     }
   ],
   "history": [
+    {
+      "id": "126f0a2b07",
+      "title": "Chal Ravens: All Kinds of Not Much",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/chal-ravens/all-kinds-of-not-much",
+      "source": "London Review of Books",
+      "reason": "После «Призраков моей жизни» Фишера — слэкеры как отказ без протеста, тихая версия той же тоски",
+      "verdict": "new",
+      "at": "2026-09-16"
+    },
+    {
+      "id": "5011053347",
+      "title": "Kiss The Ring: Richard Wagner’s Opera Festival in the Age of AI",
+      "url": "https://www.theparisreview.org/blog/2026/09/11/richard-wagners-opera-festival-in-the-age-of-ai/",
+      "source": "The Paris Review",
+      "reason": "Оперы у тебя нет вовсе; после лекции Хабермаса о мифе и ритуале — Байройт как культ",
+      "verdict": "new",
+      "at": "2026-09-16"
+    },
     {
       "id": "8daec57205",
       "title": "Our eloquent hands",
@@ -130,6 +164,160 @@
     }
   ],
   "cache": [
+    {
+      "id": "55ce141ffe",
+      "url": "https://www.lesswrong.com/posts/cJX2ssssGoYqnijwi/the-talker-does-not-control-the-doer-in-current-ais",
+      "title": "The Talker Does Not Control The Doer (in Current AIs)",
+      "author": "Eliezer Yudkowsky",
+      "source": "LessWrong",
+      "sourceId": "lesswrong",
+      "date": "2026-09-17",
+      "minutes": 19,
+      "summary": "The Huggingface Incident appears to me to match up with an understanding I'd already formed from personal observation of Fable 5 and Sol 5.6, the August 2026 generation of frontier publicly purchasable AI models. [1] This already-formed understanding was: the part of the AI that "
+    },
+    {
+      "id": "c5fba4ef4c",
+      "url": "https://www.astralcodexten.com/p/ai-superforecasting-should-transform",
+      "title": "AI Superforecasting Should Transform The FDA",
+      "author": "Scott Alexander",
+      "source": "Astral Codex Ten",
+      "sourceId": "acx",
+      "date": "2026-09-16",
+      "minutes": 6,
+      "summary": "This is a guest post by ACX grantee Josh Morrison of 1DaySooner . AI superforecasters are coming . Within a few years, the average person will have the equivalent of a Nate Silver in their pocket, ready to predict whatever question they can think to ask it. Scott wrote : Savvy in"
+    },
+    {
+      "id": "d110430e3c",
+      "url": "https://aeon.co/videos/the-millennia-long-history-of-our-obsession-with-fake-marble",
+      "title": "The meaning of fake marble",
+      "author": "Aeon Video",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "From ancient Roman frescoes to modern kitchen benchtops, our desire to recreate marble is about more than cutting costs - by Aeon Video Watch on Aeon"
+    },
+    {
+      "id": "f4cb0e4968",
+      "url": "https://psyche.co/videos/viagra-has-its-upsides-sure-but-has-it-changed-sex-for-the-better",
+      "title": "A brief history of Viagra",
+      "author": "Psyche Video",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "Discovered by accident, it became the fastest-selling drug of the century. Did it revolutionise sex or reinforce old ideas? - Video by BBC Ideas, The Open University Watch on Psyche"
+    },
+    {
+      "id": "d42911aaa2",
+      "url": "https://psyche.co/ideas/terminal-lucidity-when-dying-dementia-patients-regain-awareness",
+      "title": "Terminal lucidity: when dying dementia patients regain awareness",
+      "author": "Ariel Zeleznikow-Johnston",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "The reports span centuries and cultures. If they’re real, memory and identity might be far more recoverable than we thought - by Ariel Zeleznikow-Johnston Read on Psyche"
+    },
+    {
+      "id": "406cfa2643",
+      "url": "https://www.theparisreview.org/blog/2026/09/16/on-the-chattanooga-choo-choo/",
+      "title": "On the “Chattanooga Choo Choo”",
+      "author": "Stephen King",
+      "source": "The Paris Review",
+      "sourceId": "parisreview",
+      "date": "2026-09-16",
+      "minutes": 5,
+      "summary": "Screenshot from Sun Valley Serenade (1941), via Wikimedia Commons . Public domain. I was a bop kid from the start. When Eric Carmen, the talented lead singer of the Raspberries, wrote “I’m a rocker, I’m a roller / I’ve been a-boogieing since I ditched the stroller,” he might have"
+    },
+    {
+      "id": "78a43d91b1",
+      "url": "https://www.quantamagazine.org/ctenophores-arent-just-beautiful-theyre-biological-wonders-20260916/",
+      "title": "Ctenophores Aren’t Just Beautiful. They’re Biological Wonders.",
+      "author": "Marlowe Starling",
+      "source": "Quanta",
+      "sourceId": "quanta",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "Around 700 million years ago, a group of organisms resembling little more than glowing, gelatinous blobs split off from the rest of the animals, forming possibly the earliest branching animal lineage. Nearly 200 species of ctenophores, commonly known as comb jellies (but unrelate"
+    },
+    {
+      "id": "100289bef9",
+      "url": "https://nautil.us/chimps-hand-down-tools-across-generations-1285081/",
+      "title": "Chimps Hand Down Tools Across Generations",
+      "author": "Devin Reese",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "Social learning boosts feeding success of young’uns The post Chimps Hand Down Tools Across Generations appeared first on Nautilus ."
+    },
+    {
+      "id": "1d1a1faff6",
+      "url": "https://nautil.us/cold-weather-could-predict-an-increase-in-heart-attacks-three-days-in-advance-1285074/",
+      "title": "Cold Weather Could Predict an Increase in Heart Attacks Three Days in Advance",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "And the holidays are especially bad The post Cold Weather Could Predict an Increase in Heart Attacks Three Days in Advance appeared first on Nautilus ."
+    },
+    {
+      "id": "e6b171c556",
+      "url": "https://nautil.us/what-grok-and-claude-have-to-say-about-the-ai-apocalypse-1285077/",
+      "title": "What Grok and Claude Have to Say about the AI Apocalypse",
+      "author": "Kristen French",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "A maniacal villain and a polite librarian on the risk that AI could end humanity The post What Grok and Claude Have to Say about the AI Apocalypse appeared first on Nautilus ."
+    },
+    {
+      "id": "51186e59a6",
+      "url": "https://nautil.us/we-finally-know-tyrannosaurus-rexs-body-temperature-1285067/",
+      "title": "We Finally Know Tyrannosaurus Rex’s Body Temperature",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "Check it and see The post We Finally Know Tyrannosaurus Rex’s Body Temperature appeared first on Nautilus ."
+    },
+    {
+      "id": "87384f4232",
+      "url": "https://nautil.us/the-ancient-mammal-that-changes-our-understanding-of-dinosaur-origins-1285071/",
+      "title": "The Ancient Mammal That Changes Our Understanding of Dinosaur Origins",
+      "author": "Devin Reese",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "Tanzania’s Nyasasaurus may not have been the first dinosaur on Earth after all The post The Ancient Mammal That Changes Our Understanding of Dinosaur Origins appeared first on Nautilus ."
+    },
+    {
+      "id": "55bde9b6d2",
+      "url": "https://nautil.us/the-crescent-nebula-a-gas-bubble-surrounding-a-violently-dying-star-1285062/",
+      "title": "The Crescent Nebula: A Gas Bubble Surrounding a Violently Dying Star",
+      "author": "David Nield",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "A light show that will get even more dramatic in time The post The Crescent Nebula: A Gas Bubble Surrounding a Violently Dying Star appeared first on Nautilus ."
+    },
+    {
+      "id": "ce2897f0f4",
+      "url": "https://nautil.us/the-rhythm-of-your-breath-leaves-a-fingerprint-on-your-thoughts-1285059/",
+      "title": "The Rhythm of Your Breath Leaves a Fingerprint on Your Thoughts",
+      "author": "Kristen French",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-16",
+      "minutes": null,
+      "summary": "Subtle variations in the breath trace electrical signaling in the brain The post The Rhythm of Your Breath Leaves a Fingerprint on Your Thoughts appeared first on Nautilus ."
+    },
     {
       "id": "d6031cb4af",
       "url": "https://aeon.co/essays/italianness-is-a-state-of-travelling-in-both-directions",
@@ -648,17 +836,6 @@
       "summary": "I’ve tried several times to summarize the core question my research is trying to tackle (and, indeed, I often think of research progress as a process of asking increasingly good core questions). [1] This post gives the deepest version of that question I’ve found thus far: how sho"
     },
     {
-      "id": "7a1fb72445",
-      "url": "https://aeon.co/essays/four-islamic-polymaths-prove-breadth-beats-specialisation",
-      "title": "Penchants of the polymaths",
-      "author": "Mariam Sabri",
-      "source": "Aeon",
-      "sourceId": "aeon",
-      "date": "2026-09-11",
-      "minutes": null,
-      "summary": "The fathers of Islamic science hold lessons for students: breadth over specialisation, and never let constraints get in the way - by Mariam Sabri Read on Aeon"
-    },
-    {
       "id": "333a26f7da",
       "url": "https://psyche.co/ideas/why-womens-laughter-has-long-been-treated-as-a-threat",
       "title": "Why women’s laughter has long been treated as a threat",
@@ -791,6 +968,237 @@
       "summary": "Also: the neo-soul of Erykah Badu, a festival of Indian classical dance, John Wilson’s ode to concrete, and more."
     },
     {
+      "id": "3148bebea2",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/richard-lloyd-parry/keeping-up-with-the-kims",
+      "title": "Richard Lloyd Parry: Keeping up with the Kims",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "For the Kims, nuclear weapons have never been an end in themselves; they are an insurance policy against attack by their powerful and proximate enemies. Until about seven years ago, North Korea repeatedly showed its willingness to trade its nuclear arsenal for convincing US secur"
+    },
+    {
+      "id": "77a40e435c",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/thomas-meaney/ranks-of-humanity",
+      "title": "Thomas Meaney: Ranks of Humanity",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "The West can play at being universal, seeing itself as the only ‘civilisation’ and basing itself on metrics of modernisation or democratisation or simply wealth, but if the core appears threatened it snaps back to its original, exclusive formation, as the superior civilisation am"
+    },
+    {
+      "id": "8ea1430477",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/matt-foot/short-cuts",
+      "title": "Matt Foot: Short Cuts",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "The judges might argue that the Court of Appeal is a court of review, whose job is simply to assess whether a conviction is unsafe, and that they are not required to assess wider responsibility. But the court is not consistent in this approach. Time and again it makes a judgment "
+    },
+    {
+      "id": "9d9ddab0f1",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/susan-pedersen/keep-off-the-grass",
+      "title": "Susan Pedersen: Keep off the grass",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Academic life is full of churn. The world changes; younger scholars are seized by new questions and, as they hare down new paths, challenge their elders’ work or leave them behind. Those elders might read that as the decline of ‘standards’ but it really isn’t; it’s just the decli"
+    },
+    {
+      "id": "1377fdf233",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/rosalind-thomas/after-chaironeia",
+      "title": "Rosalind Thomas: After Chaironeia",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Radical change was a function of rivalry between city-states. Athens and Thebes, close neighbours, developed very different polities with different cultures, dialects and alphabets, and Athenian drama loved to use gruesome Theban myths to offer an anti-type to Athens. Religious f"
+    },
+    {
+      "id": "1a82e13d18",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/a.e.-stallings/four-ways-of-looking-at-a-hoopoe",
+      "title": "A.E. Stallings: Four Ways of Looking at a Hoopoe",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Hoopoe is the thingWith feathers, and a crest,Or else a thing with feathers,Striped wings, and tawny breast.*(I never saw a hoopoe –Unless I was alone –Except some interloperTook out..."
+    },
+    {
+      "id": "704817294d",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/ferdinand-mount/modest-and-misunderstood",
+      "title": "Ferdinand Mount: Modest and Misunderstood",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "In the great immigration panics of today, sympathy is focused on the home team. We are the ones who are being hurt. It is our national and/or racial identity that is being fractured. What underlies the sense of affront is the assumption that the ‘people of England’ are, as it wer"
+    },
+    {
+      "id": "af359c6b0e",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/adam-shatz/on-lisette-model",
+      "title": "Adam Shatz: On Lisette Model",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "‘I was absolutely overwhelmed by jazz because I knew that was America,’ Model wrote. ‘And that was something I really wanted to photograph.’ The Jazz Pictures shows her feeling for the musicians, the fans, and the world they were trying to create in a country still defined by seg"
+    },
+    {
+      "id": "2dff004d3e",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/thomas-keymer/mangeons-du-jesuite",
+      "title": "Thomas Keymer: Mangeons du jésuite",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "‘Almost everything is imitation,’ Voltaire wrote in one of the French editions of Lettres philosophiques. Books were like a borrowed flame: ‘We go to a neighbour to get the embers, light the fire when we return home and then pass it on to others; it belongs to everyone.’ For the "
+    },
+    {
+      "id": "f2580ea77e",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/andrew-o-hagan/omelettes-and-whisky",
+      "title": "Andrew O’Hagan: Omelettes and Whisky",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Over the course of 24 novels and 87 years, Anita Brookner achieved many dislocations of selfhood and may have become more and more like the people she dreamed into life. It’s a novelist’s fate, not so much that their characters are like them but that they become their characters."
+    },
+    {
+      "id": "4bf00f19f3",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/ben-campbell/brookner-s-contact-sheet",
+      "title": "Ben Campbell: Brookner’s Contact Sheet",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "My father, Peter Campbell, took these photographs of Anita Brookner for the LRB in 1982. The pictures must have been taken in Brookner’s office at the Courtauld: in a couple of them shelves of files are visible through the safety glass window in the door. I wonder if the Courtaul"
+    },
+    {
+      "id": "371c24b90f",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/kasia-boddy/where-to-put-your-husband",
+      "title": "Kasia Boddy: Where to Put Your Husband",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "‘What people eat and how they serve it’ fascinated Colwin, and not only because (as she once noted) she’d learned about the cultural significance of ‘daily things’ in Anthropology 101. Her sharp and nuanced descriptions of eating, preparing and shopping for meals are psychologica"
+    },
+    {
+      "id": "7985348857",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/harry-george-daniels/at-tate-britain",
+      "title": "Harry George Daniels: At Tate Britain",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Whistler has not had a major retrospective in Europe in the last thirty years. The Tate show should have been an excellent opportunity for a reappraisal. It claims to bring together his ‘world-famous paintings’ alongside less well-known works, but in truth there are too few of th"
+    },
+    {
+      "id": "8d466165d4",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/adam-mars-jones/like-buying-a-bag-of-mints",
+      "title": "Adam Mars-Jones: Like Buying a Bag of Mints",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "We are left, a third of the way through The Disappearers, with a feeling of absolute outrage, when outrage is no more than anger in the key of helplessness. Outrage leads nowhere; violence freezes time for the victim; self-hatred paralyses every other emotion. These are all probl"
+    },
+    {
+      "id": "c24cc5b049",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/laura-tunbridge/air-of-another-planet",
+      "title": "Laura Tunbridge: Air of Another Planet",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Schoenberg looked backward and forward. In his commitment to perpetuating the Austro-German canon, he drew on the compositional techniques of his predecessors: the counterpoint of Bach, the classical forms of Mozart, the motivic working of Brahms, the tonal expansion of Wagner. A"
+    },
+    {
+      "id": "c2ea4d01a7",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/david-trotter/a-fly-s-footfall",
+      "title": "David Trotter: A Fly’s Footfall",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "The point about the microphone as a visual aid is a minor one. Behind it lies a more fundamental question. What does the thing exist to do? Sometimes the significance of a device becomes fully apparent only when read against the grain of the history of its technical development."
+    },
+    {
+      "id": "3101cced2a",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/daniel-lee/night-and-fog",
+      "title": "Daniel Lee: Night and Fog",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "There are reasons to value Paris-Underground. Etta Shiber’s account of life in Nazi-occupied Paris shows a vivid domestic world seldom seen in comparable memoirs. She describes the depredations and injustices of the Occupation, not least the looting of apartments by the Nazis. Sh"
+    },
+    {
+      "id": "b83120f5c4",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/arthur-downing/asset-sweating",
+      "title": "Arthur Downing: Asset Sweating",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Britain has private ownership while making the state responsible for planning via subsidies. The result is a zombie system, a muddled and dysfunctional hybrid of state and market, with the benefits of neither and the costs of both. The regulatory architecture behind this is the m"
+    },
+    {
+      "id": "a9eab1ecef",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/dani-garavelli/diary",
+      "title": "Dani Garavelli: Diary",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "A couple of days before I arrived in Predappio, I read that Hitler’s birthplace in Austria had been compulsorily purchased and turned into a police station. Mussolini’s birthplace is now a museum, while the Villa Carpena, his house 15 km away in Forlì, has been turned into a Casa"
+    },
+    {
+      "id": "6b9bc02a45",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/letters",
+      "title": "Letters",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "The letters page from London Review of Books Vol. 48 No. 17 (11 September 2026)"
+    },
+    {
+      "id": "e449139878",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17",
+      "title": "Table of contents",
+      "author": null,
+      "source": "London Review of Books",
+      "sourceId": "lrb",
+      "date": "2026-09-11",
+      "minutes": null,
+      "summary": "Table of contents from London Review of Books Vol. 48 No. 17 (11 September 2026)"
+    },
+    {
       "id": "50a5e559c8",
       "url": "https://www.astralcodexten.com/p/royce-on-san-francisco",
       "title": "Royce On San Francisco",
@@ -833,17 +1241,6 @@
       "date": "2026-09-10",
       "minutes": null,
       "summary": "Watching Penelope’s heroic wait in The Odyssey made me lament my impatience. But maybe I’ve been thinking about it wrong - by Amy Arthur Read on Psyche"
-    },
-    {
-      "id": "692cccef92",
-      "url": "https://www.noemamag.com/whose-ai-will-rule-the-world",
-      "title": "Whose AI Will Rule The World?",
-      "author": "Jacob Dreyer",
-      "source": "Noema",
-      "sourceId": "noema",
-      "date": "2026-09-10",
-      "minutes": 17,
-      "summary": "“ What appears to humanity as the history of capitalism is an invasion from the future by an artificial intelligent space that must assemble itself entirely from its enemy’s resources. “ —Nick Land SHANGHAI — Today, China and the United States are co-creating a powerful new techn"
     },
     {
       "id": "8b7eeb8c90",
@@ -1682,17 +2079,6 @@
       "summary": "When the reader​ of Gulliver’s Travels encounters the land of the Houyhnhnms and the Yahoos (all of whom are engaged in slave labour), they are invited to consider a question that runs through the book: what does it mean to be recognised and treated as a human being? Is the ascri"
     },
     {
-      "id": "0998d7c901",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n16/nick-richardson/cradle-scissors",
-      "title": "Nick Richardson: Cradle Scissors",
-      "author": null,
-      "source": "London Review of Books",
-      "sourceId": "lrb",
-      "date": "2026-08-28",
-      "minutes": null,
-      "summary": "Fairies are notorious shapeshifters. Their mutability has allowed them to survive, dodging censure by reinventing themselves as nature spirits, angels, birds and insects, monsters, Santa’s helpers, icons of body positivity. Spirits less skilled in glamour have been consigned to o"
-    },
-    {
       "id": "bdaae9ea62",
       "url": "https://www.lrb.co.uk/the-paper/v48/n16/kevin-okoth/at-the-barbican",
       "title": "Kevin Okoth: At the Barbican",
@@ -2342,5 +2728,5 @@
       "summary": "I propose the Long Self-Correction [1] as an alternative name/idea/concept to AI Pause and Long Reflection. Problem with AI Pause : Pause until when, and for what purpose? Presumably to make AI (that we'll build later) safer, but the deeper problem is that humans aren't safe, and"
     }
   ],
-  "fetchedAt": "2026-09-16T07:50:05"
+  "fetchedAt": "2026-09-17T07:50:10"
 }
