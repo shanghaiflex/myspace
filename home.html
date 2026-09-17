@@ -72,9 +72,16 @@
   .ink .paper2 { fill: var(--paper-2); }
   /* табличка с датчиками: у .ink обводка без заливки, тексту это надо вернуть */
   .ink text { stroke: none; fill: var(--ink); font-family: inherit; }
-  .ink .croom { font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; fill: var(--ink-3); }
-  .ink .cval { font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em; }
-  .ink .cval .h { font-size: 10.5px; font-weight: 500; fill: var(--ink-2); }
+  .ink .croom { font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; fill: var(--ink-3); }
+  .ink .cval { font-size: 21px; font-weight: 600; letter-spacing: -0.01em; }
+  .ink .cval .h { font-size: 14px; font-weight: 500; fill: var(--ink-2); }
+  /* На телефоне весь скетч ужат до ширины экрана (1000 единиц → ~370 px), поэтому там надпись должна быть
+     втрое крупнее в единицах SVG, иначе её не прочесть. Рамку под текст подгоняет fitClimate(). */
+  @media (max-width: 640px) {
+    .ink .croom { font-size: 22px; }
+    .ink .cval { font-size: 36px; }
+    .ink .cval .h { font-size: 24px; }
+  }
   #climate { transition: opacity .5s ease; }
   .sky { fill: var(--sky); } .sky2 { fill: var(--sky-2); }
   .glow { mix-blend-mode: var(--blend); pointer-events: none; }
@@ -303,13 +310,13 @@
 
     <!-- датчики температуры и влажности: табличка на стене между левым бра и картиной -->
     <g id="climate" opacity="0">
-      <path d="M517 214 L517 206" class="thin"/><circle cx="517" cy="204" r="2.4" class="thin"/>
-      <rect x="478" y="214" width="78" height="96" rx="4" class="paper2"/>
-      <rect x="478" y="214" width="78" height="96" rx="4"/>
-      <text class="croom" id="nKitchen" x="490" y="238">Кухня</text>
-      <text class="cval" id="cKitchen" x="490" y="258">—</text>
-      <text class="croom" id="nBedroom" x="490" y="284">Спальня</text>
-      <text class="cval" id="cBedroom" x="490" y="304">—</text>
+      <path id="cHook" d="M540 226 L540 218" class="thin"/><circle id="cNail" cx="540" cy="216" r="2.4" class="thin"/>
+      <rect id="cPaper" x="470" y="226" width="140" height="70" rx="4" class="paper2"/>
+      <rect id="cFrame" x="470" y="226" width="140" height="70" rx="4"/>
+      <text class="croom" id="nKitchen" x="482" y="250">Кухня</text>
+      <text class="cval" id="cKitchen" x="482" y="274">—</text>
+      <text class="croom" id="nBedroom" x="560" y="250">Спальня</text>
+      <text class="cval" id="cBedroom" x="560" y="274">—</text>
     </g>
 
     <!-- painting -->
@@ -395,6 +402,34 @@ function lampColor(d) {
 }
 function setGrad(id, color) { document.querySelectorAll(`#${id} stop`).forEach(s => s.setAttribute('stop-color', color)); }
 
+// Рамку таблички считает не глаз, а getBBox: ширина шрифта на телефоне и на маке разная (а на телефоне
+// надпись ещё и крупнее в единицах SVG), и рамка, подобранная на одном, на другом оказывается уже текста —
+// первая версия из неё и выехала. Стена над диваном: слева бра (до x≈472), справа второе бра (x=830).
+const CLIMATE = { x: 470, top: 226, pad: 12, gap: 18, max: 350 };   // ниже рамы картины (её низ — y=210)
+function fitClimate() {
+  const box = id => { try { return $(id).getBBox().width; } catch (e) { return -1; } };
+  const colA = Math.max(box('nKitchen'), box('cKitchen'));
+  const colB = Math.max(box('nBedroom'), box('cBedroom'));
+  if (colA <= 0 || colB <= 0) return;                       // ещё не отрисовано
+  const fs = id => parseFloat(getComputedStyle($(id)).fontSize) || 12;
+  const [f1, f2] = [fs('nKitchen'), fs('cKitchen')];
+  const { x, top, pad, gap, max } = CLIMATE;
+  const width = Math.min(max, Math.ceil(pad * 2 + colA + gap + colB));
+  const y1 = Math.round(top + pad + f1 * 0.85);
+  const y2 = Math.round(y1 + f1 * 0.45 + f2);
+  const height = Math.round(y2 - top + pad);
+  for (const id of ['cPaper', 'cFrame']) { $(id).setAttribute('width', width); $(id).setAttribute('height', height); }
+  const xa = x + pad, xb = Math.round(x + pad + colA + gap);
+  for (const [id, cx, cy] of [['nKitchen', xa, y1], ['cKitchen', xa, y2], ['nBedroom', xb, y1], ['cBedroom', xb, y2]]) {
+    $(id).setAttribute('x', cx);
+    $(id).setAttribute('y', cy);
+  }
+  const mid = x + width / 2;
+  $('cHook').setAttribute('d', `M${mid} ${top} L${mid} ${top - 8}`);
+  $('cNail').setAttribute('cx', mid);
+  $('cNail').setAttribute('cy', top - 10);
+}
+
 // --- render
 function render() {
   const D = S.devices || {}, a = D.lamp, b = D.lamp2, p = D.plug;
@@ -435,10 +470,12 @@ function render() {
   for (const [key, cap, val] of [['kitchen', 'nKitchen', 'cKitchen'], ['bedroom', 'nBedroom', 'cBedroom']]) {
     const s = sens[key];
     if (s && s.title) $(cap).textContent = s.title;
+    const dx = Math.round((parseFloat(getComputedStyle($(val)).fontSize) || 21) * 0.25);
     $(val).innerHTML = s && s.temperature != null
-      ? `${s.temperature.toFixed(1).replace('.', ',')}°<tspan class="h" dx="5">${Math.round(s.humidity)}%</tspan>`
+      ? `${s.temperature.toFixed(1).replace('.', ',')}°<tspan class="h" dx="${dx}">${Math.round(s.humidity)}%</tspan>`
       : '—';
   }
+  fitClimate();
 
   $('swPlug').classList.toggle('on', !!plugOn);
   $('swPlug').disabled = !p;
@@ -548,7 +585,9 @@ $('warm').addEventListener('input', e => { const v = +e.target.value; $('warmOut
     const h = Math.max(600, Math.round(1000 * card.clientHeight / card.clientWidth));
     svg.setAttribute('viewBox', `0 ${600 - h} 1000 ${h}`);
   };
-  new ResizeObserver(apply).observe(card); apply();
+  // Табличку с датчиками мерить заново: на другой ширине у неё другой кегль, а рамка считается по тексту.
+  new ResizeObserver(() => { apply(); fitClimate(); }).observe(card); apply();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitClimate);
 })();
 // The window follows the clock, the season and the real weather (/api/weather: sunrise, sunset, what falls).
 const SKY = {
