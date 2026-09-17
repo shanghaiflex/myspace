@@ -8,6 +8,7 @@ QoS 0 only — enough for Zigbee2MQTT.
 Devices (names are Zigbee2MQTT friendly names):
   lamps   group of the two Tuya TS0505B sconces by the painting (lamp + lamp2)
   plug    Tuya TS011F plug with power metering — powers the round IKEA VARMBLIXT on the shelf
+  kitchen, bedroom   eWeLink CK-TLSR8656 temperature + humidity sensors (read only)
 
   python3 scripts/home.py state                 # what every device reports
   python3 scripts/home.py set lamps '{"state":"ON","brightness":120}'
@@ -28,7 +29,12 @@ PREFIX = "zigbee2mqtt"
 LAMPS = ("lamp", "lamp2")             # members of the group `lamps`
 DEVICES = ("lamp", "lamp2", "plug")   # topics that report state
 TARGETS = ("lamps", "lamp", "lamp2", "plug")
-FIELDS = ("state", "brightness", "color_temp", "color", "color_mode", "power", "voltage", "current", "energy", "last_seen", "linkquality")
+# Датчики температуры и влажности (eWeLink CK-TLSR8656, спаренны 17.09.2026). Их не спросишь `/get`:
+# спящее устройство просыпается, когда само захочет, — поэтому у них в Zigbee2MQTT выставлен `retain`,
+# и последний отчёт приходит сразу после подписки.
+SENSORS = {"kitchen": "Кухня", "bedroom": "Спальня"}
+FIELDS = ("state", "brightness", "color_temp", "color", "color_mode", "power", "voltage", "current", "energy",
+          "temperature", "humidity", "battery", "last_seen", "linkquality")
 ALLOWED = {"state", "brightness", "color_temp", "color", "transition"}
 
 # Static scenes: white light only, built around the user's «Уютно» (43 %, 2300 K). Hue's numbers do not transfer
@@ -178,11 +184,12 @@ def connect():
 # ---------------------------------------------------------------- devices
 
 def state(timeout=2.0):
-    """Current report of every device: asks Zigbee2MQTT (`/get`) and waits for the answers."""
-    out = {d: None for d in DEVICES}
+    """Current report of every device: asks Zigbee2MQTT (`/get`) and waits for the answers. Датчики только
+    слушаются: будить их нечем, зато их последний отчёт брокер держит retained."""
+    out = {d: None for d in tuple(DEVICES) + tuple(SENSORS)}
     c = connect()
     try:
-        c.subscribe([f"{PREFIX}/{d}" for d in DEVICES])
+        c.subscribe([f"{PREFIX}/{d}" for d in out])
         for d in DEVICES:
             c.publish(f"{PREFIX}/{d}/get", {"state": ""})
         for topic, payload in c.messages(timeout):
@@ -294,14 +301,19 @@ def _stop_cli_effect():
 
 
 def summary():
-    """What the page shows: devices and the scene catalogue."""
+    """What the page shows: devices, the sensors and the scene catalogue."""
     try:
         devs = state()
         err = None
     except Exception as e:
-        devs, err = {d: None for d in DEVICES}, f"{type(e).__name__}: {e}"
+        devs, err = {d: None for d in tuple(DEVICES) + tuple(SENSORS)}, f"{type(e).__name__}: {e}"
+    sens = {}
+    for name, title in SENSORS.items():
+        rep = devs.pop(name, None)
+        sens[name] = {"title": title, **rep} if rep else None
     return {
         "devices": devs,
+        "sensors": sens,
         "scenes": [{"id": k, "title": v["title"]} for k, v in SCENES.items()],
         "schedule": SCHEDULE,
         "error": err,

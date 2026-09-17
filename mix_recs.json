@@ -3,40 +3,6 @@
   "model": "opus",
   "items": [
     {
-      "id": "sc:153568268",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/platform/esta",
-      "title": "ESTA Boiler Room London DJ Set",
-      "artist": "Boiler Room",
-      "duration": 3228,
-      "artwork": "https://i1.sndcdn.com/avatars-dg8DTxkybhLjzjo7-yyV0Og-t500x500.jpg",
-      "genre": "boiler room",
-      "published": "2014-06-09",
-      "reason": "Romy и Fred again.. на Boiler Room ты досмотрел целиком — это та же лондонская линия обрезанных голосов и подъёмов, только с более дымными синтами вместо чистого хауса, на котором ты отверг Logic1000.",
-      "wanted": "Joy Orbison Boiler Room London DJ Set",
-      "mood": "rhythmic",
-      "suggestedAt": "2026-09-17",
-      "verdict": "new",
-      "played": true
-    },
-    {
-      "id": "sc:488982357",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/meowwwhq/meowww-radio-w-lila-tirando-a-violeta",
-      "title": "Meowww radio w/ LILA TIRANDO A VIOLETA",
-      "artist": "Meowww",
-      "duration": 2698,
-      "artwork": "https://i1.sndcdn.com/artworks-000392805996-m6ea0v-t500x500.jpg",
-      "genre": null,
-      "published": "2018-08-22",
-      "reason": "Ровно то поле, что Obsidian Dreams w/ Bitter Babe у тебя в коллекции: латинский клуб, утопленный в реверб и готическую дымку, без сухих джангл-брейков, из-за которых ты выключил Nia Archives.",
-      "wanted": "Lila Tirando a Violeta NTS Radio",
-      "mood": "rhythmic",
-      "suggestedAt": "2026-09-17",
-      "verdict": "new",
-      "played": false
-    },
-    {
       "id": "sc:247841579",
       "source": "soundcloud",
       "url": "https://soundcloud.com/platform/four-tet-live",
@@ -72,6 +38,28 @@
     }
   ],
   "history": [
+    {
+      "id": "sc:488982357",
+      "artist": "Meowww",
+      "title": "Meowww radio w/ LILA TIRANDO A VIOLETA",
+      "url": "https://soundcloud.com/meowwwhq/meowww-radio-w-lila-tirando-a-violeta",
+      "reason": "Ровно то поле, что Obsidian Dreams w/ Bitter Babe у тебя в коллекции: латинский клуб, утопленный в реверб и готическую дымку, без сухих джангл-брейков, из-за которых ты выключил Nia Archives.",
+      "mood": "rhythmic",
+      "verdict": "liked",
+      "played": true,
+      "at": "2026-09-17"
+    },
+    {
+      "id": "sc:153568268",
+      "artist": "Boiler Room",
+      "title": "ESTA Boiler Room London DJ Set",
+      "url": "https://soundcloud.com/platform/esta",
+      "reason": "Romy и Fred again.. на Boiler Room ты досмотрел целиком — это та же лондонская линия обрезанных голосов и подъёмов, только с более дымными синтами вместо чистого хауса, на котором ты отверг Logic1000.",
+      "mood": "rhythmic",
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-09-17"
+    },
     {
       "id": "sc:543394575",
       "artist": "HAAi",

@@ -70,6 +70,12 @@
   .ink .hatch { stroke: var(--ink-3); stroke-width: .85; }
   .ink .fill { fill: var(--ink-3); stroke: none; }
   .ink .paper2 { fill: var(--paper-2); }
+  /* табличка с датчиками: у .ink обводка без заливки, тексту это надо вернуть */
+  .ink text { stroke: none; fill: var(--ink); font-family: inherit; }
+  .ink .croom { font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; fill: var(--ink-3); }
+  .ink .cval { font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em; }
+  .ink .cval .h { font-size: 10.5px; font-weight: 500; fill: var(--ink-2); }
+  #climate { transition: opacity .5s ease; }
   .sky { fill: var(--sky); } .sky2 { fill: var(--sky-2); }
   .glow { mix-blend-mode: var(--blend); pointer-events: none; }
   .glow circle, .glow path { transition: opacity .6s ease; }
@@ -295,6 +301,17 @@
     <g class="hatch"><path d="M606 512v64M616 516v64M626 518v64M636 518v64M646 518v64M656 518v64M666 516v64M676 512v64"/></g>
     <ellipse cx="640" cy="500" rx="10" ry="4" class="faint"/><path d="M640 496 L640 486" class="faint"/>
 
+    <!-- датчики температуры и влажности: табличка на стене между левым бра и картиной -->
+    <g id="climate" opacity="0">
+      <path d="M517 214 L517 206" class="thin"/><circle cx="517" cy="204" r="2.4" class="thin"/>
+      <rect x="478" y="214" width="78" height="96" rx="4" class="paper2"/>
+      <rect x="478" y="214" width="78" height="96" rx="4"/>
+      <text class="croom" id="nKitchen" x="490" y="238">Кухня</text>
+      <text class="cval" id="cKitchen" x="490" y="258">—</text>
+      <text class="croom" id="nBedroom" x="490" y="284">Спальня</text>
+      <text class="cval" id="cBedroom" x="490" y="304">—</text>
+    </g>
+
     <!-- painting -->
     <rect x="560" y="86" width="152" height="124" rx="2"/><rect x="570" y="96" width="132" height="104" class="thin"/>
     <rect x="566" y="92" width="140" height="112" class="hatch"/>
@@ -411,6 +428,17 @@ function render() {
   }
   $('d-lamps').classList.toggle('disabled', !lamp);
   $('d-lamps').classList.toggle('lit', on);
+
+  // Датчики: табличка появляется, только когда хоть один ответил, — пустая рамка на стене хуже, чем её отсутствие.
+  const sens = S.sensors || {};
+  $('climate').setAttribute('opacity', (sens.kitchen || sens.bedroom) ? 1 : 0);
+  for (const [key, cap, val] of [['kitchen', 'nKitchen', 'cKitchen'], ['bedroom', 'nBedroom', 'cBedroom']]) {
+    const s = sens[key];
+    if (s && s.title) $(cap).textContent = s.title;
+    $(val).innerHTML = s && s.temperature != null
+      ? `${s.temperature.toFixed(1).replace('.', ',')}°<tspan class="h" dx="5">${Math.round(s.humidity)}%</tspan>`
+      : '—';
+  }
 
   $('swPlug').classList.toggle('on', !!plugOn);
   $('swPlug').disabled = !p;
