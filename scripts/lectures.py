@@ -8,7 +8,7 @@ Usage:
   lectures.py series "<name>" <id|title> ...   put lectures into a named (custom) series
   lectures.py audio <id|title> [...]     download audio-only (m4a) for offline/phone listening
   lectures.py list [--status ...]
-  lectures.py preload [-n 2]             what the phone app keeps downloaded (listening first, then the queue)
+  lectures.py preload [-n 3]             what the phone app keeps downloaded (the one being listened + one per channel)
   lectures.py add-channel <url>          add another channel to track
 """
 import argparse, datetime, glob, json, os, re, subprocess, sys, time
@@ -101,23 +101,87 @@ def has_audio(vid):
     return audio_path(vid) is not None
 
 
-PRELOAD_COUNT = 2
+PRELOAD_COUNT = 3
+# Слова, которые стоят в половине названий канала и потому о сходстве ничего не говорят (из rec.js).
+STOP_STEMS = {"средн", "веках", "истор", "часть", "европ", "жизнь", "повсе"}
+
+
+def stems(title):
+    return {w[:5] for w in re.sub(r"[^0-9a-zа-яё ]+", " ", (title or "").lower()).split() if len(w) >= 5}
+
+
+def recommend(db, channel=None, limit=12):
+    """Что слушать дальше — порт rec.js, которым страница считает «рекомендую»: лекция тем выше,
+    чем ближе она по серии и по словам названия к тому, что уже слушалось."""
+    ls = [l for l in db["lectures"] if not l.get("live") and (channel is None or l.get("channel") == channel)]
+    done = [l for l in ls if l["status"] in ("listening", "listened")]
+    done_series = {}
+    for l in done:
+        for s in l.get("series") or []:
+            done_series[s] = done_series.get(s, 0) + 1
+    done_stems = set()
+    for l in done:
+        done_stems |= stems(l["title"]) - STOP_STEMS
+    scored = []
+    for l in ls:
+        if l["status"] not in ("new", "queued"):
+            continue
+        score = 100 if l["status"] == "queued" else 0
+        score += 3 * sum(done_series.get(s, 0) for s in l.get("series") or [])
+        score += min(len(stems(l["title"]) & done_stems), 3)
+        if re.search(r"средн|medieval|middle ages|dark ages", l.get("title") or "", re.I):
+            score += 2
+        score += 2 if re.search(r"[а-яё]", l.get("title") or "", re.I) else -3
+        scored.append(((-score, l.get("queuedAt") or 0, l.get("order", 0)), l))
+    scored.sort(key=lambda x: x[0])
+    return [l for _, l in scored[:limit]]
+
+
+def channel_next(db, ls, channel, taken):
+    """Следующая лекция канала: начатая, иначе первая из планов, иначе — совет rec. Канал, который
+    ещё ни разу не слушали, не предлагает ничего: качать наугад из трёхсот новых нечего."""
+    pool = [l for l in ls if l.get("channel") == channel and l["id"] not in taken]
+    started = sorted((l for l in pool if l["status"] == "listening"), key=lambda l: -(l.get("touchedAt") or 0))
+    if started:
+        return started[0]
+    queued = sorted((l for l in pool if l["status"] == "queued"), key=lambda l: (l.get("queuedAt") or 0, l.get("order", 0)))
+    if queued:
+        return queued[0]
+    if not any(l["status"] in ("listening", "listened") for l in ls if l.get("channel") == channel):
+        return None
+    rec = [l for l in recommend(db, channel=channel, limit=5) if l["id"] not in taken]
+    return rec[0] if rec else None
 
 
 def preload(db, n=PRELOAD_COUNT):
-    """Какие лекции телефон должен держать скачанными: сначала те, что слушаются (последняя
-    тронутая — первой), потом очередь «в планах» в порядке постановки. Всего n штук."""
+    """Какие лекции телефон держит скачанными: сначала та, что слушается (последняя тронутая), потом
+    по одной следующей из каждого канала — чтобы в дороге был и Макаров, и Bushwacker, а не две серии
+    подряд из одного канала (просьба пользователя 18.09.2026). Каналы идут в порядке планов: где
+    очередь поставлена раньше, тот и первый, каналы без планов — следом."""
     ls = [l for l in db["lectures"] if not l.get("live")]
     listening = sorted((l for l in ls if l["status"] == "listening"),
                        key=lambda l: (-(l.get("touchedAt") or 0), -(l.get("position") or 0)))
-    queued = sorted((l for l in ls if l["status"] == "queued"), key=lambda l: (l.get("queuedAt") or 0, l.get("order", 0)))
-    out = []
-    for l in listening + queued:
-        if l not in out:
-            out.append(l)
+    out = listening[:1]
+    taken = {l["id"] for l in out}
+    rank = {}
+    for i, c in enumerate(db["channels"]):
+        q = [l.get("queuedAt") or 0 for l in ls if l.get("channel") == c["id"] and l["status"] == "queued"]
+        rank[c["id"]] = (0, min(q), i) if q else (1, 0, i)
+    for cid in sorted(rank, key=lambda c: rank[c]):
         if len(out) >= n:
             break
-    return out
+        l = channel_next(db, ls, cid, taken)
+        if l:
+            out.append(l)
+            taken.add(l["id"])
+    # Каналов может не хватить (один канал, всё остальное прослушано) — добираем очередью.
+    for l in sorted((l for l in ls if l["status"] == "queued" and l["id"] not in taken),
+                    key=lambda l: (l.get("queuedAt") or 0, l.get("order", 0))):
+        if len(out) >= n:
+            break
+        out.append(l)
+        taken.add(l["id"])
+    return out[:n]
 
 
 def preload_item(db, l):

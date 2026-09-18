@@ -63,7 +63,9 @@
       "youtube-likes",
       "calm"
     ],
-    "addedAt": "2026-09-14"
+    "addedAt": "2026-09-14",
+    "position": 262,
+    "playedAt": 1789711146
   },
   {
     "id": "yt:I3voQGTnP9A",
@@ -149,7 +151,9 @@
       "youtube-likes",
       "calm"
     ],
-    "addedAt": "2026-09-14"
+    "addedAt": "2026-09-14",
+    "position": 26,
+    "playedAt": 1789710828
   },
   {
     "id": "yt:EPMql3dljqU",
@@ -178,8 +182,8 @@
     "published": "2022-07-29",
     "tags": [],
     "addedAt": "2026-09-06",
-    "position": 97,
-    "playedAt": 1789654691
+    "position": 4305,
+    "playedAt": 1789658953
   },
   {
     "id": "yt:ZfIYFK4TB8I",
@@ -339,7 +343,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 1924,
+    "playedAt": 1789661244
   },
   {
     "id": "yt:nFpzWNKmgQ8",

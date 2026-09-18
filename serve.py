@@ -10,7 +10,7 @@
   PATCH  /api/lecture/<id>        body: {status?, position?, note?}
   POST   /v1/app/log              {entries:[{at,event,detail}]} — the app's journal, appended to logs/bow.log
   GET    /app/login?t=<bearer>&next=/   the BoW app trades its bearer token for the session cookie (WebView)
-  GET    /api/lectures/preload    the lectures the phone keeps offline (listening first, then queued); kicks off audio downloads
+  GET    /api/lectures/preload    the lectures the phone keeps offline (the one in progress + one per channel); kicks off audio downloads
   PATCH  /api/book/<id>           body: {status?, rating?, comment?}
   DELETE /api/book/<id>
   GET    /api/weather             today's weather (Open-Meteo, or Yandex when YANDEX_WEATHER_KEY is set), cached 20 min
@@ -34,6 +34,7 @@
   POST   /api/french/level        body: {level: A1..C1}
   POST   /api/french/refresh      найти новые материалы и собрать разборы (scripts/french.sh)
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
+  GET    /api/updates             что показать уведомлением на телефоне и часах (scripts/notify.py)
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
   GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
   POST   /api/pantry/review       refresh receipts and the note now (scripts/pantry_review.sh --force)
@@ -65,6 +66,7 @@ import reads as RD  # noqa: E402
 import french as FR  # noqa: E402
 import home as HM  # noqa: E402
 import schedule as S  # noqa: E402
+import notify as NT  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
@@ -312,6 +314,10 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
             out["reviewJob"] = REVIEW_JOB["status"]
             return self.send_json(200, out)
+        if route == "/api/updates":
+            # Уведомления ставит сам телефон: пуша у Personal Team нет. Здесь только то, о чём стоит
+            # звонить прямо сейчас — правила в scripts/notify.py.
+            return self.send_json(200, {"items": NT.items()})
         if route == "/api/home":
             return self.send_json(200, HM.summary())
         if route == "/api/pantry":
