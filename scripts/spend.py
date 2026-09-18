@@ -283,6 +283,33 @@ def unknown(rs, store=None):
     return sorted(([inn] + a for inn, a in agg.items()), key=lambda a: -a[1])
 
 
+def who(query, store=None, R=None):
+    """Всё, что известно про продавца: имя, ИНН, сайт из чека, категория, чеки и что в них покупалось.
+    Вопрос «а что это за „ООО Орбита“?» возникает постоянно, а ответ почти всегда лежит в `retailPlace` —
+    там касса пишет адрес сайта. Ищем и по имени, и по ИНН, и по названию товара."""
+    store = store if store is not None else K.load(K.STORE, {})
+    R = R or rules()
+    q = query.lower()
+    hits = collections.defaultdict(list)
+    for v in store.values():
+        inn = (v.get("receipt") or {}).get("kktOwnerInn") or ""
+        name = title(K.seller(v), inn, R)
+        text = " ".join([name, inn, K.seller(v)] + [str(i.get("name") or "") for i in K.items(v)]).lower()
+        if q in text:
+            hits[inn or name].append(v)
+    out = []
+    for inn, vs in sorted(hits.items(), key=lambda kv: -sum(K.paid(v) for v in kv[1])):
+        vs.sort(key=K.when)
+        f = next((v.get("fiscal") or {} for v in reversed(vs) if v.get("fiscal")), {})
+        out.append({"inn": inn, "name": title(K.seller(vs[-1]), inn, R), "legal": K.seller(vs[-1]),
+                    "where": f.get("retailPlace"), "category": R["categories"].get(category(inn, "", R), "—"),
+                    "paid": sum(K.paid(v) for v in vs), "n": len(vs),
+                    "first": K.when(vs[0]), "last": K.when(vs[-1]),
+                    "items": [(K.when(v), str(i.get("name") or "")[:60], i.get("sum"))
+                              for v in reversed(vs) for i in K.items(v)][:12]})
+    return out
+
+
 def money(x):
     return f"{round(x):,}".replace(",", " ")
 
@@ -293,6 +320,7 @@ def main(argv=None):
     for name in ("summary", "months", "recurring", "inflation", "unknown"):
         sub.add_parser(name)
     p = sub.add_parser("merchants"); p.add_argument("--months", type=int, default=12)
+    p = sub.add_parser("who"); p.add_argument("query", help="имя, ИНН или слово из названия товара")
     a = ap.parse_args(argv)
     R = rules()
     rs = rows(None, R)
@@ -329,6 +357,17 @@ def main(argv=None):
             print("\nподешевело:")
             for x in inf["down"][:5]:
                 print(f"  {x['name'][:42]:44}{x['was']:>7}{x['now']:>8}{x['change']:>7}%  {x['buys']}")
+    elif a.cmd == "who":
+        found = who(a.query, None, R)
+        if not found:
+            print("никого не нашёл")
+        for x in found[:5]:
+            print(f"\n{x['name']}  ({x['category']})")
+            print(f"  ИНН {x['inn']} · {x['legal'][:54]}")
+            print(f"  сайт из чека: {x['where'] or '—'}")
+            print(f"  {x['n']} чеков на {money(x['paid'])} ₽, {x['first']} … {x['last']}")
+            for d, n, sm in x["items"]:
+                print(f"    {d}  {n:<62} {money(sm or 0):>9} ₽")
     elif a.cmd == "unknown":
         print("Продавцы без категории (чинить в spend_rules.json):")
         for inn, s, n, name, where in unknown(rs):
