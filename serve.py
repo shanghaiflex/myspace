@@ -15,6 +15,7 @@
   DELETE /api/book/<id>
   GET    /api/weather             today's weather (Open-Meteo, or Yandex when YANDEX_WEATHER_KEY is set), cached 20 min
   GET    /api/schedule            дела на сегодня из Яндекс.Календаря (scripts/schedule.py day_plan), cached 10 min
+  GET    /api/fit                 чем занять ближайшее свободное окно (scripts/fit.py), cached 5 min
   POST   /api/lecture/<id>/audio  start audio download in the background; GET the same URL for status
   GET    /audio/<file>            audio files with HTTP Range support (needed by iOS)
   GET    /healthz                 200 "ok" (no auth; the Health Bridge iOS app pings it)
@@ -67,6 +68,8 @@ import french as FR  # noqa: E402
 import home as HM  # noqa: E402
 import schedule as S  # noqa: E402
 import notify as NT  # noqa: E402
+import sensors as SN  # noqa: E402
+import fit as FIT  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
@@ -83,6 +86,8 @@ PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + n
 # on every reload, and holds the last good answer when Yandex (or the VPN) is down.
 SCHEDULE_CACHE = {"ts": 0.0, "data": None}
 SCHEDULE_TTL = 600
+FIT_CACHE = {"ts": 0.0, "data": None}
+FIT_TTL = 300        # окно съезжает вместе со временем, но не быстрее, чем на пять минут
 
 STATUSES = set(M.STATUSES)
 LOCK = threading.Lock()  # load-modify-save must not interleave
@@ -319,7 +324,14 @@ class Handler(SimpleHTTPRequestHandler):
             # звонить прямо сейчас — правила в scripts/notify.py.
             return self.send_json(200, {"items": NT.items()})
         if route == "/api/home":
-            return self.send_json(200, HM.summary())
+            out = HM.summary()
+            try:
+                # Разброс за сутки: у самих датчиков истории нет, её ведёт launchd (scripts/sensors.py).
+                out["day"] = SN.today()
+            except Exception as e:
+                out["day"] = {}
+                print(f"sensors day: {type(e).__name__}: {e}", flush=True)
+            return self.send_json(200, out)
         if route == "/api/pantry":
             path = os.path.join(ROOT, "pantry.json")
             try:
@@ -370,6 +382,16 @@ class Handler(SimpleHTTPRequestHandler):
             except Exception as e:
                 if SCHEDULE_CACHE["data"]:
                     return self.send_json(200, SCHEDULE_CACHE["data"])
+                return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
+        if route == "/api/fit":
+            # Что влезает в ближайшее свободное окно (scripts/fit.py): календарь + погода + закат + длины.
+            try:
+                if not FIT_CACHE["data"] or time.time() - FIT_CACHE["ts"] > FIT_TTL:
+                    FIT_CACHE.update(ts=time.time(), data=FIT.plan())
+                return self.send_json(200, FIT_CACHE["data"])
+            except Exception as e:
+                if FIT_CACHE["data"]:
+                    return self.send_json(200, FIT_CACHE["data"])
                 return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
         if self.path.startswith("/lectures.json"):
             db = L.load()

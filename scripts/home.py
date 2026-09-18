@@ -49,7 +49,7 @@ SCENES = {
     "movie":  {"title": "Кино",   "payload": {"state": "ON", "brightness": 22, "color": {"r": 175, "g": 200, "b": 255}, "transition": 5}},
     "night":  {"title": "Ночник", "payload": {"state": "ON", "brightness": 3, "color_temp": 447, "transition": 2}},
 }
-SCHEDULE = "19:00 уютно · 22:00 ночник · 23:00 выкл"   # launchd on the mini (local.lamp.*, local.plug.*)
+SCHEDULE = "закат → уютно · 22:00 ночник · 23:00 выкл"   # запасная надпись, если расписание не посчиталось
 
 _host = {"name": None, "at": 0}
 _seq = {}          # target -> number of the latest command; a verify for an older one is dropped
@@ -300,6 +300,16 @@ def _stop_cli_effect():
     subprocess.run(["pkill", "-f", "mqtt/effect.js"], capture_output=True, timeout=5)
 
 
+def schedule_text():
+    """Во сколько сегодня что. Считает lamp_schedule (вечер привязан к закату), импорт ленивый —
+    сам lamp_schedule импортирует этот модуль."""
+    try:
+        import lamp_schedule as LS
+        return LS.describe()
+    except Exception:
+        return SCHEDULE
+
+
 def summary():
     """What the page shows: devices, the sensors and the scene catalogue."""
     try:
@@ -315,7 +325,7 @@ def summary():
         "devices": devs,
         "sensors": sens,
         "scenes": [{"id": k, "title": v["title"]} for k, v in SCENES.items()],
-        "schedule": SCHEDULE,
+        "schedule": schedule_text(),
         "error": err,
     }
 

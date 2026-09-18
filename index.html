@@ -122,6 +122,19 @@
   .sc .ch.now .tm { color: var(--card-text-2); }
   .sc .ch.free-ev { background: transparent; border: 1px dashed color-mix(in srgb, var(--card-text) 22%, transparent); }
   .sc .ch.empty { background: transparent; padding: 0; color: var(--card-text-2); font-weight: 500; }
+  /* Чем занять окно: плитки того, что влезает в ближайшую дыру в дне (/api/fit). */
+  .card.fit { padding: 14px 20px; border-radius: 18px; gap: 10px; }
+  .fit .picks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .fit .pick { display: flex; gap: 10px; align-items: center; min-width: 0; padding: 8px; border-radius: 14px;
+    background: color-mix(in srgb, var(--card-text) 7%, transparent); }
+  a.fit-pick:hover { background: color-mix(in srgb, var(--card-text) 13%, transparent); }
+  .fit .pick .img { width: 58px; height: 44px; flex: 0 0 auto; border-radius: 8px; overflow: hidden; background: rgba(127,127,127,.2);
+    display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .fit .pick .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fit .pick .txt { min-width: 0; }
+  .fit .pick .t { font-size: 13.5px; font-weight: 600; line-height: 1.25; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .fit .pick .s { font-size: 11.5px; color: var(--card-text-3); margin-top: 2px; }
+  @media (max-width: 900px) { .fit .picks { grid-template-columns: 1fr; } }
   .card.lc { padding: 18px 20px; gap: 10px; }
   .card.lc h2 { font-size: 16px; }
   .card.lc .img.sq { width: 64px; height: 64px; } .card.lc .img.wide { width: 104px; height: 60px; }
@@ -175,7 +188,7 @@ const isCalm = m => m.mood === 'calm' || (m.tags || []).includes('calm');
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, reads, sched, fr]) => {
+Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null), j('/api/fit', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, reads, sched, fr, fit]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   const cards = [];
   // Дела на сегодня — плашка над всем остальным: события Яндекс.Календаря (все календари, кроме чужих
@@ -204,6 +217,28 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
 
   const sd = schedCard(sched);
   if (sd) cards.push(sd);
+
+  // «Чем занять» — то, ради чего сайт вообще знает и календарь, и погоду, и длину каждой лекции:
+  // не «что посмотреть вообще», а что целиком влезает в ближайшую дыру в дне. Считает /api/fit.
+  const fitCard = (f) => {
+    if (!f || !f.window || !(f.picks || []).length) return '';
+    const w = f.window, wx = f.weather;
+    const head = w.open ? `Свободно до ${esc(w.to)}` : `Свободно ${esc(w.from)}–${esc(w.to)}`;
+    const more = [w.length, wx ? `${wx.icon} ${(wx.temp > 0 ? '+' : '') + wx.temp}°` : '',
+      wx && wx.precip >= 20 ? `осадки ${wx.precip}%` : ''].filter(Boolean).join(' · ');
+    const tile = p => {
+      const inner = `<div class="img">${p.image ? `<img src="${esc(p.image)}" alt="" onerror="this.remove()">` : (p.kind === 'walk' && wx ? wx.icon : '')}</div>
+        <div class="txt"><div class="t">${esc(p.title)}</div><div class="s">${esc(p.sub)}${p.fits === false ? ' · не влезет целиком' : ''}</div></div>`;
+      // У прогулки ссылки нет: это не страница сайта, а совет выйти из дома.
+      return p.url
+        ? `<a class="pick fit-pick" href="${esc(p.url)}"${p.external ? ' target="_blank" rel="noopener"' : ''}>${inner}</a>`
+        : `<div class="pick">${inner}</div>`;
+    };
+    return `<div class="card c12 fit"><div class="eyebrow">${head}${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
+      <div class="picks">${f.picks.map(tile).join('')}</div></div>`;
+  };
+  const fitc = fitCard(fit);
+  if (fitc) cards.push(fitc);
 
   if (wx && wx.now) {
     const sign = t => (t > 0 ? '+' : '') + t + '°';

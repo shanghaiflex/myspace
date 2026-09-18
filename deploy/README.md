@@ -78,6 +78,13 @@ ssh mini 'cd movies && sh scripts/vpn_watchdog.sh --verbose --dry-run'   # пр�
   (`curl -fsSL https://claude.ai/install.sh | bash`) и `CLAUDE_CODE_OAUTH_TOKEN=` в `.env` (получить на ноутбуке:
   `claude setup-token`).
 
+- Свет по закату: `sh ~/movies/deploy/install-lamp-schedule.sh` ставит агент `cc.bodywithoutorgans.lampschedule`
+  (`scripts/lamp_schedule.py run` раз в 5 минут, лог `~/movies/logs/lamp-schedule.log`) и уносит прежние
+  `local.lamp.*` / `local.plug.*` в `~/Library/LaunchAgents/disabled-by-lamp-schedule` (не удаляет).
+- История датчиков: `sh ~/movies/deploy/install-sensors.sh` ставит агент `cc.bodywithoutorgans.sensors`
+  (`scripts/sensors.py log` раз в 10 минут, лог `~/movies/logs/sensors.log`) — пишет температуру и влажность
+  в `health.db`, то есть попадает и в ночной бэкап.
+
 ## Исторические заметки по установке
 
 - Туннель `movies` (id c7369989-9758-43ca-acd9-33773f23d513) создан с mini, CNAME для bodywithoutorgans.cc и www.

@@ -75,12 +75,14 @@
   .ink .croom { font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; fill: var(--ink-3); }
   .ink .cval { font-size: 21px; font-weight: 600; letter-spacing: -0.01em; }
   .ink .cval .h { font-size: 14px; font-weight: 500; fill: var(--ink-2); }
+  .ink .cday { font-size: 12px; font-weight: 500; fill: var(--ink-3); }
   /* На телефоне весь скетч ужат до ширины экрана (1000 единиц → ~370 px), поэтому там надпись должна быть
      втрое крупнее в единицах SVG, иначе её не прочесть. Рамку под текст подгоняет fitClimate(). */
   @media (max-width: 640px) {
     .ink .croom { font-size: 22px; }
     .ink .cval { font-size: 36px; }
     .ink .cval .h { font-size: 24px; }
+    .ink .cday { font-size: 16px; }
   }
   #climate { transition: opacity .5s ease; }
   .sky { fill: var(--sky); } .sky2 { fill: var(--sky-2); }
@@ -315,8 +317,10 @@
       <rect id="cFrame" x="470" y="226" width="140" height="70" rx="4"/>
       <text class="croom" id="nKitchen" x="482" y="250">Кухня</text>
       <text class="cval" id="cKitchen" x="482" y="274">—</text>
+      <text class="cday" id="sKitchen" x="482" y="290"></text>
       <text class="croom" id="nBedroom" x="560" y="250">Спальня</text>
       <text class="cval" id="cBedroom" x="560" y="274">—</text>
+      <text class="cday" id="sBedroom" x="560" y="290"></text>
     </g>
 
     <!-- painting -->
@@ -405,22 +409,30 @@ function setGrad(id, color) { document.querySelectorAll(`#${id} stop`).forEach(s
 // Рамку таблички считает не глаз, а getBBox: ширина шрифта на телефоне и на маке разная (а на телефоне
 // надпись ещё и крупнее в единицах SVG), и рамка, подобранная на одном, на другом оказывается уже текста —
 // первая версия из неё и выехала. Стена над диваном: слева бра (до x≈472), справа второе бра (x=830).
-const CLIMATE = { x: 470, top: 226, pad: 12, gap: 18, max: 350 };   // ниже рамы картины (её низ — y=210)
+const CLIMATE = { x: 470, top: 226, pad: 12, gap: 18, max: 350, floor: 320 };  // ниже рамы картины (её низ — y=210),
+                                                                              // выше спинки дивана (её верх — y=328)
 function fitClimate() {
   const box = id => { try { return $(id).getBBox().width; } catch (e) { return -1; } };
-  const colA = Math.max(box('nKitchen'), box('cKitchen'));
-  const colB = Math.max(box('nBedroom'), box('cBedroom'));
-  if (colA <= 0 || colB <= 0) return;                       // ещё не отрисовано
   const fs = id => parseFloat(getComputedStyle($(id)).fontSize) || 12;
-  const [f1, f2] = [fs('nKitchen'), fs('cKitchen')];
+  const [f1, f2, f3] = [fs('nKitchen'), fs('cKitchen'), fs('sKitchen')];
   const { x, top, pad, gap, max } = CLIMATE;
-  const width = Math.min(max, Math.ceil(pad * 2 + colA + gap + colB));
   const y1 = Math.round(top + pad + f1 * 0.85);
   const y2 = Math.round(y1 + f1 * 0.45 + f2);
-  const height = Math.round(y2 - top + pad);
+  const y3 = Math.round(y2 + f3 * 1.15);
+  // Третья строка — разброс за сутки: она есть, только если её накопил агент (scripts/sensors.py) и если
+  // табличка от неё не дорастёт до спинки дивана. На телефоне кегль втрое крупнее, и то, что помещается
+  // на маке, там упёрлось бы в мебель, — поэтому floor, а не «на глаз поместится».
+  const day = !!($('sKitchen').textContent || $('sBedroom').textContent) && y3 + pad <= CLIMATE.floor;
+  for (const id of ['sKitchen', 'sBedroom']) $(id).setAttribute('opacity', day ? 1 : 0);
+  const colA = Math.max(box('nKitchen'), box('cKitchen'), day ? box('sKitchen') : 0);
+  const colB = Math.max(box('nBedroom'), box('cBedroom'), day ? box('sBedroom') : 0);
+  if (colA <= 0 || colB <= 0) return;                       // ещё не отрисовано
+  const width = Math.min(max, Math.ceil(pad * 2 + colA + gap + colB));
+  const height = Math.round((day ? y3 : y2) - top + pad);
   for (const id of ['cPaper', 'cFrame']) { $(id).setAttribute('width', width); $(id).setAttribute('height', height); }
   const xa = x + pad, xb = Math.round(x + pad + colA + gap);
-  for (const [id, cx, cy] of [['nKitchen', xa, y1], ['cKitchen', xa, y2], ['nBedroom', xb, y1], ['cBedroom', xb, y2]]) {
+  for (const [id, cx, cy] of [['nKitchen', xa, y1], ['cKitchen', xa, y2], ['sKitchen', xa, y3],
+                              ['nBedroom', xb, y1], ['cBedroom', xb, y2], ['sBedroom', xb, y3]]) {
     $(id).setAttribute('x', cx);
     $(id).setAttribute('y', cy);
   }
@@ -467,13 +479,19 @@ function render() {
   // Датчики: табличка появляется, только когда хоть один ответил, — пустая рамка на стене хуже, чем её отсутствие.
   const sens = S.sensors || {};
   $('climate').setAttribute('opacity', (sens.kitchen || sens.bedroom) ? 1 : 0);
-  for (const [key, cap, val] of [['kitchen', 'nKitchen', 'cKitchen'], ['bedroom', 'nBedroom', 'cBedroom']]) {
+  const day = S.day || {};
+  for (const [key, cap, val, rng] of [['kitchen', 'nKitchen', 'cKitchen', 'sKitchen'], ['bedroom', 'nBedroom', 'cBedroom', 'sBedroom']]) {
     const s = sens[key];
     if (s && s.title) $(cap).textContent = s.title;
     const dx = Math.round((parseFloat(getComputedStyle($(val)).fontSize) || 21) * 0.25);
     $(val).innerHTML = s && s.temperature != null
       ? `${s.temperature.toFixed(1).replace('.', ',')}°<tspan class="h" dx="${dx}">${Math.round(s.humidity)}%</tspan>`
       : '—';
+    // Сутки пишет launchd (scripts/sensors.py): сами датчики истории не держат. Пока записей нет, строки нет.
+    const d = day[key];
+    $(rng).textContent = d && d.tmax - d.tmin >= 0.1
+      ? `за сутки ${String(d.tmin).replace('.', ',')}–${String(d.tmax).replace('.', ',')}°`
+      : '';
   }
   fitClimate();
 
