@@ -42,13 +42,10 @@ def key(name: str) -> str:
 
 
 def load_receipts(merchant: str = MERCHANT) -> list[dict]:
-    with open(STORE, encoding="utf-8") as f:
-        store = json.load(f)
-    out = [r for r in store.values()
-           if not r.get("unparsed") and r.get("ts")
-           and merchant.lower() in r["merchant"].lower()]
-    out.sort(key=lambda r: r["ts"])
-    return out
+    """Оба источника сразу — письма ОФД и личный кабинет ФНС, без дублей и без зачётов аванса.
+    Раньше читались только письма; см. `sources.py`, почему одного источника мало."""
+    from sources import receipts as _receipts
+    return _receipts(merchant)
 
 
 def build(receipts: list[dict]) -> dict:

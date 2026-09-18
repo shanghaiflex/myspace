@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Траты</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧾</text></svg>">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafafa; --surface: #ffffff; --surface-2: #f2f2f4;
+    --text: #1d1d1f; --text-2: #6e6e73; --text-3: #a1a1a6;
+    --line: rgba(0,0,0,.08); --accent: #0071e3; --ok: #34c759; --warn: #ff9f0a;
+    --glass: rgba(250,250,250,.7);
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000; --surface: #1c1c1e; --surface-2: #2c2c2e;
+      --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
+      --line: rgba(255,255,255,.1); --accent: #2997ff; --ok: #30d158; --warn: #ffd60a;
+      --glass: rgba(0,0,0,.55);
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
+    background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.45; letter-spacing: -0.01em; }
+  a { color: inherit; text-decoration: none; }
+  .bar { position: sticky; top: 0; z-index: 20; background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
+  .bar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; }
+  .nav a { color: var(--text-3); font-weight: 600; }
+  .nav a.on { color: var(--text); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 36px 32px 80px; }
+  .head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .head h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; margin: 0; line-height: 1.1; }
+  .head .sub { color: var(--text-2); font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+  .card { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow); border: 1px solid var(--line); padding: 22px; min-width: 0; grid-column: span 12; }
+  .card.half { grid-column: span 6; }
+  @media (max-width: 900px) { .card.half { grid-column: span 12; } }
+  .card .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-2); font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .card .eyebrow .more { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-3); }
+  .empty { color: var(--text-2); font-size: 15px; }
+  .foot { color: var(--text-3); font-size: 12.5px; margin-top: 14px; }
+
+  /* Столбики: один тон на весь график — двух цветов палитра сайта не даёт (терракота и шалфей
+     неразличимы даже при полном зрении, ΔE 14,9). «Крупное» отличается штриховкой и прямой подписью,
+     а не вторым цветом; сама шкала считается по обычным тратам, иначе покупка квартиры сплющит год. */
+  .chart { display: flex; align-items: flex-end; gap: 6px; height: 190px; padding-top: 22px; }
+  .col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch;
+    height: 100%; gap: 2px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; color: inherit; position: relative; }
+  .col .v { border-radius: 4px 4px 0 0; background: color-mix(in srgb, var(--accent) 82%, transparent); min-height: 2px; transition: background .15s; }
+  .col .big { border-radius: 4px 4px 0 0; min-height: 3px;
+    background: repeating-linear-gradient(135deg, var(--accent) 0 3px, color-mix(in srgb, var(--accent) 22%, var(--surface)) 3px 7px); }
+  .col:hover .v, .col.on .v { background: var(--accent); }
+  .col .tag { position: absolute; top: -20px; left: 0; right: 0; text-align: center; font-size: 11px; font-variant-numeric: tabular-nums;
+    color: var(--text-2); white-space: nowrap; }
+  .xaxis { display: flex; gap: 6px; margin-top: 8px; }
+  .xaxis div { flex: 1 1 0; min-width: 0; text-align: center; font-size: 11px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .xaxis div.on { color: var(--text); font-weight: 600; }
+  .legend { display: flex; gap: 16px; align-items: center; font-size: 12.5px; color: var(--text-2); margin-top: 12px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 14px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .legend .s1 { background: color-mix(in srgb, var(--accent) 82%, transparent); }
+  .legend .s2 { background: repeating-linear-gradient(135deg, var(--accent) 0 3px, color-mix(in srgb, var(--accent) 22%, var(--surface)) 3px 7px); }
+
+  .rows { display: flex; flex-direction: column; gap: 9px; }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: baseline; font-size: 14px; }
+  .row .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row .n { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .row .meter { grid-column: 1 / -1; height: 4px; border-radius: 999px; background: var(--surface-2); overflow: hidden; margin-top: -4px; }
+  .row .meter i { display: block; height: 100%; background: color-mix(in srgb, var(--accent) 70%, transparent); }
+  .row .s { color: var(--text-3); font-size: 12.5px; font-weight: 400; }
+  .tbl { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: -4px; padding: 4px; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
+  th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); font-weight: 600; padding: 6px 10px 8px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--line); }
+  tr:last-child td { border-bottom: 0; }
+  td.n, th.n { text-align: right; padding-right: 18px; }
+  td.w { white-space: normal; min-width: 170px; }
+  td.dim { color: var(--text-3); }
+  .up { color: var(--warn); font-weight: 600; } .down { color: var(--ok); font-weight: 600; }
+  .hero { display: flex; gap: 34px; flex-wrap: wrap; align-items: baseline; }
+  .hero div b { display: block; font-size: 30px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .hero div { color: var(--text-2); font-size: 13px; }
+  @media (max-width: 640px) {
+    .bar-inner { padding: 12px 16px; } .nav { font-size: 15px; gap: 14px; }
+    .wrap { padding: 24px 16px 70px; } .head h1 { font-size: 28px; } .card { padding: 18px; border-radius: 18px; }
+    .chart { height: 150px; gap: 3px; } .xaxis { gap: 3px; } .xaxis div { font-size: 10px; }
+  }
+@media (max-width: 760px) {
+  html, body { overflow-x: hidden; }
+  .bar-inner { flex-wrap: wrap; }
+  .nav { flex-wrap: wrap; gap: 6px 14px; font-size: 15px; }
+}
+</style>
+<link rel="stylesheet" href="theme.css">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="bar"><div class="bar-inner">
+  <nav class="nav"><a href="index.html">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a><a href="spend.html" class="on">Траты</a><a href="reads.html">Читать</a><a href="french.html">Французский</a><a href="home.html">Дом</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="head"><h1>Траты</h1><div class="sub" id="sub"></div></div>
+  <div class="grid" id="grid"><div class="card"><div class="empty">Загружаю…</div></div></div>
+</main>
+
+<script>
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const money = n => n == null ? '—' : Math.round(n).toLocaleString('ru-RU') + ' ₽';
+const MON = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+const mlabel = m => { const [y, mm] = m.split('-'); return MON[+mm - 1] + (mm === '01' ? ` ${y.slice(2)}` : ''); };
+let D = null, sel = null;
+
+function chart() {
+  const ms = D.months;
+  const top = Math.max(1, ...ms.map(m => m.regular));
+  const peak = ms.reduce((a, b) => (b.regular > a.regular ? b : a), ms[0]);
+  const cols = ms.map(m => {
+    const h = Math.round(m.regular / top * 100);
+    // Крупное рисуется отдельным куском сверху, но масштаб у него свой: покупка квартиры в 34 млн
+    // иначе превратила бы все остальные месяцы в полоску в один пиксель.
+    const bh = m.big ? Math.min(30, Math.round(m.big / top * 100)) : 0;
+    const label = (m === peak || m === ms[ms.length - 1]) ? `<span class="tag">${Math.round(m.regular / 1000)}k</span>` : '';
+    return `<button class="col ${m.month === sel ? 'on' : ''}" data-m="${m.month}" type="button"
+        title="${esc(mlabel(m.month))}: ${esc(money(m.regular))}${m.big ? ' + крупное ' + esc(money(m.big)) : ''}, ${m.n} чеков">
+      ${label}${m.big ? `<span class="big" style="height:${bh}%"></span>` : ''}<span class="v" style="height:${h}%"></span></button>`;
+  }).join('');
+  const axis = ms.map(m => `<div class="${m.month === sel ? 'on' : ''}">${esc(mlabel(m.month))}</div>`).join('');
+  const hasBig = ms.some(m => m.big);
+  return `<div class="card"><div class="eyebrow">По месяцам <span class="more">нажми на столбик</span></div>
+    <div class="chart">${cols}</div><div class="xaxis">${axis}</div>
+    ${hasBig ? `<div class="legend"><span><i class="s1"></i>обычные траты</span><span><i class="s2"></i>крупное (свой масштаб, точная сумма в таблице ниже)</span></div>` : ''}
+  </div>`;
+}
+
+function monthCard() {
+  const m = D.months.find(x => x.month === sel) || D.months[D.months.length - 1];
+  const cats = Object.entries(m.cats);
+  const top = Math.max(1, ...cats.map(([, v]) => v));
+  const rows = cats.map(([k, v]) => `<div class="row"><div class="t">${esc(D.titles[k] || k)}</div><div class="n">${esc(money(v))}</div>
+      <div class="meter"><i style="width:${Math.round(v / top * 100)}%"></i></div></div>`).join('');
+  return `<div class="card half"><div class="eyebrow">${esc(mlabel(m.month))} <span class="more">${m.n} чеков · ${esc(money(m.regular))}${m.big ? ' + крупное ' + esc(money(m.big)) : ''}</span></div>
+    <div class="rows">${rows || '<div class="empty">Нет трат</div>'}</div></div>`;
+}
+
+function recurringCard() {
+  const part = w => D.recurring.filter(r => r.steady === w);
+  const block = (title, list) => !list.length ? '' : `<div class="eyebrow" style="margin-top:14px">${title}</div>
+    <div class="rows">${list.map(r => `<div class="row"><div class="t">${esc(r.name)} <span class="s">раз в ${r.every} дн</span></div>
+      <div class="n">${esc(money(r.amount))}<div class="s">${esc(money(r.year))} в год</div></div></div>`).join('')}</div>`;
+  if (!D.recurring.length) return '';
+  return `<div class="card half"><div class="eyebrow">Повторяется само</div>
+    ${block('Подписки — сумма не меняется', part(true))}
+    ${block('Счета — сумма каждый раз своя', part(false))}
+    <div class="foot">Считается по последнему году: не меньше четырёх списаний с разницей 24–38 дней.</div></div>`;
+}
+
+function inflationCard() {
+  const inf = D.inflation;
+  if (!inf || inf.median == null) return '';
+  const row = x => `<tr><td class="w">${esc(x.name)}</td><td class="n dim">${x.was}</td><td class="n">${x.now}</td>
+    <td class="n ${x.change > 0 ? 'up' : 'down'}">${x.change > 0 ? '+' : ''}${x.change}%</td><td class="n dim">${x.buys}</td></tr>`;
+  return `<div class="card"><div class="eyebrow">Моя инфляция <span class="more">${inf.n} продуктов, которые беру регулярно</span></div>
+    <div class="hero"><div><b>${inf.median > 0 ? '+' : ''}${inf.median}%</b>медианный рост цены по моей корзине</div></div>
+    <div class="tbl" style="margin-top:16px"><table><thead><tr><th>Продукт</th><th class="n">Было</th><th class="n">Стало</th><th class="n">Рост</th><th class="n">Покупок</th></tr></thead>
+      <tbody>${inf.up.slice(0, 10).map(row).join('')}${inf.down.slice(0, 3).map(row).join('')}</tbody></table></div>
+    <div class="foot">Сравнивается медианная цена первой и второй половины покупок, только магазинная еда — у поездки на такси «цена» зависит от длины, а не от года.</div></div>`;
+}
+
+function merchantsCard() {
+  const top = Math.max(1, ...D.merchants.map(m => m.sum));
+  return `<div class="card half"><div class="eyebrow">Куда уходит <span class="more">за последний год</span></div>
+    <div class="rows">${D.merchants.slice(0, 12).map(m => `<div class="row"><div class="t">${esc(m.name)} <span class="s">${esc(D.titles[m.category] || m.category)} · ${m.n}</span></div>
+      <div class="n">${esc(money(m.sum))}</div><div class="meter"><i style="width:${Math.round(m.sum / top * 100)}%"></i></div></div>`).join('')}</div></div>`;
+}
+
+function bigCard() {
+  if (!D.big.length) return '';
+  return `<div class="card half"><div class="eyebrow">Крупное <span class="more">от ${esc(money(100000))} за чек</span></div>
+    <div class="tbl"><table><tbody>${D.big.map(b => `<tr><td class="dim">${esc(b.date)}</td><td class="w">${esc(b.merchant)}<div class="s" style="color:var(--text-3);font-size:12.5px">${esc(b.what.slice(0, 60))}</div></td>
+      <td class="n">${esc(money(b.sum))}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+function render() {
+  const cur = D.months[D.months.length - 1];
+  document.getElementById('sub').textContent =
+    `${D.receipts} чеков с ${D.since} · в этом месяце ${money(cur.regular)}, обычно ${money(D.median)}`;
+  document.getElementById('grid').innerHTML =
+    chart() + monthCard() + recurringCard() + merchantsCard() + bigCard() + inflationCard();
+  document.querySelectorAll('.col').forEach(c => c.onclick = () => { sel = c.dataset.m; render(); });
+}
+
+fetch('/api/spend', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
+  D = d;
+  if (!d.months || !d.months.length) { document.getElementById('grid').innerHTML = '<div class="card"><div class="empty">Чеков пока нет. Забрать их: <code>python3 scripts/lkdr.py sync</code></div></div>'; return; }
+  sel = d.months[d.months.length - 1].month;
+  render();
+}).catch(e => {
+  document.getElementById('grid').innerHTML = `<div class="card"><div class="empty">Не удалось загрузить: ${esc(e)}</div></div>`;
+});
+</script>
+</body>
+</html>

@@ -16,6 +16,7 @@
   GET    /api/weather             today's weather (Open-Meteo, or Yandex when YANDEX_WEATHER_KEY is set), cached 20 min
   GET    /api/schedule            дела на сегодня из Яндекс.Календаря (scripts/schedule.py day_plan), cached 10 min
   GET    /api/fit                 чем занять ближайшее свободное окно (scripts/fit.py), cached 5 min
+  GET    /api/spend               траты по чекам ФНС (scripts/spend.py), cached 15 min
   POST   /api/lecture/<id>/audio  start audio download in the background; GET the same URL for status
   GET    /audio/<file>            audio files with HTTP Range support (needed by iOS)
   GET    /healthz                 200 "ok" (no auth; the Health Bridge iOS app pings it)
@@ -70,6 +71,7 @@ import schedule as S  # noqa: E402
 import notify as NT  # noqa: E402
 import sensors as SN  # noqa: E402
 import fit as FIT  # noqa: E402
+import spend as SP  # noqa: E402
 
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
@@ -86,6 +88,8 @@ PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + n
 # on every reload, and holds the last good answer when Yandex (or the VPN) is down.
 SCHEDULE_CACHE = {"ts": 0.0, "data": None}
 SCHEDULE_TTL = 600
+SPEND_CACHE = {"ts": 0.0, "data": None}
+SPEND_TTL = 900      # чеки приезжают раз в сутки, пересчитывать чаще незачем
 FIT_CACHE = {"ts": 0.0, "data": None}
 FIT_TTL = 300        # окно съезжает вместе со временем, но не быстрее, чем на пять минут
 
@@ -383,6 +387,15 @@ class Handler(SimpleHTTPRequestHandler):
                 if SCHEDULE_CACHE["data"]:
                     return self.send_json(200, SCHEDULE_CACHE["data"])
                 return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
+        if route == "/api/spend":
+            # Траты по чекам из lkdr.nalog.ru (scripts/spend.py). Данные машинные: на ноутбуке и на mini
+            # свои, в git и rsync не ездят.
+            try:
+                if not SPEND_CACHE["data"] or time.time() - SPEND_CACHE["ts"] > SPEND_TTL:
+                    SPEND_CACHE.update(ts=time.time(), data=SP.summary())
+                return self.send_json(200, SPEND_CACHE["data"])
+            except Exception as e:
+                return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
         if route == "/api/fit":
             # Что влезает в ближайшее свободное окно (scripts/fit.py): календарь + погода + закат + длины.
             try:
