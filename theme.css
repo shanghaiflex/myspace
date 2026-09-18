@@ -1,57 +1,174 @@
-/* One warm palette for the whole site — the look of home.html: cream paper, terracotta accent, a serif for page
-   titles. Every page keeps its own layout CSS and only takes the tokens and the headline typography from here;
-   this file is linked after each page's inline <style>, so its :root wins. */
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap");
+/* Одно оформление на весь сайт — журнальное, в духе The New Yorker (18.09.2026, вместо кремовой «бумаги
+   с терракотой»): белая бумага, чёрная антиква, киноварь для рубрик, тонкие линейки вместо теней и
+   скруглений. Каждая страница по-прежнему держит свою вёрстку в inline <style> и подключает этот файл
+   последним, так что здешний :root переопределяет одноимённые токены, а правила ниже — вид элементов,
+   которые есть на всех страницах (полоса меню, заголовки, карточки, кнопки, таблицы).
+
+   Три гарнитуры, все с кириллицей (проверено: Google отдаёт cyrillic-подмножество):
+     --display  Playfair Display — заголовки страниц и карточек. Замена журнальному Irvin: та же
+                высокая контрастность и узкие штрихи; своего Irvin в вебе нет, он лицензионный.
+     --serif    Spectral — весь текст. Замена Caslon, которым набран журнал: у Caslon-клонов с
+                кириллицей либо беда с рисунком, либо крошечный рост строчных, а Spectral рисован
+                под экран и кириллицу имеет родную.
+     --sans     Jost — рубрики, кнопки, шапки таблиц, меню: прописные с разрядкой. Замена Neutraface,
+                которым на сайте журнала набраны названия разделов.
+   Если шрифты не загрузились (телефон без сети), в fallback стоят Georgia / New York — страница
+   остаётся с засечками, а не съезжает в системный сан-сериф. */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300..600&display=swap");
 
 :root {
-  --bg: #f3eee4; --surface: #fbf8f2; --surface-2: #efe8db;
-  --text: #1f1c18; --text-2: #756d61; --text-3: #a59c8e;
-  --line: rgba(60,45,25,.1); --accent: #d9704a; --accent-text: #fff; --ok: #6f8a5f; --warn: #b8552f; --bad: #b8552f; --star: #e3a23c;
-  --glass: rgba(243,238,228,.72);
-  --shadow: 0 1px 2px rgba(60,45,25,.06), 0 12px 32px rgba(60,45,25,.08);
-  --shadow-lg: 0 2px 8px rgba(60,45,25,.08), 0 24px 64px rgba(60,45,25,.16);
-  --card: rgba(251,248,242,.7); --card-text: #1f1c18; --card-text-2: rgba(31,28,24,.7); --card-text-3: rgba(31,28,24,.5);
-  --photo-veil: linear-gradient(180deg, rgba(243,238,228,.25) 0%, rgba(243,238,228,.62) 50%, rgba(243,238,228,.97) 100%);
-  --terra: #d9704a; --sage: #8c9b7c; --sun: #f0b567;
+  --bg: #fbf9f4; --surface: #ffffff; --surface-2: #f1eee7; --paper: #ffffff; --paper-2: #f1eee7;
+  --text: #14120f; --text-2: #58534b; --text-3: #8b857a;
+  --line: rgba(20,18,15,.14); --line-2: rgba(20,18,15,.3); --rule: #14120f;
+  --accent: #c0362a; --accent-text: #fff; --ok: #2d6a55; --warn: #9c6a12; --bad: #c0362a; --star: #a67c1c;
+  --glass: rgba(251,249,244,.94);
+  --shadow: 0 1px 2px rgba(20,18,15,.1);
+  --shadow-lg: 0 2px 10px rgba(20,18,15,.16);
+  --card: rgba(255,255,255,.94); --card-text: #14120f; --card-text-2: rgba(20,18,15,.66); --card-text-3: rgba(20,18,15,.46);
+  --hero-glass: rgba(255,255,255,.9); --hero-text: #14120f; --hero-text-2: rgba(20,18,15,.66); --hero-text-3: rgba(20,18,15,.46);
+  --photo-veil: linear-gradient(180deg, rgba(251,249,244,.42) 0%, rgba(251,249,244,.8) 50%, rgba(251,249,244,.99) 100%);
+  --terra: #c0362a; --terra-2: #d9584a; --sage: #2d6a55; --sun: #c9a227;
+  --ink: #14120f; --ink-2: rgba(20,18,15,.45); --ink-3: rgba(20,18,15,.16);
+  /* Скругления журналу чужды: бумага режется под прямым углом. Токен оставлен, чтобы страницы,
+     которые считают радиус сами (обложки миксов и лекций), выпрямились вместе со всеми. */
+  --radius: 0px;
   /* Палитра графиков. Порядок слотов фиксирован и цвета назначаются подряд, никогда по кругу:
-     именно порядок и есть защита от дальтонизма. Набор проверен валидатором (OKLab, симуляция
-     Machado 2009) против обеих поверхностей и проходит все шесть проверок — светлота в полосе,
-     цветность выше пола, худшая соседняя пара ΔE 12,4 при дальтонизме и 17,3 при полном зрении,
-     контраст к фону ≥ 3:1. Один и тот же набор годится и для тёмной темы (проверено отдельно,
-     против #201e1b), поэтому ниже он не переопределяется. Менять — только прогнав валидатор заново:
-     прежняя пара «терракота + шалфей» разошлась всего на 14,9 и была неразличима даже при полном зрении.
+     именно порядок и есть защита от дальтонизма. Набор проверен валидатором (scripts/palette_check.py:
+     OKLab, симуляция Machado 2009) против обеих поверхностей и проходит все шесть проверок — светлота
+     в полосе, цветность выше пола, худшая соседняя пара при дальтонизме, контраст к фону ≥ 3:1.
+     Один и тот же набор годится и для тёмной темы, поэтому ниже он не переопределяется. Менять —
+     только прогнав валидатор заново: прежняя пара «терракота + шалфей» расходилась всего на 14,9 и
+     была неразличима даже при полном зрении. --c1 теперь киноварь рубрик — график и страница об одном;
+     из-за неё --c2 из пурпура стал синим: с киноварью пурпур расходился всего на 13,9 при полном
+     зрении. Нынешние цифры — худшая соседняя пара 20,1 при полном зрении и 12,4 при дальтонизме,
+     все пары 10,2 (было 17,3 / 12,4 / 8,8), контраст к бумаге не ниже 3,25:1.
      --c0 — не цвет данных, а нейтраль для «прочего», она в счёт слотов не идёт. */
-  --c1: #d9704a; --c2: #a94f8f; --c3: #5f8c30; --c4: #7d5ea8; --c5: #b8860b; --c6: #00897c;
-  --c0: #9a9186;
-  --serif: "Fraunces", ui-serif, "New York", "Iowan Old Style", Georgia, serif;
+  --c1: #c0362a; --c2: #2f6fb5; --c3: #5f8c30; --c4: #7d5ea8; --c5: #b8860b; --c6: #00897c;
+  --c0: #918b81;
+  --display: "Playfair Display", "New York", "Times New Roman", Georgia, serif;
+  --serif: "Spectral", "Iowan Old Style", "New York", Georgia, serif;
+  --sans: "Jost", "Avenir Next", Futura, "Helvetica Neue", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #161513; --surface: #201e1b; --surface-2: #2a2723;
-    --text: #efe8dc; --text-2: #a69d8f; --text-3: #6f685e;
-    --line: rgba(255,240,220,.09); --accent: #e07f57; --accent-text: #1a1512; --ok: #93a284; --warn: #f0a070; --bad: #f0a070; --star: #f2be74;
-    --glass: rgba(22,21,19,.7);
-    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.45);
-    --shadow-lg: 0 2px 8px rgba(0,0,0,.5), 0 24px 64px rgba(0,0,0,.6);
-    --card: rgba(28,26,23,.6); --card-text: #efe8dc; --card-text-2: rgba(239,232,220,.72); --card-text-3: rgba(239,232,220,.48);
-    --photo-veil: linear-gradient(180deg, rgba(22,21,19,.3) 0%, rgba(22,21,19,.62) 50%, rgba(22,21,19,.97) 100%);
-    --terra: #e07f57; --sage: #93a284; --sun: #f2be74;
-    --c0: #7b736a;
+    --bg: #131210; --surface: #1b1916; --surface-2: #26231e; --paper: #1b1916; --paper-2: #26231e;
+    --text: #f3f0e8; --text-2: #a5a099; --text-3: #726c63;
+    --line: rgba(243,240,232,.16); --line-2: rgba(243,240,232,.32); --rule: rgba(243,240,232,.85);
+    --accent: #e3604d; --accent-text: #17110f; --ok: #8ab79f; --warn: #d8a548; --bad: #e3604d; --star: #d8a548;
+    --glass: rgba(19,18,16,.92);
+    --shadow: 0 1px 2px rgba(0,0,0,.5);
+    --shadow-lg: 0 2px 12px rgba(0,0,0,.6);
+    --card: rgba(27,25,22,.9); --card-text: #f3f0e8; --card-text-2: rgba(243,240,232,.7); --card-text-3: rgba(243,240,232,.48);
+    --hero-glass: rgba(19,18,16,.82); --hero-text: #f3f0e8; --hero-text-2: rgba(243,240,232,.7); --hero-text-3: rgba(243,240,232,.48);
+    --photo-veil: linear-gradient(180deg, rgba(19,18,16,.45) 0%, rgba(19,18,16,.8) 50%, rgba(19,18,16,.99) 100%);
+    --terra: #e3604d; --terra-2: #ef8271; --sage: #8ab79f; --sun: #d8a548;
+    --ink: #efece4; --ink-2: rgba(239,236,228,.45); --ink-3: rgba(239,236,228,.16);
+    --c0: #7a746b;
   }
 }
 
-/* warm light across the page, like sun through linen; pages with a photo backdrop keep their photo */
+/* Бумага плоская: тёплого «света через полотно» на ней нет — страница журнала ничем не подсвечена.
+   content: none гасит и радиальный градиент, который рисует у себя страница «Дом». */
+body:not(:has(.backdrop))::before { content: none; }
 body { position: relative; }
-body:not(:has(.backdrop))::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(60% 45% at 8% 0%, color-mix(in srgb, var(--sun) 22%, transparent), transparent 70%),
-              radial-gradient(45% 40% at 100% 100%, color-mix(in srgb, var(--sage) 18%, transparent), transparent 70%); }
+body, button, input, select, textarea {
+  font-family: var(--serif); letter-spacing: 0; font-optical-sizing: auto; }
+body { font-size: 16px; line-height: 1.52; }
+::selection { background: color-mix(in srgb, var(--accent) 24%, transparent); }
+/* Фотографии-подложки приглушены: журнал печатает снимок краской, а не светит им с экрана. */
+.backdrop .ph { filter: saturate(.72) contrast(1.04); }
 
-.nav a { font-weight: 500; }
-.nav a.on { font-weight: 600; }
+/* --- полоса меню: шапка выпуска. Двойная линейка снизу, разделы прописными с разрядкой,
+       текущий — киноварью. Блюра нет: бумага не стеклянная. --- */
+.bar { background: var(--glass); border-bottom: 3px double var(--rule);
+  -webkit-backdrop-filter: none; backdrop-filter: none; }
+.nav { font-family: var(--sans); font-size: 11.5px; font-weight: 500; text-transform: uppercase;
+  letter-spacing: .14em; gap: 15px; }
+.nav a { color: var(--text-2); font-weight: 500; }
+.nav a:hover { color: var(--text); }
+.nav a.on { color: var(--accent); font-weight: 500; }
 
-/* page titles in the serif; card and list titles stay in the sans */
+/* --- заголовки --- */
 .head h1, .greet h1, .hero h1, h1#heroTitle, h1#title {
-  font-family: var(--serif); font-weight: 400; letter-spacing: -0.02em; font-variation-settings: "opsz" 144; line-height: 1.02; }
-.head h1, h1#title { font-size: 42px; }
-.greet h1 { font-size: 58px; text-shadow: none; }
-@media (max-width: 640px) { .head h1, h1#title { font-size: 32px; } .greet h1 { font-size: 40px; } }
+  font-family: var(--display); font-weight: 500; letter-spacing: -0.012em; line-height: 1.04;
+  font-variation-settings: normal; }
+.head h1, h1#title { font-size: 46px; }
+.greet h1 { font-size: 60px; text-shadow: none; }
+/* Под заголовком страницы — линейка; над разделом внутри страницы — тоже. Так полоса текста
+   делится на рубрики, как на журнальном развороте. */
+.head:has(h1) { border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+.sechead, .head:has(h2) { border-top: 1px solid var(--rule); padding-top: 9px; }
+.sechead h2, .head h2, .card h2, .tile h2, .dish h3, .art h3 {
+  font-family: var(--display); font-weight: 500; letter-spacing: -0.01em; line-height: 1.16; }
+.card h2, .tile h2 { font-size: 22px; }
+.sechead h2, .head h2 { font-size: 23px; }
+.card .t, .row .t b { font-family: var(--display); font-weight: 500; }
+.card .t { font-size: 15px; letter-spacing: -0.005em; }
+/* На телефоне кегль заголовков свой: страницы задают его сами, но здешнее правило идёт последним,
+   поэтому уменьшать приходится тоже здесь. */
+@media (max-width: 640px) {
+  .head h1, h1#title { font-size: 33px; }
+  .greet h1 { font-size: 42px; }
+  .sechead h2, .head h2 { font-size: 20px; }
+  .card h2, .tile h2 { font-size: 20px; }
+}
+/* Подписи, сноски и пояснения — курсивом, как подписи к картинкам в журнале. */
+.head .meta, .head .sub, .sechead .meta, .card .sub, .card .alt, .hero .sub, .hero .meta, .foot, .why, .note, .empty, .sched, .cap {
+  font-family: var(--serif); font-style: italic; }
+.head .meta, .sechead .meta { font-size: 14px; }
+
+/* --- рубрики: прописные с разрядкой, киноварью --- */
+/* .src — та же рубрика, только про источник (издание у статьи, площадка у микса). */
+.art .src, .src { font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: .12em;
+  text-transform: uppercase; }
+.eyebrow, .card .eyebrow, .hero .eyebrow {
+  font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: .17em;
+  text-transform: uppercase; color: var(--accent); }
+.card .eyebrow .more, .eyebrow .more {
+  font-family: var(--serif); font-style: italic; font-size: 13.5px; font-weight: 400;
+  letter-spacing: 0; text-transform: none; color: var(--text-3); }
+/* В «more» иногда лежит не ссылка, а кнопка («Обновить») — она остаётся кнопкой, а не подписью. */
+.eyebrow .more .btn, .eyebrow .more button {
+  font-family: var(--sans); font-style: normal; text-transform: uppercase; letter-spacing: .1em; font-size: 11.5px; }
+
+/* Прямой угол на всю страницу. Страницы скругляют кто во что горазд (10–30 px), а бумага режется
+   ровно, и правило должно перебивать даже двойные селекторы вроде `.card.wx.c4` — отсюда цепочка
+   `:not()`: каждый класс в ней добавляет вес, а перечисление внутри одной скобки — нет. Круглым
+   остаётся только то, что круглое по смыслу: кнопка «играть», ползунки, тумблеры, точки и кружки. */
+:not(.btn.play):not(.knob):not(.rail):not(.fill):not(.prog):not(.meter):not(.ico):not(.sw):not(.chev):not(.st):not(.halo):not(i) {
+  border-radius: 0; }
+.btn.play, .knob, .chev, .ico, .sw, .sw::after, .chip i, input[type=range]::-webkit-slider-thumb { border-radius: 999px; }
+.prog, .rail, .fill, .meter, .bar-wrap .rail, .bar-wrap .fill { border-radius: 999px; }
+
+/* Печать плоская: тени остаются только под обложками при наведении, чтобы карточка отзывалась на курсор.
+   Двойной класс в селекторе — чтобы перебить страничные `.card.art .thumb` и им подобные. */
+.card.card, .card.card .thumb, .card.card .cover, .card.card .poster, .row .img, .list .img, .posters a,
+.fit .pick .img, .rec .cv, .art .pic, .sketch, .hero.hero, .dish, .tile {
+  box-shadow: none; }
+
+/* --- карточки: не стеклянные плашки с тенью, а вырезки из бумаги: прямой угол, волосяная рамка.
+       Фон и рамку карточки задаёт сама страница токенами (--card / --surface / --line), поэтому здесь
+       только то, что безопасно для страниц, где .card — это плитка с постером без фона вовсе. --- */
+.card { -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line); }
+.card:hover .cover, .card:hover .poster { box-shadow: var(--shadow-lg); }
+
+/* --- кнопки, чипы, переключатели: прямоугольные, прописными --- */
+.btn, .chip, .tab, .segmented button, .acts button, .sechead button, .rec .acts button {
+  font-family: var(--sans); text-transform: uppercase; letter-spacing: .1em; font-weight: 500; }
+.btn, .acts button, .sechead button, .rec .acts button { font-size: 11.5px; }
+.chip, .tab { font-size: 10.5px; }
+.btn.sec { font-variant-numeric: tabular-nums; }
+
+/* --- таблицы и числа: шапка прописными, цифры в колонку --- */
+th { font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-3); }
+td, .n, output, .score, .hero div b { font-variant-numeric: tabular-nums; }
+
+
+/* Несколько цветов страницы держат у себя мимо палитры (системные зелёный и красный iOS, оранжевый
+   у лекций «в планах») — здесь они возвращаются в журнальный набор. */
+.rec .acts .like:hover { background: var(--ok); color: var(--surface); }
+.rec .acts .no:hover { background: var(--bad); color: var(--surface); }
+.hero .links button.danger:hover { color: var(--bad); }
+.pomo.run.rest .phase { color: var(--ok); }
+.chip.queued { background: color-mix(in srgb, var(--warn) 16%, transparent); color: var(--warn); }
