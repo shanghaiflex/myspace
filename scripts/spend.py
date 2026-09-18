@@ -35,9 +35,11 @@ RULES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spend_rul
 
 MONTHS_SHOWN = 24          # показываем всё, что есть после отсечки `since` (сейчас это 2025 год целиком)
 RECUR_MIN = 4              # меньше четырёх списаний — ещё не регулярность
-RECUR_GAP = (24, 38)       # дней между списаниями, чтобы считать это ежемесячным
+RECUR_GAP = (20, 45)       # дней между списаниями, чтобы считать это ежемесячным: счёт за ЖКУ платят
+                           # не по будильнику, и полоса 24–38 его теряла
 RECUR_SPAN = 100           # и тянуться это должно месяцами: три покупки одежды подряд — не подписка
 RECUR_STEADY = 0.35        # разброс сумм, при котором это подписка, а не просто регулярный счёт
+RECUR_SHARE = 0.6          # какая доля промежутков должна быть месячной, чтобы это была регулярность
 INFL_MIN_BUYS = 6          # товар должен покупаться хотя бы столько раз
 INFL_GAP_DAYS = 300        # и «тогда» с «сейчас» должны быть разнесены хотя бы на это
 INFL_CATS = ("еда",)       # корзина — это магазин: у поездки на такси «цена» зависит от длины, а не от года
@@ -123,10 +125,10 @@ def months(rs, n=MONTHS_SHOWN, R=None):
     return out
 
 
-def merchants(rs, since=None, limit=25):
+def merchants(rs, since=None, limit=25, until=None):
     agg = collections.defaultdict(lambda: {"sum": 0.0, "n": 0, "name": "", "cat": "", "last": ""})
     for r in rs:
-        if since and r["date"] < since:
+        if (since and r["date"] < since) or (until and r["date"] > until):
             continue
         a = agg[r["inn"] or r["merchant"]]
         a["sum"] += r["sum"]; a["n"] += 1
@@ -155,9 +157,13 @@ def recurring(rs, today=None):
         gaps = [b - a for a, b in zip(days, days[1:])]
         if not gaps:
             continue
-        gap = st.median(gaps)
-        if not (RECUR_GAP[0] <= gap <= RECUR_GAP[1]):
+        # Медианы мало: у четырёх покупок с промежутками 24, 139 и 2 дня медиана равна 24, и детская
+        # одежда из Mothercare попадала в «регулярное». Требуем, чтобы в месячную полосу укладывалось
+        # большинство промежутков, а не один средний.
+        good = [g for g in gaps if RECUR_GAP[0] <= g <= RECUR_GAP[1]]
+        if len(good) < max(3, round(RECUR_SHARE * len(gaps))):
             continue
+        gap = st.median(good)
         if days[-1] - days[0] < RECUR_SPAN:
             continue          # «каждые 24 дня» на отрезке в месяц — совпадение, а не регулярность
         sums = [g["sum"] for g in group]
@@ -244,6 +250,8 @@ def summary(store=None):
         "months": ms,
         "median": round(st.median(regular)) if regular else None,
         "merchants": merchants(rs, year_ago),
+        # Тот же список, но помесячно: «куда ушло в августе» — вопрос чаще, чем «куда ушло за год».
+        "merchantsByMonth": {m["month"]: merchants(rs, m["month"] + "-01", 10, m["month"] + "-31") for m in ms},
         "recurring": recurring(rs, today),
         "inflation": dict(inflation(infl_rows), since=R.get("sinceInflation")),
         "big": [{"date": r["date"], "merchant": r["merchant"], "sum": round(r["sum"]),

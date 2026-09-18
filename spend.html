@@ -76,6 +76,10 @@
   .row .meter i { display: block; height: 100%; background: var(--c, var(--accent)); }
   .row .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; background: var(--c, var(--accent)); margin-right: 7px; vertical-align: 0; }
   .row .s { color: var(--text-3); font-size: 12.5px; font-weight: 400; }
+  .tab { font: inherit; font-size: 12.5px; font-weight: 500; border: 0; background: none; color: var(--text-3);
+    cursor: pointer; padding: 2px 8px; border-radius: 999px; }
+  .tab.on { background: var(--surface-2); color: var(--text); font-weight: 600; }
+  .tab:hover { color: var(--text); }
   .tbl { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: -4px; padding: 4px; }
   table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
   th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); font-weight: 600; padding: 6px 10px 8px 0; border-bottom: 1px solid var(--line); }
@@ -202,11 +206,19 @@ function inflationCard() {
     <div class="foot">Сравнивается медианная цена первой и второй половины покупок, только магазинная еда — у поездки на такси «цена» зависит от длины, а не от года.</div></div>`;
 }
 
+// «Куда уходит» смотрит на выбранный месяц — за год картина усредняется и перестаёт отвечать
+// на вопрос «на что ушёл август». Переключатель рядом возвращает годовой вид.
+let mScope = 'month';
 function merchantsCard() {
-  const top = Math.max(1, ...D.merchants.map(m => m.sum));
-  return `<div class="card half"><div class="eyebrow">Куда уходит <span class="more">за последний год</span></div>
-    <div class="rows">${D.merchants.slice(0, 12).map(m => `<div class="row"><div class="t">${esc(m.name)} <span class="s">${esc(D.titles[m.category] || m.category)} · ${m.n}</span></div>
-      <div class="n">${esc(money(m.sum))}</div><div class="meter" style="--c:${colorOf(m.category)}"><i style="width:${Math.round(m.sum / top * 100)}%"></i></div></div>`).join('')}</div></div>`;
+  const m = D.months.find(x => x.month === sel) || D.months[D.months.length - 1];
+  const list = mScope === 'year' ? D.merchants : ((D.merchantsByMonth || {})[m.month] || []);
+  const top = Math.max(1, ...list.map(x => x.sum));
+  const tab = (id, label) => `<button class="tab ${mScope === id ? 'on' : ''}" data-scope="${id}" type="button">${label}</button>`;
+  return `<div class="card half"><div class="eyebrow">Куда уходит
+      <span class="more">${tab('month', esc(mfull(m.month)))}${tab('year', 'за год')}</span></div>
+    <div class="rows">${list.length ? list.slice(0, 12).map(x => `<div class="row"><div class="t">${esc(x.name)} <span class="s">${esc(D.titles[x.category] || x.category)} · ${x.n}</span></div>
+      <div class="n">${esc(money(x.sum))}</div><div class="meter" style="--c:${colorOf(x.category)}"><i style="width:${Math.round(x.sum / top * 100)}%"></i></div></div>`).join('')
+      : '<div class="empty">В этом месяце трат не было</div>'}</div></div>`;
 }
 
 function bigCard() {
@@ -224,6 +236,7 @@ function render() {
   document.getElementById('grid').innerHTML =
     chart() + monthCard() + recurringCard() + merchantsCard() + bigCard() + inflationCard();
   document.querySelectorAll('.col').forEach(c => c.onclick = () => { sel = c.dataset.m; render(); });
+  document.querySelectorAll('.tab').forEach(t => t.onclick = () => { mScope = t.dataset.scope; render(); });
 }
 
 fetch('/api/spend', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
