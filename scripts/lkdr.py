@@ -311,12 +311,39 @@ def when(entry):
     return (f.get("dateTime") or r.get("createdDate") or "")[:10]
 
 
-def total(entry):
-    f, r = entry.get("fiscal") or {}, entry.get("receipt") or {}
+def _num(d, k):
     try:
-        return float(f.get("totalSum") if f.get("totalSum") is not None else r.get("totalSum") or 0)
+        return float(d.get(k) or 0)
     except (TypeError, ValueError):
         return 0.0
+
+
+def total(entry):
+    """Сумма чека как она напечатана. Для подсчёта трат брать НЕЛЬЗЯ — см. paid()."""
+    f, r = entry.get("fiscal") or {}, entry.get("receipt") or {}
+    v = f.get("totalSum") if f.get("totalSum") is not None else r.get("totalSum")
+    try:
+        return float(v or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def paid(entry):
+    """Сколько денег реально ушло. `totalSum` этого не значит: чек о передаче товара печатается на всю
+    сумму, но оплачен зачётом ранее внесённого аванса (`prepaidSum`, `paymentType: 4`), и денег по нему
+    не двигается. Таких чеков 153 из 1676 — на 36,8 млн ₽, то есть почти половина «трат» по `totalSum`
+    была бы посчитана дважды. Двойной счёт не только у застройщика: так же приходят Озон, Авито, ВкусВилл
+    (доставка), СДЭК — везде, где платишь онлайн, а чек на товар печатают при передаче."""
+    f = entry.get("fiscal") or {}
+    if not f:
+        return total(entry)          # у чеков старше пяти лет фискальных данных нет, есть только шапка
+    return _num(f, "cashTotalSum") + _num(f, "ecashTotalSum")
+
+
+def offset(entry):
+    """Чек — зачёт аванса, а не оплата: деньгами ноль, зачётом вся сумма."""
+    f = entry.get("fiscal") or {}
+    return bool(f) and _num(f, "prepaidSum") > 0 and paid(entry) == 0
 
 
 def seller(entry):
@@ -337,12 +364,15 @@ def stats():
         d = when(v)
         if d:
             months[d[:7]] += 1
-            sums[d[:7]] += total(v)
+            sums[d[:7]] += paid(v)
         merchants[seller(v)] += 1
         n_items += len(items(v))
+    off = [v for v in store.values() if offset(v)]
     lines = [f"Чеков: {len(store)}, с позициями: {sum(1 for v in store.values() if items(v))}, позиций всего: {n_items}",
              f"Период: {dates[0]} — {dates[-1]}" if dates else "Дат нет",
-             "", "Последние месяцы:"]
+             f"Зачётов аванса (денег не двигалось, в суммы не входят): {len(off)} на "
+             + f"{round(sum(total(v) for v in off)):,}".replace(",", " ") + " ₽",
+             "", "Последние месяцы (реально уплаченное):"]
     for m in sorted(months)[-12:]:
         lines.append(f"  {m}  {round(sums[m]):>8} ₽  {months[m]:>3} чеков")
     lines.append("")
