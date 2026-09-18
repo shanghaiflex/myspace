@@ -81,6 +81,11 @@
     cursor: pointer; padding: 2px 8px; border-radius: 999px; }
   .tab.on { background: var(--surface-2); color: var(--text); font-weight: 600; }
   .tab:hover { color: var(--text); }
+  .leaks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 26px; }
+  @media (max-width: 760px) { .leaks { grid-template-columns: 1fr; } }
+  .leak .lt { display: flex; align-items: baseline; gap: 12px; font-size: 14.5px; font-weight: 600; }
+  .leak .lt b { margin-left: auto; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .leak .ln { font-size: 13px; color: var(--text-2); margin-top: 2px; line-height: 1.4; }
   .tbl { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: -4px; padding: 4px; }
   table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
   th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); font-weight: 600; padding: 6px 10px 8px 0; border-bottom: 1px solid var(--line); }
@@ -197,6 +202,16 @@ function recurringCard() {
     и большинство промежутков между ними — месячные (20–45 дней).</div></div>`;
 }
 
+// «Где течёт» — наблюдения, посчитанные арифметикой, а не моделью: карточка про деньги, которую
+// нельзя проверить на глаз, слишком дорого обходится, если соврёт.
+function leaksCard() {
+  if (!(D.leaks || []).length) return '';
+  return `<div class="card"><div class="eyebrow">Где течёт <span class="more">посчитано по чекам, без моделей</span></div>
+    <div class="leaks">${D.leaks.map(l => `<div class="leak">
+      <div class="lt">${esc(l.title)}${l.amount != null ? `<b>${esc(money(l.amount))}</b>` : ''}</div>
+      <div class="ln">${esc(l.note)}</div></div>`).join('')}</div></div>`;
+}
+
 function inflationCard() {
   const inf = D.inflation;
   if (!inf || inf.median == null) return '';
@@ -237,7 +252,7 @@ function render() {
   document.getElementById('sub').textContent =
     `${D.receipts} чеков с деньгами с ${D.cut || D.since} · в этом месяце ${money(cur.regular)}, обычно ${money(D.median)}`;
   document.getElementById('grid').innerHTML =
-    chart() + monthCard() + recurringCard() + merchantsCard() + bigCard() + inflationCard();
+    chart() + monthCard() + recurringCard() + leaksCard() + merchantsCard() + bigCard() + inflationCard();
   document.querySelectorAll('.col').forEach(c => c.onclick = () => { sel = c.dataset.m; render(); });
   document.querySelectorAll('.tab').forEach(t => t.onclick = () => { mScope = t.dataset.scope; render(); });
 }

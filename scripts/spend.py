@@ -235,6 +235,97 @@ def inflation(rs, limit=20):
             "up": out[:limit], "down": [x for x in out if x["change"] < 0][-limit:][::-1]}
 
 
+# Строки чека, за которыми нет товара: сервисные сборы и платная доставка. Их стоит видеть отдельно —
+# это единственная часть трат, которую можно убрать, ничего не потеряв.
+FEE = re.compile(r"услуги сервиса|услуги курьерской|сервисный сбор|доставка курьером|стоимость доставки|"
+                 r"плата за доставку|сбор за доставку", re.I)
+LEAK_MIN = 3000            # мельче — не наблюдение, а шум
+GROWTH = 1.5               # во столько раз должно вырасти, чтобы об этом стоило говорить
+
+
+def money(x):
+    return f"{round(x):,}".replace(",", " ")
+
+
+def leaks(rs, today=None):
+    """Наблюдения по тратам: где деньги уходят на то, что покупкой не является, и что поехало вверх.
+    Ни модели, ни советов про вклады — только арифметика по своим же чекам, которую можно перепроверить
+    глазами. Каждое наблюдение обязано называть число, иначе это не наблюдение.
+
+    Правило отбора жёсткое: сюда идёт только то, на что можно повлиять, не меняя жизнь. Поэтому здесь
+    нет «категория выросла в N раз» вообще: начавшаяся терапия давала «Здоровье ×17,8», и формально это
+    правда, а по смыслу — не утечка, а решение человека."""
+    today = today or dt.date.today()
+    year, prev = str(today.year), str(today.year - 1)
+    out = []
+
+    # 1. Сборы и платная доставка — строки, за которыми нет товара. Всё считается за текущий год,
+    #    включая разбивку: год назад сумма была другая, и смешивать их нельзя.
+    fees_by = collections.defaultdict(lambda: [0.0, 0])
+    total_fees = collections.Counter()
+    for r in rs:
+        for it in r["items"]:
+            if not FEE.search(str(it.get("name") or "")):
+                continue
+            try:
+                v = float(it.get("sum") or 0)
+            except (TypeError, ValueError):
+                continue
+            total_fees[r["date"][:4]] += v
+            if r["date"][:4] == year:
+                e = fees_by[r["merchant"]]; e[0] += v; e[1] += 1
+    if total_fees[year] >= LEAK_MIN and fees_by:
+        top = max(fees_by.items(), key=lambda kv: kv[1][0])
+        out.append({"kind": "fees", "title": "Сборы и платная доставка", "amount": round(total_fees[year]),
+                    "note": f"за {year} год, товара за этими строками нет. Больше всего — {top[0]}: "
+                            f"{money(top[1][0])} ₽ за {top[1][1]} раз, в среднем "
+                            f"{money(top[1][0] / max(top[1][1], 1))} ₽"})
+
+    # 2. Доставка еды против магазина — доля и куда она движется.
+    def food(y):
+        shop = sum(r["sum"] for r in rs if r["date"][:4] == y and r["category"] == "еда")
+        deliv = sum(r["sum"] for r in rs if r["date"][:4] == y and r["category"] == "доставка-еды")
+        return deliv, shop + deliv
+    d_now, all_now = food(year)
+    d_old, all_old = food(prev)
+    if all_now and d_now >= LEAK_MIN:
+        was = f", год назад {round(d_old / all_old * 100)}%" if all_old else ""
+        out.append({"kind": "delivery", "title": "Доставка еды", "amount": round(d_now),
+                    "note": f"{round(d_now / all_now * 100)}% всех денег на еду{was}"})
+
+    # 3. Такси против метро: обе строки про одну и ту же дорогу, поэтому их сравнение честное.
+    def ride(y, name):
+        return sum(r["sum"] for r in rs if r["date"][:4] == y and r["merchant"] == name)
+    taxi, metro = ride(year, "Яндекс.Такси"), ride(year, "Метро")
+    taxi_prev = ride(prev, "Яндекс.Такси")
+    if taxi >= LEAK_MIN:
+        bits = [f"метро за тот же год — {money(metro)} ₽"] if metro else []
+        if taxi_prev >= LEAK_MIN and taxi > taxi_prev * GROWTH:
+            bits.append(f"за весь {prev} было {money(taxi_prev)} ₽")
+        out.append({"kind": "taxi", "title": "Такси", "amount": round(taxi), "note": "; ".join(bits)})
+
+    # 4. Подписки: сколько стоят живые и что перестало списываться.
+    rec = recurring(rs, today)
+    live = [x for x in rec if x["active"] and x["steady"]]
+    if live:
+        out.append({"kind": "subs", "title": "Подписки", "amount": round(sum(x["year"] for x in live)),
+                    "note": "в год: " + ", ".join(f"{x['name']} {money(x['amount'])} ₽/мес" for x in live[:4])})
+    for x in (x for x in rec if not x["active"]):
+        out.append({"kind": "dead", "title": x["name"], "amount": round(x["amount"]),
+                    "note": f"в месяц — но не списывают {x['sinceLast']} дней, последний раз {x['last']}. "
+                            f"Если подписка жива, деньги вернутся в счёт"})
+
+    # 5. Товары, подорожавшие заметно сильнее корзины: их имеет смысл пересмотреть поштучно.
+    inf = inflation(rows(None, rules(), since=rules().get("sinceInflation")))
+    if inf["median"] is not None:
+        hot = [x for x in inf["up"] if x["change"] >= max(25, inf["median"] + 20)][:3]
+        if hot:
+            out.append({"kind": "prices", "title": "Подорожало сильнее корзины", "amount": None,
+                        "note": "; ".join(f"{x['name'].split(',')[0][:32]} +{x['change']}%" for x in hot)
+                                + f" — при том, что корзина целиком {inf['median']:+}%"})
+    return sorted(out, key=lambda x: -(x["amount"] or 0))
+
+
 def summary(store=None):
     R = rules()
     rs = rows(store, R)
@@ -258,6 +349,7 @@ def summary(store=None):
         "merchantsByMonth": {m["month"]: merchants(rs, m["month"] + "-01", 10, m["month"] + "-31") for m in ms},
         "recurring": recurring(rs, today),
         "inflation": dict(inflation(infl_rows), since=R.get("sinceInflation")),
+        "leaks": leaks(rs),
         "big": [{"date": r["date"], "merchant": r["merchant"], "sum": round(r["sum"]),
                  "what": (r["items"][0].get("name") if r["items"] else "") or ""}
                 for r in sorted((r for r in rs if r["big"]), key=lambda r: r["date"], reverse=True)[:12]],
@@ -310,14 +402,10 @@ def who(query, store=None, R=None):
     return out
 
 
-def money(x):
-    return f"{round(x):,}".replace(",", " ")
-
-
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("summary", "months", "recurring", "inflation", "unknown"):
+    for name in ("summary", "months", "recurring", "inflation", "unknown", "leaks"):
         sub.add_parser(name)
     p = sub.add_parser("merchants"); p.add_argument("--months", type=int, default=12)
     p = sub.add_parser("who"); p.add_argument("query", help="имя, ИНН или слово из названия товара")
@@ -357,6 +445,10 @@ def main(argv=None):
             print("\nподешевело:")
             for x in inf["down"][:5]:
                 print(f"  {x['name'][:42]:44}{x['was']:>7}{x['now']:>8}{x['change']:>7}%  {x['buys']}")
+    elif a.cmd == "leaks":
+        for x in leaks(rs):
+            head = f"{x['title']}" + (f" — {money(x['amount'])} ₽" if x["amount"] is not None else "")
+            print(f"  {head}\n      {x['note']}")
     elif a.cmd == "who":
         found = who(a.query, None, R)
         if not found:
