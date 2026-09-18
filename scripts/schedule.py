@@ -615,7 +615,8 @@ def main():
     p.add_argument("--dry-run", action="store_true")
     p = sub.add_parser("remove"); p.add_argument("title"); p.add_argument("--at", help="HH:MM")
     p.add_argument("--all", action="store_true"); p.add_argument("--dry-run", action="store_true")
-    p = sub.add_parser("add"); p.add_argument("title"); p.add_argument("--day", required=True, help="MO..SU")
+    p = sub.add_parser("add"); p.add_argument("title"); p.add_argument("--day", help="MO..SU")
+    p.add_argument("--date", help="YYYY-MM-DD — начать с этого дня, а не с ближайшего --day")
     p.add_argument("--time", required=True, help="HH:MM"); p.add_argument("--minutes", type=int, default=60)
     p.add_argument("--once", action="store_true", help="одно событие, а не еженедельное правило")
     p.add_argument("--dry-run", action="store_true")
@@ -659,16 +660,26 @@ def main():
     elif a.cmd == "add":
         zone = tz()
         hh, mm = (int(x) for x in a.time.split(":"))
-        day = next_weekday(dt.datetime.now(zone).date(), a.day.upper())
+        # --day берёт ближайший такой день недели, включая сегодняшний, — а «сделай по пятницам», сказанное
+        # в пятницу вечером, значит «со следующей»: правило с сегодняшним DTSTART положило бы занятие в уже
+        # прошедший час и показало бы его в делах на сегодня. Поэтому есть --date: точный день начала.
+        if not a.day and not a.date:
+            raise SystemExit("нужен --day (MO..SU) или --date YYYY-MM-DD")
+        if a.date:
+            day = dt.date.fromisoformat(a.date)
+            code = next(k for k, v in WEEKDAYS.items() if v == day.weekday())
+        else:
+            code = a.day.upper()
+            day = next_weekday(dt.datetime.now(zone).date(), code)
         start = dt.datetime.combine(day, dt.time(hh, mm), zone)
-        uid, ics = build_event(a.title, start, a.minutes, None if a.once else [a.day.upper()], zone)
+        uid, ics = build_event(a.title, start, a.minutes, None if a.once else [code], zone)
         # Into my own calendar, not whichever collection the server happens to list first.
         only = [c.strip() for c in (env("SCHEDULE_CALENDARS") or "").split(",") if c.strip()]
         cals = calendars()
         mine = next((c for c in cals if c["name"] in only), None) or cals[0]
         target = mine["href"].rstrip("/") + f"/{uid}.ics"
         print(("(сухой прогон) " if a.dry_run else "") + f"{a.title}: {start:%a %d.%m %H:%M}"
-              + (f" еженедельно {a.day.upper()}" if not a.once else "") + f", {a.minutes} мин")
+              + (f" еженедельно {code}" if not a.once else "") + f", {a.minutes} мин")
         if not a.dry_run:
             put_event(target, ics)
     elif a.cmd == "free":
