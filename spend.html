@@ -113,6 +113,8 @@
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const money = n => n == null ? '—' : Math.round(n).toLocaleString('ru-RU') + ' ₽';
 const MON = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+const MONFULL = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+const mfull = m => { const [y, mm] = m.split('-'); return `${MONFULL[+mm - 1]} ${y}`; };
 const mlabel = m => { const [y, mm] = m.split('-'); return MON[+mm - 1] + (mm === '01' ? ` ${y.slice(2)}` : ''); };
 let D = null, sel = null;
 
@@ -144,7 +146,7 @@ function monthCard() {
   const top = Math.max(1, ...cats.map(([, v]) => v));
   const rows = cats.map(([k, v]) => `<div class="row"><div class="t">${esc(D.titles[k] || k)}</div><div class="n">${esc(money(v))}</div>
       <div class="meter"><i style="width:${Math.round(v / top * 100)}%"></i></div></div>`).join('');
-  return `<div class="card half"><div class="eyebrow">${esc(mlabel(m.month))} <span class="more">${m.n} чеков · ${esc(money(m.regular))}${m.big ? ' + крупное ' + esc(money(m.big)) : ''}</span></div>
+  return `<div class="card half"><div class="eyebrow">${esc(mfull(m.month))} <span class="more">${m.n} чеков · ${esc(money(m.regular))}${m.big ? ' + крупное ' + esc(money(m.big)) : ''}</span></div>
     <div class="rows">${rows || '<div class="empty">Нет трат</div>'}</div></div>`;
 }
 
@@ -189,7 +191,7 @@ function bigCard() {
 function render() {
   const cur = D.months[D.months.length - 1];
   document.getElementById('sub').textContent =
-    `${D.receipts} чеков с ${D.since} · в этом месяце ${money(cur.regular)}, обычно ${money(D.median)}`;
+    `${D.receipts} чеков с деньгами с ${D.since} · в этом месяце ${money(cur.regular)}, обычно ${money(D.median)}`;
   document.getElementById('grid').innerHTML =
     chart() + monthCard() + recurringCard() + merchantsCard() + bigCard() + inflationCard();
   document.querySelectorAll('.col').forEach(c => c.onclick = () => { sel = c.dataset.m; render(); });
