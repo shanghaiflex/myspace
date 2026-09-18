@@ -139,9 +139,15 @@ function chart() {
   const top = Math.max(1, ...ms.map(m => m.regular));
   const peak = ms.reduce((a, b) => (b.regular > a.regular ? b : a), ms[0]);
   const cols = ms.map(m => {
-    // Сегменты идут сверху вниз: сначала крупное своим масштабом, потом категории от мелкой к крупной,
-    // чтобы самая большая лежала на основании.
-    const cats = Object.entries(m.cats).sort((a, b) => a[1] - b[1]);
+    // Порядок сегментов в стопке фиксирован — тот же, что у слотов палитры, а серое всегда снизу.
+    // Так место сегмента не прыгает от месяца к месяцу вслед за суммой, и серая часть читается
+    // одной полосой, а не россыпью: в марте 2025 за ней прячется страховка на 90 тысяч.
+    const order = Object.keys(SLOT);
+    const cats = Object.entries(m.cats).sort((a, b) => {
+      const ia = order.indexOf(a[0]), ib = order.indexOf(b[0]);
+      if (ia !== ib) return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      return b[1] - a[1];
+    });
     const segs = cats.map(([k, v]) => `<span class="seg" style="--c:${colorOf(k)};height:${(v / top * 100).toFixed(2)}%"
         title="${esc(mlabel(m.month))} · ${esc(D.titles[k] || k)}: ${esc(money(v))}"></span>`).join('');
     const bh = m.big ? Math.min(28, Math.round(m.big / top * 100)) : 0;

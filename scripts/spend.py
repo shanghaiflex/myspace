@@ -51,8 +51,14 @@ def rules():
         return json.load(f)
 
 
-def title(name):
-    """Название без юридической формы и кавычек: «АКЦИОНЕРНОЕ ОБЩЕСТВО "ВКУСВИЛЛ» → «ВКУСВИЛЛ»."""
+def title(name, inn=None, R=None):
+    """Человеческое имя продавца. В чеке стоит юридическое («ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ
+    "КЕХ ЕКОММЕРЦ»), и по нему не догадаешься, что это Авито, — поэтому сначала смотрим в `names`
+    по ИНН, и только если там пусто, чистим юридическую форму и кавычки."""
+    if inn and R:
+        human = (R.get("names") or {}).get(inn)
+        if human:
+            return human
     n = FORM.sub(" ", re.sub(r"[«»\"]", " ", name or ""))
     n = re.sub(r"\s+", " ", n).strip(" .,-")
     return n[:1].upper() + n[1:].lower() if n.isupper() else n or "—"
@@ -86,7 +92,7 @@ def rows(store=None, R=None, since=None):
         if money <= 0 or (since and K.when(v) < since):
             continue
         inn = (v["receipt"].get("kktOwnerInn") or "").strip()
-        name = title(K.seller(v))
+        name = title(K.seller(v), inn, R)
         out.append({"date": K.when(v), "inn": inn, "merchant": name,
                     "category": category(inn, name, R), "sum": round(money, 2),
                     "big": money >= big, "items": K.items(v)})
