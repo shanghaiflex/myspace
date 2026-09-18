@@ -12,6 +12,8 @@
 """
 from __future__ import annotations
 
+from collections import Counter
+
 import json
 import os
 import sys
@@ -78,13 +80,20 @@ def _sig(r):
 
 def receipts(merchant: str | None = None) -> list[dict]:
     """Оба источника, без дублей. Почта считается основной (её парсер обкатан), кабинет добавляет
-    то, чего в письмах не было."""
+    то, чего в письмах не было.
+
+    Схлопывание идёт **один к одному**, а не по множеству: внутри одной только почты 46 пар чеков
+    имеют одинаковые «дата + сумма» (два похода в магазин в один день на одну сумму — обычное дело),
+    и если бы подпись просто лежала в set, второй такой чек из кабинета пропал бы. Время в ключ не
+    берётся: у 7 из 386 совпавших пар оно расходится на пару минут, а у одной — на два часа.
+    """
     out = mail_receipts()
-    seen = {_sig(r) for r in out}
+    left = Counter(_sig(r) for r in out)
     for r in lkdr_receipts():
-        if _sig(r) in seen:
+        sig = _sig(r)
+        if left.get(sig):
+            left[sig] -= 1          # этот чек в почте уже есть — гасим ровно одну копию
             continue
-        seen.add(_sig(r))
         out.append(r)
     if merchant:
         out = [r for r in out if merchant.lower() in (r.get("merchant") or "").lower()]

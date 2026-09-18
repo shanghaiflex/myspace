@@ -86,9 +86,9 @@ ssh mini 'cd movies && sh scripts/vpn_watchdog.sh --verbose --dry-run'   # пр�
   в `health.db`, то есть попадает и в ночной бэкап.
 
 - Чеки ФНС: `sh ~/movies/deploy/install-lkdr.sh` ставит агент `cc.bodywithoutorgans.lkdr`
-  (`scripts/lkdr_sync.sh` ежедневно в 09:15, лог `~/movies/logs/lkdr.log`). Ключ и база чеков не ездят
+  (`scripts/lkdr_sync.sh` ежедневно в 07:00, лог `~/movies/logs/lkdr.log`). Ключ и база чеков не ездят
   через rsync — переносить руками: `scp data/lkdr-auth.json data/lkdr-receipts.json mini:movies/data/`.
-  Синк стоит перед пересчётом еды в 09:30: тот читает те же чеки.
+  Синк стоит перед пересчётом еды в 07:05: тот читает те же чеки.
 
 ## Исторические заметки по установке
 

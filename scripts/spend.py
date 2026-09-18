@@ -33,7 +33,7 @@ import lkdr as K  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RULES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spend_rules.json")
 
-MONTHS_SHOWN = 13          # год плюс текущий месяц: видно и сезон, и «этот против прошлого»
+MONTHS_SHOWN = 24          # показываем всё, что есть после отсечки `since` (сейчас это 2025 год целиком)
 RECUR_MIN = 4              # меньше четырёх списаний — ещё не регулярность
 RECUR_GAP = (24, 38)       # дней между списаниями, чтобы считать это ежемесячным
 RECUR_SPAN = 100           # и тянуться это должно месяцами: три покупки одежды подряд — не подписка
