@@ -57,7 +57,7 @@
   .col .seg { min-height: 2px; background: var(--c); }
   .col .seg:first-child { border-radius: 4px 4px 0 0; }
   .col .big { border-radius: 4px 4px 0 0; min-height: 3px; margin-bottom: 2px;
-    background: repeating-linear-gradient(135deg, var(--c0) 0 3px, color-mix(in srgb, var(--c0) 25%, var(--surface)) 3px 7px); }
+    background: repeating-linear-gradient(135deg, var(--c0, var(--text-3)) 0 3px, color-mix(in srgb, var(--c0, var(--text-3)) 25%, var(--surface)) 3px 7px); }
   .col:hover .seg, .col.on .seg { filter: saturate(1.15) brightness(1.06); }
   .col .tag { position: absolute; top: -21px; left: 0; right: 0; text-align: center; font-size: 11px;
     font-variant-numeric: tabular-nums; color: var(--text-2); white-space: nowrap; }
@@ -67,14 +67,14 @@
   .legend { display: flex; gap: 8px 16px; align-items: center; font-size: 12.5px; color: var(--text-2); margin-top: 14px; flex-wrap: wrap; }
   .legend span { display: inline-flex; align-items: center; gap: 6px; }
   .legend i { width: 12px; height: 12px; border-radius: 3px; background: var(--c); flex: 0 0 auto; }
-  .legend i.hatch { background: repeating-linear-gradient(135deg, var(--c0) 0 3px, color-mix(in srgb, var(--c0) 25%, var(--surface)) 3px 7px); }
+  .legend i.hatch { background: repeating-linear-gradient(135deg, var(--c0, var(--text-3)) 0 3px, color-mix(in srgb, var(--c0, var(--text-3)) 25%, var(--surface)) 3px 7px); }
   .rows { display: flex; flex-direction: column; gap: 9px; }
   .row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: baseline; font-size: 14px; }
   .row .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .row .n { font-variant-numeric: tabular-nums; font-weight: 600; }
   .row .meter { grid-column: 1 / -1; height: 4px; border-radius: 999px; background: var(--surface-2); overflow: hidden; margin-top: -4px; }
-  .row .meter i { display: block; height: 100%; background: var(--c, var(--c0)); }
-  .row .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; background: var(--c, var(--c0)); margin-right: 7px; vertical-align: 0; }
+  .row .meter i { display: block; height: 100%; background: var(--c, var(--accent)); }
+  .row .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; background: var(--c, var(--accent)); margin-right: 7px; vertical-align: 0; }
   .row .s { color: var(--text-3); font-size: 12.5px; font-weight: 400; }
   .tbl { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: -4px; padding: 4px; }
   table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
@@ -99,7 +99,7 @@
   .nav { flex-wrap: wrap; gap: 6px 14px; font-size: 15px; }
 }
 </style>
-<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="theme.css?v=27427fd6">
 <script src="app.js"></script>
 </head>
 <body>
@@ -129,10 +129,10 @@ function slots() {
   D.months.forEach(m => Object.entries(m.cats).forEach(([k, v]) => { tot[k] = (tot[k] || 0) + v; }));
   const top = Object.entries(tot).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k]) => k);
   SLOT = {};
-  top.forEach((k, i) => { SLOT[k] = `var(--c${i + 1})`; });
+  top.forEach((k, i) => { SLOT[k] = `var(--c${i + 1}, var(--accent))`; });
   return top;
 }
-const colorOf = k => SLOT[k] || 'var(--c0)';
+const colorOf = k => SLOT[k] || 'var(--c0, var(--text-3))';
 
 function chart() {
   const ms = D.months;
@@ -155,7 +155,7 @@ function chart() {
   const keys = new Set();
   ms.forEach(m => Object.keys(m.cats).forEach(k => keys.add(k)));
   const legend = used.map(k => `<span><i style="--c:${colorOf(k)}"></i>${esc(D.titles[k] || k)}</span>`).join('')
-    + ([...keys].some(k => !SLOT[k]) ? `<span><i style="--c:var(--c0)"></i>прочее</span>` : '')
+    + ([...keys].some(k => !SLOT[k]) ? `<span><i style="--c:var(--c0, var(--text-3))"></i>прочее</span>` : '')
     + (ms.some(m => m.big) ? `<span><i class="hatch"></i>крупное — свой масштаб, суммы в таблице ниже</span>` : '');
   return `<div class="card"><div class="eyebrow">По месяцам <span class="more">нажми на столбик</span></div>
     <div class="chart">${cols}</div><div class="xaxis">${axis}</div><div class="legend">${legend}</div></div>`;

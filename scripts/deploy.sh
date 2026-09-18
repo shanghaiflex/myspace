@@ -33,6 +33,22 @@ if [ -z "$NOMINI" ]; then
   done
 fi
 
+# 1c. cache-bust the shared stylesheet. Cloudflare кэширует .css на четыре часа и подменяет наш
+# `Cache-Control: no-cache` своим `max-age=14400` — после правки theme.css браузер несколько часов
+# держит старую копию. Однажды это стоило страницы «Траты»: разметка приехала новая, палитра осталась
+# старая, `var(--c1)` не разрешался, и столбики стали прозрачными. Версия в ссылке = md5 файла, так
+# что новый адрес появляется ровно тогда, когда файл изменился.
+python3 - <<'BUST'
+import glob, hashlib, re
+ver = hashlib.md5(open("theme.css", "rb").read()).hexdigest()[:8]
+for f in glob.glob("*.html"):
+    s = open(f, encoding="utf-8").read()
+    new = re.sub(r'href="theme\.css(\?v=[0-9a-f]+)?"', f'href="theme.css?v={ver}"', s)
+    if new != s:
+        open(f, "w", encoding="utf-8").write(new)
+        print(f"  cache-bust: {f} → theme.css?v={ver}")
+BUST
+
 # 2. commit everything
 git add -A
 if git diff --cached --quiet; then echo "nothing to commit"; else git commit -q -m "$MSG"; echo "committed: $MSG"; fi
