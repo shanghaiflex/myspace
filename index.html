@@ -41,7 +41,7 @@
 
   /* Фотография — обложка выпуска: она стоит только вверху и растворяется в бумаге. Раньше снимок шёл
      через всю страницу, и белые плашки поверх него давали ту самую рябь. */
-  .backdrop { position: absolute; inset: 0 0 auto; height: 430px; z-index: -2; background: var(--bg); overflow: hidden; }
+  .backdrop { position: absolute; inset: 0 0 auto; height: 380px; z-index: -2; background: var(--bg); overflow: hidden; }
   .backdrop .ph { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.4s ease; transform: scale(1.04); }
   .backdrop .ph.on { opacity: 1; }
   .backdrop .veil { position: absolute; inset: 0;
@@ -52,9 +52,31 @@
   .greet { margin-bottom: 26px; }
   .greet p { margin: 8px 0 0; font-size: 17px; }
 
-  /* Полоса выпуска: не плитки в рамках, а колонки, разделённые линейками. Каждая заметка начинается
-     линейкой сверху — так страница читается сверху вниз, а не рассыпается на коробки. */
-  .cards { display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 38px; margin-top: 10px; }
+  /* Главная делится надвое по смыслу, а не по весу (18.09.2026): слева день — дела, погода,
+     самочувствие, чем занять свободное окно; справа полка — что послушать и почитать. На
+     телефоне колонки складываются в одну, и день остаётся сверху — утром нужен именно он. */
+  .page { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 0 48px; align-items: start; }
+  .shelf { align-self: start; position: sticky; top: 96px; border-left: 1px solid var(--line); padding-left: 32px; }
+  .shelf .shelf-head { font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: .17em;
+    text-transform: uppercase; color: var(--text-3); padding-bottom: 10px; }
+  .item { display: block; border-top: 1px solid var(--line); padding: 13px 0; color: var(--text); }
+  .item:first-of-type { border-top: 1px solid var(--rule); }
+  .item .eyebrow { margin-bottom: 7px; }
+  .item h3 { font-family: var(--display); font-weight: 500; font-size: 16px; line-height: 1.2; margin: 0;
+    overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .item .sub { font-size: 12.5px; font-style: italic; color: var(--text-2); margin-top: 3px; }
+  .item .note { font-size: 12.5px; line-height: 1.45; color: var(--text-2); margin: 7px 0 0;
+    overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+  .item .row { gap: 12px; }
+  .item .img.sq { width: 56px; height: 56px; } .item .img.wide { width: 84px; height: 48px; } .item .img.book { width: 44px; height: 66px; }
+  a.item:hover h3 { color: var(--accent); }
+  .item .acts { display: flex; gap: 16px; margin-top: 9px; flex-wrap: wrap; align-items: center; }
+  .item .acts button.btn { border: 0; background: none; padding: 0; color: var(--text-3); cursor: pointer; }
+  .item .acts button.btn:hover { color: var(--text); }
+  .item.gone { opacity: .4; pointer-events: none; }
+
+  /* Колонка дня: заметки через волосяную линейку, без рамок и теней. */
+  .cards { display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 38px; }
   .card { grid-column: span 12; align-self: start; background: none; border: 0; border-top: 1px solid var(--rule);
     padding: 15px 0 28px; display: flex; flex-direction: column; gap: 10px; min-width: 0; color: var(--text); }
   a.card:hover { transform: none; }
@@ -121,7 +143,7 @@
   .sc .ch.empty { color: var(--text-2); }
 
   /* Чем занять окно: три колонки, разделённые линейками, как врезка на полосе. */
-  .fit .picks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .fit .picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 0; }
   .fit .pick { display: flex; gap: 12px; align-items: flex-start; min-width: 0; padding: 2px 24px; border-left: 1px solid var(--line); }
   .fit .pick:first-child { padding-left: 0; border-left: 0; }
   .fit .picks > :last-child { padding-right: 0; }
@@ -139,13 +161,19 @@
 
   /* Well-being — заметка дня: это единственный на полосе настоящий текст, и набран он как текст. */
   .card .note { font-size: 14.5px; line-height: 1.5; color: var(--text-2); margin: 0; }
-  .card.hl .note { font-size: 19px; line-height: 1.5; letter-spacing: 0; color: var(--text); margin: 0; white-space: pre-wrap; }
+  .card.hl .note { font-size: 18.5px; line-height: 1.5; letter-spacing: 0; color: var(--text); margin: 0;
+    font-style: normal; white-space: pre-wrap; }
   .stats { display: flex; gap: 28px; flex-wrap: wrap; font-family: var(--sans); font-size: 10.5px;
     letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
   .stats b { color: var(--text); font-family: var(--display); font-size: 22px; font-weight: 500; letter-spacing: 0;
     display: block; margin-bottom: 3px; text-transform: none; font-variant-numeric: tabular-nums; }
   .card.hl .stats b { font-size: 20px; }
 
+  @media (max-width: 1080px) {
+    .page { grid-template-columns: 1fr; gap: 0; }
+    .shelf { position: static; border-left: 0; padding-left: 0; margin-top: 10px; }
+    .shelf .shelf-head { padding-top: 26px; }
+  }
   @media (max-width: 900px) {
     .card.c6, .card.c4, .card.c8 { grid-column: span 12; }
     .fit .picks { grid-template-columns: 1fr; }
@@ -157,6 +185,7 @@
     .wrap { padding: 26px 16px 80px; } .cards { gap: 0 20px; margin-top: 6px; }
     .backdrop { height: 300px; }
     .card { padding: 13px 0 22px; } .card h2 { font-size: 20px; }
+    .stats { gap: 14px 24px; } .stats b { font-size: 19px; }
     .img.sq { width: 72px; height: 72px; } .img.wide { width: 112px; height: 63px; }
     .card.hl .note { font-size: 17px; }
   }
@@ -179,13 +208,16 @@
 
 <main class="wrap">
   <div class="greet"><h1 id="greet">Доброе утро</h1><p id="date"></p></div>
-  <div class="cards" id="cards"></div>
+  <div class="page">
+    <div class="cards" id="cards"></div>
+    <aside class="shelf" id="shelf"></aside>
+  </div>
 </main>
 
 <script src="rec.js"></script>
 <script>
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const { fmtDur, thumb, seriesName, channelName, recommend } = Lect;
+const { fmtDur } = Lect;
 const h = new Date().getHours();
 document.getElementById('greet').textContent = h < 5 ? 'Доброй ночи' : h < 12 ? 'Доброе утро' : h < 18 ? 'Добрый день' : 'Добрый вечер';
 document.getElementById('date').textContent = new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
@@ -197,9 +229,13 @@ const isCalm = m => m.mood === 'calm' || (m.tags || []).includes('calm');
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
 
-Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null), j('/api/fit', null)]).then(([lect, mixes, bgs, wx, books, hl, recs, reads, sched, fr, fit]) => {
+// Лекций на главной нет с 18.09.2026 (просьба пользователя): слушаются они только с телефона, где у них
+// свой таб, а на сайте — свой раздел в верхней панели. Здесь они только в «чем занять окно», как вариант
+// на вечер, — но это уже про свободное окно, а не про каталог.
+Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null), j('/api/fit', null)]).then(([mixes, bgs, wx, books, hl, recs, reads, sched, fr, fit]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
-  const cards = [];
+  // День — левая колонка, полка — правая.
+  const cards = [], shelf = [];
   // Дела на сегодня — плашка над всем остальным: события Яндекс.Календаря (все календари, кроме чужих
   // тренировок — их отсеивает сервер) и свободные окна дня. Утром это первое, что нужно видеть.
   // Рабочий блок 10:00–18:00 стоит в календаре каждый будний день и делом не является: если кроме него
@@ -246,8 +282,8 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     return `<div class="card c12 fit"><div class="eyebrow">${head}${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
       <div class="picks">${f.picks.map(tile).join('')}</div></div>`;
   };
+  // «Чем занять окно» встаёт после самочувствия: сначала день и я, потом план на вечер.
   const fitc = fitCard(fit);
-  if (fitc) cards.push(fitc);
 
   if (wx && wx.now) {
     const sign = t => (t > 0 ? '+' : '') + t + '°';
@@ -255,14 +291,15 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     const precip = wx.today.precipSum > 0 || wx.today.precipProbMax >= 40
       ? `${wx.today.precipSum > 0 ? wx.today.precipSum + ' мм' : 'осадки'}, ${wx.today.precipProbMax}%${rainy.length ? ` в ${rainy[0].time}–${rainy[rainy.length - 1].time}` : ''}`
       : 'без осадков';
-    const side = !!(hl && (hl.review || hl.lastIngest));
-    cards.push(`<div class="card ${side ? 'c4' : 'c12'} wx"><div class="wxrow">
+    cards.push(`<div class="card c12 wx"><div class="wxrow">
         <span class="wxicon">${wx.now.icon}</span><span class="wxtemp">${sign(wx.now.temp)}</span>
         <div class="wxtxt"><div class="t">${esc(wx.now.condition)}, ощущается ${sign(wx.now.feels)}</div>
           <div class="s">${esc(wx.city)} · днём ${sign(wx.today.tmax)}, ночью ${sign(wx.today.tmin)} · ${wx.today.icon} ${precip} · ветер ${wx.now.wind} м/с</div></div>
-        <div class="hours">${wx.hours.slice(0, side ? 8 : 12).map(h => `<div class="hr ${(h.precipProb || 0) >= 40 ? 'wet' : ''}"><div class="s">${h.time.slice(0, 2)}</div><div class="ic">${h.icon}</div><div class="t">${sign(h.temp).replace('°', '')}</div></div>`).join('')}</div>
+        <div class="hours">${wx.hours.slice(0, 12).map(h => `<div class="hr ${(h.precipProb || 0) >= 40 ? 'wet' : ''}"><div class="s">${h.time.slice(0, 2)}</div><div class="ic">${h.icon}</div><div class="t">${sign(h.temp).replace('°', '')}</div></div>`).join('')}</div>
       </div></div>`);
   }
+  // Well-being — самая длинная запись дня и единственная на странице настоящая проза, поэтому она в колонке
+  // дня, а не на полке: утром читают её, а не список миксов.
   if (hl && (hl.review || hl.lastIngest)) {
     const hm = m => m == null ? '—' : `${Math.floor(m / 60)}ч${String(Math.round(m) % 60).padStart(2, '0')}`;
     const t = hl.days[0] || {}, a = hl.avg7 || {};
@@ -271,70 +308,58 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     const when = note ? new Date(note.ts) : null;
     const whenTxt = when ? (when.toDateString() === new Date().toDateString() ? '' : when.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) + ', ') + when.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '';
     const noteMore = whenTxt ? 'заметка ' + esc(whenTxt) : (hl.review ? 'свежей заметки ещё нет' : 'заметки пока нет');
-    cards.push(`<a class="card ${wx && wx.now ? 'c8' : 'c12'} hl" href="health.html"><div class="eyebrow">Well-being <span class="more">${noteMore}</span></div>
+    cards.push(`<a class="card c12 hl" href="health.html"><div class="eyebrow">Well-being <span class="more">${noteMore}</span></div>
       ${note ? `<p class="note">${esc(note.text)}</p>` : ''}
       <div class="stats"><div><b>${t.sleep ? hm(t.sleep.total) : '—'}</b>сон</div><div><b>${t.rhr ?? '—'}</b>пульс покоя</div><div><b>${t.hrv ?? '—'}</b>HRV</div>
         <div><b>${t.steps != null ? Math.round(t.steps).toLocaleString('ru-RU') : '—'}</b>шагов сегодня${a.steps ? ' · ср. ' + Math.round(a.steps).toLocaleString('ru-RU') : ''}</div>
         ${t.workouts && t.workouts.length ? `<div><b>${esc(t.workouts.map(w => w.ru).join(', '))}</b>тренировка</div>` : ''}</div></a>`);
   }
-  // two mix cards side by side: a random one from the collection and Claude's fresh advice
+  if (fitc) cards.push(fitc);
+
+  // ---------- полка: что послушать и почитать ----------
   const morning = isMorning();
   const recItems = (recs && recs.items) || [];
   const recPool = morning && recItems.some(isCalm) ? recItems.filter(isCalm) : recItems;
   const rec = recPool.find(r => !r.played) || recPool[0];
   const mixPool = morning && mixes.some(isCalm) ? mixes.filter(isCalm) : mixes;
   const mix = pick(mixPool, 1)[0];
-  const mixCard = (m, cls, eyebrow, more, reason) => `<a class="card ${cls}" href="mixes.html#${encodeURIComponent(m.id)}">
+  const mixItem = (m, eyebrow, more, reason) => `<a class="item" href="mixes.html#${encodeURIComponent(m.id)}">
       <div class="eyebrow">${eyebrow}${more ? ` <span class="more">${more}</span>` : ''}</div>
-      <div class="row"><div class="img sq">${m.artwork ? `<img src="${esc(m.artwork)}" alt="">` : ''}</div><div class="txt"><h2>${esc(m.title)}</h2><div class="sub">${esc(m.artist || '')} · ${fmtDur(m.duration)}</div></div></div>
-      ${reason ? `<p class="note">${esc(reason)}</p>` : ''}
-      <span class="btn">${PLAY} ${reason ? 'Послушать' : 'Играть'}</span></a>`;
-  const reading = books.filter(b => b.status === 'reading');
+      <div class="row"><div class="img sq">${m.artwork ? `<img src="${esc(m.artwork)}" alt="">` : ''}</div>
+        <div class="txt"><h3>${esc(m.title)}</h3><div class="sub">${esc(m.artist || '')} · ${fmtDur(m.duration)}</div></div></div>
+      ${reason ? `<p class="note">${esc(reason)}</p>` : ''}</a>`;
 
-  // One card for lectures, not one per channel: what matters is the lecture actually in progress — the most
-  // recently touched one — and the two channels were two half-empty cards saying the same thing twice.
-  const lectureCard = () => {
-    const all = lect.lectures || [];
-    const listening = all.filter(l => l.status === 'listening')
-      .sort((a, b) => (b.touchedAt || 0) - (a.touchedAt || 0) || (b.position || 0) - (a.position || 0));
-    const queued = all.filter(l => l.status === 'queued').sort((a, b) => (a.queuedAt || 0) - (b.queuedAt || 0));
-    const next = listening[0] || queued[0] || recommend(lect, 1)[0];
-    if (!next) return '';
-    const ch = (lect.channels || []).find(c => c.id === next.channel) || {};
-    const pct = next.status === 'listening' && next.duration ? Math.min(100, (next.position || 0) / next.duration * 100) : 0;
-    const ahead = queued.filter(l => l.id !== next.id).length;
-    const state = next.status === 'listening' ? Lect.fmtTime(next.position || 0) + ' из '
-      : next.status === 'queued' ? 'в планах · ' : 'рекомендую · ';
-    return `<div class="card c6 lc"><div class="eyebrow">Лекция <a class="more" href="lectures.html">${esc(ch.label || ch.name || 'все')} →</a></div>
-      <a class="row" href="lectures.html#${esc(next.id)}"><div class="img ${ch.type === 'soundcloud' ? 'sq' : 'wide'}">${thumb(next) ? `<img src="${esc(thumb(next))}" alt="" onerror="this.onerror=null;this.src=this.src.replace('mqdefault','hqdefault')">` : ''}</div>
-        <div class="txt"><h2>${esc(next.title)}</h2><div class="sub">${esc(seriesName(lect, next))} · ${state}${fmtDur(next.duration)}${ahead ? ` · в планах ещё ${ahead}` : ''}</div>${pct ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ''}</div></a>
-      <a class="btn" href="lectures.html#${esc(next.id)}">${PLAY} ${next.status === 'listening' ? 'Слушать дальше' : 'Слушать'}</a></div>`;
-  };
+  if (mix) shelf.push(mixItem(mix,
+    morning && isCalm(mix) ? 'Под утреннее чтение' : 'Микс на сегодня',
+    morning && isCalm(mix) ? 'спокойный' : 'случайный'));
+  if (rec) shelf.push(mixItem(rec, 'Совет от Claude',
+    rec.played ? 'уже включал' : (morning && isCalm(rec) ? 'спокойное' : ''), rec.reason));
 
   // Статья дня: ссылка ведёт в текст, а «Прочту»/«Мимо» — те же вердикты, что на странице «Читать»
   // (первую версию карточки без кнопок пользователь принял за отсутствие оценок вовсе).
-  const artCard = (r) => {
+  const artItem = (r) => {
     const art = ((r && r.items) || [])[0];
     if (!art) return '';
     const more = (r.items || []).length - 1;
-    return `<div class="card c6 art" data-id="${esc(art.id)}"><div class="eyebrow">Почитать <span class="more">${esc(art.source || '')}${art.minutes ? ' · ' + art.minutes + ' мин' : ''}</span></div>
-      <div class="row">${art.image ? `<a class="thumb" href="${esc(art.url)}" target="_blank" rel="noopener"><img src="${esc(art.image)}" alt=""></a>` : ''}<h2><a href="${esc(art.url)}" target="_blank" rel="noopener">${esc(art.title)}</a></h2></div>
-      <div class="sub">${esc(art.reason || '')}${more > 0 ? ` <span class="more">· ещё ${more} на странице «Читать»</span>` : ''}</div>
+    return `<div class="item art" data-id="${esc(art.id)}"><div class="eyebrow">Почитать <span class="more">${esc(art.source || '')}${art.minutes ? ' · ' + art.minutes + ' мин' : ''}</span></div>
+      <div class="row">${art.image ? `<a class="img wide" href="${esc(art.url)}" target="_blank" rel="noopener"><img src="${esc(art.image)}" alt=""></a>` : ''}
+        <div class="txt"><h3><a href="${esc(art.url)}" target="_blank" rel="noopener">${esc(art.title)}</a></h3></div></div>
+      ${art.reason ? `<p class="note">${esc(art.reason)}${more > 0 ? ` · ещё ${more} на странице «Читать»` : ''}</p>` : ''}
       <div class="acts"><a class="btn" href="${esc(art.url)}" target="_blank" rel="noopener">Открыть</a><button class="btn" data-act="saved">Прочту</button><button class="btn" data-act="dismissed">Мимо</button></div></div>`;
   };
+  const ai = artItem(reads);
+  if (ai) shelf.push(ai);
 
-  // Порядок карточек задан пользователем 14.09.2026: дела на сегодня, погода, самочувствие, лекция, статья, миксы, книга.
-  const lc = lectureCard();
-  if (lc) cards.push(lc);
-  if (artCard(reads)) cards.push(artCard(reads));
-  if (mix) cards.push(mixCard(mix, 'c6',
-    morning && isCalm(mix) ? 'Под утреннее чтение' : 'Микс на сегодня',
-    morning && isCalm(mix) ? 'спокойный' : 'случайный'));
-  if (rec) cards.push(mixCard(rec, 'c6', 'Совет от Claude',
-    rec.played ? 'уже включал' : (morning && isCalm(rec) ? 'спокойное' : ''), rec.reason));
-  // Французский: то, чем заниматься сегодня, и сколько слов ждёт повторения. Карточка последняя —
-  // порядок остальных пользователь задал 14.09.2026 и трогать его незачем.
-  const frenchCard = (f) => {
+  const reading = books.filter(b => b.status === 'reading');
+  if (reading.length) {
+    const b = reading[0];
+    shelf.push(`<a class="item" href="books.html#${esc(b.id)}"><div class="eyebrow">Читаю${reading.length > 1 ? ` <span class="more">и ещё ${reading.length - 1}</span>` : ''}</div>
+      <div class="row"><div class="img book">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : ''}</div>
+        <div class="txt"><h3>${esc(b.title)}</h3><div class="sub">${esc(b.author || '')}</div></div></div></a>`);
+  }
+
+  // Французский: то, чем заниматься сегодня, и сколько слов ждёт повторения.
+  const frenchItem = (f) => {
     if (!f) return '';
     const m = (f.items || []).find(x => x.lesson) || (f.items || [])[0];
     const due = (f.due || []).length;
@@ -342,32 +367,26 @@ Promise.all([j('lectures.json', { lectures: [], series: {} }), j('mixes.json', [
     const les = (m && m.lesson) || {};
     const n = (les.quiz || []).length, w = (les.words || []).length;
     const more = due ? `${due} ${due % 10 === 1 && due % 100 !== 11 ? 'слово' : 'слов'} к повторению` : '';
-    if (!m) return `<a class="card c6" href="french.html"><div class="eyebrow">Французский <span class="more">${esc(more)}</span></div>
-      <div class="row"><div class="txt"><h2>Повторить слова</h2><div class="sub">материалы кончились — на странице можно попросить новые</div></div></div>
-      <span class="btn">Повторить</span></a>`;
-    return `<a class="card c6" href="french.html"><div class="eyebrow">Французский${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
+    if (!m) return `<a class="item" href="french.html"><div class="eyebrow">Французский${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
+      <div class="row"><div class="txt"><h3>Повторить слова</h3><div class="sub">материалы кончились — на странице можно попросить новые</div></div></div></a>`;
+    return `<a class="item" href="french.html"><div class="eyebrow">Французский${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
       <div class="row"><div class="img ${m.kind === 'video' ? 'wide' : 'sq'}">${m.image ? `<img src="${esc(m.image)}" alt="" onerror="this.remove()">` : ''}</div>
-        <div class="txt"><h2>${esc(m.title)}</h2><div class="sub">${esc([m.source, m.minutes ? m.minutes + ' мин' : '', les.builtAt ? `${w} слов · тест из ${n}` : 'разбор собирается'].filter(Boolean).join(' · '))}</div></div></div>
-      ${m.why ? `<p class="note">${esc(m.why)}</p>` : ''}
-      <span class="btn">Заниматься</span></a>`;
+        <div class="txt"><h3>${esc(m.title)}</h3><div class="sub">${esc([m.source, m.minutes ? m.minutes + ' мин' : '', les.builtAt ? `${w} слов · тест из ${n}` : 'разбор собирается'].filter(Boolean).join(' · '))}</div></div></div></a>`;
   };
+  const fi = frenchItem(fr);
+  if (fi) shelf.push(fi);
 
-  if (reading.length) {
-    const b = reading[0];
-    cards.push(`<a class="card c6" href="books.html#${esc(b.id)}"><div class="eyebrow">Читаю <span class="more">${reading.length > 1 ? 'и ещё ' + (reading.length - 1) : ''}</span></div>
-      <div class="row"><div class="img book">${b.cover ? `<img src="${esc(b.cover)}" alt="">` : ''}</div><div class="txt"><h2>${esc(b.title)}</h2><div class="sub">${esc(b.author || '')}</div></div></div></a>`);
-  }
-  const fc = frenchCard(fr);
-  if (fc) cards.push(fc);
   document.getElementById('cards').innerHTML = cards.join('');
-  document.getElementById('cards').addEventListener('click', async e => {
+  document.getElementById('shelf').innerHTML = shelf.length
+    ? `<div class="shelf-head">Полка</div>${shelf.join('')}` : '';
+  document.getElementById('shelf').addEventListener('click', async e => {
     const b = e.target.closest('button[data-act]'); if (!b) return;
-    const card = b.closest('.card.art'); card.classList.add('gone');
+    const card = b.closest('.item.art'); card.classList.add('gone');
     try {
       const out = await fetch('/api/read/' + encodeURIComponent(card.dataset.id), {
         method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ verdict: b.dataset.act }),
       }).then(async r => { if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.status); return r.json(); });
-      const next = artCard(out.reads);
+      const next = artItem(out.reads);
       if (next) card.outerHTML = next; else card.remove();
     } catch (err) { card.classList.remove('gone'); b.textContent = 'Ошибка: ' + err.message; }
   });

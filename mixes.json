@@ -13,8 +13,8 @@
       "claude-rec"
     ],
     "addedAt": "2026-09-17",
-    "position": 2098,
-    "playedAt": 1789740253
+    "position": 2698,
+    "playedAt": 1789740853
   },
   {
     "id": "sc:1746973884",
@@ -311,7 +311,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 423,
+    "playedAt": 1789741316
   },
   {
     "id": "yt:scvIxdCXGMw",
