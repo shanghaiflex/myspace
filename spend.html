@@ -46,32 +46,35 @@
   .empty { color: var(--text-2); font-size: 15px; }
   .foot { color: var(--text-3); font-size: 12.5px; margin-top: 14px; }
 
-  /* Столбики: один тон на весь график — двух цветов палитра сайта не даёт (терракота и шалфей
-     неразличимы даже при полном зрении, ΔE 14,9). «Крупное» отличается штриховкой и прямой подписью,
-     а не вторым цветом; сама шкала считается по обычным тратам, иначе покупка квартиры сплющит год. */
-  .chart { display: flex; align-items: flex-end; gap: 6px; height: 190px; padding-top: 22px; }
-  .col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch;
+  /* Столбики — стопка по категориям. Цвет закреплён за категорией (`slot()`), а не за её местом в
+     месяце: фильтр или другой месяц не должны перекрашивать то, что осталось. Палитра — --c1…--c6 из
+     theme.css, шесть слотов подряд, никогда по кругу; всё, что не вошло, уходит в нейтральный --c0.
+     Между сегментами 2 px фона — иначе соседние заливки читаются как одна. «Крупное» в стопку не
+     входит: у него свой масштаб (покупка квартиры сплющила бы год), поэтому оно штриховкой и с подписью. */
+  .chart { display: flex; align-items: flex-end; gap: 6px; height: 200px; padding-top: 24px; }
+  .col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end;
     height: 100%; gap: 2px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; color: inherit; position: relative; }
-  .col .v { border-radius: 4px 4px 0 0; background: color-mix(in srgb, var(--accent) 82%, transparent); min-height: 2px; transition: background .15s; }
-  .col .big { border-radius: 4px 4px 0 0; min-height: 3px;
-    background: repeating-linear-gradient(135deg, var(--accent) 0 3px, color-mix(in srgb, var(--accent) 22%, var(--surface)) 3px 7px); }
-  .col:hover .v, .col.on .v { background: var(--accent); }
-  .col .tag { position: absolute; top: -20px; left: 0; right: 0; text-align: center; font-size: 11px; font-variant-numeric: tabular-nums;
-    color: var(--text-2); white-space: nowrap; }
+  .col .seg { min-height: 2px; background: var(--c); }
+  .col .seg:first-child { border-radius: 4px 4px 0 0; }
+  .col .big { border-radius: 4px 4px 0 0; min-height: 3px; margin-bottom: 2px;
+    background: repeating-linear-gradient(135deg, var(--c0) 0 3px, color-mix(in srgb, var(--c0) 25%, var(--surface)) 3px 7px); }
+  .col:hover .seg, .col.on .seg { filter: saturate(1.15) brightness(1.06); }
+  .col .tag { position: absolute; top: -21px; left: 0; right: 0; text-align: center; font-size: 11px;
+    font-variant-numeric: tabular-nums; color: var(--text-2); white-space: nowrap; }
   .xaxis { display: flex; gap: 6px; margin-top: 8px; }
   .xaxis div { flex: 1 1 0; min-width: 0; text-align: center; font-size: 11px; color: var(--text-3); font-variant-numeric: tabular-nums; }
   .xaxis div.on { color: var(--text); font-weight: 600; }
-  .legend { display: flex; gap: 16px; align-items: center; font-size: 12.5px; color: var(--text-2); margin-top: 12px; flex-wrap: wrap; }
-  .legend i { display: inline-block; width: 14px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
-  .legend .s1 { background: color-mix(in srgb, var(--accent) 82%, transparent); }
-  .legend .s2 { background: repeating-linear-gradient(135deg, var(--accent) 0 3px, color-mix(in srgb, var(--accent) 22%, var(--surface)) 3px 7px); }
-
+  .legend { display: flex; gap: 8px 16px; align-items: center; font-size: 12.5px; color: var(--text-2); margin-top: 14px; flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; background: var(--c); flex: 0 0 auto; }
+  .legend i.hatch { background: repeating-linear-gradient(135deg, var(--c0) 0 3px, color-mix(in srgb, var(--c0) 25%, var(--surface)) 3px 7px); }
   .rows { display: flex; flex-direction: column; gap: 9px; }
   .row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: baseline; font-size: 14px; }
   .row .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .row .n { font-variant-numeric: tabular-nums; font-weight: 600; }
   .row .meter { grid-column: 1 / -1; height: 4px; border-radius: 999px; background: var(--surface-2); overflow: hidden; margin-top: -4px; }
-  .row .meter i { display: block; height: 100%; background: color-mix(in srgb, var(--accent) 70%, transparent); }
+  .row .meter i { display: block; height: 100%; background: var(--c, var(--c0)); }
+  .row .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; background: var(--c, var(--c0)); margin-right: 7px; vertical-align: 0; }
   .row .s { color: var(--text-3); font-size: 12.5px; font-weight: 400; }
   .tbl { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: -4px; padding: 4px; }
   table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
@@ -116,35 +119,54 @@ const MON = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл
 const MONFULL = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 const mfull = m => { const [y, mm] = m.split('-'); return `${MONFULL[+mm - 1]} ${y}`; };
 const mlabel = m => { const [y, mm] = m.split('-'); return MON[+mm - 1] + (mm === '01' ? ` ${y.slice(2)}` : ''); };
-let D = null, sel = null;
+let D = null, sel = null, SLOT = {};
+
+// Цвет закреплён за категорией раз и навсегда: шесть самых крупных за весь показанный период получают
+// слоты --c1…--c6 в порядке убывания, остальные — нейтральный --c0. Порядок слотов и есть защита от
+// дальтонизма, поэтому цвета назначаются подряд и никогда по кругу.
+function slots() {
+  const tot = {};
+  D.months.forEach(m => Object.entries(m.cats).forEach(([k, v]) => { tot[k] = (tot[k] || 0) + v; }));
+  const top = Object.entries(tot).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([k]) => k);
+  SLOT = {};
+  top.forEach((k, i) => { SLOT[k] = `var(--c${i + 1})`; });
+  return top;
+}
+const colorOf = k => SLOT[k] || 'var(--c0)';
 
 function chart() {
   const ms = D.months;
   const top = Math.max(1, ...ms.map(m => m.regular));
   const peak = ms.reduce((a, b) => (b.regular > a.regular ? b : a), ms[0]);
   const cols = ms.map(m => {
-    const h = Math.round(m.regular / top * 100);
-    // Крупное рисуется отдельным куском сверху, но масштаб у него свой: покупка квартиры в 34 млн
-    // иначе превратила бы все остальные месяцы в полоску в один пиксель.
-    const bh = m.big ? Math.min(30, Math.round(m.big / top * 100)) : 0;
+    // Сегменты идут сверху вниз: сначала крупное своим масштабом, потом категории от мелкой к крупной,
+    // чтобы самая большая лежала на основании.
+    const cats = Object.entries(m.cats).sort((a, b) => a[1] - b[1]);
+    const segs = cats.map(([k, v]) => `<span class="seg" style="--c:${colorOf(k)};height:${(v / top * 100).toFixed(2)}%"
+        title="${esc(mlabel(m.month))} · ${esc(D.titles[k] || k)}: ${esc(money(v))}"></span>`).join('');
+    const bh = m.big ? Math.min(28, Math.round(m.big / top * 100)) : 0;
     const label = (m === peak || m === ms[ms.length - 1]) ? `<span class="tag">${Math.round(m.regular / 1000)}k</span>` : '';
     return `<button class="col ${m.month === sel ? 'on' : ''}" data-m="${m.month}" type="button"
         title="${esc(mlabel(m.month))}: ${esc(money(m.regular))}${m.big ? ' + крупное ' + esc(money(m.big)) : ''}, ${m.n} чеков">
-      ${label}${m.big ? `<span class="big" style="height:${bh}%"></span>` : ''}<span class="v" style="height:${h}%"></span></button>`;
+      ${label}${m.big ? `<span class="big" style="height:${bh}%"></span>` : ''}${segs}</button>`;
   }).join('');
   const axis = ms.map(m => `<div class="${m.month === sel ? 'on' : ''}">${esc(mlabel(m.month))}</div>`).join('');
-  const hasBig = ms.some(m => m.big);
+  const used = slots();
+  const keys = new Set();
+  ms.forEach(m => Object.keys(m.cats).forEach(k => keys.add(k)));
+  const legend = used.map(k => `<span><i style="--c:${colorOf(k)}"></i>${esc(D.titles[k] || k)}</span>`).join('')
+    + ([...keys].some(k => !SLOT[k]) ? `<span><i style="--c:var(--c0)"></i>прочее</span>` : '')
+    + (ms.some(m => m.big) ? `<span><i class="hatch"></i>крупное — свой масштаб, суммы в таблице ниже</span>` : '');
   return `<div class="card"><div class="eyebrow">По месяцам <span class="more">нажми на столбик</span></div>
-    <div class="chart">${cols}</div><div class="xaxis">${axis}</div>
-    ${hasBig ? `<div class="legend"><span><i class="s1"></i>обычные траты</span><span><i class="s2"></i>крупное (свой масштаб, точная сумма в таблице ниже)</span></div>` : ''}
-  </div>`;
+    <div class="chart">${cols}</div><div class="xaxis">${axis}</div><div class="legend">${legend}</div></div>`;
 }
 
 function monthCard() {
   const m = D.months.find(x => x.month === sel) || D.months[D.months.length - 1];
   const cats = Object.entries(m.cats);
   const top = Math.max(1, ...cats.map(([, v]) => v));
-  const rows = cats.map(([k, v]) => `<div class="row"><div class="t">${esc(D.titles[k] || k)}</div><div class="n">${esc(money(v))}</div>
+  const rows = cats.map(([k, v]) => `<div class="row" style="--c:${colorOf(k)}">
+      <div class="t"><i class="dot"></i>${esc(D.titles[k] || k)}</div><div class="n">${esc(money(v))}</div>
       <div class="meter"><i style="width:${Math.round(v / top * 100)}%"></i></div></div>`).join('');
   return `<div class="card half"><div class="eyebrow">${esc(mfull(m.month))} <span class="more">${m.n} чеков · ${esc(money(m.regular))}${m.big ? ' + крупное ' + esc(money(m.big)) : ''}</span></div>
     <div class="rows">${rows || '<div class="empty">Нет трат</div>'}</div></div>`;
@@ -178,7 +200,7 @@ function merchantsCard() {
   const top = Math.max(1, ...D.merchants.map(m => m.sum));
   return `<div class="card half"><div class="eyebrow">Куда уходит <span class="more">за последний год</span></div>
     <div class="rows">${D.merchants.slice(0, 12).map(m => `<div class="row"><div class="t">${esc(m.name)} <span class="s">${esc(D.titles[m.category] || m.category)} · ${m.n}</span></div>
-      <div class="n">${esc(money(m.sum))}</div><div class="meter"><i style="width:${Math.round(m.sum / top * 100)}%"></i></div></div>`).join('')}</div></div>`;
+      <div class="n">${esc(money(m.sum))}</div><div class="meter" style="--c:${colorOf(m.category)}"><i style="width:${Math.round(m.sum / top * 100)}%"></i></div></div>`).join('')}</div></div>`;
 }
 
 function bigCard() {
@@ -189,9 +211,10 @@ function bigCard() {
 }
 
 function render() {
+  slots();
   const cur = D.months[D.months.length - 1];
   document.getElementById('sub').textContent =
-    `${D.receipts} чеков с деньгами с ${D.since} · в этом месяце ${money(cur.regular)}, обычно ${money(D.median)}`;
+    `${D.receipts} чеков с деньгами с ${D.cut || D.since} · в этом месяце ${money(cur.regular)}, обычно ${money(D.median)}`;
   document.getElementById('grid').innerHTML =
     chart() + monthCard() + recurringCard() + merchantsCard() + bigCard() + inflationCard();
   document.querySelectorAll('.col').forEach(c => c.onclick = () => { sel = c.dataset.m; render(); });

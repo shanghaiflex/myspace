@@ -3,7 +3,7 @@
 #   sh ~/movies/deploy/install-lkdr.sh
 # Ключ (data/lkdr-auth.json) намеренно не ездит через rsync — перенести его с ноутбука отдельно:
 #   scp data/lkdr-auth.json data/lkdr-receipts.json mini:movies/data/
-# Синхронизация идёт в 09:15, перед пересчётом еды в 09:30 — тот читает те же чеки.
+# Синхронизация идёт в 07:00, перед пересчётом еды в 07:05 — тот читает те же чеки.
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 AG="$HOME/Library/LaunchAgents"; mkdir -p "$AG" "$ROOT/logs"
@@ -18,10 +18,10 @@ cat > "$AG/$LABEL.plist" <<PL
   <key>ProgramArguments</key><array><string>/bin/sh</string><string>$ROOT/scripts/lkdr_sync.sh</string></array>
   <key>WorkingDirectory</key><string>$ROOT</string>
   <key>EnvironmentVariables</key><dict><key>PATH</key><string>$PATHV</string><key>HOME</key><string>$HOME</string></dict>
-  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>9</integer><key>Minute</key><integer>15</integer></dict>
+  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>0</integer></dict>
   <key>StandardOutPath</key><string>$ROOT/logs/lkdr.log</string><key>StandardErrorPath</key><string>$ROOT/logs/lkdr.log</string>
 </dict></plist>
 PL
 launchctl bootout "gui/$(id -u)/$LABEL" 2>/dev/null || true
 launchctl bootstrap "gui/$(id -u)" "$AG/$LABEL.plist"
-echo "$LABEL installed: ежедневно в 09:15, лог $ROOT/logs/lkdr.log"
+echo "$LABEL installed: ежедневно в 07:00, лог $ROOT/logs/lkdr.log"

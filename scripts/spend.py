@@ -69,16 +69,21 @@ def category(inn, name, R):
     return "прочее"
 
 
-def rows(store=None, R=None):
+def rows(store=None, R=None, since=None):
     """Каждый чек, у которого двигались деньги, в нормальном виде. Зачёты аванса отброшены здесь —
-    дальше их уже не существует, чтобы никто случайно не посчитал их тратой."""
+    дальше их уже не существует, чтобы никто случайно не посчитал их тратой.
+
+    Отсечка по дате — не про «давно неинтересно», а про качество данных: до 2025 года чеки рваные
+    (в 2023-м их пятнадцать штук за год), и медиана месяца по ним получается не про жизнь, а про то,
+    когда на кассе называли телефон."""
     store = store if store is not None else K.load(K.STORE, {})
     R = R or rules()
+    since = since if since is not None else R.get("since") or ""
     big = R.get("big", 100000)
     out = []
     for v in store.values():
         money = K.paid(v)
-        if money <= 0:
+        if money <= 0 or (since and K.when(v) < since):
             continue
         inn = (v["receipt"].get("kktOwnerInn") or "").strip()
         name = title(K.seller(v))
@@ -217,6 +222,10 @@ def inflation(rs, limit=20):
 def summary(store=None):
     R = rules()
     rs = rows(store, R)
+    # У инфляции своя, более ранняя отсечка: ей нужен длинный ряд. На окне с 2025 года товаров
+    # с достаточной историей остаётся 26 вместо 48, и «рост цены» начинает зависеть от того,
+    # в какой половине окна случилась акция, а не от цены.
+    infl_rows = rows(store, R, since=R.get("sinceInflation") or R.get("since"))
     today = dt.date.today()
     ms = months(rs, MONTHS_SHOWN, R)
     year_ago = (today - dt.timedelta(days=365)).isoformat()
@@ -224,12 +233,13 @@ def summary(store=None):
     return {
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
         "receipts": len(rs), "since": rs[0]["date"] if rs else None,
+        "cut": R.get("since"),
         "titles": R["categories"],
         "months": ms,
         "median": round(st.median(regular)) if regular else None,
         "merchants": merchants(rs, year_ago),
         "recurring": recurring(rs, today),
-        "inflation": inflation(rs),
+        "inflation": dict(inflation(infl_rows), since=R.get("sinceInflation")),
         "big": [{"date": r["date"], "merchant": r["merchant"], "sum": round(r["sum"]),
                  "what": (r["items"][0].get("name") if r["items"] else "") or ""}
                 for r in sorted((r for r in rs if r["big"]), key=lambda r: r["date"], reverse=True)[:12]],

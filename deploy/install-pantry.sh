@@ -21,12 +21,12 @@ cat > "$AG/$LABEL.plist" <<PL
   <key>ProgramArguments</key><array><string>/bin/sh</string><string>$ROOT/scripts/pantry_review.sh</string></array>
   <key>WorkingDirectory</key><string>$ROOT</string>
   <key>EnvironmentVariables</key><dict><key>PATH</key><string>$PATHV</string><key>HOME</key><string>$HOME</string></dict>
-  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>9</integer><key>Minute</key><integer>30</integer></dict>
+  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>5</integer></dict>
   <key>RunAtLoad</key><false/>
   <key>StandardOutPath</key><string>$ROOT/logs/pantry.log</string><key>StandardErrorPath</key><string>$ROOT/logs/pantry.log</string>
 </dict></plist>
 PL
 launchctl bootout "gui/$(id -u)/$LABEL" 2>/dev/null || true
 launchctl bootstrap "gui/$(id -u)" "$AG/$LABEL.plist"
-echo "$LABEL installed: daily at 09:30, log $ROOT/logs/pantry.log"
+echo "$LABEL installed: daily at 07:05, log $ROOT/logs/pantry.log"
 echo "check now: sh $ROOT/scripts/pantry_review.sh --force"

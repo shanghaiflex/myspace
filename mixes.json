@@ -64,8 +64,8 @@
       "calm"
     ],
     "addedAt": "2026-09-14",
-    "position": 10522,
-    "playedAt": 1789721897
+    "position": 0,
+    "playedAt": 1789722177
   },
   {
     "id": "yt:I3voQGTnP9A",
@@ -392,7 +392,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 247,
+    "playedAt": 1789722434
   },
   {
     "id": "yt:2WA6lxXxp8s",
