@@ -169,7 +169,11 @@ def recurring(rs, today=None):
         sums = [g["sum"] for g in group]
         mid = st.median(sums)
         last = group[-1]
+        # Списания могли кончиться: PARTYstation последний раз взяли 795 ₽ в апреле, и писать про него
+        # «9 360 ₽ в год» — враньё. Живым считается то, что списывали не позже двух интервалов назад.
+        since_last = (today - dt.date.fromisoformat(last["date"])).days
         out.append({"name": last["merchant"], "category": last["category"], "every": round(gap),
+                    "active": since_last <= gap * 2 + 7, "sinceLast": since_last,
                     "amount": round(mid), "n": len(group), "last": last["date"],
                     # подписка списывает одно и то же, счёт за коммуналку — каждый раз разное
                     "steady": bool(mid) and (max(sums) - min(sums)) / mid <= RECUR_STEADY,
@@ -260,13 +264,22 @@ def summary(store=None):
     }
 
 
-def unknown(rs):
-    agg = collections.defaultdict(lambda: [0.0, 0, ""])
+def unknown(rs, store=None):
+    """Продавцы без категории. Кроме имени показываем `retailPlace` из чека — это адрес сайта продавца,
+    и часто только он и объясняет, что за контора: «ООО Орбита» оказалась PARTYstation по pstv.ru."""
+    store = store if store is not None else K.load(K.STORE, {})
+    place = {}
+    for v in store.values():
+        inn = (v.get("receipt") or {}).get("kktOwnerInn") or ""
+        rp = (v.get("fiscal") or {}).get("retailPlace")
+        if inn and rp and inn not in place:
+            place[inn] = str(rp)[:44]
+    agg = collections.defaultdict(lambda: [0.0, 0, "", ""])
     for r in rs:
         if r["category"] != "прочее":
             continue
         a = agg[r["inn"] or r["merchant"]]
-        a[0] += r["sum"]; a[1] += 1; a[2] = r["merchant"]
+        a[0] += r["sum"]; a[1] += 1; a[2] = r["merchant"]; a[3] = place.get(r["inn"], "")
     return sorted(([inn] + a for inn, a in agg.items()), key=lambda a: -a[1])
 
 
@@ -304,7 +317,8 @@ def main(argv=None):
             print(f"\n{label}")
             print("  что                                 в месяц   раз в   за год       последний")
             for x in part:
-                print(f"  {x['name'][:32]:34} {money(x['amount']):>8}  {x['every']:>3} дн  {money(x['year']):>10}   {x['last']}")
+                print(f"  {x['name'][:32]:34} {money(x['amount']):>8}  {x['every']:>3} дн  {money(x['year']):>10}   {x['last']}"
+                      + ("" if x["active"] else f"  ← не списывают {x['sinceLast']} дн"))
     elif a.cmd == "inflation":
         inf = inflation(rs)
         print(f"Медианный рост цены по корзине ({inf['n']} товаров): {inf['median']:+}%\n")
@@ -317,8 +331,8 @@ def main(argv=None):
                 print(f"  {x['name'][:42]:44}{x['was']:>7}{x['now']:>8}{x['change']:>7}%  {x['buys']}")
     elif a.cmd == "unknown":
         print("Продавцы без категории (чинить в spend_rules.json):")
-        for inn, s, n, name in unknown(rs):
-            print(f"  {inn:<14} {money(s):>10} {n:>4} чек  {name[:40]}")
+        for inn, s, n, name, where in unknown(rs):
+            print(f"  {inn:<14} {money(s):>10} {n:>4} чек  {name[:30]:32} {where}")
     return 0
 
 

@@ -76,6 +76,7 @@
   .row .meter i { display: block; height: 100%; background: var(--c, var(--accent)); }
   .row .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; background: var(--c, var(--accent)); margin-right: 7px; vertical-align: 0; }
   .row .s { color: var(--text-3); font-size: 12.5px; font-weight: 400; }
+  .row.off { opacity: .55; }
   .tab { font: inherit; font-size: 12.5px; font-weight: 500; border: 0; background: none; color: var(--text-3);
     cursor: pointer; padding: 2px 8px; border-radius: 999px; }
   .tab.on { background: var(--surface-2); color: var(--text); font-weight: 600; }
@@ -185,8 +186,9 @@ function monthCard() {
 function recurringCard() {
   const part = w => D.recurring.filter(r => r.steady === w);
   const block = (title, list) => !list.length ? '' : `<div class="eyebrow" style="margin-top:14px">${title}</div>
-    <div class="rows">${list.map(r => `<div class="row"><div class="t">${esc(r.name)} <span class="s">раз в ${r.every} дн</span></div>
-      <div class="n">${esc(money(r.amount))}<div class="s">${esc(money(r.year))} в год</div></div></div>`).join('')}</div>`;
+    <div class="rows">${list.map(r => `<div class="row${r.active ? '' : ' off'}">
+      <div class="t">${esc(r.name)} <span class="s">${r.active ? `раз в ${r.every} дн` : `не списывают ${r.sinceLast} дн`}</span></div>
+      <div class="n">${esc(money(r.amount))}<div class="s">${r.active ? esc(money(r.year)) + ' в год' : 'последний ' + esc(r.last)}</div></div></div>`).join('')}</div>`;
   if (!D.recurring.length) return '';
   return `<div class="card half"><div class="eyebrow">Повторяется само</div>
     ${block('Подписки — сумма не меняется', part(true))}
