@@ -1,6 +1,6 @@
 {
   "level": "B1",
-  "updatedAt": "2026-09-19T08:13:04",
+  "updatedAt": "2026-09-19T09:04:52",
   "model": "opus",
   "fetchedAt": "2026-09-19T08:10:19",
   "items": [
@@ -413,6 +413,425 @@
       },
       "imageUrl": "https://cdn.slate.fr/uploads/store/story_273625/large_landscape_273625.jpg",
       "image": "french/img/rd-700e6e53b9.jpg"
+    },
+    {
+      "id": "ls:e603d6b89d",
+      "kind": "lesson",
+      "title": "Согласование причастия: когда ставить -e и -s",
+      "topic": "accord du participe passé",
+      "source": "Урок",
+      "flavour": "grammar",
+      "why": "Ты только начинаешь, и это первое место, где B1 стабильно сыплется: причастие после être и после avoir живут по разным законам.",
+      "minutes": 16,
+      "level": "B1",
+      "addedAt": "2026-09-19",
+      "verdict": "new",
+      "lesson": {
+        "intro": "Разберём три случая согласования причастия прошедшего времени: с être, с avoir и у местоименных глаголов. Примеры — про кино, книги и историю, чтобы правило запоминалось вместе со смыслом.",
+        "sections": [
+          {
+            "h": "С être причастие согласуется с подлежащим",
+            "text": "Глаголы движения и состояния (aller, venir, partir, sortir, rester, devenir, naître, mourir) и весь пассив строятся с être. Причастие тогда ведёт себя как прилагательное: женский род — -e, множественное — -s. Это самый механический случай: посмотри на подлежащее и допиши окончание.",
+            "ex": [
+              {
+                "fr": "La Palme d'or est revenue à Pulp Fiction en 1994.",
+                "ru": "Золотая пальмовая ветвь в 1994 году досталась «Криминальному чтиву»."
+              },
+              {
+                "fr": "Les spectateurs sont sortis de la salle en silence.",
+                "ru": "Зрители вышли из зала молча."
+              },
+              {
+                "fr": "Surveiller et punir est paru en 1975.",
+                "ru": "«Надзирать и наказывать» вышла в 1975 году."
+              },
+              {
+                "fr": "Ces deux scènes sont devenues célèbres.",
+                "ru": "Эти две сцены стали знаменитыми."
+              }
+            ]
+          },
+          {
+            "h": "С avoir — только если прямое дополнение стоит перед глаголом",
+            "text": "По умолчанию после avoir причастие не меняется: j'ai vu, elle a compris. Но если прямое дополнение вынесено вперёд — местоимением le/la/les, словом que или вопросом combien de / quel — причастие согласуется с ним. Проверка простая: спроси «кого/что?» и посмотри, стоит ли ответ левее глагола.",
+            "ex": [
+              {
+                "fr": "J'ai vu Oldboy trois fois.",
+                "ru": "Я смотрел «Олдбоя» три раза."
+              },
+              {
+                "fr": "Cette scène, je l'ai vue trois fois.",
+                "ru": "Эту сцену я смотрел три раза."
+              },
+              {
+                "fr": "Les films que Melville a tournés ont marqué le polar français.",
+                "ru": "Фильмы, которые снял Мельвиль, изменили французский криминальный жанр."
+              },
+              {
+                "fr": "Combien de livres de Nabokov as-tu lus ?",
+                "ru": "Сколько книг Набокова ты прочитал?"
+              }
+            ]
+          },
+          {
+            "h": "Местоименные глаголы: смотри, чем является se",
+            "text": "Местоименные глаголы всегда с être, но согласование идёт не с подлежащим, а с этим se — если оно прямое дополнение. Se rencontrer, s'asseoir, se lever — согласуем. Если же se — косвенное дополнение (parler à, dire à) или если после глагола уже стоит своё прямое дополнение, причастие остаётся неизменным.",
+            "ex": [
+              {
+                "fr": "Ils se sont rencontrés pendant le tournage.",
+                "ru": "Они познакомились во время съёмок."
+              },
+              {
+                "fr": "Elle s'est rendu compte trop tard de son erreur.",
+                "ru": "Она слишком поздно поняла свою ошибку."
+              },
+              {
+                "fr": "Ils se sont parlé pendant tout le générique.",
+                "ru": "Они проговорили все титры."
+              },
+              {
+                "fr": "Elle s'est posé une question simple.",
+                "ru": "Она задала себе простой вопрос."
+              }
+            ]
+          },
+          {
+            "h": "Три ловушки",
+            "text": "Первая: с avoir причастие никогда не согласуется с подлежащим — elle a compris, а не «comprise». Вторая: местоимение en согласования не вызывает. Третья: fait перед инфинитивом не меняется никогда.",
+            "ex": [
+              {
+                "fr": "Arendt a compris ce que signifiait la banalité du mal.",
+                "ru": "Арендт поняла, что значит банальность зла."
+              },
+              {
+                "fr": "Des westerns, j'en ai vu beaucoup.",
+                "ru": "Вестернов я посмотрел много."
+              },
+              {
+                "fr": "Elle s'est fait avoir par le montage.",
+                "ru": "Её обманул монтаж."
+              }
+            ]
+          }
+        ],
+        "words": [
+          {
+            "fr": "le tournage",
+            "ru": "съёмки",
+            "ex": "Le tournage a duré six mois."
+          },
+          {
+            "fr": "le montage",
+            "ru": "монтаж",
+            "ex": "Le montage rend la scène nerveuse."
+          },
+          {
+            "fr": "la mise en scène",
+            "ru": "режиссура, постановка",
+            "ex": "La mise en scène est froide et précise."
+          },
+          {
+            "fr": "un chef-d'œuvre",
+            "ru": "шедевр",
+            "ex": "Ce film est un chef-d'œuvre."
+          },
+          {
+            "fr": "se rendre compte de",
+            "ru": "осознать, заметить",
+            "ex": "Je me suis rendu compte de mon erreur."
+          },
+          {
+            "fr": "le plan-séquence",
+            "ru": "длинный кадр без склейки",
+            "ex": "Le plan-séquence du couloir est célèbre."
+          },
+          {
+            "fr": "la bande originale",
+            "ru": "саундтрек",
+            "ex": "J'écoute la bande originale sans avoir vu le film."
+          }
+        ],
+        "quiz": [
+          {
+            "type": "gap",
+            "q": "La Palme d'or de 1994 est ___ (revenir) à Pulp Fiction.",
+            "explain": "С être причастие согласуется с подлежащим: la Palme — женский род единственного числа.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "answer": "revenue",
+            "accept": [
+              "revenue a"
+            ]
+          },
+          {
+            "type": "choice",
+            "q": "Cette scène, je l'ai ___ dix fois.",
+            "explain": "Прямое дополнение l' (= cette scène) стоит перед avoir, поэтому причастие согласуется в женском роде единственного числа.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "options": [
+              "vue",
+              "vu",
+              "vus",
+              "vues"
+            ],
+            "answer": 0
+          },
+          {
+            "type": "gap",
+            "q": "Les films que Melville a ___ (tourner) ont marqué le polar français.",
+            "explain": "Que заменяет les films и стоит перед глаголом — причастие получает -s.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "answer": "tournés",
+            "accept": [
+              "tournes"
+            ]
+          },
+          {
+            "type": "choice",
+            "q": "Elle s'est ___ compte de son erreur trop tard.",
+            "explain": "В se rendre compte se — косвенное дополнение, причастие всегда остаётся неизменным.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "options": [
+              "rendu",
+              "rendue",
+              "rendus",
+              "rendues"
+            ],
+            "answer": 0
+          },
+          {
+            "type": "order",
+            "q": "Собери фразу: «Они познакомились во время съёмок»",
+            "explain": "Se здесь прямое дополнение (познакомились друг с другом), поэтому -s по подлежащему ils.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "answer": "Ils se sont rencontrés pendant le tournage",
+            "accept": []
+          },
+          {
+            "type": "translate",
+            "q": "Сколько фильмов Бергмана ты посмотрел?",
+            "explain": "При вынесенном вперёд combien de films причастие согласуется: vus; в варианте с дополнением после глагола — vu.",
+            "hint": "дополнение стоит перед глаголом",
+            "tag": "согласование причастия",
+            "answer": "Combien de films de Bergman as-tu vus ?",
+            "accept": [
+              "Combien de films de Bergman tu as vus",
+              "Tu as vu combien de films de Bergman"
+            ]
+          },
+          {
+            "type": "match",
+            "q": "Составь пары",
+            "explain": "Базовые слова о кино, они понадобятся в переводе.",
+            "hint": null,
+            "tag": "лексика: кино",
+            "pairs": [
+              {
+                "fr": "le tournage",
+                "ru": "съёмки"
+              },
+              {
+                "fr": "le montage",
+                "ru": "монтаж"
+              },
+              {
+                "fr": "la mise en scène",
+                "ru": "режиссура"
+              },
+              {
+                "fr": "un chef-d'œuvre",
+                "ru": "шедевр"
+              }
+            ]
+          },
+          {
+            "type": "listen",
+            "q": "Впиши последние два слова по-французски",
+            "explain": "Окончание -és на слух не слышно — согласование здесь видно только на письме.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "say": "Ils se sont rencontrés pendant le tournage.",
+            "answer": "le tournage",
+            "accept": [
+              "tournage"
+            ]
+          }
+        ],
+        "builtAt": "2026-09-19T09:04:52"
+      }
+    },
+    {
+      "id": "tr:24db4d5ced",
+      "kind": "translation",
+      "title": "Перевод: вечер в синематеке",
+      "topic": "рассказ о фильме в прошедшем времени",
+      "source": "Перевод",
+      "flavour": null,
+      "why": "Ты много смотришь кино, а прошедшее время с согласованием причастия — ровно то, что мы только что разобрали; здесь оно работает в живом рассказе.",
+      "minutes": 14,
+      "level": "B1",
+      "addedAt": "2026-09-19",
+      "verdict": "new",
+      "lesson": {
+        "intro": "Один вечер: сеанс «Самурая» Мельвиля в Синематеке и разговор о нём после. Следи за выбором avoir/être и за окончаниями причастий.",
+        "sections": [],
+        "words": [
+          {
+            "fr": "la séance",
+            "ru": "сеанс",
+            "ex": "La séance commence à vingt heures."
+          },
+          {
+            "fr": "la salle",
+            "ru": "зал",
+            "ex": "La salle était pleine."
+          },
+          {
+            "fr": "le générique",
+            "ru": "титры",
+            "ex": "Personne n'est parti avant le générique."
+          },
+          {
+            "fr": "une copie restaurée",
+            "ru": "отреставрированная копия",
+            "ex": "Ils projettent une copie restaurée."
+          },
+          {
+            "fr": "rater",
+            "ru": "пропустить, прозевать",
+            "ex": "J'ai raté le début."
+          },
+          {
+            "fr": "valoir le coup",
+            "ru": "стоить того",
+            "ex": "Ça valait vraiment le coup."
+          }
+        ],
+        "quiz": [
+          {
+            "type": "translate",
+            "q": "Вчера вечером я посмотрел «Самурая» Мельвиля",
+            "explain": "Voir с avoir, дополнение стоит после глагола — согласования нет.",
+            "hint": null,
+            "tag": "passé composé",
+            "answer": "Hier soir, j'ai vu Le Samouraï de Melville",
+            "accept": [
+              "J'ai vu Le Samouraï de Melville hier soir",
+              "Hier soir j'ai regardé Le Samouraï de Melville"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Сеанс начался в восемь, и мы пришли вовремя",
+            "explain": "Commencer идёт с avoir, arriver — с être, поэтому arrivés согласуется с nous.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "answer": "La séance a commencé à huit heures et nous sommes arrivés à l'heure",
+            "accept": [
+              "La séance a débuté à huit heures et nous sommes arrivés à l'heure",
+              "La séance a commencé à 20 h et on est arrivés à l'heure"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Они показывали отреставрированную копию, и я сразу это заметил",
+            "explain": "Se rendre compte всегда даёт неизменное rendu, а en согласования не вызывает.",
+            "hint": "se rendre compte de → s'en rendre compte",
+            "tag": "согласование причастия",
+            "answer": "Ils passaient une copie restaurée et je m'en suis rendu compte tout de suite",
+            "accept": [
+              "Ils projetaient une copie restaurée et je m'en suis rendu compte tout de suite",
+              "C'était une copie restaurée et je m'en suis rendu compte tout de suite"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Эту сцену в коридоре я пересматривал уже три раза",
+            "explain": "Если дополнение вынесено вперёд местоимением l', причастие получает -e.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "answer": "Cette scène dans le couloir, je l'ai déjà revue trois fois",
+            "accept": [
+              "J'ai déjà revu cette scène du couloir trois fois",
+              "Cette scène du couloir, je l'ai revue trois fois déjà"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Мои друзья вышли из зала до титров",
+            "explain": "Sortir без прямого дополнения строится с être: sortis по подлежащему.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "answer": "Mes amis sont sortis de la salle avant le générique",
+            "accept": [
+              "Mes amis ont quitté la salle avant le générique",
+              "Mes copains sont sortis de la salle avant le générique"
+            ]
+          },
+          {
+            "type": "order",
+            "q": "Собери фразу: «Мы обсуждали фильм до поздней ночи»",
+            "explain": "Discuter de — глагол с косвенным дополнением, поэтому причастие неизменно.",
+            "hint": null,
+            "tag": "passé composé",
+            "answer": "Nous avons discuté du film jusqu'à tard dans la nuit",
+            "accept": []
+          },
+          {
+            "type": "translate",
+            "q": "Фильмы, которые он снял в шестидесятые, я посмотрел все",
+            "explain": "Два согласования подряд: que → tournés, les → vus.",
+            "hint": "оба дополнения стоят перед глаголами",
+            "tag": "согласование причастия",
+            "answer": "Les films qu'il a tournés dans les années soixante, je les ai tous vus",
+            "accept": [
+              "J'ai vu tous les films qu'il a tournés dans les années soixante",
+              "Les films qu'il a tournés dans les années soixante, je les ai tous regardés"
+            ]
+          },
+          {
+            "type": "listen",
+            "q": "Впиши последние два слова по-французски",
+            "explain": "Слово из сегодняшней лексики: générique — титры, а не «общий».",
+            "hint": null,
+            "tag": "лексика: кино",
+            "say": "Nous sommes sortis juste avant le générique.",
+            "answer": "le générique",
+            "accept": [
+              "générique"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Она сказала мне, что ушла с сеанса, потому что устала",
+            "explain": "В придаточном после прошедшего идёт plus-que-parfait, и partie согласуется с elle.",
+            "hint": null,
+            "tag": "согласование причастия",
+            "answer": "Elle m'a dit qu'elle était partie de la séance parce qu'elle était fatiguée",
+            "accept": [
+              "Elle m'a dit qu'elle avait quitté la séance parce qu'elle était fatiguée",
+              "Elle m'a dit être partie de la séance parce qu'elle était fatiguée"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Если бы я знал, что копию отреставрировали, я бы не пропустил сеанс",
+            "explain": "Условие в прошлом: si + plus-que-parfait, в главной части conditionnel passé; restaurée согласуется с la copie.",
+            "hint": "si j'avais su… je n'aurais pas…",
+            "tag": "условное наклонение",
+            "answer": "Si j'avais su que la copie avait été restaurée, je n'aurais pas raté la séance",
+            "accept": [
+              "Si j'avais su qu'ils avaient restauré la copie, je n'aurais pas raté la séance",
+              "Si j'avais su que la copie était restaurée, je n'aurais pas manqué la séance"
+            ]
+          }
+        ],
+        "builtAt": "2026-09-19T09:04:52"
+      }
     }
   ],
   "cards": [],
@@ -3508,5 +3927,6 @@
   ],
   "searchCursor": 14,
   "lastStudy": null,
-  "streak": 0
+  "streak": 0,
+  "drillCursor": 1
 }

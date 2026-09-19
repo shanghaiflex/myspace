@@ -562,8 +562,7 @@ function drawQuiz(head) {
 
   $('#sheet').innerHTML = head
     + `<div class="qhead"><div class="dots">${dots}</div><div class="n">${L.qi + 1} из ${L.qs.length} · ${esc(QNAME[q.type] || q.type)}${q.tag ? ' · ' + esc(q.tag) : ''}</div></div>
-       <div class="q">${q.type === 'listen' && !done ? 'Что ты услышал?' : esc(q.q)}</div>`
-    + (q.type === 'listen' && !done && q.q ? `<div class="qsub">${esc(q.q)}</div>` : '')
+       <div class="q">${esc(q.q)}</div>`
     + body + hint + said + rightBlock
     + (done && q.explain ? `<div class="exp">${esc(q.explain)}</div>` : '')
     + (done ? `<div class="btnrow"><button class="btn prim" data-go="next">${L.qi + 1 < L.qs.length ? 'Дальше' : 'Итог'}</button>${selfBtn}</div>` : '');
