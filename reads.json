@@ -1,54 +1,54 @@
 {
-  "updatedAt": "2026-09-18T07:51:14",
+  "updatedAt": "2026-09-19T07:51:01",
   "model": "opus",
   "items": [
     {
-      "id": "a45fa6dac8",
-      "url": "https://www.astralcodexten.com/p/your-book-review-the-tale-of-genji",
-      "title": "Your Book Review: The Tale Of Genji",
-      "author": "Scott Alexander",
-      "source": "Astral Codex Ten",
-      "sourceId": "acx",
-      "date": "2026-09-04",
-      "minutes": 45,
-      "summary": "[ This is one of the finalists in the 2026 book review contest, written by an ACX reader who will remain anonymous until after voting is done. I’ll be posting about one of these a week for several months. When you’ve read them all, I’ll ask you to vote for a favorite, so remember",
-      "reason": "К «Золотому Храму» Мисимы — разбор «Гэндзи», книги, из которой выросла вся эта придворная эстетика",
-      "suggestedAt": "2026-09-18",
-      "verdict": "new",
-      "image": "reads/img/a45fa6dac8.jpg",
-      "imageUrl": "https://substackcdn.com/image/fetch/$s_!-7zt!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F69294a9e-9bbb-4f81-9494-5e87ce3d5a51_1105x1200.jpeg"
-    },
-    {
-      "id": "4f170a06a1",
-      "url": "https://www.quantamagazine.org/the-four-color-theorem-gets-a-rare-new-proof-20260910/",
-      "title": "The Four-Color Theorem Gets a Rare New Proof",
-      "author": "Gregory Barber",
-      "source": "Quanta",
-      "sourceId": "quanta",
-      "date": "2026-09-10",
-      "minutes": null,
-      "summary": "Some math problems continue to haunt researchers long after they’ve been solved. A proof emerges, is even celebrated, and yet dissatisfaction lingers. Perhaps the argument is too convoluted — the hunt persists for the elusive one-page paper — or perhaps it fails to give a deeper ",
-      "reason": "Ты слушал «Шиз пытается понять доказательство гипотезы Пуанкаре» — тут теорема о четырёх красках доказана заново",
-      "suggestedAt": "2026-09-18",
-      "verdict": "new",
-      "image": "reads/img/4f170a06a1.jpg",
-      "imageUrl": "https://www.quantamagazine.org/wp-content/uploads/2026/09/4C-Theorem-cr-Vico-Santos-Social.jpg"
-    },
-    {
-      "id": "b890499c7e",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n16/thomas-jones/how-to-choose-your-friends",
-      "title": "Thomas Jones: How to Choose Your Friends",
+      "id": "73632778ff",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/liam-shaw/i-just-wanted-to-touch-it",
+      "title": "Liam Shaw: I just wanted to touch it",
       "author": null,
       "source": "London Review of Books",
       "sourceId": "lrb",
       "date": "2026-08-28",
       "minutes": null,
-      "summary": "The importance of Sicily to Leonardo Sciascia’s writing can’t be overstated, but Italo Calvino perhaps put it best when he said that Sciascia was a ‘local author, rooted, who had made the universal out of those roots’. Sicily and Italy don’t have a monopoly on racketeering; the d",
-      "reason": "Ферранте дала тебе Неаполь; Шаша — Сицилия, где мафия описана как искусство выбирать друзей",
-      "suggestedAt": "2026-09-18",
+      "summary": "Pandas have good PR, but they’re not as cuddly as people think. They have powerful teeth that can chew things a lot tougher than bamboo. One conservationist described watching a panda eat an aluminium pan (and documented the aluminium nuggets that were excreted a few hours later)",
+      "reason": "После «Быка» Пастуро — панда как зверь, которого культура сочинила заново.",
+      "suggestedAt": "2026-09-19",
       "verdict": "new",
-      "image": "reads/img/b890499c7e.jpg",
-      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/0/7/8/8/31108870-1-eng-GB/405a173cfb74-leonardo-sciascia.jpg"
+      "image": "reads/img/73632778ff.jpg",
+      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/4/3/8/8/31108834-1-eng-GB/4ce83488b0ec-panda-china-1925.jpg"
+    },
+    {
+      "id": "ea68a0d42a",
+      "url": "https://psyche.co/portraits/dj-william-goldsmith-on-the-human-art-of-internet-radio",
+      "title": "The human frequency",
+      "author": "Greg Easley",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-08-31",
+      "minutes": null,
+      "summary": "With Radio Paradise, William Goldsmith built an internet radio station that’s become a living argument for taste, trust and the art of choosing what comes next - by Greg Easley Read on Psyche",
+      "reason": "После миксов buried piracies — радио, где человек, а не алгоритм, решает, что играть дальше.",
+      "suggestedAt": "2026-09-19",
+      "verdict": "new",
+      "image": "reads/img/ea68a0d42a.jpg",
+      "imageUrl": "https://images.aeonmedia.co/images/6d567ad7-e38b-4492-a6db-c7a0788177fa/sz-fullsizerender.jpg?top=135&left=0&cropWidth=2576&cropHeight=1449&width=1200&quality=75&format=jpeg"
+    },
+    {
+      "id": "decfbd3785",
+      "url": "https://www.newyorker.com/magazine/2026/09/21/the-american-religion-of-self-storage-facilities",
+      "title": "The American Religion of Self-Storage Facilities",
+      "author": "David Owen",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-14",
+      "minutes": null,
+      "summary": "Why are we so obsessed with putting our belongings in metal boxes and then never looking at them again?",
+      "reason": "Американского быта у тебя нет вовсе — а это «Мифологии» Барта про железные ящики со скарбом.",
+      "suggestedAt": "2026-09-19",
+      "verdict": "new",
+      "image": "reads/img/decfbd3785.jpg",
+      "imageUrl": "https://media.newyorker.com/photos/6aa161756eb1482789ace667/16:9/w_1280,c_limit/r50012.jpg"
     }
   ],
   "saved": [
@@ -72,6 +72,33 @@
     }
   ],
   "history": [
+    {
+      "id": "a45fa6dac8",
+      "title": "Your Book Review: The Tale Of Genji",
+      "url": "https://www.astralcodexten.com/p/your-book-review-the-tale-of-genji",
+      "source": "Astral Codex Ten",
+      "reason": "К «Золотому Храму» Мисимы — разбор «Гэндзи», книги, из которой выросла вся эта придворная эстетика",
+      "verdict": "new",
+      "at": "2026-09-18"
+    },
+    {
+      "id": "4f170a06a1",
+      "title": "The Four-Color Theorem Gets a Rare New Proof",
+      "url": "https://www.quantamagazine.org/the-four-color-theorem-gets-a-rare-new-proof-20260910/",
+      "source": "Quanta",
+      "reason": "Ты слушал «Шиз пытается понять доказательство гипотезы Пуанкаре» — тут теорема о четырёх красках доказана заново",
+      "verdict": "new",
+      "at": "2026-09-18"
+    },
+    {
+      "id": "b890499c7e",
+      "title": "Thomas Jones: How to Choose Your Friends",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n16/thomas-jones/how-to-choose-your-friends",
+      "source": "London Review of Books",
+      "reason": "Ферранте дала тебе Неаполь; Шаша — Сицилия, где мафия описана как искусство выбирать друзей",
+      "verdict": "new",
+      "at": "2026-09-18"
+    },
     {
       "id": "692cccef92",
       "title": "Whose AI Will Rule The World?",
@@ -191,6 +218,127 @@
     }
   ],
   "cache": [
+    {
+      "id": "939eab5cd7",
+      "url": "https://www.astralcodexten.com/p/your-book-review-this-is-going-to",
+      "title": "Your Book Review: This Is Going To Hurt",
+      "author": "Scott Alexander",
+      "source": "Astral Codex Ten",
+      "sourceId": "acx",
+      "date": "2026-09-18",
+      "minutes": 57,
+      "summary": "[ This is one of the finalists in the 2026 book review contest, written by an ACX reader who will remain anonymous until after voting is done. I’ll be posting about one of these a week for several months. When you’ve read them all, I’ll ask you to vote for a favorite, so remember"
+    },
+    {
+      "id": "3920f61e0f",
+      "url": "https://aeon.co/essays/black-holes-ring-like-bells-what-happens-next-is-stranger",
+      "title": "Cosmic amnesia",
+      "author": "Richard Dyer",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "A black hole rings like a struck bell, then settles into silence, forgetting almost everything about its history. Why? - by Richard Dyer Read on Aeon"
+    },
+    {
+      "id": "8684dd6135",
+      "url": "https://psyche.co/ideas/maxxing-treats-life-as-a-problem-when-its-a-mystery",
+      "title": "Maxxing treats life as a problem when it’s a mystery",
+      "author": "Håkon Evjemo",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "The philosopher Gabriel Marcel offers the antidote to a grotesque new ideology: don’t fix existence, be open to it - by Håkon Evjemo Read on Psyche"
+    },
+    {
+      "id": "b3732e0923",
+      "url": "https://www.theparisreview.org/blog/2026/09/18/my-larval-roommates-sarah-nicole-prickett/",
+      "title": "My Larval Roommates",
+      "author": "Sarah Nicole Prickett",
+      "source": "The Paris Review",
+      "sourceId": "parisreview",
+      "date": "2026-09-18",
+      "minutes": 9,
+      "summary": "Wenceslaus Hollar, Moth and Three Butterflies , 1646, via Wikimedia Commons . Licensed under CC0 1.0 . Though the print issues of The Paris Review are never overtly themed, it often happens that, in the process of poring over the prose, poems, art, and interviews bundled into eac"
+    },
+    {
+      "id": "66ea28b3dc",
+      "url": "https://www.quantamagazine.org/mathematicians-build-long-awaited-graph-sandwich-20260918/",
+      "title": "Mathematicians Build Long-Awaited Graph Sandwich",
+      "author": "Paulina Rowińska",
+      "source": "Quanta",
+      "sourceId": "quanta",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "In 2004, two mathematicians hypothesized a powerful kind of sandwich. They were studying graphs, which are collections of points (called vertices) and lines (called edges). Graphs might represent anything from social groups to the internet to neurons in the brain. The mathematici"
+    },
+    {
+      "id": "95b9eae447",
+      "url": "https://nautil.us/the-moon-has-a-new-once-in-a-century-crater-1285140/",
+      "title": "The Moon has a New Once-in-a-Century Crater",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "The lunar surface is more dynamic than you might think The post The Moon has a New Once-in-a-Century Crater appeared first on Nautilus ."
+    },
+    {
+      "id": "d7c688885b",
+      "url": "https://nautil.us/the-most-complete-mastodon-tooth-ever-found-1285135/",
+      "title": "The “Most Complete” Mastodon Tooth Ever Found",
+      "author": "David Nield",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "Peering 10,000 years into the past The post The “Most Complete” Mastodon Tooth Ever Found appeared first on Nautilus ."
+    },
+    {
+      "id": "ccd968e20f",
+      "url": "https://nautil.us/this-stray-cat-turned-out-to-be-the-first-new-cat-species-discovered-in-over-a-century-1285132/",
+      "title": "This Stray Cat Turned Out to Be the First New Cat Species Discovered in Over a Century",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "It was living on a diet of rice, noodles, and eggs The post This Stray Cat Turned Out to Be the First New Cat Species Discovered in Over a Century appeared first on Nautilus ."
+    },
+    {
+      "id": "5cef0283f1",
+      "url": "https://nautil.us/muscle-loss-is-a-big-warning-sign-of-dementia-1285125/",
+      "title": "Muscle Loss is a Big Warning Sign of Dementia",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "But obesity has a more complicated relationship with the disease The post Muscle Loss is a Big Warning Sign of Dementia appeared first on Nautilus ."
+    },
+    {
+      "id": "66fcaf2de3",
+      "url": "https://nautil.us/is-this-massive-new-study-on-the-benefits-of-whole-grains-part-of-the-war-on-protein-rfk-jr-is-ending-1285119/",
+      "title": "Is This Massive New Study on the Benefits of Whole Grains Part of the “War on Protein” RFK Jr. is Ending?",
+      "author": "Claire Maldarelli",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "When it comes to whole grains and health, a new analysis suggests the more the better The post Is This Massive New Study on the Benefits of Whole Grains Part of the “War on Protein” RFK Jr. is Ending? appeared first on Nautilus ."
+    },
+    {
+      "id": "c3a0d08ae2",
+      "url": "https://nautil.us/you-have-two-brains-not-one-1285111/",
+      "title": "You Have Two Brains, Not One",
+      "author": "Kristen French",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-09-18",
+      "minutes": null,
+      "summary": "Being of two minds may be more than just an idiom The post You Have Two Brains, Not One appeared first on Nautilus ."
+    },
     {
       "id": "55ce141ffe",
       "url": "https://www.lesswrong.com/posts/cJX2ssssGoYqnijwi/the-talker-does-not-control-the-doer-in-current-ais",
@@ -685,17 +833,6 @@
       "date": "2026-09-14",
       "minutes": null,
       "summary": "Godwits make the longest non-stop migration in the bird world. That might be the least of their marvels. Can they survive a changing planet?"
-    },
-    {
-      "id": "decfbd3785",
-      "url": "https://www.newyorker.com/magazine/2026/09/21/the-american-religion-of-self-storage-facilities",
-      "title": "The American Religion of Self-Storage Facilities",
-      "author": "David Owen",
-      "source": "The New Yorker",
-      "sourceId": "newyorker",
-      "date": "2026-09-14",
-      "minutes": null,
-      "summary": "Why are we so obsessed with putting our belongings in metal boxes and then never looking at them again?"
     },
     {
       "id": "6ad389fcb1",
@@ -2051,17 +2188,6 @@
       "summary": "The nation’s water is secure, but its food is another matter: lessons from the city-state in efficiency versus self-sufficiency - by Peter A Coclanis Read on Aeon"
     },
     {
-      "id": "ea68a0d42a",
-      "url": "https://psyche.co/portraits/dj-william-goldsmith-on-the-human-art-of-internet-radio",
-      "title": "The human frequency",
-      "author": "Greg Easley",
-      "source": "Psyche",
-      "sourceId": "psyche",
-      "date": "2026-08-31",
-      "minutes": null,
-      "summary": "With Radio Paradise, William Goldsmith built an internet radio station that’s become a living argument for taste, trust and the art of choosing what comes next - by Greg Easley Read on Psyche"
-    },
-    {
       "id": "a0be7dac66",
       "url": "/2026/08/general-interest-meat-of-the-matter-erin-somers-jess-bergman-interview-cultivated-meat/",
       "title": "Meat of the Matter",
@@ -2148,17 +2274,6 @@
       "date": "2026-08-28",
       "minutes": null,
       "summary": "If every accusation​ is a confession, then the US State Department report released on 20 July, which describes Cuba as ‘the capital of 21st-century communism’, must rank as one of..."
-    },
-    {
-      "id": "73632778ff",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n16/liam-shaw/i-just-wanted-to-touch-it",
-      "title": "Liam Shaw: I just wanted to touch it",
-      "author": null,
-      "source": "London Review of Books",
-      "sourceId": "lrb",
-      "date": "2026-08-28",
-      "minutes": null,
-      "summary": "Pandas have good PR, but they’re not as cuddly as people think. They have powerful teeth that can chew things a lot tougher than bamboo. One conservationist described watching a panda eat an aluminium pan (and documented the aluminium nuggets that were excreted a few hours later)"
     },
     {
       "id": "28f92076d9",
@@ -2843,5 +2958,5 @@
       "summary": "I propose the Long Self-Correction [1] as an alternative name/idea/concept to AI Pause and Long Reflection. Problem with AI Pause : Pause until when, and for what purpose? Presumably to make AI (that we'll build later) safer, but the deeper problem is that humans aren't safe, and"
     }
   ],
-  "fetchedAt": "2026-09-18T07:50:07"
+  "fetchedAt": "2026-09-19T07:50:06"
 }

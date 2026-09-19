@@ -114,6 +114,9 @@
   .dots { display: flex; gap: 5px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
   .dot.ok { background: var(--ok); } .dot.no { background: var(--bad); } .dot.now { background: var(--accent); }
+  /* В журнальной палитре --accent и --bad — одна и та же киноварь, поэтому «текущий вопрос»
+     отличается от «ответил неверно» не цветом, а формой: колечко вместо заливки. */
+  .dot.now { background: transparent; box-shadow: inset 0 0 0 2px var(--accent); }
   .qhead .n { font-size: 12.5px; color: var(--text-3); }
   .q { font-size: 17.5px; font-weight: 600; margin: 0 0 16px; line-height: 1.4; }
   .opts { display: grid; gap: 8px; }
@@ -134,6 +137,50 @@
   .score small { font-size: 15px; color: var(--text-3); font-weight: 500; letter-spacing: 0; }
   .saved { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); opacity: 0; z-index: 60; background: var(--text); color: var(--bg); padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 500; transition: all .2s ease; pointer-events: none; }
   .saved.on { opacity: 1; transform: translate(-50%, 0); }
+
+  /* --- урок и перевод: материал, которого нет ни в одной ленте --- */
+  /* Приехали не из ленты: ни превью, ни издания у них нет, поэтому вместо картинки — наборная
+     плашка с темой. Так карточка всё равно читается как карточка, а не как дыра в сетке. */
+  .art.drill .pic { display: grid; place-items: center; padding: 22px; text-align: center; cursor: pointer;
+    background: color-mix(in srgb, var(--accent) 8%, var(--surface)); border-bottom: 1px solid var(--line); }
+  .art.drill .pic .kindline { font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: .17em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .art.drill .pic .topic { font-family: var(--display); font-size: 22px; line-height: 1.22; color: var(--text); }
+
+  /* объяснение урока: части с заголовками и примеры парами */
+  .sec-l { border-top: 1px solid var(--line); padding-top: 13px; margin: 18px 0 0; }
+  .sec-l h4 { margin: 0 0 7px; font-family: var(--display); font-size: 17.5px; font-weight: 600; }
+  .sec-l p { margin: 0; font-size: 14.5px; line-height: 1.55; }
+  .exl { display: grid; gap: 7px; margin: 11px 0 0; }
+  .exl .e { background: var(--surface-2); padding: 9px 12px; }
+  .exl .e .fr { font-size: 14.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .exl .e .ru { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+
+  /* озвучка: системный синтезатор. Кнопки нет вовсе, если французского голоса в системе нет. */
+  .spk { border: 1px solid var(--line); background: var(--surface-2); color: var(--text-2);
+    width: 24px; height: 24px; padding: 0; font-size: 12px; line-height: 1; flex: none; }
+  .spk.big { width: auto; height: auto; padding: 12px 20px; font-size: 14.5px; color: var(--text); }
+  .w b .spk { margin-left: 6px; vertical-align: middle; }
+
+  /* собери фразу / составь пары */
+  .slot { min-height: 54px; border: 1px dashed var(--line); padding: 10px 12px; margin-bottom: 12px;
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .slot .ph { color: var(--text-3); font-size: 13.5px; font-style: italic; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .slot button, .chips button { border: 1px solid var(--line); background: var(--surface-2); color: var(--text);
+    padding: 9px 13px; font-size: 14.5px; }
+  .slot button:disabled, .chips button:disabled { cursor: default; }
+  .pairs { display: grid; gap: 8px; }
+  .pairs .row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; }
+  .pairs .row .l { background: var(--surface-2); padding: 10px 12px; font-size: 14.5px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px; }
+  .pairs .row .r { border: 1px dashed var(--line); padding: 10px 12px; font-size: 14.5px; color: var(--text-3); cursor: pointer; }
+  .pairs .row .r.set { border-style: solid; color: var(--text); }
+  .pairs .row.ok .r { border-color: var(--ok); }
+  .pairs .row.no .r { border-color: var(--bad); }
+  .gap.wide { flex-direction: column; align-items: stretch; }
+  .gap.wide .btn { align-self: flex-start; }
+  .qsub { font-size: 13.5px; color: var(--text-2); margin: -8px 0 14px; }
 
   @media (max-width: 760px) {
     html, body { overflow-x: hidden; }
@@ -202,8 +249,39 @@ const plural = (n, a, b, c) => n % 10 === 1 && n % 100 !== 11 ? a : n % 10 >= 2 
 
 // Та же нормализация, что в french.py: страница показывает результат сразу, сервер потом
 // пересчитывает его сам по сохранённому тесту — сходиться они должны на одном правиле.
+// Кириллица оставлена намеренно: ответы бывают и русскими, а без неё любые два русских
+// ответа нормализовались в пустую строку и сходились друг с другом.
 const norm = s => String(s ?? '').replace(/[’ʼ]/g, "'").toLowerCase()
-  .normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  .normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9а-я' ]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+// Озвучка — системный синтезатор речи. Французский голос есть не везде (в Firefox на маке его
+// надо доустановить), поэтому всё звуковое сначала спрашивает canSpeak(): нет голоса — нет ни
+// кнопок «прослушать», ни заданий на слух, и страница работает как раньше.
+let VOICE = null;
+function pickVoice() {
+  try {
+    const all = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
+    VOICE = all.find(v => /^fr/i.test(v.lang) && v.localService) || all.find(v => /^fr/i.test(v.lang)) || null;
+  } catch { VOICE = null; }
+}
+const canSpeak = () => !!VOICE;
+function speak(text, rate) {
+  if (!VOICE || !text) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text));
+    u.voice = VOICE; u.lang = VOICE.lang || 'fr-FR'; u.rate = rate || 0.92;
+    speechSynthesis.speak(u);
+  } catch { /* синтезатор — украшение, его отказ ничего не ломает */ }
+}
+const spk = (t, cls) => canSpeak() ? `<button class="spk${cls ? ' ' + cls : ''}" data-say="${esc(t)}" title="Произнести">♪</button>` : '';
+if (window.speechSynthesis) {
+  pickVoice();
+  // Голоса приезжают асинхронно: если французский появился уже после отрисовки, перерисуем —
+  // иначе кнопок звука не будет до перезагрузки страницы.
+  speechSynthesis.onvoiceschanged = () => { const had = canSpeak(); pickVoice(); if (!had && canSpeak() && DB) render(DB); };
+}
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 let DB = null;      // ответ /api/french
 let L = null;       // текущий урок
@@ -225,7 +303,12 @@ function render(db) {
   const items = DB.items || [];
   $('#items').innerHTML = items.map(matCard).join('');
   $('#itemsEmpty').hidden = !!items.length;
-  $('#itemsMeta').textContent = DB.updatedAt ? 'подобрано ' + fmtDay(DB.updatedAt) : '';
+  const nDrill = items.filter(isDrill).length, nFeed = items.length - nDrill;
+  $('#itemsMeta').textContent = [
+    nFeed ? nFeed + ' ' + plural(nFeed, 'материал', 'материала', 'материалов') : '',
+    nDrill ? nDrill + ' ' + plural(nDrill, 'упражнение', 'упражнения', 'упражнений') : '',
+    DB.updatedAt ? 'подобрано ' + fmtDay(DB.updatedAt) : '',
+  ].filter(Boolean).join(' · ');
 
   const due = new Set(DB.due || []);
   const cards = DB.cards || [];
@@ -254,9 +337,34 @@ function nextDue(cards) {
   return days.length ? 'следующие слова — ' + fmtDay(days[0]) : '';
 }
 
+const isDrill = m => m.kind === 'lesson' || m.kind === 'translation';
+const KINDLINE = { lesson: 'Урок', translation: 'Перевод', video: '▶ видео', article: 'статья' };
+// Названия типов заданий: карточка честно говорит, что внутри, — «5 заданий» ничего не обещает,
+// а «перевод, пары, на слух» обещает разное.
+const QNAME = { choice: 'выбор', gap: 'пропуск', translate: 'перевод', order: 'порядок слов',
+                match: 'пары', listen: 'на слух' };
+
 function matCard(m) {
   const les = m.lesson || {};
   const n = (les.quiz || []).length, w = (les.words || []).length;
+  const kinds = [...new Set((les.quiz || []).map(q => QNAME[q.type] || q.type))].join(', ');
+  if (isDrill(m)) {
+    return `<article class="art drill" data-id="${esc(m.id)}">
+      <div class="pic" data-open="1">
+        <div><div class="kindline">${esc(KINDLINE[m.kind])}</div><div class="topic">${esc(m.topic || m.title)}</div></div>
+      </div>
+      <div class="body">
+        <div class="src">${esc([m.source, m.minutes ? m.minutes + ' мин' : ''].filter(Boolean).join(' · '))}</div>
+        <h3 data-open="1">${esc(m.title)}</h3>
+        ${m.why ? `<div class="why">${esc(m.why)}</div>` : ''}
+        <div class="why" style="color:var(--text-3)">${w ? `${w} ${plural(w, 'слово', 'слова', 'слов')} · ` : ''}${n} ${plural(n, 'задание', 'задания', 'заданий')}${kinds ? ': ' + esc(kinds) : ''}</div>
+        <div class="acts">
+          <button class="take" data-act="open">Заниматься</button>
+          <button data-act="dismissed">Мимо</button>
+        </div>
+      </div>
+    </article>`;
+  }
   // Заглушка лежит под картинкой всегда: файла превью может не быть (french/img/ — данные машины),
   // и тогда img просто убирает себя, открывая подпись источника вместо битой иконки.
   const pic = `<div class="ph">${esc(m.source || '')}</div>`
@@ -268,7 +376,7 @@ function matCard(m) {
       <div class="src">${esc(sub)}</div>
       <h3 data-open="1">${esc(m.title)}</h3>
       ${m.why ? `<div class="why">${esc(m.why)}</div>` : ''}
-      <div class="why" style="color:var(--text-3)">${les.builtAt ? `${w} ${plural(w, 'слово', 'слова', 'слов')} · тест из ${n}` : 'разбор ещё не собрался'}</div>
+      <div class="why" style="color:var(--text-3)">${les.builtAt ? `${w} ${plural(w, 'слово', 'слова', 'слов')} · ${n} ${plural(n, 'задание', 'задания', 'заданий')}${kinds ? ': ' + esc(kinds) : ''}` : 'разбор ещё не собрался'}</div>
       <div class="acts">
         <button class="take" data-act="open">Заниматься</button>
         <button data-act="dismissed">Мимо</button>
@@ -303,11 +411,16 @@ async function day() {
   } catch { /* календарь — украшение: нет его, страница работает как раньше */ }
 }
 
-// ---------------------------------------------------------------- урок
+// ---------------------------------------------------------------- занятие
 function openLesson(id) {
   const m = (DB.items || []).find(x => x.id === id);
   if (!m) return;
-  L = { m, step: 'study', qi: 0, answers: [], given: null, checked: false };
+  const quiz = ((m.lesson || {}).quiz) || [];
+  // Задания «на слух» показываются только там, где в системе есть французский голос: без него
+  // вопрос либо невозможен, либо превращается в подарок. Номер задания при этом остаётся
+  // настоящим — по нему сервер пересчитывает ответ по сохранённому тесту.
+  const qs = quiz.map((q, i) => ({ q, i })).filter(x => x.q.type !== 'listen' || canSpeak());
+  L = { m, qs, step: 'study', qi: 0, answers: [], given: null, checked: false, hint: false };
   drawLesson();
   $('#scrim').classList.add('open');
 }
@@ -315,92 +428,183 @@ function openLesson(id) {
 function closeSheet() {
   $('#scrim').classList.remove('open');
   $('#sheet').innerHTML = '';
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch {}
   L = null; C = null;
 }
 
-function drawLesson() {
-  const m = L.m, les = m.lesson || {}, quiz = les.quiz || [];
-  const head = `<button class="close" id="x">✕</button>
+const lastAnswer = () => L.answers[L.answers.length - 1];
+
+function sheetHead(m) {
+  const sub = isDrill(m)
+    ? [m.source, m.topic, m.minutes ? m.minutes + ' мин' : ''].filter(Boolean).join(' · ')
+    : [m.source, m.minutes ? m.minutes + ' мин' : '', m.hard].filter(Boolean).join(' · ');
+  return `<button class="close" id="x">✕</button>
     <h2>${esc(m.title)}</h2>
-    <div class="sub">${esc([m.source, m.minutes ? m.minutes + ' мин' : '', m.hard].filter(Boolean).join(' · '))}</div>`;
+    <div class="sub">${esc(sub)}</div>`;
+}
+
+function drawLesson() {
+  const m = L.m, les = m.lesson || {}, qs = L.qs;
+  const head = sheetHead(m);
 
   if (L.step === 'study') {
-    const media = m.kind === 'video'
-      ? `<div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${esc(m.id.slice(3))}?rel=0" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="origin"></iframe></div>`
-      : `${m.image ? `<div class="vid" style="aspect-ratio:16/7"><img src="${esc(m.image)}" alt="" style="width:100%;height:100%;object-fit:cover"></div>` : ''}
+    let media = '';
+    if (m.kind === 'video') {
+      media = `<div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${esc(m.id.slice(3))}?rel=0" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="origin"></iframe></div>`;
+    } else if (m.kind === 'article') {
+      media = `${m.image ? `<div class="vid" style="aspect-ratio:16/7"><img src="${esc(m.image)}" alt="" style="width:100%;height:100%;object-fit:cover"></div>` : ''}
          <p class="intro">${esc(m.summary || '')}</p>`;
+    }
+    // Урок объясняет частями: правило, случаи, частая ошибка — и у каждой части свои примеры.
+    const sections = (les.sections || []).map(sec => `<section class="sec-l">
+        ${sec.h ? `<h4>${esc(sec.h)}</h4>` : ''}
+        <p>${esc(sec.text)}</p>
+        ${(sec.ex || []).length ? `<div class="exl">${sec.ex.map(e =>
+          `<div class="e"><div class="fr">${esc(e.fr)}${spk(e.fr)}</div>${e.ru ? `<div class="ru">${esc(e.ru)}</div>` : ''}</div>`).join('')}</div>` : ''}
+      </section>`).join('');
     const words = (les.words || []).map(w =>
-      `<div class="w"><b>${esc(w.fr)}</b><div class="ru">${esc(w.ru)}</div>${w.ex ? `<div class="ex">${esc(w.ex)}</div>` : ''}</div>`).join('');
+      `<div class="w"><b>${esc(w.fr)}${spk(w.fr)}</b><div class="ru">${esc(w.ru)}</div>${w.ex ? `<div class="ex">${esc(w.ex)}</div>` : ''}</div>`).join('');
+    const go = qs.length
+      ? `<button class="btn prim" data-go="quiz">${isDrill(m) ? 'Начать' : 'Проверить себя'} · ${qs.length} ${plural(qs.length, 'задание', 'задания', 'заданий')}</button>`
+      : '<button class="btn prim" data-go="finish">Готово</button>';
     $('#sheet').innerHTML = head + media
       + (les.intro ? `<p class="intro">${esc(les.intro)}</p>` : '')
-      + (words ? `<div class="words">${words}</div>` : '')
-      + `<div class="btnrow">
-          ${quiz.length ? `<button class="btn prim" data-go="quiz">Проверить себя · ${quiz.length} ${plural(quiz.length, 'вопрос', 'вопроса', 'вопросов')}</button>` : ''}
-          <a class="btn" href="${esc(m.url)}" target="_blank" rel="noopener">Открыть ${m.kind === 'video' ? 'на YouTube' : 'статью'}</a>
-          ${quiz.length ? '' : '<button class="btn prim" data-go="finish">Готово</button>'}
+      + sections
+      + (words ? `<div class="words"${sections ? ' style="margin-top:18px"' : ''}>${words}</div>` : '')
+      + `<div class="btnrow">${go}
+          ${m.url ? `<a class="btn" href="${esc(m.url)}" target="_blank" rel="noopener">Открыть ${m.kind === 'video' ? 'на YouTube' : 'статью'}</a>` : ''}
          </div>`;
     return;
   }
 
-  if (L.step === 'quiz') {
-    const q = quiz[L.qi];
-    const dots = quiz.map((_, i) => {
-      const a = L.answers.find(x => x.i === i);
-      return `<span class="dot${a ? (a.ok ? ' ok' : ' no') : i === L.qi ? ' now' : ''}"></span>`;
-    }).join('');
-    let body;
-    if (q.type === 'choice') {
-      body = `<div class="opts">${q.options.map((o, i) => {
-        let cls = '';
-        if (L.checked) cls = i === q.answer ? ' ok' : (i === L.given ? ' no' : '');
-        return `<button data-opt="${i}"${L.checked ? ' disabled' : ''} class="${cls.trim()}">${esc(o)}</button>`;
-      }).join('')}</div>`;
-    } else {
-      const ok = L.checked && L.answers[L.answers.length - 1] && L.answers[L.answers.length - 1].ok;
-      body = `<div class="gap"><input id="gap" placeholder="впиши по-французски" autocomplete="off" autocapitalize="off" spellcheck="false"
-        value="${esc(L.given || '')}"${L.checked ? ' disabled' : ''}>
-        ${L.checked ? '' : '<button class="btn prim" data-check="1">Проверить</button>'}</div>
-        ${L.checked ? `<div class="exp"><b>${ok ? 'Верно' : 'Правильный ответ'}:</b> ${esc(q.answer)}</div>` : ''}`;
-    }
-    $('#sheet').innerHTML = head
-      + `<div class="qhead"><div class="dots">${dots}</div><div class="n">${L.qi + 1} из ${quiz.length}${q.tag ? ' · ' + esc(q.tag) : ''}</div></div>
-         <div class="q">${esc(q.q)}</div>` + body
-      + (L.checked && q.explain ? `<div class="exp">${esc(q.explain)}</div>` : '')
-      + (L.checked ? `<div class="btnrow"><button class="btn prim" data-go="next">${L.qi + 1 < quiz.length ? 'Дальше' : 'Итог'}</button></div>` : '');
-    const inp = $('#gap');
-    if (inp && !L.checked) { inp.focus(); inp.onkeydown = e => { if (e.key === 'Enter') checkGap(); }; }
-    return;
-  }
+  if (L.step === 'quiz') return drawQuiz(head);
 
   // итог
-  const ok = L.answers.filter(a => a.ok).length, total = quiz.length;
+  const quiz = les.quiz || [];
+  const ok = L.answers.filter(a => a.ok).length, total = L.answers.length;
   const wrong = L.answers.filter(a => !a.ok);
   const words = (les.words || []).length;
   $('#sheet').innerHTML = head
     + `<div class="score">${ok} <small>из ${total}</small></div>`
     + (wrong.length
-      ? `<ul class="mist">${wrong.map(a => `<li>${esc(quiz[a.i].q)} → <s>${esc(a.shown)}</s> · <b>${esc(a.right)}</b></li>`).join('')}</ul>`
+      ? `<ul class="mist">${wrong.map(a => `<li>${esc(quiz[a.i] ? quiz[a.i].q : '')} → <s>${esc(a.shown)}</s> · <b>${esc(a.right)}</b></li>`).join('')}</ul>`
       : `<p class="intro">Ни одной ошибки.</p>`)
     + `<p class="intro">${words ? words + ' ' + plural(words, 'слово уедет', 'слова уедут', 'слов уедут') + ' в повторение' : ''}${wrong.length ? ' · ошибки уйдут в следующий подбор' : ''}</p>`
     + `<div class="btnrow"><button class="btn prim" data-go="finish">Готово</button><span class="hint">материал уедет в «Пройдено»</span></div>`;
 }
 
-function answer(given, shown, ok, right) {
+// ---------------------------------------------------------------- задания
+// Шесть типов. Выбор и пары проверяются на месте и на сервере одинаково (индекс, перестановка),
+// остальные — по тексту. У открытого перевода судья я: правильных переводов у фразы больше,
+// чем влезает в accept, поэтому есть «всё равно верно» — сервер этот флаг честно засчитывает.
+function initQ() {
+  const q = L.qs[L.qi].q;
+  L.checked = false; L.given = null; L.hint = false;
+  if (q.type === 'order') { L.tokens = shuffle(String(q.answer).split(/\s+/)); L.order = []; }
+  if (q.type === 'match') { L.pairs = q.pairs.map(() => null); L.ruOrder = shuffle(q.pairs.map((_, i) => i)); L.pick = null; }
+}
+
+const acceptsAnswer = (v, q) => [q.answer, ...(q.accept || [])].map(norm).includes(norm(v));
+
+function drawQuiz(head) {
+  const q = L.qs[L.qi].q, done = L.checked, a = done ? lastAnswer() : null;
+  const dots = L.qs.map((_, i) => {
+    const got = L.answers.find(x => x.qi === i);
+    return `<span class="dot${got ? (got.ok ? ' ok' : ' no') : i === L.qi ? ' now' : ''}"></span>`;
+  }).join('');
+
+  let body = '', right = '';
+  if (q.type === 'choice') {
+    body = `<div class="opts">${q.options.map((o, i) => {
+      let cls = '';
+      if (done) cls = i === q.answer ? ' ok' : (i === L.given ? ' no' : '');
+      return `<button data-opt="${i}"${done ? ' disabled' : ''} class="${cls.trim()}">${esc(o)}</button>`;
+    }).join('')}</div>`;
+  } else if (q.type === 'match') {
+    const used = new Set(L.pairs.filter(v => v != null));
+    body = `<div class="pairs">${q.pairs.map((p, i) => {
+        const v = L.pairs[i];
+        const cls = done ? (v === i ? ' ok' : ' no') : (L.pick === i ? ' on' : '');
+        return `<div class="row${cls}"><div class="l">${esc(p.fr)}${spk(p.fr)}</div>
+          <div class="r${v != null ? ' set' : ''}"${done ? '' : ` data-slot="${i}"`}>${v != null ? esc(q.pairs[v].ru) : '—'}</div></div>`;
+      }).join('')}</div>
+      ${done ? '' : `<div class="chips" style="margin-top:12px">${L.ruOrder.filter(j => !used.has(j)).map(j =>
+        `<button data-chip="${j}">${esc(q.pairs[j].ru)}</button>`).join('')}</div>`}
+      ${done || L.pairs.some(v => v == null) ? '' : '<div class="btnrow"><button class="btn prim" data-check="1">Проверить</button></div>'}`;
+    if (done && !a.ok) right = q.pairs.map(p => `${p.fr} — ${p.ru}`).join(' · ');
+  } else if (q.type === 'order') {
+    const used = new Set(L.order);
+    body = `<div class="slot">${L.order.length
+        ? L.order.map((t, k) => `<button${done ? ' disabled' : ` data-unslot="${k}"`}>${esc(L.tokens[t])}</button>`).join('')
+        : '<span class="ph">нажимай слова по порядку</span>'}</div>
+      ${done ? '' : `<div class="chips">${L.tokens.map((t, i) => used.has(i) ? '' : `<button data-token="${i}">${esc(t)}</button>`).join('')}</div>`}
+      ${done || !L.order.length ? '' : '<div class="btnrow"><button class="btn prim" data-check="1">Проверить</button></div>'}`;
+    if (done && !a.ok) right = q.answer;
+  } else {
+    const wide = q.type === 'translate';
+    const play = q.type === 'listen'
+      ? `<div class="btnrow"><button class="btn spk big" data-say="${esc(q.say)}">♪ Прослушать</button><span class="hint">можно сколько угодно раз</span></div>` : '';
+    body = play + `<div class="gap${wide ? ' wide' : ''}">
+        <input id="gap" placeholder="${q.type === 'translate' ? 'переведи на французский' : 'впиши по-французски'}" autocomplete="off"
+          autocapitalize="off" spellcheck="false" value="${esc(L.given || '')}"${done ? ' disabled' : ''}>
+        ${done ? '' : '<button class="btn prim" data-check="1">Проверить</button>'}</div>`;
+    if (done) right = q.answer;
+  }
+
+  const hint = q.hint && !done
+    ? (L.hint ? `<div class="exp">${esc(q.hint)}</div>` : `<div class="btnrow"><button class="btn" data-hint="1">Подсказка</button></div>`)
+    : '';
+  const rightBlock = right
+    ? `<div class="exp"><b>${a && a.ok ? 'Верно' : 'Правильно'}:</b> ${esc(right)}${spk(right)}</div>` : '';
+  const said = done && q.type === 'listen' ? `<div class="exp"><b>Фраза:</b> ${esc(q.say)}</div>` : '';
+  const selfBtn = done && !a.ok && q.type === 'translate'
+    ? '<button class="btn" data-self-ok="1">Всё равно верно</button>' : '';
+
+  $('#sheet').innerHTML = head
+    + `<div class="qhead"><div class="dots">${dots}</div><div class="n">${L.qi + 1} из ${L.qs.length} · ${esc(QNAME[q.type] || q.type)}${q.tag ? ' · ' + esc(q.tag) : ''}</div></div>
+       <div class="q">${q.type === 'listen' && !done ? 'Что ты услышал?' : esc(q.q)}</div>`
+    + (q.type === 'listen' && !done && q.q ? `<div class="qsub">${esc(q.q)}</div>` : '')
+    + body + hint + said + rightBlock
+    + (done && q.explain ? `<div class="exp">${esc(q.explain)}</div>` : '')
+    + (done ? `<div class="btnrow"><button class="btn prim" data-go="next">${L.qi + 1 < L.qs.length ? 'Дальше' : 'Итог'}</button>${selfBtn}</div>` : '');
+
+  const inp = $('#gap');
+  if (inp && !done) { inp.focus(); inp.onkeydown = e => { if (e.key === 'Enter') checkCurrent(); }; }
+  if (q.type === 'listen' && !done) speak(q.say);
+}
+
+function answer(given, shown, ok, rightText) {
   L.given = given; L.checked = true;
-  L.answers.push({ i: L.qi, given, shown, ok, right });
+  L.answers.push({ qi: L.qi, i: L.qs[L.qi].i, given, shown, ok, right: rightText, self: false });
   drawLesson();
 }
 
-function checkGap() {
-  const q = (L.m.lesson.quiz)[L.qi];
-  const v = ($('#gap') || {}).value || '';
-  const accept = new Set([q.answer, ...(q.accept || [])].map(norm));
-  answer(v, v || '—', accept.has(norm(v)), q.answer);
+function checkCurrent() {
+  const q = L.qs[L.qi].q;
+  if (q.type === 'match') {
+    if (L.pairs.some(v => v == null)) return;
+    const shown = L.pairs.map((v, i) => `${q.pairs[i].fr} — ${q.pairs[v].ru}`).join(' · ');
+    return answer(L.pairs.join(','), shown, L.pairs.every((v, i) => v === i),
+                  q.pairs.map(p => `${p.fr} — ${p.ru}`).join(' · '));
+  }
+  if (q.type === 'order') {
+    const given = L.order.map(i => L.tokens[i]).join(' ');
+    return answer(given, given || '—', acceptsAnswer(given, q), q.answer);
+  }
+  const v = (($('#gap') || {}).value || '').trim();
+  answer(v, v || '—', acceptsAnswer(v, q), q.answer);
+}
+
+function markSelf() {
+  const a = lastAnswer();
+  if (!a || a.ok) return;
+  a.ok = true; a.self = true;     // сервер знает этот флаг и засчитывает его только у перевода
+  drawLesson();
 }
 
 async function finishLesson(verdict) {
   const m = L.m;
-  const body = { verdict, answers: L.answers.map(a => ({ i: a.i, given: a.given })) };
+  const body = { verdict, answers: L.answers.map(a => ({ i: a.i, given: a.given, self: a.self })) };
   closeSheet();
   try {
     const out = await fetch('/api/french/' + encodeURIComponent(m.id), {
@@ -409,54 +613,137 @@ async function finishLesson(verdict) {
     render(out.french);
     if (verdict === 'dismissed') toast('Понял, такого больше не предлагаю');
     else toast(out.total ? `${out.score} из ${out.total} · слов в колоду: ${out.cards}` : `Слов в колоду: ${out.cards}`);
-    if (out.job === 'running') { toast('Материалы кончились — ищу новые, это пара минут'); watchJob(); }
+    if (out.job === 'running') { toast('Готовлю следующее — пара минут'); watchJob(); }
   } catch (e) { toast('Ошибка: ' + e.message); }
 }
 
 // ---------------------------------------------------------------- карточки
+// Режимов пять, и коробка решает, какой по силам: в первых это узнавание, дальше вспоминание
+// и набор руками. Пример из разбора даёт слово в контексте, синтезатор — на слух. Выбор
+// случайный из подходящего: одна и та же карточка одним и тем же жестом перестаёт учить.
+const MODE_NAME = { recognize: 'узнавание', recall: 'вспоминание', type: 'набрать',
+                    cloze: 'в контексте', listen: 'на слух', 'listen-type': 'на слух, набрать' };
+
+function clozeOf(c) {
+  if (!c.ex || !c.fr) return null;
+  const core = String(c.fr).replace(/^(le |la |les |l'|un |une |des |se |s'|à |de |du )/i, '').trim();
+  const stem = core.split(/[\s']/)[0];
+  if (stem.length < 4) return null;
+  const head = stem.slice(0, Math.max(4, stem.length - 2)).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp('[^\\s]*' + head + '[^\\s]*', 'i');
+  const hit = String(c.ex).match(re);
+  if (!hit) return null;
+  return { text: String(c.ex).replace(re, '___'), answer: hit[0].replace(/[.,;:!?»«"()]/g, '') };
+}
+
+function pickMode(c) {
+  const box = c.box || 1;
+  const pool = box <= 2 ? ['recognize', 'recognize', 'recall'] : ['recall', 'type', 'type'];
+  if (clozeOf(c)) pool.push('cloze');
+  if (canSpeak()) pool.push(box <= 2 ? 'listen' : 'listen-type');
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
 function startCards() {
   const due = new Set(DB.due || []);
   const queue = (DB.cards || []).filter(c => due.has(c.id));
   if (!queue.length) return;
-  C = { queue, i: 0, results: [], checked: false, given: null, again: [] };
+  C = { queue, i: 0, results: [], checked: false, given: null, again: [], mode: null };
   drawCard();
   $('#scrim').classList.add('open');
 }
 
 function drawCard() {
   if (C.i >= C.queue.length) {
-    if (C.again.length) { C.queue = C.again; C.again = []; C.i = 0; }   // ошибся — спросим ещё раз в конце
+    // ошибся — спросим ещё раз в конце, и уже другим режимом
+    if (C.again.length) { C.queue = C.again; C.again = []; C.i = 0; C.mode = null; C.opts = null; C.said = false; C.checked = false; C.given = null; }
     else return finishCards();
   }
   const c = C.queue[C.i];
-  // Узнавание в первых коробках, вспоминание в поздних: на FR→RU достаточно увидеть слово,
-  // на RU→FR его нужно достать из головы.
-  const back = (c.box || 1) >= 3;
-  const pool = (DB.cards || []).filter(x => x.id !== c.id);
-  const others = [];
-  while (others.length < 3 && pool.length) others.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
-  const field = back ? 'fr' : 'ru';
-  const opts = [c, ...others].map(x => x[field]);
-  for (let i = opts.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [opts[i], opts[j]] = [opts[j], opts[i]]; }
-  const right = opts.indexOf(c[field]);
-  C.opts = opts; C.right = right; C.card = c;
+  if (!C.mode) { C.mode = pickMode(c); C.cloze = C.mode === 'cloze' ? clozeOf(c) : null; C.given = null; C.checked = false; }
+  const mode = C.mode;
+  const typed = mode === 'type' || mode === 'cloze' || mode === 'listen-type';
+
+  let prompt = '', sub = '', body = '';
+  if (typed) {
+    prompt = mode === 'cloze' ? esc(C.cloze.text) : (mode === 'listen-type' ? 'Что ты услышал?' : esc(c.ru));
+    if (mode === 'cloze') sub = 'впиши пропущенное · ' + esc(c.ru);
+    if (mode === 'type') sub = 'впиши по-французски';
+    const right = mode === 'cloze' ? C.cloze.answer : c.fr;
+    body = (mode === 'listen-type' ? `<div class="btnrow"><button class="btn spk big" data-say="${esc(c.fr)}">♪ Прослушать</button></div>` : '')
+      + `<div class="gap"><input id="cardgap" placeholder="по-французски" autocomplete="off" autocapitalize="off"
+          spellcheck="false" value="${esc(C.given || '')}"${C.checked ? ' disabled' : ''}>
+         ${C.checked ? '' : '<button class="btn prim" data-cardcheck="1">Проверить</button>'}</div>`
+      + (C.checked ? `<div class="exp"><b>${C.ok ? 'Верно' : 'Правильно'}:</b> ${esc(right)}${spk(right)}</div>` : '');
+  } else {
+    // выбор: варианты набираем из соседних карточек колоды
+    const back = mode === 'recall';
+    const field = back ? 'fr' : 'ru';
+    if (!C.opts) {
+      const pool = (DB.cards || []).filter(x => x.id !== c.id && x[field] && x[field] !== c[field]);
+      const others = [];
+      while (others.length < 3 && pool.length) others.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+      C.opts = shuffle([c, ...others].map(x => x[field]));
+      C.right = C.opts.indexOf(c[field]);
+    }
+    prompt = mode === 'listen' ? '♪' : esc(back ? c.ru : c.fr);
+    if (mode === 'listen') sub = 'послушай и выбери перевод';
+    body = (mode === 'listen' ? `<div class="btnrow"><button class="btn spk big" data-say="${esc(c.fr)}">♪ Прослушать</button></div>` : '')
+      + (C.opts.length > 1
+        ? `<div class="opts">${C.opts.map((o, i) => {
+            let cls = '';
+            if (C.checked) cls = i === C.right ? 'ok' : (i === C.given ? 'no' : '');
+            return `<button data-card="${i}"${C.checked ? ' disabled' : ''} class="${cls}">${esc(o)}</button>`;
+          }).join('')}</div>`
+        : `<div class="btnrow"><button class="btn prim" data-self="1">Помню</button><button class="btn" data-self="0">Не помню</button></div>`);
+  }
+
   const n = C.results.length + 1, total = C.results.length + C.queue.length - C.i + C.again.length;
+  const selfBtn = C.checked && typed && !C.ok ? '<button class="btn" data-cardself="1">Засчитать</button>' : '';
   $('#sheet').innerHTML = `<button class="close" id="x">✕</button>
-    <h2>Слова</h2><div class="sub">${n} из ${total}${c.fromTitle ? ' · из «' + esc(c.fromTitle) + '»' : ''}</div>
-    <div class="q">${esc(back ? c.ru : c.fr)}</div>
-    ${opts.length > 1 ? `<div class="opts">${opts.map((o, i) => {
-      let cls = '';
-      if (C.checked) cls = i === right ? 'ok' : (i === C.given ? 'no' : '');
-      return `<button data-card="${i}"${C.checked ? ' disabled' : ''} class="${cls}">${esc(o)}</button>`;
-    }).join('')}</div>` : `<div class="btnrow"><button class="btn prim" data-self="1">Помню</button><button class="btn" data-self="0">Не помню</button></div>`}
-    ${C.checked && c.ex ? `<div class="exp">${esc(c.ex)}</div>` : ''}
-    ${C.checked ? `<div class="btnrow"><button class="btn prim" data-go="card-next">Дальше</button></div>` : ''}`;
+    <h2>Слова</h2><div class="sub">${n} из ${total} · ${esc(MODE_NAME[mode])}${c.fromTitle ? ' · из «' + esc(c.fromTitle) + '»' : ''}</div>
+    <div class="q">${prompt}${mode === 'recognize' ? spk(c.fr) : ''}</div>
+    ${sub ? `<div class="qsub">${sub}</div>` : ''}
+    ${body}
+    ${C.checked && c.ex && mode !== 'cloze' ? `<div class="exp">${esc(c.ex)}</div>` : ''}
+    ${C.checked && !typed ? `<div class="exp">${esc(c.fr)} — ${esc(c.ru)}${spk(c.fr)}</div>` : ''}
+    ${C.checked ? `<div class="btnrow"><button class="btn prim" data-go="card-next">Дальше</button>${selfBtn}</div>` : ''}`;
+
+  const inp = $('#cardgap');
+  if (inp && !C.checked) { inp.focus(); inp.onkeydown = e => { if (e.key === 'Enter') checkCard(); }; }
+  if ((mode === 'listen' || mode === 'listen-type') && !C.checked && !C.said) { C.said = true; speak(c.fr); }
 }
 
 function answerCard(ok, given) {
-  C.checked = true; C.given = given;
-  if (!C.results.some(r => r.id === C.card.id)) C.results.push({ id: C.card.id, correct: ok, given: C.opts ? C.opts[given] : '' });
-  if (!ok) C.again.push(C.card);
+  C.checked = true; C.given = given; C.ok = ok;
+  const shown = C.opts && given != null ? C.opts[given] : (typeof given === 'string' ? given : '');
+  // Ответ записывается один раз: повтор той же карточки в конце сессии не должен чинить оценку —
+  // ошибся значит ошибся, коробка падает в первую.
+  if (!C.results.some(r => r.id === C.queue[C.i].id)) {
+    C.results.push({ id: C.queue[C.i].id, correct: ok, given: shown, mode: C.mode });
+  }
+  if (!ok) C.again.push(C.queue[C.i]);
+  drawCard();
+}
+
+function checkCard() {
+  const c = C.queue[C.i];
+  const v = (($('#cardgap') || {}).value || '').trim();
+  const right = C.mode === 'cloze' ? C.cloze.answer : c.fr;
+  answerCard(norm(v) === norm(right), v);
+}
+
+function markCardSelf() {
+  if (!C || !C.checked || C.ok) return;
+  C.ok = true;
+  const r = C.results.find(x => x.id === C.queue[C.i].id);
+  if (r) r.correct = true;
+  C.again = C.again.filter(x => x.id !== C.queue[C.i].id);
+  drawCard();
+}
+
+function nextCard() {
+  C.i++; C.checked = false; C.given = null; C.mode = null; C.opts = null; C.said = false; C.ok = false;
   drawCard();
 }
 
@@ -475,30 +762,62 @@ async function finishCards() {
 
 // ---------------------------------------------------------------- события
 document.addEventListener('click', async e => {
+  const sayBtn = e.target.closest('[data-say]');
+  if (sayBtn) { speak(sayBtn.dataset.say); return; }
   if (e.target.id === 'x' || e.target === $('#scrim')) return closeSheet();
   if (e.target.id === 'study') return startCards();
 
-  const opt = e.target.closest('button[data-opt]');
-  if (opt && L && !L.checked) {
-    const q = L.m.lesson.quiz[L.qi], i = +opt.dataset.opt;
-    return answer(i, q.options[i], i === q.answer, q.options[q.answer]);
+  // ---- задания урока
+  if (L && L.step === 'quiz') {
+    const q = L.qs[L.qi].q;
+    const opt = e.target.closest('button[data-opt]');
+    if (opt && !L.checked) {
+      const i = +opt.dataset.opt;
+      return answer(i, q.options[i], i === q.answer, q.options[q.answer]);
+    }
+    const token = e.target.closest('button[data-token]');
+    if (token && !L.checked) { L.order.push(+token.dataset.token); return drawLesson(); }
+    const unslot = e.target.closest('button[data-unslot]');
+    if (unslot && !L.checked) { L.order.splice(+unslot.dataset.unslot, 1); return drawLesson(); }
+    const chip = e.target.closest('button[data-chip]');
+    if (chip && !L.checked) {
+      // Перевод летит в выбранную строку, а если строку не выбирали — в первую пустую:
+      // заполнять подряд удобно, но пары не обязаны идти по порядку.
+      const to = (L.pick != null && L.pairs[L.pick] == null) ? L.pick : L.pairs.indexOf(null);
+      if (to >= 0) { L.pairs[to] = +chip.dataset.chip; L.pick = null; drawLesson(); }
+      return;
+    }
+    const slot = e.target.closest('[data-slot]');
+    if (slot && !L.checked) {
+      const i = +slot.dataset.slot;
+      if (L.pairs[i] != null) { L.pairs[i] = null; L.pick = i; } else L.pick = L.pick === i ? null : i;
+      return drawLesson();
+    }
+    if (e.target.closest('button[data-check]')) return checkCurrent();
+    if (e.target.closest('button[data-hint]')) { L.hint = true; return drawLesson(); }
+    if (e.target.closest('button[data-self-ok]')) return markSelf();
   }
-  if (e.target.closest('button[data-check]')) return checkGap();
-  const cd = e.target.closest('button[data-card]');
-  if (cd && C && !C.checked) return answerCard(+cd.dataset.card === C.right, +cd.dataset.card);
-  const self = e.target.closest('button[data-self]');
-  if (self && C && !C.checked) return answerCard(self.dataset.self === '1', null);
+
+  // ---- карточки
+  if (C) {
+    const cd = e.target.closest('button[data-card]');
+    if (cd && !C.checked) return answerCard(+cd.dataset.card === C.right, +cd.dataset.card);
+    const self = e.target.closest('button[data-self]');
+    if (self && !C.checked) return answerCard(self.dataset.self === '1', null);
+    if (e.target.closest('button[data-cardcheck]')) return checkCard();
+    if (e.target.closest('button[data-cardself]')) return markCardSelf();
+  }
 
   const go = e.target.closest('button[data-go]');
   if (go) {
     const what = go.dataset.go;
-    if (what === 'quiz') { L.step = 'quiz'; L.qi = 0; L.checked = false; L.given = null; return drawLesson(); }
+    if (what === 'quiz') { L.step = 'quiz'; L.qi = 0; initQ(); return drawLesson(); }
     if (what === 'next') {
-      if (L.qi + 1 < L.m.lesson.quiz.length) { L.qi++; L.checked = false; L.given = null; } else L.step = 'result';
+      if (L.qi + 1 < L.qs.length) { L.qi++; initQ(); } else L.step = 'result';
       return drawLesson();
     }
     if (what === 'finish') return finishLesson('done');
-    if (what === 'card-next') { C.i++; C.checked = false; C.given = null; return drawCard(); }
+    if (what === 'card-next') return nextCard();
   }
 
   const art = e.target.closest('.art');

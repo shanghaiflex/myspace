@@ -178,7 +178,8 @@ class Handler(SimpleHTTPRequestHandler):
         super().end_headers()
 
     def log_message(self, fmt, *args):
-        if "/api/" in (args[0] if args else "") or "/v1/" in (args[0] if args else ""):
+        first = args[0] if args and isinstance(args[0], str) else ""
+        if "/api/" in first or "/v1/" in first:
             # Requests from the BoW app carry a bearer token: tag them so the app and the browser can be told apart.
             dev = self.health_device() if (self.headers.get("Authorization") or "").lower().startswith("bearer ") else None
             super().log_message(fmt + (f" [{dev}]" if dev else ""), *args)
@@ -748,9 +749,13 @@ class Handler(SimpleHTTPRequestHandler):
             except SystemExit as e:
                 return self.send_json(400, {"error": str(e)})
             # Материалы кончились — ищем новые прямо сейчас, не дожидаясь утреннего агента:
-            # «закончил предыдущее» и есть самый честный повод за ними пойти.
+            # «закончил предыдущее» и есть самый честный повод за ними пойти. Кончились одни
+            # упражнения (урок, перевод) — хватит третьего прохода: видео и статьи на месте.
             if not out["left"]:
                 out["job"] = self.start_job(FRENCH_JOB, "french.sh", timeout=1800)
+            elif not out.get("drills"):
+                out["job"] = self.start_job(FRENCH_JOB, "french.sh", timeout=1800,
+                                            args=("--drills",))
             return self.send_json(200, {**out, "french": FR.summary()})
         parts = self.path_id("/api/rec/")
         if parts and "/" in parts:
