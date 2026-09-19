@@ -178,9 +178,13 @@ def french_pick(now, minutes):
         if not m.get("lesson"):
             continue
         mins = (m.get("minutes") or ARTICLE_MIN) + LESSON_EXTRA
+        # Урок и перевод — не «материал с разбором», а своё занятие, и подпись должна это говорить.
+        what = {"lesson": "урок с заданиями", "translation": "перевод фраз"}.get(m.get("kind"))
         cands.append({"kind": "french", "title": m["title"], "minutes": mins, "resume": False,
-                      "sub": f"{hm(mins)} с разбором · {m.get('source') or ''}".strip(" ·"),
-                      "url": "french.html", "image": m.get("image"), "why": "материал на сегодня"})
+                      "sub": f"{hm(mins)} · {what}" if what
+                             else f"{hm(mins)} с разбором · {m.get('source') or ''}".strip(" ·"),
+                      "url": "french.html", "image": m.get("image"),
+                      "why": "занятие на сегодня" if what else "материал на сегодня"})
     return best(cands, minutes)
 
 
