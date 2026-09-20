@@ -122,6 +122,11 @@ and reinstalled. When the user says «посинкай/обнови прилож
 — it builds, installs and launches over the cable or over Wi-Fi (the phone is paired for network use; the script
 prints how it is reached and when the new profile expires; `--check` only probes). Reinstalling kills downloads in
 progress, so don't reinstall for fun. The only way out of the weekly ritual is the paid Apple Developer Program.
+**Переустановка теперь даёт полные семь дней** (20.09.2026): Xcode переиспользует профиль, пока тот не истёк,
+и переустановка за день до конца срока оставляла тот же срок, — поэтому `phone.sh` перед сборкой стирает
+профиль приложения из `~/Library/Developer/Xcode/UserData/Provisioning Profiles`, а `-allowProvisioningUpdates`
+выписывает новый. Телефон при этом должен быть разблокирован: запертый не даёт смонтировать developer disk image
+(`kAMDMobileImageMounterDeviceLocked`), и сборка падает ещё до компиляции.
 
 **Two routes to the mini.** Without a VPN the home ISP drops Cloudflare, so the app cannot reach
 bodywithoutorgans.cc from the home Wi-Fi. `serve.py` on the mini therefore listens on the LAN too
