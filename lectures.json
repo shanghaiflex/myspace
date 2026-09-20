@@ -857,9 +857,9 @@
     },
     {
       "id": "DFP4mYY9yq8",
-      "status": "new",
+      "status": "listened",
       "position": 0,
-      "listenedAt": null,
+      "listenedAt": "2026-09-20",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Частная жизнь в Римской Империи. Отдых, религия, философия и правила хорошего тона.",
@@ -874,7 +874,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=DFP4mYY9yq8"
+      "url": "https://www.youtube.com/watch?v=DFP4mYY9yq8",
+      "touchedAt": 1789909495
     },
     {
       "id": "wBWNBCYm6cU",
@@ -1091,7 +1092,7 @@
     },
     {
       "id": "yNv1apUgFik",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -1105,7 +1106,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=yNv1apUgFik"
+      "url": "https://www.youtube.com/watch?v=yNv1apUgFik",
+      "queuedAt": 1789910937
     },
     {
       "id": "YSGAwKE4SLY",
@@ -1259,7 +1261,7 @@
     },
     {
       "id": "lBXA44JuO8Q",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -1274,7 +1276,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=lBXA44JuO8Q"
+      "url": "https://www.youtube.com/watch?v=lBXA44JuO8Q",
+      "queuedAt": 1789910938
     },
     {
       "id": "kTYo7o3-U0U",
@@ -1430,9 +1433,9 @@
     },
     {
       "id": "G5CB5MehT_k",
-      "status": "listening",
-      "position": 7809,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 0,
+      "listenedAt": "2026-09-20",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Экономика крестьянской жизни в Средневековье.",
@@ -1446,7 +1449,7 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=G5CB5MehT_k",
-      "touchedAt": 1789759884
+      "touchedAt": 1789909495
     },
     {
       "id": "h9WBC9Io25U",
@@ -7441,7 +7444,7 @@
     {
       "id": "sc:839825944",
       "status": "queued",
-      "position": 0,
+      "position": 2360,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -7456,7 +7459,8 @@
       "url": "https://soundcloud.com/serj-bushwacker/78udn1vszpxk",
       "artwork": "https://i1.sndcdn.com/artworks-3327OkGZnQByMqIG-OpzD2A-t500x500.jpg",
       "published": "2020-06-14",
-      "queuedAt": 1788726830
+      "queuedAt": 1788726830,
+      "touchedAt": 1789910350
     },
     {
       "id": "sc:839825941",
