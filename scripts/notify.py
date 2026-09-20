@@ -27,6 +27,7 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import health as H  # noqa: E402
 
 REVIEW_FRESH_HOURS = 3
+WEEK_FRESH_HOURS = 24     # итоги недели — воскресное чтение, но телефон может проснуться и к вечеру
 RECS_SETTLE = dt.time(8, 30)   # раньше сводка была бы неполной: французский приходит в 08:10
 # Файл совета, ключ внутри него (у фильмов/книг/лекций один файл на три вида) и как это назвать человеку.
 RECS = [
@@ -72,6 +73,19 @@ def review_item(now=None):
             "body": " ".join((lr["text"] or "").split()), "at": lr["ts"], "page": "health"}
 
 
+def week_item(now=None):
+    """Итоги недели (scripts/week.py): одно уведомление, пока они свежие."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    try:
+        wk = H.last_review(H.connect(), "week")
+    except Exception:
+        return None
+    if not wk or now - H.parse_ts(wk["ts"]) > dt.timedelta(hours=WEEK_FRESH_HOURS):
+        return None
+    return {"id": "week:" + wk["ts"], "kind": "week", "title": "Итоги недели",
+            "body": " ".join((wk["text"] or "").split()), "at": wk["ts"], "page": "home"}
+
+
 def recs_item(now=None):
     now = now or dt.datetime.now(H.tz())
     if now.timetz().replace(tzinfo=None) < RECS_SETTLE:
@@ -93,7 +107,7 @@ def recs_item(now=None):
 
 
 def items():
-    return [x for x in (review_item(), recs_item()) if x]
+    return [x for x in (review_item(), week_item(), recs_item()) if x]
 
 
 if __name__ == "__main__":

@@ -240,6 +240,7 @@ def inflation(rs, limit=20):
 FEE = re.compile(r"услуги сервиса|услуги курьерской|сервисный сбор|доставка курьером|стоимость доставки|"
                  r"плата за доставку|сбор за доставку", re.I)
 LEAK_MIN = 3000            # мельче — не наблюдение, а шум
+LAZY_STEPS = 5000          # день с меньшим числом шагов — малоподвижный: такси в такой день не сэкономило ноги
 GROWTH = 1.5               # во столько раз должно вырасти, чтобы об этом стоило говорить
 
 
@@ -303,6 +304,27 @@ def leaks(rs, today=None):
         if taxi_prev >= LEAK_MIN and taxi > taxi_prev * GROWTH:
             bits.append(f"за весь {prev} было {money(taxi_prev)} ₽")
         out.append({"kind": "taxi", "title": "Такси", "amount": round(taxi), "note": "; ".join(bits)})
+
+    # 3а. Такси в малоподвижные дни (20.09.2026): чеки знают, когда было такси, Apple Health — сколько шагов
+    #     было в этот день. Поездка в день с LAZY_STEPS шагов — та, которую можно было пройти. Нужна health.db,
+    #     то есть считается на mini; без неё наблюдения просто нет.
+    try:
+        import datetime as _dt
+        import health as H
+        hdb = H.connect()
+        first = min((r["date"] for r in rs if r["date"][:4] == year and r["merchant"] == "Яндекс.Такси"), default=None)
+        if first:
+            span = (today - _dt.date.fromisoformat(first)).days + 1
+            steps = {d["date"]: d["steps"] for d in H.daily(hdb, span, today)}
+            lazy = [r for r in rs if r["date"][:4] == year and r["merchant"] == "Яндекс.Такси"
+                    and steps.get(r["date"]) is not None and steps[r["date"]] < LAZY_STEPS]
+            lazy_sum = sum(r["sum"] for r in lazy)
+            if lazy and lazy_sum >= LEAK_MIN:
+                out.append({"kind": "taxi-steps", "title": "Такси в малоподвижные дни", "amount": round(lazy_sum),
+                            "note": f"{len(lazy)} поездок за {year} год в дни, когда шагов было меньше {LAZY_STEPS:,}"
+                                    .replace(",", " ") + " — дорога, которую можно было пройти"})
+    except Exception:
+        pass
 
     # 4. Подписки: сколько стоят живые и что перестало списываться.
     rec = recurring(rs, today)

@@ -70,6 +70,14 @@ def connect():
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA journal_mode=WAL")
     db.executescript(SCHEMA)
+    # Две колонки поверх старой схемы (20.09.2026): `kind` — часовая заметка (note) или итоги недели (week),
+    # `snapshot` — цифры дня на момент заметки, по ним pending() решает, изменилось ли что-то существенное.
+    cols = {r[1] for r in db.execute("PRAGMA table_info(reviews)")}
+    with db:
+        if "kind" not in cols:
+            db.execute("ALTER TABLE reviews ADD COLUMN kind TEXT NOT NULL DEFAULT 'note'")
+        if "snapshot" not in cols:
+            db.execute("ALTER TABLE reviews ADD COLUMN snapshot TEXT")
     return db
 
 
@@ -391,8 +399,58 @@ def last_ingest(db):
     return r["m"] if r else None
 
 
-def last_review(db):
-    return db.execute("SELECT * FROM reviews ORDER BY id DESC LIMIT 1").fetchone()
+def last_review(db, kind="note"):
+    return db.execute("SELECT * FROM reviews WHERE kind=? ORDER BY id DESC LIMIT 1", (kind,)).fetchone()
+
+
+# Часовая заметка в спокойный день писалась трижды подряд одно и то же («Так держать, шагов выше
+# недельных» в 16:02, 17:33 и 18:33): образцы приходят каждый час, а нового в них ничего. Теперь заметка
+# пишется на существенное изменение: пришёл сон, добавилась тренировка, шаги выросли на STEP_DELTA,
+# наступил вечер — или прошло QUIET_HOURS без заметки (день всё-таки идёт).
+STEP_DELTA = 2500
+QUIET_HOURS = 4
+EVENING_HOUR = 20
+GOAL_WORDS = {"плавание": r"плава|заплыв|бассейн", "силовые": r"силов"}
+GOAL_REMIND_DAYS = 7
+
+
+def snapshot(db, now=None):
+    """Цифры сегодняшнего дня одной строкой — то, с чем сравнивается следующая заметка."""
+    now = now or dt.datetime.now(tz())
+    d = daily(db, 1, now.date())[0]
+    return {"date": d["date"], "hour": now.hour, "steps": d["steps"] or 0, "workouts": len(d["workouts"]),
+            "sleep": bool(d["sleep"])}
+
+
+def changed(prev, cur, hours_since):
+    """Почему стоит писать новую заметку — или None, если ничего существенного."""
+    if not prev:
+        return "первая заметка"
+    if cur["date"] != prev.get("date") and cur["sleep"]:
+        return "новый день, есть сон"
+    if cur["sleep"] and not prev.get("sleep"):
+        return "пришёл сон"
+    if cur["workouts"] > (prev.get("workouts") or 0):
+        return "новая тренировка"
+    if cur["steps"] - (prev.get("steps") or 0) >= STEP_DELTA:
+        return f"шаги +{cur['steps'] - (prev.get('steps') or 0)}"
+    if cur["hour"] >= EVENING_HOUR > (prev.get("hour") or 0) and cur["date"] == prev.get("date"):
+        return "наступил вечер"
+    if hours_since >= QUIET_HOURS:
+        return f"{hours_since:.0f} ч без заметки"
+    return None
+
+
+def goal_mentions(db, days=30):
+    """Когда заметка в последний раз напоминала про каждую пропавшую дисциплину: «заплывов нет с августа»
+    повторялось в каждой заметке подряд, а напоминание работает раз в неделю, не раз в час."""
+    since = iso(utcnow() - dt.timedelta(days=days))
+    out = {}
+    for r in db.execute("SELECT ts, text FROM reviews WHERE kind='note' AND ts >= ? ORDER BY id DESC", (since,)):
+        for name, pat in GOAL_WORDS.items():
+            if name not in out and re.search(pat, r["text"] or "", re.I):
+                out[name] = r["ts"]
+    return out
 
 
 def fmt_local(s):
@@ -436,7 +494,16 @@ def digest(db=None, days=7):
                      f"ккал {avg([d['kcal'] for d in worn]) or '—'}, тренировок {sum(len(d['workouts']) for d in tbl)}"
                      + (f" (дней без часов: {skipped}, они в средние по сну/HRV/RHR/ккал не вошли)" if skipped else ""))
     lines.append("")
-    prev = db.execute("SELECT ts, text FROM reviews ORDER BY id DESC LIMIT 3").fetchall()
+    gm = goal_mentions(db)
+    if gm:
+        bits = []
+        for name, ts in gm.items():
+            ago = (now.date() - local(ts).date()).days
+            bits.append(f"{name} — {fmt_local(ts)[:5]}" + (" (сегодня)" if ago == 0 else f" ({ago} дн. назад)"))
+        lines.append("Про пропавшие дисциплины из целей ты уже напоминал: " + "; ".join(bits)
+                     + f". Раньше чем через {GOAL_REMIND_DAYS} дней не повторяй.")
+        lines.append("")
+    prev = db.execute("SELECT ts, text FROM reviews WHERE kind='note' ORDER BY id DESC LIMIT 3").fetchall()
     if prev:
         lines.append("Предыдущие заметки (не повторяй их дословно, если ничего не изменилось — просто подтверди коротко):")
         for r in prev:
@@ -448,15 +515,29 @@ def pending(db=None):
     db = db or connect()
     li, lr = last_ingest(db), last_review(db)
     new = db.execute("SELECT COUNT(*) c FROM samples WHERE ingested_at > ?", (lr["samples_until"] if lr and lr["samples_until"] else "",)).fetchone()["c"]
-    return {"lastIngest": li, "lastReview": lr["ts"] if lr else None, "newSamples": new, "ok": bool(li) and new > 0}
+    out = {"lastIngest": li, "lastReview": lr["ts"] if lr else None, "newSamples": new, "ok": False, "why": None}
+    if not li or new <= 0:
+        out["why"] = "нет новых образцов"
+        return out
+    prev = None
+    if lr and lr["snapshot"]:
+        try:
+            prev = json.loads(lr["snapshot"])
+        except ValueError:
+            prev = None
+    hours = (utcnow() - parse_ts(lr["ts"])).total_seconds() / 3600 if lr else 999
+    why = changed(prev, snapshot(db), hours)
+    out.update(ok=bool(why), why=why or "ничего существенного не изменилось")
+    return out
 
 
-def review_save(text, model=None, digest_text=None, db=None):
+def review_save(text, model=None, digest_text=None, db=None, kind="note"):
     db = db or connect()
+    snap = json.dumps(snapshot(db), ensure_ascii=False) if kind == "note" else None
     with db:
-        db.execute("INSERT INTO reviews(ts, model, text, digest, samples_until) VALUES(?,?,?,?,?)",
-                   (iso(utcnow()), model, text.strip(), digest_text, last_ingest(db)))
-    return last_review(db)
+        db.execute("INSERT INTO reviews(ts, model, text, digest, samples_until, kind, snapshot) VALUES(?,?,?,?,?,?,?)",
+                   (iso(utcnow()), model, text.strip(), digest_text, last_ingest(db), kind, snap))
+    return last_review(db, kind)
 
 
 def summary(db=None, days=14):
@@ -466,9 +547,12 @@ def summary(db=None, days=14):
     # A note written during the night ("ложись спать") is worse than no note at all over breakfast, so anything
     # older than this morning is marked stale and the pages stop showing it as current advice.
     stale = bool(lr) and parse_ts(lr["ts"]) < daybreak().astimezone(dt.timezone.utc)
+    wk = last_review(db, "week")
     return {"lastIngest": last_ingest(db), "tz": tz().key,
             "review": {"ts": lr["ts"], "model": lr["model"], "text": lr["text"], "stale": stale} if lr else None,
-            "reviews": [{"ts": r["ts"], "model": r["model"], "text": r["text"]} for r in db.execute("SELECT ts, model, text FROM reviews ORDER BY id DESC LIMIT 30")],
+            # Итоги недели (scripts/week.py): живут неделю, страница сама решает, показывать ли.
+            "week": {"ts": wk["ts"], "model": wk["model"], "text": wk["text"]} if wk else None,
+            "reviews": [{"ts": r["ts"], "model": r["model"], "text": r["text"]} for r in db.execute("SELECT ts, model, text FROM reviews WHERE kind='note' ORDER BY id DESC LIMIT 30")],
             "days": tbl,
             "avg7": {"sleep": avg([d["sleep"]["total"] for d in tbl[:7] if d["sleep"]]), "rhr": avg([d["rhr"] for d in tbl[:7]]),
                      "hrv": avg([d["hrv"] for d in tbl[:7]]), "steps": avg([d["steps"] for d in tbl[:7]])}}
@@ -480,7 +564,7 @@ def main(argv=None):
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("digest"); p.add_argument("--days", type=int, default=7)
     sub.add_parser("pending")
-    p = sub.add_parser("review-save"); p.add_argument("--model"); p.add_argument("--file", required=True); p.add_argument("--digest-file")
+    p = sub.add_parser("review-save"); p.add_argument("--model"); p.add_argument("--file", required=True); p.add_argument("--digest-file"); p.add_argument("--kind", default="note", choices=["note", "week"])
     p = sub.add_parser("reviews"); p.add_argument("--limit", type=int, default=10)
     sub.add_parser("summary")
     p = sub.add_parser("ingest"); p.add_argument("type", choices=["workouts", "sleep", "metrics"]); p.add_argument("file")
@@ -499,11 +583,11 @@ def main(argv=None):
         if not text.strip():
             sys.exit("empty review, not saved")
         dg = open(a.digest_file, encoding="utf-8").read() if a.digest_file else None
-        r = review_save(text, a.model, dg, db)
-        print(f"saved review #{r['id']} at {r['ts']}")
+        r = review_save(text, a.model, dg, db, a.kind)
+        print(f"saved {a.kind} #{r['id']} at {r['ts']}")
     elif a.cmd == "reviews":
         for r in db.execute("SELECT * FROM reviews ORDER BY id DESC LIMIT ?", (a.limit,)):
-            print(f"[{fmt_local(r['ts'])}] ({r['model']})\n{r['text']}\n")
+            print(f"[{fmt_local(r['ts'])}] ({r['model']}{', ' + r['kind'] if r['kind'] != 'note' else ''})\n{r['text']}\n")
     elif a.cmd == "summary":
         print(json.dumps(summary(db), ensure_ascii=False, indent=1))
     elif a.cmd == "ingest":

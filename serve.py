@@ -31,6 +31,8 @@
   PATCH  /api/read/<id>           body: {verdict: saved|dismissed|read}  saved goes to the reading list
   POST   /api/reads/refresh       fetch the feeds and ask for fresh picks (scripts/reads.sh)
   GET    /api/french              французский: материалы с разборами, колода слов, ошибки (scripts/french.py)
+  GET    /api/french/one          один вопрос на полку главной; POST /api/french/answer {id,i,given} — ответ
+  GET    /api/inbox               самый старый неотвеченный совет (фильм/книга/лекция) для полки главной
   PATCH  /api/french/<id>         body: {verdict: done|dismissed, answers:[{i,given}]}  закрыть материал
   POST   /api/french/cards        body: {results:[{id,correct}]}  итог сессии карточек
   POST   /api/french/level        body: {level: A1..C1}
@@ -38,6 +40,7 @@
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   GET    /api/updates             что показать уведомлением на телефоне и часах (scripts/notify.py)
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
+  POST   /api/health/week         итоги недели сейчас (scripts/week_review.sh); результат — `week` в /api/health
   GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
   POST   /api/pantry/review       refresh receipts and the note now (scripts/pantry_review.sh --force)
   GET    /api/home                the lamps and the plug as Zigbee2MQTT reports them (scripts/home.py) + scenes
@@ -83,6 +86,7 @@ RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
 TASTE_JOBS = {k: {"status": "idle", "started": 0} for k in T.KINDS}  # manual film / book / lecture advice runs
 READS_JOB = {"status": "idle", "started": 0}   # manual article run (feeds + Claude)
 FRENCH_JOB = {"status": "idle", "started": 0}  # французский: подбор материалов + разборы
+WEEK_JOB = {"status": "idle", "started": 0}   # итоги недели (scripts/week_review.sh)
 PANTRY_JOB = {"status": "idle", "started": 0}  # manual pantry refresh (mail + note)
 # The calendar itself is cached on disk for half an hour; this keeps the home page from re-parsing 350 events
 # on every reload, and holds the last good answer when Yandex (or the VPN) is down.
@@ -323,6 +327,7 @@ class Handler(SimpleHTTPRequestHandler):
             except Exception as e:
                 return self.send_json(500, {"error": f"{type(e).__name__}: {e}"})
             out["reviewJob"] = REVIEW_JOB["status"]
+            out["weekJob"] = WEEK_JOB["status"]
             return self.send_json(200, out)
         if route == "/api/updates":
             # Уведомления ставит сам телефон: пуша у Personal Team нет. Здесь только то, о чём стоит
@@ -365,6 +370,12 @@ class Handler(SimpleHTTPRequestHandler):
             out = FR.summary()
             out["job"] = FRENCH_JOB["status"]
             return self.send_json(200, out)
+        if route == "/api/french/one":
+            return self.send_json(200, {"question": FR.one_question()})
+        if route == "/api/inbox":
+            # Советы по фильмам, книгам и лекциям на своих страницах умирали неувиденными — на полке
+            # главной лежит одна карточка, самая старая, с кнопками; вердикт идёт в PATCH /api/rec/…
+            return self.send_json(200, T.inbox())
         if route.startswith("/api/recs/"):
             kind = route[len("/api/recs/"):]
             if kind not in T.KINDS:
@@ -612,6 +623,18 @@ class Handler(SimpleHTTPRequestHandler):
                 out = FR.review(body.get("results") or [])
                 out["french"] = FR.summary()
             return self.send_json(200, out)
+        if route == "/api/french/answer":
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            try:
+                with LOCK:
+                    out = FR.answer_one(body.get("id"), body.get("i"), body.get("given"))
+                    out["next"] = FR.one_question()
+            except SystemExit as e:
+                return self.send_json(400, {"error": str(e)})
+            return self.send_json(200, out)
         if route == "/api/french/level":
             try:
                 body = self.read_json()
@@ -631,6 +654,8 @@ class Handler(SimpleHTTPRequestHandler):
                 TASTE_JOBS[kind], "taste_recs.sh", args=[kind, "--force"])})
         if route.startswith("/api/home/"):
             return self.home_post(route[len("/api/home/"):])
+        if route == "/api/health/week":
+            return self.send_json(202, {"job": self.start_job(WEEK_JOB, "week_review.sh", timeout=900, args=())})
         if route == "/api/health/review":
             return self.send_json(200, {"status": self.start_review_job()})
         if route == "/api/pantry/review":

@@ -39,6 +39,15 @@ KIND_VERDICTS = {"film": ("liked", "dismissed"), "book": ("liked", "dismissed"),
                  "lecture": ("liked", "dismissed", "listened")}
 HISTORY_MAX = 120
 EVERY_HOURS = 20  # суточная задача, которая может запуститься поздно (mini выключали), не должна отказываться
+# Совет живёт неделю, а не сутки (20.09.2026). До этого утренний запуск заменял всю тройку, неотвеченное
+# уезжало в историю «без ответа» и исключалось из кандидатов на 120 записей вперёд: за 18 советов по
+# фильмам не было ни одного вердикта — не потому, что советы плохие, а потому, что страница фильмов
+# открывается не каждый день, и «The Handmaiden» с «Harakiri» сгорели, не будучи увиденными.
+# Теперь подбор досыпает только на место отвеченных и просроченных, просроченное помечается «не увидел»
+# (это не отказ) и через UNSEEN_COOLDOWN снова может быть предложено.
+ITEM_DAYS = 7
+UNSEEN_COOLDOWN = 21
+ANSWERED = ("liked", "dismissed", "listened")
 
 
 def today():
@@ -75,6 +84,92 @@ def check_kind(kind):
 def fmt_dur(s):
     t = round((s or 0) / 60)
     return f"{t // 60} ч {t % 60:02d} мин" if t >= 60 else f"{t} мин"
+
+
+def age_days(when):
+    try:
+        return (datetime.date.today() - datetime.date.fromisoformat(str(when)[:10])).days
+    except ValueError:
+        return 10 ** 6
+
+
+def norm_title(s):
+    return " ".join(re.sub(r"[^0-9a-zA-Zа-яёА-ЯЁ]+", " ", str(s or "")).lower().split())
+
+
+def same_title(a, b):
+    """«Дар» и «Дар — Vladimir Nabokov, Eiichiro Otsu» — одна книга; «Свет в августе» и «Собрание
+    сочинений… Том 2. Свет в августе. Авессалом» — тоже. Равенство или вхождение, когда короткое
+    название не слишком короткое, иначе «Лес» нашёлся бы в половине каталога."""
+    a, b = norm_title(a), norm_title(b)
+    if not a or not b:
+        return False
+    if a == b:
+        return True
+    short, long_ = (a, b) if len(a) <= len(b) else (b, a)
+    return len(short) >= 8 and f" {short} " in f" {long_} "
+
+
+def expire(d):
+    """Просроченные советы уезжают в историю как «не увидел»; возвращает живые."""
+    live, gone = [], []
+    for r in d["items"]:
+        (live if age_days(r.get("suggestedAt")) < ITEM_DAYS else gone).append(r)
+    for r in gone:
+        r["verdict"] = "unseen"
+        r["decidedAt"] = today()
+        _drop_cover(r)
+    if gone:
+        d["history"] = [history_entry(r) for r in gone] + d["history"]
+        d["history"] = d["history"][:HISTORY_MAX]
+        d["items"] = live
+    return live
+
+
+def _catalog_has(kind, entry):
+    """Попал ли совет в каталог ПОСЛЕ того, как был дан. Дата обязательна: «Дар» лежал в прочитанном
+    задолго до совета, и без сравнения дат он считался бы попаданием, а не промахом дедупа."""
+    since = str(entry.get("suggestedAt") or entry.get("at") or "")[:10]
+    if not since:
+        return False
+
+    def after(x):
+        added = x.get("queuedAt") if kind == "lecture" else x.get("addedAt")
+        if isinstance(added, (int, float)):      # у лекций queuedAt — unix-время
+            added = datetime.date.fromtimestamp(added).isoformat()
+        added = str(added or "")[:10]
+        return bool(added) and added >= since
+
+    # Статус тоже важен: «Дар» появился в каталоге в день совета — но сразу прочитанным, то есть
+    # человек просто дописал давно прочитанное, а не взял совет. Попадание — это план.
+    if kind == "film":
+        return any(m["id"] == entry["id"] and after(m) and m.get("status") in ("to-watch", "watching")
+                   for m in M.load())
+    if kind == "lecture":
+        return any(l["id"] == entry["id"] and after(l) and l.get("status") in ("queued", "listening", "listened")
+                   for l in L.load()["lectures"])
+    for b in B.load():
+        if after(b) and b.get("status") in ("to-read", "reading") and (
+                b["id"] == entry["id"] or same_title(b.get("title"), entry.get("title"))
+                or same_title(b.get("titleAlt"), entry.get("title"))):
+            return True
+    return False
+
+
+def reconcile(kind, d):
+    """Ретроактивные попадания: совет, на который никто не нажимал, но который потом появился в
+    каталоге любым путём (добавил через CLI, отметил просмотренным), — это «взял», и модель должна
+    это видеть. Для миксов такой неявный сигнал есть давно, и он единственный, который работает."""
+    hits = []
+    for h in d["history"]:
+        if h.get("verdict") in ANSWERED:
+            continue
+        if _catalog_has(kind, h):
+            h["verdict"] = "liked"
+            h["retro"] = True
+            h["at"] = today()
+            hits.append(h)
+    return hits
 
 
 # ---------------------------------------------------------------- digest
@@ -179,23 +274,72 @@ def _lecture_digest(d):
     return out
 
 
+def _cross(kind):
+    """Тот же вкус с другой стороны (20.09.2026). До этого каждый вид видел только свой каталог: лекция про
+    Фуко после трёх прочитанных Фуко и книга Снайдера рядом с лекцией Снайдера были для модели совпадением.
+    Компактно — названия, без причин: подробности есть в своём разделе."""
+    out = ["\n## Другие каталоги — тот же вкус с другой стороны"]
+    if kind != "film":
+        movies = M.load()
+        top = sorted([m for m in movies if (m.get("rating") or 0) >= 7.5], key=lambda m: -m["rating"])
+        if top:
+            out.append(f"Фильмы, которые я оценил на 7.5 и выше ({len(top)}): " + "; ".join(
+                f"{m['title']}" + (f" ({m['director']})" if m.get("director") else "") for m in top))
+        low = [m for m in movies if m.get("rating") and m["rating"] <= 5]
+        if low:
+            out.append("Фильмы, которые не зашли: " + "; ".join(m["title"] for m in low))
+    if kind != "book":
+        books = B.load()
+        read = [b for b in books if b.get("status") == "read"]
+        if read:
+            out.append(f"Книги, которые я прочитал ({len(read)}): " + "; ".join(
+                f"{b['title']} — {b.get('author') or '?'}" for b in read))
+        dropped = [b for b in books if b.get("status") == "abandoned"]
+        if dropped:
+            out.append("Книги, которые бросил: " + "; ".join(f"{b['title']} — {b.get('author') or '?'}" for b in dropped))
+    if kind != "lecture":
+        ls = L.load()["lectures"]
+        done = [l for l in ls if l.get("status") in ("listened", "listening")]
+        if done:
+            out.append(f"Лекции, которые я дослушал или слушаю ({len(done)}): " + "; ".join(l["title"] for l in done))
+    return out if len(out) > 1 else []
+
+
 def digest(kind):
-    d = load()[check_kind(kind)]
+    db = load()
+    d = db[check_kind(kind)]
+    expire(d)
+    reconcile(kind, d)
+    save(db)
     out = {"film": _film_digest, "book": _book_digest, "lecture": _lecture_digest}[kind](d)
+    out += _cross(kind)
 
     if d["items"]:
         out.append("\n## Твои советы, которые сейчас висят у меня на странице (не повторяй их)")
         for r in d["items"]:
-            out.append(f"- {r.get('title')}" + (f" — {r.get('author')}" if r.get("author") else ""))
-    if d["history"]:
+            out.append(f"- {r.get('title')}" + (f" — {r.get('author')}" if r.get("author") else "")
+                       + f" (висит {age_days(r.get('suggestedAt'))} дн.)")
+    answered = [h for h in d["history"] if h.get("verdict") in ANSWERED]
+    if answered:
         out.append("\n## Вердикты по прошлым советам (свежие сверху)")
-        word = {"liked": "ВЗЯЛ", "dismissed": "НЕ ТО", "listened": "УЖЕ СЛУШАЛ", "new": "без ответа"}
-        for h in d["history"][:40]:
-            out.append(f"- {h.get('at')} · {word.get(h.get('verdict'), h.get('verdict'))}: "
+        word = {"liked": "ВЗЯЛ", "dismissed": "НЕ ТО", "listened": "УЖЕ СЛУШАЛ"}
+        for h in answered[:40]:
+            v = word.get(h.get("verdict"), h.get("verdict"))
+            if h.get("retro"):
+                v += " (сам добавил в каталог, не нажимая кнопку)"
+            out.append(f"- {h.get('at')} · {v}: "
                        f"{h.get('title')}" + (f" — {h.get('author')}" if h.get("author") else "")
                        + f" — {h.get('reason') or ''}")
     else:
-        out.append("\n## Вердикты по прошлым советам\n(это первый подбор, вердиктов ещё нет)")
+        out.append("\n## Вердикты по прошлым советам\n(настоящих вердиктов ещё нет)")
+    # Неувиденное — не вердикт: сорок строк «без ответа» ничему не учат, а модель читала их как отказ.
+    unseen = [h for h in d["history"] if h.get("verdict") not in ANSWERED]
+    recent = [h for h in unseen if age_days(h.get("at")) < UNSEEN_COOLDOWN]
+    if unseen:
+        out.append(f"\n## Советы, которые я не увидел ({len(unseen)}) — страница не открывалась, это не отказ")
+        if recent:
+            out.append("Их пока не повторяй (недавние): " + "; ".join(
+                f"{h.get('title')}" + (f" — {h.get('author')}" if h.get("author") else "") for h in recent[:15]))
     return "\n".join(out)
 
 
@@ -216,7 +360,11 @@ def parse_answer(text, kind="film"):
 
 
 def known_ids(kind, d):
-    ids = {r["id"] for r in d["items"]} | {h["id"] for h in d["history"]}
+    """Что нельзя предлагать: каталог, то, что висит сейчас, отвеченное — и неувиденное, но только
+    UNSEEN_COOLDOWN дней: сгоревший неувиденным хороший совет должен получить второй шанс."""
+    ids = {r["id"] for r in d["items"]}
+    ids |= {h["id"] for h in d["history"]
+            if h.get("verdict") in ANSWERED or age_days(h.get("at")) < UNSEEN_COOLDOWN}
     if kind == "film":
         ids |= {m["id"] for m in M.load()}
     elif kind == "book":
@@ -240,6 +388,18 @@ def resolve_film(c, exclude):
         m = M.metadata(imdb_id)
     except SystemExit as e:
         print(f"  нет метаданных: {c['title']} ({e})")
+        return None
+    # OMDb на «Once Upon a Time in the West» однажды ответил выпуском подкаста «233 - ONCE UPON A TIME
+    # IN THE WEST … ft. Eddie Averill»: тип не фильм, год не тот. Оба признака отсеивают такое.
+    if m.get("type") not in (None, "movie", "series"):
+        print(f"  не фильм ({m.get('type')}): {m.get('title')}")
+        return None
+    try:
+        want = int(c.get("year") or 0)
+    except (TypeError, ValueError):
+        want = 0
+    if want and m.get("year") and abs(int(m["year"]) - want) > 2:
+        print(f"  год не сходится ({want} против {m['year']}): {m.get('title')}")
         return None
     # Обложку качаем сразу: внешние ссылки (m.media-amazon.com) с домашнего интернета не открываются,
     # ровно поэтому постеры каталога и лежат локально. coverUrl остаётся запасным вариантом.
@@ -273,6 +433,21 @@ def resolve_book(c, exclude):
     if bid in exclude:
         print(f"  уже известна: {c['title']}")
         return None
+    # Id у книги — ISBN издания, а изданий у «Дара» много: дедуп нужен и по названию, иначе прочитанное
+    # приезжает советом снова. Заодно отсев того, что каталог подсовывает вместо книги: аудиокнига,
+    # собрание сочинений и монография *о* книге (модель просила «Волшебную гору» Манна — Google Books
+    # выдал Белякова про неё: автор не сошёлся).
+    known = [(b.get("title"), b.get("titleAlt")) for b in B.load()]
+    for t, alt in known:
+        if same_title(t, r["title"]) or same_title(alt, r["title"]) or same_title(t, c["title"]):
+            print(f"  уже в каталоге под другим изданием: {r['title']}")
+            return None
+    if BAD_EDITION.search(r["title"] or ""):
+        print(f"  не то издание: {r['title']}")
+        return None
+    if not same_author(c.get("author"), r.get("author")):
+        print(f"  автор не сошёлся ({c.get('author')} против {r.get('author')}): {r['title']}")
+        return None
     return {"id": bid, "title": r["title"], "year": r.get("year"), "author": r.get("author"),
             "cover": B.fetch_cover(bid, r.get("coverUrl")) or r.get("coverUrl"),
             "coverUrl": r.get("coverUrl"), "isbn": r.get("isbn"),
@@ -283,6 +458,21 @@ def resolve_book(c, exclude):
 
 def _words(s):
     return re.sub(r"[^0-9a-zA-Zа-яёА-ЯЁ]+", " ", s or "").lower().split()
+
+
+BAD_EDITION = re.compile(r"\b(audio|audiobook|аудиокнига|аудиоверсия|собрание сочинений|сборник)\b", re.I)
+
+
+def same_author(wanted, found):
+    """Совпал ли автор, которого просила модель, с автором найденного издания. Сравнивается только
+    в одной письменности: «Thomas Mann» против «Томас Манн» — это не расхождение, а перевод."""
+    w, f = _words(wanted), _words(found)
+    if not w or not f:
+        return True
+    cyr = lambda ws: any(re.search("[а-яё]", x) for x in ws)
+    if cyr(w) != cyr(f):
+        return True
+    return any(x in f for x in w if len(x) >= 3)
 
 
 def _match(e, author):
@@ -342,14 +532,25 @@ def resolve_lecture(c, exclude):
             "plot": (e.get("description") or "")[:400] or None}
 
 
+def free_slots(d, keep=3):
+    return max(0, keep - len(expire(d)))
+
+
 def apply_answer(kind, text, model=None, keep=3):
     check_kind(kind)
     db = load()
     d = db[kind]
+    reconcile(kind, d)
+    live = expire(d)
+    need = keep - len(live)
+    if need <= 0:
+        save(db)
+        print("  все места заняты живыми советами — ничего не меняю")
+        return live
     exclude = known_ids(kind, d)
     items = []
     for c in parse_answer(text, kind):
-        if len(items) >= keep:
+        if len(items) >= need:
             break
         if items and kind == "book":
             time.sleep(2)  # Google Books считает частоту запросов, а не только их число
@@ -361,12 +562,10 @@ def apply_answer(kind, text, model=None, keep=3):
         items.append(r)
         print(f"  + {r['title']}" + (f" — {r['author']}" if r.get("author") else ""))
     if not items:
+        save(db)
         raise SystemExit("ни один совет не подтвердился")
-    # то, что осталось без ответа, уезжает в историю как «без ответа»: новая пачка его заменяет
-    stale = [r for r in d["items"] if r["id"] not in {i["id"] for i in items}]
-    d["history"] = [history_entry(r) for r in stale] + d["history"]
-    d["history"] = d["history"][:HISTORY_MAX]
-    d["items"] = items
+    # Новое досыпается к живому: неотвеченное остаётся висеть, пока не истечёт ITEM_DAYS (expire выше).
+    d["items"] = live + items
     d["updatedAt"] = datetime.datetime.now().isoformat(timespec="seconds")
     d["model"] = model or d.get("model")
     save(db)
@@ -376,7 +575,8 @@ def apply_answer(kind, text, model=None, keep=3):
 def history_entry(r):
     return {"id": r["id"], "title": r.get("title"), "author": r.get("author"), "year": r.get("year"),
             "reason": r.get("reason"), "verdict": r.get("verdict") or "new",
-            "at": r.get("decidedAt") or r.get("suggestedAt") or today()}
+            "at": r.get("decidedAt") or r.get("suggestedAt") or today(),
+            "suggestedAt": r.get("suggestedAt")}
 
 
 # ---------------------------------------------------------------- вердикты
@@ -458,6 +658,31 @@ def _add_to_catalog(kind, r, status="queued"):
     return {"id": b["id"], "title": b["title"], "status": b["status"]}
 
 
+def inbox():
+    """Одна неотвеченная карточка на главную (20.09.2026): советы по фильмам, книгам и лекциям лежали
+    на трёх страницах, которые открываются не каждый день, — и умирали неувиденными. Отдаётся самый
+    старый живой совет, и с ним — сколько ещё ждёт; вердикт идёт в обычный PATCH /api/rec/<kind>/<id>."""
+    db = load()
+    cands = []
+    for kind in KINDS:
+        for r in expire(db[kind]):
+            if r.get("verdict") in (None, "new"):
+                cands.append((r.get("suggestedAt") or "", kind, r))
+    save(db)
+    if not cands:
+        return {"item": None, "left": 0}
+    cands.sort(key=lambda x: x[0])
+    _, kind, r = cands[0]
+    noun = {"film": "Фильм", "book": "Книга", "lecture": "Лекция"}[kind]
+    page = {"film": "films.html", "book": "books.html", "lecture": "lectures.html"}[kind]
+    return {"item": {"kind": kind, "id": r["id"], "title": r.get("title"), "author": r.get("author"),
+                     "year": r.get("year"), "meta": r.get("meta"), "reason": r.get("reason"),
+                     "cover": r.get("cover"), "url": r.get("url") if kind == "lecture" else page + "#recs",
+                     "eyebrow": noun, "acts": list(KIND_VERDICTS[kind]),
+                     "days": age_days(r.get("suggestedAt"))},
+            "left": len(cands) - 1}
+
+
 def refill_covers(kind=None):
     """Дозаполняет картинки у текущих советов: книга, оставшаяся непроверенной (с mini каталоги
     молчали), или файл, которого нет на диске (обложку скачал mini, а деплой с ноутбука её стёр —
@@ -498,10 +723,15 @@ def refill_covers(kind=None):
     return fixed
 
 
-def due(kind):
-    d = load()[check_kind(kind)]
+def due(kind, keep=3):
+    db = load()
+    d = db[check_kind(kind)]
+    free = free_slots(d, keep)
+    save(db)
     if not d["items"]:
         return True, "советов ещё нет"
+    if not free:
+        return False, f"все {keep} места заняты советами моложе {ITEM_DAYS} дн."
     if not d.get("updatedAt"):
         return True, "ни разу не запускался"
     try:
@@ -510,7 +740,7 @@ def due(kind):
         return True, "битый updatedAt"
     hours = (datetime.datetime.now() - last).total_seconds() / 3600
     if hours >= EVERY_HOURS:
-        return True, f"прошло {hours:.1f} ч"
+        return True, f"прошло {hours:.1f} ч, свободных мест {free}"
     return False, f"прошло {hours:.1f} ч, следующий через {EVERY_HOURS - hours:.1f} ч"
 
 
@@ -562,8 +792,10 @@ def main():
                 if r.get("reason"):
                     print(f"      {r['reason']}")
             if d["history"]:
-                print(f"  история: {len(d['history'])} записей, "
-                      f"взято {sum(1 for h in d['history'] if h['verdict'] == 'liked')}")
+                h = d["history"]
+                print(f"  история: {len(h)} записей, взято {sum(1 for x in h if x['verdict'] == 'liked')}, "
+                      f"не то {sum(1 for x in h if x['verdict'] == 'dismissed')}, "
+                      f"не увидел {sum(1 for x in h if x['verdict'] not in ANSWERED)}")
 
 
 if __name__ == "__main__":

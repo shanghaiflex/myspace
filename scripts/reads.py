@@ -33,6 +33,11 @@ import mix_recs as R  # noqa: E402
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/128 Safari/537.36"
 VERDICTS = ("saved", "dismissed", "read")
 HISTORY_MAX = 300
+# Совет живёт неделю, а не сутки (20.09.2026, как у taste_recs.py): новое досыпается на место
+# отвеченных и просроченных, просроченное — «не увидел», а не отказ. Статьи из лент не повторяются
+# и без кулдауна: в кэш кандидатов то, что уже было в истории, не возвращается.
+ITEM_DAYS = 7
+ANSWERED = ("saved", "dismissed", "read")
 CACHE_MAX = 400          # сколько кандидатов держим в reads.json
 PER_SOURCE = 25          # свежих статей с одной ленты за раз
 SUMMARY_CHARS = 280
@@ -338,18 +343,51 @@ def taste():
     return out
 
 
+def age_days(when):
+    try:
+        return (datetime.date.today() - datetime.date.fromisoformat(str(when)[:10])).days
+    except ValueError:
+        return 10 ** 6
+
+
+def expire(db):
+    """Просроченные советы уезжают в историю как «не увидел»; возвращает живые."""
+    live, gone = [], []
+    for r in db["items"]:
+        (live if age_days(r.get("suggestedAt")) < ITEM_DAYS else gone).append(r)
+    for r in gone:
+        r["verdict"] = "unseen"
+        r["decidedAt"] = today()
+        drop_image(r)
+    if gone:
+        db["history"] = [history_entry(r) for r in gone] + db["history"]
+        db["history"] = db["history"][:HISTORY_MAX]
+        db["items"] = live
+    return live
+
+
 def digest():
     db = load()
+    expire(db)
+    save(db)
     out = taste()
 
-    if db["history"]:
+    if db["items"]:
+        out.append("\n## Твои советы, которые сейчас висят у меня на странице (не повторяй их)")
+        for r in db["items"]:
+            out.append(f"- {r.get('title')} ({r.get('source')}) — висит {age_days(r.get('suggestedAt'))} дн.")
+    real = [h for h in db["history"] if h.get("verdict") in ANSWERED]
+    if real:
         out.append("\n## Вердикты по прошлым советам-статьям (свежие сверху)")
-        word = {"saved": "ВЗЯЛ ЧИТАТЬ", "read": "прочитал", "dismissed": "МИМО", "new": "без ответа"}
-        for h in db["history"][:40]:
+        word = {"saved": "ВЗЯЛ ЧИТАТЬ", "read": "прочитал", "dismissed": "МИМО"}
+        for h in real[:40]:
             out.append(f"- {word.get(h.get('verdict'), h.get('verdict'))}: {h.get('title')} "
                        f"({h.get('source')}) — {h.get('reason') or ''}")
     else:
-        out.append("\n## Вердикты по прошлым советам-статьям\n(это первый подбор)")
+        out.append("\n## Вердикты по прошлым советам-статьям\n(настоящих вердиктов ещё нет)")
+    unseen = sum(1 for h in db["history"] if h.get("verdict") not in ANSWERED)
+    if unseen:
+        out.append(f"\nЕщё {unseen} советов я не увидел (страница не открывалась) — это не отказ, а пропуск.")
 
     out.append("\n## Кандидаты: свежие статьи из лент. Выбирай ТОЛЬКО из них, по номеру.")
     for n, c in enumerate(db["cache"], 1):
@@ -378,10 +416,16 @@ def parse_answer(text):
 
 def apply_answer(text, model=None, keep=3):
     db = load()
+    live = expire(db)
+    need = keep - len(live)
+    if need <= 0:
+        save(db)
+        print("  все места заняты живыми советами — ничего не меняю")
+        return live
     cache = db["cache"]
     items = []
     for c in parse_answer(text):
-        if len(items) >= keep:
+        if len(items) >= need:
             break
         try:
             n = int(c["n"])
@@ -398,13 +442,10 @@ def apply_answer(text, model=None, keep=3):
         items.append(art)
         print(f"  + [{art['source']}] {art['title']}")
     if not items:
+        save(db)
         raise SystemExit("модель не выбрала ни одной статьи из списка")
-    stale = [r for r in db["items"] if r["id"] not in {i["id"] for i in items}]
-    for r in stale:
-        drop_image(r)
-    db["history"] = [history_entry(r) for r in stale] + db["history"]
-    db["history"] = db["history"][:HISTORY_MAX]
-    db["items"] = items
+    # Новое досыпается к живому: неотвеченное висит, пока не истечёт ITEM_DAYS (expire выше).
+    db["items"] = live + items
     chosen = {i["id"] for i in items}
     db["cache"] = [c for c in db["cache"] if c["id"] not in chosen]
     db["updatedAt"] = datetime.datetime.now().isoformat(timespec="seconds")
@@ -416,7 +457,7 @@ def apply_answer(text, model=None, keep=3):
 def history_entry(r):
     return {"id": r["id"], "title": r.get("title"), "url": r.get("url"), "source": r.get("source"),
             "reason": r.get("reason"), "verdict": r.get("verdict") or "new",
-            "at": r.get("decidedAt") or r.get("suggestedAt") or today()}
+            "at": r.get("decidedAt") or r.get("suggestedAt") or today(), "suggestedAt": r.get("suggestedAt")}
 
 
 # ---------------------------------------------------------------- вердикты
@@ -451,10 +492,15 @@ def verdict(rid, v):
     return {"rec": r, "saved": v == "saved"}
 
 
-def due():
+def due(keep=3):
     db = load()
+    live = expire(db)
+    save(db)
+    free = max(0, keep - len(live))
     if not db["items"]:
         return True, "советов ещё нет"
+    if not free:
+        return False, f"все {keep} места заняты советами моложе {ITEM_DAYS} дн."
     if not db.get("updatedAt"):
         return True, "ни разу не запускался"
     try:
@@ -463,7 +509,7 @@ def due():
         return True, "битый updatedAt"
     hours = (datetime.datetime.now() - last).total_seconds() / 3600
     if hours >= EVERY_HOURS:
-        return True, f"прошло {hours:.1f} ч"
+        return True, f"прошло {hours:.1f} ч, свободных мест {free}"
     return False, f"прошло {hours:.1f} ч, следующий через {EVERY_HOURS - hours:.1f} ч"
 
 

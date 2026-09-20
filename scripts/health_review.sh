@@ -14,7 +14,9 @@ WORK="${HEALTH_WORKDIR:-$HOME/.health-review}"; mkdir -p "$WORK"
 STAMP=$(date '+%F %T')
 
 if [ "$1" != "--force" ]; then
-  python3 scripts/health.py pending > "$WORK/pending.json" || { echo "$STAMP nothing new since the last note, skip: $(cat "$WORK/pending.json")"; exit 0; }
+  # Не «есть ли новые образцы», а «изменилось ли что-то существенное» — см. health.changed().
+  python3 scripts/health.py pending > "$WORK/pending.json" || { echo "$STAMP skip: $(cat "$WORK/pending.json")"; exit 0; }
+  echo "$STAMP why: $(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['why'])" "$WORK/pending.json")"
 fi
 command -v claude >/dev/null || { echo "$STAMP claude not installed (curl -fsSL https://claude.ai/install.sh | bash)"; exit 1; }
 

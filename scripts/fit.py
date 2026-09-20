@@ -18,6 +18,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import health as H  # noqa: E402
+import movies as M  # noqa: E402
 import lectures as L  # noqa: E402
 import mixes as X  # noqa: E402
 import reads as RD  # noqa: E402
@@ -35,6 +36,8 @@ STEPS_ENOUGH = 8000    # столько шагов за день — прогу�
 ARTICLE_MIN = 12       # у большинства лент длины нет; столько читается средняя статья
 LESSON_EXTRA = 8       # разбор и тест поверх самого материала
 PICKS = 3
+FILM_FROM = 17         # фильм — вечернее дело: окно, начинающееся раньше, кино не предлагает
+FILM_EXTRA = 10        # найти, включить, налить чай
 
 
 def hm(minutes):
@@ -188,6 +191,23 @@ def french_pick(now, minutes):
     return best(cands, minutes)
 
 
+def film_pick(now, minutes, start=None):
+    """Фильм из «посмотреть» — единственный каталог с длиной, который карточка раньше не видела (20.09.2026).
+    Только вечером: окно в два часа днём — это прогулка или лекция, а не кино."""
+    if (start or now).hour < FILM_FROM:
+        return None
+    cands = []
+    for m in M.load():
+        if m.get("status") not in ("to-watch", "watching") or not m.get("runtime"):
+            continue
+        cands.append({"kind": "film", "title": m["title"], "minutes": m["runtime"] + FILM_EXTRA,
+                      "resume": m.get("status") == "watching",
+                      "sub": f"{hm(m['runtime'])}" + (f" · {m['director']}" if m.get("director") else "") + (f" · {m['year']}" if m.get("year") else ""),
+                      "url": "films.html#" + m["id"], "image": m.get("poster"),
+                      "why": "начатый" if m.get("status") == "watching" else "в списке «посмотреть»"})
+    return best(cands, minutes)
+
+
 def plan(now=None):
     zone = SUN.tz()
     now = now or dt.datetime.now(zone)
@@ -209,9 +229,9 @@ def plan(now=None):
     if walk:
         picks.append(walk)
     rest = []
-    for f in (lecture_pick, mix_pick, article_pick, french_pick):
+    for f in (lecture_pick, mix_pick, article_pick, french_pick, film_pick):
         try:
-            p = f(now, minutes)
+            p = f(now, minutes, start) if f is film_pick else f(now, minutes)
         except Exception as e:
             print(f"fit {f.__name__}: {type(e).__name__}: {e}", file=sys.stderr)
             p = None

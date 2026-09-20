@@ -28,6 +28,12 @@ CALM_WORDS = ("calm", "спокой")
 MIN_MINUTES = 20
 HISTORY_MAX = 120
 EVERY_HOURS = 20  # a daily job that may fire late (the mini sleeps) should not refuse to run
+# Совет живёт неделю, а не сутки (20.09.2026, как у taste_recs.py): подбор досыпает только на место
+# отвеченных и просроченных, просроченное — «не увидел», а не отказ, и через UNSEEN_COOLDOWN может
+# вернуться. Включённый совет (played) — тоже живой: его дослушивают не за день.
+ITEM_DAYS = 7
+UNSEEN_COOLDOWN = 21
+ANSWERED = ("liked", "dismissed")
 
 
 def today():
@@ -50,6 +56,42 @@ def save(db):
         f.write("\n")
 
 
+def age_days(when):
+    try:
+        return (datetime.date.today() - datetime.date.fromisoformat(str(when)[:10])).days
+    except ValueError:
+        return 10 ** 6
+
+
+def expire(db):
+    """Просроченные советы уезжают в историю как «не увидел»; возвращает живые."""
+    live, gone = [], []
+    for r in db["items"]:
+        (live if age_days(r.get("suggestedAt")) < ITEM_DAYS else gone).append(r)
+    for r in gone:
+        # Включал, но не ответил — это «слушал», сигнал слабый, но настоящий; не включал — не увидел.
+        r["verdict"] = "played" if r.get("played") else "unseen"
+        r["decidedAt"] = today()
+    if gone:
+        db["history"] = [history_entry(r) for r in gone] + db["history"]
+        db["history"] = db["history"][:HISTORY_MAX]
+        db["items"] = live
+    return live
+
+
+def reconcile(db, mixes):
+    """Ретроактивные попадания: микс из совета, который потом оказался в коллекции (вставил ссылку сам)."""
+    ids = {m["id"]: m for m in mixes}
+    for h in db["history"]:
+        if h.get("verdict") in ANSWERED:
+            continue
+        m = ids.get(h["id"])
+        if m and str(m.get("addedAt") or "")[:10] >= str(h.get("suggestedAt") or h.get("at") or "")[:10]:
+            h["verdict"] = "liked"
+            h["retro"] = True
+            h["at"] = today()
+
+
 def mood_of(value):
     v = (value or "").strip().lower()
     return "calm" if any(w in v for w in CALM_WORDS) else "rhythmic"
@@ -68,6 +110,9 @@ def fmt_dur(s):
 def digest():
     mixes = X.load()
     db = load()
+    expire(db)
+    reconcile(db, mixes)
+    save(db)
     out = []
 
     out.append(f"## Моя коллекция ({len(mixes)} миксов)")
@@ -100,18 +145,30 @@ def digest():
         for r in db["items"]:
             out.append(f"- {r.get('artist')} — {r.get('title')}"
                        + (" [спокойное]" if is_calm(r) else "")
-                       + (" (уже включал)" if r.get("played") else ""))
-    if db["history"]:
+                       + (" (уже включал)" if r.get("played") else "")
+                       + f" (висит {age_days(r.get('suggestedAt'))} дн.)")
+    real = [h for h in db["history"] if h.get("verdict") in ANSWERED + ("played",)]
+    if real:
         out.append("\n## Вердикты по прошлым советам (свежие сверху)")
-        word = {"liked": "НРАВИТСЯ", "dismissed": "НЕ ТО", "played": "слушал", "new": "без ответа"}
-        for h in db["history"][:40]:
+        word = {"liked": "НРАВИТСЯ", "dismissed": "НЕ ТО", "played": "включал, но не ответил"}
+        for h in real[:40]:
             played_note = " (включал)" if h.get("played") and h.get("verdict") != "played" else ""
-            out.append(f"- {h.get('at')} · {word.get(h.get('verdict'), h.get('verdict'))}{played_note}: "
+            v = word.get(h.get("verdict"), h.get("verdict"))
+            if h.get("retro"):
+                v += " (сам добавил в коллекцию)"
+            out.append(f"- {h.get('at')} · {v}{played_note}: "
                        f"{h.get('artist')} — {h.get('title')}"
                        + (" [спокойное]" if is_calm(h) else "")
                        + f" — {h.get('reason') or ''}")
     else:
-        out.append("\n## Вердикты по прошлым советам\n(это первый подбор, вердиктов ещё нет)")
+        out.append("\n## Вердикты по прошлым советам\n(настоящих вердиктов ещё нет)")
+    unseen = [h for h in db["history"] if h.get("verdict") not in ANSWERED + ("played",)]
+    recent = [h for h in unseen if age_days(h.get("at")) < UNSEEN_COOLDOWN]
+    if unseen:
+        out.append(f"\n## Советы, которые я не увидел ({len(unseen)}) — страницу не открывал, это не отказ")
+        if recent:
+            out.append("Их пока не повторяй (недавние): " + "; ".join(
+                f"{h.get('artist')} — {h.get('title')}" for h in recent[:15]))
     return "\n".join(out)
 
 
@@ -119,7 +176,9 @@ def digest():
 def known_ids(db, mixes):
     ids = {m["id"] for m in mixes}
     ids |= {r["id"] for r in db["items"]}
-    ids |= {h["id"] for h in db["history"]}
+    # Отвеченное — навсегда, неувиденное — только UNSEEN_COOLDOWN дней: у него должен быть второй шанс.
+    ids |= {h["id"] for h in db["history"]
+            if h.get("verdict") in ANSWERED + ("played",) or age_days(h.get("at")) < UNSEEN_COOLDOWN}
     return ids
 
 
@@ -189,8 +248,15 @@ def apply_answer(text, model=None, keep=3, keep_calm=2):
     то ритмичные съедят всю выдачу и до девяти утра показывать будет нечего."""
     db = load()
     mixes = X.load()
+    reconcile(db, mixes)
+    live = expire(db)
     exclude = known_ids(db, mixes)
-    need = {"rhythmic": keep, "calm": keep_calm}
+    need = {"rhythmic": max(0, keep - sum(1 for r in live if not is_calm(r))),
+            "calm": max(0, keep_calm - sum(1 for r in live if is_calm(r)))}
+    if sum(need.values()) <= 0:
+        save(db)
+        print("  все места заняты живыми советами — ничего не меняю")
+        return live
     items = []
     for c in parse_answer(text):
         if sum(need.values()) <= 0:
@@ -210,12 +276,10 @@ def apply_answer(text, model=None, keep=3, keep_calm=2):
         need[mood] -= 1
         print(f"  + [{'спокойное' if mood == 'calm' else 'ритм'}] {m['artist']} — {m['title']} ({fmt_dur(m['duration'])})")
     if not items:
+        save(db)
         raise SystemExit("nothing resolved on SoundCloud")
-    # advice that is still unanswered goes to history as such: a new batch replaces it
-    stale = [h for h in db["items"] if h["id"] not in {i["id"] for i in items}]
-    db["history"] = [history_entry(r) for r in stale] + db["history"]
-    db["history"] = db["history"][:HISTORY_MAX]
-    db["items"] = items
+    # Новое досыпается к живому: неотвеченное висит, пока не истечёт ITEM_DAYS (expire выше).
+    db["items"] = live + items
     db["updatedAt"] = datetime.datetime.now().isoformat(timespec="seconds")
     db["model"] = model or db.get("model")
     save(db)
@@ -225,7 +289,7 @@ def apply_answer(text, model=None, keep=3, keep_calm=2):
 def history_entry(r):
     return {"id": r["id"], "artist": r.get("artist"), "title": r.get("title"), "url": r.get("url"),
             "reason": r.get("reason"), "mood": r.get("mood") or "rhythmic", "verdict": r.get("verdict") or "new", "played": bool(r.get("played")),
-            "at": r.get("decidedAt") or r.get("suggestedAt") or today()}
+            "at": r.get("decidedAt") or r.get("suggestedAt") or today(), "suggestedAt": r.get("suggestedAt")}
 
 
 # ---------------------------------------------------------------- verdicts
@@ -258,10 +322,15 @@ def verdict(rid, v):
     return {"rec": r, "mix": added}
 
 
-def due():
+def due(keep=3, keep_calm=2):
     db = load()
+    live = expire(db)
+    save(db)
+    free = max(0, keep - sum(1 for r in live if not is_calm(r))) + max(0, keep_calm - sum(1 for r in live if is_calm(r)))
     if not db["items"]:
         return True, "no suggestions yet"
+    if not free:
+        return False, f"all {keep + keep_calm} slots hold suggestions younger than {ITEM_DAYS} days"
     if not db.get("updatedAt"):
         return True, "never ran"
     try:
@@ -270,7 +339,7 @@ def due():
         return True, "bad updatedAt"
     hours = (datetime.datetime.now() - last).total_seconds() / 3600
     if hours >= EVERY_HOURS:
-        return True, f"last run {hours:.1f}h ago"
+        return True, f"last run {hours:.1f}h ago, {free} free slots"
     return False, f"last run {hours:.1f}h ago, next in {EVERY_HOURS - hours:.1f}h"
 
 

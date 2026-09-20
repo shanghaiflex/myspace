@@ -1,5 +1,23 @@
 [
   {
+    "id": "sc:246373962",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/user-813516378/sh2-ost",
+    "title": "Akira Yamaoka (山岡晃) ― Silent Hill 2 (Original Game Soundtrack) (2001)",
+    "artist": "User 813516378",
+    "duration": 4398,
+    "artwork": "https://i1.sndcdn.com/artworks-000146620004-ks0s4x-t500x500.jpg",
+    "genre": "Soundtrack",
+    "published": "2016-02-10",
+    "tags": [
+      "claude-rec",
+      "calm"
+    ],
+    "addedAt": "2026-09-20",
+    "position": 1106,
+    "playedAt": 1789878743
+  },
+  {
     "id": "sc:488982357",
     "source": "soundcloud",
     "url": "https://soundcloud.com/meowwwhq/meowww-radio-w-lila-tirando-a-violeta",
@@ -98,8 +116,8 @@
       "calm"
     ],
     "addedAt": "2026-09-14",
-    "position": 356,
-    "playedAt": 1789651885
+    "position": 358,
+    "playedAt": 1789877802
   },
   {
     "id": "yt:Abm_cwj-c9M",

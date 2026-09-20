@@ -852,12 +852,13 @@ def finish(mid, answers=None, verdict="done"):
         quiz = ((m.get("lesson") or {}).get("quiz")) or []
         log = []
         score = 0
+        asked = set(m.get("asked") or [])   # отвеченное с полки уже в журнале — второй раз не считаем
         for a in (answers or []):
             try:
                 i = int(a.get("i"))
             except (TypeError, ValueError):
                 continue
-            if not 0 <= i < len(quiz):
+            if not 0 <= i < len(quiz) or i in asked:
                 continue
             q = quiz[i]
             ok, given, expected = _grade(q, a.get("given"), bool(a.get("self")))
@@ -879,6 +880,56 @@ def finish(mid, answers=None, verdict="done"):
     return {"id": mid, "verdict": verdict, "score": score, "total": total, "cards": added,
             "left": len([x for x in db["items"] if x.get("kind") in FEED_KINDS]),
             "drills": len([x for x in db["items"] if x.get("kind") in DRILL_KINDS])}
+
+
+SHELF_TYPES = ("choice", "gap")   # что влезает в одну строку на полке главной: выбор и пропуск
+
+
+def one_question():
+    """Один вопрос на полку главной (20.09.2026). Страница французского с четырьмя материалами и
+    колодой не открывалась ни разу за неделю (`lastStudy` пустой, ответов 0): занятие на полчаса
+    не начинается само. Вопрос на десять секунд — начинается. Берётся первый не заданный вопрос
+    подходящего типа из текущих материалов; ответ уходит в тот же журнал ошибок, что и тест."""
+    db = load()
+    for m in db["items"]:
+        quiz = ((m.get("lesson") or {}).get("quiz")) or []
+        asked = set(m.get("asked") or [])
+        for i, q in enumerate(quiz):
+            if i in asked or (q.get("type") or "gap") not in SHELF_TYPES:
+                continue
+            return {"id": m["id"], "i": i, "title": m.get("title"), "kind": m.get("kind"),
+                    "type": q.get("type") or "gap", "q": q.get("q"), "hint": q.get("hint"),
+                    "options": q.get("options") if q.get("type") == "choice" else None,
+                    "tag": q.get("tag"),
+                    "left": sum(1 for x in db["items"] for k, y in enumerate(((x.get("lesson") or {}).get("quiz")) or [])
+                                if k not in set(x.get("asked") or []) and (y.get("type") or "gap") in SHELF_TYPES) - 1}
+    return None
+
+
+def answer_one(mid, i, given):
+    """Ответ на вопрос с полки: проверяется сервером по сохранённому тесту, как и в `finish`."""
+    db = load()
+    m = next((x for x in db["items"] if x["id"] == mid), None)
+    if not m:
+        raise SystemExit(f"нет такого материала: {mid}")
+    quiz = ((m.get("lesson") or {}).get("quiz")) or []
+    try:
+        i = int(i)
+    except (TypeError, ValueError):
+        raise SystemExit("bad i")
+    if not 0 <= i < len(quiz):
+        raise SystemExit("bad i")
+    q = quiz[i]
+    ok, shown, expected = _grade(q, given)
+    _log(db, [{"at": now(), "material": m["id"], "title": m.get("title"), "kind": "shelf",
+               "type": q.get("type"), "tag": q.get("tag"), "q": q["q"], "given": shown,
+               "expected": expected, "correct": ok}])
+    asked = set(m.get("asked") or [])
+    asked.add(i)
+    m["asked"] = sorted(asked)
+    _touch(db)
+    save(db)
+    return {"correct": ok, "given": shown, "expected": expected, "explain": q.get("explain")}
 
 
 def _add_cards(db, m):

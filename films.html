@@ -423,6 +423,7 @@ async function api(method, id, body) {
   return r.json();
 }
 let queue = Promise.resolve();
+let askWhy = null;   // id фильма, которому только что поставили оценку: после перерисовки просим «за что»
 function update(m, patch) {
   queue = queue.then(async () => {
     try {
@@ -466,7 +467,7 @@ function openSheet(m, keep) {
         <div class="score"><div class="l">IMDb</div><div class="v">${fmt(m.imdbRating)}<small> / 10</small></div></div>
       </div>
       ${m.plot ? `<p>${esc(m.plot)}</p>` : ''}
-      ${canEdit ? `<textarea id="noteCtl" placeholder="Заметка" rows="2">${esc(m.note || '')}</textarea>` : (m.note ? `<div class="note">${esc(m.note)}</div>` : '')}
+      ${canEdit ? `<textarea id="noteCtl" placeholder="${m.rating ? 'За что такая оценка? Одна фраза — её читает Claude, когда советует' : 'Заметка'}" rows="2">${esc(m.note || '')}</textarea>` : (m.note ? `<div class="note">${esc(m.note)}</div>` : '')}
       <div class="foot">
         <a href="https://www.imdb.com/title/${esc(m.id)}/" target="_blank" rel="noopener">IMDb ↗</a>
         ${m.link ? `<a href="${esc(m.link)}" target="_blank" rel="noopener">Смотреть ↗</a>` : ''}
@@ -481,7 +482,7 @@ function openSheet(m, keep) {
 
   sheet.querySelectorAll('.stars .l, .stars .r').forEach(el => {
     el.addEventListener('mouseenter', () => paintStars(sheet, +el.dataset.v));
-    el.addEventListener('click', () => update(m, { rating: +el.dataset.v }));
+    el.addEventListener('click', () => { askWhy = m.id; update(m, { rating: +el.dataset.v }); });
   });
   sheet.querySelector('.stars')?.addEventListener('mouseleave', () => paintStars(sheet, m.rating ?? 0));
   sheet.querySelector('[data-act=clear]')?.addEventListener('click', () => update(m, { rating: null }));
@@ -490,6 +491,9 @@ function openSheet(m, keep) {
   }));
   const note = $('#noteCtl');
   note.addEventListener('blur', () => { if ((note.value.trim() || null) !== (m.note || null)) update(m, { note: note.value }); });
+  // Только что поставил оценку и заметки нет — курсор в заметку: из 108 фильмов заметки не было ни у одного,
+  // а промпт советов опирается на них больше, чем на жанры (20.09.2026).
+  if (askWhy === m.id && !m.note) { askWhy = null; setTimeout(() => note.focus(), 50); }
   const del = $('#delCtl');
   del.addEventListener('click', async () => {
     if (del.dataset.armed !== '1') { del.dataset.armed = '1'; del.textContent = 'Точно удалить?'; setTimeout(() => { del.dataset.armed = ''; del.textContent = 'Удалить'; }, 3000); return; }

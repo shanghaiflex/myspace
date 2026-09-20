@@ -248,7 +248,7 @@ function openSheet(b, keep) {
       ${canEdit ? `<div class="segmented" id="statusCtl">${Object.entries(STATUS_LABEL).map(([k, v]) => `<button data-status="${k}" class="${k === b.status ? 'on' : ''}">${v}</button>`).join('')}</div>` : `<div class="sub">${STATUS_LABEL[b.status]}</div>`}
       <div class="score"><div class="l">Моя оценка</div><div class="v">${fmt(b.rating)}<small>/ 10</small>${canEdit && b.rating != null ? '<button class="clear" data-act="clear">убрать</button>' : ''}</div>${canEdit ? starsHtml(b.rating ?? 0) : ''}</div>
       ${b.description ? `<p>${esc(b.description)}</p>` : ''}
-      ${canEdit ? `<textarea id="commentCtl" placeholder="Заметка" rows="2">${esc(b.comment || '')}</textarea>` : (b.comment ? `<p>${esc(b.comment)}</p>` : '')}
+      ${canEdit ? `<textarea id="commentCtl" placeholder="${b.status === 'read' || b.status === 'abandoned' ? 'Чем запомнилась или почему бросил? Одна фраза — её читает Claude, когда советует' : 'Заметка'}" rows="2">${esc(b.comment || '')}</textarea>` : (b.comment ? `<p>${esc(b.comment)}</p>` : '')}
       <div class="foot">${b.isbn ? `<a href="https://www.goodreads.com/search?q=${esc(b.isbn)}" target="_blank" rel="noopener" style="color:var(--accent)">Goodreads ↗</a>` : ''}
         <span>${[b.finishedAt && 'прочитано ' + b.finishedAt, b.addedAt && 'добавлена ' + b.addedAt].filter(Boolean).join(' · ')}</span>
         ${canEdit ? '<button class="del" id="delCtl">Удалить</button>' : ''}</div>
