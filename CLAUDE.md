@@ -463,6 +463,15 @@ python3 scripts/mixes.py list
 ```
 
 - Needs `yt-dlp` (brew) for YouTube/Mixcloud metadata; SoundCloud uses api-v2 with the client_id from yt-dlp's cache.
+- **Не всякий трек SoundCloud играет в виджете** (20.09.2026). Плеер на странице — официальный iframe, и загрузчик
+  вправе его запретить: страница трека открывается, а виджет пишет «This track can't be played outside of
+  SoundCloud» и стреляет `ERROR`, из-за чего на сайте появляется «SoundCloud не ответил». Совет «Silent Hill 3
+  (OST)» (`sc:146074937`) был ровно такой. В API это видно заранее — `streamable: false`, `embeddable_by: "none"`,
+  `policy: "BLOCK"`, — и теперь спрашивается: `X.sc_playable(t)` в `mixes.py` зовут поиск советов
+  (`mix_recs.search_soundcloud`), `resolve_soundcloud` (вставка ссылки на сайте даёт 400 с внятной причиной)
+  и импорт лайков. Проверка дешёвая: поля уже приходят в том же ответе. Ручная проверка одного трека —
+  `curl -o /dev/null -w '%{http_code}' 'https://soundcloud.com/oembed?format=json&url=<url>'`: 403 значит, что
+  не сыграет. Коллекция (20 треков SoundCloud) проверена целиком — там таких нет.
 - `import-youtube` reads the private «Liked videos» playlist (`LL`) through the cookies of a logged-in
   browser (`--browser firefox`, works on the laptop; the mini has no browser and no YouTube without VPN).
   It never adds in bulk on purpose: the same likes hold lectures, let's plays and Мэддисон, so it prints
