@@ -15,7 +15,7 @@ is a secret like any password: .env is gitignored and the URL is never printed. 
 adding or deleting events needs CalDAV with an app password.
 """
 
-import argparse, datetime as dt, json, os, re, sys, urllib.error, urllib.request
+import argparse, datetime as dt, functools, json, os, re, sys, urllib.error, urllib.request
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -57,14 +57,40 @@ def only_calendars():
     return [c.strip() for c in (env("SCHEDULE_CALENDARS") or "").split(",") if c.strip()]
 
 
+@functools.lru_cache(maxsize=None)
 def free_calendars():
     """Shown, but not counted as busy."""
     return [c.strip() for c in env("SCHEDULE_FREE_CALENDARS", FREE_CALENDARS).split(",") if c.strip()]
 
 
+@functools.lru_cache(maxsize=None)
 def hidden_calendars():
     """Not shown at all. A subset of the above by nature: what is not mine to do is not mine to see either."""
     return [c.strip() for c in env("SCHEDULE_HIDE_CALENDARS", HIDE_CALENDARS).split(",") if c.strip()]
+
+
+@functools.lru_cache(maxsize=None)
+def me():
+    """My own address, to tell my events from someone else's inside a shared calendar."""
+    who = env("SCHEDULE_ME")
+    if who:
+        return who.strip().lower()
+    user = (env("YANDEX_CALDAV_USER") or "").strip()
+    return f"{user}@yandex.ru".lower() if user and "@" not in user else user.lower()
+
+
+@functools.lru_cache(maxsize=None)
+def people():
+    """ORGANIZER → имя для подписи: `SCHEDULE_PEOPLE="polya@yandex.ru=Полина,..."`.
+
+    Имя берётся отсюда, а не из `CN`: Яндекс кладёт туда логин («polya.m-d-g-g»), и в плашке это читается
+    как мусор, а не как человек."""
+    out = {}
+    for pair in (env("SCHEDULE_PEOPLE") or "").split(","):
+        if "=" in pair:
+            mail, name = pair.split("=", 1)
+            out[mail.strip().lower()] = name.strip()
+    return out
 
 
 # ---------------------------------------------------------------- fetch
@@ -156,6 +182,11 @@ def parse_dt(params, value, zone):
     return dt.datetime.strptime(value, "%Y%m%dT%H%M%S").replace(tzinfo=where).astimezone(zone), False
 
 
+def organizer(p):
+    m = re.search(r"mailto:(\S+)", first(p, "ORGANIZER"), re.I)
+    return m.group(1).strip().lower() if m else None
+
+
 def parse_rrule(value):
     return dict(p.split("=", 1) for p in value.split(";") if "=" in p)
 
@@ -180,11 +211,16 @@ def events(text, zone):
               "rrule": parse_rrule(first(p, "RRULE")) if "RRULE" in p else None,
               "exdate": {parse_dt(prm, one, zone)[0] for prm, val in p.get("EXDATE", []) for one in val.split(",")},
               "calendar": unescape(first(p, "X-BOW-CALENDAR") or first(p, "CATEGORIES")),
+              "organizer": organizer(p),
               "cancelled": first(p, "STATUS").upper() == "CANCELLED"}
+        # Общий календарь — это два человека в одном списке: 322 события «Семьи» завела Полина и 10 я сам.
+        # Поэтому чьё событие решает ORGANIZER, а не календарь: своё в общем календаре остаётся моим делом.
+        mine = ev["organizer"] == me() if ev["organizer"] and me() else False
+        ev["who"] = None if mine else people().get(ev["organizer"] or "")
         # Yandex's «свободен» (TRANSP:TRANSPARENT) says an invitation may double-book the hour, not that the hour
         # is free: «Французский» is marked that way and still takes the evening. Only someone else's calendar
         # (FREE_CALENDARS) is time that is not mine, so that — and nothing else — leaves a window open.
-        ev["busy"] = ev["calendar"] not in free_calendars()
+        ev["busy"] = mine or ev["calendar"] not in free_calendars()
         if "RECURRENCE-ID" in p:
             overrides[(ev["uid"], parse_dt(*p["RECURRENCE-ID"][0], zone)[0])] = ev
         else:
@@ -309,7 +345,7 @@ def agenda(days=7, start_date=None, text=None, only=None, skip=None):
                 # it just does not make the person busy, so it is listed but never eats a free window.
                 out[start.date()].append({"summary": item["summary"], "start": start, "end": end,
                                           "allday": item["allday"], "busy": item["busy"],
-                                          "calendar": item["calendar"]})
+                                          "calendar": item["calendar"], "who": item.get("who")})
     for day in out.values():
         day.sort(key=lambda e: (not e["allday"], e["start"]))
     return out
@@ -332,7 +368,8 @@ def free_windows(day_events, date, zone):
 
 
 def fmt_event(e, calendar=False):
-    return (("весь день " if e["allday"] else f"{e['start']:%H:%M}–{e['end']:%H:%M} ") + e["summary"]
+    return (("весь день " if e["allday"] else f"{e['start']:%H:%M}–{e['end']:%H:%M} ")
+            + (f"{e['who']}: " if e.get("who") else "") + e["summary"]
             + (f" [{e['calendar']}]" if calendar and e["calendar"] else "") + ("" if e["busy"] else " (не занимает)"))
 
 
@@ -375,6 +412,7 @@ def day_plan(date=None):
 
     def item(e):
         return {"title": e["summary"], "allday": e["allday"], "busy": e["busy"], "calendar": e["calendar"] or None,
+                "who": e.get("who"),
                 "start": e["start"].isoformat(), "end": e["end"].isoformat(),
                 "from": None if e["allday"] else f"{e['start']:%H:%M}", "to": None if e["allday"] else f"{e['end']:%H:%M}"}
 

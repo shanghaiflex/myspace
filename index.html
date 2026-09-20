@@ -140,6 +140,9 @@
   .sc .ch.now { font-weight: 600; }
   .sc .ch.now .tm { color: var(--accent); }
   .sc .ch.free-ev { font-style: italic; color: var(--text-2); }
+  /* Общий календарь — это два человека: чужое событие подписано именем, иначе непонятно, почему оно тут. */
+  .sc .ch .who { font-family: var(--sans); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-3); font-style: normal; border: 1px solid var(--line); padding: 1px 5px; }
   .sc .ch.empty { color: var(--text-2); }
 
   /* Чем занять окно: три колонки, разделённые линейками, как врезка на полосе. */
@@ -250,7 +253,8 @@ Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', n
       const cls = e.allday ? '' : en <= now ? 'past' : on ? 'now' : '';
       // У того, что идёт сейчас, видно и когда оно кончится, — остальное читается одним временем начала.
       const tm = e.allday ? 'весь день' : on ? `${e.from}–${e.to}` : e.from;
-      return `<span class="ch ${cls} ${e.busy ? '' : 'free-ev'}"><span class="tm">${esc(tm)}</span>${esc(e.title)}</span>`;
+      const who = e.who ? `<span class="who">${esc(e.who)}</span>` : '';
+      return `<span class="ch ${cls} ${e.busy ? '' : 'free-ev'}"><span class="tm">${esc(tm)}</span>${who}${esc(e.title)}</span>`;
     };
     const ahead = sc.events.filter(e => e.allday || new Date(e.end) > now);
     const more = [];
