@@ -26,5 +26,16 @@
   забывать, что играет. Смотри раздел «спокойное по утрам»: примерно этот уровень.
 - И у спокойных тоже должен быть автор или шоу, которое реально существует на SoundCloud: лейблы вроде
   12k, Kranky, Room40, Hush Hush, эмбиент-эпизоды NTS, микс-серии ambient/drone. Не «lofi hip hop radio».
+- **Игровые саундтреки и ambience — отдельная и любимая линия спокойного** (просьба 20.09.2026): в коллекции
+  уже есть World of Warcraft (Teldrassil), Silent Hill, Harry Potter, «The NTS Guide to video game
+  soundtracks», и такого хочется больше. Хотя бы один из спокойных советов — оттуда: зоны и ambience WoW
+  (Grizzly Hills, Elwynn, Nagrand, Duskwood, Dun Morogh — по названию зоны их и ищут), популярные и любимые
+  OST под чтение — Skyrim, Morrowind, Zelda (Breath of the Wild, Ocarina), Final Fantasy (Nobuo Uematsu),
+  Chrono Trigger, Hollow Knight, Minecraft (C418), Stardew Valley, Journey (Austin Wintory), Outer Wilds,
+  The Witcher 3, Dark Souls, Xenoblade, Ori, Bastion, Disco Elysium (Sea Power), Kentucky Route Zero,
+  Shadow of the Colossus. Полные альбомы, ambience-часы, mix-сборки — всё годится, если от 20 минут и без
+  боевых тем и марша. Для них `artist` — композитор или название игры/зоны так, как оно стоит в названии
+  трека на SoundCloud (например «Akira Yamaoka», «World of Warcraft Grizzly Hills», «C418»), иначе поиск
+  не подтвердит совет.
 - `why` — конкретно: чем это похоже на то, что я слушаю, или чем отличается. Без общих слов «отличный микс», «тебе понравится».
 - Если данных мало (коллекция крошечная) — бери самое известное и надёжное в тех жанрах, что видишь.
