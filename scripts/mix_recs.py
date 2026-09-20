@@ -153,6 +153,10 @@ def search_soundcloud(query, artist=None, exclude=()):
     for t in d.get("collection", []):
         if (t.get("kind") or "track") != "track":
             continue
+        # Совет, который не играет, — это не совет: виджет на такой трек отвечает ERROR («SoundCloud
+        # не ответил»), и человек узнаёт об этом, только нажав «Послушать».
+        if X.sc_playable(t):
+            continue
         try:
             m = X.sc_track_to_mix(t)
         except Exception:

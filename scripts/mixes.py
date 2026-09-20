@@ -67,6 +67,22 @@ def sc_api(path, **params):
     return get_json("https://api-v2.soundcloud.com" + path + "?" + urllib.parse.urlencode(params))
 
 
+def sc_playable(t):
+    """Сыграет ли трек в виджете — или это витрина, которую можно только открыть на самом SoundCloud.
+
+    Плеер на странице — это официальный iframe-виджет, и у загрузчика есть право его запретить. Silent Hill 3
+    Акиры Ямаоки (`sc:146074937`) висел в советах именно такой: страница открывается, `oembed` отвечает 403,
+    а виджет молча стреляет ERROR — «SoundCloud не ответил». В API это видно заранее, мы просто не спрашивали:
+    `streamable: false`, `embeddable_by: "none"`. Плюс `policy: BLOCK` — трек, снятый по требованию правообладателя."""
+    if t.get("streamable") is False:
+        return "загрузчик закрыл прослушивание вне SoundCloud (streamable: false)"
+    if (t.get("embeddable_by") or "all") == "none":
+        return "встраивание запрещено (embeddable_by: none)"
+    if (t.get("policy") or "") == "BLOCK":
+        return "заблокирован правообладателем (policy: BLOCK)"
+    return None
+
+
 def sc_track_to_mix(t):
     art = (t.get("artwork_url") or t["user"].get("avatar_url") or "")
     return {
@@ -86,6 +102,9 @@ def resolve_soundcloud(url):
     d = sc_api("/resolve", url=url.split("?")[0])
     if d.get("kind") != "track":
         raise SystemExit(f"Not a SoundCloud track: {url} ({d.get('kind')})")
+    why = sc_playable(d)
+    if why:
+        raise SystemExit(f"В плеере не сыграет: {why}\n  {d.get('title')}\n  {url}")
     return sc_track_to_mix(d)
 
 
@@ -196,6 +215,9 @@ def cmd_import_sc(args):
         for item in d.get("collection", []):
             t = item.get("track")
             if not t:
+                continue
+            if sc_playable(t):
+                skipped += 1
                 continue
             mix = sc_track_to_mix(t)
             if mix["duration"] < args.min_minutes * 60:
