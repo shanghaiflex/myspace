@@ -24,7 +24,10 @@ CACHE_MINUTES = 30
 DAY_START, DAY_END = 8, 23      # the hours a free window is worth naming
 # Calendars shown in the day but not counted as busy. «Тренировки» holds someone else's swimming — four hours of
 # every Monday and Friday morning — and taking it as occupied left the day with no room in it at all.
-FREE_CALENDARS = "Тренировки"
+FREE_CALENDARS = "Тренировки,Семья"
+# Calendars the day does not show at all. Not the same list: «Семья» is shown (a doctor's appointment is a thing
+# that happens today) but does not occupy time, while four hours of someone else's swimming is not shown either.
+HIDE_CALENDARS = "Тренировки"
 FREE_MIN = 45                   # minutes below which a gap between events is not a window, it is a gap
 DOW = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"]
 MAX_OCCURRENCES = 3000          # a guard against a daily rule that started years ago
@@ -55,7 +58,13 @@ def only_calendars():
 
 
 def free_calendars():
+    """Shown, but not counted as busy."""
     return [c.strip() for c in env("SCHEDULE_FREE_CALENDARS", FREE_CALENDARS).split(",") if c.strip()]
+
+
+def hidden_calendars():
+    """Not shown at all. A subset of the above by nature: what is not mine to do is not mine to see either."""
+    return [c.strip() for c in env("SCHEDULE_HIDE_CALENDARS", HIDE_CALENDARS).split(",") if c.strip()]
 
 
 # ---------------------------------------------------------------- fetch
@@ -354,12 +363,13 @@ def digest(days=2):
 def day_plan(date=None):
     """Дела на сегодня — то, что рисует плашка на главной (и в приложении: там та же страница).
 
-    В отличие от дайджеста здесь все календари, кроме чужих тренировок: врачи и няня из «Семьи» — это дела дня,
-    а четыре часа плавания Полины делом не являются. Времена уезжают и строкой (для подписи), и ISO
-    (чтобы страница сама решила, что уже прошло)."""
+    В отличие от дайджеста здесь все календари, кроме скрытых (`SCHEDULE_HIDE_CALENDARS`): врачи и няня из
+    «Семьи» — это дела дня, а четыре часа плавания Полины делом не являются. Времени «Семья» при этом не
+    занимает (`SCHEDULE_FREE_CALENDARS`) — она показывается пунктиром. Времена уезжают и строкой (для подписи),
+    и ISO (чтобы страница сама решила, что уже прошло)."""
     zone = tz()
     now = dt.datetime.now(zone)
-    days_ = agenda(days=2, start_date=date, skip=free_calendars())
+    days_ = agenda(days=2, start_date=date, skip=hidden_calendars())
     dates = sorted(days_)
     today, tomorrow = dates[0], dates[1]
 
