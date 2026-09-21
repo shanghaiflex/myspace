@@ -34,7 +34,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(ROOT, "data", "lamp-phase.json")
 
 # Лампы зажигаются до заката, а не в закат: в комнате темнеет раньше, чем солнце уходит за горизонт.
-OFFSET = int(os.environ.get("LAMP_EVENING_OFFSET", "-30"))       # минуты к закату
+OFFSET = int(os.environ.get("LAMP_EVENING_OFFSET", "-60"))       # минуты к закату: за полчаса до заката в пасмурный сентябрь уже темно (21.09.2026)
 EARLIEST = os.environ.get("LAMP_EVENING_EARLIEST", "15:30")      # зимой закат в 15:57 — раньше не надо
 LATEST = os.environ.get("LAMP_EVENING_LATEST", "21:00")          # летом закат в 21:17 — позже смысла нет
 NIGHT_AT = os.environ.get("LAMP_NIGHT_AT", "22:00")              # ночник — про сон, не про солнце
