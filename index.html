@@ -329,8 +329,9 @@ Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', n
         <div><b>${t.steps != null ? Math.round(t.steps).toLocaleString('ru-RU') : '—'}</b>шагов сегодня${a.steps ? ' · ср. ' + Math.round(a.steps).toLocaleString('ru-RU') : ''}</div>
         ${t.workouts && t.workouts.length ? `<div><b>${esc(t.workouts.map(w => w.ru).join(', '))}</b>тренировка</div>` : ''}</div></a>`);
   }
-  // Итоги недели (20.09.2026): пишутся по воскресеньям утром по всем данным сайта разом и живут неделю.
-  if (hl && hl.week && (Date.now() - new Date(hl.week.ts)) < 7 * 86400e3) {
+  // Итоги недели (20.09.2026): пишутся по воскресеньям утром по всем данным сайта разом и показываются
+  // только в этот день — в понедельник это уже прошлая неделя (просьба пользователя 21.09.2026).
+  if (hl && hl.week && new Date(hl.week.ts).toDateString() === new Date().toDateString()) {
     const w = new Date(hl.week.ts);
     cards.push(`<a class="card c12 hl week" href="health.html"><div class="eyebrow">Итоги недели <span class="more">${esc(w.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }))}</span></div>
       <p class="note">${esc(hl.week.text)}</p></a>`);

@@ -1093,7 +1093,7 @@
     {
       "id": "yNv1apUgFik",
       "status": "queued",
-      "position": 0,
+      "position": 4825,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -1107,7 +1107,8 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=yNv1apUgFik",
-      "queuedAt": 1789910937
+      "queuedAt": 1789910937,
+      "touchedAt": 1789999748
     },
     {
       "id": "YSGAwKE4SLY",
@@ -7444,7 +7445,7 @@
     {
       "id": "sc:839825944",
       "status": "queued",
-      "position": 2360,
+      "position": 3520,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -7460,7 +7461,7 @@
       "artwork": "https://i1.sndcdn.com/artworks-3327OkGZnQByMqIG-OpzD2A-t500x500.jpg",
       "published": "2020-06-14",
       "queuedAt": 1788726830,
-      "touchedAt": 1789910350
+      "touchedAt": 1789969048
     },
     {
       "id": "sc:839825941",
