@@ -44,22 +44,18 @@ THEMES = {
         "Featured pictures of clouds",
         "Featured pictures of seas",
     ],
-    # уютное: тёплый свет, дерево, книги, залы, в которых хочется сидеть
-    "interiors": [
-        "Featured pictures of libraries",
-        "Featured pictures of church interiors",
-        "Featured pictures of mosque interiors",
-        "Featured pictures of the Louvre",
-        "Featured pictures of Moscow Metro",
-        "Featured pictures of railway stations",
-    ],
-    # стильное: узор, витраж, роспись — картинка, а не пейзаж
-    "art": [
-        "Featured pictures of ceilings",
-        "Featured pictures of stained-glass windows of churches",
-        "Featured pictures of Islamic art",
-        "Featured pictures of paintings in Paris",
-        "Featured pictures of light painting",
+    # Твин Пикс: туман, мокрый хвойный лес, водопады, серое небо северо-запада США и Канады (PNW).
+    # Темы «interiors» и «art» (библиотеки, соборы, мечети, метро, витражи, живопись) убраны 23.09.2026
+    # по просьбе пользователя вместе с их снимками — не возвращать без просьбы.
+    "fog": [
+        "Featured pictures of fog",
+        "Fog in Washington (state)",
+        "Fog in Oregon",
+        "Fog in British Columbia",
+        "Olympic National Park",
+        "Snoqualmie Falls",
+        "Temperate rainforests",
+        "Quality images of fog",
     ],
     "space": [
         "Featured pictures of astronomy",

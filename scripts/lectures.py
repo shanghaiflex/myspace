@@ -9,6 +9,7 @@ Usage:
   lectures.py audio <id|title> [...]     download audio-only (m4a) for offline/phone listening
   lectures.py list [--status ...]
   lectures.py preload [-n 3]             what the phone app keeps downloaded (the one being listened + one per channel)
+  lectures.py reserve ["<series>"] [--off]   series that always keeps one lecture on the phone on top of preload
   lectures.py add-channel <url>          add another channel to track
 """
 import argparse, datetime, glob, json, os, re, subprocess, sys, time
@@ -153,16 +154,34 @@ def channel_next(db, ls, channel, taken):
     return rec[0] if rec else None
 
 
+def reserve_next(ls, sid, taken):
+    """Следующая лекция серии «про запас»: начатая, иначе первая непрослушанная в порядке очереди."""
+    pool = [l for l in ls if sid in (l.get("series") or []) and l["status"] != "listened" and l["id"] not in taken]
+    started = sorted((l for l in pool if l["status"] == "listening"), key=lambda l: -(l.get("touchedAt") or 0))
+    rest = sorted(pool, key=lambda l: (l.get("queuedAt") or float("inf"), l.get("order", 0)))
+    return (started or rest or [None])[0]
+
+
 def preload(db, n=PRELOAD_COUNT):
     """Какие лекции телефон держит скачанными: сначала та, что слушается (последняя тронутая), потом
     по одной следующей из каждого канала — чтобы в дороге был и Макаров, и Bushwacker, а не две серии
     подряд из одного канала (просьба пользователя 18.09.2026). Каналы идут в порядке планов: где
-    очередь поставлена раньше, тот и первый, каналы без планов — следом."""
+    очередь поставлена раньше, тот и первый, каналы без планов — следом.
+
+    Сверх этих `n` — по одной лекции из каждой серии в `db["reserve"]` (23.09.2026): серия «под книгу»,
+    которую я сейчас читаю, всегда лежит на телефоне про запас и не вытесняет каналы. Дослушал —
+    приезжает следующая из той же серии, кончилась серия — слот просто пустеет."""
     ls = [l for l in db["lectures"] if not l.get("live")]
     listening = sorted((l for l in ls if l["status"] == "listening"),
                        key=lambda l: (-(l.get("touchedAt") or 0), -(l.get("position") or 0)))
     out = listening[:1]
     taken = {l["id"] for l in out}
+    reserve = []
+    for sid in db.get("reserve") or []:
+        l = reserve_next(ls, sid, taken)
+        if l:
+            reserve.append(l)
+            taken.add(l["id"])
     rank = {}
     for i, c in enumerate(db["channels"]):
         q = [l.get("queuedAt") or 0 for l in ls if l.get("channel") == c["id"] and l["status"] == "queued"]
@@ -181,7 +200,7 @@ def preload(db, n=PRELOAD_COUNT):
             break
         out.append(l)
         taken.add(l["id"])
-    return out[:n]
+    return out[:n] + reserve
 
 
 def preload_item(db, l):
@@ -416,6 +435,25 @@ def cmd_series(args):
     print(f"series '{args.name}' ({sid})")
 
 
+def cmd_reserve(args):
+    db = load()
+    res = db.setdefault("reserve", [])
+    if args.name:
+        sid = args.name if args.name in db["series"] else next(
+            (k for k, v in db["series"].items() if v.lower().rstrip(".") == args.name.lower().rstrip(".")), None)
+        if not sid:
+            sys.exit(f"нет такой серии: {args.name}")
+        if args.off:
+            res[:] = [s for s in res if s != sid]
+        elif sid not in res:
+            res.append(sid)
+        save(db)
+    ls = [l for l in db["lectures"] if not l.get("live")]
+    for sid in res:
+        l = reserve_next(ls, sid, set())
+        print(f"{db['series'].get(sid)}: {l['title'] if l else '— серия дослушана'}")
+
+
 def cmd_list(args):
     db = load()
     for l in db["lectures"]:
@@ -460,6 +498,7 @@ def main():
     a = sub.add_parser("audio"); a.add_argument("query", nargs="+"); a.set_defaults(fn=cmd_audio)
     se = sub.add_parser("series"); se.add_argument("name"); se.add_argument("query", nargs="+"); se.set_defaults(fn=cmd_series)
     l = sub.add_parser("list"); l.add_argument("--status", choices=STATUSES); l.set_defaults(fn=cmd_list)
+    rs = sub.add_parser("reserve"); rs.add_argument("name", nargs="?"); rs.add_argument("--off", action="store_true"); rs.set_defaults(fn=cmd_reserve)
     pr = sub.add_parser("preload"); pr.add_argument("-n", type=int, default=PRELOAD_COUNT); pr.set_defaults(fn=cmd_preload)
     c = sub.add_parser("add-channel"); c.add_argument("url"); c.set_defaults(fn=cmd_add_channel)
     args = p.parse_args()

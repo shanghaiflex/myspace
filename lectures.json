@@ -67,7 +67,8 @@
     "PL4LDgp2NYb8l1fPHy1ZfLJ8yzuJ9oX1SE": "История России первой трети 20 века. Три революции, гражданская война, история русской эмиграции.",
     "PL4LDgp2NYb8lIRgqxoSgqUEGuqkQK9y8V": "История 20-го века.",
     "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje": "История Древнего мира и Средних веков.",
-    "custom:древний-египет": "Древний Египет"
+    "custom:древний-египет": "Древний Египет",
+    "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э": "Под книгу: Ближний Восток и Эгейя, 1800–1380 до н. э."
   },
   "lectures": [
     {
@@ -1093,7 +1094,7 @@
     {
       "id": "yNv1apUgFik",
       "status": "queued",
-      "position": 4825,
+      "position": 6204,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -1108,7 +1109,7 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=yNv1apUgFik",
       "queuedAt": 1789910937,
-      "touchedAt": 1789999748
+      "touchedAt": 1790064888
     },
     {
       "id": "YSGAwKE4SLY",
@@ -6593,12 +6594,14 @@
     },
     {
       "id": "sc:2238846914",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
-      "series": [],
+      "series": [
+        "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э"
+      ],
       "title": "Финикия",
       "duration": 7343,
       "channel": "sc:589577313",
@@ -6606,7 +6609,8 @@
       "source": "soundcloud",
       "url": "https://soundcloud.com/serj-bushwacker/finikiya",
       "artwork": "https://i1.sndcdn.com/artworks-wzpJV3xathqBzTEO-CurcfA-t500x500.png",
-      "published": "2025-12-30"
+      "published": "2025-12-30",
+      "queuedAt": 1790142703
     },
     {
       "id": "sc:2215913366",
@@ -6661,12 +6665,14 @@
     },
     {
       "id": "sc:2133190848",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
-      "series": [],
+      "series": [
+        "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э"
+      ],
       "title": "Любовь, смерть и клинопись в Месопотамии",
       "duration": 7507,
       "channel": "sc:589577313",
@@ -6674,7 +6680,8 @@
       "source": "soundcloud",
       "url": "https://soundcloud.com/serj-bushwacker/lyubov-smert-i-klinopis-v",
       "artwork": "https://i1.sndcdn.com/artworks-ZYErIn60dH7bWuL8-4VzMuQ-t500x500.png",
-      "published": "2025-07-20"
+      "published": "2025-07-20",
+      "queuedAt": 1790142702
     },
     {
       "id": "sc:2122432944",
@@ -6837,12 +6844,14 @@
     },
     {
       "id": "sc:1204605073",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
-      "series": [],
+      "series": [
+        "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э"
+      ],
       "title": "Хетты",
       "duration": 8382,
       "channel": "sc:589577313",
@@ -6850,7 +6859,8 @@
       "source": "soundcloud",
       "url": "https://soundcloud.com/serj-bushwacker/khetty",
       "artwork": "https://i1.sndcdn.com/artworks-A7C25mB3ACN9H9BJ-SJHg7g-t500x500.jpg",
-      "published": "2022-01-27"
+      "published": "2022-01-27",
+      "queuedAt": 1790142700
     },
     {
       "id": "sc:1181325898",
@@ -7183,12 +7193,14 @@
     },
     {
       "id": "sc:839826013",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
-      "series": [],
+      "series": [
+        "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э"
+      ],
       "title": "С чего начинается Греция",
       "duration": 6533,
       "channel": "sc:589577313",
@@ -7196,7 +7208,8 @@
       "source": "soundcloud",
       "url": "https://soundcloud.com/serj-bushwacker/xetgqdacrdwd",
       "artwork": "https://i1.sndcdn.com/artworks-3nElUYFLulzSGxLQ-dqw1aA-t500x500.jpg",
-      "published": "2020-06-14"
+      "published": "2020-06-14",
+      "queuedAt": 1790142701
     },
     {
       "id": "sc:839826010",
@@ -7856,12 +7869,14 @@
     },
     {
       "id": "sc:839825764",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
-      "series": [],
+      "series": [
+        "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э"
+      ],
       "title": "Месопотамия Бронзового Века",
       "duration": 9904,
       "channel": "sc:589577313",
@@ -7869,7 +7884,8 @@
       "source": "soundcloud",
       "url": "https://soundcloud.com/serj-bushwacker/fqycwpump1pf",
       "artwork": "https://i1.sndcdn.com/artworks-Ph6pjsvUCrsaZbuA-3Qt5KQ-t500x500.jpg",
-      "published": "2020-06-14"
+      "published": "2020-06-14",
+      "queuedAt": 1790142699
     },
     {
       "id": "sc:839825749",
@@ -8500,5 +8516,8 @@
       "artwork": "https://i1.sndcdn.com/artworks-n4aK9YJ4pJYeAJBI-mvKsvw-t500x500.jpg",
       "published": "2020-06-14"
     }
+  ],
+  "reserve": [
+    "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э"
   ]
 }

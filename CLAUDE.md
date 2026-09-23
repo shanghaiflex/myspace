@@ -527,6 +527,12 @@ python3 scripts/mixes.py list
   the long unknown videos numbered and adds only what `--pick` names (numbers or video ids). Tag the
   ambient ones `--tag calm` — see below.
 - The SoundCloud username for imports is not stored anywhere yet; ask the user if unknown.
+- **Kidmancast** (Коля Kidman, future garage / bass, 2014–2022) лежит в коллекции целиком, тег `kidmancast`,
+  артист везде «Kolya Kidman» (23.09.2026): основная копия — Mixcloud `kidmancast`, №5 там закрыт для страны
+  и взят с SoundCloud (`kolyakidman`), там же №6, а pt.4/30/31 есть только на YouTube (`@kidmancastmusic`).
+  YouTube с ноутбука теперь требует «я не робот» — метаданные ролика берутся yt-dlp'ом на mini:
+  `YTDLP=<обёртка: exec ssh mini bin/yt-dlp "$@"> mixes.py add https://youtu.be/<id>` (ссылку без `?`, иначе
+  её глобом съест zsh на mini).
 - Playback position is remembered per mix on the server (`PATCH /api/mix/<id>` `{position}` → `position`,
   `playedAt` in `mixes.json`), so a closed tab reopens on the mix that was playing and continues from there
   («Сначала» in the hero starts over; the position is cleared when a mix plays to the end).
@@ -535,7 +541,9 @@ python3 scripts/mixes.py list
   (localStorage, resets daily).
 - The player hides the SoundCloud/YouTube/Mixcloud widgets off-screen and draws its own progress bar
   (seek via widget APIs). Page background: random photo from `backgrounds/` (listed by `/api/backgrounds`),
-  crossfades on every new mix. The user can drop their own JPG/PNG there.
+  crossfades on every new mix. The user can drop their own JPG/PNG there. Only landscapes and «Твин Пикс»
+  (туман, хвойный лес, PNW; тема `fog` в `scripts/backgrounds.py`) — архитектура, интерьеры и живопись убраны
+  23.09.2026 по просьбе пользователя, в CREDITS.json они помечены `kept: false`, чтобы не вернулись.
 - Mix ids: `sc:<n>`, `yt:<videoId>`, `mc:<uploader_slug>`. Fields: source, url, title, artist, duration (s),
   artwork, genre, published, tags[], addedAt, optional `nts` (episode URL), `position`/`playedAt` (resume).
 - **До 9 утра (`MORNING_UNTIL` в `index.html` и `mixes.html`) сайт показывает только спокойное**: в это
@@ -933,6 +941,13 @@ python3 scripts/lectures.py add-channel <url>
   по концу ставит `listened`, удаляет файл и берёт следующую. Список обновляется при открытии, по BGTask и после
   каждой прослушанной. Позиция на сервере обрезается по длительности лекции (была 4:08 у лекции на 2:51).
   Запросы к `/audio/` mini логирует строкой `audio <file> → iphone [Range]` (Range = докачка после обрыва).
+- **Серия «под книгу» — всегда одна про запас** (23.09.2026): серии из `db["reserve"]` дают по одной лекции
+  **сверх** `PRELOAD_COUNT` (`reserve_next`: начатая, иначе первая непрослушанная по `queuedAt`), каналы она
+  не вытесняет. Сейчас это «Под книгу: Ближний Восток и Эгейя, 1800–1380 до н. э.» — к Кембриджской истории
+  древнего мира, т. II ч. 1, которую я читаю: Bushwacker «Месопотамия Бронзового Века» → «Хетты» → «С чего
+  начинается Греция» → «Любовь, смерть и клинопись в Месопотамии» → «Финикия» (египетская серия исключена
+  нарочно, у Макарова по бронзовому веку ничего нет). Другая книга — новая серия и
+  `lectures.py reserve "<серия>"`, старую снять `--off`.
 - **Два канала без канала.** Кроме двух отслеживаемых каналов в `lectures.json` есть синтетические,
   с `"type": "manual"` (их пропускает `sync`): `likes` — «Лайки на YouTube», разовый импорт
   `lectures.py import-likes` (лайки — не каталог лекций, там же музыка, лет'с плеи и Мэддисон,

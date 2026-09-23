@@ -1,10 +1,27 @@
 {
+ "15-11-25-bahnhof-spielfeld-stra-ralfr-wma-3993": {
+  "author": "Ralf Roletschek",
+  "kept": false,
+  "licence": "GFDL 1.2",
+  "orig": "6016x4016",
+  "page": "https://commons.wikimedia.org/wiki/File:15-11-25-Bahnhof_Spielfeld-Stra%C3%9F-RalfR-WMA_3993.jpg",
+  "title": "File:15-11-25-Bahnhof Spielfeld-Straß-RalfR-WMA 3993.jpg"
+ },
+ "15-11-25-bahnhof-spielfeld-stra-ralfr-wma-3995": {
+  "author": "Ralf Roletschek",
+  "kept": false,
+  "licence": "GFDL 1.2",
+  "orig": "6016x4016",
+  "page": "https://commons.wikimedia.org/wiki/File:15-11-25-Bahnhof_Spielfeld-Stra%C3%9F-RalfR-WMA_3995.jpg",
+  "title": "File:15-11-25-Bahnhof Spielfeld-Straß-RalfR-WMA 3995.jpg"
+ },
  "19-11-09-alte-nationalgalerie-dsf4154": {
   "author": "Ralf Roletschek",
-  "kept": true,
+  "kept": false,
   "licence": "GFDL 1.2",
   "orig": "4721x3216",
   "page": "https://commons.wikimedia.org/wiki/File:19-11-09-Alte-Nationalgalerie_DSF4154.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:19-11-09-Alte-Nationalgalerie DSF4154.jpg"
  },
  "2012-03-14-21-42-55-file-etoiles-14f-2min-3d": {
@@ -14,6 +31,30 @@
   "orig": "4288x2848",
   "page": "https://commons.wikimedia.org/wiki/File:2012-03-14_21-42-55-file-etoiles-14f-2min-3d.jpg",
   "title": "File:2012-03-14 21-42-55-file-etoiles-14f-2min-3d.jpg"
+ },
+ "2013-10-oct-23-english-bay-afternoon-fog-06a-nn1": {
+  "author": "Doug Farmer",
+  "kept": false,
+  "licence": "CC BY-SA 3.0",
+  "orig": "4283x2841",
+  "page": "https://commons.wikimedia.org/wiki/File:2013_10_Oct_23_English_Bay_Afternoon_Fog_06a_nn1.jpg",
+  "title": "File:2013 10 Oct 23 English Bay Afternoon Fog 06a nn1.jpg"
+ },
+ "2013-10-oct-23-english-bay-afternoon-fog-10a": {
+  "author": "Doug Farmer",
+  "kept": false,
+  "licence": "CC BY-SA 3.0",
+  "orig": "4281x2839",
+  "page": "https://commons.wikimedia.org/wiki/File:2013_10_Oct_23_English_Bay_Afternoon_Fog_10a.jpg",
+  "title": "File:2013 10 Oct 23 English Bay Afternoon Fog 10a.jpg"
+ },
+ "20130519-01-s-ra-d-i-raganu-purv": {
+  "author": "Karlis Ustups",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5219x3479",
+  "page": "https://commons.wikimedia.org/wiki/File:20130519-01(S%C4%93ra_d%C4%AB%C4%B7i_Raganu_purv%C4%81).jpg",
+  "title": "File:20130519-01(Sēra dīķi Raganu purvā).jpg"
  },
  "2014-l-dek-zdr-j-ko-ci-narodzenia-nmp-07": {
   "author": "Jacek Halicki",
@@ -33,11 +74,28 @@
  },
  "20170902-koenigslutter-kaiserdom-dsc05568-ptrqs": {
   "author": "PtrQs",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 4.0",
   "orig": "5945x2941",
   "page": "https://commons.wikimedia.org/wiki/File:20170902_Koenigslutter_Kaiserdom_DSC05568_PtrQs.JPG",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:20170902 Koenigslutter Kaiserdom DSC05568 PtrQs.JPG"
+ },
+ "20180414-mg-a-nad-jeziorem-czorszty-skim-2183-dxo": {
+  "author": "Jakub Hałun",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5633x3745",
+  "page": "https://commons.wikimedia.org/wiki/File:20180414_Mg%C5%82a_nad_Jeziorem_Czorszty%C5%84skim_2183_DxO.jpg",
+  "title": "File:20180414 Mgła nad Jeziorem Czorsztyńskim 2183 DxO.jpg"
+ },
+ "20180414-mg-a-nad-jeziorem-czorszty-skim-2194-dxo": {
+  "author": "Jakub Hałun",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5797x3854",
+  "page": "https://commons.wikimedia.org/wiki/File:20180414_Mg%C5%82a_nad_Jeziorem_Czorszty%C5%84skim_2194_DxO.jpg",
+  "title": "File:20180414 Mgła nad Jeziorem Czorsztyńskim 2194 DxO.jpg"
  },
  "2019-parc-national-des-pyrenees-vall-e-de-gavarnie": {
   "author": "Moahim",
@@ -55,12 +113,37 @@
   "page": "https://commons.wikimedia.org/wiki/File:20220917_St._Ursula_Munich_10.jpg",
   "title": "File:20220917 St. Ursula Munich 10.jpg"
  },
+ "20251022-074650-30th-avenue-south-morning-fog": {
+  "author": "Gayest Frogs",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "4160x3120",
+  "page": "https://commons.wikimedia.org/wiki/File:20251022_074650_30th_Avenue_South_-_morning_fog.jpg",
+  "title": "File:20251022 074650 30th Avenue South - morning fog.jpg"
+ },
+ "20251022-074902-30th-avenue-south-morning-fog": {
+  "author": "Gayest Frogs",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "4160x3120",
+  "page": "https://commons.wikimedia.org/wiki/File:20251022_074902_30th_Avenue_South_-_morning_fog.jpg",
+  "title": "File:20251022 074902 30th Avenue South - morning fog.jpg"
+ },
+ "21-224-5054-nnp-synevyr-rb-18": {
+  "author": "Rbrechko",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "6000x4000",
+  "page": "https://commons.wikimedia.org/wiki/File:21-224-5054_NNP_Synevyr_RB_18.jpg",
+  "title": "File:21-224-5054 NNP Synevyr RB 18.jpg"
+ },
  "2h-namur-13": {
   "author": "Luc Viatour",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 3.0",
   "orig": "4233x2799",
   "page": "https://commons.wikimedia.org/wiki/File:2h_Namur_13.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:2h Namur 13.jpg"
  },
  "30-doradus-tarantula-nebula": {
@@ -71,6 +154,38 @@
   "page": "https://commons.wikimedia.org/wiki/File:30_Doradus,_Tarantula_Nebula.jpg",
   "title": "File:30 Doradus, Tarantula Nebula.jpg"
  },
+ "a-foggy-day-on-jensen-way-panoramio": {
+  "author": "nick hoke",
+  "kept": false,
+  "licence": "CC BY 3.0",
+  "orig": "2766x1523",
+  "page": "https://commons.wikimedia.org/wiki/File:A_foggy_day_on_Jensen_Way_-_panoramio.jpg",
+  "title": "File:A foggy day on Jensen Way - panoramio.jpg"
+ },
+ "a-foggy-winter-morning": {
+  "author": "Abdul Momin",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "3000x2000",
+  "page": "https://commons.wikimedia.org/wiki/File:A_foggy_winter_morning.jpg",
+  "title": "File:A foggy winter morning.jpg"
+ },
+ "a-little-fog-at-red-pass-flickr-brewbooks": {
+  "author": "brewbooks from near Seattle, USA",
+  "kept": false,
+  "licence": "CC BY-SA 2.0",
+  "orig": "3264x2448",
+  "page": "https://commons.wikimedia.org/wiki/File:A_little_fog_at_Red_Pass_-_Flickr_-_brewbooks.jpg",
+  "title": "File:A little fog at Red Pass - Flickr - brewbooks.jpg"
+ },
+ "a-long-shot-of-mature-trees-in-olympic-national-timberland-i": {
+  "author": "Unknown authorUnknown author or not provided",
+  "kept": true,
+  "licence": "Public domain",
+  "orig": "3000x2049",
+  "page": "https://commons.wikimedia.org/wiki/File:A_long_shot_of_mature_trees_in_Olympic_National_Timberland_in_Washington._Near_the_Olympic_National_Park,_Washington...._-_NARA_-_557597.jpg",
+  "title": "File:A long shot of mature trees in Olympic National Timberland in Washington. Near the Olympic National Park, Washington.... - NARA - 557597.jpg"
+ },
  "a-new-view-of-the-tarantula-nebula": {
   "author": "NASA",
   "kept": true,
@@ -79,20 +194,30 @@
   "page": "https://commons.wikimedia.org/wiki/File:A_New_View_of_the_Tarantula_Nebula.jpg",
   "title": "File:A New View of the Tarantula Nebula.jpg"
  },
+ "a-ridge-in-fog-14413063180": {
+  "author": "Mount Rainier National Park from Ashford, WA, United States",
+  "kept": true,
+  "licence": "Public domain",
+  "orig": "5184x3456",
+  "page": "https://commons.wikimedia.org/wiki/File:A_Ridge_in_Fog_(14413063180).jpg",
+  "title": "File:A Ridge in Fog (14413063180).jpg"
+ },
  "abbotsford-house-study-room": {
   "author": "Michael D Beckwith",
-  "kept": true,
+  "kept": false,
   "licence": "CC0",
   "orig": "8687x5791",
   "page": "https://commons.wikimedia.org/wiki/File:Abbotsford_House_Study_Room.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Abbotsford House Study Room.jpg"
  },
  "agence-rol-l-clipse-gare-saint-lazare-1921": {
   "author": "Agence Rol",
-  "kept": true,
+  "kept": false,
   "licence": "Public domain",
   "orig": "3320x2400",
   "page": "https://commons.wikimedia.org/wiki/File:Agence_Rol,_L%E2%80%99%C3%A9clipse,_gare_Saint-Lazare,_1921.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Agence Rol, L’éclipse, gare Saint-Lazare, 1921.jpg"
  },
  "aguarales-de-valpalmas-zaragoza-espa-a-2015-01-06-dd-26": {
@@ -119,6 +244,14 @@
   "page": "https://commons.wikimedia.org/wiki/File:Alone_in_the_unspoilt_wilderness_(Unsplash).jpg",
   "title": "File:Alone in the unspoilt wilderness (Unsplash).jpg"
  },
+ "alpine-slopes-from-hurricane-hill-c-bubar-july-2014-17095401": {
+  "author": "Olympic National Park",
+  "kept": false,
+  "licence": "Public domain",
+  "orig": "4608x3456",
+  "page": "https://commons.wikimedia.org/wiki/File:Alpine_slopes_from_hurricane_hill_c_bubar_july_2014_(17095401977).jpg",
+  "title": "File:Alpine slopes from hurricane hill c bubar july 2014 (17095401977).jpg"
+ },
  "amanecer-en-el-lago-titicaca-puno-per-2015-08-01-dd-01": {
   "author": "Diego Delso",
   "kept": true,
@@ -134,6 +267,14 @@
   "orig": "4288x2848",
   "page": "https://commons.wikimedia.org/wiki/File:Amanhecer_no_Hercules_--.jpg",
   "title": "File:Amanhecer no Hercules --.jpg"
+ },
+ "anyone-for-a-swim-panoramio": {
+  "author": "Kira Picabo",
+  "kept": false,
+  "licence": "CC BY 3.0",
+  "orig": "3264x2448",
+  "page": "https://commons.wikimedia.org/wiki/File:Anyone_for_a_swim_-_panoramio.jpg",
+  "title": "File:Anyone for a swim - panoramio.jpg"
  },
  "arauc-rias-ao-fundo-parque-nacional-da-serra-da-bocaina-deno": {
   "author": "Heris Luiz Cordeiro Rocha",
@@ -161,11 +302,52 @@
  },
  "austria-g-ttweig-abbey-2015": {
   "author": "Jorge Royan",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 3.0",
   "orig": "4368x2912",
   "page": "https://commons.wikimedia.org/wiki/File:Austria_-_G%C3%B6ttweig_Abbey_-_2015.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Austria - Göttweig Abbey - 2015.jpg"
+ },
+ "bainbridge-high-school-200-building-november-2019": {
+  "author": "DemonDays64",
+  "kept": false,
+  "licence": "CC BY 4.0",
+  "orig": "4032x3024",
+  "page": "https://commons.wikimedia.org/wiki/File:Bainbridge_High_School_200_building_November_2019.jpeg",
+  "title": "File:Bainbridge High School 200 building November 2019.jpeg"
+ },
+ "bainbridge-high-school-300-building-november-2019": {
+  "author": "DemonDays64",
+  "kept": false,
+  "licence": "CC BY 4.0",
+  "orig": "4032x3024",
+  "page": "https://commons.wikimedia.org/wiki/File:Bainbridge_High_School_300_building_November_2019.jpeg",
+  "title": "File:Bainbridge High School 300 building November 2019.jpeg"
+ },
+ "ballachuan-hazelwood-path": {
+  "author": "ThatAntGuy",
+  "kept": false,
+  "licence": "CC BY 4.0",
+  "orig": "5184x3456",
+  "page": "https://commons.wikimedia.org/wiki/File:Ballachuan_Hazelwood_Path.jpg",
+  "title": "File:Ballachuan Hazelwood Path.jpg"
+ },
+ "balluchuan-hazelwood": {
+  "author": "Casper Palmer",
+  "kept": false,
+  "licence": "CC BY 4.0",
+  "orig": "5184x3456",
+  "page": "https://commons.wikimedia.org/wiki/File:Balluchuan_Hazelwood.jpg",
+  "title": "File:Balluchuan Hazelwood.jpg"
+ },
+ "band-of-fog-8465656729": {
+  "author": "Ruth Hartnup from Vancouver, Canada",
+  "kept": false,
+  "licence": "CC BY 2.0",
+  "orig": "3552x2000",
+  "page": "https://commons.wikimedia.org/wiki/File:Band_of_fog_(8465656729).jpg",
+  "title": "File:Band of fog (8465656729).jpg"
  },
  "barranco-valle-de-la-fuente-fuerteventura": {
   "author": "H. Zell",
@@ -175,6 +357,46 @@
   "page": "https://commons.wikimedia.org/wiki/File:Barranco_Valle_de_la_Fuente_-_Fuerteventura.jpg",
   "title": "File:Barranco Valle de la Fuente - Fuerteventura.jpg"
  },
+ "baum-in-k-rnten-037": {
+  "author": "zause01",
+  "kept": true,
+  "licence": "Public domain",
+  "orig": "4000x2649",
+  "page": "https://commons.wikimedia.org/wiki/File:Baum_in_K%C3%A4rnten_037.jpg",
+  "title": "File:Baum in Kärnten 037.jpg"
+ },
+ "baumsilhouetten-am-uetliberg-mit-novembernebel-und-sonnenstr": {
+  "author": "Kuhnmi",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "7411x4941",
+  "page": "https://commons.wikimedia.org/wiki/File:Baumsilhouetten_am_Uetliberg_mit_Novembernebel_und_Sonnenstrahlen.jpg",
+  "title": "File:Baumsilhouetten am Uetliberg mit Novembernebel und Sonnenstrahlen.jpg"
+ },
+ "beach-through-the-trees-olympic-coast-f7efcb5b-c72e-f789-576": {
+  "author": "NPS photo",
+  "kept": true,
+  "licence": "Public domain",
+  "orig": "2592x1944",
+  "page": "https://commons.wikimedia.org/wiki/File:Beach_through_the_trees,_Olympic_coast_(f7efcb5b-c72e-f789-5768-1134e5ffe273).JPG",
+  "title": "File:Beach through the trees, Olympic coast (f7efcb5b-c72e-f789-5768-1134e5ffe273).JPG"
+ },
+ "beached-whale": {
+  "author": "Entychologist",
+  "kept": false,
+  "licence": "CC BY 4.0",
+  "orig": "3000x1814",
+  "page": "https://commons.wikimedia.org/wiki/File:Beached_Whale.jpg",
+  "title": "File:Beached Whale.jpg"
+ },
+ "bearmountainlangfordbc": {
+  "author": "",
+  "kept": true,
+  "licence": "CC BY 2.5",
+  "orig": "3072x2304",
+  "page": "https://commons.wikimedia.org/wiki/File:BearMountainLangfordBC.JPG",
+  "title": "File:BearMountainLangfordBC.JPG"
+ },
  "berdorf-lu-hohllay-2015-6097-101": {
   "author": "Dietmar Rabich",
   "kept": true,
@@ -183,13 +405,46 @@
   "page": "https://commons.wikimedia.org/wiki/File:Berdorf_(LU),_Hohllay_--_2015_--_6097-101.jpg",
   "title": "File:Berdorf (LU), Hohllay -- 2015 -- 6097-101.jpg"
  },
+ "bergtocht-van-alp-farur-1940-meter-via-stelli-2383-meter-naa": {
+  "author": "Agnes Monkelbaan",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5184x3456",
+  "page": "https://commons.wikimedia.org/wiki/File:Bergtocht_van_Alp_Farur_(1940_meter)_via_Stelli_(2383_meter)_naar_G%C3%BCrgaletsch_(2560_meter)_010.jpg",
+  "title": "File:Bergtocht van Alp Farur (1940 meter) via Stelli (2383 meter) naar Gürgaletsch (2560 meter) 010.jpg"
+ },
+ "bergtocht-van-vens-naar-bettex-in-valle-d-aosta-itali-bomen": {
+  "author": "Dominicus Johannes Bergsma",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5184x3456",
+  "page": "https://commons.wikimedia.org/wiki/File:Bergtocht_van_Vens_naar_Bettex_in_Valle_d%27Aosta_(Itali%C3%AB)._Bomen_langs_bergpad_in_dichte_mist_04.jpg",
+  "title": "File:Bergtocht van Vens naar Bettex in Valle d'Aosta (Italië). Bomen langs bergpad in dichte mist 04.jpg"
+ },
+ "bg-e4a10c7b96": {
+  "author": "Мирослав Видрак",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "7360x4830",
+  "page": "https://commons.wikimedia.org/wiki/File:2019W3046_-_%D0%9B%D1%8C%D0%B2%D1%96%D0%B2.jpg",
+  "title": "File:2019W3046 - Львів.jpg"
+ },
  "biblioteca-vasconcelos-ciudad-de-m-xico-m-xico-2015-07-20-dd": {
   "author": "Diego Delso",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 4.0",
   "orig": "8306x5639",
   "page": "https://commons.wikimedia.org/wiki/File:Biblioteca_Vasconcelos,_Ciudad_de_M%C3%A9xico,_M%C3%A9xico,_2015-07-20,_DD_16-18_HDR.JPG",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Biblioteca Vasconcelos, Ciudad de México, México, 2015-07-20, DD 16-18 HDR.JPG"
+ },
+ "bogachiel-state-park-rainforest": {
+  "author": "ECTran71",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "4032x3024",
+  "page": "https://commons.wikimedia.org/wiki/File:Bogachiel_State_Park_rainforest.jpg",
+  "title": "File:Bogachiel State Park rainforest.jpg"
  },
  "boy-in-dar-ul-ihsan-mosque": {
   "author": "Salar Arkan - سالار ارکان",
@@ -201,27 +456,110 @@
  },
  "bruxels-april-2012-11a": {
   "author": "Alvesgaspar",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 3.0",
   "orig": "5251x3395",
   "page": "https://commons.wikimedia.org/wiki/File:Bruxels_April_2012-11a.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Bruxels April 2012-11a.jpg"
+ },
+ "buchanan-tower-ubc": {
+  "author": "Xicotencatl",
+  "kept": false,
+  "licence": "CC BY-SA 3.0",
+  "orig": "4608x3072",
+  "page": "https://commons.wikimedia.org/wiki/File:Buchanan_tower_UBC.jpg",
+  "title": "File:Buchanan tower UBC.jpg"
+ },
+ "burrard-st-bridge-and-jan-fog-jan-18-2009": {
+  "author": "DougVancouver",
+  "kept": false,
+  "licence": "CC BY 3.0",
+  "orig": "4288x2848",
+  "page": "https://commons.wikimedia.org/wiki/File:Burrard_St_Bridge_And_Jan_Fog_Jan_18_2009.JPG",
+  "title": "File:Burrard St Bridge And Jan Fog Jan 18 2009.JPG"
+ },
+ "campsite-at-mystic-beach-vancouver-island-canada": {
+  "author": "Michal Klajban",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5036x2757",
+  "page": "https://commons.wikimedia.org/wiki/File:Campsite_at_Mystic_Beach,_Vancouver_Island,_Canada.jpg",
+  "title": "File:Campsite at Mystic Beach, Vancouver Island, Canada.jpg"
+ },
+ "carmanahriver": {
+  "author": "Colin Stepney",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5472x3648",
+  "page": "https://commons.wikimedia.org/wiki/File:CarmanahRiver.jpg",
+  "title": "File:CarmanahRiver.jpg"
+ },
+ "centered-panoramio": {
+  "author": "Kira Picabo",
+  "kept": true,
+  "licence": "CC BY 3.0",
+  "orig": "3264x2448",
+  "page": "https://commons.wikimedia.org/wiki/File:Centered_-_panoramio.jpg",
+  "title": "File:Centered - panoramio.jpg"
  },
  "claudius-lavergne-saint-louis-senlis": {
   "author": "BastienM",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 3.0",
   "orig": "3770x1980",
   "page": "https://commons.wikimedia.org/wiki/File:Claudius_Lavergne_-_Saint_Louis_-_Senlis.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Claudius Lavergne - Saint Louis - Senlis.jpg"
+ },
+ "clouds-glacier-close-mountains-sunrise-nps-photo-2011-223060": {
+  "author": "Olympic National Park",
+  "kept": false,
+  "licence": "Public domain",
+  "orig": "3872x2592",
+  "page": "https://commons.wikimedia.org/wiki/File:Clouds_glacier_close_mountains_sunrise_NPS_photo_2011_(22306015513).jpg",
+  "title": "File:Clouds glacier close mountains sunrise NPS photo 2011 (22306015513).jpg"
+ },
+ "coral-tree-monsoon-mallalli-falls-hassan-jun24-a7cr-01575": {
+  "author": "This Photo was taken by Timothy A. Gonsalves. Feel free to use my photos, but please mention me as the author. I would much appreciate if you send me an email tagooty@yahoo.com or write on my talk page, for my information. Please contact me before commercial use. Please do not upload an edited image here without consulting me. I would like to make corrections only at my own source to ensure that the changes improve the image and are preserved.Otherwise you may upload an edited image with a new name. Please use one of the templates derivative or extract.",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "6711x5033",
+  "page": "https://commons.wikimedia.org/wiki/File:Coral_Tree_Monsoon_Mallalli_Falls_Hassan_Jun24_A7CR_01575.jpg",
+  "title": "File:Coral Tree Monsoon Mallalli Falls Hassan Jun24 A7CR 01575.jpg"
  },
  "cour-carr-e-louvre-museum-2-april-2009": {
   "author": "Benh LIEU SONG",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 3.0",
   "orig": "8000x3551",
   "page": "https://commons.wikimedia.org/wiki/File:Cour_Carr%C3%A9e,_Louvre_Museum,_2_April_2009.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Cour Carrée, Louvre Museum, 2 April 2009.jpg"
+ },
+ "crest-135": {
+  "author": "Chris Light",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "4608x3072",
+  "page": "https://commons.wikimedia.org/wiki/File:Crest_135.jpg",
+  "title": "File:Crest 135.jpg"
+ },
+ "crest-136": {
+  "author": "Chris Light",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "4608x3072",
+  "page": "https://commons.wikimedia.org/wiki/File:Crest_136.jpg",
+  "title": "File:Crest 136.jpg"
+ },
+ "crest-of-falls": {
+  "author": "Chris Light",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "5497x4528",
+  "page": "https://commons.wikimedia.org/wiki/File:Crest_of_falls.jpg",
+  "title": "File:Crest of falls.jpg"
  },
  "d-lmen-st-viktor-kirche-innenansicht-2018-0596-8": {
   "author": "Dietmar Rabich",
@@ -231,6 +569,38 @@
   "page": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_St.-Viktor-Kirche,_Innenansicht_--_2018_--_0596-8.jpg",
   "title": "File:Dülmen, St.-Viktor-Kirche, Innenansicht -- 2018 -- 0596-8.jpg"
  },
+ "diana-creek-rapids": {
+  "author": "Extemporalist",
+  "kept": false,
+  "licence": "CC0",
+  "orig": "4600x3456",
+  "page": "https://commons.wikimedia.org/wiki/File:Diana_Creek_Rapids.webp",
+  "title": "File:Diana Creek Rapids.webp"
+ },
+ "dosewallips-river-valley-avalanche-olympic-2011-ba12bff7-b7d": {
+  "author": "NPS",
+  "kept": false,
+  "licence": "Public domain",
+  "orig": "4592x3056",
+  "page": "https://commons.wikimedia.org/wiki/File:Dosewallips_River_Valley_Avalanche,_Olympic_-_2011_(ba12bff7-b7d0-4672-809c-c793bcf0f527).JPG",
+  "title": "File:Dosewallips River Valley Avalanche, Olympic - 2011 (ba12bff7-b7d0-4672-809c-c793bcf0f527).JPG"
+ },
+ "dosewallips-river-valley-avalanche-with-snow-covered-slopes": {
+  "author": "NPS",
+  "kept": false,
+  "licence": "Public domain",
+  "orig": "4592x3056",
+  "page": "https://commons.wikimedia.org/wiki/File:Dosewallips_River_Valley_Avalanche_with_Snow-Covered_Slopes,_Olympic_-_2011_(530d69b4-72db-454c-a48b-d38fc06ca282).JPG",
+  "title": "File:Dosewallips River Valley Avalanche with Snow-Covered Slopes, Olympic - 2011 (530d69b4-72db-454c-a48b-d38fc06ca282).JPG"
+ },
+ "doubtful-sound-patea-doubtfulsound9101": {
+  "author": "lumoplank",
+  "kept": true,
+  "licence": "CC0",
+  "orig": "4782x2902",
+  "page": "https://commons.wikimedia.org/wiki/File:Doubtful_Sound_-_Patea_-_DoubtfulSound9101.jpg",
+  "title": "File:Doubtful Sound - Patea - DoubtfulSound9101.jpg"
+ },
  "edouard-manet-luncheon-on-the-grass-google-art-project": {
   "author": "Édouard Manet",
   "kept": false,
@@ -239,36 +609,56 @@
   "page": "https://commons.wikimedia.org/wiki/File:Edouard_Manet_-_Luncheon_on_the_Grass_-_Google_Art_Project.jpg",
   "title": "File:Edouard Manet - Luncheon on the Grass - Google Art Project.jpg"
  },
+ "entrance-sign-149": {
+  "author": "Chris Light",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "4608x3072",
+  "page": "https://commons.wikimedia.org/wiki/File:Entrance_Sign_149.jpg",
+  "title": "File:Entrance Sign 149.jpg"
+ },
+ "falls-0075": {
+  "author": "Chris Light",
+  "kept": true,
+  "licence": "CC BY-SA 4.0",
+  "orig": "4608x3072",
+  "page": "https://commons.wikimedia.org/wiki/File:Falls_0075.jpg",
+  "title": "File:Falls 0075.jpg"
+ },
  "fauti-masjid-interior": {
   "author": "DeepanjanGhosh",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 4.0",
   "orig": "6570x4380",
   "page": "https://commons.wikimedia.org/wiki/File:Fauti_Masjid_Interior.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Fauti Masjid Interior.jpg"
  },
  "golden-spiral-by-brad-hammonds": {
   "author": "Brad Hammonds",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY 2.0",
   "orig": "5108x3405",
   "page": "https://commons.wikimedia.org/wiki/File:Golden_Spiral_by_Brad_Hammonds.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Golden Spiral by Brad Hammonds.jpg"
  },
  "gran-mezquita-de-isfah-n-isfah-n-ir-n-2016-09-20-dd-49-51-hd": {
   "author": "Diego Delso",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 4.0",
   "orig": "6675x5309",
   "page": "https://commons.wikimedia.org/wiki/File:Gran_Mezquita_de_Isfah%C3%A1n,_Isfah%C3%A1n,_Ir%C3%A1n,_2016-09-20,_DD_49-51_HDR.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Gran Mezquita de Isfahán, Isfahán, Irán, 2016-09-20, DD 49-51 HDR.jpg"
  },
  "grande-galerie-louvre-by-thomas-allom": {
   "author": "Thomas Allom",
-  "kept": true,
+  "kept": false,
   "licence": "Public domain",
   "orig": "3738x2549",
   "page": "https://commons.wikimedia.org/wiki/File:Grande_Galerie_Louvre_by_Thomas_Allom.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Grande Galerie Louvre by Thomas Allom.jpg"
  },
  "i-tim-d-ud-daulah-agra": {
@@ -281,10 +671,11 @@
  },
  "les-joueurs-de-cartes-par-paul-c-zanne": {
   "author": "Paul Cézanne",
-  "kept": true,
+  "kept": false,
   "licence": "Public domain",
   "orig": "6048x4961",
   "page": "https://commons.wikimedia.org/wiki/File:Les_Joueurs_de_cartes,_par_Paul_C%C3%A9zanne.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Les Joueurs de cartes, par Paul Cézanne.jpg"
  },
  "mausoleum-of-khoja-ahmed-yasawi-in-hazrat-e-turkestan-kazakh": {
@@ -297,18 +688,20 @@
  },
  "metro-msk-line5-novoslobodskaya": {
   "author": "Florstein (Telegram:WikiPhoto.Space)",
-  "kept": true,
+  "kept": false,
   "licence": "CC BY-SA 4.0",
   "orig": "3200x2133",
   "page": "https://commons.wikimedia.org/wiki/File:Metro_MSK_Line5_Novoslobodskaya.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Metro MSK Line5 Novoslobodskaya.jpg"
  },
  "moscow-elektrozavodskaya-metro-station-asv2018-09": {
   "author": "A.Savin",
-  "kept": true,
+  "kept": false,
   "licence": "FAL",
   "orig": "7423x4639",
   "page": "https://commons.wikimedia.org/wiki/File:Moscow_Elektrozavodskaya_metro_station_asv2018-09.jpg",
+  "removed": "2026-09-23: архитектура/картины убраны по просьбе",
   "title": "File:Moscow Elektrozavodskaya metro station asv2018-09.jpg"
  },
  "phraya-nakhon-cave": {
@@ -318,5 +711,13 @@
   "orig": "7360x4912",
   "page": "https://commons.wikimedia.org/wiki/File:01-%E0%B8%9E%E0%B8%A3%E0%B8%B0%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%99%E0%B8%B1%E0%B9%88%E0%B8%87%E0%B8%84%E0%B8%B9%E0%B8%AB%E0%B8%B2%E0%B8%84%E0%B8%A4%E0%B8%AB%E0%B8%B2%E0%B8%AA%E0%B8%99%E0%B9%8C.jpg",
   "title": "File:01-พระที่นั่งคูหาคฤหาสน์.jpg"
+ },
+ "vegetationszone-gem-igter-regenwald": {
+  "author": "Fährtenleser",
+  "kept": false,
+  "licence": "CC BY-SA 4.0",
+  "orig": "4779x2594",
+  "page": "https://commons.wikimedia.org/wiki/File:Vegetationszone_Gem%C3%A4%C3%9Figter_Regenwald.png",
+  "title": "File:Vegetationszone Gemäßigter Regenwald.png"
  }
 }

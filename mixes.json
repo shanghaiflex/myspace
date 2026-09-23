@@ -1,5 +1,428 @@
 [
   {
+    "id": "sc:1436580268",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/sinkensabe/world-of-warcraft-grizzly-hills",
+    "title": "World Of Warcraft - Grizzly Hills",
+    "artist": "yoqstrap",
+    "duration": 3620,
+    "artwork": "https://i1.sndcdn.com/artworks-157EkT469gNvyJXX-GJNnzA-t500x500.jpg",
+    "genre": "Soundtrack",
+    "published": "2023-01-31",
+    "tags": [
+      "claude-rec",
+      "calm"
+    ],
+    "addedAt": "2026-09-23",
+    "position": 0,
+    "playedAt": 1790141178
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-pt29-bass-music-podcast",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-pt29-bass-music-podcast/",
+    "title": "Kidmancast pt.29 (bass music podcast)",
+    "artist": "Kolya Kidman",
+    "duration": 3389,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/f/6/7/2/aeae-c0c6-4b45-9642-2e011caae664",
+    "genre": null,
+    "published": "2022-03-18",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-pt28",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-pt28/",
+    "title": "Kidmancast pt.28",
+    "artist": "Kolya Kidman",
+    "duration": 3277,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/e/0/9/5/b5c9-571c-4c80-a07f-edc7c25f93ff",
+    "genre": null,
+    "published": "2021-06-17",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-hny2021",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-hny2021/",
+    "title": "Kidmancast - HNY2021",
+    "artist": "Kolya Kidman",
+    "duration": 2312,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/2/3/b/1/2a01-7ea1-4faa-a8cb-788e85cba46f",
+    "genre": null,
+    "published": "2020-12-31",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-pt27",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-pt27/",
+    "title": "Kidmancast pt.27",
+    "artist": "Kolya Kidman",
+    "duration": 4416,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/a/1/6/9/58cf-237d-47b1-9fe4-3baf398a7d3e",
+    "genre": null,
+    "published": "2020-12-19",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-26-pt-2",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-26-pt-2/",
+    "title": "Kidmancast 26 pt. 2",
+    "artist": "Kolya Kidman",
+    "duration": 2443,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/d/6/c/a/8954-2946-428b-a9c8-b6c42ee9e57b",
+    "genre": null,
+    "published": "2020-09-29",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-26-pt-1",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-26-pt-1/",
+    "title": "Kidmancast 26 pt. 1",
+    "artist": "Kolya Kidman",
+    "duration": 2865,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/4/e/d/3/430b-fc27-43a7-a7f8-c9f881c1b1c4",
+    "genre": null,
+    "published": "2020-09-29",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-pt-25-lite",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-pt-25-lite/",
+    "title": "Kidmancast pt. 25 (lite)",
+    "artist": "Kolya Kidman",
+    "duration": 2954,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/f/d/2/7/d6c0-eddb-4fc2-8497-8fc459e4eeef",
+    "genre": null,
+    "published": "2020-09-29",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-pt24",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-pt24/",
+    "title": "Kidmancast pt.24",
+    "artist": "Kolya Kidman",
+    "duration": 3501,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/6/d/0/d/abad-7b9e-4411-ac3f-32944862e06b",
+    "genre": null,
+    "published": "2019-11-14",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-pt23",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-pt23/",
+    "title": "Kidmancast pt.23",
+    "artist": "Kolya Kidman",
+    "duration": 3186,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/1/e/2/c/e242-91b6-4976-8e37-c6189cfe7c17",
+    "genre": null,
+    "published": "2019-05-14",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-lite-pt22",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-lite-pt22/",
+    "title": "Kidmancast lite pt.22",
+    "artist": "Kolya Kidman",
+    "duration": 2924,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/7/3/f/e/7a68-6eed-4547-861b-f3ddd70e1a1a",
+    "genre": null,
+    "published": "2019-03-03",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-21-voiceless",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-21-voiceless/",
+    "title": "Kidmancast - 21 (voiceless)",
+    "artist": "Kolya Kidman",
+    "duration": 4073,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/5/d/e/6/aeb2-03c6-46ad-b141-bfff87c25c3b",
+    "genre": null,
+    "published": "2019-01-29",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-21",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-21/",
+    "title": "Kidmancast 21",
+    "artist": "Kolya Kidman",
+    "duration": 4080,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/9/f/b/a/f360-b66a-479f-8b05-620fcd73b7f3",
+    "genre": null,
+    "published": "2018-12-30",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-20-drumandbass",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-20-drumandbass/",
+    "title": "Kidmancast - 20 (drumandbass)",
+    "artist": "Kolya Kidman",
+    "duration": 4257,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/7/2/0/3/adc3-88cf-4b22-9584-f58353a87aa9",
+    "genre": null,
+    "published": "2018-07-30",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-19",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-19/",
+    "title": "Kidmancast 19",
+    "artist": "Kolya Kidman",
+    "duration": 4534,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/5/e/7/3/7c58-0114-4385-8c71-0f029723981d",
+    "genre": null,
+    "published": "2018-07-03",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-18-dubstep-flashback",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-18-dubstep-flashback/",
+    "title": "Kidmancast 18 - Dubstep Flashback",
+    "artist": "Kolya Kidman",
+    "duration": 2824,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/2/d/8/a/e816-4315-415e-a65b-5ee2f1e47a6a",
+    "genre": null,
+    "published": "2018-03-17",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-17-the-future-bonus-burial-tracks",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-17-the-future-bonus-burial-tracks/",
+    "title": "Kidmancast 17 - The Future (+ Bonus: Burial tracks)",
+    "artist": "Kolya Kidman",
+    "duration": 4416,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/f/5/e/e/b1ef-9942-4a02-9d92-96a2a7e24e79",
+    "genre": null,
+    "published": "2018-01-18",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-16-future-garage-mix",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-16-future-garage-mix/",
+    "title": "Kidmancast 16 - Future Garage Mix",
+    "artist": "Kolya Kidman",
+    "duration": 6187,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/c/5/7/b/20da-7deb-40ad-b336-c8ac86fab258",
+    "genre": null,
+    "published": "2018-01-15",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-15-special-mix-for-rave-tv",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-15-special-mix-for-rave-tv/",
+    "title": "Kidmancast 15 - Special mix for Rave TV",
+    "artist": "Kolya Kidman",
+    "duration": 4458,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/9/9/1/e/fe96-1ead-4257-99da-43db124da72a",
+    "genre": null,
+    "published": "2017-02-17",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-14-special-mix-for-p-l-e-λ-s-u-r-e",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-14-special-mix-for-p-l-e-%CE%BB-s-u-r-e/",
+    "title": "Kidmancast 14 - Special mix for P L E Λ S U R E",
+    "artist": "Kolya Kidman",
+    "duration": 4808,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/8/0/7/9/51a4-8f9d-4e0f-9cef-61b7ec2521a1",
+    "genre": null,
+    "published": "2016-09-13",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-pt11-future-garage",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-pt11-future-garage/",
+    "title": "Kidmancast - pt.11 (future garage)",
+    "artist": "Kolya Kidman",
+    "duration": 3518,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/b/4/2/b/e045-042a-473d-b512-aa82a4763884.jpg",
+    "genre": null,
+    "published": "2016-01-11",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmancast-9-i-still-waiting-for-you-in-your-future",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmancast-9-i-still-waiting-for-you-in-your-future/",
+    "title": "Kidmancast 9 - I Still Waiting For You In Your Future",
+    "artist": "Kolya Kidman",
+    "duration": 3027,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/f/3/c/6/c3f4-c4e3-4963-979c-3dff0c08f6b1.jpg",
+    "genre": null,
+    "published": "2015-05-17",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "mc:kidmancast_kidmanspace-001-winter-spirit",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/kidmancast/kidmanspace-001-winter-spirit/",
+    "title": "Kidmanspace 001 - Winter Spirit",
+    "artist": "Kolya Kidman",
+    "duration": 1484,
+    "artwork": "https://thumbnailer.mixcloud.com/unsafe/1024x1024/extaudio/6/b/d/0/7716-89d3-48a0-8460-f42967f2be5d.jpg",
+    "genre": null,
+    "published": "2014-11-01",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "sc:401875644",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/kolyakidman/kidmancast6",
+    "title": "Kidmancast 6 - Summer Selection (Liuqid Funk & D'n'B)",
+    "artist": "Kolya Kidman",
+    "duration": 3255,
+    "artwork": "https://i1.sndcdn.com/artworks-000304895043-evuoxk-t500x500.jpg",
+    "genre": "Drum & Bass",
+    "published": "2018-02-19",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "sc:142184592",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/kolyakidman/kidmancast-5-100min-of-future",
+    "title": "KidmanCast#5 (100min. of Future Garage)",
+    "artist": "Kolya Kidman",
+    "duration": 6001,
+    "artwork": "https://i1.sndcdn.com/artworks-000075051997-gxhsks-t500x500.jpg",
+    "genre": "Future Garage",
+    "published": "2014-03-30",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "yt:ba3knB92Soc",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=ba3knB92Soc",
+    "title": "Kidmancast pt. 4",
+    "artist": "Kolya Kidman",
+    "duration": 2404,
+    "artwork": "https://i.ytimg.com/vi/ba3knB92Soc/maxresdefault.jpg",
+    "genre": null,
+    "published": "2013-11-17",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "yt:PMkKCLkMWbI",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=PMkKCLkMWbI",
+    "title": "Kidmancast pt. 30",
+    "artist": "Kolya Kidman",
+    "duration": 3654,
+    "artwork": "https://i.ytimg.com/vi/PMkKCLkMWbI/maxresdefault.jpg",
+    "genre": null,
+    "published": "2023-04-23",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
+    "id": "yt:KyDiWuYwPUY",
+    "source": "youtube",
+    "url": "https://www.youtube.com/watch?v=KyDiWuYwPUY",
+    "title": "Kidmancast 31 (footage compilation)",
+    "artist": "Kolya Kidman",
+    "duration": 3527,
+    "artwork": "https://i.ytimg.com/vi_webp/KyDiWuYwPUY/maxresdefault.webp",
+    "genre": null,
+    "published": "2025-03-22",
+    "tags": [
+      "kidmancast"
+    ],
+    "addedAt": "2026-09-23"
+  },
+  {
     "id": "sc:246373962",
     "source": "soundcloud",
     "url": "https://soundcloud.com/user-813516378/sh2-ost",
@@ -99,7 +522,9 @@
       "youtube-likes",
       "calm"
     ],
-    "addedAt": "2026-09-14"
+    "addedAt": "2026-09-14",
+    "position": 338,
+    "playedAt": 1790005616
   },
   {
     "id": "yt:B9gcq37VnSI",
@@ -186,7 +611,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-14"
+    "addedAt": "2026-09-14",
+    "position": 411,
+    "playedAt": 1790082031
   },
   {
     "id": "yt:c0-hvjV2A5Y",
@@ -251,8 +678,8 @@
       "youtube-likes"
     ],
     "addedAt": "2026-09-06",
-    "position": 1422,
-    "playedAt": 1790003037
+    "position": 0,
+    "playedAt": 1790005269
   },
   {
     "id": "yt:Po5j_LB3csk",
@@ -381,8 +808,8 @@
       "youtube-likes"
     ],
     "addedAt": "2026-09-06",
-    "position": 9,
-    "playedAt": 1789398137
+    "position": 14,
+    "playedAt": 1790086048
   },
   {
     "id": "yt:zIvQElyO3Ts",
@@ -430,8 +857,8 @@
       "youtube-likes"
     ],
     "addedAt": "2026-09-06",
-    "position": 751,
-    "playedAt": 1788798217
+    "position": 0,
+    "playedAt": 1790080374
   },
   {
     "id": "yt:yRi1sGsix_Q",
@@ -556,8 +983,8 @@
       "soundcloud-likes"
     ],
     "addedAt": "2025-11-21",
-    "position": 0,
-    "playedAt": 1789192254
+    "position": 3509,
+    "playedAt": 1790085584
   },
   {
     "id": "sc:2212430897",
@@ -572,7 +999,9 @@
     "tags": [
       "soundcloud-likes"
     ],
-    "addedAt": "2025-11-19"
+    "addedAt": "2025-11-19",
+    "position": 3434,
+    "playedAt": 1790089484
   },
   {
     "id": "sc:2172472536",
@@ -588,8 +1017,8 @@
       "soundcloud-likes"
     ],
     "addedAt": "2025-09-19",
-    "position": 2693,
-    "playedAt": 1789538680
+    "position": 3219,
+    "playedAt": 1790008315
   },
   {
     "id": "sc:2100799716",
@@ -605,8 +1034,8 @@
       "soundcloud-likes"
     ],
     "addedAt": "2025-09-01",
-    "position": 67,
-    "playedAt": 1788855617
+    "position": 1612,
+    "playedAt": 1790093240
   },
   {
     "id": "sc:1655732562",

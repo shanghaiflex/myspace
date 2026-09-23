@@ -52,43 +52,33 @@
       "suggestedAt": "2026-09-20",
       "verdict": "new",
       "played": true
-    },
-    {
-      "id": "sc:1436580268",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/sinkensabe/world-of-warcraft-grizzly-hills",
-      "title": "World Of Warcraft - Grizzly Hills",
-      "artist": "yoqstrap",
-      "duration": 3620,
-      "artwork": "https://i1.sndcdn.com/artworks-157EkT469gNvyJXX-GJNnzA-t500x500.jpg",
-      "genre": "Soundtrack",
-      "published": "2023-01-31",
-      "reason": "Та же линия, что Teldrassil у тебя в коллекции, но Grizzly Hills — самая любимая зонная тема WoW: банджо и струнные в снегу, час без единого боевого трека, читать под неё легче, чем под эльфийский лес.",
-      "wanted": "World of Warcraft Grizzly Hills Music Ambience",
-      "mood": "calm",
-      "suggestedAt": "2026-09-20",
-      "verdict": "new",
-      "played": true
-    },
-    {
-      "id": "sc:219940477",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/user-506248229/jeremy-soule-skyrim-atmosphere",
-      "title": "Jeremy Soule - Skyrim Atmosphere",
-      "artist": "User 506248229",
-      "duration": 2539,
-      "artwork": "https://a1.sndcdn.com/images/default_avatar_large.png",
-      "genre": "Medieval",
-      "published": "2015-08-19",
-      "reason": "Это отдельный ambience-диск Skyrim: ветер, низкие струнные и редкие хоровые вздохи без маршей и драконов — тот же принцип «забыть, что играет», что у Silent Hill 2, только не ржавый, а заснеженный.",
-      "wanted": "Jeremy Soule Skyrim Atmospheres",
-      "mood": "calm",
-      "suggestedAt": "2026-09-20",
-      "verdict": "new",
-      "played": false
     }
   ],
   "history": [
+    {
+      "id": "sc:219940477",
+      "artist": "User 506248229",
+      "title": "Jeremy Soule - Skyrim Atmosphere",
+      "url": "https://soundcloud.com/user-506248229/jeremy-soule-skyrim-atmosphere",
+      "reason": "Это отдельный ambience-диск Skyrim: ветер, низкие струнные и редкие хоровые вздохи без маршей и драконов — тот же принцип «забыть, что играет», что у Silent Hill 2, только не ржавый, а заснеженный.",
+      "mood": "calm",
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-09-23",
+      "suggestedAt": "2026-09-20"
+    },
+    {
+      "id": "sc:1436580268",
+      "artist": "yoqstrap",
+      "title": "World Of Warcraft - Grizzly Hills",
+      "url": "https://soundcloud.com/sinkensabe/world-of-warcraft-grizzly-hills",
+      "reason": "Та же линия, что Teldrassil у тебя в коллекции, но Grizzly Hills — самая любимая зонная тема WoW: банджо и струнные в снегу, час без единого боевого трека, читать под неё легче, чем под эльфийский лес.",
+      "mood": "calm",
+      "verdict": "liked",
+      "played": true,
+      "at": "2026-09-23",
+      "suggestedAt": "2026-09-20"
+    },
     {
       "id": "sc:1750008588",
       "artist": "The Lot Radio",
