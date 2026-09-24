@@ -1094,7 +1094,7 @@
     {
       "id": "yNv1apUgFik",
       "status": "queued",
-      "position": 6204,
+      "position": 10173,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -1109,7 +1109,7 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=yNv1apUgFik",
       "queuedAt": 1789910937,
-      "touchedAt": 1790064888
+      "touchedAt": 1790259339
     },
     {
       "id": "YSGAwKE4SLY",

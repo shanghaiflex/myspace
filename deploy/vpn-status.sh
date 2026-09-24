@@ -25,5 +25,13 @@ else
   echo "сокета $SOCK нет — тоннель не поднят"
 fi
 
-echo "--- /var/log/awg-mini.log:"
-tail -5 /var/log/awg-mini.log 2>/dev/null
+if [ "${1:-}" = "--full" ] && [ -S "$SOCK" ]; then
+  # всё, что устройство реально приняло; ключи не печатаются
+  echo "--- uapi get:"
+  printf 'get=1\n\n' | nc -U "$SOCK" 2>/dev/null | sed -E 's/^(private_key|public_key|preshared_key|header_protection_key)=(.{6}).*/\1=\2…/; s/^(i[1-5])=(.{40}).*/\1=\2…/'
+  echo "--- /var/log/awg-mini.log:"
+  tail -60 /var/log/awg-mini.log 2>/dev/null
+else
+  echo "--- /var/log/awg-mini.log:"
+  tail -5 /var/log/awg-mini.log 2>/dev/null
+fi

@@ -393,6 +393,7 @@ python3 scripts/schedule.py end "Психолог" [--at 09:00] [--date YYYY-MM-
 python3 scripts/schedule.py rename "Старое имя" "Новое" [--at 19:00] [--once] [--dry-run]
 python3 scripts/schedule.py add "ЛФК" --day FR --time 18:00 --minutes 60 [--once] [--dry-run]
 python3 scripts/schedule.py add "ЛФК" --date 2026-09-25 --time 18:00   # начать с конкретного дня
+python3 scripts/schedule.py skip "Французский" --date 2026-09-24 [--at 19:00]   # отменить одно занятие (EXDATE), серия цела
 ```
 
 **`--day` берёт ближайший такой день недели, включая сегодняшний** — поэтому у `add` есть `--date`: «сделай
@@ -977,8 +978,11 @@ automatically. Audio lives only on machines (gitignored) — download lecture au
 `serve.py` requires a password when `MOVIES_PASSWORD` is set (env or `.env`, gitignored); localhost runs open.
 Production: https://bodywithoutorgans.cc served by the home Mac mini (ssh alias `mini`, user sergeyfilatov,
 site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), LIVE since 2026-09-07 at https://bodywithoutorgans.cc. Three services on the mini: serve (agent), a root VPN
-LaunchDaemon `cc.bodywithoutorgans.vpn` (`/usr/local/sbin/awg-mini.sh` runs a headless AmneziaWG full tunnel
-via the mini's OWN Server 1 config 10.8.1.5 — the ISP kills direct Cloudflare, the VPN's path is clean), and
+LaunchDaemon `cc.bodywithoutorgans.vpn` (`deploy/awg-mini.sh` → `/usr/local/sbin`, runs a headless AmneziaWG full
+tunnel from `/usr/local/etc/amneziawg/mini.conf` — since 24.09.2026 the mini's OWN Amnezia Premium device config,
+Finland; the old self-hosted Server 1 died 23.09 and took the site down for 28 h. Switch server / country with
+`deploy/amnezia-premium.py` + `deploy/install-vpn.sh`, see `deploy/README.md`. Premium drops ICMP and nalog.ru
+refuses foreign IPs — ФНС 213.24.64.0/24 goes direct via `direct-routes.txt`), and
 cloudflared (agent, http2). See `deploy/README.md`.
 The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`, Claude Code in `~/.local/bin/claude`
 (native install, no node needed; `python3` is NOT on the default ssh PATH — use `~/.local/python312/bin/python3`). Data sync is rsync:

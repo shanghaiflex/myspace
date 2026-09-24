@@ -589,6 +589,32 @@ def end_rule(events_, title, until_date, dry_run=False, at=None):
     return done
 
 
+def skip_occurrence(events_, title, day, dry_run=False, at=None):
+    """Cancel one occurrence of a rule (EXDATE), not the rule: «перенёс французский с сегодня на завтра» means this
+    Thursday is off, the series and its history stay. EXDATE copies DTSTART's TZID and hour — a bare date or another
+    hour would match no occurrence and the lesson would still show."""
+    matches = [e for e in events_ if e["rrule"] and title.lower() in (e["summary"] or "").lower()
+               and (not at or e["dtstart"][-6:-4] + ":" + e["dtstart"][-4:-2] == at)]
+    if len(matches) > 1:
+        raise SystemExit("под это название подходит несколько правил, уточни время через --at HH:MM:\n  "
+                         + "\n  ".join(f"{e['summary']} {e['dtstart'][-6:-4]}:{e['dtstart'][-4:-2]}  {e['rrule']}" for e in matches))
+    done = []
+    for e in matches:
+        ics = e["ics"].replace("\r\n", "\n")
+        vevent = re.search(r"BEGIN:VEVENT.*?END:VEVENT", ics, re.S).group(0)
+        m = re.search(r"^DTSTART(;[^:\n]*)?:(\d{8})T(\d{6}Z?)$", vevent, re.M)
+        if not m:
+            raise SystemExit(f"{e['summary']}: у правила нет времени в DTSTART, EXDATE не поставить")
+        exdate = f"EXDATE{m.group(1) or ''}:{day:%Y%m%d}T{m.group(3)}"
+        done.append((e["summary"], exdate))
+        if exdate in vevent or dry_run:
+            continue
+        body = vevent.replace(m.group(0), m.group(0) + "\n" + exdate, 1)
+        ics = bump_sequence(ics.replace(vevent, body, 1))
+        put_event(e["href"], ics.replace("\n", "\r\n"), e["etag"])
+    return done
+
+
 def remove_rule(events_, title, dry_run=False, at=None, every=False):
     """Delete an event outright. Unlike `end` this takes the past with it, so every deleted event is first written
     to data/calendar-deleted/ — a rule the calendar no longer has is otherwise unrecoverable."""
@@ -661,6 +687,9 @@ def main():
     p.add_argument("--at", help="HH:MM, если событий с таким названием несколько")
     p.add_argument("--once", action="store_true", help="переименовать и одиночное событие, не только правило")
     p.add_argument("--dry-run", action="store_true")
+    p = sub.add_parser("skip", help="отменить одно занятие из правила (EXDATE)"); p.add_argument("title")
+    p.add_argument("--date", required=True, help="YYYY-MM-DD"); p.add_argument("--at", help="HH:MM")
+    p.add_argument("--dry-run", action="store_true")
     p = sub.add_parser("remove"); p.add_argument("title"); p.add_argument("--at", help="HH:MM")
     p.add_argument("--all", action="store_true"); p.add_argument("--dry-run", action="store_true")
     p = sub.add_parser("add"); p.add_argument("title"); p.add_argument("--day", help="MO..SU")
@@ -699,6 +728,13 @@ def main():
                 continue
             for was, now_, at in rename_rule(calendar_events(c["href"]), a.title, a.new_title, a.dry_run, a.at, a.once):
                 print(("(сухой прогон) " if a.dry_run else "") + f"{at}  {was} → {now_}  [{c['name']}]")
+    elif a.cmd == "skip":
+        day = dt.date.fromisoformat(a.date)
+        for c in calendars():
+            if "/todos-" in c["href"]:
+                continue
+            for summary, exdate in skip_occurrence(calendar_events(c["href"]), a.title, day, a.dry_run, a.at):
+                print(("(сухой прогон) " if a.dry_run else "") + f"{summary}: {exdate}  [{c['name']}]")
     elif a.cmd == "remove":
         for c in calendars():
             if "/todos-" in c["href"]:

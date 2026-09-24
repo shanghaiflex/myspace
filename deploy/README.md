@@ -14,14 +14,42 @@ Mini выходит в интернет только через AmneziaVPN, бе
 
 Работает и переживает перезагрузку mini. Три службы на mini (user sergeyfilatov, автологин включён):
 - `cc.bodywithoutorgans.serve` (LaunchAgent) — `serve.py` на 127.0.0.1:8787 (пароль в `~/movies/.env`).
-- `cc.bodywithoutorgans.vpn` (LaunchDaemon, root, `/usr/local/sbin/awg-mini.sh`) — AmneziaWG full-tunnel
-  на выделенном конфиге Server 1 (адрес 10.8.1.5, отдельные ключи — НЕ те же, что у ноутбука 10.8.1.1).
-  Через свой amneziawg-go, KeepAlive перезапускает при падении. Ключи только на mini, в git их нет.
+- `cc.bodywithoutorgans.vpn` (LaunchDaemon, root, `/usr/local/sbin/awg-mini.sh` = `deploy/awg-mini.sh`) —
+  AmneziaWG full-tunnel через **Amnezia Premium, Финляндия** (с 24.09.2026; до этого — свой VPS Server 1).
+  Скрипт сервер не знает: он поднимает любой «родной» конфиг AmneziaWG из `/usr/local/etc/amneziawg/mini.conf`
+  (root, 0600, в git его нет) через amneziawg-go из AmneziaVPN.app. KeepAlive перезапускает при падении.
 - `cc.bodywithoutorgans.tunnel` (LaunchAgent) — cloudflared `--protocol http2` (QUIC режет провайдер).
 
 Почему через VPN: домашний провайдер mini рвёт долгие соединения к Cloudflare и блокирует QUIC.
-Cloudflared идёт через VPN Server 1 (у него чистый путь до Cloudflare, 0% потерь). ВАЖНО: у mini
-свой конфиг Server 1 (10.8.1.5); общий с ноутбуком конфиг (10.8.1.1) давал конфликт одного WG-пира и 25–40% потерь.
+ВАЖНО: у mini свой конфиг, не ноутбучный — один WG-пир на двух устройствах дерётся (07.09 на Server 1 это
+давало 25–40% потерь). Для Premium это отдельное «устройство» в подписке (7 мест; mini — `e4cc1d24…`, macos, fi).
+
+### Сменить VPN / страну / перевыпустить конфиг
+
+Ключ Premium `vpn://…` — не конфиг, а api_key к шлюзу `gw.amnezia.org`; конфиг выдаётся под устройство.
+`deploy/amnezia-premium.py` делает это без GUI (как «конфиг для роутера» в приложении), ключ читает из stdin:
+
+```
+pbpaste | python3 deploy/amnezia-premium.py info                 # срок, устройства, страны
+pbpaste | python3 deploy/amnezia-premium.py config fi > /tmp/m.conf && scp /tmp/m.conf mini:/tmp/awg-premium.conf && rm /tmp/m.conf
+ssh -t mini 'sudo sh movies/deploy/install-vpn.sh /tmp/awg-premium.conf'   # пароль sudo — вводит человек
+```
+
+`install-vpn.sh` кладёт конфиг, ставит `awg-mini.sh`, `vpn-status.sh` и прямые маршруты, перезапускает
+демон, ждёт рукопожатия и печатает внешний IP и доступность lkdr. Прежний скрипт остаётся рядом
+(`/usr/local/sbin/awg-mini.sh.bak-*`, в нём зашит Server 1) — откат одной командой `cp`.
+Без аргумента — только переставить скрипты с тем конфигом, что уже лежит.
+
+Грабли 24.09.2026, чтобы не наступать второй раз:
+- Premium говорит на AWG 2.x: кроме Jc/S1–S4/H1–H4/I1 в конфиге `HeaderProtectionKey` (в UAPI — hex, как все
+  ключи), `ContentPaddingAddition`, `RekeyAfterTime` и прочие диапазонами «100-120» — `awg-mini.sh` их передаёт.
+- **Сервер Premium не пропускает ICMP**, а ipinfo.io на общем IP отвечает 429: ни пинг, ни ipinfo не проверка.
+  Проверка — `curl https://api.ipify.org` (должен быть IP сервера Premium).
+- `rx_bytes` в `vpn-status.sh` растёт только от **расшифрованных** пакетов: рукопожатие есть и rx растёт — тоннель
+  цел, ищи в маршрутах. Подробный лог amneziawg-go — `AWG_LOG_LEVEL=verbose` в окружении демона;
+  `sudo -n /usr/local/sbin/vpn-status.sh --full` — что устройство реально приняло (ключи замаскированы).
+- **Налоговая не пускает иностранный IP**: `lkdr.nalog.ru` через Premium молча таймаутится. Сеть ФНС
+  213.24.64.0/24 идёт мимо VPN (`direct-routes.txt`), как на ноутбуке — исключением сайтов в AmneziaVPN.
 
 Диагностика: `ssh mini`, логи `~/movies/logs/{serve,tunnel}.log` и `/var/log/awg-mini.log`;
 состояние VPN одной командой: `ssh mini 'sudo -n /usr/local/sbin/vpn-status.sh'` (рукопожатие должно быть

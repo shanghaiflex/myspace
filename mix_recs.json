@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-20T18:16:26",
+  "updatedAt": "2026-09-24T20:23:05",
   "model": "opus",
   "items": [
     {
@@ -52,6 +52,23 @@
       "suggestedAt": "2026-09-20",
       "verdict": "new",
       "played": true
+    },
+    {
+      "id": "sc:1302117091",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/user-636367953-300927817/hiroshi-yoshimura-music-for-nine-post-cards-1982-full-album",
+      "title": "Hiroshi Yoshimura  – Music For Nine Post Cards 1982 Full Album",
+      "artist": "Dana",
+      "duration": 2835,
+      "artwork": "https://i1.sndcdn.com/artworks-8aq9UqZfmSa4MwyZ-S3M6QQ-t500x500.jpg",
+      "genre": "Ambient",
+      "published": "2022-07-08",
+      "reason": "Если альбом Кен Итиро Исоды у тебя стоит по утрам, то это его прямой предок: японский эмбиент из редких нот электропиано, где за сорок минут ничего не случается — идеально под чтение.",
+      "wanted": "Hiroshi Yoshimura Music for Nine Post Cards",
+      "mood": "calm",
+      "suggestedAt": "2026-09-24",
+      "verdict": "new",
+      "played": false
     }
   ],
   "history": [
