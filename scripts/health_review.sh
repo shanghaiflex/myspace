@@ -25,10 +25,13 @@ GOALS=$(grep -v '^\s*#' health/goals.md 2>/dev/null | grep -v '^\s*$' || true)
 # The calendar is what the body data cannot say: whether there is room in the day and how early tomorrow starts.
 # It is optional — no link, no network, a broken export, and the note is simply written without it, as before.
 SCHEDULE=$(python3 scripts/schedule.py digest 2>/dev/null || true)
+# Load over weeks, not one day, plus races ahead with the weather at the start (scripts/load.py). Optional as well.
+LOAD=$(python3 scripts/load.py digest 2>/dev/null || true)
 {
   cat health/PROMPT.md
   printf '\n## Мои цели\n%s\n' "${GOALS:-(целей пока нет — ориентируйся на мои средние и общие нормы)}"
   [ -n "$SCHEDULE" ] && printf '\n## Мой день\n%s\n' "$SCHEDULE"
+  [ -n "$LOAD" ] && printf '\n## Нагрузка и старты\n%s\n' "$LOAD"
   printf '\n## Данные\n'
   cat "$WORK/digest.txt"
 } > "$WORK/prompt.txt"

@@ -412,6 +412,7 @@ QUIET_HOURS = 4
 EVENING_HOUR = 20
 GOAL_WORDS = {"плавание": r"плава|заплыв|бассейн", "силовые": r"силов"}
 GOAL_REMIND_DAYS = 7
+RACE_PREP_HOUR = 19   # вечером накануне старта нужна заметка про подготовку, даже если день спокойный
 
 
 def snapshot(db, now=None):
@@ -526,9 +527,25 @@ def pending(db=None):
         except ValueError:
             prev = None
     hours = (utcnow() - parse_ts(lr["ts"])).total_seconds() / 3600 if lr else 999
-    why = changed(prev, snapshot(db), hours)
+    why = changed(prev, snapshot(db), hours) or race_eve(lr)
     out.update(ok=bool(why), why=why or "ничего существенного не изменилось")
     return out
+
+
+def race_eve(lr, now=None):
+    """Завтра старт, уже вечер, а заметки про вечер ещё нет — повод написать её, ничего другого не дожидаясь."""
+    now = now or dt.datetime.now(tz())
+    if now.hour < RACE_PREP_HOUR:
+        return None
+    if lr and local(lr["ts"]) >= now.replace(hour=RACE_PREP_HOUR, minute=0, second=0, microsecond=0):
+        return None
+    try:
+        import load
+        evs = load.calendar(now.date() + dt.timedelta(days=1), 1)
+    except Exception:
+        return None
+    race = next((e for e in evs if e["race"]), None)
+    return f"накануне старта: {race['title']}" if race else None
 
 
 def review_save(text, model=None, digest_text=None, db=None, kind="note"):
