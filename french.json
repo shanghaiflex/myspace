@@ -1,917 +1,979 @@
 {
   "level": "B1",
-  "updatedAt": "2026-09-26T08:16:54",
+  "updatedAt": "2026-09-27T08:15:49",
   "model": "opus",
-  "fetchedAt": "2026-09-26T08:11:16",
+  "fetchedAt": "2026-09-27T08:10:35",
   "items": [
     {
-      "id": "rd:f19cfefb4b",
-      "url": "https://www.courrierinternational.com/long-format/espagne-en-andalousie-les-secrets-et-les-mysteres-d-al-andalus_244844",
-      "title": "En Andalousie, les secrets et les mystères d’Al-Andalus",
+      "id": "rd:a9f6c46003",
+      "url": "https://www.franceinfo.fr/culture/cinema/sorties-de-films/notre-salut-la-collaboration-des-fonctionnaires-sous-vichy-sans-fard-dans-un-film-saisissant-d-emmanuel-marre_8204666.html#xtor=RSS-3-[lestitres]",
+      "title": "\"Notre salut\" : la collaboration des fonctionnaires sous Vichy, sans fard, dans un film saisissant d'Emmanuel Marre",
       "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-26",
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-27",
       "minutes": null,
-      "summary": "Durant 800 ans, sur la péninsule Ibérique, les musulmans ont régné sur un vaste territoire appelé “Al-Andalus”. De cette époque, achevée avec la reconquête de Grenade par les catholiques, il ne resterait plus rien que des monuments. Mais est-ce vrai ? En Andalousie, les gestes du",
+      "summary": "Le nouveau film d'Emmanuel Marre porte un regard inédit sur le zèle de l'administration française pendant les heures sombres du régime de Pétain.",
       "kind": "article",
       "hard": "средний",
-      "why": "Средневековая Иберия рядом с Эрсом и Пастуро; восемьсот лет идут сплошным imparfait и passé composé",
+      "why": "Усердие чиновников Виши — ровно «Банальность зла» Арендт, плюс кино; рассказ идёт в прошедших",
       "level": "B1",
-      "addedAt": "2026-09-26",
+      "addedAt": "2026-09-27",
       "verdict": "new",
       "lesson": {
-        "intro": "Статья о том, что от восьми веков мусульманской Иберии остались не только памятники: в Кордове до сих пор живы бытовые ритуалы, восходящие к Аль-Андалусу. В языке обрати внимание на passé composé для законченных исторических периодов (ont régné, ont laissée, ont réussi) и на согласование причастия с предшествующим прямым дополнением.",
+        "intro": "Разбор нового фильма Эмманюэля Марра «Notre salut» о чиновнике из Виши, который с усердием выполняет всё более чудовищные поручения. Обрати внимание на прошедшие времена в пересказе сюжета и на конструкцию «après avoir + participe», а также на лексику администрации и оценочные прилагательные (médiocre, minable, avide de).",
         "words": [
           {
-            "fr": "régner sur",
-            "ru": "править, господствовать над",
-            "ex": "les musulmans ont régné sur un vaste territoire appelé « Al-Andalus »"
+            "fr": "le zèle",
+            "ru": "усердие, ретивость",
+            "ex": "Henri tente de résoudre avec zèle tous les aspects pratiques"
           },
           {
-            "fr": "bercer",
-            "ru": "качать, укачивать",
-            "ex": "les femmes de la maison bercent le bébé derrière la porte d'entrée"
+            "fr": "se rendre à",
+            "ru": "направляться, ехать куда-то",
+            "ex": "il se rend à Vichy pour proposer ses services"
           },
           {
-            "fr": "à l'abri des regards indiscrets",
-            "ru": "вдали от посторонних глаз",
-            "ex": "derrière la porte d'entrée, à l'abri des regards indiscrets"
+            "fr": "se faire embaucher",
+            "ru": "добиться, чтобы тебя взяли на работу",
+            "ex": "il parvient à se faire embaucher au CLC"
           },
           {
-            "fr": "une coutume",
-            "ru": "обычай",
-            "ex": "ce rituel pourrait passer pour une étrange coutume locale"
+            "fr": "la main-d'œuvre",
+            "ru": "рабочая сила",
+            "ex": "ce service se charge aussi de fournir la main-d'œuvre aux Allemands"
           },
           {
-            "fr": "l'empreinte",
-            "ru": "отпечаток, след",
-            "ex": "il a passé une bonne part de sa vie à étudier l'empreinte silencieuse"
+            "fr": "de fil en aiguille",
+            "ru": "слово за слово, постепенно",
+            "ex": "De fil en aiguille, ce service se charge aussi de fournir la main-d'œuvre"
           },
           {
-            "fr": "la ville natale",
-            "ru": "родной город",
-            "ex": "des siècles de domination musulmane ont laissée sur sa ville natale"
+            "fr": "se charger de",
+            "ru": "взять на себя, заняться чем-то",
+            "ex": "les fonctionnaires du CLC se chargent d'organiser le ramassage"
           },
           {
-            "fr": "afficher complet",
-            "ru": "быть заполненным до отказа (аншлаг)",
-            "ex": "ses conférences, qui affichent toujours complet"
+            "fr": "un rouage",
+            "ru": "винтик, шестерёнка (механизма)",
+            "ex": "participent à la mise en place, rouage après rouage, du système"
           },
           {
-            "fr": "envers et contre tout",
-            "ru": "вопреки всему",
-            "ex": "ont réussi à résister envers et contre tout à cinq cents ans d'effacement"
+            "fr": "puiser dans",
+            "ru": "черпать из, брать материал в",
+            "ex": "Emmanuel Marre a puisé dans son histoire familiale"
           }
         ],
         "quiz": [
           {
             "type": "choice",
-            "q": "Что женщины делают с первыми ногтями ребёнка в кордовском ритуале?",
-            "explain": "В тексте: elles apportent les ongles aux proches dans une petite boîte en bois, que la famille remplit de pièces de monnaie.",
+            "q": "Зачем Henri Marre едет в Виши сразу после разгрома 1940 года?",
+            "explain": "В тексте: «se rend à Vichy pour proposer ses services au nouveau gouvernement mis en place par le maréchal Pétain».",
             "hint": null,
-            "tag": "понимание текста",
+            "tag": "понимание содержания",
             "options": [
-              "Их закапывают в саду",
-              "Их относят близким в деревянной коробочке, которую наполняют монетами",
-              "Их сжигают вместе с ветками оливы",
-              "Их хранят до совершеннолетия ребёнка"
+              "Чтобы предложить свои услуги новому правительству Петена",
+              "Чтобы спрятаться от полиции из-за судимости",
+              "Чтобы найти жену и детей",
+              "Чтобы издать свою книгу в местной типографии"
             ],
-            "answer": 1
-          },
-          {
-            "type": "gap",
-            "q": "Durant 800 ans, les musulmans ___ (régner) sur un vaste territoire appelé « Al-Andalus ».",
-            "explain": "Период завершён и ограничен во времени (durant 800 ans) — поэтому passé composé, а не imparfait.",
-            "hint": "Вспомогательный глагол avoir + причастие.",
-            "tag": "passé composé",
-            "answer": "ont régné",
-            "accept": [
-              "ont regne"
-            ]
-          },
-          {
-            "type": "gap",
-            "q": "L'empreinte que des siècles de domination musulmane ont ___ (laisser) sur sa ville natale.",
-            "explain": "Прямое дополнение l'empreinte (ж. р.) стоит перед глаголом, поэтому причастие с avoir согласуется: laissée.",
-            "hint": "Спроси себя: что оставили? — l'empreinte, и это слово стоит ДО глагола.",
-            "tag": "согласование причастия",
-            "answer": "laissée",
-            "accept": [
-              "laissee"
-            ]
-          },
-          {
-            "type": "order",
-            "q": "Собери фразу: «вдали от посторонних глаз» (как в тексте)",
-            "explain": "Устойчивое выражение à l'abri de + существительное; в тексте оно описывает, где укачивают младенца.",
-            "hint": null,
-            "tag": "устойчивые выражения",
-            "answer": "à l'abri des regards indiscrets",
-            "accept": []
-          },
-          {
-            "type": "translate",
-            "q": "Он провёл добрую часть своей жизни, изучая эту традицию.",
-            "explain": "В тексте: Il a passé une bonne part de sa vie à étudier l'empreinte silencieuse…",
-            "hint": "passer du temps À FAIRE qch — предлог à, а не en.",
-            "tag": "passé composé",
-            "answer": "Il a passé une bonne part de sa vie à étudier cette tradition",
-            "accept": [
-              "Il a passé une grande partie de sa vie à étudier cette tradition",
-              "Il a passé une bonne partie de sa vie à étudier cette tradition"
-            ]
-          },
-          {
-            "type": "match",
-            "q": "Составь пары",
-            "explain": "Все четыре слова встречаются в статье в описании ритуала и конференций Антонио Мануэля.",
-            "hint": null,
-            "tag": "лексика: традиции",
-            "pairs": [
-              {
-                "fr": "bercer",
-                "ru": "укачивать"
-              },
-              {
-                "fr": "la ville natale",
-                "ru": "родной город"
-              },
-              {
-                "fr": "afficher complet",
-                "ru": "идти с аншлагом"
-              },
-              {
-                "fr": "une coutume",
-                "ru": "обычай"
-              }
-            ]
+            "answer": 0
           },
           {
             "type": "choice",
-            "q": "Что утверждает Антонио Мануэль об андалузских традициях?",
-            "explain": "Selon lui, d'innombrables traditions… ont réussi à résister envers et contre tout à cinq cents ans d'effacement.",
+            "q": "На каком материале режиссёр построил сценарий?",
+            "explain": "«Partant de la correspondance entre ses aïeux, dénichée dans une boîte exhumée par une tante» + «le réalisateur a fouillé les archives».",
             "hint": null,
-            "tag": "понимание текста",
+            "tag": "понимание содержания",
             "options": [
-              "Что они были полностью стёрты после взятия Гранады",
-              "Что множество традиций пережили пятьсот лет стирания памяти",
-              "Что они пришли из Северной Африки уже после Реконкисты",
-              "Что от Аль-Андалуса остались только памятники"
-            ],
-            "answer": 1
-          }
-        ],
-        "builtAt": "2026-09-26T08:14:20"
-      },
-      "imageUrl": "https://focus.courrierinternational.com/2026/09/21/0/0/2400/1600/1200/630/60/0/a68e9a0_upload-1-vbdp33zjoyat-p-40-abadia-w.jpg",
-      "image": "french/img/rd-f19cfefb4b.jpg"
-    },
-    {
-      "id": "yt:PQHVXrguxns",
-      "kind": "video",
-      "title": "Mafia in Corsica: in the land of omerta, tongues are loosened",
-      "url": "https://www.youtube.com/watch?v=PQHVXrguxns",
-      "source": "Brut",
-      "sourceId": "youtube",
-      "author": "Brut",
-      "date": null,
-      "duration": 520,
-      "minutes": 9,
-      "hard": "средний",
-      "image": "https://i.ytimg.com/vi/PQHVXrguxns/hqdefault.jpg",
-      "summary": "👁 Every Sunday at 8 p.m., a new documentary on the Brut channel: https://www.youtube.com/channel/UCSKdvgqdnj72_SLggp7BDTg ...",
-      "query": "Brut reportage français",
-      "why": "Криминал и закон молчания — твои Мелвиль и Китано; девять минут живой речи в прошедших",
-      "level": "B1",
-      "addedAt": "2026-09-26",
-      "verdict": "new",
-      "lesson": {
-        "intro": "Репортаж Brut о корсиканской мафии: жители, мэры и даже раскаявшийся бандит впервые говорят открыто. Расшифровка автоматическая и местами искажена — держись за понятные куски; язык очень разговорный, много passé composé и оборотов с c'est… qui.",
-        "words": [
-          {
-            "fr": "les langues se délient",
-            "ru": "языки развязываются, люди начинают говорить",
-            "ex": "au pays de l'omerta les langues se délient"
-          },
-          {
-            "fr": "à visage découvert",
-            "ru": "открыто, не скрывая лица",
-            "ex": "ceux qui dénoncent l'emprise de la mafia à visage découvert"
-          },
-          {
-            "fr": "un règlement de comptes",
-            "ru": "сведение счётов, криминальная разборка",
-            "ex": "la première région européenne en nombre de règlements de comptes"
-          },
-          {
-            "fr": "l'emprise",
-            "ru": "власть, влияние (удушающее)",
-            "ex": "ceux qui dénoncent l'emprise de la mafia"
-          },
-          {
-            "fr": "un voyou",
-            "ru": "бандит, шпана",
-            "ex": "vous avez une petite bande de voyous de petite envergure"
-          },
-          {
-            "fr": "le racket",
-            "ru": "рэкет, вымогательство",
-            "ex": "qui a commencé à avoir des ambitions plus importantes, le racket"
-          },
-          {
-            "fr": "l'appât du gain",
-            "ru": "жажда наживы",
-            "ex": "aujourd'hui c'est l'appât du gain qui compte"
-          },
-          {
-            "fr": "au détriment de",
-            "ru": "в ущерб (кому-л., чему-л.)",
-            "ex": "on privilégie l'intérêt particulier de certaines personnes au détriment de l'intérêt général"
-          }
-        ],
-        "quiz": [
-          {
-            "type": "choice",
-            "q": "Почему, по словам дяди Максима Сюзини, его племянника убили?",
-            "explain": "В тексте: il était aussi connu pour son engagement pour la préservation de l'environnement et ça, ça dérangeait les mafieux; pour l'oncle, ce sont ces engagements qui ont coûté la vie.",
-            "hint": null,
-            "tag": "понимание текста",
-            "options": [
-              "Из-за долгов перед бандой",
-              "Из-за его национализма и борьбы за охрану природы, которая мешала мафии",
-              "Из-за семейной вендетты",
-              "Потому что он сам занимался рэкетом"
-            ],
-            "answer": 1
-          },
-          {
-            "type": "choice",
-            "q": "Кто такой Клод Шосса (Claude Chossat)?",
-            "explain": "claude chossat est un ancien de la brise de mer… il se dit repenti et se cachait très loin de la Corse.",
-            "hint": null,
-            "tag": "понимание текста",
-            "options": [
-              "Мэр деревни, по камерам которой стреляли",
-              "Журналист Brut",
-              "Бывший участник банды Brise de mer, называющий себя раскаявшимся",
-              "Геофизик, изучавший побережье"
-            ],
-            "answer": 2
-          },
-          {
-            "type": "gap",
-            "q": "Depuis 2004, plus de 450 homicides ont été ___ (recenser) sur l'île.",
-            "explain": "Пассив в passé composé: être + причастие, которое согласуется с подлежащим (450 homicides — мн. ч., м. р.).",
-            "hint": null,
-            "tag": "пассивный залог",
-            "answer": "recensés",
-            "accept": [
-              "recenses"
-            ]
-          },
-          {
-            "type": "order",
-            "q": "Собери фразу: «командуем мы, и мы делаем что хотим»",
-            "explain": "Выделительный оборот c'est … qui: после nous глагол в 1-м лице мн. ч. — commandons.",
-            "hint": null,
-            "tag": "mise en relief (c'est… qui)",
-            "answer": "c'est nous qui commandons et on fait ce qu'on veut",
-            "accept": []
-          },
-          {
-            "type": "translate",
-            "q": "Земли на берегу моря стоят золота.",
-            "explain": "В репортаже: là-bas les terrains en bord de mer valent de l'or et ça attise toutes les convoitises.",
-            "hint": "Глагол valoir, 3-е лицо мн. ч.",
-            "tag": "лексика: деньги и собственность",
-            "answer": "Les terrains en bord de mer valent de l'or",
-            "accept": [
-              "Les terrains au bord de la mer valent de l'or",
-              "Les terrains en bord de mer valent de l or"
-            ]
-          },
-          {
-            "type": "match",
-            "q": "Составь пары",
-            "explain": "Все пять выражений звучат в репортаже, когда говорят о мафии и об урбанизме.",
-            "hint": null,
-            "tag": "лексика: преступность",
-            "pairs": [
-              {
-                "fr": "un voyou",
-                "ru": "бандит, шпана"
-              },
-              {
-                "fr": "le racket",
-                "ru": "вымогательство"
-              },
-              {
-                "fr": "l'appât du gain",
-                "ru": "жажда наживы"
-              },
-              {
-                "fr": "à visage découvert",
-                "ru": "не скрывая лица"
-              },
-              {
-                "fr": "le nerf de la guerre",
-                "ru": "самое главное, ключевой вопрос"
-              }
-            ]
-          },
-          {
-            "type": "listen",
-            "q": "Что ты услышал?",
-            "explain": "Фраза-заголовок репортажа; se délier — возвратный глагол, конечное -ent не читается.",
-            "hint": null,
-            "tag": "аудирование",
-            "say": "au pays de l'omerta les langues se délient",
-            "answer": "au pays de l'omerta les langues se délient",
-            "accept": [
-              "au pays de l'omerta, les langues se délient",
-              "au pays de l omerta les langues se delient"
-            ]
-          }
-        ],
-        "builtAt": "2026-09-26T08:14:20"
-      }
-    },
-    {
-      "id": "rd:3fc6e8b6de",
-      "url": "https://www.slate.fr/culture/toutankhamon-nefertiti-tombe-mystere-recherches-egypte-antique-tombeau-pharaon-sepulture-archeologie",
-      "title": "Va-t-on enfin retrouver la tombe de Néfertiti?",
-      "author": "Laurène Bruncher",
-      "source": "Slate.fr",
-      "sourceId": "slate",
-      "date": "2026-09-25",
-      "minutes": null,
-      "summary": "De nouvelles anomalies souterraines détectées près du tombeau de Toutânkhamon relancent les espoirs de retrouver la sépulture de la reine égyptienne.",
-      "kind": "article",
-      "hard": "средний",
-      "why": "У тебя десяток лекций по Египту — тут археология Нефертити и научная лексика без стены",
-      "level": "B1",
-      "addedAt": "2026-09-26",
-      "verdict": "new",
-      "lesson": {
-        "intro": "Заметка Slate о новых геофизических измерениях у гробницы Тутанхамона и вечном вопросе, где похоронена Нефертити. Обрати внимание на «журналистский условный» (existerait, serait rempli, correspondrait) — так по-французски подают непроверенную гипотезу.",
-        "words": [
-          {
-            "fr": "mettre au jour",
-            "ru": "обнаружить, извлечь на свет (при раскопках)",
-            "ex": "dans l'espoir de mettre au jour de nouveaux vestiges"
-          },
-          {
-            "fr": "un vestige",
-            "ru": "остатки, следы (древности)",
-            "ex": "dans l'espoir de mettre au jour de nouveaux vestiges"
-          },
-          {
-            "fr": "la sépulture",
-            "ru": "захоронение, место погребения",
-            "ex": "des salles et des passages dissimulés à proximité de la sépulture"
-          },
-          {
-            "fr": "dissimulé",
-            "ru": "скрытый, спрятанный",
-            "ex": "un mystérieux réseau de chambres dissimulées et de couloirs"
-          },
-          {
-            "fr": "lever le voile sur",
-            "ru": "приоткрыть завесу над",
-            "ex": "ces espaces pourraient même aider à lever le voile sur l'un des plus grands mystères"
-          },
-          {
-            "fr": "raviver",
-            "ru": "оживить, возродить (надежду, гипотезу)",
-            "ex": "plusieurs indices ont ravivé les hypothèses sur l'existence de salles"
-          },
-          {
-            "fr": "des fouilles",
-            "ru": "раскопки",
-            "ex": "pour en savoir davantage, d'autres fouilles doivent être menées"
-          },
-          {
-            "fr": "un forage",
-            "ru": "бурение",
-            "ex": "des forages débuteront probablement en novembre"
-          }
-        ],
-        "quiz": [
-          {
-            "type": "choice",
-            "q": "Что показали геофизические измерения возле гробницы Тутанхамона?",
-            "explain": "Les analyses géophysiques… ont révélé plusieurs anomalies souterraines; elles semblent indiquer la présence de structures avec des angles droits, alignées avec le mur nord.",
-            "hint": null,
-            "tag": "понимание текста",
-            "options": [
-              "Готовую открытую камеру с мумией Нефертити",
-              "Подземные аномалии и структуры с прямыми углами у северной стены погребальной камеры",
-              "Что рядом нет никаких пустот",
-              "Следы современного туннеля, прорытого в 1922 году"
-            ],
-            "answer": 1
-          },
-          {
-            "type": "choice",
-            "q": "Чью теорию 2015 года оживляют эти находки?",
-            "explain": "Ces découvertes ravivent une théorie avancée en 2015 par l'égyptologue Nicholas Reeves.",
-            "hint": null,
-            "tag": "понимание текста",
-            "options": [
-              "Захи Хавасса",
-              "Джорджа Балларда",
-              "Мамдуха Эльдамати",
-              "Николаса Ривза"
-            ],
-            "answer": 3
-          },
-          {
-            "type": "gap",
-            "q": "Ces espaces ___ (pouvoir) renfermer des trésors comparables à ceux découverts dans son tombeau.",
-            "explain": "Conditionnel présent: гипотеза, ещё не доказанная — типичный приём прессы.",
-            "hint": "Основа futur pouvoir- + окончание imparfait.",
-            "tag": "conditionnel",
-            "answer": "pourraient",
-            "accept": []
-          },
-          {
-            "type": "gap",
-            "q": "Des forages ___ (débuter) probablement en novembre pour explorer les anomalies.",
-            "explain": "Futur simple: событие запланировано на будущее, окончание -ont для 3-го лица мн. ч.",
-            "hint": null,
-            "tag": "futur simple",
-            "answer": "débuteront",
-            "accept": [
-              "debuteront"
-            ]
-          },
-          {
-            "type": "order",
-            "q": "Собери фразу: «в надежде обнаружить новые древние остатки»",
-            "explain": "dans l'espoir DE + инфинитив; в mettre au jour артикль перед jour не меняется.",
-            "hint": null,
-            "tag": "инфинитивные конструкции",
-            "answer": "dans l'espoir de mettre au jour de nouveaux vestiges",
-            "accept": []
-          },
-          {
-            "type": "translate",
-            "q": "Гробница Нефертити на сегодняшний день остаётся ненайденной.",
-            "explain": "В тексте: Peut-être même celle de Néfertiti, qui reste à ce jour introuvable.",
-            "hint": "Выражение « à ce jour » = на сегодняшний день.",
-            "tag": "лексика: время и оценка",
-            "answer": "La tombe de Néfertiti reste à ce jour introuvable",
-            "accept": [
-              "La tombe de Néfertiti reste introuvable à ce jour",
-              "Le tombeau de Néfertiti reste à ce jour introuvable"
-            ]
-          },
-          {
-            "type": "match",
-            "q": "Составь пары",
-            "explain": "Все выражения взяты из статьи: они описывают работу археологов и то, что они ищут.",
-            "hint": null,
-            "tag": "лексика: археология",
-            "pairs": [
-              {
-                "fr": "mettre au jour",
-                "ru": "извлечь на свет, обнаружить"
-              },
-              {
-                "fr": "une sépulture",
-                "ru": "захоронение"
-              },
-              {
-                "fr": "des décombres",
-                "ru": "обломки, щебень"
-              },
-              {
-                "fr": "lever le voile sur",
-                "ru": "приоткрыть завесу над"
-              }
-            ]
-          }
-        ],
-        "builtAt": "2026-09-26T08:14:20"
-      },
-      "imageUrl": "https://cdn.slate.fr/uploads/store/story_273667/large_landscape_273667.jpg",
-      "image": "french/img/rd-3fc6e8b6de.jpg"
-    },
-    {
-      "id": "ls:32f695096f",
-      "kind": "lesson",
-      "title": "Глаголы, которые требуют предлог: assister, manquer, attendre, rendre",
-      "topic": "глаголы с предлогами",
-      "source": "Урок",
-      "flavour": "verbs",
-      "why": "Это четыре самых коварных глагола уровня B1: русский подсказывает тебе неверный предлог, и фраза рассыпается — а встречаются они в каждом разговоре о кино и лекциях.",
-      "minutes": 16,
-      "level": "B1",
-      "addedAt": "2026-09-26",
-      "verdict": "new",
-      "lesson": {
-        "intro": "Разбираем, как управляются assister, manquer, attendre и rendre. Главное здесь не значение, а то, что стоит после глагола: à, de или ничего.",
-        "sections": [
-          {
-            "h": "assister à — быть на, присутствовать",
-            "text": "Assister à qch — «быть на», «побывать на»: на лекции, сеансе, матче, похоронах. Предлог à обязателен: событие никогда не идёт прямым дополнением. Без предлога (assister qn) глагол значит «помогать кому-то» и звучит книжно или профессионально — «ассистировать». Русское «я ассистировал» почти всегда переводится иначе, а вот «я был на лекции» — это именно assister à.",
-            "ex": [
-              {
-                "fr": "Hier soir, j'ai assisté à une conférence sur Néfertiti.",
-                "ru": "Вчера вечером я был на лекции о Нефертити."
-              },
-              {
-                "fr": "J'ai assisté à la projection du Samouraï à la Cinémathèque.",
-                "ru": "Я был на показе «Самурая» в Синематеке."
-              },
-              {
-                "fr": "Une infirmière assiste le chirurgien pendant l'opération.",
-                "ru": "Медсестра помогает хирургу во время операции."
-              }
-            ]
-          },
-          {
-            "h": "manquer — три конструкции, три смысла",
-            "text": "Manquer qch, без предлога — «пропустить»: поезд, начало фильма, занятие. Manquer à qn — «недоставать кому-то», и здесь подлежащим становится то, чего не хватает: русское «я скучаю по Х» превращается в «X me manque». Manquer de qch — «испытывать недостаток в чём-то», о качествах и запасах. Частая ошибка: сказать «je manque Paris» вместо «Paris me manque» — получается «я пропускаю Париж».",
-            "ex": [
-              {
-                "fr": "J'ai manqué les vingt premières minutes d'Oldboy.",
-                "ru": "Я пропустил первые двадцать минут «Олдбоя»."
-              },
-              {
-                "fr": "La musique de Hiroshi Yoshimura me manque en hiver.",
-                "ru": "Зимой мне не хватает музыки Хироси Ёсимуры."
-              },
-              {
-                "fr": "Son argumentation manque de rigueur.",
-                "ru": "Его рассуждению не хватает строгости."
-              },
-              {
-                "fr": "Ce film ne manque pas d'humour noir.",
-                "ru": "Этому фильму не отказать в чёрном юморе."
-              }
-            ]
-          },
-          {
-            "h": "attendre и s'attendre à — ждать и ожидать",
-            "text": "Attendre qn / qch — «ждать», прямое дополнение, никакого предлога: не attendre pour и не attendre de. Если дальше идёт целое предложение, нужен que и subjonctif. А s'attendre à qch — совсем другое: «предполагать, быть готовым к», то есть ожидать умом, а не на перроне. Отличай: j'attends la fin (сижу и жду конца) — je m'attendais à cette fin (я такого финала ожидал).",
-            "ex": [
-              {
-                "fr": "J'attends ce film depuis deux ans.",
-                "ru": "Я жду этот фильм уже два года."
-              },
-              {
-                "fr": "Nous attendons que la séance commence.",
-                "ru": "Мы ждём, когда начнётся сеанс."
-              },
-              {
-                "fr": "Personne ne s'attendait à un tel retournement dans Oldboy.",
-                "ru": "Никто не ожидал такого поворота в «Олдбое»."
-              }
-            ]
-          },
-          {
-            "h": "rendre и se rendre compte de — делать каким-то и осознавать",
-            "text": "Rendre + прилагательное — «делать каким-то»: здесь французский берёт rendre, а не faire. Rendre triste, rendre fou, rendre insupportable — а faire triste сказать нельзя. Rendre qch à qn — «возвращать» и «сдавать» (работу, книгу). И запомни оборот se rendre compte: перед существительным — de, перед придаточным — que и обычный indicatif, никогда de que.",
-            "ex": [
-              {
-                "fr": "Ce montage rend la scène insupportable.",
-                "ru": "Этот монтаж делает сцену невыносимой."
-              },
-              {
-                "fr": "Je dois rendre ce livre à la bibliothèque avant vendredi.",
-                "ru": "Мне нужно вернуть эту книгу в библиотеку до пятницы."
-              },
-              {
-                "fr": "Je me suis rendu compte que je n'avais rien compris à Deleuze.",
-                "ru": "Я понял, что ничего не понял у Делёза."
-              },
-              {
-                "fr": "Il ne s'est pas rendu compte de son erreur.",
-                "ru": "Он не осознал своей ошибки."
-              }
-            ]
-          }
-        ],
-        "words": [
-          {
-            "fr": "assister à qch",
-            "ru": "быть на чём-то, присутствовать",
-            "ex": "J'ai assisté à toute la conférence."
-          },
-          {
-            "fr": "manquer qch",
-            "ru": "пропустить что-то",
-            "ex": "J'ai manqué le début du film."
-          },
-          {
-            "fr": "manquer à qn",
-            "ru": "недоставать кому-то",
-            "ex": "Cette ville me manque."
-          },
-          {
-            "fr": "manquer de qch",
-            "ru": "испытывать недостаток в чём-то",
-            "ex": "Le texte manque de clarté."
-          },
-          {
-            "fr": "s'attendre à qch",
-            "ru": "ожидать, предполагать",
-            "ex": "Je m'attendais à autre chose."
-          },
-          {
-            "fr": "rendre + прилагательное",
-            "ru": "делать каким-то",
-            "ex": "La musique rend la scène glaçante."
-          },
-          {
-            "fr": "se rendre compte de qch",
-            "ru": "осознавать, замечать",
-            "ex": "Je me rends compte de mon erreur."
-          }
-        ],
-        "quiz": [
-          {
-            "type": "choice",
-            "q": "«Вчера я был на лекции о Нефертити»",
-            "explain": "Assister требует предлог à перед событием: assister à une conférence.",
-            "hint": null,
-            "tag": "assister à",
-            "options": [
-              "Hier, j'ai assisté à une conférence sur Néfertiti",
-              "Hier, j'ai assisté une conférence sur Néfertiti",
-              "Hier, j'ai assisté dans une conférence sur Néfertiti",
-              "Hier, j'ai assisté sur une conférence sur Néfertiti"
+              "На переписке своих предков, найденной тётей в коробке, и на архивах",
+              "Только на архивах немецкой администрации",
+              "На романе о Виши, который он экранизировал",
+              "На интервью с последними свидетелями"
             ],
             "answer": 0
           },
           {
             "type": "gap",
-            "q": "La musique de Yoshimura me ___ (manquer) en hiver.",
-            "explain": "Подлежащее — то, чего не хватает, поэтому глагол в 3-м лице: la musique me manque.",
+            "q": "Pour écrire son scénario, Emmanuel Marre ___ (puiser, passé composé) dans son histoire familiale.",
+            "explain": "Passé composé с avoir: a + puisé; так сказано в тексте о работе над сценарием.",
             "hint": null,
-            "tag": "manquer à / de",
-            "answer": "manque",
-            "accept": []
+            "tag": "passé composé",
+            "answer": "a puisé",
+            "accept": [
+              "a puise"
+            ]
           },
           {
             "type": "gap",
-            "q": "Son argumentation ___ (manquer) rigueur.",
-            "explain": "«Не хватать какого-то качества» — manquer de + существительное без артикля.",
+            "q": "Après ___ (avoir) recensé les travailleurs français et étrangers, les fonctionnaires organisent le ramassage.",
+            "explain": "После предлога après идёт infinitif passé: après avoir + participe passé.",
             "hint": null,
-            "tag": "manquer à / de",
-            "answer": "manque de",
+            "tag": "infinitif passé (après avoir)",
+            "answer": "avoir",
             "accept": []
           },
           {
-            "type": "gap",
-            "q": "Personne ne ___ à un tel retournement. (s'attendre, imparfait)",
-            "explain": "S'attendre à — «предполагать»; в imparfait это ne s'attendait pas à.",
+            "type": "order",
+            "q": "Собери фразу: «направляется в Виши, чтобы предложить свои услуги новому правительству»",
+            "explain": "Фраза из завязки сюжета; pour + инфинитив выражает цель.",
             "hint": null,
-            "tag": "s'attendre à",
-            "answer": "s'attendait",
+            "tag": "лексика: работа и власть",
+            "answer": "se rend à Vichy pour proposer ses services au nouveau gouvernement",
             "accept": []
           },
           {
             "type": "translate",
-            "q": "Я совсем не ожидал такой развязки в этом фильме",
-            "explain": "«Ожидать» в смысле предполагать — s'attendre à, предлог à обязателен.",
-            "hint": "s'attendre à + существительное",
-            "tag": "s'attendre à",
-            "answer": "Je ne m'attendais pas du tout à un tel dénouement dans ce film",
+            "q": "«Мы сделали, что могли, с теми инструкциями, которые у нас были.»",
+            "explain": "Так Henri оправдывает участие CLC в облавах; обрати внимание на ce qu'on a pu и относительное que.",
+            "hint": "ce que + pouvoir в passé composé, затем que + imparfait",
+            "tag": "passé composé / imparfait",
+            "answer": "On a fait ce qu'on a pu, avec les instructions que l'on avait",
             "accept": [
-              "Je ne m'attendais pas à une telle fin dans ce film",
-              "Je ne m'attendais pas du tout à cette fin dans ce film"
+              "on a fait ce qu'on a pu avec les instructions qu'on avait",
+              "nous avons fait ce que nous avons pu avec les instructions que nous avions"
+            ]
+          },
+          {
+            "type": "listen",
+            "q": "Что ты услышал?",
+            "explain": "Слова режиссёра о том, что зло видно в деталях, а не в системе, объявленной дьявольской заранее; конструкция выделения c'est … que.",
+            "hint": null,
+            "tag": "mise en relief (c'est … que)",
+            "say": "C'est dans les détails qu'on voit les choses",
+            "answer": "C'est dans les détails qu'on voit les choses",
+            "accept": [
+              "c est dans les details qu on voit les choses"
+            ]
+          },
+          {
+            "type": "match",
+            "q": "Составь пары",
+            "explain": "Все пять выражений взяты из статьи: они описывают героя и работу администрации.",
+            "hint": null,
+            "tag": "лексика: власть и администрация",
+            "pairs": [
+              {
+                "fr": "le zèle",
+                "ru": "усердие"
+              },
+              {
+                "fr": "un rouage",
+                "ru": "винтик механизма"
+              },
+              {
+                "fr": "la main-d'œuvre",
+                "ru": "рабочая сила"
+              },
+              {
+                "fr": "minable",
+                "ru": "жалкий, ничтожество"
+              },
+              {
+                "fr": "de fil en aiguille",
+                "ru": "слово за слово, постепенно"
+              }
+            ]
+          }
+        ],
+        "builtAt": "2026-09-27T08:13:48"
+      },
+      "imageUrl": "https://www.franceinfo.fr/pictures/ISeo0eXudbHDLbazpglpWhdCidk/0x0:1600x900/1500x843/2026/05/21/6a0f2902dbda3389884829.jpg",
+      "image": "french/img/rd-a9f6c46003.jpg"
+    },
+    {
+      "id": "rd:f760875191",
+      "url": "https://www.slate.fr/boire-manger/platon-clou-girofle-histoire-gueule-bois-remedes-sante-alcool-addictologie",
+      "title": "Poumons de chèvre et clou de girofle: voilà comment on soignait la gueule de bois autrefois",
+      "author": "Joan Fitzpatrick",
+      "source": "Slate.fr",
+      "sourceId": "slate",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Manger des poumons de chèvre avant de boire ou écouter de la musique mélancolique pour purger ses regrets: depuis des millénaires, l'humanité cherche à guérir l'incurable gueule de bois. Mais au-delà de la souffrance physique, cette désagréable sensation du lendemain a longtemps ",
+      "kind": "article",
+      "hard": "средний",
+      "why": "Снадобья и лекари прошлого — твои лекции о средневековой медицине; текст сплошным imparfait",
+      "level": "B1",
+      "addedAt": "2026-09-27",
+      "verdict": "new",
+      "lesson": {
+        "intro": "Историко-культурный обзор похмелья: от «Пира» Платона и Библии до средневековых диетических трактатов с козьими лёгкими и гвоздикой. Текст почти целиком в imparfait (что делали раньше, регулярно) — на этом и сосредоточься, плюс конструкции après avoir + participe и ne … que.",
+        "words": [
+          {
+            "fr": "la gueule de bois",
+            "ru": "похмелье",
+            "ex": "Quiconque s'est déjà réveillé avec la gueule de bois en connaît les effets"
+          },
+          {
+            "fr": "la veille",
+            "ru": "накануне, предыдущий вечер",
+            "ex": "le meilleur remède consiste à ne pas trop boire la veille"
+          },
+          {
+            "fr": "s'enivrer",
+            "ru": "опьянеть, напиться",
+            "ex": "Noé s'enivre avec le vin de la vigne qu'il a plantée"
+          },
+          {
+            "fr": "mettre en garde contre",
+            "ru": "предостерегать от",
+            "ex": "les manuels mettaient en garde contre les dangers d'une consommation excessive"
+          },
+          {
+            "fr": "à son insu",
+            "ru": "без его ведома",
+            "ex": "deux nuits de suite et apparemment à son insu"
+          },
+          {
+            "fr": "en dernier recours",
+            "ru": "как последнее средство",
+            "ex": "Se faire vomir ne devait être envisagé qu'en dernier recours"
+          },
+          {
+            "fr": "vanter les vertus de",
+            "ru": "расхваливать достоинства чего-то",
+            "ex": "les auteurs vantaient les vertus réparatrices du clou de girofle"
+          },
+          {
+            "fr": "n'être guère utile",
+            "ru": "быть мало полезным",
+            "ex": "Le vieil adage n'est guère utile à ceux qui en souffrent"
+          }
+        ],
+        "quiz": [
+          {
+            "type": "choice",
+            "q": "Что античные авторитеты советовали съесть ДО начала выпивки?",
+            "explain": "«Les amandes, le chou, les coings cuits, l'absinthe et même les poumons de chèvre étaient ainsi réputés bénéfiques.»",
+            "hint": null,
+            "tag": "понимание содержания",
+            "options": [
+              "Миндаль, капусту, варёную айву, полынь и даже козьи лёгкие",
+              "Только хлеб и оливковое масло",
+              "Мясо с вином, разбавленным водой",
+              "Ничего: советовали пить натощак"
+            ],
+            "answer": 0
+          },
+          {
+            "type": "choice",
+            "q": "Как в статье описан статус вина в средневековой Европе?",
+            "explain": "«transformé en sang du Christ… il constituait aussi un marqueur du rang social dans le monde profane»; напиваться вином могли только богатые.",
+            "hint": null,
+            "tag": "понимание содержания",
+            "options": [
+              "Кровь Христа в Евхаристии и маркер социального положения в миру",
+              "Напиток, запрещённый церковью",
+              "Дешёвый напиток бедняков",
+              "Лекарство, продававшееся только аптекарями"
+            ],
+            "answer": 0
+          },
+          {
+            "type": "gap",
+            "q": "Comme de nos jours, l'accent ___ (être) surtout mis sur la prévention.",
+            "explain": "Imparfait описывает положение дел в прошлом, привычное и длительное.",
+            "hint": null,
+            "tag": "imparfait",
+            "answer": "était",
+            "accept": []
+          },
+          {
+            "type": "gap",
+            "q": "Les Grecs et les Romains ___ (considérer) qu'il était dangereux de boire du vin non coupé d'eau.",
+            "explain": "Imparfait 3-е лицо мн. ч.: -aient; речь о постоянном убеждении в прошлом.",
+            "hint": null,
+            "tag": "imparfait",
+            "answer": "considéraient",
+            "accept": []
+          },
+          {
+            "type": "translate",
+            "q": "Только богатые могли позволить себе напиться вином.",
+            "explain": "Фраза из абзаца о вине как маркере статуса; обрати внимание на avoir les moyens de + инфинитив.",
+            "hint": "avoir les moyens de = иметь средства, мочь себе позволить",
+            "tag": "imparfait",
+            "answer": "Seuls les riches avaient les moyens de s'enivrer au vin",
+            "accept": [
+              "seuls les riches avaient les moyens de s'enivrer avec du vin",
+              "il n'y avait que les riches qui avaient les moyens de s'enivrer au vin"
             ]
           },
           {
             "type": "order",
-            "q": "Собери фразу: «Этот монтаж делает сцену невыносимой»",
-            "explain": "«Делать каким-то» — rendre + прилагательное, faire здесь невозможно.",
+            "q": "Собери фразу: «лучшее средство от похмелья состоит в том, чтобы не пить слишком много накануне»",
+            "explain": "Из первого абзаца про «старую поговорку»; отрицание при инфинитиве: ne pas + инфинитив.",
             "hint": null,
-            "tag": "rendre",
-            "answer": "Ce montage rend la scène insupportable",
+            "tag": "отрицание с инфинитивом",
+            "answer": "le meilleur remède contre la gueule de bois consiste à ne pas trop boire la veille",
+            "accept": []
+          },
+          {
+            "type": "listen",
+            "q": "Что ты услышал?",
+            "explain": "Совет из диетических трактатов; конструкция ne … que = только.",
+            "hint": null,
+            "tag": "ne … que",
+            "say": "Se faire vomir ne devait être envisagé qu'en dernier recours",
+            "answer": "Se faire vomir ne devait être envisagé qu'en dernier recours",
+            "accept": [
+              "se faire vomir ne devait etre envisage qu en dernier recours"
+            ]
+          },
+          {
+            "type": "match",
+            "q": "Составь пары",
+            "explain": "Все четыре выражения встречаются в тексте (Хам «s'empresse d'en informer ses deux frères»).",
+            "hint": null,
+            "tag": "лексика: еда и здоровье",
+            "pairs": [
+              {
+                "fr": "la veille",
+                "ru": "накануне"
+              },
+              {
+                "fr": "le clou de girofle",
+                "ru": "гвоздика (пряность)"
+              },
+              {
+                "fr": "à son insu",
+                "ru": "без его ведома"
+              },
+              {
+                "fr": "s'empresser de",
+                "ru": "поспешить сделать"
+              }
+            ]
+          }
+        ],
+        "builtAt": "2026-09-27T08:13:48"
+      },
+      "imageUrl": "https://cdn.slate.fr/uploads/store/story_273672/large_landscape_273672.jpg",
+      "image": "french/img/rd-f760875191.jpg"
+    },
+    {
+      "id": "rd:84b3a3971c",
+      "url": "https://www.courrierinternational.com/article/la-pilule-philosophique-et-si-la-philosophie-se-revelait-plus-nuisible-qu-utile_273607",
+      "title": "Et si la philosophie se révélait plus nuisible qu’utile ?",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Honnis depuis Platon, les sophistes comprenaient peut-être mieux le monde réel, soutient l’auteur mexicain David Toscana, dans le magazine “Letras libres”. Chaque semaine, “Courrier international” vous propose un billet qui soulève des interrogations sur notre condition moderne e",
+      "kind": "article",
+      "hard": "средний",
+      "why": "Софисты против Платона — твоя философская полка, «Генеалогия морали» же в планах",
+      "level": "B1",
+      "addedAt": "2026-09-27",
+      "verdict": "new",
+      "lesson": {
+        "intro": "Фрагмент эссе о том, что философия порой скорее мешает, чем помогает: Сервантес в «Дон Кихоте» упоминает Аристотеля не как авторитет, а как объект насмешки. Язык книжный: инверсия после «à peine», ne explétif в сравнениях («plus qu'elle n'aide») и глаголы с предлогами (s'éprendre de, s'amuser de).",
+        "words": [
+          {
+            "fr": "tourner en dérision",
+            "ru": "выставлять на посмешище",
+            "ex": "plutôt que de l'invoquer comme figure d'autorité, il le tourne en dérision"
+          },
+          {
+            "fr": "contrarier",
+            "ru": "мешать, идти вразрез",
+            "ex": "souvent elle contrarie plus qu'elle n'aide"
+          },
+          {
+            "fr": "à plusieurs reprises",
+            "ru": "неоднократно",
+            "ex": "Cervantès mentionne à plusieurs reprises Aristote"
+          },
+          {
+            "fr": "s'amuser de",
+            "ru": "потешаться над чем-то",
+            "ex": "il s'amuse du fait que les lecteurs jugeront son livre peu érudit"
+          },
+          {
+            "fr": "peu érudit",
+            "ru": "малоучёный, не начинённый знаниями",
+            "ex": "les lecteurs jugeront sans doute son livre peu érudit"
+          },
+          {
+            "fr": "refaire son apparition",
+            "ru": "снова появиться",
+            "ex": "le disciple de Platon refait son apparition"
+          },
+          {
+            "fr": "s'éprendre de",
+            "ru": "влюбиться в кого-то",
+            "ex": "une jeune veuve qui s'éprend d'un jeune sot mais bien bâti"
+          },
+          {
+            "fr": "alambiqué",
+            "ru": "витиеватый, вымученный",
+            "ex": "Cervantès nous gratifie de mauvaise prose alambiquée"
+          }
+        ],
+        "quiz": [
+          {
+            "type": "choice",
+            "q": "Как Сервантес обращается с Аристотелем в «Дон Кихоте»?",
+            "explain": "«plutôt que de l'invoquer comme figure d'autorité, il le tourne en dérision».",
+            "hint": null,
+            "tag": "понимание содержания",
+            "options": [
+              "Он не ссылается на него как на авторитет, а насмехается над ним",
+              "Он цитирует его как высшую инстанцию",
+              "Он вообще его не упоминает",
+              "Он спорит с ним в отдельной главе"
+            ],
+            "answer": 0
+          },
+          {
+            "type": "choice",
+            "q": "Почему, по Сервантесу, Аристотель не нужен в его романе?",
+            "explain": "«un roman qui traite d'un sujet que le philosophe n'a jamais connu : la chevalerie errante».",
+            "hint": null,
+            "tag": "понимание содержания",
+            "options": [
+              "Роман говорит о странствующем рыцарстве — предмете, которого философ не знал",
+              "Потому что Аристотель писал не по-испански",
+              "Потому что читатели не любят философию",
+              "Потому что роман должен быть коротким"
+            ],
+            "answer": 0
+          },
+          {
+            "type": "gap",
+            "q": "À peine ___-on entamé le premier chapitre que le disciple de Platon refait son apparition.",
+            "explain": "После à peine в начале фразы идёт инверсия: à peine a-t-on… que… («едва… как…»).",
+            "hint": null,
+            "tag": "инверсия после à peine",
+            "answer": "a",
+            "accept": []
+          },
+          {
+            "type": "gap",
+            "q": "Don Quichotte relate l'histoire d'une jeune veuve qui ___ (s'éprendre, présent) d'un jeune sot.",
+            "explain": "Présent от s'éprendre (как prendre): il/elle s'éprend de qqn.",
+            "hint": null,
+            "tag": "présent нерегулярных глаголов",
+            "answer": "s'éprend",
+            "accept": [
+              "s eprend",
+              "séprend"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Философия часто скорее мешает, чем помогает.",
+            "explain": "Из цитаты-врезки: «souvent elle contrarie plus qu'elle n'aide»; это ne не отрицание.",
+            "hint": "после plus que в сравнении ставится ne explétif",
+            "tag": "ne explétif в сравнении",
+            "answer": "La philosophie contrarie souvent plus qu'elle n'aide",
+            "accept": [
+              "souvent la philosophie contrarie plus qu'elle n'aide",
+              "la philosophie contrarie plus qu'elle n'aide"
+            ]
+          },
+          {
+            "type": "order",
+            "q": "Собери фразу: «вместо того чтобы призывать его как авторитет, он выставляет его на посмешище»",
+            "explain": "plutôt que de + инфинитив = «вместо того чтобы»; прямое дополнение l' стоит перед глаголом.",
+            "hint": null,
+            "tag": "место местоимений-дополнений",
+            "answer": "plutôt que de l'invoquer comme figure d'autorité, il le tourne en dérision",
+            "accept": []
+          },
+          {
+            "type": "listen",
+            "q": "Что ты услышал?",
+            "explain": "Первая фраза текста; обрати внимание на выражение à plusieurs reprises.",
+            "hint": null,
+            "tag": "лексика: литература и философия",
+            "say": "Dans Don Quichotte, Cervantès mentionne à plusieurs reprises Aristote",
+            "answer": "Dans Don Quichotte, Cervantès mentionne à plusieurs reprises Aristote",
+            "accept": [
+              "dans don quichotte cervantes mentionne a plusieurs reprises aristote"
+            ]
+          }
+        ],
+        "builtAt": "2026-09-27T08:13:48"
+      },
+      "imageUrl": "https://focus.courrierinternational.com/2026/09/24/0/23/2353/1569/1200/630/60/0/e35ecbf_upload-1-mqi6gdvq7gri-boligan-2023-03-20-1961-w.jpg",
+      "image": "french/img/rd-84b3a3971c.jpg"
+    },
+    {
+      "id": "ls:d6b8782aed",
+      "kind": "lesson",
+      "title": "Который, которого, о котором: qui, que, dont, où",
+      "topic": "pronoms relatifs",
+      "source": "Урок",
+      "flavour": "grammar",
+      "why": "Русское «который» на французский разбегается в четыре слова, и на B1 это первое место, где фраза ломается — особенно dont.",
+      "minutes": 16,
+      "level": "B1",
+      "addedAt": "2026-09-27",
+      "verdict": "new",
+      "lesson": {
+        "intro": "Один урок про то, как склеить два предложения в одно. Выбор пронома зависит не от рода и числа, а от того, какую работу слово делает внутри придаточного: подлежащее, дополнение, дополнение с de или обстоятельство места.",
+        "sections": [
+          {
+            "h": "Сначала главное: qui или que",
+            "text": "Смотри не на русский перевод, а на то, чего не хватает в придаточном. Если пропало подлежащее («он снял») — ставь qui, и глагол согласуется с тем, к чему qui относится. Если пропало прямое дополнение («он снял его») — ставь que. Проверка простая: после qui сразу идёт глагол, после que — новое подлежащее. Ещё признак: qui никогда не сокращается, que перед гласной становится qu'.",
+            "ex": [
+              {
+                "fr": "Le réalisateur qui a tourné «Oldboy» est coréen.",
+                "ru": "Режиссёр, который снял «Олдбоя», — кореец."
+              },
+              {
+                "fr": "Le film que Tarantino a tourné en 1994 a changé les années 90.",
+                "ru": "Фильм, который Тарантино снял в 1994-м, изменил девяностые."
+              },
+              {
+                "fr": "Les archives qu'il a consultées étaient fermées au public.",
+                "ru": "Архивы, которые он изучал, были закрыты для публики."
+              }
+            ]
+          },
+          {
+            "h": "dont: там, где по-французски нужен de",
+            "text": "dont заменяет всё, что шло бы с предлогом de. Два случая. Первый — глагол или выражение требует de: parler de, avoir besoin de, se souvenir de, il s'agit de. Второй — русское «чей, книги которого»: там de тоже прячется (les livres de ce philosophe). Важно: после dont притяжательного больше не нужно, и артикль остаётся: «le philosophe dont je lis les livres», а не «dont je lis ses livres».",
+            "ex": [
+              {
+                "fr": "C'est le livre dont j'ai besoin pour mon exposé.",
+                "ru": "Это книга, которая мне нужна для доклада."
+              },
+              {
+                "fr": "Le pouvoir dont parle Foucault n'est pas seulement celui de l'État.",
+                "ru": "Власть, о которой говорит Фуко, — это не только власть государства."
+              },
+              {
+                "fr": "Bergman, dont le père était pasteur, a filmé une partie d'échecs avec la Mort.",
+                "ru": "Бергман, чей отец был пастором, снял партию в шахматы со Смертью."
+              }
+            ]
+          },
+          {
+            "h": "où — место и время, и связка ce qui / ce que / ce dont",
+            "text": "où берёт на себя не только «где», но и «когда»: le jour où, l'époque où, le moment où — никаких quand в этой роли. А если «который» отсылает не к слову, а к целой мысли («что меня удивило»), впереди нужно ce: ce qui, ce que, ce dont.",
+            "ex": [
+              {
+                "fr": "L'année où «In the Mood for Love» est sorti, Wong Kar-wai est devenu un classique.",
+                "ru": "В год, когда вышло «Любовное настроение», Вонг Карвай стал классиком."
+              },
+              {
+                "fr": "Il a coupé la fin, ce qui a tout changé.",
+                "ru": "Он вырезал финал, что всё изменило."
+              },
+              {
+                "fr": "Je ne comprends pas ce dont tu parles.",
+                "ru": "Я не понимаю, о чём ты говоришь."
+              }
+            ]
+          },
+          {
+            "h": "Три ошибки, которые делают все",
+            "text": "Первая: «le livre que j'ai besoin» — нет, besoin просит de, значит dont. Вторая: калька с русского «le philosophe que ses livres sont difficiles» — нужно dont. Третья: où вместо dont и наоборот в устойчивых выражениях — «le pays d'où il vient» (откуда), но «le pays dont il parle» (о котором). И помни: que никогда не выкидывается, хотя по-английски или по-русски связку можно опустить.",
+            "ex": [
+              {
+                "fr": "Voilà l'article dont j'ai besoin, pas celui que tu m'as envoyé.",
+                "ru": "Вот статья, которая мне нужна, а не та, что ты мне прислал."
+              },
+              {
+                "fr": "La ville d'où venaient ces marchands était Bruges.",
+                "ru": "Город, откуда приехали эти купцы, — Брюгге."
+              },
+              {
+                "fr": "Je pense que c'est son meilleur film.",
+                "ru": "Я думаю, это его лучший фильм."
+              }
+            ]
+          }
+        ],
+        "words": [
+          {
+            "fr": "il s'agit de",
+            "ru": "речь идёт о",
+            "ex": "Le livre dont il s'agit est épuisé."
+          },
+          {
+            "fr": "avoir besoin de",
+            "ru": "нуждаться в",
+            "ex": "C'est la source dont j'ai besoin."
+          },
+          {
+            "fr": "se souvenir de",
+            "ru": "помнить о",
+            "ex": "Le concert dont je me souviens le mieux."
+          },
+          {
+            "fr": "une époque",
+            "ru": "эпоха",
+            "ex": "L'époque dont parle Pastoureau est le XIIIe siècle."
+          },
+          {
+            "fr": "un exposé",
+            "ru": "доклад, выступление",
+            "ex": "Je prépare un exposé sur la banalité du mal."
+          },
+          {
+            "fr": "se méfier de",
+            "ru": "остерегаться, не доверять",
+            "ex": "Un personnage dont il faut se méfier."
+          },
+          {
+            "fr": "le pouvoir",
+            "ru": "власть",
+            "ex": "Le pouvoir dont on hérite est rarement discuté."
+          }
+        ],
+        "quiz": [
+          {
+            "type": "choice",
+            "q": "«Le film ___ je te parle est de Park Chan-wook.» Что вставить?",
+            "explain": "parler требует de, поэтому «о котором» — это dont.",
+            "hint": null,
+            "tag": "pronoms relatifs",
+            "options": [
+              "dont",
+              "que",
+              "qui",
+              "où"
+            ],
+            "answer": 0
+          },
+          {
+            "type": "choice",
+            "q": "«Les archives ___ Foucault a consultées étaient à Paris.» Что вставить?",
+            "explain": "После пропуска стоит подлежащее Foucault, значит не хватает прямого дополнения — que.",
+            "hint": null,
+            "tag": "pronoms relatifs",
+            "options": [
+              "que",
+              "qui",
+              "dont",
+              "où"
+            ],
+            "answer": 0
+          },
+          {
+            "type": "gap",
+            "q": "Le réalisateur ___ a tourné «Le Samouraï» s'appelle Melville.",
+            "explain": "Сразу за пропуском идёт глагол a tourné — не хватает подлежащего, значит qui.",
+            "hint": null,
+            "tag": "pronoms relatifs",
+            "answer": "qui",
+            "accept": [
+              "qui"
+            ]
+          },
+          {
+            "type": "gap",
+            "q": "C'est un texte ___ j'ai besoin pour mon exposé.",
+            "explain": "avoir besoin de — предлог de прячется в dont.",
+            "hint": null,
+            "tag": "pronoms relatifs",
+            "answer": "dont",
+            "accept": [
+              "dont"
+            ]
+          },
+          {
+            "type": "order",
+            "q": "Собери фразу: «Это книга, о которой я тебе говорил»",
+            "explain": "parler de → dont, а само причастие parlé не согласуется, потому что прямого дополнения нет.",
+            "hint": null,
+            "tag": "pronoms relatifs",
+            "answer": "C'est le livre dont je t'ai parlé",
             "accept": []
           },
           {
             "type": "match",
-            "q": "Составь пары: конструкция и её смысл",
-            "explain": "Каждый из этих глаголов узнаётся именно по своему предлогу.",
+            "q": "Составь пары: пронон и его роль",
+            "explain": "Пронон выбирается по роли слова внутри придаточного, а не по роду и числу.",
             "hint": null,
-            "tag": "глаголы с предлогами",
+            "tag": "pronoms relatifs",
             "pairs": [
               {
-                "fr": "assister à",
-                "ru": "присутствовать"
+                "fr": "qui",
+                "ru": "подлежащее"
               },
               {
-                "fr": "manquer de",
-                "ru": "недоставать (качества)"
+                "fr": "que",
+                "ru": "прямое дополнение"
               },
               {
-                "fr": "s'attendre à",
-                "ru": "предполагать"
+                "fr": "dont",
+                "ru": "дополнение с de"
               },
               {
-                "fr": "rendre",
-                "ru": "делать каким-то"
+                "fr": "où",
+                "ru": "место или время"
               },
               {
-                "fr": "se rendre compte de",
-                "ru": "осознавать"
+                "fr": "ce qui",
+                "ru": "«что» о целой мысли"
               }
             ]
           },
           {
             "type": "listen",
             "q": "Что ты услышал? Впиши по-французски",
-            "explain": "Схема «X me manque» — то, чего не хватает, стоит подлежащим.",
+            "explain": "На слух dont звучит коротко и глухо, но именно оно тянет за собой parler de.",
             "hint": null,
-            "tag": "manquer à / de",
-            "say": "Ce cinéma me manque beaucoup",
-            "answer": "Ce cinéma me manque beaucoup",
+            "tag": "pronoms relatifs",
+            "say": "C'est le film dont tout le monde parle",
+            "answer": "C'est le film dont tout le monde parle",
             "accept": [
-              "Ce cinema me manque beaucoup"
+              "c'est le film dont tout le monde parle"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Философ, книги которого я читаю, умер в 1984 году",
+            "explain": "dont уже содержит de, поэтому притяжательное ses не ставится, остаётся артикль les.",
+            "hint": "«книги которого» = de ce philosophe → dont, и никакого ses",
+            "tag": "pronoms relatifs",
+            "answer": "Le philosophe dont je lis les livres est mort en 1984",
+            "accept": [
+              "Le philosophe dont je lis les livres est décédé en 1984",
+              "Le philosophe dont je lis les ouvrages est mort en 1984"
             ]
           }
         ],
-        "builtAt": "2026-09-26T08:16:54"
+        "builtAt": "2026-09-27T08:15:49"
       }
     },
     {
-      "id": "tr:f2485e8701",
+      "id": "tr:57605497d6",
       "kind": "translation",
-      "title": "Перевод: письмо преподавателю после пропущенной лекции",
-      "topic": "письмо преподавателю",
+      "title": "Перевод: у букиниста на набережной",
+      "topic": "разговор в книжном магазине",
       "source": "Перевод",
       "flavour": null,
-      "why": "Ты пишешь вежливое письмо и на каждой фразе выбираешь предлог: assister à, manquer, rendre — здесь они идут подряд, как в жизни.",
+      "why": "Ты читаешь много и много о книгах говоришь — а в этой ситуации каждая вторая фраза требует именно «который», то есть твоего свежего qui / que / dont.",
       "minutes": 14,
       "level": "B1",
-      "addedAt": "2026-09-26",
+      "addedAt": "2026-09-27",
       "verdict": "new",
       "lesson": {
-        "intro": "Одно письмо от начала до конца: ты пропустил занятие, просишь конспект и отсрочку — следи за предлогами после глаголов и за формой «il me manque».",
+        "intro": "Одна сцена: ты зашёл к букинисту, спросил книгу, ушёл без сдачи. Следи за выбором relativа и за прошедшими временами: что случилось один раз — passé composé, что было фоном — imparfait.",
         "sections": [],
         "words": [
           {
-            "fr": "un cours",
-            "ru": "занятие, лекция (курс)",
-            "ex": "Je n'ai pas pu venir à votre cours."
+            "fr": "un bouquiniste",
+            "ru": "букинист, продавец старых книг",
+            "ex": "Les bouquinistes des quais de Seine."
           },
           {
-            "fr": "des notes (f. pl.)",
-            "ru": "конспект, записи",
-            "ex": "J'ai emprunté les notes d'un camarade."
+            "fr": "une édition",
+            "ru": "издание",
+            "ex": "C'est une édition de 1962."
           },
           {
-            "fr": "rendre un travail",
-            "ru": "сдать работу",
-            "ex": "Je dois rendre ce travail lundi."
+            "fr": "épuisé",
+            "ru": "распроданный, вышедший из продажи",
+            "ex": "Ce titre est épuisé depuis dix ans."
           },
           {
-            "fr": "rattraper",
-            "ru": "нагнать, догнать (пропущенное)",
-            "ex": "Je vais rattraper ce chapitre ce week-end."
+            "fr": "un rayon",
+            "ru": "полка, отдел",
+            "ex": "Le rayon histoire est au fond."
           },
           {
-            "fr": "tenir à faire qch",
-            "ru": "очень хотеть, считать важным",
-            "ex": "Je tiens à finir cette partie moi-même."
+            "fr": "feuilleter",
+            "ru": "листать",
+            "ex": "J'ai feuilleté trois livres avant de choisir."
           },
           {
-            "fr": "un délai",
-            "ru": "срок",
-            "ex": "Est-ce que le délai est ferme ?"
+            "fr": "d'occasion",
+            "ru": "б/у, из вторых рук",
+            "ex": "Je n'achète que des livres d'occasion."
+          },
+          {
+            "fr": "la monnaie",
+            "ru": "сдача, мелочь",
+            "ex": "Il m'a rendu la monnaie."
           }
         ],
         "quiz": [
           {
             "type": "translate",
-            "q": "Извините, я пропустил ваше занятие в прошлый вторник",
-            "explain": "В значении «пропустить» manquer берёт прямое дополнение: manquer un cours.",
-            "hint": "manquer qch — без предлога",
-            "tag": "manquer à / de",
-            "answer": "Excusez-moi, j'ai manqué votre cours mardi dernier",
-            "accept": [
-              "Pardon, j'ai manqué votre cours mardi dernier",
-              "Excusez-moi, j'ai raté votre cours mardi dernier"
-            ]
-          },
-          {
-            "type": "translate",
-            "q": "Я не смог быть на лекции о средневековом городе",
-            "explain": "Assister à qch — «присутствовать на»; предлог à нельзя опустить.",
-            "hint": "«быть на» — assister à",
-            "tag": "assister à",
-            "answer": "Je n'ai pas pu assister à la conférence sur la ville médiévale",
-            "accept": [
-              "Je n'ai pas pu assister au cours sur la ville médiévale",
-              "Je n'ai pas réussi à assister à la conférence sur la ville médiévale"
-            ]
-          },
-          {
-            "type": "translate",
-            "q": "Мне очень не хватает ваших занятий по истории",
-            "explain": "«Мне не хватает Х» — X me manque, поэтому глагол стоит во множественном числе: cours me manquent.",
-            "hint": "подлежащее — то, чего не хватает",
-            "tag": "manquer à / de",
-            "answer": "Vos cours d'histoire me manquent beaucoup",
-            "accept": [
-              "Vos cours d'histoire me manquent vraiment",
-              "Ils me manquent beaucoup, vos cours d'histoire"
-            ]
-          },
-          {
-            "type": "order",
-            "q": "Собери фразу: «Я пропустил начало лекции»",
-            "explain": "Manquer в смысле «пропустить» идёт без предлога, дальше обычное дополнение.",
+            "q": "Я ищу книгу о средневековом городе",
+            "explain": "chercher — без предлога, прямое дополнение: chercher un livre.",
             "hint": null,
-            "tag": "manquer à / de",
-            "answer": "J'ai manqué le début de la conférence",
-            "accept": []
-          },
-          {
-            "type": "translate",
-            "q": "Мне не хватает второй части конспекта",
-            "explain": "Безличный оборот il me manque qch — самый живой способ сказать «мне не хватает чего-то».",
-            "hint": "безличное il me manque + то, чего нет",
-            "tag": "manquer à / de",
-            "answer": "Il me manque la deuxième partie des notes",
+            "tag": "лексика: книги",
+            "answer": "Je cherche un livre sur la ville médiévale",
             "accept": [
-              "La deuxième partie des notes me manque",
-              "Il me manque la seconde partie du cours"
+              "Je cherche un ouvrage sur la ville médiévale",
+              "Je cherche un livre sur les villes du Moyen Âge"
             ]
           },
           {
             "type": "listen",
             "q": "Что ты услышал? Впиши по-французски",
-            "explain": "Tenir à + инфинитив — «очень хотеть, считать важным».",
+            "explain": "d'occasion — устойчивое выражение без артикля.",
             "hint": null,
-            "tag": "глаголы с предлогами",
-            "say": "Je tiens à rattraper ce cours",
-            "answer": "Je tiens à rattraper ce cours",
+            "tag": "лексика: книги",
+            "say": "Je cherche un livre d'occasion",
+            "answer": "Je cherche un livre d'occasion",
             "accept": [
-              "Je tiens a rattraper ce cours"
+              "je cherche un livre d'occasion"
             ]
           },
           {
             "type": "translate",
-            "q": "Я не ожидал, что работу нужно сдать так быстро",
-            "explain": "После s'attendre à идёт существительное или инфинитив, а «сдать работу» — rendre un travail.",
-            "hint": "s'attendre à + инфинитив; «сдать» — rendre",
-            "tag": "s'attendre à",
-            "answer": "Je ne m'attendais pas à devoir rendre ce travail si vite",
+            "q": "Вчера я зашёл в магазин, который мне посоветовали",
+            "explain": "После que идёт новое подлежащее on, а причастие conseillée согласуется с librairie, потому что прямое дополнение стоит перед avoir.",
+            "hint": "passer и entrer — с être; que + on m'a…",
+            "tag": "pronoms relatifs",
+            "answer": "Hier je suis passé dans la librairie qu'on m'a conseillée",
             "accept": [
-              "Je ne m'attendais pas à ce qu'il faille rendre ce travail si vite",
-              "Je ne pensais pas qu'il fallait rendre ce travail si vite"
+              "Hier je suis entré dans la librairie qu'on m'a recommandée",
+              "Hier je suis allé dans la librairie qu'on m'avait conseillée"
             ]
           },
           {
             "type": "translate",
-            "q": "Можно ли сдать эту работу на следующей неделе?",
-            "explain": "Rendre — «сдавать, возвращать»: rendre un travail, rendre un livre.",
-            "hint": "rendre qch à qn",
-            "tag": "rendre",
-            "answer": "Est-ce que je peux rendre ce travail la semaine prochaine ?",
+            "q": "Продавец сказал, что это издание давно распродано",
+            "explain": "В косвенной речи после прошедшего présent сдвигается в imparfait: est → était.",
+            "hint": null,
+            "tag": "imparfait",
+            "answer": "Le libraire m'a dit que cette édition était épuisée depuis longtemps",
             "accept": [
-              "Serait-il possible de rendre ce travail la semaine prochaine ?",
-              "Puis-je rendre ce devoir la semaine prochaine ?"
+              "Le bouquiniste m'a dit que cette édition était épuisée depuis longtemps",
+              "Le vendeur m'a répondu que cette édition était épuisée depuis longtemps"
             ]
           },
           {
             "type": "translate",
-            "q": "Я буду ждать вашего ответа, прежде чем начать вторую часть",
-            "explain": "Attendre берёт прямое дополнение: attendre une réponse, без pour и без de.",
-            "hint": "attendre qch — без предлога",
-            "tag": "глаголы с предлогами",
-            "answer": "J'attendrai votre réponse avant de commencer la deuxième partie",
+            "q": "Я долго листал книги, которые лежали на столе у входа",
+            "explain": "qui, потому что за ним сразу идёт глагол; фон в прошлом даёт imparfait étaient.",
+            "hint": "«которые лежали» — подлежащее придаточного",
+            "tag": "pronoms relatifs",
+            "answer": "J'ai longtemps feuilleté les livres qui étaient posés sur la table à l'entrée",
             "accept": [
-              "Je vais attendre votre réponse avant de commencer la deuxième partie",
-              "J'attends votre réponse avant de commencer la seconde partie"
+              "J'ai feuilleté longtemps les livres qui se trouvaient sur la table à l'entrée",
+              "J'ai longtemps feuilleté les livres qui traînaient sur la table à l'entrée"
+            ]
+          },
+          {
+            "type": "order",
+            "q": "Собери фразу: «Я купил книгу, которая мне была нужна»",
+            "explain": "avoir besoin de → dont, а не que; besoin был фоном, отсюда imparfait avais.",
+            "hint": null,
+            "tag": "pronoms relatifs",
+            "answer": "J'ai acheté le livre dont j'avais besoin",
+            "accept": []
+          },
+          {
+            "type": "translate",
+            "q": "Это автор, о котором я тебе говорил на прошлой неделе",
+            "explain": "parler de кого-то → dont; причастие parlé остаётся без -e, прямого дополнения нет.",
+            "hint": null,
+            "tag": "pronoms relatifs",
+            "answer": "C'est l'auteur dont je t'ai parlé la semaine dernière",
+            "accept": [
+              "C'est l'écrivain dont je t'ai parlé la semaine dernière",
+              "Voilà l'auteur dont je t'ai parlé la semaine dernière"
             ]
           },
           {
             "type": "translate",
-            "q": "Только теперь я понимаю, насколько мне не хватает этих занятий, и я очень хочу нагнать пропущенное",
-            "explain": "Перед придаточным идёт se rendre compte que (или à quel point), без de; в конце manquer снова значит «пропустить».",
-            "hint": "se rendre compte + que/à quel point; manquer в двух разных смыслах",
-            "tag": "se rendre compte de",
-            "answer": "Ce n'est que maintenant que je me rends compte à quel point ces cours me manquent, et je tiens à rattraper ce que j'ai manqué",
+            "q": "Полки, где стояли старые издания, доходили до потолка",
+            "explain": "où для места; описание обстановки — imparfait.",
+            "hint": "«где» о месте — où",
+            "tag": "pronoms relatifs",
+            "answer": "Les rayons où étaient rangées les vieilles éditions montaient jusqu'au plafond",
             "accept": [
-              "Je me rends compte seulement maintenant à quel point ces cours me manquent, et je tiens à rattraper ce que j'ai manqué",
-              "Maintenant seulement je me rends compte combien ces cours me manquent, et je veux vraiment rattraper ce que j'ai manqué"
+              "Les rayons où se trouvaient les vieilles éditions montaient jusqu'au plafond",
+              "Les étagères où étaient rangées les vieilles éditions montaient jusqu'au plafond"
+            ]
+          },
+          {
+            "type": "translate",
+            "q": "Когда я вышел, я понял, что забыл сдачу, которую он мне дал",
+            "explain": "Два действия раньше момента «понял» уходят в plus-que-parfait, а rendue согласуется с la monnaie перед avoir.",
+            "hint": "то, что случилось раньше другого прошлого — plus-que-parfait",
+            "tag": "plus-que-parfait",
+            "answer": "Quand je suis sorti, j'ai compris que j'avais oublié la monnaie qu'il m'avait rendue",
+            "accept": [
+              "Quand je suis sorti, j'ai compris que j'avais oublié la monnaie qu'il m'avait donnée",
+              "En sortant, j'ai compris que j'avais oublié la monnaie qu'il m'avait rendue"
             ]
           }
         ],
-        "builtAt": "2026-09-26T08:16:54"
+        "builtAt": "2026-09-27T08:15:49"
       }
     }
   ],
   "cards": [],
   "answers": [],
   "history": [
+    {
+      "id": "ls:32f695096f",
+      "title": "Глаголы, которые требуют предлог: assister, manquer, attendre, rendre",
+      "url": null,
+      "source": "Урок",
+      "kind": "lesson",
+      "topic": "глаголы с предлогами",
+      "reason": "Это четыре самых коварных глагола уровня B1: русский подсказывает тебе неверный предлог, и фраза рассыпается — а встречаются они в каждом разговоре о кино и лекциях.",
+      "verdict": "new",
+      "score": null,
+      "total": null,
+      "at": "2026-09-26"
+    },
+    {
+      "id": "tr:f2485e8701",
+      "title": "Перевод: письмо преподавателю после пропущенной лекции",
+      "url": null,
+      "source": "Перевод",
+      "kind": "translation",
+      "topic": "письмо преподавателю",
+      "reason": "Ты пишешь вежливое письмо и на каждой фразе выбираешь предлог: assister à, manquer, rendre — здесь они идут подряд, как в жизни.",
+      "verdict": "new",
+      "score": null,
+      "total": null,
+      "at": "2026-09-26"
+    },
+    {
+      "id": "rd:f19cfefb4b",
+      "title": "En Andalousie, les secrets et les mystères d’Al-Andalus",
+      "url": "https://www.courrierinternational.com/long-format/espagne-en-andalousie-les-secrets-et-les-mysteres-d-al-andalus_244844",
+      "source": "Courrier International",
+      "kind": "article",
+      "topic": null,
+      "reason": "Средневековая Иберия рядом с Эрсом и Пастуро; восемьсот лет идут сплошным imparfait и passé composé",
+      "verdict": "new",
+      "score": null,
+      "total": null,
+      "at": "2026-09-26"
+    },
+    {
+      "id": "yt:PQHVXrguxns",
+      "title": "Mafia in Corsica: in the land of omerta, tongues are loosened",
+      "url": "https://www.youtube.com/watch?v=PQHVXrguxns",
+      "source": "Brut",
+      "kind": "video",
+      "topic": null,
+      "reason": "Криминал и закон молчания — твои Мелвиль и Китано; девять минут живой речи в прошедших",
+      "verdict": "new",
+      "score": null,
+      "total": null,
+      "at": "2026-09-26"
+    },
+    {
+      "id": "rd:3fc6e8b6de",
+      "title": "Va-t-on enfin retrouver la tombe de Néfertiti?",
+      "url": "https://www.slate.fr/culture/toutankhamon-nefertiti-tombe-mystere-recherches-egypte-antique-tombeau-pharaon-sepulture-archeologie",
+      "source": "Slate.fr",
+      "kind": "article",
+      "topic": null,
+      "reason": "У тебя десяток лекций по Египту — тут археология Нефертити и научная лексика без стены",
+      "verdict": "new",
+      "score": null,
+      "total": null,
+      "at": "2026-09-26"
+    },
     {
       "id": "ls:5c5b71f32d",
       "title": "Du coup, en fait, quand même: чем француз склеивает речь",
@@ -1995,6 +2057,22 @@
       "query": "Brut reportage français"
     },
     {
+      "id": "yt:KSQpp3CNeZQ",
+      "kind": "video",
+      "title": "Quantitative Easing - Heu?reka #10",
+      "url": "https://www.youtube.com/watch?v=KSQpp3CNeZQ",
+      "source": "Heu?reka",
+      "sourceId": "youtube",
+      "author": "Heu?reka",
+      "date": null,
+      "duration": 925,
+      "minutes": 15,
+      "hard": "сложный",
+      "image": "https://i.ytimg.com/vi/KSQpp3CNeZQ/hqdefault.jpg",
+      "summary": "Erratum ******************** Attention je dis un peu n'importe quoi sur la fin (13:18). Les euros ne peuvent pas sortir de la zone ...",
+      "query": "Heu?reka économie"
+    },
+    {
       "id": "rd:89d5757b46",
       "url": "https://www.radiofrance.fr/franceculture/podcasts/toute-une-vie/john-coltrane-1926-1967-a-bout-de-souffle-5569895",
       "title": "John Coltrane (1926-1967), à bout de souffle",
@@ -2004,6 +2082,331 @@
       "date": "2026-09-27",
       "minutes": null,
       "summary": "Le saxophoniste le plus célèbre de l’histoire du jazz est né il y a un siècle. Il sera emporté par un cancer 40 ans plus tard. Dans cette vie courte, mais dense, tendons l’oreille aux dernières années : celles où John Coltrane fut le plus créatif, le plus intense, mais aussi le p",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:7545093a5b",
+      "url": "https://www.franceinfo.fr/monde/vatican/pape-leon-xiv/on-minimise-la-dimension-systemique-pourquoi-la-rencontre-du-pape-leon-xiv-avec-sept-victimes-de-violences-sexuelles-provoque-des-crispations_8195732.html#xtor=RSS-3-[lestitres]",
+      "title": "\"On minimise la dimension systémique\" : pourquoi la rencontre du pape Léon XIV avec sept victimes de violences sexuelles provoque des crispations",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Lors de sa visite de quatre jours en France, le souverain pontife doit rencontrer à Lourdes plusieurs personnes qui ont subi des violences sexuelles au sein de l'Eglise. Mais certains collectifs regrettent le format choisi pour cette rencontre.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:7c77c4cff6",
+      "url": "https://www.franceinfo.fr/politique/emmanuel-macron/tout-est-ouvert-en-n-excluant-rien-emmanuel-macron-se-positionne-t-il-deja-pour-la-presidentielle-de-2032_8211044.html#xtor=RSS-3-[lestitres]",
+      "title": "\"Tout est ouvert\" : en \"n'excluant rien\", Emmanuel Macron se positionne-t-il déjà pour la présidentielle de 2032 ?",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "\"Il est assez inhabituel de revenir, mais nous verrons\", a lâché Emmanuel Macron devant des journalistes américains. Le chef de l'Etat, qui ne peut pas se représenter, pose-t-il déjà le premier jalon d'un retour en politique après le prochain quinquennat ? Dans son camp, certains",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:75b5c30166",
+      "url": "https://www.franceinfo.fr/sports/cyclisme/paul-seixas/paul-seixas-peut-il-vraiment-rever-du-maillot-arc-en-ciel-sur-la-course-en-ligne-des-mondiaux-de-cyclisme_8209370.html#xtor=RSS-3-[lestitres]",
+      "title": "Paul Seixas peut-il vraiment rêver du maillot arc-en-ciel sur la course en ligne des Mondiaux de cyclisme ?",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Le jeune coureur français, qui est déjà monté sur le podium du contre-la-montre, rêve de titre mondial sur la course en ligne, à 20 ans seulement.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:e511d622f3",
+      "url": "https://www.franceinfo.fr/culture/musique/madonna/elle-se-reinvente-sans-se-denaturer-comment-madonna-parvient-a-rester-l-indetronable-reine-de-la-pop-apres-plus-de-40-ans-de-carriere_8204270.html#xtor=RSS-3-[lestitres]",
+      "title": "\"Elle se réinvente sans se dénaturer\" : comment Madonna parvient à rester l'indétrônable reine de la pop après plus de 40 ans de carrière",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "La chanteuse a sorti au début de l'été un nouvel album encensé par la critique et fait la course en tête des nominations pour les MTV Video Music Awards, qui se déroulent dimanche soir.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:277fb730e4",
+      "url": "https://www.franceinfo.fr/elections/senatoriales/direct-elections-senatoriales-2026-suivez-le-vote-des-grands-electeurs-et-les-premiers-resultats-du-scrutin_8206589.html#xtor=RSS-3-[lestitres]",
+      "title": "Elections sénatoriales 2026 : les grands électeurs d'une soixantaine de départements sont appelés aux urnes pour le dernier scrutin avant la présidentielle",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Si l'alliance entre Les Républicains et les centristes doit conserver la majorité, le suspense demeure sur la constitution d'un possible groupe pour le Rassemblement national ou une entrée de La France insoumise dans l'hémicycle du Palais du Luxembourg.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:44b238fdc9",
+      "url": "https://www.franceinfo.fr/culture/series/avec-paolo-la-premiere-serie-de-sebastien-marnier-jerome-niel-passe-de-la-comedie-au-thriller_8203277.html#xtor=RSS-3-[lestitres]",
+      "title": "Avec \"Paolo\", la première série de Sébastien Marnier, Jérôme Niel passe de la comédie au thriller",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Lorsque Paolo rencontre Théophane, candidat aux élections municipales, il se rapproche de lui et de son entourage. Mais cette fascination va progressivement se muer en obsession et faire apparaître une autre facette du personnage.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:caf2b2237f",
+      "url": "https://www.courrierinternational.com/article/vu-d-irlande-journee-surrealiste-pour-l-equipe-d-irlande-avant-son-match-contre-israel_274563",
+      "title": "“Journée surréaliste” pour l’équipe d’Irlande avant son match contre Israël",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Les Irlandais affrontent ce dimanche Israël en Hongrie dans le cadre de la Ligue des Nations. Mais il a fallu des heures de débat entre les joueurs pour déterminer s’ils allaient manifester leur soutien à la Palestine. Un joueur a décidé de ne pas disputer le match.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:cdafa61b9c",
+      "url": "https://www.courrierinternational.com/article/pendant-que-vous-dormiez-lourdes-madrid-et-athenes-les-informations-de-la-nuit_274530",
+      "title": "Lourdes, Madrid et Athènes : les informations de la nuit",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Les principales actualités de ces dernières heures vues par la presse internationale.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:e299eb51fb",
+      "url": "https://www.courrierinternational.com/article/diplomatie-a-l-onu-la-tirade-enflammee-contre-l-occident-du-ministre-russe-serguei-lavrov_274497",
+      "title": "À l’ONU, la “tirade enflammée” contre l’Occident du ministre russe Sergueï Lavrov",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Lors d’un discours à l’Assemblée générale des Nations unies, le ministère des affaires étrangères a accusé les puissances européennes et les États-Unis de jouer les va-t-en-guerre en Ukraine. Il avait auparavant rencontré son homologue allemand. Une première depuis 2022.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:cebc5b0da4",
+      "url": "https://www.courrierinternational.com/long-format/inauguration-a-los-angeles-le-lucas-museum-offre-un-fascinant-ecrin-a-l-art-du-peuple_273427",
+      "title": "À Los Angeles, le Lucas Museum offre un “fascinant” écrin à l’“art du peuple”",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "George Lucas a cofondé et donné son nom à un musée de Los Angeles, le Lucas Museum of Narrative Art, ouvert au public depuis le 22 septembre. Plutôt qu’une plongée dans “Star Wars”, il permet d’explorer les collections éclectiques du cinéaste, dans la volonté affichée de mêler œu",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:574a3931ac",
+      "url": "https://www.courrierinternational.com/article/geopolitique-la-mine-de-minacu-place-le-bresil-au-centre-de-la-course-aux-terres-rares_273673",
+      "title": "La mine de Minaçu place le Brésil au centre de la course aux terres rares",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "À Minaçu, dans le Centre-Ouest brésilien, la seule mine du pays à produire des terres rares à l’échelle commerciale vient de passer aux mains d’une entreprise américaine soutenue par le gouvernement Trump. Une acquisition qui a poussé le président Lula à accélérer l’adoption d’un",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:8e5505fac6",
+      "url": "https://www.courrierinternational.com/article/vrai-ou-faux-rapetissons-nous-vraiment-en-vieillissant_269663",
+      "title": "Rapetissons-nous vraiment en vieillissant ?",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Dans sa rubrique “Est-il vrai que… ?” le quotidien britannique “The Guardian” tente de répondre aux questions que l’on s’est toutes et tous déjà posées. Cette semaine, nous apprenons qu’il est possible de ralentir les pertes osseuse et musculaire, même si elles sont inévitables.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:c157de211c",
+      "url": "https://www.courrierinternational.com/article/controverse-la-suisse-doit-elle-inscrire-la-neutralite-perpetuelle-dans-sa-constitution_271263",
+      "title": "La Suisse doit-elle inscrire la “neutralité perpétuelle” dans sa Constitution ?",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Le 27 septembre, les Suisses décideront s’ils souhaitent renforcer – ou non – la neutralité de leur pays. Si le oui l’emporte, Berne ne pourra ni sanctionner de son propre chef un État en guerre, ni véritablement collaborer avec une alliance militaire. De quoi relancer les débats",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:d7702b3ee9",
+      "url": "https://www.lemonde.fr/planete/article/2026/09/27/dans-toute-la-france-des-milliers-de-manifestants-pour-le-climat-j-aurais-aime-qu-on-soit-plus-nombreux-apres-l-ete-que-l-on-vient-de-passer_6783713_3244.html",
+      "title": "Dans toute la France, des milliers de manifestants pour le climat : « J’aurais aimé qu’on soit plus nombreux, après l’été que l’on vient de passer »",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "De Bordeaux à Paris, en passant par Rennes ou Die, 120 000 personnes, selon les organisateurs, ont pris part à 260 rassemblements « pour le climat, pour le vivant, pour la paix, pour la justice sociale ».",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:b2fc98024b",
+      "url": "https://www.lemonde.fr/cinema/article/2026/09/27/tender-loving-care-de-mike-leigh-remporte-la-coquille-d-or-au-festival-international-du-film-de-saint-sebastien_6783762_3476.html",
+      "title": "« Tender Loving Care », de Mike Leigh, remporte la Coquille d’or au Festival international du film de Saint-Sébastien",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Le prix spécial du jury a récompensé « Border », film quasi-muet du jeune cinéaste Ah Biao, originaire de Hongkong, véritable surprise de la compétition espagnole.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:306f571d70",
+      "url": "https://www.lemonde.fr/international/article/2026/09/27/le-nord-est-des-etats-unis-balaye-par-une-puissante-tempete-des-inondations-cotieres-majeures-redoutees-par-les-autorites_6783308_3211.html",
+      "title": "Le nord-est des Etats-Unis balayé par une puissante tempête, des « inondations côtières majeures » redoutées par les autorités",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "La tempête doit se déplacer vers le New Jersey et Long Island dans la nuit de samedi à dimanche et toucher la région avec « toute sa force » dimanche matin, d’après les prévisionnistes.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:b11276911a",
+      "url": "https://www.lemonde.fr/international/article/2026/09/27/donald-trump-rejette-le-plan-de-reouverture-iranien-du-detroit-d-ormuz-teheran-ne-reviendra-pas-sur-ses-conditions_6783275_3211.html",
+      "title": "Donald Trump rejette le plan de réouverture iranien du détroit d’Ormuz ; Téhéran « ne reviendra pas » sur ses conditions",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Les dirigeants iraniens veulent cet accord car « ils sont en train de méchamment perdre », a affirmé le président américain pour justifier sa décision. Dimanche, après le rejet du plan, Téhéran a maintenu sa position sur les modalités d’une réouverture du passage maritime stratég",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:67c283a253",
+      "url": "https://www.lemonde.fr/international/article/2026/09/27/afrique-palestine-ukraine-l-ue-annonce-une-aide-de-710-millions-d-euros-aux-populations-affectees-par-les-crises_6783612_3210.html",
+      "title": "Afrique, Palestine, Ukraine… L’UE annonce 710 millions d’euros d’aide dans plusieurs régions du monde en crise",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "En Afrique subsaharienne, 380 millions d’euros seront alloués au financement d’actions liées aux migrations, « axées sur la protection des migrants vulnérables, le soutien au retour volontaire et à la réintégration », selon un communiqué.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:376fca31a0",
+      "url": "https://www.lemonde.fr/international/article/2026/09/27/la-chine-envoie-deux-pandas-geants-aux-etats-unis-dans-un-nouveau-geste-diplomatique_6783645_3210.html",
+      "title": "La Chine envoie deux pandas géants aux Etats-Unis dans un nouveau geste diplomatique",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Ping Ping et Fu Shuang sont partis de l’aéroport international Chengdu-Shuangliu, dans le sud du pays, dans la nuit de samedi à dimanche. Les ursidés passeront les dix prochaines années dans un zoo américain, en Géorgie.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:a3c5c68bc5",
+      "url": "https://www.lemonde.fr/sport/article/2026/09/27/euro-de-volley-la-pologne-met-fin-au-reve-des-bleus-en-finale_6783611_3242.html",
+      "title": "Euro de Volley : la Pologne met fin au rêve des Bleus en finale",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "L’équipe de France masculine s’est inclinée, samedi à Milan, face aux favoris polonais, implacables (1-3), et elle doit se contenter de la médaille d’argent après une remarquable campagne.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:840cb8bf14",
+      "url": "https://www.lemonde.fr/international/live/2026/09/27/en-direct-guerre-en-ukraine-une-attaque-russe-dans-la-region-de-zaporijia-fait-au-moins-un-mort-selon-les-autorites-locales_6783795_3210.html",
+      "title": "EN DIRECT, guerre en Ukraine : une attaque russe dans la région de Zaporijia fait au moins un mort, selon les autorités locales",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Une femme a également été blessée et des habitations ont été détruites ou endommagées dans cette offensive, a affirmé Ivan Fedorov, chef de l’administration militaire régionale, dans la nuit de samedi à dimanche.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:36fde0165b",
+      "url": "https://www.philomag.com/articles/comment-aristote-t-il-pris-sa-revanche-sur-platon",
+      "title": "Comment Aristote a-t-il pris sa revanche sur Platon ?",
+      "author": "nfoiry",
+      "source": "Philosophie Magazine",
+      "sourceId": "philomag",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:9880fc32e8",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/questions-d-islam/parcours-d-un-etudiant-1072676",
+      "title": "Parcours d'un étudiant",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "À 22 ans, Haron Moussaoui étudie les lettres classiques et les sciences humaines à l’Institut Catholique de Paris. Passionné par la laïcité, les idées politiques et le dialogue interculturel, comment entend-il contribuer au débat citoyen ?",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:b54847e1e7",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/l-info-culturelle-reportages-enquetes-analyses/aux-origines-de-la-cinematheque-francaise-qui-fete-ses-90-ans-1795444",
+      "title": "Aux origines de la Cinémathèque française qui fête ses 90 ans",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Née en 1936, la Cinémathèque française s’est imposée comme un lieu majeur de conservation et de transmission du patrimoine cinématographique. Historien du septième art, Christophe Gauthier revient sur sa création, ses collections et son rôle déterminant dans la formation de génér",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:4cd3fdb5fb",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/journal-de-7-h/journal-de-7h-du-dimanche-27-septembre-2026-5485589",
+      "title": "JOURNAL DE 7H, du dimanche 27 septembre 2026",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "",
       "kind": "article",
       "hard": "сложный"
     },
@@ -2173,19 +2576,6 @@
       "date": "2026-09-26",
       "minutes": null,
       "summary": "“Custard slice” au Royaume-Uni, “vanilla slice” en Australie, ce dessert est un proche cousin du millefeuille français, sans les couches de pâte feuilletée intermédiaires. Pour cette chroniqueuse de l’hebdomadaire britannique “The Spectator”, la découpe de cette crème fuyante tou",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:84b3a3971c",
-      "url": "https://www.courrierinternational.com/article/la-pilule-philosophique-et-si-la-philosophie-se-revelait-plus-nuisible-qu-utile_273607",
-      "title": "Et si la philosophie se révélait plus nuisible qu’utile ?",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-26",
-      "minutes": null,
-      "summary": "Honnis depuis Platon, les sophistes comprenaient peut-être mieux le monde réel, soutient l’auteur mexicain David Toscana, dans le magazine “Letras libres”. Chaque semaine, “Courrier international” vous propose un billet qui soulève des interrogations sur notre condition moderne e",
       "kind": "article",
       "hard": "средний"
     },
@@ -2381,6 +2771,513 @@
       "date": "2026-09-26",
       "minutes": null,
       "summary": "De ses revues de music-hall à ses créatures ou spectacles indisciplinaires, le cabaret est un \"patrimoine vivant\" dont le ministère de la Culture accompagne la reconnaissance. La Saison cabaret vise à \"montrer sa grande diversité sur l'ensemble du territoire\", selon son référent ",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:0f9b07491a",
+      "url": "https://www.rfi.fr/fr/podcasts/100-cr%C3%A9ation/20260926-bene%C3%AFsha-paris-sokona-sissoko-sublime-les-femmes-avec-un-glamour-sur-mesure",
+      "title": "Beneïsha Paris: Sokona Sissoko sublime les femmes avec un glamour sur mesure",
+      "author": "Maria Afonso",
+      "source": "RFI",
+      "sourceId": "rfi",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Du salon familial du 20ᵉ arrondissement de Paris à sa boutique parisienne, Sokona Sissoko a bâti un univers couture où chaque essayage devient une célébration de la féminité. Fondatrice de Beneïsha Paris, elle présente ses robes de mariée et de cérémonie pendant la Fashion Week d",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:7cc18fcb59",
+      "url": "https://www.rfi.fr/fr/france/20260926-le-chanteur-marocain-saad-lamjarred-condamn%C3%A9-en-appel-%C3%A0-dix-ans-de-prison-pour-le-viol-d-une-femme-en-2016",
+      "title": "Le chanteur marocain Saad Lamjarred condamné en appel à dix ans de prison pour le viol d'une femme en 2016",
+      "author": "RFI",
+      "source": "RFI",
+      "sourceId": "rfi",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Le chanteur marocain Saad Lamjarred a été condamné en appel, samedi 26 septembre 2026 à Créteil, à dix ans de réclusion criminelle pour viol aggravé. C’est quatre ans de plus que la peine prononcée en première instance, en 2023. Le parquet général avait requis huit ans. Très popu",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:4bac7bcd3d",
+      "url": "https://www.rfi.fr/fr/france/20260926-france-l-epr-de-flamanville-mis-%C3%A0-l-arr%C3%AAt-plusieurs-mois-pour-changer-le-couvercle-de-la-cuve",
+      "title": "France: l’EPR de Flamanville mis à l’arrêt plusieurs mois pour changer le couvercle de la cuve",
+      "author": "RFI",
+      "source": "RFI",
+      "sourceId": "rfi",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "En France, à partir de ce samedi, la centrale nucléaire EPR de Flamanville est mise à l'arrêt pour un peu moins d'un an. Ce réacteur nucléaire dernière génération est le premier de la sorte dans le pays. Branché au réseau électrique il y a seulement 2 ans, après plus de 19 ans de",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:408cba5224",
+      "url": "https://www.rfi.fr/fr/france/20260926-s%C3%A9natoriales-en-france-enjeux-et-mode-d-emploi",
+      "title": "Sénatoriales en France: enjeux et mode d'emploi",
+      "author": "Raphaël Delvolve",
+      "source": "RFI",
+      "sourceId": "rfi",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Ce dimanche, comme tous les trois ans, la moitié du Sénat français est renouvelé. Ce sont les dernières élections nationales avant la présidentielle de 2027. Les grands équilibres de la chambre haute ne devraient pas fondamentalement bouger, mais des évolutions significatives son",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:bc59b9d5b4",
+      "url": "https://www.rfi.fr/fr/france/20260926-l%C3%A9on-xiv-en-france-le-pape-attendu-pour-une-messe-g%C3%A9ante-devant-des-centaines-de-milliers-de-fid%C3%A8les-%C3%A0-paris",
+      "title": "Léon XIV en France: une deuxième journée marquée par une messe géante à Paris et une prière à Lourdes",
+      "author": "Timéo Guillon",
+      "source": "RFI",
+      "sourceId": "rfi",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Après avoir été acclamé par une marée humaine le long des Champs-Élysées, le pape Léon XIV a célébré une messe géante devant 800 000 personnes, selon le Vatican, revoyant à la hausse ses précédents chiffres de participation établis à 700 000. Le Saint-Père est ensuite arrivé à Lo",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:8211d387b5",
+      "url": "https://www.rfi.fr/fr/podcasts/politique-le-choix-de-la-semaine/20260926-le-rassemblement-national-2027-est-il-devenu-pro-ukraine",
+      "title": "Le Rassemblement national 2027 est-il devenu pro-Ukraine?",
+      "author": "Raphaël Delvolve",
+      "source": "RFI",
+      "sourceId": "rfi",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Certains y voient un nouveau revirement de ligne, d'autres pas du tout. Le RN, accusé d’être pro-russe par ses adversaires depuis longtemps, s’est distingué ces derniers jours en publiant un communiqué d’une inhabituelle fermeté à l’égard de Moscou.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:ff635170d6",
+      "url": "https://www.franceinfo.fr/environnement/crise-climatique/marche-pour-le-climat-des-milliers-de-personnes-defilent-a-marseille-auxerre-rouen-ou-saint-etienne_8211119.html#xtor=RSS-3-[lestitres]",
+      "title": "Marche pour le climat : des milliers de personnes défilent à Marseille, Auxerre, Rouen ou Saint-Étienne",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Les organisateurs réclament notamment un plan d'urgence, d'adaptation et d'atténuation, ainsi que des mesures fiscales pour faire face aux conséquences du réchauffement climatique.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:59cb70a014",
+      "url": "https://www.franceinfo.fr/sports/volley/championnat-d-europe/logiquement-dominee-par-la-pologne-tenante-du-titre-l-equipe-de-france-s-incline-en-finale-de-l-euro-de-volley_8211530.html#xtor=RSS-3-[lestitres]",
+      "title": "L'équipe de France s'incline logiquement en finale de l'Euro de volley face la Pologne tenante du titre",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Bien entrés dans le match, les Bleus se sont écroulés après avoir perdu un interminable premier set, qu'ils pensaient avoir remporté, samedi.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:396bd0ab34",
+      "url": "https://www.franceinfo.fr/culture/livres/affaire-thelyson-orelien/je-l-ai-beaucoup-aime-j-assume-de-le-proposer-malgre-la-polemique-des-libraires-continuent-de-defendre-le-roman-de-thelyson-orelien_8210897.html#xtor=RSS-3-[lestitres]",
+      "title": "\"Je l'ai beaucoup aimé, j'assume de le proposer\" : malgré la polémique, des libraires continuent de défendre le roman de Thélyson Orélien",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Retiré de la sélection du prix Goncourt après des soupçons d’utilisation de l’intelligence artificielle, le livre \"C'était ça ou mourir\" suscite le débat et continue d’être recommandé par certains libraires.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:0db81cafa0",
+      "url": "https://www.franceinfo.fr/monde/europe/manifestations-en-ukraine/la-russie-atteindra-ses-objectifs-en-ukraine-peu-importe-les-circonstances-assure-serguei-lavrov-a-la-tribune-de-l-onu_8211314.html#xtor=RSS-3-[lestitres]",
+      "title": "La Russie atteindra ses objectifs en Ukraine \"peu importe les circonstances\", assure Sergueï Lavrov à la tribune de l'ONU",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Le chef de la diplomatie russe a également accusé l'Union européenne de faire \"tout ce qui est en son pouvoir pour contrecarrer les discussions de paix souhaitées par le gouvernement Trump\".",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:1e26b12f52",
+      "url": "https://www.franceinfo.fr/sports/foot/l-irlande-jouera-bien-contre-israel-en-ligue-des-nations-de-football-malgre-un-appel-au-boycott-en-raison-de-la-situation-a-gaza_8211431.html#xtor=RSS-3-[lestitres]",
+      "title": "L'Irlande jouera bien contre Israël en Ligue des nations de football, malgré un appel au boycott en raison de la situation à Gaza",
+      "author": null,
+      "source": "France Info",
+      "sourceId": "franceinfo",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Les \"Boys in green\" ont finalement décidé, après un vote samedi, de disputer les deux rencontres. Mais sous conditions.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:ab2ab5d2a9",
+      "url": "https://www.slate.fr/sciences/chien-ecouter-etude-sons-langue-consonne-voyelle-cerveau",
+      "title": "On a enfin compris pourquoi votre chien ne vous écoute pas (toujours)",
+      "author": "Laurène Bruncher",
+      "source": "Slate.fr",
+      "sourceId": "slate",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "En enregistrant l'activité cérébrale de chiens et d'humains à l'écoute de certains mots, des chercheurs hongrois ont montré que nos plus fidèles compagnons comprennent mieux les consonnes que les voyelles.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:83f24c84e3",
+      "url": "https://www.slate.fr/monde/bonne-nouvelle-donald-trump-protection-climat-emissions-carbone-petrole-penurie-etats-unis",
+      "title": "Bonne nouvelle: Donald Trump protège le climat malgré lui",
+      "author": "Laura Perren",
+      "source": "Slate.fr",
+      "sourceId": "slate",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Le président américain reste un climatosceptique convaincu. Mais la guerre en Iran, déclenchée par son administration, a provoqué la plus forte baisse des émissions de carbone depuis des années.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:45011351cc",
+      "url": "https://www.slate.fr/societe/comment-instagram-transforme-randonnee-defile-mode-tendance-bivouac",
+      "title": "Instagram a transformé la randonnée en défilé de mode, et ça n'a plus aucun sens",
+      "author": "Pauline Deprez",
+      "source": "Slate.fr",
+      "sourceId": "slate",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Longtemps associée à la déconnexion, la randonnée n'échappe plus à la dictature des réseaux sociaux. À mesure que les images de montagne circulent sur Instagram et TikTok, elles influencent la manière dont certains pratiquants choisissent leurs itinéraires et mettent en scène leu",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:9339a1fe61",
+      "url": "https://www.slate.fr/sciences/panneaux-solaires-hiver-electricite-scientifiques-energie-centrale-solaire-innovation-barrage-suisse",
+      "title": "Comment la Suisse a développé des panneaux solaires qui produisent plus en hiver qu'en été",
+      "author": "Ernest Ginot",
+      "source": "Slate.fr",
+      "sourceId": "slate",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "À 2.500 mètres dans les Alpes suisses, près de 5.000 panneaux solaires bifaciaux ont été installés sur un barrage. Les premiers résultats sont concluants: jusqu'à 43% de la production annuelle d'électricité a été réalisée en hiver.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:826cbd7c26",
+      "url": "https://www.slate.fr/monde/ukraine-russie-suprematie-aerienne-armee-drones-avions-missiles-guerre-armes",
+      "title": "La guerre des drones s'intensifie encore entre la Russie et l'Ukraine, et l'hiver pourrait être décisif",
+      "author": "Thomas Messias",
+      "source": "Slate.fr",
+      "sourceId": "slate",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Les progrès technologiques ont permis aux armées des deux pays de se montrer plus performantes dans les airs. Mais l'un des deux camps est-il en mesure de dominer définitivement l'autre?",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:78fc0bdced",
+      "url": "https://www.courrierinternational.com/article/geopolitique-comment-la-norvege-le-canada-et-la-france-poussent-pour-encadrer-l-ia_273942",
+      "title": "Comment la Norvège, le Canada et la France poussent pour encadrer l’IA",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Après une rencontre à Saint-Pierre-et-Miquelon et quelques SMS entre les dirigeants norvégien, canadien et français – Jonas Gahr Store, Mark Carney et Emmanuel Macron –, une nouvelle alliance émerge pour réguler l’IA. “The Wall Street Journal” raconte les coulisses d’une démarche",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:a96df58a4e",
+      "url": "https://www.courrierinternational.com/article/vu-de-l-etranger-700-000-personnes-pour-leon-xiv-a-paris-le-signe-d-un-regain-de-religiosite-en-france_274464",
+      "title": "Des centaines de milliers de personnes pour Léon XIV, le signe d’un “regain de religiosité” en France",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Le pape Léon XIV a célébré, ce samedi 26 septembre sur la place de la Concorde à Paris, une messe en plein air géante. Une affluence qui, aux yeux de la presse étrangère, illustre la relation particulière de la France laïque avec le catholicisme.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:caf887d3c0",
+      "url": "https://www.courrierinternational.com/article/intelligence-artificielle-controler-ou-non-les-modeles-de-pointe-que-disent-les-acteurs-du-debat-sur-l-iapocalypse_271764",
+      "title": "Contrôler ou non les modèles de pointe : que disent les acteurs du débat sur l’“IApocalypse” ?",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Depuis que Jacob Coxon, un simple ingénieur d’OpenAI, a démissionné pour alerter sur les dangers que ferait peser l’intelligence artificielle de pointe sur le destin de l’humanité, les positions sont tranchées entre ceux qui veulent ralentir le rythme (les patrons d’Anthropic, d’",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:97bc72917f",
+      "url": "https://www.courrierinternational.com/stories/bande-dessinee-helge-reumann-vertige-de-l-humour_272965",
+      "title": "Helge Reumann, vertige de l’humour",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Publié en janvier aux éditions Atrabile, “Chöd”, la dernière bande dessinée de l’artiste genevois, met en scène des créatures étranges, perdues dans des paysages dénudés aux couleurs éclatantes. La presse suisse décrit le travail d’un dessinateur, illustrateur, compositeur et pla",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:78aec7be62",
+      "url": "https://www.courrierinternational.com/article/intelligence-artificielle-des-agents-d-openai-ont-pris-pour-cible-des-sites-gouvernementaux-americains_274431",
+      "title": "Des agents d’OpenAI ont pris pour cible des sites gouvernementaux américains",
+      "author": null,
+      "source": "Courrier International",
+      "sourceId": "courrier",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Deux jours après que le Premier ministre australien a révélé le piratage du système de santé du pays par un agent d’OpenAI, la firme de Sam Altman est à nouveau au cœur de l’actualité. L’été dernier, ses agents d’intelligence artificielle se sont attaqués à des sites liés au gouv",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:581c10ced9",
+      "url": "https://www.lemonde.fr/international/article/2026/09/26/leon-xiv-en-pape-tranquille-et-rassembleur-fait-le-plein-a-paris-pour-la-messe-de-la-concorde_6783543_3210.html",
+      "title": "Léon XIV, en pape tranquille et rassembleur, fait le plein à Paris pour la messe de la Concorde",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Selon le Vatican, 800 000 personnes ont assisté à l’événement. Devant plusieurs candidats à l’élection présidentielle, des catholiques fervents et des curieux, le pape a évoqué dans son homélie « la soif de transcendance ». Il est ensuite parti à Lourdes, pour la prochaine étape ",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:6c52d0e648",
+      "url": "https://www.lemonde.fr/idees/article/2026/09/26/piratage-des-fichiers-de-l-etat-comment-nous-nous-sommes-habitues-a-partager-nos-donnees-sans-compter_6783020_3232.html",
+      "title": "Piratage des fichiers de l’Etat : comment nous nous sommes habitués à partager nos données sans compter",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "L’utilisation des nouvelles technologies contribue à fragiliser un compromis ancien entre l’Etat et les administrés sur l’échange d’informations personnelles. Petite histoire du consentement (ou pas) au recueil et à l’emploi de nos data.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:e131a71044",
+      "url": "https://www.lemonde.fr/international/article/2026/09/26/crise-du-logement-en-espagne-des-milliers-de-manifestants-a-madrid-pour-soutenir-une-octogenaire-expulsee-de-chez-elle_6783545_3210.html",
+      "title": "Crise du logement en Espagne : des milliers de manifestants à Madrid pour soutenir une octogénaire expulsée de chez elle",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Le cas de Maricarmen Abascal accentue la pression sur le premier ministre socialiste, Pedro Sanchez, qui s’était engagé à faire du logement une priorité gouvernementale.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
+      "id": "rd:5f29b6326d",
+      "url": "https://theconversation.com/la-visite-du-pape-une-communion-mediatique-unique-en-son-genre-292906",
+      "title": "La visite du pape, une communion médiatique unique en son genre",
+      "author": "Pascal Lardellier, Professeur, chercheur au laboratoire CIMEOS et à IGENSIA-Education, Université Bourgogne Europe",
+      "source": "The Conversation",
+      "sourceId": "conversation",
+      "date": "2026-09-26",
+      "minutes": 7,
+      "summary": "L’ESSENTIEL La visite du pape en France du 25 au 28 septembre 2026 déplace les foules, et les fidèles souhaitant « voir » Léon XIV sont très nombreux. Mais le séjour papal va surtout rassembler des dizaines de millions de téléspectateurs, qui « communieront » derrière leurs écran",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:748741e0dd",
+      "url": "https://theconversation.com/une-journee-a-lille-au-moyen-age-ou-comment-passer-de-larchive-a-limmersion-dans-le-passe-286170",
+      "title": "Une journée à Lille au Moyen Âge, ou comment passer de l’archive à l’immersion dans le passé",
+      "author": "Pauline Triplet, Doctorante CIFRE en histoire médiévale, Université de Lille",
+      "source": "The Conversation",
+      "sourceId": "conversation",
+      "date": "2026-09-26",
+      "minutes": 6,
+      "summary": "L’ESSENTIEL Les archives permettent de documenter la fabrication et les usages de la place du marché de Lille à la fin du Moyen Âge, malgré la disparition de presque tous ses vestiges matériels. Le projet INSULA propose une restitution visuelle et sonore du marché lillois du 12 j",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:620f6f7a1f",
+      "url": "https://theconversation.com/repenser-le-libre-echange-a-lere-des-oligopoles-291883",
+      "title": "Repenser le libre-échange à l’ère des oligopoles",
+      "author": "Michael Troege, Professeur de Finance, ESCP Business School",
+      "source": "The Conversation",
+      "sourceId": "conversation",
+      "date": "2026-09-26",
+      "minutes": 6,
+      "summary": "L’ESSENTIEL La théorie stratégique du commerce international montre pourquoi des politiques contraires au libre-échange peuvent être rationnelles dans des marchés oligopolistiques. Après la vague de mondialisation des trente dernières années, le changement de contexte géopolitiqu",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:f5c71471fd",
+      "url": "https://theconversation.com/levolution-des-preferences-sexuelles-peut-elle-creer-de-nouvelles-especes-291932",
+      "title": "L’évolution des préférences sexuelles peut-elle créer de nouvelles espèces ?",
+      "author": "Thomas Broquet, Chargé de recherche en génétique des populations, Centre national de la recherche scientifique (CNRS)",
+      "source": "The Conversation",
+      "sourceId": "conversation",
+      "date": "2026-09-26",
+      "minutes": 9,
+      "summary": "Des préférences lors des parades amoureuses peuvent-elles créer de nouvelles espèces&nbsp;? Badzil/Jatin Sindhu/Emmanuelle Pouivé et Glenn Yannic , Fourni par l'auteur L’ESSENTIEL Les parades amoureuses sont primordiales dans le règne animal. Cependant, au sein d’une même espèce,",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:241cf59dc5",
+      "url": "https://theconversation.com/des-tonnes-de-plastique-sechouent-sur-les-plages-des-seychelles-nous-avons-retrace-leur-origine-292467",
+      "title": "Des tonnes de plastique s’échouent sur les plages des Seychelles : nous avons retracé leur origine",
+      "author": "Alex Albinski, DPhil Candidate in Physics, University of Oxford",
+      "source": "The Conversation",
+      "sourceId": "conversation",
+      "date": "2026-09-26",
+      "minutes": 5,
+      "summary": "Les déchets plastiques rejetés par les navires polluent de nombreuses plages. Hiromi Ito Ame/Shutterstock (no reuse) L’ESSENTIEL Les plages des Seychelles, dans l’océan Indien, sont envahies par les déchets plastiques et les engins de pêche. La majorité des engins de pêche échoué",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:d92b8d3e5c",
+      "url": "https://www.philomag.com/articles/paul-cezanne-peintre-et-influenceur-philosophique",
+      "title": "Paul Cezanne, peintre et influenceur philosophique",
+      "author": "nfoiry",
+      "source": "Philosophie Magazine",
+      "sourceId": "philomag",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:f96a512d1a",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/fiction-lab/sans-remede-de-phoebe-hadjimarkos-clarke-9526319",
+      "title": "Parasite(s) 3/3 : \"Sans Remède\" de Phoebe Hadjimarkos Clarke",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Une créature nous parle depuis un espace souterrain où elle confectionne jour après jour un brouet de plantes pour une entité gloutonne et exigeante qu'elle appelle dieu. Elle voudrait s'extraire, s'enfuir... mais le peut-elle ?",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:b2a417e25e",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/fiction-lab/octopus-de-noemie-landreau-2769593",
+      "title": "Parasite(s) 2/3 : \"Octopus\" de Noémie Landreau",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Une femme épuisée se fait implanter une puce pour l'aider au quotidien. Mais à déléguer, ne risque-t-elle pas d'y laisser sa vie ? Une fiction à écouter au casque.",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:8d7d0ba47f",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/fiction-lab/repondez-ushuaia-de-benjamin-abitan-4694921",
+      "title": "Parasite(s) 1/3 : \"Répondez Ushuaïa\" de Benjamin Abitan",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "En 1910, Émile Gauthier, solide gaillard qui n'a peur ni du froid ni de la solitude, est envoyé en marge de l'expédition Charcot à Ushuaïa pour l'installation de la première liaison radio entre l'Antarctique et l'Argentine. Une fiction à écouter au casque.",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:c21d086970",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/mauvais-genres/fureur-asiatique-john-woo-norifumi-suzuki-et-rintaro-6211766",
+      "title": "Fureur asiatique : John Woo, Norifumi Suzuki et Rintaro",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Rentrée cinéma et vidéo pour Mauvais Genres qui vous en dira plus sur trois monuments du cinéma asiatique : \"Le Syndicat du crime\", \"Sex and the Fury\" et \"Galaxy express 999\".",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:b03ec75f60",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/l-avant-scene/au-caire-nanda-mohammad-ma-mere-devait-etre-sur-scene-avec-moi-pour-que-je-retrouve-la-memoire-8935694",
+      "title": "Au Caire, Nanda Mohammad : \"Ma mère devait être sur scène avec moi pour que je retrouve la mémoire\"",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "La comédienne syrienne installée au Caire Nanda Mohammad écrit et met en scène \"Gathering Memories with my Eyelashes\" : elle est sur scène avec sa mère Bouchra pour retrouver la mémoire de l'enfance.",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:ec501bf6be",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/comme-un-samedi-le-live/sourdure-troubadour-auvergnat-1837562",
+      "title": "Sourdure, troubadour auvergnat",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Le bricoleur du répertoire traditionnel auvergnat Ernest Bergez, alias Sourdure, continue de construire une discographie inclassable avec son nouvel album \"Outredore\" (Pagans/Murailles Music).",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:9b6d8fad18",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/comme-un-samedi/sarah-kane-bardot-et-duras-avec-sandrine-bonnaire-2909223",
+      "title": "Sarah Kane, Bardot et Duras avec Sandrine Bonnaire",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Actuellement à l'affiche de 4.48 Psychose au Théâtre de l'Atelier, Sandrine Bonnaire est notre invitée. Aux côtés de Jacques Osinski et Jean-Marc Turine, retour sur un parcours sous la caméra des plus grands, et sur la force intacte de l'indignation.",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:da48414d18",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/journal-de-18h/journal-de-18h-emission-du-samedi-26-septembre-2026-7435272",
+      "title": "Visite du pape en France : Léon XIV célèbre une messe géante place de la Concorde à Paris",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Le pape Léon XIV a salué la jeunesse, \"l'Église d'aujourd'hui\", à l'occasion d'une messe spectaculaire au deuxième jour de sa visite officielle. Plus de 800 000 personnes étaient présentes cette après-midi de la Concorde à l'Arc de Triomphe, dans la capitale.",
+      "kind": "article",
+      "hard": "сложный"
+    },
+    {
+      "id": "rd:3a25027edd",
+      "url": "https://www.radiofrance.fr/franceculture/podcasts/les-philosophes-au-pouvoir/albert-camus-redonnons-du-sens-au-monde-7916424",
+      "title": "Albert Camus : \"Redonnons du sens au monde!\"",
+      "author": null,
+      "source": "France Culture",
+      "sourceId": "franceculture",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "Et si Camus prenait le pouvoir ? Langage politique, révolte, justice, compromis, refus de la violence : que nous apprendrait aujourd’hui la pensée de celui qui voulait rester lucide sans désespérer ?",
       "kind": "article",
       "hard": "сложный"
     },
@@ -2970,6 +3867,19 @@
       "hard": "сложный"
     },
     {
+      "id": "rd:06a6dec2f9",
+      "url": "https://www.lemonde.fr/les-decodeurs/article/2026/09/25/senatoriales-2026-qui-sont-les-grands-electeurs-qui-vont-voter-dimanche_6782469_4355770.html",
+      "title": "Sénatoriales 2026 : qui sont les grands électeurs qui vont voter dimanche ?",
+      "author": null,
+      "source": "Le Monde",
+      "sourceId": "lemonde",
+      "date": "2026-09-25",
+      "minutes": null,
+      "summary": "Le collège électoral des 93 469 personnes appelées à élire les sénateurs est plutôt masculin, âgé et vient surtout des petites communes.",
+      "kind": "article",
+      "hard": "средний"
+    },
+    {
       "id": "rd:ea4bac7de7",
       "url": "https://www.1jour1actu.com/monde/cest-quoi-le-role-du-pape",
       "title": "C’est quoi, le rôle du pape ?",
@@ -3462,855 +4372,10 @@
       "summary": "L’Union accuse l’ancienne patronne de « Russia Today France » d’avoir « relayé des discours en phase avec ceux promus par les autorités russes concernant la guerre d’agression menée contre l’Ukraine ». La chaîne CNews n’a plus le droit de l’employer en tant que chroniqueuse.",
       "kind": "article",
       "hard": "средний"
-    },
-    {
-      "id": "rd:99b7e1dd74",
-      "url": "https://www.lemonde.fr/politique/live/2026/09/24/en-direct-interview-d-emmanuel-macron-suivez-la-prise-de-parole-du-chef-de-l-etat-sur-tf1-et-france-2-a-sept-mois-de-l-election-presidentielle_6781553_823448.html",
-      "title": "EN DIRECT, interview d’Emmanuel Macron : suivez la prise de parole du chef de l’Etat, sur TF1 et France 2, à sept mois de l’élection présidentielle",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "De retour de l’Assemblée générale des Nations unies à New York, le président de la République est interrogé à partir de 20 heures sur TF1 et France 2. L’essentiel de son propos devrait être consacré à la hausse des prix du carburant et à l’état de la menace russe.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:117d5ea79f",
-      "url": "https://www.lemonde.fr/international/live/2026/09/24/en-direct-onu-mahmoud-abbas-s-exprimera-a-distance-faute-de-visa-benyamin-netanyahou-le-fera-plus-tard-dans-la-journee_6780906_3210.html",
-      "title": "EN DIRECT, ONU : La politique d’Israël menace « jusqu’à la vie et l’existence » des Palestiniens, dit Mahmoud Abbas",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Le président de l’Autorité palestinienne s’exprimait dans une vidéo pré-enregistrée devant l’Assemblée générale de l’ONU, faute de visa, ce qu’il considère comme « des mesures punitives sans fondement légal ».",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:3b2c07ce84",
-      "url": "https://www.lemonde.fr/les-decodeurs/article/2026/09/24/penuries-de-carburants-est-il-difficile-de-s-approvisionner-pres-de-chez-vous-la-reponse-en-cartes_6781531_4355770.html",
-      "title": "CARTE Les pénuries de carburants dans les stations-service près de chez vous",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Un peu plus de 10 % des stations de France métropolitaine connaissent actuellement des difficultés d’approvisionnement pour au moins un carburant.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:6a3ff65cd4",
-      "url": "https://www.lemonde.fr/economie/article/2026/09/24/briancon-haut-lieu-des-jo-2030-dans-les-alpes-au-c-ur-des-questionnements-sur-l-avenir-de-la-montagne_6781534_3234.html",
-      "title": "Briançon, haut lieu des JO 2030 dans les Alpes, au cœur du débat sur l’avenir de la montagne bousculée par le réchauffement climatique",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Les projets d’aménagement de la ville des Hautes-Alpes, lieu d’accueil des athlètes olympiques, divisent et soulèvent nombre d’interrogations dans un territoire particulièrement concerné.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:be66f3059b",
-      "url": "https://www.lemonde.fr/societe/article/2026/09/24/mort-de-quentin-deranque-a-lyon-huit-nouvelles-personnes-interpellees_6781528_3224.html",
-      "title": "Mort de Quentin Deranque à Lyon : cinq nouvelles mises en examen, 14 suspects poursuivis",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Cinq personnes ont été mises en examen pour « participation à une association de malfaiteurs en vue de la préparation d’un délit », et quatre également pour « violences aggravées », a précisé le procureur de Lyon.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:5445d28592",
-      "url": "https://www.lemonde.fr/m-styles/article/2026/09/24/qu-est-ce-qu-on-mange-nos-1-000-recettes-pour-cuisiner-selon-la-saison-les-ingredients-ou-l-envie-du-moment_6781323_4497319.html",
-      "title": "Nos 1 000 recettes pour cuisiner selon la saison, les ingrédients ou l’envie du moment",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Vous ne savez que faire de cette aubergine qui traîne dans votre réfrigérateur ? Vous êtes toujours en quête des « vraies » pâtes à la carbonara ? Vous voulez préparer un couscous, mais vos invités sont végétariens ? Ce moteur de recherche compilant toutes les recettes du « Monde",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:9e0ed1ee97",
-      "url": "https://www.lemonde.fr/economie/article/2026/09/24/nucleaire-l-epr-de-flamanville-dernier-ne-des-reacteurs-francais-au-repos-force-durant-pres-d-un-an-pour-une-vaste-operation-de-maintenance_6781526_3234.html",
-      "title": "L’EPR de Flamanville, dernier-né des réacteurs nucléaires français, au repos forcé durant près d’un an pour une vaste opération de maintenance",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Cette première grande visite de contrôle, qui doit démarrer le 26 septembre, va permettre à EDF de remplacer le couvercle défectueux de la cuve.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:9335eb7ffa",
-      "url": "https://theconversation.com/why-volcanic-crystals-are-black-boxes-for-tracking-magmas-journey-to-the-earths-surface-291300",
-      "title": "Why volcanic crystals are black boxes for tracking magma’s journey to the Earth’s surface",
-      "author": "Alberto Caracciolo, Postdoctoral researcher, University of Iceland",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 4,
-      "summary": "When we think of a volcanic eruption, rivers of glowing lava or giant columns of ash come to mind. However, beneath the Earth’s surface, a much more complex and fascinating story is unfolding. The magma that is found in the depths of volcanoes is more than just boiling liquid. It",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:e505212d26",
-      "url": "https://theconversation.com/restriction-calorique-certains-nutriments-presents-dans-les-aliments-peuvent-ils-allonger-la-duree-de-vie-en-bonne-sante-292806",
-      "title": "Restriction calorique : Certains nutriments présents dans les aliments peuvent-ils allonger la durée de vie en bonne santé ?",
-      "author": "Justin Roberts, Professor of Nutritional Physiology, Anglia Ruskin University",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 10,
-      "summary": "Conjuguée à la pratique d’une activité physique régulière, une alimentation variée et équilibrée reste le moyen le plus sûr d’améliorer ses chances de vieillir en bonne santé. Tatjana Baibakova/Shutterstock (no reuse) L’ESSENTIEL Des travaux ont démontré que, chez l’animal, rédui",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:1f88ff0518",
-      "url": "https://theconversation.com/leglise-face-aux-violences-sexuelles-une-lente-conversion-a-la-prise-en-compte-des-victimes-292634",
-      "title": "L’Église face aux violences sexuelles : une lente conversion à la prise en compte des victimes",
-      "author": "Anne Lancien, chercheuse en science politique, Sciences Po",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 8,
-      "summary": "L’ESSENTIEL Longtemps, l’Église catholique a sanctionné les clercs auteurs de violences sexuelles, mais sans transparence et en demandant aux victimes de se taire. Depuis les années 1990, des scandales ont contraint l’Église à changer d’approche. En France, plusieurs dispositifs ",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:6155836161",
-      "url": "https://theconversation.com/le-scrutin-senatorial-favorise-t-il-les-communes-rurales-et-la-droite-292145",
-      "title": "Le scrutin sénatorial favorise-t-il les communes rurales et la droite ?",
-      "author": "Arnaud Brennetot, Géographie politique, Université de Rouen Normandie",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 7,
-      "summary": "En septembre&nbsp;2026, juste avant le renouvellement d’un peu plus de la moitié des sièges au Sénat, le groupe Les Républicains (LR) représente à lui seul 37&nbsp;% de la chambre haute. Si l’on élargit à la majorité de droite et du centre, le pourcentage atteint 65,5&nbsp;%. Sén",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:2611beba38",
-      "url": "https://theconversation.com/differend-france-vanuatu-sur-les-iles-matthew-et-hunter-loption-de-la-cogestion-291790",
-      "title": "Différend France-Vanuatu sur les îles Matthew et Hunter : l’option de la cogestion",
-      "author": "Florian Aumond, Maître de conférences en droit public, Université de Poitiers",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 9,
-      "summary": "L’ESSENTIEL Le Vanuatu a saisi la Cour internationale de justice pour contester la souveraineté française sur les îles Matthew et Hunter, dans l'océan Pacifique Sud, et demander la fixation d’une frontière maritime entre les deux États. Derrière le contentieux territorial se joue",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:96d8a0dbf7",
-      "url": "https://theconversation.com/developpons-les-capacites-creatives-des-universites-287236",
-      "title": "Développons les capacités créatives des universités",
-      "author": "Guy Parmentier, Professeur des universités à Grenoble IAE, Grenoble IAE Graduate School of Management",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 4,
-      "summary": "La créativité des personnes dépend du contexte organisationnel. Guy Parmentier et Bérangère Szostak illustrent les enjeux de développer les capacités créatives des organisations par l’exemple des universités. Lors des résultats donnés par le Conseil européen de la recherche (ou E",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:f86081e484",
-      "url": "https://theconversation.com/creer-du-vin-sans-alcool-commence-des-la-plantation-dune-vigne-274133",
-      "title": "Créer du vin sans alcool commence dès la plantation d’une vigne",
-      "author": "Sylvaine Castellano, Directrice de la recherche, EM Normandie",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 6,
-      "summary": "On ne transforme pas n’importe quel vin en bon vin sans alcool. La qualité de ces vins ne se décrète pas a posteriori , mais aux premières étapes de la viticulture. Le choix du cépage, de la région de production, dont le climat a une forte influence, et les méthodes de vinificati",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:82f8f1ccf4",
-      "url": "https://theconversation.com/ose-t-on-encore-dire-je-ne-sais-pas-291801",
-      "title": "Ose-t-on encore dire « Je ne sais pas » ?",
-      "author": "Emmanuel Carré, Professeur, directeur de Excelia Communication School, chercheur associé au laboratoire CIMEOS (U. de Bourgogne) et CERIIM (Excelia), Excelia",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 6,
-      "summary": "Admettre que l’on ne sait pas, c’est plus difficile qu’il n’y paraît. Saydung/Pixabay , CC BY L’ESSENTIEL Il est très fréquent que nous soyons persuadés de savoir quelque chose, en raison d’un biais psychologique appelé l’« aisance cognitive ». Mais si nous sommes réticents à adm",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:38b7092001",
-      "url": "https://theconversation.com/quiz-comment-soignait-on-la-gueule-de-bois-autrefois-292721",
-      "title": "Quiz - Comment soignait‑on la gueule de bois autrefois ?",
-      "author": "Julien Talbot, Responsable de la stratégie digitale, The Conversation",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "La purgation faisait partie des remèdes contre la gueule de bois prescrits au Moyen Âge. Tacuinum sanitatis Alors que la médecine moderne a profondément transformé notre compréhension des effets de l’alcool, a-t-elle pour autant révolutionné la manière de soigner la gueule de boi",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:9b73ce4444",
-      "url": "https://theconversation.com/baleines-mangroves-phytoplancton-captent-ils-vraiment-notre-co-286200",
-      "title": "Baleines, mangroves, phytoplancton… captent-ils vraiment notre CO₂ ?",
-      "author": "Marina Lévy, Directrice de l'Institut de l'Océan, océanographe, Sorbonne Université; Centre national de la recherche scientifique (CNRS)",
-      "source": "The Conversation",
-      "sourceId": "conversation",
-      "date": "2026-09-24",
-      "minutes": 9,
-      "summary": "L’ESSENTIEL Les écosystèmes marins – des mangroves aux baleines, en passant par le phytoplancton – contiennent du carbone et le font circuler dans l’océan. Certains en concluent, un peu rapidement, que protéger la biodiversité marine permet de limiter le changement climatique. Ce",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:1be7282727",
-      "url": "https://www.philomag.com/articles/lalignement-des-ia-enjeu-du-siecle",
-      "title": "L’“alignement” des IA, enjeu du siècle ?",
-      "author": "nfoiry",
-      "source": "Philosophie Magazine",
-      "sourceId": "philomag",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:9dd8777b29",
-      "url": "https://www.philomag.com/articles/avons-nous-plusieurs-corps",
-      "title": "Avons-nous plusieurs corps ?",
-      "author": "nfoiry",
-      "source": "Philosophie Magazine",
-      "sourceId": "philomag",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:821d041266",
-      "url": "https://www.philomag.com/articles/comment-habiter-mon-corps-le-nouveau-numero-de-philosophie-magazine-sort-ce-jeudi",
-      "title": "“Comment habiter mon corps ?” Le nouveau numéro de Philosophie magazine sort ce jeudi !",
-      "author": "nfoiry",
-      "source": "Philosophie Magazine",
-      "sourceId": "philomag",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:135b221b07",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/questions-du-soir-l-idee/la-democratie-est-elle-empechee-par-le-present-4992322",
-      "title": "La démocratie est-elle empêchée par le présent ?",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Pourquoi la démocratie peine-t-elle à penser le long terme face aux défis comme la crise climatique ? Et comment replacer l’avenir au cœur des décisions politiques et citoyennes ? C'est ce qu'interroge notre invité, l'historien Pierre Rosanvallon, dans son dernier livre, La \"tyra",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:2ed114bae6",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/questions-du-soir-le-debat/primaire-les-socialistes-ont-ils-encore-quelque-chose-a-dire-9465168",
-      "title": "Primaire : les socialistes ont-ils encore quelque chose à dire ?",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "La primaire de la gauche socialiste et démocratique est lancée. Si Raphaël Glucksmann l’emporte, le Parti socialiste pourrait être absent de la présidentielle pour la première fois depuis 1969. Alors, une question se pose : les socialistes ont-ils encore un avenir politique ?",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:4cf7805e3e",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/journal-de-18h/journal-de-18h-emission-du-jeudi-24-septembre-2026-4190781",
-      "title": "Espagne : expulsée à 87 ans de son logement après 70 ans",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "L'Espagne sous le choc après l'expulsion par la police d'une vieille dame de 87 ans de son appartement. Un drame devant les caméras qui symbolise la crise du logement dans le pays.",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:d0b1c005f0",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/lsd-la-serie-documentaire/un-eventail-des-possibles-2937270",
-      "title": "Alzheimer : comment faire face ? 4/4 : Un éventail des possibles",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Bien qu'aucun traitement ne permette de stopper Alzheimer, il existe une grande diversité de solutions concernant la prise en charge des malades. Dans ce dernier épisode, tour d'horizon non exhaustif de dispositifs et d'établissements spécialisés dans l'accompagnement des personn",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:7e197a2ffd",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/l-info-culturelle-reportages-enquetes-analyses/ia-et-litterature-on-assiste-a-une-paranoia-ou-tout-devient-suspect-avec-des-lecteurs-detectives-textuels-2683800",
-      "title": "IA et littérature : \"On assiste à une paranoïa où tout devient suspect, avec des lecteurs détectives textuels\"",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Avec la lourde accusation visant l'auteur Thélyson Orélien, le monde français de l'édition fait face à sa première grande crise liée à l'utilisation de l'intelligence artificielle. Chargée d'enseignement et autrice d'un livre à ce sujet, Stéphanie Parmentier analyse ce soupçon cr",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:bb904abf9b",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/la-science-au-labo/motilite-cellulaire-et-cancer-du-sein-agressif-une-proteine-pour-freiner-la-migration-des-metastases-9887039",
-      "title": "Motilité cellulaire et cancer du sein agressif : une protéine pour freiner la migration des métastases",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "La motilité cellulaire est étudiée en contexte oncologique, où l'un des enjeux consiste à maîtriser l’expansion tumorale. Au sein du plus grand centre oncologique européen, l'hôpital Gustave Roussy, une équipe de recherche les cible pour développer des thérapies pour le cancer du",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:e4a6c33907",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/la-science-cqfd/migration-cellulaire-comment-les-cellules-se-baladent-dans-l-organisme-4004665",
-      "title": "Migration cellulaire : comment les cellules se baladent dans l'organisme",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Se déplacer est une propriété fondamentale du vivant : les cellules rampent, nagent ou avancent en groupe pour bâtir nos tissus et les réparer. Mais ce même programme, détourné, permet aux cellules cancéreuses de métastaser. Comment décrypter la motilité pour freiner leur migrati",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:1be15bccc7",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/le-book-club/le-book-club-emission-du-jeudi-24-septembre-2026-7176038",
-      "title": "L’enfant fantôme, avec Adèle Haenel et Gisèle Vienne",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Des enfants sur un plateau de théâtre, des questions sur les convenances et une histoire de silence qui se brise. Avec \"Viser juste\", texte percutant au croisement du scénario, de l'essai philosophique et du roman, Adèle Haenel affirme l’importance de dire pour survivre.",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:31a6e6bba9",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/le-droit-d-ailleurs/renforcement-des-forces-de-l-ordre-l-exemple-de-ice-aux-etats-unis-9957051",
-      "title": "Renforcement des forces de l'ordre : l'exemple de ICE aux Etats-Unis",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Les Etats-Unis sont le théâtre d’une crispation autour des moyens phénoménaux déployés par une nouvelle force de police créée par Donald Trump, la police ICE. Quels sont les dangers d'un tel renforcement des forces de l'ordre ?",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:72814a2a72",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/au-nom-du-droit/loi-ripost-comment-reformer-la-justice-penale-9584882",
-      "title": "« Loi RIPOST : comment réformer la justice pénale ? »",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "L’adoption de la loi RIPOST le 18 août 2026 sur la sécurité du quotidien, porté par le ministère de l'intérieur, relance le débat sur la justice pénale. Quelles sont les nouveaux moyens dont vont bénéficier les forces de l'ordre ? Comment ces nouvelles mesures vont-elles être mis",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:30931a45f2",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/les-midis-de-culture-l-invite-e/anne-godard-ecrivaine-revele-les-traumatismes-enfouis-dans-son-nouveau-roman-nous-aussi-3300504",
-      "title": "Anne Godard, écrivaine : \"C'est dans la langue que j'ai trouvé le moyen de dire ce que j'essayais de raconter\"",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Troisième roman d'Anne Godard, \"Nous aussi\", l’un des livres les plus remarqués de la rentrée, en lice pour plusieurs prix, dont le Goncourt, vient de recevoir le Prix des libraires de Nancy – Le Point 2026. Entretien avec son autrice.",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:9b8a6240e1",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/le-point-culture/les-midis-de-culture-le-point-culture-emission-du-jeudi-24-septembre-2026-8255802",
-      "title": "La journaliste E. Jean Carroll raconte dans un livre comment elle a fait plier Donald Trump",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Journaliste, écrivaine et chroniqueuse américaine, E. Jean Carroll a remporté deux procès contre Donald Trump : le premier pour agression sexuelle, le second pour diffamation. Elle raconte ce combat dans un livre, \"Not My Type\", qui vient de paraître en France aux éditions du Che",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:c5a80646a3",
-      "url": "https://www.rfi.fr/fr/podcasts/reportage-france/20260924-%C3%A0-clichy-sous-bois-des-jeunes-en-p%C3%A8lerinage-se-pr%C3%A9parent-%C3%A0-l-arriv%C3%A9e-du-pape",
-      "title": "À Clichy-sous-Bois, des jeunes en pèlerinage se préparent à l'arrivée du pape [3/3]",
-      "author": "Laurence Théault",
-      "source": "RFI",
-      "sourceId": "rfi",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Alors que le pape est attendu au Stade de France ce 25 septembre au soir, l'évêque de Saint-Denis, Mgr Étienne Guillet, souhaite que cet événement ne soit pas une fête que pour les catholiques. Les jeunes de 17 à 35 ans seront à l'honneur pour une veillée de prière avec le souver",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:f302934df3",
-      "url": "https://www.slate.fr/culture/jane-austen-adaptation-cinema-romans-litterature-raison-sentiments-critique-experts",
-      "title": "Les romans de Jane Austen sont adaptés n'importe comment au cinéma: voilà ce qu'en pensent les experts",
-      "author": "Laura Perren",
-      "source": "Slate.fr",
-      "sourceId": "slate",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Un nouveau film inspiré de «Raison et Sentiments» est sorti en salles mercredi 23 septembre. Plusieurs experts analysent comment les adaptations cinématographiques s'éloignent du style critique et ironique de la célèbre romancière.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:26b378bed0",
-      "url": "https://www.slate.fr/societe/recherches-emploi-interminables-sante-mentale-recrutement-candidat-chomage-longue-duree-travail-france-etats-unis",
-      "title": "Comment les interminables recherches d'emploi affectent votre santé mentale",
-      "author": "Laura Perren",
-      "source": "Slate.fr",
-      "sourceId": "slate",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "Aux États-Unis comme en France, près d'un quart des chômeurs sont considérés comme des chômeurs de longue durée. Alors que les envois de candidatures se multiplient au fil des mois, certains commencent à perdre espoir.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:43d3c6e763",
-      "url": "https://www.slate.fr/culture/intelligence-artificielle-oui-non-thelyson-orelien-livre-prix-litterature",
-      "title": "Thélyson Orélien a-t-il écrit son roman avec une IA? Procès d'un livre que presque personne n'a lu",
-      "author": "Jean-Marc Proust",
-      "source": "Slate.fr",
-      "sourceId": "slate",
-      "date": "2026-09-24",
-      "minutes": null,
-      "summary": "«C'était ça ou mourir», le roman de Thélyson Orélien qui vient d'obtenir le Prix Fnac, a-t-il été écrit par une intelligence artificielle? L'emballement médiatique autour de cette affaire est d'autant plus intense que les preuves sont invérifiables, ce qui n'empêche nullement les",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:e9a295e4dc",
-      "url": "https://www.1jour1actu.com/culture/un-film-disney-dans-ce-chateau-francais",
-      "title": "Un film Disney… dans ce château français !",
-      "author": "Élise Rengot",
-      "source": "1jour1actu",
-      "sourceId": "1jour1actu",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Gros tournage dans un petit village Habituellement, La Brède est un village tranquille. Mais depuis quelques semaines, une drôle d’agitation règne autour de son château. Cette forteresse du Moyen Âge accueille, en ce moment, l’équipe de tournage d’ un film Disney. Personne n’a le",
-      "kind": "article",
-      "hard": "лёгкий"
-    },
-    {
-      "id": "rd:c479d4a30c",
-      "url": "https://www.franceinfo.fr/economie/automobile/essence/direct-flambee-du-prix-des-carburants-la-fnsea-demande-le-doublement-des-aides-aux-agriculteurs-pour-l-achat-de-gazole-non-routier_8205728.html#xtor=RSS-3-[lestitres]",
-      "title": "Flambée du prix des carburants : la FNSEA demande le doublement des aides aux agriculteurs pour l'achat de gazole non routier",
-      "author": null,
-      "source": "France Info",
-      "sourceId": "franceinfo",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "\"Depuis le début de la semaine, le gasoil non routier pour l'agriculture a dépassé 1,50 euro hors taxe le litre, rendant son acquisition extrêmement difficile pour les agriculteurs à la veille des travaux d'automne\", a détaillé Arnaud Rousseau, le président du premier syndical ag",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:ea6302da8e",
-      "url": "https://www.franceinfo.fr/monde/vatican/pape-leon-xiv/tout-est-gratuit-mais-tout-a-un-cout-l-impossible-equation-du-financement-de-la-visite-du-pape_8192072.html#xtor=RSS-3-[lestitres]",
-      "title": "\"Tout est gratuit, mais tout a un coût\" : l'impossible équation du financement de la visite du pape",
-      "author": null,
-      "source": "France Info",
-      "sourceId": "franceinfo",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "L'Eglise de France cherche encore plusieurs dizaines de millions d'euros pour équilibrer les comptes de la visite papale. Une gageure provoquée par le statut particulier de l'Hexagone.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:c06f694771",
-      "url": "https://www.franceinfo.fr/elections/senatoriales/creation-d-un-groupe-rn-arrivee-d-elus-insoumis-equilibres-dans-la-majorite-de-droite-et-du-centre-quels-sont-les-enjeux-des-elections-senatoriales_8193227.html#xtor=RSS-3-[lestitres]",
-      "title": "Création d'un groupe RN, arrivée d'élus insoumis, équilibres dans la majorité de droite et du centre... Quels sont les enjeux des élections sénatoriales ?",
-      "author": null,
-      "source": "France Info",
-      "sourceId": "franceinfo",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Près de 93 500 grands électeurs se rendent aux urnes dimanche pour renouveler la moitié du Sénat. L'un des principaux enjeux concerne l'ampleur de l'arrivée d'élus RN au Palais du Luxembourg.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:6a9012ac76",
-      "url": "https://www.franceinfo.fr/elections/presidentielle/pres-de-neuf-francais-sur-dix-se-disent-pessimistes-pour-l-avenir-de-leurs-enfants-selon-une-enquete-ici-avec-odoxa_8205236.html#xtor=RSS-3-[lestitres]",
-      "title": "Près de neuf Français sur dix se disent pessimistes pour l’avenir de leurs enfants, selon une enquête ICI avec Odoxa",
-      "author": null,
-      "source": "France Info",
-      "sourceId": "franceinfo",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "À l'approche du scrutin présidentiel en 2027, le réseau des antennes locales de Radio France et de France Télévisions lance une grande série de consultations sur les attentes des Français avant l'élection. Le premier volet concerne les sources d'inquiétudes, où le dérèglement cli",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:f9896ef3dc",
-      "url": "https://www.franceinfo.fr/culture/on-peut-discuter-de-mon-style-mais-faire-de-ces-procedes-d-ecriture-des-preuves-d-intelligence-artificielle-n-a-rien-a-voir-avec-la-critique-litteraire-denonce-thelyson-orelien-apres-la-polemique-autour-de-son-roman_8205179.html#xtor=RSS-3-[lestitres]",
-      "title": "\"Faire de ces procédés\" d'écriture \"des preuves d’intelligence artificielle n’a rien à voir avec la critique littéraire\", dénonce Thélyson Orélien",
-      "author": null,
-      "source": "France Info",
-      "sourceId": "franceinfo",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "L'écrivain est soupçonné depuis lundi par des internautes d'avoir eu recours à l'intelligence artificielle dans la rédaction de son ouvrage.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:e1f30b8c15",
-      "url": "https://www.franceinfo.fr/culture/series/matthew-mcconaughey-et-woody-harrelson-sont-ils-vraiment-freres-cinq-choses-a-savoir-sur-cette-folle-rumeur-devenue-une-serie-brothers_8204414.html#xtor=RSS-3-[lestitres]",
-      "title": "Matthew McConaughey et Woody Harrelson sont-ils vraiment frères ? Cinq choses à savoir sur cette folle rumeur devenue une série : \"Brothers\"",
-      "author": null,
-      "source": "France Info",
-      "sourceId": "franceinfo",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Les deux acteurs stars d'Hollywood jouent leurs propres rôles, en \"version exagérée d'eux-mêmes\" dans une nouvelle série originale déjantée d'Apple.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:7e41ef8f2c",
-      "url": "https://www.franceinfo.fr/culture/cinema/sorties-de-films/raison-et-sentiments-daisy-edgar-jones-dans-une-nouvelle-adaptation-de-georgia-oakley-fidele-a-l-esprit-de-jane-austen_8197187.html#xtor=RSS-3-[lestitres]",
-      "title": "\"Raison et sentiments\" : Daisy Edgar-Jones dans une nouvelle adaptation de Georgia Oakley fidèle à l'esprit de Jane Austen",
-      "author": null,
-      "source": "France Info",
-      "sourceId": "franceinfo",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Moins esthétisante et spectaculaire que celle d'Ang Lee, cette nouvelle adaptation du roman de Jane Austen propose un regard neuf sur une œuvre classique d'une grande modernité.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:bd4d670f70",
-      "url": "https://www.slate.fr/politique/chien-ordre-nation-comment-extreme-droite-politise-cause-animale",
-      "title": "Comment l'extrême droite politise la cause animale... avec plus ou moins de réussite",
-      "author": "Apolline Limosino",
-      "source": "Slate.fr",
-      "sourceId": "slate",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "De Jean-Marie Le Pen et ses dobermans au chiot shiba de Jordan Bardella, le rapport de l'extrême droite aux animaux a changé de visage, mais pas de nature. Décryptage d'une stratégie d'affichage qui manie l'amour des bêtes pour promouvoir le contrôle, l'ordre et le repli identita",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:6f9a3f708a",
-      "url": "https://www.courrierinternational.com/article/lettre-de-l-educ-israel-va-t-il-devenir-une-democratie-illiberale_272072",
-      "title": "Israël va-t-il devenir une démocratie illibérale ?",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Vous êtes en terminale ou en première spécialité histoire-géographie, géopolitique et sciences politiques (HGGSP) ? La Lettre de l’éduc est pour vous. Chaque semaine, Benjamin Daubeuf, professeur agrégé d’histoire-géographie, vous conseille la lecture d’un article d’actualité qui",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:b46e3c8063",
-      "url": "https://www.courrierinternational.com/article/geopolitique-a-la-tribune-de-l-onu-emmanuel-macron-s-inquiete-du-retour-de-la-loi-de-la-jungle-dans-le-monde_273474",
-      "title": "À la tribune de l’ONU, Emmanuel Macron s’inquiète du “retour de la loi de la jungle” dans le monde",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Dans son dernier discours devant l’Assemblée générale des Nations unies, Emmanuel Macron a appelé mardi la communauté internationale à soutenir l’ONU plutôt que de céder à “la loi de la jungle”. Il a également critiqué la Russie, Israël et, en termes plus voilés, les États-Unis.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:7cc576ecf6",
-      "url": "https://www.courrierinternational.com/article/pendant-que-vous-dormiez-oligarques-russes-sri-lanka-colombie-et-influenceur-masculiniste-les-informations-de-la-nuit_273475",
-      "title": "Oligarques russes, Sri Lanka, Colombie et influenceur masculiniste : les informations de la nuit",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Les principales actualités de ces dernières heures vues par la presse internationale.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:737e143f42",
-      "url": "https://www.courrierinternational.com/article/politique-au-maroc-des-legislatives-sous-le-signe-du-desenchantement-de-la-jeunesse_273310",
-      "title": "Au Maroc, des législatives sous le signe du “désenchantement de la jeunesse”",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Les Marocains sont appelés aux urnes, mercredi 23 septembre, pour élire leurs 395 députés à la Chambre des représentants. Dans un contexte économique et social fragile, le malaise des jeunes pourrait se traduire par une forte abstention.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:8d9508f5c4",
-      "url": "https://www.courrierinternational.com/article/royaume-uni-envolee-du-prix-du-gazole-la-moitie-de-ce-que-je-gagne-va-dans-le-plein-de-ma-voiture_273277",
-      "title": "Envolée du prix du gazole : “La moitié de ce que je gagne va dans le plein de ma voiture”",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Au Royaume-Uni, comme un peu partout dans le monde, les ménages et les entreprises sont frappés de plein fouet par la flambée des prix des carburants, gazole en tête. En cause, la fermeture du détroit d’Ormuz, les menaces sur celui de Bab El-Mandeb mais aussi des capacités de raf",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:df528cfcc8",
-      "url": "https://www.courrierinternational.com/article/diplomatie-negociations-avec-xi-jinping-donald-trump-va-t-il-passer-taiwan-par-pertes-et-profits_271758",
-      "title": "Négociations avec Xi Jinping : Donald Trump va-t-il passer Taïwan par pertes et profits ?",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Le président américain accueille son homologue chinois à Washington le jeudi 24 septembre. Au menu des discussions : l’Iran, l’intelligence artificielle, un peu de commerce… Et surtout le dossier taïwanais, à propos duquel Donald Trump semble abandonner la doctrine d’ambiguïté st",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:5d2925aaff",
-      "url": "https://www.courrierinternational.com/article/religion-partout-en-occident-les-adultes-se-ruent-vers-les-baptemes_271695",
-      "title": "Partout en Occident, les adultes se ruent vers les baptêmes",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "En France, au Royaume-Uni, aux États-Unis, aux Pays-Bas, en Belgique… Le nombre d’adultes qui se font baptiser ne cesse de grandir. Quelles sont les raisons qui poussent ces personnes, souvent des hommes, à recevoir ce sacrement ? Le quotidien italien “La Repubblica” s’interroge.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:cdf9a2a020",
-      "url": "https://www.courrierinternational.com/article/en-salle-les-elephants-dans-la-brume-un-envoutant-thriller-queer-venu-du-nepal_272953",
-      "title": "“Les Éléphants dans la brume”, un envoûtant thriller queer venu du Népal",
-      "author": null,
-      "source": "Courrier International",
-      "sourceId": "courrier",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Récompensé au dernier Festival de Cannes, “Les Éléphants dans la brume”, du Népalais Abinash Bikram Shah, sort ce 23 septembre en France. Centré autour d’une communauté de femmes transgenres au Népal, les Kinnar, le film a beaucoup plu à la presse indienne et népalaise.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:e560a72551",
-      "url": "https://www.lemonde.fr/international/article/2026/09/23/a-l-assemblee-generale-de-l-onu-donald-trump-fait-mine-d-hesiter-au-sujet-de-l-iran-entre-accord-et-destruction_6780570_3210.html",
-      "title": "A l’Assemblée générale de l’ONU, Donald Trump fait mine d’hésiter, au sujet de l’Iran, entre accord et « destruction »",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Le président américain a dû consacrer, mardi, une partie de son discours d’autocélébration à son impopulaire aventure militaire en Iran. « Est-ce que je les conduis en enfer », s’est-il faussement interrogé, avant d’évoquer un possible accord après les élections de mi-mandat, en ",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:3a453ad4da",
-      "url": "https://www.lemonde.fr/societe/article/2026/09/23/le-djihadiste-othman-garrido-condamne-a-trente-ans-de-reclusion-criminelle-pour-sa-participation-a-une-execution-publique-en-syrie_6780535_3224.html",
-      "title": "Le djihadiste Othman Garrido condamné à trente ans de réclusion criminelle pour sa participation à une exécution publique en Syrie",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Le ministère public avait requis, mardi, la réclusion à perpétuité pour ce djihadiste « total ». La cour d’assises a entendu la défense, qui avait demandé de lui laisser un « horizon » de fin de peine afin d’encourager le travail de désengagement idéologique qu’il a commencé en d",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:654c913ddf",
-      "url": "https://www.lemonde.fr/international/article/2026/09/23/soulagement-au-groenland-et-au-danemark-apres-l-accord-de-securite-signe-avec-washington_6780533_3210.html",
-      "title": "Soulagement au Groenland et au Danemark après l’accord de sécurité signé avec Washington",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Les Etats-Unis ont annoncé qu’ils allaient construire deux nouvelles bases militaires sur le territoire autonome danois et moderniser le site déjà existant. Les investissements dans les secteurs stratégiques seront réservés aux acteurs originaires des pays alliés.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:adc1f2376f",
-      "url": "https://www.lemonde.fr/societe/article/2026/09/23/mort-de-federico-martin-aramburu-je-n-ai-jamais-voulu-tuer-jamais-c-etait-un-tir-de-dissuasion-affirme-romain-bouvier_6780619_3224.html",
-      "title": "Mort de Federico Martin Aramburu : « Je n’ai jamais voulu tuer, jamais. C’était un tir de dissuasion », affirme Romain Bouvier",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Lors de son interrogatoire devant la cour d’assises de Paris, mardi, le coaccusé de Loïk Le Priol, auteur des premiers tirs qui ont blessé l’ancien international de rugby argentin, le 19 mars 2022, a contesté la tentative d’assassinat qui lui est reprochée.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:0293a1c8c6",
-      "url": "https://www.lemonde.fr/afrique/article/2026/09/23/au-maroc-des-elections-legislatives-marquees-par-la-fracture-sociale_6780534_3212.html",
-      "title": "Au Maroc, des élections législatives marquées par la fracture sociale",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Au pouvoir depuis 2021, les trois partis de la majorité s’entredéchirent, alors que les Marocains sont appelés aux urnes, mercredi 23 septembre.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:8bd4801916",
-      "url": "https://www.lemonde.fr/international/live/2026/09/23/en-direct-guerre-en-ukraine-le-chef-de-la-diplomatie-americaine-marco-rubio-va-rencontrer-son-homologue-russe-serguei-lavrov-mercredi-a-new-york_6777944_3210.html",
-      "title": "EN DIRECT, guerre en Ukraine : le chef de la diplomatie américaine, Marco Rubio, va rencontrer son homologue russe, Sergueï Lavrov, mercredi à New York",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Cet échange aura lieu le même jour que la prise de parole du président ukrainien, Volodymyr Zelensky, à la tribune des Nations unies. Ce dernier a dit avoir eu, mardi, « une rencontre positive et productive » avec Donald Trump.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:d6e5992d7a",
-      "url": "https://www.lemonde.fr/societe/article/2026/09/23/naufrage-meurtrier-dans-la-manche-en-2021-jusqu-a-dix-ans-de-prison-requis-contre-les-14-passeurs-presumes_6780569_3224.html",
-      "title": "Naufrage meurtrier dans la Manche en 2021 : jusqu’à dix ans de prison requis contre les 14 passeurs présumés",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Dans la nuit du 23 au 24 novembre 2021, au moins 31 personnes ont péri en mer en tentant de rejoindre l’Angleterre. Seuls un Somalien et un Irakien ont survécu au drame. Une information judiciaire est toujours en cours à l’encontre de sept militaires mis en examen pour non-assist",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:6574c43941",
-      "url": "https://www.lemonde.fr/cinema/article/2026/09/23/les-films-a-l-affiche-les-roches-rouges-her-private-hell-garance-primetime_6780499_3476.html",
-      "title": "Les films à l’affiche : « Les Roches rouges », « Her Private Hell », « Garance », « Primetime »…",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Chaque mercredi dans La Matinale, les journalistes cinéma du « Monde » livrent leurs critiques des films à découvrir en salle. Aujourd’hui, notamment, l’insolence de l’enfance dans le nouveau film de Bruno Dumont.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:250b43ce59",
-      "url": "https://www.lemonde.fr/international/article/2026/09/23/une-querelle-ravivee-entre-charles-spencer-et-charles-iii-le-frere-et-l-ex-epoux-de-feu-lady-di_6780575_3210.html",
-      "title": "Une querelle ravivée entre Charles Spencer et Charles III, le frère et l’ex-époux de feu Lady Di",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Vingt-neuf ans après la mort de la princesse Diana, son frère publie un livre dans lequel il accuse Charles III de s’être montré « d’une jovialité insouciante » dans les jours ayant suivi l’accident survenu à Paris. « La douleur d’un deuil fraternel peut obscurcir la raison », a ",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:2e08d72380",
-      "url": "https://www.lemonde.fr/economie/article/2026/09/23/les-francais-continuent-de-gonfler-leur-livret-a_6780577_3234.html",
-      "title": "Les Français continuent de gonfler leur Livret A",
-      "author": null,
-      "source": "Le Monde",
-      "sourceId": "lemonde",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "Ils y ont déposé près d’un demi-milliard d’euros en août : l’ensemble des produits d’épargne réglementée renoue avec une collecte positive, après avoir perdu 6,7 milliards d’euros depuis le début de l’année.",
-      "kind": "article",
-      "hard": "средний"
-    },
-    {
-      "id": "rd:c014c81036",
-      "url": "https://www.philomag.com/articles/pourquoi-ivan-illich-est-il-un-pionnier-du-velo",
-      "title": "Pourquoi Ivan Illich est-il un pionnier du vélo ?",
-      "author": "nfoiry",
-      "source": "Philosophie Magazine",
-      "sourceId": "philomag",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "",
-      "kind": "article",
-      "hard": "сложный"
-    },
-    {
-      "id": "rd:b378927eb4",
-      "url": "https://www.radiofrance.fr/franceculture/podcasts/journal-de-7-h/journal-de-7h-du-mercredi-23-septembre-2026-5875947",
-      "title": "JOURNAL DE 7H, du mercredi 23 septembre 2026",
-      "author": null,
-      "source": "France Culture",
-      "sourceId": "franceculture",
-      "date": "2026-09-23",
-      "minutes": null,
-      "summary": "",
-      "kind": "article",
-      "hard": "сложный"
     }
   ],
-  "searchCursor": 12,
+  "searchCursor": 18,
   "lastStudy": null,
   "streak": 0,
-  "drillCursor": 4
+  "drillCursor": 5
 }

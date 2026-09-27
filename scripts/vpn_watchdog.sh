@@ -49,6 +49,12 @@ save_state() {
 
 # curl и при неудаче печатает код (000), поэтому запасное значение нужно только на случай пустого вывода.
 probe() { c=$(curl -sS -m "$TIMEOUT" -o /dev/null -w '%{http_code}' "$1" 2>/dev/null); echo "${c:-000}"; }
+# Сколько соединений cloudflared держит с краем Cloudflare (его собственные метрики, 0 — если молчит).
+METRICS="${WATCHDOG_METRICS:-http://127.0.0.1:20241/metrics}"
+ha_connections() {
+  n=$(curl -s -m 3 "$METRICS" 2>/dev/null | awk '/^cloudflared_tunnel_ha_connections / { print int($2) }')
+  echo "${n:-0}"
+}
 
 # Сайт вернулся (или не уходил): сообщаем только если до этого было плохо.
 report_ok() {
@@ -107,6 +113,14 @@ if [ "$hs_age" -lt 0 ] || [ "$hs_age" -gt "$STALE" ]; then
     # Cloudflared после починки VPN сидит в бэкоффе до 64 с — не ждём его, а будим сразу.
     kick_agent cc.bodywithoutorgans.tunnel; last_tunnel=$now
   fi
+elif [ "$lcode" = 200 ] && [ "$(ha_connections)" -gt 0 ]; then
+  # Тоннель держит соединения с Cloudflare, serve отвечает — значит, не сходится только сама проверка:
+  # запрос с mini к краю Cloudflare. С 25.09 (Amnezia Premium) выход VPN теряет SYN до адресов
+  # Cloudflare (1.1.1.1, 188.114.96.0 — через раз, github при этом мгновенно), а входящие через тоннель
+  # идут. Перезапуск cloudflared здесь не лечил, а ронял сайт на 2–3 минуты по 5–8 раз в час.
+  log "тоннель держит $(ha_connections) соединения, serve отвечает — не трогаю: не проходит только проверка с mini"
+  save_state ok 0
+  exit 0
 elif [ $((now - last_tunnel)) -ge "$COOLDOWN" ]; then
   # VPN цел, а сайта нет — значит завис сам cloudflared.
   log "VPN в порядке, перезапускаю только cloudflared"

@@ -1093,9 +1093,9 @@
     },
     {
       "id": "yNv1apUgFik",
-      "status": "queued",
-      "position": 10173,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 0,
+      "listenedAt": "2026-09-27",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "История Иерусалимского королевства. Европейский феодализм на Ближнем Востоке.",
@@ -1109,7 +1109,7 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=yNv1apUgFik",
       "queuedAt": 1789910937,
-      "touchedAt": 1790259339
+      "touchedAt": 1790493367
     },
     {
       "id": "YSGAwKE4SLY",
@@ -7418,7 +7418,7 @@
     {
       "id": "sc:839825950",
       "status": "queued",
-      "position": 0,
+      "position": 5281,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -7433,7 +7433,8 @@
       "url": "https://soundcloud.com/serj-bushwacker/egy1",
       "artwork": "https://i1.sndcdn.com/artworks-n4aK9YJ4pJYeAJBI-mvKsvw-t500x500.jpg",
       "published": "2020-06-14",
-      "queuedAt": 1788726831
+      "queuedAt": 1788726831,
+      "touchedAt": 1790511588
     },
     {
       "id": "sc:839825947",
@@ -7457,9 +7458,9 @@
     },
     {
       "id": "sc:839825944",
-      "status": "queued",
-      "position": 3520,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 0,
+      "listenedAt": "2026-09-27",
       "addedAt": "2026-09-06",
       "note": null,
       "series": [
@@ -7474,7 +7475,7 @@
       "artwork": "https://i1.sndcdn.com/artworks-3327OkGZnQByMqIG-OpzD2A-t500x500.jpg",
       "published": "2020-06-14",
       "queuedAt": 1788726830,
-      "touchedAt": 1789969048
+      "touchedAt": 1790493368
     },
     {
       "id": "sc:839825941",

@@ -1022,6 +1022,10 @@ commits, pushes to GitHub, rsyncs to the mini, and restarts serve. That is the o
 поэтому проверяет не процессы, а результат: `GET /healthz` снаружи, одним запросом через VPN → край Cloudflare →
 тоннель → `serve.py`. Две неудачи подряд — и лечение лестницей: serve → VPN (+ сразу cloudflared, он бы досиживал
 бэкофф до 64 с) → cloudflared. Подробности и ручные команды — `deploy/README.md`.
+**Cloudflared сторож не трогает, пока тот держит соединения** (27.09.2026): если serve отвечает, а в метриках
+cloudflared (`127.0.0.1:20241/metrics`, `ha_connections`) больше нуля, провал проверки — это путь с mini к краю,
+а не сайт. С Amnezia Premium выход VPN через раз теряет SYN до адресов Cloudflare (github при этом мгновенно),
+и сторож 5–8 раз в час перезапускал здоровый тоннель, роняя сайт на 2–3 минуты, — «сайт не открывается».
 ```
 ssh mini tail -20 movies/logs/vpn-watchdog.log      # только аварии и починки, молчит когда всё хорошо
 ssh mini 'sudo -n /usr/local/sbin/vpn-status.sh'    # рукопожатие и rx/tx руками
