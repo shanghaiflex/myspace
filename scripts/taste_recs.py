@@ -655,7 +655,7 @@ def inbox():
                      "year": r.get("year"), "meta": r.get("meta"), "reason": r.get("reason"),
                      "cover": r.get("cover"), "url": r.get("url") if kind == "lecture" else page + "#recs",
                      "eyebrow": noun, "acts": list(KIND_VERDICTS[kind]),
-                     "days": age_days(r.get("suggestedAt"))},
+                     "days": age_days(r.get("suggestedAt")), "suggestedAt": r.get("suggestedAt")},
             "left": len(cands) - 1}
 
 

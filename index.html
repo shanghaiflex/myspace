@@ -347,10 +347,12 @@ Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', n
     const it = ib && ib.item;
     if (!it) return '';
     const more = [it.left ? `ещё ${it.left}` : '', it.days > 1 ? `ждёт ${it.days} дн.` : ''].filter(Boolean).join(' · ');
-    const img = it.kind === 'lecture' ? 'wide' : it.kind === 'book' ? 'book' : 'book';
+    const img = it.kind === 'lecture' ? 'wide' : 'book';
+    // Лекция и старт ведут наружу (YouTube, сайт старта), фильм и книга — на свою страницу. У старта картинки нет.
+    const out = it.kind === 'lecture' || it.kind === 'race' ? ' target="_blank" rel="noopener"' : '';
     return `<div class="item inbox" data-kind="${esc(it.kind)}" data-id="${esc(it.id)}"><div class="eyebrow">Ответить · ${esc(it.eyebrow.toLowerCase())}${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
-      <div class="row"><a class="img ${img}" href="${esc(it.url)}"${it.kind === 'lecture' ? ' target="_blank" rel="noopener"' : ''}>${it.cover ? `<img src="${esc(it.cover)}" alt="" onerror="this.remove()">` : ''}</a>
-        <div class="txt"><h3><a href="${esc(it.url)}"${it.kind === 'lecture' ? ' target="_blank" rel="noopener"' : ''}>${esc(it.title)}${it.year ? ` <span class="y">${it.year}</span>` : ''}</a></h3><div class="sub">${esc(it.meta || it.author || '')}</div></div></div>
+      <div class="row">${it.kind === 'race' ? '' : `<a class="img ${img}" href="${esc(it.url)}"${out}>${it.cover ? `<img src="${esc(it.cover)}" alt="" onerror="this.remove()">` : ''}</a>`}
+        <div class="txt"><h3><a href="${esc(it.url)}"${out}>${esc(it.title)}${it.year ? ` <span class="y">${it.year}</span>` : ''}</a></h3><div class="sub">${esc(it.meta || it.author || '')}</div></div></div>
       ${it.reason ? `<p class="note">${esc(it.reason)}</p>` : ''}
       <div class="acts">${it.acts.map(a => `<button class="btn" data-act="${a}">${ACT[a]}</button>`).join('')}</div></div>`;
   };

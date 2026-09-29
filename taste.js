@@ -1,7 +1,8 @@
 // Советы Claude по фильмам, книгам и лекциям — общий блок для films.html, books.html и lectures.html.
 // Разметку и стили страница даёт сама (секция #recs с .rechead/.recgrid), здесь только данные,
 // отрисовка карточек, вердикты и кнопка «Обновить».
-//   Taste.mount({ kind: 'film'|'book'|'lecture', onAccepted(added) })
+//   Taste.mount({ kind: 'film'|'book'|'lecture'|'race', onAccepted(added), onLoad(db) })
+// Старт (health.html) — совет со ссылкой на сайт старта и без обложки; «Хочу» заводит его в календарь.
 window.Taste = (() => {
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const fmtDay = iso => {
@@ -17,7 +18,7 @@ window.Taste = (() => {
     const meta = sec.querySelector('#recsMeta');
     const btn = sec.querySelector('#recsRefresh');
     const toast = opts.toast || (() => {});
-    const noun = { film: 'фильм', book: 'книгу', lecture: 'лекцию' }[kind] || 'это';
+    const noun = { film: 'фильм', book: 'книгу', lecture: 'лекцию', race: 'старт' }[kind] || 'это';
     // У лекций есть третий ответ: «уже слушал» — направление верное, просто я это знаю.
     // Он не отказ: лекция уезжает в каталог прослушанной и работает дальше как вкус.
     const ACTS = {
@@ -34,9 +35,9 @@ window.Taste = (() => {
       grid.innerHTML = items.map(r => `
         <article class="rec" data-id="${esc(r.id)}">
           <div class="top">
-            <div class="cv">${r.cover ? `<img src="${esc(r.cover)}" alt="" loading="lazy">` : ''}</div>
+            ${kind === 'race' ? '' : `<div class="cv">${r.cover ? `<img src="${esc(r.cover)}" alt="" loading="lazy">` : ''}</div>`}
             <div>
-              <div class="t">${esc(r.title)}${r.year ? ` <span class="y">${r.year}</span>` : ''}</div>
+              <div class="t">${kind === 'race' && r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a>` : esc(r.title)}${r.year ? ` <span class="y">${r.year}</span>` : ''}</div>
               <div class="s">${esc(r.meta || r.author || '')}${r.unverified ? ' · <span class="warn">не нашёл в каталогах</span>' : ''}</div>
             </div>
           </div>
@@ -54,6 +55,7 @@ window.Taste = (() => {
         const db = await fetch(`/api/recs/${kind}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
         updatedAt = (db && db.updatedAt) || null;
         render(db);
+        if (opts.onLoad) opts.onLoad(db);
         return db;
       } catch { return null; }
     }
@@ -70,7 +72,11 @@ window.Taste = (() => {
           body: JSON.stringify({ verdict: b.dataset.act }),
         }).then(async r => { if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || r.status); return r.json(); });
         render(out.recs);
-        if (b.dataset.act === 'liked') {
+        if (opts.onLoad) opts.onLoad(out.recs);
+        if (b.dataset.act === 'liked' && kind === 'race') {
+          const cal = out.added && out.added.calendar;
+          toast(cal && !cal.error ? 'Записал старт в календарь' : 'Запомнил, но в календарь не записалось — заведи руками');
+        } else if (b.dataset.act === 'liked') {
           toast(out.added ? `Добавил ${noun} в планы` : 'Уже в каталоге');
         } else {
           toast(ACTS[b.dataset.act].toast);

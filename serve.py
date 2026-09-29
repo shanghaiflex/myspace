@@ -32,7 +32,9 @@
   POST   /api/reads/refresh       fetch the feeds and ask for fresh picks (scripts/reads.sh)
   GET    /api/french              французский: материалы с разборами, колода слов, ошибки (scripts/french.py)
   GET    /api/french/one          один вопрос на полку главной; POST /api/french/answer {id,i,given} — ответ
-  GET    /api/inbox               самый старый неотвеченный совет (фильм/книга/лекция) для полки главной
+  GET    /api/recs/race           советы по стартам (races.json) + планы; PATCH /api/rec/race/<id> {verdict: liked|dismissed}
+                           (liked заводит старт в Яндекс.Календарь), POST /api/recs/race/refresh — scripts/races.sh
+  GET    /api/inbox               самый старый неотвеченный совет (фильм/книга/лекция/старт) для полки главной
   PATCH  /api/french/<id>         body: {verdict: done|dismissed, answers:[{i,given}]}  закрыть материал
   POST   /api/french/cards        body: {results:[{id,correct}]}  итог сессии карточек
   POST   /api/french/level        body: {level: A1..C1}
@@ -67,6 +69,7 @@ import weather as W  # noqa: E402
 import health as H  # noqa: E402
 import mix_recs as R  # noqa: E402
 import taste_recs as T  # noqa: E402
+import races as RC  # noqa: E402
 import reads as RD  # noqa: E402
 import french as FR  # noqa: E402
 import home as HM  # noqa: E402
@@ -84,6 +87,7 @@ REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
 WORKOUT_REVIEW_DELAY = 90
 RECS_JOB = {"status": "idle", "started": 0}    # manual mix-advice run
 TASTE_JOBS = {k: {"status": "idle", "started": 0} for k in T.KINDS}  # manual film / book / lecture advice runs
+RACES_JOB = {"status": "idle", "started": 0}   # советы по стартам (scripts/races.sh)
 READS_JOB = {"status": "idle", "started": 0}   # manual article run (feeds + Claude)
 FRENCH_JOB = {"status": "idle", "started": 0}  # французский: подбор материалов + разборы
 WEEK_JOB = {"status": "idle", "started": 0}   # итоги недели (scripts/week_review.sh)
@@ -375,7 +379,20 @@ class Handler(SimpleHTTPRequestHandler):
         if route == "/api/inbox":
             # Советы по фильмам, книгам и лекциям на своих страницах умирали неувиденными — на полке
             # главной лежит одна карточка, самая старая, с кнопками; вердикт идёт в PATCH /api/rec/…
-            return self.send_json(200, T.inbox())
+            # Старты живут в своём races.json, но в инбокс идут наравне: самый старый совет из всех видов.
+            ib = T.inbox()
+            race, left = RC.inbox_item()
+            if race:
+                mine = ib.get("item")
+                if not mine or (race.get("suggestedAt") or "") < (mine.get("suggestedAt") or "~"):
+                    ib = {"item": race, "left": ib.get("left", 0) + (1 if mine else 0) + left - 1}
+                else:
+                    ib["left"] = ib.get("left", 0) + left
+            return self.send_json(200, ib)
+        if route == "/api/recs/race":
+            out = RC.public()
+            out["job"] = RACES_JOB["status"]
+            return self.send_json(200, out)
         if route.startswith("/api/recs/"):
             kind = route[len("/api/recs/"):]
             if kind not in T.KINDS:
@@ -646,6 +663,8 @@ class Handler(SimpleHTTPRequestHandler):
             except SystemExit as e:
                 return self.send_json(400, {"error": str(e)})
             return self.send_json(200, {"level": level})
+        if route == "/api/recs/race/refresh":
+            return self.send_json(200, {"status": self.start_job(RACES_JOB, "races.sh", timeout=1800)})
         if route.startswith("/api/recs/") and route.endswith("/refresh"):
             kind = route[len("/api/recs/"):-len("/refresh")]
             if kind not in T.KINDS:
@@ -783,6 +802,17 @@ class Handler(SimpleHTTPRequestHandler):
                                             args=("--drills",))
             return self.send_json(200, {**out, "french": FR.summary()})
         parts = self.path_id("/api/rec/")
+        if parts and parts.startswith("race/"):
+            try:
+                body = self.read_json()
+            except Exception:
+                return self.send_json(400, {"error": "bad json"})
+            try:
+                with LOCK:
+                    out = RC.verdict(parts[len("race/"):], (body.get("verdict") or "").strip())
+            except SystemExit as e:
+                return self.send_json(400, {"error": str(e)})
+            return self.send_json(200, {**out, "recs": RC.public()})
         if parts and "/" in parts:
             kind, rid = parts.split("/", 1)
             if kind not in T.KINDS:

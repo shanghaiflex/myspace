@@ -345,7 +345,8 @@ def agenda(days=7, start_date=None, text=None, only=None, skip=None):
                 # it just does not make the person busy, so it is listed but never eats a free window.
                 out[start.date()].append({"summary": item["summary"], "start": start, "end": end,
                                           "allday": item["allday"], "busy": item["busy"],
-                                          "calendar": item["calendar"], "who": item.get("who")})
+                                          "calendar": item["calendar"], "who": item.get("who"),
+                                          "recurring": bool(ev.get("rrule"))})
     for day in out.values():
         day.sort(key=lambda e: (not e["allday"], e["start"]))
     return out
