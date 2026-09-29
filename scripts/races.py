@@ -268,7 +268,7 @@ def page_text(raw, base):
     return "\n".join(out)
 
 
-def get(url, timeout=30, tries=2):
+def get(url, timeout=30, tries=3):
     """С mini (VPN в Финляндии) российские хостинги иногда молчат до таймаута — вторая попытка часто проходит."""
     for n in range(tries):
         try:

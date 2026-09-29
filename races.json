@@ -1,7 +1,7 @@
 {
   "updatedAt": "2026-09-29T12:46:10",
   "model": "opus",
-  "fetchedAt": "2026-09-29T12:29:20",
+  "fetchedAt": "2026-09-29T12:50:51",
   "items": [
     {
       "id": "75b1a3302c",
@@ -1352,6 +1352,21 @@
       "size": "зарегистрировано 159"
     },
     {
+      "id": "b5a07c09bf",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Фестиваль спорта «Исток Дона»",
+      "date": "2026-10-10",
+      "dateEnd": null,
+      "place": "Новомосковск",
+      "sports": [
+        "trail"
+      ],
+      "distances": "15 км, 7 км",
+      "url": "https://reg.russiarunning.com/event/ID2026#new_tab",
+      "evidence": "10/10/2026 Фестиваль спорта «Исток Дона»"
+    },
+    {
       "id": "42854e8b41",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -1366,21 +1381,6 @@
       "url": "http://swimsuprun.ru/",
       "evidence": "10.10.2026 | Фестиваль спорта «Исток Дона» | Тульская область, Новомосковск | 15 км 7500 м (Т7) | run | — ⟨http://swimsuprun.ru/⟩",
       "size": null
-    },
-    {
-      "id": "b5a07c09bf",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Фестиваль спорта «Исток Дона»",
-      "date": "2026-10-10",
-      "dateEnd": null,
-      "place": "Новомосковск",
-      "sports": [
-        "trail"
-      ],
-      "distances": "15 км, 7 км",
-      "url": "https://reg.russiarunning.com/event/ID2026#new_tab",
-      "evidence": "10/10/2026 Фестиваль спорта «Исток Дона»"
     },
     {
       "id": "e18bc05ca6",
@@ -1589,6 +1589,21 @@
       "size": "зарегистрировано 2229"
     },
     {
+      "id": "23a1e24147",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Осенний трейл «Краски леса»",
+      "date": "2026-10-11",
+      "dateEnd": null,
+      "place": "Ступино",
+      "sports": [
+        "trail"
+      ],
+      "distances": "10 км, 21 км, 5 км",
+      "url": "https://reg.russiarunning.com/event/TREYLKRASKILESA2026#new_tab",
+      "evidence": "11/10/2026 Осенний трейл «Краски леса»"
+    },
+    {
       "id": "04c2c42301",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -1603,21 +1618,6 @@
       "url": "https://probeg.org/event/83373/",
       "evidence": "11.10.2026 | Осенний трейл «Краски леса» | Московская область, Ступино | полумарафон 10 км 5 км 1 км | trail | рейтинг ПроБЕГа 4.9 (9 оценок) ⟨https://probeg.org/event/83373/⟩",
       "size": "рейтинг ПроБЕГа 4.9 (9 оценок)"
-    },
-    {
-      "id": "23a1e24147",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Осенний трейл «Краски леса»",
-      "date": "2026-10-11",
-      "dateEnd": null,
-      "place": "Ступино",
-      "sports": [
-        "trail"
-      ],
-      "distances": "10 км, 21 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/TREYLKRASKILESA2026#new_tab",
-      "evidence": "11/10/2026 Осенний трейл «Краски леса»"
     },
     {
       "id": "9580525d32",
@@ -2455,6 +2455,22 @@
       "size": null
     },
     {
+      "id": "5f8283af5e",
+      "series": "probeg",
+      "seriesName": "ПроБЕГ, Центр",
+      "name": "Соревнования по горному бегу «Парсек-Трофи» №65. Кубок России по горному бегу (вверх-вниз). Чемпионат Москвы. Финал Гран-При России. Финал Гран-При России Мастерс",
+      "date": "2026-10-24",
+      "dateEnd": null,
+      "place": "Москва",
+      "sports": [
+        "trail"
+      ],
+      "distances": "11880 м (+816м, -816м) 7920 м (+544м, -544м) 5940 м (+408м, -408м) 3960 м (+272м, -272м) 1980 м (+136м, -136м)",
+      "url": "https://www.parsec-club.ru/mr/pt/2026",
+      "evidence": "24.10.2026 | Соревнования по горному бегу «Парсек-Трофи» №65. Кубок России по горному бегу (вверх-вниз). Чемпионат Москвы. Финал Гран-При России. Финал Гран-При России Мастерс | Москва | 11880 м (+816м, -816м) 7920 м (+544м, -544м) 5940 м (+408м, -408м) 3960 м (+272м, -272м) 1980 м (+136м, -136м) | ",
+      "size": "рейтинг ПроБЕГа 4.8 (3 оценок)"
+    },
+    {
       "id": "b5264f4148",
       "series": "trails",
       "seriesName": "Календарь трейлов («Марафонец»)",
@@ -2468,6 +2484,21 @@
       "distances": "10 км, 3.5 км",
       "url": "https://reg.russiarunning.com/event/NochOkaTrail2026#new_tab",
       "evidence": "24/10/2026 Трейл «Окская тропа» – ночной забег"
+    },
+    {
+      "id": "4e77e5a559",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Трейл «Рубеж»",
+      "date": "2026-10-24",
+      "dateEnd": null,
+      "place": "Ильинское",
+      "sports": [
+        "trail"
+      ],
+      "distances": "10 км, 100 км, 30 км, 5 км",
+      "url": "https://xn--40-emcadbfdgn.xn--p1ai/events/162#new_tab",
+      "evidence": "24/10/2026 Трейл «Рубеж»"
     },
     {
       "id": "1dc7453006",
@@ -2484,21 +2515,6 @@
       "url": "https://проспорт40.рф/events/162",
       "evidence": "24.10.2026 | Трейл «Рубеж» | Калужская область, Медынь | 100 км 30 км 10 км 5 км 1 км | trail | рейтинг ПроБЕГа 4.6 (1 оценок) ⟨https://проспорт40.рф/events/162⟩",
       "size": "рейтинг ПроБЕГа 4.6 (1 оценок)"
-    },
-    {
-      "id": "4e77e5a559",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Трейл «Рубеж»",
-      "date": "2026-10-24",
-      "dateEnd": null,
-      "place": "Ильинское",
-      "sports": [
-        "trail"
-      ],
-      "distances": "10 км, 100 км, 30 км, 5 км",
-      "url": "https://xn--40-emcadbfdgn.xn--p1ai/events/162#new_tab",
-      "evidence": "24/10/2026 Трейл «Рубеж»"
     },
     {
       "id": "30a6cdd86c",
@@ -3183,6 +3199,21 @@
       "size": "рейтинг ПроБЕГа 4.7 (5 оценок)"
     },
     {
+      "id": "9967e1f77a",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Народный трейл",
+      "date": "2026-11-04",
+      "dateEnd": null,
+      "place": "Истра",
+      "sports": [
+        "trail"
+      ],
+      "distances": "10 км, 20 км, 5 км",
+      "url": "https://istra.run/narod#rec773672918#new_tab",
+      "evidence": "04/11/2026 Народный трейл"
+    },
+    {
       "id": "3d99299686",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -3197,21 +3228,6 @@
       "url": "https://istra.run/narod#rec773672893",
       "evidence": "04.11.2026 | Народный трейл | Московская область, Истра | 20200 м 11800 м 6390 м 2200 м 1 км (дети) | trail | рейтинг ПроБЕГа 4.8 (11 оценок) ⟨https://istra.run/narod#rec773672893⟩",
       "size": "рейтинг ПроБЕГа 4.8 (11 оценок)"
-    },
-    {
-      "id": "9967e1f77a",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Народный трейл",
-      "date": "2026-11-04",
-      "dateEnd": null,
-      "place": "Истра",
-      "sports": [
-        "trail"
-      ],
-      "distances": "10 км, 20 км, 5 км",
-      "url": "https://istra.run/narod#rec773672918#new_tab",
-      "evidence": "04/11/2026 Народный трейл"
     },
     {
       "id": "73effe70c1",
@@ -4298,6 +4314,21 @@
       "size": "зарегистрировано 11"
     },
     {
+      "id": "9cf088c0f2",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Тульский зимний трейл",
+      "date": "2027-01-05",
+      "dateEnd": null,
+      "place": "Тула",
+      "sports": [
+        "trail"
+      ],
+      "distances": "15 км, 6 км",
+      "url": "https://reg.russiarunning.com/event/TWT2027#new_tab",
+      "evidence": "05/01/2027 Тульский зимний трейл"
+    },
+    {
       "id": "179dc9e6dd",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -4312,21 +4343,6 @@
       "url": "http://swimsuprun.ru",
       "evidence": "05.01.2027 | Тульский зимний трейл | Тула | 15950 м (T15) 5760 м (T6) | trail | рейтинг ПроБЕГа 5.0 (7 оценок) ⟨http://swimsuprun.ru⟩",
       "size": "рейтинг ПроБЕГа 5.0 (7 оценок)"
-    },
-    {
-      "id": "9cf088c0f2",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Тульский зимний трейл",
-      "date": "2027-01-05",
-      "dateEnd": null,
-      "place": "Тула",
-      "sports": [
-        "trail"
-      ],
-      "distances": "15 км, 6 км",
-      "url": "https://reg.russiarunning.com/event/TWT2027#new_tab",
-      "evidence": "05/01/2027 Тульский зимний трейл"
     },
     {
       "id": "56ba440f4b",
@@ -7240,48 +7256,45 @@
   ],
   "pages": {
     "wildtrail": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "1a571b7f2e66",
       "chars": 13006,
       "extractedHash": "1a571b7f2e66",
       "events": 5,
-      "error": "URLError: <urlopen error timed out>",
       "triedAt": "2026-09-29T12:29:20"
     },
     "grut": {
-      "fetchedAt": "2026-09-29T12:29:20",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "fd63273a73a7",
       "chars": 18000,
       "extractedHash": "fd63273a73a7",
       "events": 1
     },
     "ultra100": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "75f877942e94",
       "chars": 10745,
       "extractedHash": "75f877942e94",
       "events": 1,
-      "error": "URLError: <urlopen error timed out>",
       "triedAt": "2026-09-29T12:29:20"
     },
     "redfox": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "7ebf50949f59",
       "chars": 1806,
       "extractedHash": "7ebf50949f59",
       "events": 0,
-      "error": "URLError: <urlopen error timed out>",
       "triedAt": "2026-09-29T12:29:20"
     },
     "trails": {
-      "fetchedAt": "2026-09-29T12:29:20",
-      "hash": "1dd46ece9ac7",
+      "fetchedAt": "2026-09-29T12:50:51",
+      "hash": "8644eaa7d54e",
       "chars": 30203,
       "extractedHash": "1dd46ece9ac7",
       "events": 88
     },
     "grom": {
-      "fetchedAt": "2026-09-29T12:29:20",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "c85e93e484be",
       "chars": 4050,
       "extractedHash": "c85e93e484be",
@@ -7289,25 +7302,23 @@
       "triedAt": "2026-09-29T08:53:48"
     },
     "russialoppet": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "34649b421040",
       "chars": 5199,
       "extractedHash": "34649b421040",
       "events": 34,
-      "error": "URLError: <urlopen error timed out>",
       "triedAt": "2026-09-29T12:29:20"
     },
     "ironstar": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "b1d2eb7f0c48",
       "chars": 13849,
       "extractedHash": "b1d2eb7f0c48",
       "events": 33,
-      "triedAt": "2026-09-29T12:29:20",
-      "error": "URLError: <urlopen error timed out>"
+      "triedAt": "2026-09-29T12:29:20"
     },
     "xwaters": {
-      "fetchedAt": "2026-09-29T12:29:20",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "6240b3e4907c",
       "chars": 6390,
       "extractedHash": "6240b3e4907c",
@@ -7315,23 +7326,22 @@
       "triedAt": "2026-09-29T08:53:48"
     },
     "swimcup": {
-      "fetchedAt": "2026-09-29T12:29:20",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "77dfe4673fd4",
       "chars": 11745,
       "extractedHash": "77dfe4673fd4",
       "events": 26
     },
     "granfondo": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "921de2a98560",
       "chars": 9054,
       "extractedHash": "921de2a98560",
       "events": 0,
-      "error": "URLError: <urlopen error timed out>",
       "triedAt": "2026-09-29T12:29:20"
     },
     "cyclingrace": {
-      "fetchedAt": "2026-09-29T12:29:20",
+      "fetchedAt": "2026-09-29T12:50:51",
       "hash": "340855a44e27",
       "chars": 3017,
       "extractedHash": "340855a44e27",
@@ -7345,16 +7355,15 @@
       "extractedHash": "c25529b513e6",
       "events": 156,
       "error": "URLError: <urlopen error timed out>",
-      "triedAt": "2026-09-29T12:29:20"
+      "triedAt": "2026-09-29T12:50:51"
     },
     "probeg": {
-      "fetchedAt": "2026-09-29T11:52:59",
-      "hash": "fe0a9c380ea1",
-      "chars": 18464,
-      "extractedHash": "fe0a9c380ea1",
-      "events": 88,
-      "triedAt": "2026-09-29T12:29:20",
-      "error": "URLError: <urlopen error timed out>"
+      "fetchedAt": "2026-09-29T12:50:51",
+      "hash": "b3ac7841848c",
+      "chars": 18843,
+      "extractedHash": "b3ac7841848c",
+      "events": 89,
+      "triedAt": "2026-09-29T12:29:20"
     }
   }
 }
