@@ -542,8 +542,13 @@ def dedupe(events):
     return sorted(out, key=lambda e: (e["date"], e["name"]))
 
 
+# Плавание — только открытая вода: заплыв в бассейне («Индор» SwimCup) отвергнут 29.09.2026.
+INDOOR = re.compile(r"(?i)индор|indoor|бассейн|\bpool\b|зимн\w* заплыв в бассейне")
+
+
 def candidates(db):
     ex = excluded(db)
+    ex |= {e["id"] for e in db["events"] if "swim" in e["sports"] and INDOOR.search(f"{e['name']} {e.get('place') or ''}")}
     return dedupe([e for e in db["events"] if e["id"] not in ex and LEAD_DAYS <= days_to(e["date"]) <= AHEAD_DAYS])
 
 
