@@ -244,7 +244,7 @@ def digest(db=None, weather=True):
     now, today = d["now"], d["now"].date()
     a, c = d["acute"], d["chronicWeek"]
     lines = ["Нагрузка тренировок (активные ккал за тренировки, ходьба не считается):",
-             f"- последние {ACUTE_DAYS} дней: {a['kcal']} ккал, {a['n']} тренировок, {H.hm(a['min'])}; "
+             f"- последние {ACUTE_DAYS} дней ({today - dt.timedelta(days=ACUTE_DAYS - 1):%d.%m}–{today:%d.%m}, скользящее окно, а не календарная неделя): {a['kcal']} ккал, {a['n']} тренировок, {H.hm(a['min'])}; "
              f"обычная неделя (среднее четырёх предыдущих): {c['kcal']} ккал, {str(c['n']).replace('.', ',').removesuffix(',0')} тренировок, {H.hm(c['min'])}"]
     if d["ratio"] is not None:
         lines.append(f"- отношение {d['ratio']:.2f}".replace(".", ",") + f" — {verdict(d['ratio'])}")

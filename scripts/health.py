@@ -24,7 +24,9 @@ from zoneinfo import ZoneInfo
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.environ.get("HEALTH_DB") or os.path.join(ROOT, "health.db")
 BACKUP_DIR = os.environ.get("HEALTH_BACKUP_DIR") or os.path.join(ROOT, "backups")
-METRIC_KINDS = ("hrv_sdnn", "resting_heart_rate", "steps", "active_energy")
+METRIC_KINDS = ("hrv_sdnn", "resting_heart_rate", "steps", "active_energy",
+                # с 29.09.2026, их разбирает scripts/vitals.py
+                "wrist_temperature", "respiratory_rate", "oxygen_saturation", "vo2_max", "body_mass")
 NO_WATCH_KCAL = 50   # below this, with no sleep and no HRV, the watch simply was not on the wrist that day
 MORNING_HOUR = 6     # local hour that starts a new day for the note shown on the page
 WORKOUT_RU = {"running": "бег", "cycling": "велосипед", "walking": "ходьба", "swimming": "плавание", "yoga": "йога",
@@ -197,6 +199,32 @@ def workout_kind(kind):
     return HK_RAW.get(int(m.group(1)), kind) if m else kind
 
 
+def pace(kind, minutes, meters):
+    """Темп так, как его говорят вслух: бег — мин/км, плавание — мин/100 м, велосипед — км/ч. Без дистанции — None."""
+    if not meters or not minutes or meters < 50:
+        return None
+    if kind == "running":
+        p = minutes / (meters / 1000)
+        return f"{int(p)}:{round(p % 1 * 60):02d}/км" if 2.5 < p < 15 else None
+    if kind == "swimming":
+        p = minutes / (meters / 100)
+        return f"{int(p)}:{round(p % 1 * 60):02d}/100м" if 0.8 < p < 6 else None
+    if kind == "cycling":
+        v = meters / 1000 / (minutes / 60)
+        return f"{v:.1f} км/ч".replace(".", ",") if 5 < v < 60 else None
+    return None
+
+
+def workout_detail(kind, minutes, raw):
+    """То, что приложение шлёт с 29.09.2026 сверх минут и ккал: темп, макс. пульс, набор высоты, где плавал."""
+    where = {"pool": "бассейн", "openWater": "открытая вода"}.get(raw.get("swimLocation")) \
+        or ("в помещении" if raw.get("indoor") and kind in ("running", "cycling") else None)
+    return {"pace": pace(kind, minutes, raw.get("distanceMeters")),
+            "maxHr": round(raw["maxHeartRate"]) if raw.get("maxHeartRate") else None,
+            "elev": round(raw["elevationMeters"]) if (raw.get("elevationMeters") or 0) >= 30 else None,
+            "where": where}
+
+
 def sleep_stretch(s):
     """How much longer the payload's interval is than the sleep inside it. A record of one stretch of sleep is
     tight (the two agree to a minute); a payload the app rebuilt around several nights covers a whole day."""
@@ -363,7 +391,8 @@ def daily(db, days, today=None):
                 d["workouts"].append({"type": k, "ru": WORKOUT_RU.get(k, k), "start": local(s["start"]).strftime("%H:%M"),
                                       "min": round(s["value"] or 0), "km": round((raw.get("distanceMeters") or 0) / 1000, 2) or None,
                                       "kcal": round(raw["calories"]) if raw.get("calories") else None,
-                                      "hr": round(raw["averageHeartRate"]) if raw.get("averageHeartRate") else None})
+                                      "hr": round(raw["averageHeartRate"]) if raw.get("averageHeartRate") else None,
+                                      **workout_detail(k, s["value"] or 0, raw)})
         elif kind == "resting_heart_rate":
             d["rhr"] = round(sum(s["value"] for s in ss) / len(ss))
         elif kind == "hrv_sdnn":
@@ -381,6 +410,12 @@ def daily(db, days, today=None):
         recorded = d["steps"] is not None or d["kcal"] is not None or d["workouts"]
         d["noWatch"] = bool(recorded) and d["sleep"] is None and d["hrv"] is None and (d["kcal"] or 0) < NO_WATCH_KCAL
     return list(out.values())[::-1]
+
+
+def workout_text(x):
+    return (f"{x['ru']} {x['min']} мин" + (f" {x['km']} км" if x['km'] else "") + (f" ({x['where']})" if x.get("where") else "")
+            + (f" {x['pace']}" if x.get("pace") else "") + (f" пульс {x['hr']}" if x['hr'] else "")
+            + (f"/макс {x['maxHr']}" if x['hr'] and x.get("maxHr") else "") + (f" +{x['elev']} м" if x.get("elev") else ""))
 
 
 def avg(vals):
@@ -419,8 +454,14 @@ def snapshot(db, now=None):
     """Цифры сегодняшнего дня одной строкой — то, с чем сравнивается следующая заметка."""
     now = now or dt.datetime.now(tz())
     d = daily(db, 1, now.date())[0]
+    try:
+        import vitals
+        ns = vitals.night_status(db, now.date())
+        sick = bool(ns and ns["sick"])
+    except Exception:
+        sick = False
     return {"date": d["date"], "hour": now.hour, "steps": d["steps"] or 0, "workouts": len(d["workouts"]),
-            "sleep": bool(d["sleep"])}
+            "sleep": bool(d["sleep"]), "sick": sick}
 
 
 def changed(prev, cur, hours_since):
@@ -431,6 +472,8 @@ def changed(prev, cur, hours_since):
         return "новый день, есть сон"
     if cur["sleep"] and not prev.get("sleep"):
         return "пришёл сон"
+    if cur.get("sick") and not (prev.get("sick") and cur["date"] == prev.get("date")):
+        return "признаки болезни по ночи"
     if cur["workouts"] > (prev.get("workouts") or 0):
         return "новая тренировка"
     if cur["steps"] - (prev.get("steps") or 0) >= STEP_DELTA:
@@ -480,7 +523,7 @@ def digest(db=None, days=7):
     for d in table:
         s = d["sleep"]
         sl = f"{hm(s['total']):6} {hm(s['deep'])}/{hm(s['rem'])}  {s['bed']}–{s['wake']}" if s else f"{'—':6} {'—':10} {'—':12}"
-        w = "; ".join(f"{x['ru']} {x['min']} мин" + (f" {x['km']} км" if x['km'] else "") + (f" пульс {x['hr']}" if x['hr'] else "") for x in d["workouts"]) or "—"
+        w = "; ".join(workout_text(x) for x in d["workouts"]) or "—"
         lines.append(f"{d['date'][5:]} {d['dow']}  {sl}  {d['rhr'] or '—':>3}  {(str(d['hrv']) + '(' + str(d['hrvN']) + ')') if d['hrv'] else '—':7} {d['steps'] if d['steps'] is not None else '—':>6} {d['kcal'] if d['kcal'] is not None else '—':>5}  {w}"
                      + ("   ← без часов" if d["noWatch"] else ""))
     lines.append("")
@@ -495,6 +538,16 @@ def digest(db=None, days=7):
                      f"ккал {avg([d['kcal'] for d in worn]) or '—'}, тренировок {sum(len(d['workouts']) for d in tbl)}"
                      + (f" (дней без часов: {skipped}, они в средние по сну/HRV/RHR/ккал не вошли)" if skipped else ""))
     lines.append("")
+    try:
+        import vitals
+        vt = vitals.digest(db, now.date())
+    except Exception as e:   # новый модуль не должен ронять заметку
+        vt = ""
+        print(f"vitals: {e}", file=sys.stderr)
+    if vt:
+        lines.append("Ночь, форма и вес:")
+        lines.append(vt)
+        lines.append("")
     gm = goal_mentions(db)
     if gm:
         bits = []

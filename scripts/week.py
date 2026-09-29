@@ -96,6 +96,13 @@ def health_part(db, start, end):
         for w in d["workouts"]:
             last.setdefault(w["ru"], d["date"])
     out.append("Последний раз: " + ", ".join(f"{k} — {last[k][5:] if k in last else 'не было за 90 дней'}" for k in GOAL_KINDS))
+    # Темп по дисциплинам, VO₂max и вес (scripts/vitals.py): «вернуть плавание» — это и темп, а не только факт заплыва.
+    try:
+        import vitals
+        vt = [l for l in vitals.digest(db, end).splitlines() if not l.startswith(("Ночь на", "ПРИЗНАКИ", "Отклонения"))]
+        out += vt
+    except Exception as e:
+        print(f"vitals: {e}", file=sys.stderr)
     return out
 
 

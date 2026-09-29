@@ -298,49 +298,10 @@ def fill_images(db=None):
 
 # ---------------------------------------------------------------- дайджест
 def taste():
-    """Вкус по всем четырём каталогам сразу — ради этого всё и затевалось."""
-    out = []
-    movies = M.load()
-    rated = sorted([m for m in movies if m.get("rating")], key=lambda m: -m["rating"])
-    out.append("## Фильмы, которые я любил больше всего (оценка из 10)")
-    for m in rated[:25]:
-        bits = [str(m.get("year") or ""), m.get("director") or "", ", ".join((m.get("genre") or [])[:2])]
-        out.append(f"- {m['rating']}: {m['title']} ({'; '.join(b for b in bits if b)})"
-                   + (f" — {m['note']}" if m.get("note") else ""))
-    low = [m for m in rated if m["rating"] <= 6][-8:]
-    if low:
-        out.append("\n## Фильмы, которые мне не зашли")
-        out += [f"- {m['rating']}: {m['title']}" for m in low]
-
-    books = B.load()
-    read = [b for b in books if b.get("status") == "read"]
-    out.append(f"\n## Книги, которые я прочитал ({len(read)})")
-    out += [f"- {b['title']} — {b.get('author') or '?'}" for b in read]
-    dropped = [b for b in books if b.get("status") == "abandoned"]
-    if dropped:
-        out.append("\n## Книги, которые я бросил (сильный сигнал)")
-        out += [f"- {b['title']} — {b.get('author') or '?'}" for b in dropped]
-    plans = [b for b in books if b.get("status") == "to-read"]
-    if plans:
-        out.append("\n## Книги в планах")
-        out += [f"- {b['title']} — {b.get('author') or '?'}" for b in plans[:25]]
-
-    lec = L.load()
-    active = [l for l in lec["lectures"] if l["status"] in ("listened", "listening", "queued")]
-    if active:
-        out.append("\n## Лекции, которые я слушал или поставил в планы")
-        out += [f"- {l['title']}" for l in active]
-
-    mixes = X.load()
-    if mixes:
-        out.append(f"\n## Музыка, которую я слушаю ({len(mixes)} миксов и радиошоу)")
-        out += [f"- {m.get('artist') or '?'} — {m.get('title')}"
-                + (f" [{m['genre']}]" if m.get("genre") else "") for m in mixes[:25]]
-    liked = [h for h in R.load().get("history", []) if h.get("verdict") == "liked"][:10]
-    if liked:
-        out.append("\n## Из советов по музыке я забрал себе")
-        out += [f"- {h.get('artist')} — {h.get('title')}" for h in liked]
-    return out
+    """Вкус по всем четырём каталогам сразу — ради этого всё и затевалось. Живёт в context.py (29.09.2026),
+    вместе с тем, что сейчас в работе: его видят и французский, и советы по фильмам, книгам и лекциям."""
+    import context as C
+    return C.taste() + C.now()
 
 
 def age_days(when):

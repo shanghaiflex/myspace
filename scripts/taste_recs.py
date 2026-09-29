@@ -275,34 +275,10 @@ def _lecture_digest(d):
 
 
 def _cross(kind):
-    """Тот же вкус с другой стороны (20.09.2026). До этого каждый вид видел только свой каталог: лекция про
-    Фуко после трёх прочитанных Фуко и книга Снайдера рядом с лекцией Снайдера были для модели совпадением.
-    Компактно — названия, без причин: подробности есть в своём разделе."""
-    out = ["\n## Другие каталоги — тот же вкус с другой стороны"]
-    if kind != "film":
-        movies = M.load()
-        top = sorted([m for m in movies if (m.get("rating") or 0) >= 7.5], key=lambda m: -m["rating"])
-        if top:
-            out.append(f"Фильмы, которые я оценил на 7.5 и выше ({len(top)}): " + "; ".join(
-                f"{m['title']}" + (f" ({m['director']})" if m.get("director") else "") for m in top))
-        low = [m for m in movies if m.get("rating") and m["rating"] <= 5]
-        if low:
-            out.append("Фильмы, которые не зашли: " + "; ".join(m["title"] for m in low))
-    if kind != "book":
-        books = B.load()
-        read = [b for b in books if b.get("status") == "read"]
-        if read:
-            out.append(f"Книги, которые я прочитал ({len(read)}): " + "; ".join(
-                f"{b['title']} — {b.get('author') or '?'}" for b in read))
-        dropped = [b for b in books if b.get("status") == "abandoned"]
-        if dropped:
-            out.append("Книги, которые бросил: " + "; ".join(f"{b['title']} — {b.get('author') or '?'}" for b in dropped))
-    if kind != "lecture":
-        ls = L.load()["lectures"]
-        done = [l for l in ls if l.get("status") in ("listened", "listening")]
-        if done:
-            out.append(f"Лекции, которые я дослушал или слушаю ({len(done)}): " + "; ".join(l["title"] for l in done))
-    return out if len(out) > 1 else []
+    """Тот же вкус с другой стороны плюс то, что сейчас в работе (context.py, 29.09.2026). До 20.09 каждый вид
+    видел только свой каталог: лекция про Фуко после трёх прочитанных Фуко была для модели совпадением."""
+    import context as C
+    return C.cross(kind) + C.now()
 
 
 def digest(kind):
