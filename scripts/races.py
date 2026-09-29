@@ -39,6 +39,8 @@ VERDICTS = ("liked", "dismissed")
 ANSWERED = VERDICTS
 ITEM_DAYS = 21          # сколько висит неотвеченный совет
 LEAD_DAYS = 10          # ближе к старту совет уже не даётся и снимается: не успеть ни зарегистрироваться, ни собраться
+AHEAD_DAYS = 90         # советую только то, что в ближайшие три месяца: февральская Карелия в сентябре — «слишком не скоро»
+                        # (29.09.2026); лыжи сами войдут в окно, когда сезон приблизится
 HORIZON_DAYS = 400      # дальше этого старты не берём — это расписание позапрошлого года с неверным годом
 EVERY_HOURS = 20
 PAGE_EVERY_DAYS = 6     # страницы серий перечитываются раз в неделю: календари меняются редко
@@ -61,9 +63,11 @@ RR_SPORT = {"run": "run", "trail": "trail", "cycling": "bike", "ski-race": "ski"
 TRAILISH = re.compile(r"(?i)трейл|trail|горн|скайран|sky ?run|ультра|ultra")
 
 
-def row(when_, name, place, dist, sport, url):
+def row(when_, name, place, dist, sport, url, size=""):
+    """`size` — чем агрегатор меряет масштаб старта (зарегистрировано, рейтинг): без него модель не отличала
+    районный пробег от события, ради которого едут (Трейл Кутузов, 29.09.2026)."""
     return " | ".join([when_, " ".join(str(name or "").split()), " ".join(str(place or "").split()),
-                       " ".join(str(dist or "").split()), sport]) + f" ⟨{url}⟩"
+                       " ".join(str(dist or "").split()), sport, size or "—"]) + f" ⟨{url}⟩"
 
 
 def russiarunning(_raw=None):
@@ -97,7 +101,9 @@ def russiarunning(_raw=None):
                 continue
             if sport == "run" and TRAILISH.search(title):
                 sport = "trail"
-            out.append(row(when_, title, e.get("place"), dist, sport, f"https://reg.russiarunning.com/event/{e.get('code')}"))
+            n = e.get("participantsCount") or 0
+            out.append(row(when_, title, e.get("place"), dist, sport, f"https://reg.russiarunning.com/event/{e.get('code')}",
+                           f"зарегистрировано {n}" if n else ""))
         skip += 100
         if skip >= min(d.get("totalCount") or 0, 500):
             break
@@ -119,13 +125,15 @@ def probeg(raw):
             continue
         # В ячейке названия после него идут «Планирует участвовать…» и рейтинг — отрезаем.
         name = re.split(r"\s+Планиру|\s+\d(?:[.,]\d)?, число оценивших", cells[2])[0]
+        rate = re.search(r"(\d(?:[.,]\d)?), число оценивших — (\d+)", cells[2])
+        size = f"рейтинг ПроБЕГа {rate.group(1)} ({rate.group(2)} оценок)" if rate else ""
         when_ = cells[1].replace("–", ".").split(".")
         # «03–04.10.2026» → «03.10.2026 – 04.10.2026»
         if len(when_) == 4:
             when_ = f"{when_[0]}.{when_[2]}.{when_[3]} – {when_[1]}.{when_[2]}.{when_[3]}"
         else:
             when_ = cells[1]
-        rows.append(row(when_, name, cells[3], cells[4], "trail" if TRAILISH.search(name) else "run", url))
+        rows.append(row(when_, name, cells[3], cells[4], "trail" if TRAILISH.search(name) else "run", url, size))
     return "\n".join(rows)
 
 
@@ -356,10 +364,10 @@ def structured_events(s, text):
     """Строки агрегатора → старты, без модели. Цитата — сама строка, так что проверка та же, что у разбора."""
     out = {}
     for line in text.splitlines():
-        m = re.fullmatch(r"(\d\d\.\d\d\.\d{4})(?: – (\d\d\.\d\d\.\d{4}))? \| (.*?) \| (.*?) \| (.*?) \| (\w+) ⟨(.*)⟩", line)
+        m = re.fullmatch(r"(\d\d\.\d\d\.\d{4})(?: – (\d\d\.\d\d\.\d{4}))? \| (.*?) \| (.*?) \| (.*?) \| (\w+)(?: \| (.*?))? ⟨(.*)⟩", line)
         if not m:
             continue
-        b, en, name, place, dist, sport, url = m.groups()
+        b, en, name, place, dist, sport, size, url = m.groups()
         iso = lambda d: datetime.date(int(d[6:]), int(d[3:5]), int(d[:2])).isoformat()  # noqa: E731
         try:
             date, end = iso(b), iso(en) if en else None
@@ -371,7 +379,8 @@ def structured_events(s, text):
             end = None
         e = {"id": event_id(s["id"], name, date), "series": s["id"], "seriesName": s["name"], "name": name,
              "date": date, "dateEnd": end, "place": place or None, "sports": [sport] if sport in SPORT_RU else s["sports"],
-             "distances": dist or None, "url": url, "evidence": line[:300]}
+             "distances": dist or None, "url": url, "evidence": line[:300],
+             "size": size if size and size != "—" else None}
         out[e["id"]] = e
     return list(out.values())
 
@@ -486,7 +495,7 @@ def prune(db):
 # ---------------------------------------------------------------- советы
 def history_entry(r):
     return {"id": r["id"], "title": r.get("title"), "date": r.get("date"), "series": r.get("series"),
-            "sports": r.get("sports"), "reason": r.get("reason"), "verdict": r.get("verdict") or "new",
+            "sports": r.get("sports"), "reason": r.get("reason"), "note": r.get("note"), "verdict": r.get("verdict") or "new",
             "at": r.get("decidedAt") or r.get("suggestedAt") or today().isoformat(), "suggestedAt": r.get("suggestedAt")}
 
 
@@ -535,7 +544,7 @@ def dedupe(events):
 
 def candidates(db):
     ex = excluded(db)
-    return dedupe([e for e in db["events"] if e["id"] not in ex and days_to(e["date"]) >= LEAD_DAYS])
+    return dedupe([e for e in db["events"] if e["id"] not in ex and LEAD_DAYS <= days_to(e["date"]) <= AHEAD_DAYS])
 
 
 def when(e):
@@ -621,7 +630,8 @@ def digest():
         out.append("\n## Вердикты по прошлым советам-стартам (свежие сверху)")
         for h in real[:40]:
             word = {"liked": "ВЗЯЛ", "dismissed": "НЕ ТО"}[h["verdict"]]
-            out.append(f"- {word}: {h.get('title')} ({h.get('date')}) — {h.get('reason') or ''}")
+            out.append(f"- {word}: {h.get('title')} ({h.get('date')}) — {h.get('reason') or ''}"
+                       + (f" / МОЯ ПРИЧИНА: {h['note']}" if h.get("note") else ""))
     unseen = sum(1 for h in db["history"] if h.get("verdict") not in ANSWERED)
     if unseen:
         out.append(f"\nЕщё {unseen} советов я не увидел — это не отказ, а пропуск.")
@@ -636,6 +646,10 @@ def digest():
             line += f" · {e['place']}"
         if e.get("distances"):
             line += f" · дистанции: {e['distances']}"
+        if e["series"] not in AGGREGATORS:
+            line += " · ИЗВЕСТНАЯ СЕРИЯ"
+        elif e.get("size"):
+            line += f" · {e['size']}"
         clash = [x for d in {e["date"], e.get("dateEnd") or e["date"]} for x in busy.get(d, [])]
         if clash:
             line += f" · В КАЛЕНДАРЕ В ЭТОТ ДЕНЬ: {'; '.join(dict.fromkeys(clash))}"
@@ -750,7 +764,7 @@ def add_to_calendar(r, dry_run=False):
     return {"uid": uid, "title": calendar_title(r), "calendar": mine["name"]}
 
 
-def verdict(rid, v, dry_run=False):
+def verdict(rid, v, dry_run=False, note=None):
     if v not in VERDICTS:
         raise SystemExit(f"bad verdict: {v}")
     db = load()
@@ -769,6 +783,8 @@ def verdict(rid, v, dry_run=False):
                              + [p for p in db["plans"] if p["id"] != rid], key=lambda p: p["date"])
         added = {"id": rid, "title": r["title"], "date": r["date"], "calendar": cal}
     r["verdict"], r["decidedAt"] = v, today().isoformat()
+    if note:
+        r["note"] = note
     db["items"] = [x for x in db["items"] if x["id"] != rid]
     db["history"] = ([history_entry(r)] + db["history"])[:HISTORY_MAX]
     save(db)
@@ -844,6 +860,9 @@ def main():
     v.add_argument("id")
     v.add_argument("verdict", choices=VERDICTS)
     v.add_argument("--dry-run", action="store_true")
+    v.add_argument("--note", help="почему — уходит в следующий промпт")
+    d = sub.add_parser("drop", help="снять совет без вердикта (не «не то», а «не сейчас»)")
+    d.add_argument("id")
     args = ap.parse_args()
 
     read = lambda p: sys.stdin.read() if p == "-" else open(p, encoding="utf-8").read()  # noqa: E731
@@ -863,7 +882,11 @@ def main():
     elif args.cmd == "apply":
         print(f"{len(apply_answer(read(args.file), args.model, args.keep))} стартов сохранено в races.json")
     elif args.cmd == "verdict":
-        print(json.dumps(verdict(args.id, args.verdict, args.dry_run), ensure_ascii=False, indent=2))
+        print(json.dumps(verdict(args.id, args.verdict, args.dry_run, args.note), ensure_ascii=False, indent=2)[:600])
+    elif args.cmd == "drop":
+        db = load()
+        db["items"] = [x for x in db["items"] if x["id"] != args.id]
+        save(db)
     elif args.cmd == "calendar":
         db = load()
         for e in db["events"]:
