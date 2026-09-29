@@ -62,7 +62,8 @@
   .hist .ts { color: var(--text-3); font-variant-numeric: tabular-nums; font-size: 13px; padding-top: 2px; }
   .hist p { margin: 0; white-space: pre-wrap; }
   .foot { color: var(--text-3); font-size: 12.5px; margin-top: 14px; }
-  .recs { margin: 0 0 22px; }
+  .recs { grid-column: 1 / -1; margin: 10px 0; }
+  .recs[hidden] { display: none; }
   .rechead { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; flex-wrap: wrap; }
   .rechead h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.02em; margin: 0; }
   .rechead .meta { color: var(--text-3); font-size: 12.5px; }
@@ -110,7 +111,7 @@
   <div class="head"><h1>Well-being</h1><div class="sub" id="fresh"></div></div>
   <div class="grid" id="grid"><div class="card"><div class="empty">Загружаю…</div></div></div>
   <!-- Советы по стартам (races.json, scripts/races.py): те же кнопки, что у фильмов; «Хочу» пишет старт в календарь. -->
-  <section class="recs" id="recs" hidden style="margin-top:28px">
+  <section class="recs" id="recs" hidden>
     <div class="rechead">
       <h2>Куда стартовать</h2>
       <div class="meta" id="recsMeta"></div>
@@ -133,6 +134,9 @@ const ago = s => { const d = dt(s); if (!d) return 'данных ещё нет';
 const wk = w => `${w.ru} ${w.min} мин${w.km ? ` · ${w.km} км` : ''}${w.hr ? ` · пульс ${w.hr}` : ''}`;
 
 let busy = false;
+// Советы по стартам стоят сразу под заметкой, а не под таблицей и историей (29.09.2026): внизу страницы
+// на телефоне их никто не находил. Сетка перерисовывается целиком, поэтому секцию держим ссылкой и вставляем заново.
+const recsEl = document.getElementById('recs');
 async function load() {
   const r = await fetch('/api/health', { cache: 'no-store' });
   if (!r.ok) { document.getElementById('grid').innerHTML = `<div class="card"><div class="empty">Не удалось загрузить: ${r.status}</div></div>`; return; }
@@ -167,7 +171,9 @@ async function load() {
   if (past && past.length) {
     cards.push(`<div class="card"><div class="eyebrow">Раньше</div><div class="hist">${past.map(r => `<div class="it"><div class="ts">${esc(fmtTs(r.ts))}</div><p>${esc(r.text)}</p></div>`).join('')}</div></div>`);
   }
-  document.getElementById('grid').innerHTML = cards.join('');
+  const grid = document.getElementById('grid');
+  grid.innerHTML = cards.join('');
+  grid.firstElementChild.after(recsEl);
   const btn = document.getElementById('run');
   btn.onclick = async () => {
     btn.disabled = true; btn.textContent = 'Считаю…';

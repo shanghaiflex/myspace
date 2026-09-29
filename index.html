@@ -246,7 +246,7 @@ const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json
 // Лекций на главной нет с 18.09.2026 (просьба пользователя): слушаются они только с телефона, где у них
 // свой таб, а на сайте — свой раздел в верхней панели. Здесь они только в «чем занять окно», как вариант
 // на вечер, — но это уже про свободное окно, а не про каталог.
-Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null), j('/api/fit', null), j('/api/inbox', null), j('/api/french/one', null)]).then(([mixes, bgs, wx, books, hl, recs, reads, sched, fr, fit, inbox, frq]) => {
+Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null), j('/api/fit', null), j('/api/inbox', null), j('/api/french/one', null), j('/api/recs/race', null)]).then(([mixes, bgs, wx, books, hl, recs, reads, sched, fr, fit, inbox, frq, races]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   // День — левая колонка, полка — правая.
   const cards = [], shelf = [];
@@ -359,6 +359,21 @@ Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', n
   const ii = inboxItem(inbox);
   if (ii) shelf.push(ii);
 
+  // Старт — своя строка, а не очередь инбокса (29.09.2026): в инбоксе он стоял за фильмами и не был виден.
+  // Показывается первый живой совет; остальные — на Well-being. «Хочу» пишет старт в календарь.
+  const raceItem = (db) => {
+    const items = (db && db.items) || [], r = items[0];
+    if (!r) return '';
+    const more = items.length > 1 ? `ещё ${items.length - 1} на Well-being` : '';
+    const link = r.url ? ` href="${esc(r.url)}" target="_blank" rel="noopener"` : ' href="health.html#recs"';
+    return `<div class="item raceitem" data-id="${esc(r.id)}"><div class="eyebrow">Куда стартовать${more ? ` <span class="more"><a href="health.html#recs">${esc(more)}</a></span>` : ''}</div>
+      <div class="row"><div class="txt"><h3><a${link}>${esc(r.title)}</a></h3><div class="sub">${esc(r.meta || '')}</div></div></div>
+      ${r.reason ? `<p class="note">${esc(r.reason)}</p>` : ''}
+      <div class="acts"><a class="btn"${link}>Сайт старта</a><button class="btn" data-act="liked">Хочу</button><button class="btn" data-act="dismissed">Не то</button></div></div>`;
+  };
+  const ri = raceItem(races);
+  if (ri) shelf.push(ri);
+
   const morning = isMorning();
   const recItems = (recs && recs.items) || [];
   const recPool = morning && recItems.some(isCalm) ? recItems.filter(isCalm) : recItems;
@@ -459,6 +474,9 @@ Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', n
       if (card.classList.contains('art')) {
         const out = await call('/api/read/' + encodeURIComponent(card.dataset.id), 'PATCH', { verdict: b.dataset.act });
         swap(card, artItem(out.reads));
+      } else if (card.classList.contains('raceitem')) {
+        const out = await call('/api/rec/race/' + encodeURIComponent(card.dataset.id), 'PATCH', { verdict: b.dataset.act });
+        swap(card, raceItem(out.recs));
       } else if (card.classList.contains('inbox')) {
         await call(`/api/rec/${card.dataset.kind}/${encodeURIComponent(card.dataset.id)}`, 'PATCH', { verdict: b.dataset.act });
         swap(card, inboxItem(await j('/api/inbox', null)));

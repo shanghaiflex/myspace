@@ -34,7 +34,7 @@
   GET    /api/french/one          один вопрос на полку главной; POST /api/french/answer {id,i,given} — ответ
   GET    /api/recs/race           советы по стартам (races.json) + планы; PATCH /api/rec/race/<id> {verdict: liked|dismissed}
                            (liked заводит старт в Яндекс.Календарь), POST /api/recs/race/refresh — scripts/races.sh
-  GET    /api/inbox               самый старый неотвеченный совет (фильм/книга/лекция/старт) для полки главной
+  GET    /api/inbox               самый старый неотвеченный совет (фильм/книга/лекция) для полки главной
   PATCH  /api/french/<id>         body: {verdict: done|dismissed, answers:[{i,given}]}  закрыть материал
   POST   /api/french/cards        body: {results:[{id,correct}]}  итог сессии карточек
   POST   /api/french/level        body: {level: A1..C1}
@@ -379,16 +379,8 @@ class Handler(SimpleHTTPRequestHandler):
         if route == "/api/inbox":
             # Советы по фильмам, книгам и лекциям на своих страницах умирали неувиденными — на полке
             # главной лежит одна карточка, самая старая, с кнопками; вердикт идёт в PATCH /api/rec/…
-            # Старты живут в своём races.json, но в инбокс идут наравне: самый старый совет из всех видов.
-            ib = T.inbox()
-            race, left = RC.inbox_item()
-            if race:
-                mine = ib.get("item")
-                if not mine or (race.get("suggestedAt") or "") < (mine.get("suggestedAt") or "~"):
-                    ib = {"item": race, "left": ib.get("left", 0) + (1 if mine else 0) + left - 1}
-                else:
-                    ib["left"] = ib.get("left", 0) + left
-            return self.send_json(200, ib)
+            # Старты в инбокс не идут: у них своя строка на полке (index.html, raceItem).
+            return self.send_json(200, T.inbox())
         if route == "/api/recs/race":
             out = RC.public()
             out["job"] = RACES_JOB["status"]
