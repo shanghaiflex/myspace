@@ -546,9 +546,23 @@ def dedupe(events):
 INDOOR = re.compile(r"(?i)индор|indoor|бассейн|\bpool\b|зимн\w* заплыв в бассейне")
 
 
+def indoor(e):
+    """Заплыв в бассейне: по названию, а зимой (ноябрь–апрель) — любой, кроме зимнего плавания в проруби.
+    SwimCup зовёт свои зимние старты «Спринт Ноябрь», «Минуты Москва Декабрь» — слова «бассейн» там нет,
+    а открытой воды в Москве в декабре не бывает. Египет и Сочи — открытая вода круглый год."""
+    if "swim" not in e["sports"] or "tri" in e["sports"]:
+        return False
+    text = f"{e['name']} {e.get('place') or ''}"
+    if INDOOR.search(text):
+        return True
+    warm = re.search(r"(?i)египет|шарм|хургад|сочи|сириус|оаэ|дубай|турци|таиланд|мальдив", text)
+    ice = re.search(r"(?i)лед|лёд|прорубь|моржев|зимнее плавание|ice", text)
+    return int(e["date"][5:7]) in (11, 12, 1, 2, 3, 4) and not warm and not ice
+
+
 def candidates(db):
     ex = excluded(db)
-    ex |= {e["id"] for e in db["events"] if "swim" in e["sports"] and INDOOR.search(f"{e['name']} {e.get('place') or ''}")}
+    ex |= {e["id"] for e in db["events"] if indoor(e)}
     return dedupe([e for e in db["events"] if e["id"] not in ex and LEAD_DAYS <= days_to(e["date"]) <= AHEAD_DAYS])
 
 

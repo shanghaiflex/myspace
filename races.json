@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-09-29T11:55:40",
+  "updatedAt": "2026-09-29T12:46:10",
   "model": "opus",
-  "fetchedAt": "2026-09-29T11:52:59",
+  "fetchedAt": "2026-09-29T12:29:20",
   "items": [
     {
       "id": "75b1a3302c",
@@ -47,6 +47,29 @@
       "suggestedAt": "2026-09-29",
       "verdict": "new",
       "meta": "24 октября · Москва, Новомещерский проезд, д. 15 · 10 км"
+    },
+    {
+      "id": "3d99299686",
+      "series": "probeg",
+      "seriesName": "ПроБЕГ, Центр",
+      "name": "Народный трейл",
+      "date": "2026-11-04",
+      "dateEnd": null,
+      "place": "Московская область, Истра",
+      "sports": [
+        "trail"
+      ],
+      "distances": "20200 м 11800 м 6390 м 2200 м 1 км (дети)",
+      "url": "https://istra.run/narod#rec773672893",
+      "evidence": "04.11.2026 | Народный трейл | Московская область, Истра | 20200 м 11800 м 6390 м 2200 м 1 км (дети) | trail | рейтинг ПроБЕГа 4.8 (11 оценок) ⟨https://istra.run/narod#rec773672893⟩",
+      "size": "рейтинг ПроБЕГа 4.8 (11 оценок)",
+      "title": "Народный трейл",
+      "distance": "20200 м",
+      "trip": null,
+      "reason": "Трейлов у тебя ещё не было, а 20 км под Истрой — шаг после десятки на Московском марафоне: на Ironstar 1/4 ты пробежал 10 км уже после велоэтапа.",
+      "suggestedAt": "2026-09-29",
+      "verdict": "new",
+      "meta": "4 ноября · Московская область, Истра · 20200 м"
     }
   ],
   "history": [
@@ -180,9 +203,9 @@
       "dateEnd": null,
       "place": "Чулково",
       "sports": [
-        "run"
+        "trail"
       ],
-      "distances": "1, 2, 3, 4, 5, 6, 8 км",
+      "distances": "1 км, 2 км, 3 км, 4 км, 5 км, 6 км, 8 км",
       "url": "https://myrace.info/events/2159#new_tab",
       "evidence": "02/10/2026 Кросс памяти Серафима и Георгия Знаменских"
     },
@@ -259,7 +282,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "4, 8, 12 км",
+      "distances": "12 км, 4 км, 8 км",
       "url": "https://reg.russiarunning.com/event/KULTAKARJALA2026#new_tab",
       "evidence": "03/10/2026 KultaKarjala"
     },
@@ -337,7 +360,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "4.3, 7.4 км",
+      "distances": "4.3 км, 7.4 км",
       "url": "https://reg.russiarunning.com/event/ZigityakMountainTrailChampionship2026#new_tab",
       "evidence": "03/10/2026 Горный трейл «Зигитяк»"
     },
@@ -400,7 +423,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 20, 50 км",
+      "distances": "10 км, 20 км, 5 км, 50 км",
       "url": "https://reg.russiarunning.com/event/ZAVIDOVOTRAIL#new_tab",
       "evidence": "03/10/2026 Завидово трейл"
     },
@@ -431,7 +454,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3, 21, 42 км",
+      "distances": "21 км, 3 км, 42 км",
       "url": "https://myrace.info/events/1540#new_tab",
       "evidence": "03/10/2026 Марафон «Путь к роднику»"
     },
@@ -484,6 +507,21 @@
       "size": "зарегистрировано 12"
     },
     {
+      "id": "c552018d12",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Осенний кросс «Быстрый пёс»",
+      "date": "2026-10-03",
+      "dateEnd": null,
+      "place": "Москва",
+      "sports": [
+        "trail"
+      ],
+      "distances": "2 км",
+      "url": "https://marathonec.ru/kross-bystry-pes-osen/",
+      "evidence": "03/10/2026 Осенний кросс «Быстрый пёс»"
+    },
+    {
       "id": "be483ab311",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -516,6 +554,21 @@
       "size": "зарегистрировано 13450"
     },
     {
+      "id": "f95dffa44a",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Розовый забег",
+      "date": "2026-10-03",
+      "dateEnd": null,
+      "place": "Челябинск",
+      "sports": [
+        "trail"
+      ],
+      "distances": "2.5 км",
+      "url": "https://myrace.info/events/2123#new_tab",
+      "evidence": "03/10/2026 Розовый забег"
+    },
+    {
       "id": "a363c0fc0c",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -542,7 +595,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "2, 10, 20 км",
+      "distances": "10 км, 2 км, 20 км",
       "url": "https://myrace.info/events/2080#new_tab",
       "evidence": "03/10/2026 Трейл «Уральский вулкан: гора Липовая»"
     },
@@ -557,7 +610,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "7, 21 км",
+      "distances": "21 км, 7 км",
       "url": "https://reg.russiarunning.com/event/FestivalbegaShartashKarasiki27092026#new_tab",
       "evidence": "03/10/2026 Трейл «Шарташ Карасики»"
     },
@@ -636,7 +689,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3, 5, 12, 35 км",
+      "distances": "12 км, 3 км, 35 км, 5 км",
       "url": "https://toplist.run/race/festival-zdorovya-puls-zemli-2026#new_tab",
       "evidence": "03/10/2026 Фестиваль здоровья «Пульс земли»"
     },
@@ -651,7 +704,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "6, 12, 22, 30 км",
+      "distances": "12 км, 22 км, 30 км, 6 км",
       "url": "https://trail27.ru/#new_tab",
       "evidence": "03/10/2026 Хехцир Трейл «Золотая осень»"
     },
@@ -698,7 +751,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "7, 15, 30 км",
+      "distances": "15 км, 30 км, 7 км",
       "url": "https://hardadventure.ru/sand2026#new_tab",
       "evidence": "04/10/2026 Hard Trail Sand"
     },
@@ -729,7 +782,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 15 км",
+      "distances": "10 км, 15 км, 5 км",
       "url": "https://reg.russiarunning.com/event/VORONKITREYL2026#new_tab",
       "evidence": "04/10/2026 «Воронки трейл»"
     },
@@ -760,7 +813,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 15, 20 км",
+      "distances": "10 км, 15 км, 20 км, 5 км",
       "url": "https://reg.russiarunning.com/event/BORODINOTRAIL3#new_tab",
       "evidence": "04/10/2026 Бородино Трейл"
     },
@@ -823,7 +876,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3, 10, 14, 20, 30 км",
+      "distances": "10 км, 14 км, 20 км, 3 км, 30 км",
       "url": "https://myrace.info/events/1967#new_tab",
       "evidence": "04/10/2026 Каменск Урбан Трейл"
     },
@@ -854,7 +907,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "8, 17, 28, 45 км",
+      "distances": "17 км, 28 км, 45 км, 8 км",
       "url": "https://marathonec.ru/october-trail/",
       "evidence": "04/10/2026 Октобер Трейл"
     },
@@ -916,7 +969,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "4, 8, 12 км",
+      "distances": "12 км, 4 км, 8 км",
       "url": "https://reg.russiarunning.com/event/KULTAKARJALA2026#new_tab",
       "evidence": "04/10/2026 Осенний кросс «КультаКарьяла»"
     },
@@ -929,9 +982,9 @@
       "dateEnd": null,
       "place": "Москва",
       "sports": [
-        "run"
+        "trail"
       ],
-      "distances": "2, 4, 6, 8 км",
+      "distances": "2 км, 4 км, 6 км, 8 км",
       "url": "https://marathonec.ru/kross-lisya-gora-osen/",
       "evidence": "04/10/2026 Осенний кросс «Лисья гора»"
     },
@@ -1216,7 +1269,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 15, 30 км",
+      "distances": "10 км, 15 км, 30 км, 5 км",
       "url": "https://reg.russiarunning.com/event/PervouralskOpen2026Osen#new_tab",
       "evidence": "10/10/2026 Осенний трейл «Первоуральск Опен»"
     },
@@ -1263,7 +1316,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 20 км",
+      "distances": "10 км, 20 км, 5 км",
       "url": "https://reg.place/?q%5Btag%5D=OB#new_tab",
       "evidence": "10/10/2026 Трейл «Туман»"
     },
@@ -1325,7 +1378,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "7, 15 км",
+      "distances": "15 км, 7 км",
       "url": "https://reg.russiarunning.com/event/ID2026#new_tab",
       "evidence": "10/10/2026 Фестиваль спорта «Исток Дона»"
     },
@@ -1352,11 +1405,11 @@
       "name": "Яблочный трейл",
       "date": "2026-10-10",
       "dateEnd": null,
-      "place": "Грушевка, Крым",
+      "place": "Грушевка",
       "sports": [
         "trail"
       ],
-      "distances": "3, 7, 14, 24, 39 км",
+      "distances": "14 км, 24 км, 3 км, 39 км, 7 км",
       "url": "https://reg.russiarunning.com/event/YablochnyyTreyl2026#new_tab",
       "evidence": "10/10/2026 Яблочный трейл"
     },
@@ -1467,7 +1520,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "2, 5, 12, 24 км",
+      "distances": "12 км, 2 км, 24 км, 5 км",
       "url": "https://reg.russiarunning.com/event/vyunok26#new_tab",
       "evidence": "11/10/2026 Вьюнок Трейл"
     },
@@ -1562,7 +1615,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 21 км",
+      "distances": "10 км, 21 км, 5 км",
       "url": "https://reg.russiarunning.com/event/TREYLKRASKILESA2026#new_tab",
       "evidence": "11/10/2026 Осенний трейл «Краски леса»"
     },
@@ -1641,7 +1694,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "1, 2, 3, 4, 6, 8, 10 км",
+      "distances": "1 км, 10 км, 2 км, 3 км, 4 км, 6 км, 8 км",
       "url": "https://toplist.run/race/tropa-zaitseva-2026-2025#new_tab",
       "evidence": "11/10/2026 Трейл «Тропа Зайцева»"
     },
@@ -1784,7 +1837,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "2, 3, 9, 19, 30 км",
+      "distances": "19 км, 2 км, 3 км, 30 км, 9 км",
       "url": "https://marathonec.ru/o-trail-ferrum/",
       "evidence": "17/10/2026 О-Трейл Феррум Фест"
     },
@@ -1831,7 +1884,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "11, 25, 48 км",
+      "distances": "11 км, 25 км, 48 км",
       "url": "https://toplist.run/race/sverkhmarafon-khozyain-taigi-2026#new_tab",
       "evidence": "17/10/2026 Сверхмарафон «Хозяин тайги»"
     },
@@ -1862,7 +1915,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 13, 26 км",
+      "distances": "13 км, 26 км, 5 км",
       "url": "https://reg.russiarunning.com/event/SoyuzTreyl#new_tab",
       "evidence": "17/10/2026 СоюзТрейл"
     },
@@ -1877,7 +1930,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "7, 14 км",
+      "distances": "14 км, 7 км",
       "url": "https://toplist.run/race/sosnovyi-rai-2026#new_tab",
       "evidence": "17/10/2026 Трейл «Сосновый рай»"
     },
@@ -1892,7 +1945,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "15, 35, 70, 110 км",
+      "distances": "110 км, 15 км, 35 км, 70 км",
       "url": "https://sportsauce.ru/starts/yurmanka-trejl-309#new_tab",
       "evidence": "17/10/2026 Юрманка трейл"
     },
@@ -1923,7 +1976,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "51, 104 км",
+      "distances": "104 км, 51 км",
       "url": "https://toplist.run/race/yagusya-ultra-treil-2026-poluavtonomka-2026#new_tab",
       "evidence": "17/10/2026 Ягуся Ультра Трейл"
     },
@@ -2002,7 +2055,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "12, 21 км",
+      "distances": "12 км, 21 км",
       "url": "https://myrace.info/events/2120#new_tab",
       "evidence": "18/10/2026 Дальний Trail Race"
     },
@@ -2065,7 +2118,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "6, 12, 22 км",
+      "distances": "12 км, 22 км, 6 км",
       "url": "https://reg.russiarunning.com/event/zbtrail#new_tab",
       "evidence": "18/10/2026 ЗБ Трейл"
     },
@@ -2256,7 +2309,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "4.5, 11, 22 км",
+      "distances": "11 км, 22 км, 4.5 км",
       "url": "https://reg.russiarunning.com/event/LesobegOSEN18102026#new_tab",
       "evidence": "18/10/2026 Трейл «Лесобег осень»"
     },
@@ -2350,7 +2403,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "6, 12, 23, 66 км",
+      "distances": "12 км, 23 км, 6 км, 66 км",
       "url": "https://myrace.info/events/2072#new_tab",
       "evidence": "24/10/2026 Карстовый трейл"
     },
@@ -2365,7 +2418,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 23 км",
+      "distances": "10 км, 23 км, 5 км",
       "url": "https://www.toplist.run/race/12592#new_tab",
       "evidence": "24/10/2026 НеЗаповедные тропы"
     },
@@ -2412,7 +2465,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3.5, 10 км",
+      "distances": "10 км, 3.5 км",
       "url": "https://reg.russiarunning.com/event/NochOkaTrail2026#new_tab",
       "evidence": "24/10/2026 Трейл «Окская тропа» – ночной забег"
     },
@@ -2443,7 +2496,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 30, 100 км",
+      "distances": "10 км, 100 км, 30 км, 5 км",
       "url": "https://xn--40-emcadbfdgn.xn--p1ai/events/162#new_tab",
       "evidence": "24/10/2026 Трейл «Рубеж»"
     },
@@ -2602,7 +2655,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "15, 30 км",
+      "distances": "15 км, 30 км",
       "url": "https://reg.russiarunning.com/event/Peshchernyytreyl#new_tab",
       "evidence": "25/10/2026 Пещерный трейл"
     },
@@ -2649,7 +2702,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3.5, 5, 8, 15, 31 км",
+      "distances": "15 км, 3.5 км, 31 км, 5 км, 8 км",
       "url": "https://reg.russiarunning.com/event/treylOkskayatropa2026dnevnoyzabeg#new_tab",
       "evidence": "25/10/2026 Трейл «Окская тропа» – дневной забег"
     },
@@ -2680,7 +2733,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 30, 50, 100 км",
+      "distances": "10 км, 100 км, 30 км, 5 км, 50 км",
       "url": "https://reg.place/events/ultra-trail-2026/#new_tab",
       "evidence": "30/10/2026 Железноводск Ultra Trail"
     },
@@ -2727,7 +2780,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "8, 16 км",
+      "distances": "16 км, 8 км",
       "url": "https://reg.russiarunning.com/event/OTRAILKarras2026",
       "evidence": "31/10/2026 O-Trail Karras"
     },
@@ -2902,7 +2955,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 20, 30 км",
+      "distances": "10 км, 20 км, 30 км, 5 км",
       "url": "https://city-trail.ru/6#new_tab",
       "evidence": "01/11/2026 City Trail 6 X-Race"
     },
@@ -2933,7 +2986,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 14, 28, 50 км",
+      "distances": "14 км, 28 км, 5 км, 50 км",
       "url": "https://myrace.info/events/1907#new_tab",
       "evidence": "01/11/2026 Samba Trail: Арчеда"
     },
@@ -3156,7 +3209,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 20 км",
+      "distances": "10 км, 20 км, 5 км",
       "url": "https://istra.run/narod#rec773672918#new_tab",
       "evidence": "04/11/2026 Народный трейл"
     },
@@ -3314,7 +3367,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "7, 12 км",
+      "distances": "12 км, 7 км",
       "url": "https://reg.russiarunning.com/event/TreylfestZmeyka2026#new_tab",
       "evidence": "07/11/2026 Трейлфест «МинВоды»"
     },
@@ -3393,7 +3446,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3, 7 км",
+      "distances": "3 км, 7 км",
       "url": "https://reg.russiarunning.com/event/DmitrovTreylOsen2026#new_tab",
       "evidence": "08/11/2026 Дмитров Трейл Осень"
     },
@@ -3501,7 +3554,7 @@
       "dateEnd": null,
       "place": "Москва",
       "sports": [
-        "run"
+        "trail"
       ],
       "distances": "9 км",
       "url": "https://ultras.goldenultra.ru/#new_tab",
@@ -3582,7 +3635,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 20 км",
+      "distances": "10 км, 20 км, 5 км",
       "url": "https://marathonec.ru/trail-burya/",
       "evidence": "15/11/2026 Трейл «Буря»"
     },
@@ -3597,7 +3650,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3, 10, 19, 47 км",
+      "distances": "10 км, 19 км, 3 км, 47 км",
       "url": "https://toplist.run/race/uda-treil-2026-2025#new_tab",
       "evidence": "15/11/2026 Уда трейл"
     },
@@ -3769,7 +3822,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10 км",
+      "distances": "10 км, 5 км",
       "url": "https://xn--40-emcadbfdgn.xn--p1ai/events/161#new_tab",
       "evidence": "28/11/2026 Иммерсивный Жуков трейл"
     },
@@ -3784,7 +3837,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "8, 15 км",
+      "distances": "15 км, 8 км",
       "url": "https://toplist.run/race/11313#new_tab",
       "evidence": "28/11/2026 Погоня за Лисой"
     },
@@ -3874,11 +3927,11 @@
       "name": "Ночной трейловый забег «Светлая ночь»",
       "date": "2026-12-05",
       "dateEnd": null,
-      "place": "Кварса, Удмуртия",
+      "place": "Кварса",
       "sports": [
         "trail"
       ],
-      "distances": "5, 16, 30 км",
+      "distances": "16 км, 30 км, 5 км",
       "url": "https://reg.russiarunning.com/event/Svetlaynoch2026#new_tab",
       "evidence": "05/12/2026 Ночной трейловый забег «Светлая ночь»"
     },
@@ -4020,7 +4073,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 21, 42, 63 км",
+      "distances": "10 км, 21 км, 42 км, 5 км, 63 км",
       "url": "https://reg.russiarunning.com/event/SosnovkaGoat#new_tab",
       "evidence": "13/12/2026 Новогодний марафон Sosnovka Goat"
     },
@@ -4035,7 +4088,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 20 км",
+      "distances": "10 км, 20 км, 5 км",
       "url": "https://reg.russiarunning.com/event/TreylpolumarafonGoryachiyshokolad2026#new_tab",
       "evidence": "13/12/2026 Трейл «Горячий шоколад»"
     },
@@ -4066,7 +4119,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "10, 20, 40, 70, 80, 160 км",
+      "distances": "10 км, 160 км, 20 км, 40 км, 70 км, 80 км",
       "url": "https://marathonec.ru/mad-fox-ultra-2026/",
       "evidence": "18/12/2026 Mad Fox Ultra 2026"
     },
@@ -4208,7 +4261,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "7, 14, 24, 34, 120 км",
+      "distances": "120 км, 14 км, 24 км, 34 км, 7 км",
       "url": "https://reg.russiarunning.com/event/cwut27#new_tab",
       "evidence": "05/01/2027 Крымский Зимний Ультра Трейл"
     },
@@ -4271,7 +4324,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "6, 15 км",
+      "distances": "15 км, 6 км",
       "url": "https://reg.russiarunning.com/event/TWT2027#new_tab",
       "evidence": "05/01/2027 Тульский зимний трейл"
     },
@@ -4333,7 +4386,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3, 10, 20 км",
+      "distances": "10 км, 20 км, 3 км",
       "url": "https://marathonec.ru/lake-ice-race/",
       "evidence": "23/01/2027 Международный трейловый забег Lake Ice Race"
     },
@@ -4362,9 +4415,9 @@
       "dateEnd": null,
       "place": "Санкт-Петербург",
       "sports": [
-        "run"
+        "trail"
       ],
-      "distances": "1, 1.6, 4, 10 км",
+      "distances": "1 км, 1.6 км, 10 км, 4 км",
       "url": "https://myrace.info/events/2156#new_tab",
       "evidence": "24/01/2027 Глинтвейновый забег"
     },
@@ -4549,7 +4602,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "6, 15, 21 км",
+      "distances": "15 км, 21 км, 6 км",
       "url": "https://marathonec.ru/novgorod-ice-2/",
       "evidence": "13/02/2027 Novgorod Ice"
     },
@@ -5105,7 +5158,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "3.5, 5, 10, 27 км",
+      "distances": "10 км, 27 км, 3.5 км, 5 км",
       "url": "https://marathonec.ru/iremel-yarish/",
       "evidence": "27/03/2027 Трейл «Ирәмәл Ярыш: новый вызов»"
     },
@@ -5216,7 +5269,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 15, 17, 23 км",
+      "distances": "15 км, 17 км, 23 км, 5 км",
       "url": "https://marathonec.ru/trail-beshtaugorsky-krest/",
       "evidence": "03/04/2027 Фестиваль трейлраннинга «Бештаугорский Крест»"
     },
@@ -5278,7 +5331,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "12, 19, 30, 55, 75, 100 км",
+      "distances": "100 км, 12 км, 19 км, 30 км, 55 км, 75 км",
       "url": "https://marathonec.ru/dagestan-wild-trail-2026/",
       "evidence": "09/04/2027 Dagestan Wild Trail 2027"
     },
@@ -5372,7 +5425,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "7.8, 13, 27 км",
+      "distances": "13 км, 27 км, 7.8 км",
       "url": "https://marathonec.ru/trejl-ximkinskij-les/",
       "evidence": "11/04/2027 Трейл «Химкинский лес»"
     },
@@ -5466,7 +5519,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 11, 17, 30, 60, 105 км",
+      "distances": "105 км, 11 км, 17 км, 30 км, 5 км, 60 км",
       "url": "https://myrace.info/events/1900#new_tab",
       "evidence": "02/05/2027 Grand Kislovodsk"
     },
@@ -5512,7 +5565,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "8, 21, 50 км",
+      "distances": "21 км, 50 км, 8 км",
       "url": "https://toplist.run/race/kuntag-ultra-treil-2027#new_tab",
       "evidence": "15/05/2027 Кунтаг Ультра Трейл"
     },
@@ -5975,9 +6028,9 @@
       "sports": [
         "trail"
       ],
-      "distances": "2, 3, 26, 57 км",
+      "distances": "2 км, 26 км, 3 км, 57 км",
       "url": "https://marathonec.ru/crazy-owl-50/",
-      "evidence": "12/06/2027 Crazy Owl 50 наследие Николая Львова,"
+      "evidence": "12/06/2027 Crazy Owl 50 наследие Николая Львова"
     },
     {
       "id": "f4c5fa9a32",
@@ -6078,11 +6131,11 @@
       "name": "Трейл Wild Peak",
       "date": "2027-06-19",
       "dateEnd": null,
-      "place": "Акташ, Алтай",
+      "place": "Акташ",
       "sports": [
         "trail"
       ],
-      "distances": "7, 15, 35, 66 км",
+      "distances": "15 км, 35 км, 66 км, 7 км",
       "url": "https://myrace.info/events/2027#new_tab",
       "evidence": "19/06/2027 Трейл Wild Peak"
     },
@@ -6127,7 +6180,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "15, 19, 30, 40, 50, 65 км",
+      "distances": "15 км, 19 км, 30 км, 40 км, 50 км, 65 км",
       "url": "https://marathonec.ru/arkhyz-wild-trail-2026/",
       "evidence": "25/06/2027 Arkhyz Wild Trail 2027"
     },
@@ -6374,7 +6427,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 21 км",
+      "distances": "10 км, 21 км, 5 км",
       "url": "https://reg.russiarunning.com/event/POMARUNCUP2027#new_tab",
       "evidence": "17/07/2027 Трейл Poma Run Cup"
     },
@@ -6435,7 +6488,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 10, 20, 30, 50, 80, 100 км",
+      "distances": "10 км, 100 км, 20 км, 30 км, 5 км, 50 км, 80 км",
       "url": "https://marathonec.ru/golden-ring-ultra-trail-100/",
       "evidence": "23/07/2027 Golden Ring Ultra Trail 2027"
     },
@@ -6541,7 +6594,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "11, 20, 25, 35, 60, 130 км",
+      "distances": "11 км, 130 км, 20 км, 25 км, 35 км, 60 км",
       "url": "https://marathonec.ru/t-bank-elbrus-wild-trail-gid/",
       "evidence": "06/08/2027 Elbrus Wild Trail 2027"
     },
@@ -6612,11 +6665,11 @@
       "name": "Riekkalansaari Ultra Trail",
       "date": "2027-08-13",
       "dateEnd": null,
-      "place": "Риеккалансаари, Карелия",
+      "place": "Риеккалансаари",
       "sports": [
         "trail"
       ],
-      "distances": "7, 12, 25, 35, 55, 80 км",
+      "distances": "12 км, 25 км, 35 км, 55 км, 7 км, 80 км",
       "url": "https://marathonec.ru/riekkalansaari-trail/",
       "evidence": "13/08/2027 Riekkalansaari Ultra Trail"
     },
@@ -6647,7 +6700,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "6.7, 10 км",
+      "distances": "10 км, 6.7 км",
       "url": "https://reg.russiarunning.com/event/WOLFTRAIL2027#new_tab",
       "evidence": "13/08/2027 Wolf Trail Backyard Ultra «Волчьими тропами»"
     },
@@ -6738,7 +6791,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 17, 30, 50, 70 км",
+      "distances": "17 км, 30 км, 5 км, 50 км, 70 км",
       "url": "https://myrace.info/events/2064#new_tab",
       "evidence": "21/08/2027 Норильск. Горный старт"
     },
@@ -6753,7 +6806,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "5, 6, 12, 22 км",
+      "distances": "12 км, 22 км, 5 км, 6 км",
       "url": "https://toplist.run/race/fury-trail-2027-2026#new_tab",
       "evidence": "22/08/2027 Fury trail"
     },
@@ -6996,7 +7049,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "6.3, 12, 13, 20, 35, 40, 45, 80, 115, 180 км",
+      "distances": "115 км, 12 км, 13 км, 180 км, 20 км, 35 км, 40 км, 45 км, 6.3 км, 80 км",
       "url": "https://marathonec.ru/t-bank-rosa-wild-trail/",
       "evidence": "03/09/2027 Т-Банк Rosa Wild Fest"
     },
@@ -7007,11 +7060,11 @@
       "name": "Vottovaara Mountain Race",
       "date": "2027-09-04",
       "dateEnd": null,
-      "place": "Гимолы, Карелия",
+      "place": "Гимолы",
       "sports": [
         "trail"
       ],
-      "distances": "14, 55 км, 50, 100 миль",
+      "distances": "100 миль, 14 км, 50 миль, 55 км",
       "url": "https://marathonec.ru/vottovaara-mountain-race/",
       "evidence": "04/09/2027 Vottovaara Mountain Race"
     },
@@ -7180,7 +7233,7 @@
       "sports": [
         "trail"
       ],
-      "distances": "15, 30, 50, 70, 120 км",
+      "distances": "120 км, 15 км, 30 км, 50 км, 70 км",
       "url": "https://goldenultra.ru/wbu/#new_tab",
       "evidence": "01/10/2027 White Bride Ultra Gelendzhik"
     }
@@ -7191,10 +7244,12 @@
       "hash": "1a571b7f2e66",
       "chars": 13006,
       "extractedHash": "1a571b7f2e66",
-      "events": 5
+      "events": 5,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T12:29:20"
     },
     "grut": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:29:20",
       "hash": "fd63273a73a7",
       "chars": 18000,
       "extractedHash": "fd63273a73a7",
@@ -7205,24 +7260,28 @@
       "hash": "75f877942e94",
       "chars": 10745,
       "extractedHash": "75f877942e94",
-      "events": 1
+      "events": 1,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T12:29:20"
     },
     "redfox": {
       "fetchedAt": "2026-09-29T11:52:59",
       "hash": "7ebf50949f59",
       "chars": 1806,
       "extractedHash": "7ebf50949f59",
-      "events": 0
+      "events": 0,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T12:29:20"
     },
     "trails": {
-      "fetchedAt": "2026-09-29T11:52:59",
-      "hash": "2d4b09c389cb",
+      "fetchedAt": "2026-09-29T12:29:20",
+      "hash": "1dd46ece9ac7",
       "chars": 30203,
-      "extractedHash": "2d4b09c389cb",
-      "events": 86
+      "extractedHash": "1dd46ece9ac7",
+      "events": 88
     },
     "grom": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:29:20",
       "hash": "c85e93e484be",
       "chars": 4050,
       "extractedHash": "c85e93e484be",
@@ -7234,7 +7293,9 @@
       "hash": "34649b421040",
       "chars": 5199,
       "extractedHash": "34649b421040",
-      "events": 34
+      "events": 34,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T12:29:20"
     },
     "ironstar": {
       "fetchedAt": "2026-09-29T11:52:59",
@@ -7242,10 +7303,11 @@
       "chars": 13849,
       "extractedHash": "b1d2eb7f0c48",
       "events": 33,
-      "triedAt": "2026-09-29T08:53:48"
+      "triedAt": "2026-09-29T12:29:20",
+      "error": "URLError: <urlopen error timed out>"
     },
     "xwaters": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:29:20",
       "hash": "6240b3e4907c",
       "chars": 6390,
       "extractedHash": "6240b3e4907c",
@@ -7253,7 +7315,7 @@
       "triedAt": "2026-09-29T08:53:48"
     },
     "swimcup": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:29:20",
       "hash": "77dfe4673fd4",
       "chars": 11745,
       "extractedHash": "77dfe4673fd4",
@@ -7264,10 +7326,12 @@
       "hash": "921de2a98560",
       "chars": 9054,
       "extractedHash": "921de2a98560",
-      "events": 0
+      "events": 0,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T12:29:20"
     },
     "cyclingrace": {
-      "fetchedAt": "2026-09-29T11:52:59",
+      "fetchedAt": "2026-09-29T12:29:20",
       "hash": "340855a44e27",
       "chars": 3017,
       "extractedHash": "340855a44e27",
@@ -7279,7 +7343,9 @@
       "hash": "c25529b513e6",
       "chars": 31865,
       "extractedHash": "c25529b513e6",
-      "events": 156
+      "events": 156,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T12:29:20"
     },
     "probeg": {
       "fetchedAt": "2026-09-29T11:52:59",
@@ -7287,7 +7353,8 @@
       "chars": 18464,
       "extractedHash": "fe0a9c380ea1",
       "events": 88,
-      "triedAt": "2026-09-29T08:53:48"
+      "triedAt": "2026-09-29T12:29:20",
+      "error": "URLError: <urlopen error timed out>"
     }
   }
 }
