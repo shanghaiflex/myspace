@@ -592,9 +592,21 @@ serve 15 с: подключение к роботу — на каждый зап
 Поэтому на mini команды идут через облачный MQTT Roborock, а с ноутбука — локально (TCP 58867). Комнаты в
 приложении не названы — на сайте «Комната 1/2»; назовёшь в приложении Roborock — подхватится.
 
+**Расписание уборки** (`scripts/vacuum_schedule.py`, launchd `cc.bodywithoutorgans.vacuum`,
+`deploy/install-vacuum-schedule.sh`, раз в 10 минут). Будни в 11:00, пылесос и швабра, весь дом (`VACUUM_AT`,
+`VACUUM_DAYS`, `VACUUM_MODE` в `.env`). Встроенный таймер робота не используется: он не знает календаря. Агент
+решает раз в день в окне `VACUUM_GRACE` = 2 ч после старта и **пропускает** день, если в час уборки
+(`VACUUM_CLEAN_MIN` = 60) стоит разовое дело из календаря (повторяющиеся правила вроде «Работы» и события на
+весь день не в счёт, скрытые чужие тренировки тоже), если робот сегодня уже убирал (от 5 м²), занят или в
+ошибке. Не ответил робот — решения нет, повтор через 10 минут. Решение дня — `data/vacuum-day.json` (данные
+машины), на плашке строкой «Расписание · будни 11:00 · … · сегодня запущен в 11:00 / пропуск — Врач 11:30».
+
 ```
 python3 scripts/vacuum.py state                  # что видит плашка
 python3 scripts/vacuum.py start [--mode vacuum|vac_and_mop|mop] | rooms 1,2 | pause | dock | find
+python3 scripts/vacuum_schedule.py show          # расписание на неделю и что пропустится
+python3 scripts/vacuum_schedule.py run [--dry-run|--force]
+ssh mini tail -5 movies/logs/vacuum-schedule.log
 ```
 
 ## Mixes (`mixes.html`, `mixes.json`)

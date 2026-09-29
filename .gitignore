@@ -16,6 +16,7 @@ french/img/
 data/calendar.ics
 data/calendar-deleted/
 data/lamp-phase.json
+data/vacuum-day.json
 data/lkdr-auth.json
 data/roborock-*.json
 data/lkdr-receipts.json

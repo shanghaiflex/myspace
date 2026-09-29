@@ -81,6 +81,7 @@ import sensors as SN  # noqa: E402
 import fit as FIT  # noqa: E402
 import spend as SP  # noqa: E402
 import vacuum as VC  # noqa: E402
+import vacuum_schedule as VS  # noqa: E402
 
 # Робот отвечает за 1–5 с (подключение на каждый запрос), а страница «Дом» спрашивает его вместе с лампами:
 # кэш держит ответ 15 с, замок не даёт двум запросам подключаться к нему одновременно.
@@ -731,7 +732,14 @@ class Handler(SimpleHTTPRequestHandler):
                 except Exception as e:
                     return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
                 VACUUM["at"] = time.time()
-            return self.send_json(200, VACUUM["data"])
+            return self.send_json(200, {**VACUUM["data"], "schedule": self.vacuum_schedule()})
+
+    @staticmethod
+    def vacuum_schedule():
+        try:
+            return VS.describe()
+        except Exception as e:
+            return f"расписание: {type(e).__name__}"
 
     def vacuum_post(self, action):
         try:
@@ -747,7 +755,7 @@ class Handler(SimpleHTTPRequestHandler):
                 return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
             VACUUM.update(at=time.time(), data=out)
         print(f"vacuum {action} {json.dumps(body, ensure_ascii=False)} → {out.get('state')}", flush=True)
-        return self.send_json(200, out)
+        return self.send_json(200, {**out, "schedule": self.vacuum_schedule()})
 
     def do_PATCH(self):
         if not self.require_login():

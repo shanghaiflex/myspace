@@ -136,6 +136,7 @@
   .chip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
   .chip:disabled { opacity: .4; cursor: default; transform: none; }
   #d-vac .chips + .chips { margin-top: -4px; }
+  #d-vac .sched + .sched { margin-top: -10px; padding-top: 0; }
   .chip i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; background: radial-gradient(circle at 35% 35%, #fff8, transparent 45%), var(--c, #ccc); box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset, 0 0 8px color-mix(in srgb, var(--c, #ccc) 55%, transparent); }
   .sched { margin-top: 4px; padding-top: 6px; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--text-3); }
   .grp + .grp { margin-top: 4px; }
@@ -375,6 +376,7 @@
       <div class="chips" id="vacActs"></div>
       <div class="grp" id="vacRoomsGrp" hidden><div class="lbl">Убрать комнату</div><div class="chips" id="vacRooms"></div></div>
       <div class="sched" id="vacNote"></div>
+      <div class="sched" id="vacSched"></div>
     </div>
     <div class="tile scenes" id="d-scenes">
       <div class="grp"><div class="lbl">Сцены</div><div class="chips" id="scenes"></div></div>
@@ -641,6 +643,7 @@ function renderVac() {
   for (const c of V.consumables || []) if (c.left <= 10) notes.push(`${c.title}: ${c.left}%`);
   if (!notes.length && V.lastClean) notes.push(`последняя уборка ${whenClean(V.lastClean)}${V.area ? ` · ${String(V.area).replace('.', ',')} м² за ${V.minutes} мин` : ''}`);
   $('vacNote').textContent = notes.join(' · ');
+  $('vacSched').textContent = V.schedule ? 'Расписание · ' + V.schedule : '';
 }
 async function loadVac() {
   try {
