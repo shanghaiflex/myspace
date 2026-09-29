@@ -573,6 +573,30 @@ ssh mini tail -5 movies/logs/lamp-schedule.log
 ssh mini tail -5 movies/logs/sensors.log
 ```
 
+**Робот-пылесос** (`scripts/vacuum.py`, `GET /api/vacuum`, `POST /api/vacuum/<start|rooms|pause|dock|find>`,
+29.09.2026). Roborock Qrevo CurvC (`roborock.vacuum.a209`, протокол V1) через библиотеку `python-roborock`
+(на mini — в `~/.local/python312`). На «Доме» — плашка под Varmblixt: состояние и заряд, режим (пылесос /
+пылесос и швабра / швабра, ставится перед стартом), «Убрать всё» / «Пауза» / «Домой» / «Где ты?», уборка
+по комнатам, вода и мешок в базе, ресурс щёток ниже 10%. Своим опросом (30 с, 10 с во время уборки), кэш в
+serve 15 с: подключение к роботу — на каждый запрос, секунды.
+
+Вход один раз кодом из письма (`vacuum.py login request` → письмо от Roborock в Gmail → `login <код>`),
+ключ в `data/roborock-auth.json`, кэш (IP, локальный ключ, карта) — `data/roborock-cache.json`; оба в
+`.gitignore` и в исключениях `deploy.sh`. У библиотеки баг: `FileCache` кладёт в кэш живой трейт
+`device_features` и pickle падает с пустым файлом — `_pickle_cache` его выкидывает.
+
+Две ловушки сети на mini. **Аккаунт российского региона** (`ruiot` / `mqtt-ru.roborock.com`,
+69.17.16.248/29) с финского выхода VPN молчит — адреса в `direct-routes.txt`. **Напрямую по LAN mini до
+робота не достаёт**: у macOS 15 защита «Локальная сеть» не пускает неподписанный python к устройствам в LAN
+(`OSError 65 No route to host`, а системный `nc` проходит и роутер отвечает), выдать право без экрана нельзя.
+Поэтому на mini команды идут через облачный MQTT Roborock, а с ноутбука — локально (TCP 58867). Комнаты в
+приложении не названы — на сайте «Комната 1/2»; назовёшь в приложении Roborock — подхватится.
+
+```
+python3 scripts/vacuum.py state                  # что видит плашка
+python3 scripts/vacuum.py start [--mode vacuum|vac_and_mop|mop] | rooms 1,2 | pause | dock | find
+```
+
 ## Mixes (`mixes.html`, `mixes.json`)
 
 Morning-mix player: random mix from the collection, "next" button, sources SoundCloud / YouTube /

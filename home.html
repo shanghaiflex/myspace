@@ -134,6 +134,8 @@
   .chip:hover { background: var(--surface-2); transform: translateY(-1px); }
   .chip:active { transform: scale(.97); }
   .chip.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .chip:disabled { opacity: .4; cursor: default; transform: none; }
+  #d-vac .chips + .chips { margin-top: -4px; }
   .chip i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; background: radial-gradient(circle at 35% 35%, #fff8, transparent 45%), var(--c, #ccc); box-shadow: 0 0 0 1px rgba(0,0,0,.06) inset, 0 0 8px color-mix(in srgb, var(--c, #ccc) 55%, transparent); }
   .sched { margin-top: 4px; padding-top: 6px; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--text-3); }
   .grp + .grp { margin-top: 4px; }
@@ -366,6 +368,14 @@
       <div class="top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="11" r="7"/><path d="M8 21 H16"/></svg></div>
         <div class="t"><h2>Varmblixt</h2><div class="s" id="plugSub">…</div></div><button class="sw" id="swPlug" aria-label="Varmblixt вкл/выкл"></button></div>
     </div>
+    <div class="tile" id="d-vac" hidden>
+      <div class="top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="9" r="2.2"/><path d="M7 15.5 H17"/></svg></div>
+        <div class="t"><h2>Пылесос</h2><div class="s" id="vacSub">…</div></div></div>
+      <div class="chips" id="vacModes"></div>
+      <div class="chips" id="vacActs"></div>
+      <div class="grp" id="vacRoomsGrp" hidden><div class="lbl">Убрать комнату</div><div class="chips" id="vacRooms"></div></div>
+      <div class="sched" id="vacNote"></div>
+    </div>
     <div class="tile scenes" id="d-scenes">
       <div class="grp"><div class="lbl">Сцены</div><div class="chips" id="scenes"></div></div>
       <div class="sched" id="sched"></div>
@@ -591,6 +601,72 @@ function slide(payload) {
 }
 $('bri').addEventListener('input', e => { const v = +e.target.value; $('briOut').textContent = v + '%'; slide({ brightness: Math.max(1, Math.round(v * 254 / 100)) }); });
 $('warm').addEventListener('input', e => { const v = +e.target.value; $('warmOut').textContent = v + ' K'; slide({ color_temp: Math.round(1e6 / v) }); });
+
+// --- робот-пылесос: свой опрос, отдельно от ламп — отвечает он секундами (scripts/vacuum.py)
+let V = null, vacMode = null, vacBusy = false, vacT = null;
+const escH = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function whenClean(ts) {
+  if (!ts) return '';
+  const d = new Date(ts * 1000), now = new Date(), day = 864e5;
+  const t = d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  const diff = Math.floor((new Date(now.toDateString()) - new Date(d.toDateString())) / day);
+  return diff === 0 ? 'сегодня в ' + t : diff === 1 ? 'вчера в ' + t : d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+}
+function renderVac() {
+  const tile = $('d-vac');
+  if (!V) return;
+  tile.hidden = false;
+  if (V.error && !V.state) {
+    $('vacSub').textContent = V.setup ? 'нет входа в Roborock' : 'не отвечает';
+    $('vacNote').textContent = V.error; ['vacModes', 'vacActs', 'vacRooms'].forEach(id => $(id).innerHTML = ''); return;
+  }
+  tile.classList.toggle('lit', !!V.busy);
+  const bat = V.battery != null ? ` · ${V.battery}%${V.charging && V.battery < 100 ? ' ⚡' : ''}` : '';
+  $('vacSub').textContent = (V.error ? 'ошибка: ' + V.error : V.stateText) + bat;
+  vacMode = vacMode || V.mode;
+  $('vacModes').innerHTML = (V.modes || []).map(m => `<button class="chip${m.id === vacMode ? ' on' : ''}" data-m="${m.id}">${escH(m.title)}</button>`).join('');
+  $('vacModes').querySelectorAll('.chip').forEach(c => c.onclick = () => { vacMode = c.dataset.m; renderVac(); });
+  const acts = V.busy
+    ? [['pause', 'Пауза'], ['dock', 'Домой'], ['find', 'Где ты?']]
+    : [['start', V.state === 'paused' ? 'Продолжить' : 'Убрать всё'], ['dock', 'Домой'], ['find', 'Где ты?']];
+  $('vacActs').innerHTML = acts.map(([a, t]) => `<button class="chip" data-a="${a}"${vacBusy ? ' disabled' : ''}>${t}</button>`).join('');
+  $('vacActs').querySelectorAll('.chip').forEach(c => c.onclick = () => vacCmd(c.dataset.a));
+  $('vacRoomsGrp').hidden = !(V.rooms || []).length;
+  $('vacRooms').innerHTML = (V.rooms || []).map(r => `<button class="chip" data-r="${r.id}"${vacBusy ? ' disabled' : ''}>${escH(r.name)}</button>`).join('');
+  $('vacRooms').querySelectorAll('.chip').forEach(c => c.onclick = () => vacCmd('rooms', [+c.dataset.r]));
+  const notes = [];
+  if (V.dock?.cleanWater) notes.push('долей чистой воды');
+  if (V.dock?.dirtyWater) notes.push('вылей грязную воду');
+  if (V.dock?.dustBag) notes.push('поменяй мешок для пыли');
+  for (const c of V.consumables || []) if (c.left <= 10) notes.push(`${c.title}: ${c.left}%`);
+  if (!notes.length && V.lastClean) notes.push(`последняя уборка ${whenClean(V.lastClean)}${V.area ? ` · ${String(V.area).replace('.', ',')} м² за ${V.minutes} мин` : ''}`);
+  $('vacNote').textContent = notes.join(' · ');
+}
+async function loadVac() {
+  try {
+    const r = await fetch('/api/vacuum', { cache: 'no-store' });
+    if (r.status === 401) return;
+    const j = await r.json();
+    V = r.ok || j.setup ? j : { error: j.error || r.status };
+  } catch (e) { V = { error: e.message }; }
+  renderVac();
+  clearTimeout(vacT);
+  vacT = setTimeout(loadVac, document.visibilityState !== 'visible' ? 120000 : V?.busy ? 10000 : 30000);
+}
+async function vacCmd(action, rooms) {
+  vacBusy = true; renderVac(); $('vacSub').textContent = 'отправляю…';
+  try {
+    const r = await fetch('/api/vacuum/' + action, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rooms, mode: ['start', 'rooms'].includes(action) ? vacMode : undefined }) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || r.status);
+    V = j;
+  } catch (e) { $('vacNote').textContent = 'не вышло: ' + e.message; }
+  vacBusy = false; renderVac();
+  clearTimeout(vacT); vacT = setTimeout(loadVac, 8000);
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') loadVac(); });
+loadVac();
 
 (function greet() {
   const h = new Date().getHours(), w = h < 6 ? 'ночь' : h < 12 ? 'утро' : h < 18 ? 'день' : 'вечер';

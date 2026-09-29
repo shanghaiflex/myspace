@@ -48,6 +48,8 @@
   GET    /api/home                the lamps and the plug as Zigbee2MQTT reports them (scripts/home.py) + scenes
   POST   /api/home/<lamps|lamp|lamp2|plug>   body: {state?, brightness?, color_temp?, color?, transition?} → MQTT set
   POST   /api/home/scene/<name>   a static scene on the lamps (cozy, amber, tv, …)
+  GET    /api/vacuum              робот-пылесос Roborock: состояние, заряд, комнаты (scripts/vacuum.py), кэш 15 с
+  POST   /api/vacuum/<start|rooms|pause|dock|find>   body: {rooms?: [id…], mode?: vacuum|vac_and_mop|mop}
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 
@@ -78,7 +80,13 @@ import notify as NT  # noqa: E402
 import sensors as SN  # noqa: E402
 import fit as FIT  # noqa: E402
 import spend as SP  # noqa: E402
+import vacuum as VC  # noqa: E402
 
+# Робот отвечает за 1–5 с (подключение на каждый запрос), а страница «Дом» спрашивает его вместе с лампами:
+# кэш держит ответ 15 с, замок не даёт двум запросам подключаться к нему одновременно.
+VACUUM = {"at": 0, "data": None}
+VACUUM_LOCK = threading.Lock()
+VACUUM_TTL = 15
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
 # A finished workout is the one health event worth a note right away instead of waiting for the hourly agent.
@@ -346,6 +354,8 @@ class Handler(SimpleHTTPRequestHandler):
                 out["day"] = {}
                 print(f"sensors day: {type(e).__name__}: {e}", flush=True)
             return self.send_json(200, out)
+        if route == "/api/vacuum":
+            return self.vacuum_get()
         if route == "/api/pantry":
             path = os.path.join(ROOT, "pantry.json")
             try:
@@ -665,6 +675,8 @@ class Handler(SimpleHTTPRequestHandler):
                 TASTE_JOBS[kind], "taste_recs.sh", args=[kind, "--force"])})
         if route.startswith("/api/home/"):
             return self.home_post(route[len("/api/home/"):])
+        if route.startswith("/api/vacuum/"):
+            return self.vacuum_post(route[len("/api/vacuum/"):])
         if route == "/api/health/week":
             return self.send_json(202, {"job": self.start_job(WEEK_JOB, "week_review.sh", timeout=900, args=())})
         if route == "/api/health/review":
@@ -708,6 +720,34 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
         print(f"home {what} {json.dumps(out, ensure_ascii=False)}", flush=True)
         return self.send_json(200, {"ok": True, **out})
+
+    def vacuum_get(self):
+        with VACUUM_LOCK:
+            if VACUUM["data"] is None or time.time() - VACUUM["at"] > VACUUM_TTL:
+                try:
+                    VACUUM["data"] = VC.state()
+                except FileNotFoundError as e:
+                    return self.send_json(200, {"error": str(e), "setup": True})
+                except Exception as e:
+                    return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
+                VACUUM["at"] = time.time()
+            return self.send_json(200, VACUUM["data"])
+
+    def vacuum_post(self, action):
+        try:
+            body = self.read_json()
+        except Exception:
+            return self.send_json(400, {"error": "bad json"})
+        with VACUUM_LOCK:
+            try:
+                out = VC.command(action, rooms=body.get("rooms"), mode=body.get("mode"))
+            except ValueError as e:
+                return self.send_json(400, {"error": str(e)})
+            except Exception as e:
+                return self.send_json(502, {"error": f"{type(e).__name__}: {e}"})
+            VACUUM.update(at=time.time(), data=out)
+        print(f"vacuum {action} {json.dumps(body, ensure_ascii=False)} → {out.get('state')}", flush=True)
+        return self.send_json(200, out)
 
     def do_PATCH(self):
         if not self.require_login():
