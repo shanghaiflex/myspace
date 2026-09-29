@@ -4,28 +4,6 @@
   "fetchedAt": "2026-09-29T11:52:59",
   "items": [
     {
-      "id": "fbbeb92140",
-      "series": "swimcup",
-      "seriesName": "SwimCup",
-      "name": "Индор Москва Ноябрь",
-      "date": "2026-11-08",
-      "dateEnd": null,
-      "place": "SportStation, Москва",
-      "sports": [
-        "swim"
-      ],
-      "distances": "1500, 1000, 500, 300 м",
-      "url": "https://swimcup.ru/series/883-Indoor-1126/",
-      "evidence": "Индор Москва Ноябрь 8 Ноября SportStation",
-      "title": "SwimCup: Индор Москва Ноябрь",
-      "distance": "1500 м",
-      "trip": null,
-      "reason": "Плавание — узкое место: последний заплыв был 2 августа, в сентябре ни одного. Зимний старт в Москве — повод вернуть бассейн хотя бы раз в неделю.",
-      "suggestedAt": "2026-09-29",
-      "verdict": "new",
-      "meta": "8 ноября · SportStation, Москва · 1500 м"
-    },
-    {
       "id": "75b1a3302c",
       "series": "russiarunning",
       "seriesName": "RussiaRunning",
@@ -72,6 +50,20 @@
     }
   ],
   "history": [
+    {
+      "id": "fbbeb92140",
+      "title": "SwimCup: Индор Москва Ноябрь",
+      "date": "2026-11-08",
+      "series": "swimcup",
+      "sports": [
+        "swim"
+      ],
+      "reason": "Плавание — узкое место: последний заплыв был 2 августа, в сентябре ни одного. Зимний старт в Москве — повод вернуть бассейн хотя бы раз в неделю.",
+      "note": "индор не хочу: только открытая вода",
+      "verdict": "dismissed",
+      "at": "2026-09-29",
+      "suggestedAt": "2026-09-29"
+    },
     {
       "id": "0a63d0e416",
       "title": "XII Открытое первенство Малоярославца в беге по пересеченной местности «Трейл Кутузов. Дорогами 1812 года»",

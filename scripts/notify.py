@@ -10,6 +10,9 @@
   ночную страница и так не показывает (health.daybreak), а старше REVIEW_FRESH_HOURS — уже не новость,
   телефон мог не просыпаться полдня.
 
+  Инвест — сделки и сбои прогона стратегии на песочнице (~/workspace/invest, scripts/daily.sh на mini пишет
+  data/invest.json): каждое сообщение, пока свежее INVEST_FRESH_HOURS.
+
   Советы Claude — одна сводка в день. Агенты на mini идут четырьмя заходами (миксы 07:20,
   фильмы/книги/лекции 07:40, статьи 07:50, французский 08:10), и уведомлять о каждом — четыре звонка
   за час; поэтому сводка собирается после RECS_SETTLE, когда все уже отработали, и живёт одним id на дату.
@@ -28,6 +31,7 @@ import health as H  # noqa: E402
 
 REVIEW_FRESH_HOURS = 3
 WEEK_FRESH_HOURS = 24     # итоги недели — воскресное чтение, но телефон может проснуться и к вечеру
+INVEST_FRESH_HOURS = 12
 RECS_SETTLE = dt.time(8, 30)   # раньше сводка была бы неполной: французский приходит в 08:10
 # Файл совета, ключ внутри него (у фильмов/книг/лекций один файл на три вида) и как это назвать человеку.
 RECS = [
@@ -106,8 +110,22 @@ def recs_item(now=None):
             "body": body[0].upper() + body[1:], "at": newest.isoformat(timespec="seconds"), "page": "site"}
 
 
+def invest_items(now=None):
+    """Сообщения стратегии (invest/src/invest/notify.py): {"items": [{id, title, body, at}]}, `at` с зоной."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    out = []
+    for x in _load("data/invest.json").get("items", []):
+        try:
+            at = dt.datetime.fromisoformat(x["at"])
+        except Exception:
+            continue
+        if now - at <= dt.timedelta(hours=INVEST_FRESH_HOURS):
+            out.append({"id": x["id"], "kind": "invest", "title": x["title"], "body": x["body"], "at": x["at"]})
+    return out
+
+
 def items():
-    return [x for x in (review_item(), week_item(), recs_item()) if x]
+    return [x for x in (review_item(), week_item(), recs_item()) if x] + invest_items()
 
 
 if __name__ == "__main__":
