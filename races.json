@@ -1,7 +1,7 @@
 {
   "updatedAt": "2026-09-29T08:52:55",
   "model": "opus",
-  "fetchedAt": "2026-09-29T08:51:23",
+  "fetchedAt": "2026-09-29T08:53:48",
   "items": [
     {
       "id": "0a63d0e416",
@@ -1064,21 +1064,6 @@
       "evidence": "10.10.2026 | Забег «Open Band Trails — Туман» | Московская область, Фрязино | 20600 м (M) 20600 м (M-гандикап) 9540 м (S) 9540 м (S-гандикап) 4800 м (XS) 4800 м (XS-гандикап) 2100 м (дети) 520 м (дети) | trail ⟨https://openband.run/⟩"
     },
     {
-      "id": "535140bc2d",
-      "series": "russiarunning",
-      "seriesName": "RussiaRunning",
-      "name": "Красно-белый забег",
-      "date": "2026-10-10",
-      "dateEnd": null,
-      "place": "Москва",
-      "sports": [
-        "run"
-      ],
-      "distances": "1 км, 5 км, 10 км",
-      "url": "https://reg.russiarunning.com/event/Krasnobel",
-      "evidence": "10.10.2026 | Красно-белый забег | Москва | 1 км, 5 км, 10 км | run ⟨https://reg.russiarunning.com/event/Krasnobel⟩"
-    },
-    {
       "id": "0dc2f95207",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -1092,6 +1077,21 @@
       "distances": "10 км 5 км 1 км",
       "url": "https://reg.topliga.ru/event/Krasnobel",
       "evidence": "10.10.2026 | Красно-белый забег | Москва | 10 км 5 км 1 км | run ⟨https://reg.topliga.ru/event/Krasnobel⟩"
+    },
+    {
+      "id": "535140bc2d",
+      "series": "russiarunning",
+      "seriesName": "RussiaRunning",
+      "name": "Красно-белый забег",
+      "date": "2026-10-10",
+      "dateEnd": null,
+      "place": "Москва",
+      "sports": [
+        "run"
+      ],
+      "distances": "1 км, 5 км, 10 км",
+      "url": "https://reg.russiarunning.com/event/Krasnobel",
+      "evidence": "10.10.2026 | Красно-белый забег | Москва | 1 км, 5 км, 10 км | run ⟨https://reg.russiarunning.com/event/Krasnobel⟩"
     },
     {
       "id": "e96c9df5a1",
@@ -1304,21 +1304,6 @@
       "evidence": "10/10/2026 Яблочный трейл"
     },
     {
-      "id": "df04231fa8",
-      "series": "russiarunning",
-      "seriesName": "RussiaRunning",
-      "name": "138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц",
-      "date": "2026-10-11",
-      "dateEnd": null,
-      "place": "г. Москва, ул. 2-ая Вольская, 26",
-      "sports": [
-        "run"
-      ],
-      "distances": "5 км, 10 км, 21.1 км, 42.2 км",
-      "url": "https://reg.russiarunning.com/event/138thNekrasovMarathondedicatedtoWorldMigratoryBirdDay",
-      "evidence": "11.10.2026 | 138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц | г. Москва, ул. 2-ая Вольская, 26 | 5 км, 10 км, 21.1 км, 42.2 км | run ⟨https://reg.russiarunning.com/event/138thNekrasovMarathondedicatedtoWorldMigratoryBirdDay⟩"
-    },
-    {
       "id": "8143f9ac3e",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -1332,6 +1317,21 @@
       "distances": "марафон полумарафон 10 км 5 км",
       "url": "https://probeg.org/event/85152/",
       "evidence": "11.10.2026 | 138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц | Москва | марафон полумарафон 10 км 5 км | run ⟨https://probeg.org/event/85152/⟩"
+    },
+    {
+      "id": "df04231fa8",
+      "series": "russiarunning",
+      "seriesName": "RussiaRunning",
+      "name": "138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц",
+      "date": "2026-10-11",
+      "dateEnd": null,
+      "place": "г. Москва, ул. 2-ая Вольская, 26",
+      "sports": [
+        "run"
+      ],
+      "distances": "5 км, 10 км, 21.1 км, 42.2 км",
+      "url": "https://reg.russiarunning.com/event/138thNekrasovMarathondedicatedtoWorldMigratoryBirdDay",
+      "evidence": "11.10.2026 | 138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц | г. Москва, ул. 2-ая Вольская, 26 | 5 км, 10 км, 21.1 км, 42.2 км | run ⟨https://reg.russiarunning.com/event/138thNekrasovMarathondedicatedtoWorldMigratoryBirdDay⟩"
     },
     {
       "id": "673cd58dd6",
@@ -2354,21 +2354,6 @@
       "evidence": "24.10.2026 | трейл \"Окская тропа\" 2026 - ночной забег | База отдыха \"Остров Приключений\" | 0.6 км, 3.5 км, 10 км | trail ⟨https://reg.russiarunning.com/event/NochOkaTrail2026⟩"
     },
     {
-      "id": "c87f91f15c",
-      "series": "russiarunning",
-      "seriesName": "RussiaRunning",
-      "name": "139 Некрасовский марафон, посвященный Международному дню снежного барса",
-      "date": "2026-10-25",
-      "dateEnd": null,
-      "place": "г. Москва, ул. 2-ая Вольская, 26",
-      "sports": [
-        "run"
-      ],
-      "distances": "5 км, 10 км, 21.1 км, 42.2 км",
-      "url": "https://reg.russiarunning.com/event/The139thNekrasovskyMarathondedicatedtoInternationalSnowLeopardDay",
-      "evidence": "25.10.2026 | 139 Некрасовский марафон, посвященный Международному дню снежного барса | г. Москва, ул. 2-ая Вольская, 26 | 5 км, 10 км, 21.1 км, 42.2 км | run ⟨https://reg.russiarunning.com/event/The139thNekrasovskyMarathondedicatedtoInternationalSnowLeopardDay⟩"
-    },
-    {
       "id": "e6b70c0176",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -2382,6 +2367,21 @@
       "distances": "марафон полумарафон 10 км 5 км",
       "url": "https://probeg.org/event/85153/",
       "evidence": "25.10.2026 | 139 Некрасовский марафон, посвященный Международному дню снежного барса | Москва | марафон полумарафон 10 км 5 км | run ⟨https://probeg.org/event/85153/⟩"
+    },
+    {
+      "id": "c87f91f15c",
+      "series": "russiarunning",
+      "seriesName": "RussiaRunning",
+      "name": "139 Некрасовский марафон, посвященный Международному дню снежного барса",
+      "date": "2026-10-25",
+      "dateEnd": null,
+      "place": "г. Москва, ул. 2-ая Вольская, 26",
+      "sports": [
+        "run"
+      ],
+      "distances": "5 км, 10 км, 21.1 км, 42.2 км",
+      "url": "https://reg.russiarunning.com/event/The139thNekrasovskyMarathondedicatedtoInternationalSnowLeopardDay",
+      "evidence": "25.10.2026 | 139 Некрасовский марафон, посвященный Международному дню снежного барса | г. Москва, ул. 2-ая Вольская, 26 | 5 км, 10 км, 21.1 км, 42.2 км | run ⟨https://reg.russiarunning.com/event/The139thNekrasovskyMarathondedicatedtoInternationalSnowLeopardDay⟩"
     },
     {
       "id": "feb2549d9b",
@@ -6886,36 +6886,36 @@
   ],
   "pages": {
     "wildtrail": {
-      "fetchedAt": "2026-09-29T08:46:36",
+      "fetchedAt": "2026-09-29T08:53:48",
       "hash": "1a571b7f2e66",
       "chars": 13006,
       "extractedHash": "1a571b7f2e66",
       "events": 5
     },
     "grut": {
-      "fetchedAt": "2026-09-29T08:46:36",
+      "fetchedAt": "2026-09-29T08:53:48",
       "hash": "fd63273a73a7",
       "chars": 18000,
       "extractedHash": "fd63273a73a7",
       "events": 1
     },
     "ultra100": {
-      "fetchedAt": "2026-09-29T08:46:36",
+      "fetchedAt": "2026-09-29T08:53:48",
       "hash": "75f877942e94",
       "chars": 10745,
       "extractedHash": "75f877942e94",
       "events": 1
     },
     "redfox": {
-      "fetchedAt": "2026-09-29T08:46:36",
+      "fetchedAt": "2026-09-29T08:53:48",
       "hash": "7ebf50949f59",
       "chars": 1806,
       "extractedHash": "7ebf50949f59",
       "events": 0
     },
     "trails": {
-      "fetchedAt": "2026-09-29T08:46:36",
-      "hash": "6d58dd9acc1b",
+      "fetchedAt": "2026-09-29T08:53:48",
+      "hash": "55457119564e",
       "chars": 30203,
       "extractedHash": "6d58dd9acc1b",
       "events": 86
@@ -6925,10 +6925,12 @@
       "hash": "c85e93e484be",
       "chars": 4050,
       "extractedHash": "c85e93e484be",
-      "events": 3
+      "events": 3,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T08:53:48"
     },
     "russialoppet": {
-      "fetchedAt": "2026-09-29T08:51:23",
+      "fetchedAt": "2026-09-29T08:53:48",
       "hash": "638e1ed65e5a",
       "chars": 5063,
       "extractedHash": "638e1ed65e5a",
@@ -6939,24 +6941,28 @@
       "hash": "b1d2eb7f0c48",
       "chars": 13849,
       "extractedHash": "b1d2eb7f0c48",
-      "events": 33
+      "events": 33,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T08:53:48"
     },
     "xwaters": {
       "fetchedAt": "2026-09-29T08:46:36",
       "hash": "6240b3e4907c",
       "chars": 6390,
       "extractedHash": "6240b3e4907c",
-      "events": 20
+      "events": 20,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T08:53:48"
     },
     "swimcup": {
-      "fetchedAt": "2026-09-29T08:46:36",
+      "fetchedAt": "2026-09-29T08:53:48",
       "hash": "77dfe4673fd4",
       "chars": 11745,
       "extractedHash": "77dfe4673fd4",
       "events": 26
     },
     "granfondo": {
-      "fetchedAt": "2026-09-29T08:46:36",
+      "fetchedAt": "2026-09-29T08:53:48",
       "hash": "921de2a98560",
       "chars": 9054,
       "extractedHash": "921de2a98560",
@@ -6967,10 +6973,12 @@
       "hash": "340855a44e27",
       "chars": 3017,
       "extractedHash": "340855a44e27",
-      "events": 2
+      "events": 2,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T08:53:48"
     },
     "russiarunning": {
-      "fetchedAt": "2026-09-29T08:51:23",
+      "fetchedAt": "2026-09-29T08:53:48",
       "hash": "92f054a2610c",
       "chars": 28577,
       "extractedHash": "92f054a2610c",
@@ -6981,7 +6989,9 @@
       "hash": "00f92e547934",
       "chars": 15986,
       "extractedHash": "00f92e547934",
-      "events": 88
+      "events": 88,
+      "error": "URLError: <urlopen error timed out>",
+      "triedAt": "2026-09-29T08:53:48"
     }
   }
 }

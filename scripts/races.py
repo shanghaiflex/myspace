@@ -260,7 +260,17 @@ def page_text(raw, base):
     return "\n".join(out)
 
 
-def get(url, timeout=30):
+def get(url, timeout=30, tries=2):
+    """С mini (VPN в Финляндии) российские хостинги иногда молчат до таймаута — вторая попытка часто проходит."""
+    for n in range(tries):
+        try:
+            return _get(url, timeout)
+        except (urllib.error.URLError, OSError):
+            if n == tries - 1:
+                raise
+
+
+def _get(url, timeout):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html,application/json;q=0.9,*/*;q=0.5",
                                                "Accept-Language": "ru,en;q=0.8"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
