@@ -592,8 +592,15 @@ serve 15 с: подключение к роботу — на каждый зап
 Поэтому на mini команды идут через облачный MQTT Roborock, а с ноутбука — локально (TCP 58867). Комнаты в
 приложении не названы — на сайте «Комната 1/2»; назовёшь в приложении Roborock — подхватится.
 
+**Режимов четыре** (30.09.2026): «Пылесос и швабра» (`vac_and_mop`) у Qrevo — оба сразу, в один проход:
+робот моет тряпку на базе и выезжает с опущенной шваброй, и выглядит это как влажная уборка с первой минуты
+(пользователь так и принял). «Пылесос, потом швабра» (`vac_then_mop`) — те же моторы плюс порядок, `seq_type` = 1
+в статусе робота. Это настройка робота, а не параметр запуска, и сеттера в python-roborock нет: команда
+`app_set_clean_sequence_type` `{type, fan_power, water_box_mode, mop_mode, repeat}` взята из PR #959 библиотеки,
+проверена на роботе (ставится и снимается). `set_clean_motor_mode` с `seq_type` молча игнорируется.
+
 **Расписание уборки** (`scripts/vacuum_schedule.py`, launchd `cc.bodywithoutorgans.vacuum`,
-`deploy/install-vacuum-schedule.sh`, раз в 10 минут). Будни в 11:00, пылесос и швабра, весь дом (`VACUUM_AT`,
+`deploy/install-vacuum-schedule.sh`, раз в 10 минут). Будни в 11:00, «пылесос, потом швабра», весь дом (`VACUUM_AT`,
 `VACUUM_DAYS`, `VACUUM_MODE` в `.env`). Встроенный таймер робота не используется: он не знает календаря. Агент
 решает раз в день в окне `VACUUM_GRACE` = 2 ч после старта и **пропускает** день, если в час уборки
 (`VACUUM_CLEAN_MIN` = 60) стоит разовое дело из календаря (повторяющиеся правила вроде «Работы» и события на
@@ -603,7 +610,7 @@ serve 15 с: подключение к роботу — на каждый зап
 
 ```
 python3 scripts/vacuum.py state                  # что видит плашка
-python3 scripts/vacuum.py start [--mode vacuum|vac_and_mop|mop] | rooms 1,2 | pause | dock | find
+python3 scripts/vacuum.py start [--mode vacuum|vac_and_mop|vac_then_mop|mop] | rooms 1,2 | pause | dock | find
 python3 scripts/vacuum_schedule.py show          # расписание на неделю и что пропустится
 python3 scripts/vacuum_schedule.py run [--dry-run|--force]
 ssh mini tail -5 movies/logs/vacuum-schedule.log
