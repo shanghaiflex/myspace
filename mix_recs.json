@@ -20,23 +20,6 @@
       "played": true
     },
     {
-      "id": "sc:242895057",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/tropical-waste-1/toxe-on-nts",
-      "title": "Toxe on NTS",
-      "artist": "Tropical Waste",
-      "duration": 1777,
-      "artwork": "https://i1.sndcdn.com/artworks-000143878409-y8o0th-t500x500.jpg",
-      "genre": "Club",
-      "published": "2016-01-20",
-      "reason": "Ровно поле MOBILEGIRL, которую ты слушал в ROOMIES: стокгольмский Staycore-подход — хрустальные синты и рваные клубные биты без джангл-брейков, из-за которых ты отверг Nia Archives.",
-      "wanted": "Toxe NTS",
-      "mood": "rhythmic",
-      "suggestedAt": "2026-09-26",
-      "verdict": "new",
-      "played": false
-    },
-    {
       "id": "sc:1295909536",
       "source": "soundcloud",
       "url": "https://soundcloud.com/heartbrokennights/nts-mix-090622-he4rtbroken-w-liyo-ssaliva",
@@ -89,6 +72,18 @@
     }
   ],
   "history": [
+    {
+      "id": "sc:242895057",
+      "artist": "Tropical Waste",
+      "title": "Toxe on NTS",
+      "url": "https://soundcloud.com/tropical-waste-1/toxe-on-nts",
+      "reason": "Ровно поле MOBILEGIRL, которую ты слушал в ROOMIES: стокгольмский Staycore-подход — хрустальные синты и рваные клубные биты без джангл-брейков, из-за которых ты отверг Nia Archives.",
+      "mood": "rhythmic",
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-09-30",
+      "suggestedAt": "2026-09-26"
+    },
     {
       "id": "sc:1328893246",
       "artist": "Nevo 💿",
