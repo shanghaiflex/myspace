@@ -1,31 +1,8 @@
 {
-  "updatedAt": "2026-09-29T12:46:10",
+  "updatedAt": "2026-09-30T09:35:03",
   "model": "opus",
-  "fetchedAt": "2026-09-29T20:43:35",
+  "fetchedAt": "2026-09-30T09:25:43",
   "items": [
-    {
-      "id": "75b1a3302c",
-      "series": "russiarunning",
-      "seriesName": "RussiaRunning",
-      "name": "Суздальский полумарафон \"Жемчужина Золотого кольца\" 2026",
-      "date": "2026-10-11",
-      "dateEnd": null,
-      "place": "г. Суздаль",
-      "sports": [
-        "run"
-      ],
-      "distances": "0.4 км, 1 км, 3 км, 5 км, 10 км, 21 км",
-      "url": "https://reg.russiarunning.com/event/SuzdalskiypolumarafonZhemchuzhinaZolotogokoltsa2026",
-      "evidence": "11.10.2026 | Суздальский полумарафон \"Жемчужина Золотого кольца\" 2026 | г. Суздаль | 0.4 км, 1 км, 3 км, 5 км, 10 км, 21 км | run | зарегистрировано 1212 ⟨https://reg.russiarunning.com/event/SuzdalskiypolumarafonZhemchuzhinaZolotogokoltsa2026⟩",
-      "size": "зарегистрировано 1212",
-      "title": "Суздальский полумарафон \"Жемчужина Золотого кольца\" 2026",
-      "distance": "21 км",
-      "trip": "с ночёвкой",
-      "reason": "Полумарафона у тебя ещё не было, а 10 км ты бегал уже трижды, в том числе после велоэтапа на Ironstar 1/4. Значит, 21 км тебе по силам. Суздаль — красивая трасса, и до неё почти две недели после скачка нагрузки.",
-      "suggestedAt": "2026-09-29",
-      "verdict": "new",
-      "meta": "11 октября · г. Суздаль · 21 км · с ночёвкой"
-    },
     {
       "id": "4b8685704b",
       "series": "grom",
@@ -49,27 +26,50 @@
       "meta": "24 октября · Москва, Новомещерский проезд, д. 15 · 10 км"
     },
     {
-      "id": "3d99299686",
-      "series": "probeg",
-      "seriesName": "ПроБЕГ, Центр",
-      "name": "Народный трейл",
-      "date": "2026-11-04",
+      "id": "0dc8bdc899",
+      "series": "russiarunning",
+      "seriesName": "RussiaRunning",
+      "name": "Знаменский забег 2026",
+      "date": "2026-10-17",
       "dateEnd": null,
-      "place": "Московская область, Истра",
+      "place": "Санкт-Петербург, Петергоф, Усадьба Знаменка",
       "sports": [
-        "trail"
+        "run"
       ],
-      "distances": "20200 м 11800 м 6390 м 2200 м 1 км (дети)",
-      "url": "https://istra.run/narod#rec773672893",
-      "evidence": "04.11.2026 | Народный трейл | Московская область, Истра | 20200 м 11800 м 6390 м 2200 м 1 км (дети) | trail | рейтинг ПроБЕГа 4.8 (11 оценок) ⟨https://istra.run/narod#rec773672893⟩",
-      "size": "рейтинг ПроБЕГа 4.8 (11 оценок)",
-      "title": "Народный трейл",
-      "distance": "20200 м",
+      "distances": "1 км, 5 км, 10 км, 15 км",
+      "url": "https://reg.russiarunning.com/event/Znamenkarun",
+      "evidence": "17.10.2026 | Знаменский забег 2026 | Санкт-Петербург, Петергоф, Усадьба Знаменка | 1 км, 5 км, 10 км, 15 км | run | зарегистрировано 164 ⟨https://reg.russiarunning.com/event/Znamenkarun⟩",
+      "size": "зарегистрировано 164",
+      "title": "Знаменский забег 2026",
+      "distance": "15 км",
       "trip": null,
-      "reason": "Трейлов у тебя ещё не было, а 20 км под Истрой — шаг после десятки на Московском марафоне: на Ironstar 1/4 ты пробежал 10 км уже после велоэтапа.",
-      "suggestedAt": "2026-09-29",
+      "reason": "После двух десяток на Московском марафоне 15 км — ровно твой следующий шаг, темп 5:29/км на последнем беге его держит. Парк усадьбы Знаменка у залива.",
+      "suggestedAt": "2026-09-30",
       "verdict": "new",
-      "meta": "4 ноября · Московская область, Истра · 20200 м"
+      "meta": "17 октября · Санкт-Петербург, Петергоф, Усадьба Знаменка · 15 км"
+    },
+    {
+      "id": "e779979bf9",
+      "series": "russiarunning",
+      "seriesName": "RussiaRunning",
+      "name": "IRONMAN 70.3 ТУРЦИЯ / IRONMAN 70.3 TURKIYE 2026",
+      "date": "2026-11-01",
+      "dateEnd": null,
+      "place": "Белек, Турция",
+      "sports": [
+        "tri"
+      ],
+      "distances": null,
+      "url": "https://reg.russiarunning.com/event/IRONMAN703TURKIYE202601112026",
+      "evidence": "01.11.2026 | IRONMAN 70.3 ТУРЦИЯ / IRONMAN 70.3 TURKIYE 2026 | Белек, Турция |  | tri | зарегистрировано 114 ⟨https://reg.russiarunning.com/event/IRONMAN703TURKIYE202601112026⟩",
+      "size": "зарегистрировано 114",
+      "title": "IRONMAN 70.3 ТУРЦИЯ / IRONMAN 70.3 TURKIYE 2026",
+      "distance": null,
+      "trip": "поездка на 3–4 дня",
+      "reason": "Твоя целевая дистанция вживую: после Ironstar 1/4 это следующая ступень, а 1,9 км в воде — внутри твоего диапазона открытой воды 1–3 км.",
+      "suggestedAt": "2026-09-30",
+      "verdict": "new",
+      "meta": "1 ноября · Белек, Турция · поездка на 3–4 дня"
     }
   ],
   "history": [
@@ -206,7 +206,7 @@
         "trail"
       ],
       "distances": "1 км, 2 км, 3 км, 4 км, 5 км, 6 км, 8 км",
-      "url": "https://myrace.info/events/2159#new_tab",
+      "url": "https://myrace.info/events/2159",
       "evidence": "02/10/2026 Кросс памяти Серафима и Георгия Знаменских"
     },
     {
@@ -283,7 +283,7 @@
         "trail"
       ],
       "distances": "12 км, 4 км, 8 км",
-      "url": "https://reg.russiarunning.com/event/KULTAKARJALA2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/KULTAKARJALA2026",
       "evidence": "03/10/2026 KultaKarjala"
     },
     {
@@ -299,8 +299,8 @@
       ],
       "distances": "0.5 км, 1 км, 2.5 км, 4.7 км, 10.6 км, 21.2 км, 31.8 км, 42.4 км",
       "url": "https://reg.russiarunning.com/event/KislovodskiymarafonKAVKAZRUN2026",
-      "evidence": "03.10.2026 – 04.10.2026 | MAYRVEDA Кисловодский марафон KAVKAZ.RUN 2026 | Кисловодск | 0.5 км, 1 км, 2.5 км, 4.7 км, 10.6 км, 21.2 км, 31.8 км, 42.4 км | run | зарегистрировано 1547 ⟨https://reg.russiarunning.com/event/KislovodskiymarafonKAVKAZRUN2026⟩",
-      "size": "зарегистрировано 1547"
+      "evidence": "03.10.2026 – 04.10.2026 | MAYRVEDA Кисловодский марафон KAVKAZ.RUN 2026 | Кисловодск | 0.5 км, 1 км, 2.5 км, 4.7 км, 10.6 км, 21.2 км, 31.8 км, 42.4 км | run | зарегистрировано 1560 ⟨https://reg.russiarunning.com/event/KislovodskiymarafonKAVKAZRUN2026⟩",
+      "size": "зарегистрировано 1560"
     },
     {
       "id": "c91d6de2ff",
@@ -346,7 +346,7 @@
         "trail"
       ],
       "distances": "35 км",
-      "url": "https://myrace.info/events/2148#new_tab",
+      "url": "https://myrace.info/events/2148",
       "evidence": "03/10/2026 Вышний Волочёк Race"
     },
     {
@@ -361,7 +361,7 @@
         "trail"
       ],
       "distances": "4.3 км, 7.4 км",
-      "url": "https://reg.russiarunning.com/event/ZigityakMountainTrailChampionship2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/ZigityakMountainTrailChampionship2026",
       "evidence": "03/10/2026 Горный трейл «Зигитяк»"
     },
     {
@@ -377,8 +377,8 @@
       ],
       "distances": "0.5 км, 1 км, 2 км, 5 км, 10 км, 20 км, 50 км",
       "url": "https://reg.russiarunning.com/event/ZAVIDOVOTRAIL",
-      "evidence": "03.10.2026 – 04.10.2026 | ЗАВИДОВО ТРЕЙЛ | Гостиничный комплекс Ямская Слобода | 0.5 км, 1 км, 2 км, 5 км, 10 км, 20 км, 50 км | trail | зарегистрировано 400 ⟨https://reg.russiarunning.com/event/ZAVIDOVOTRAIL⟩",
-      "size": "зарегистрировано 400"
+      "evidence": "03.10.2026 – 04.10.2026 | ЗАВИДОВО ТРЕЙЛ | Гостиничный комплекс Ямская Слобода | 0.5 км, 1 км, 2 км, 5 км, 10 км, 20 км, 50 км | trail | зарегистрировано 407 ⟨https://reg.russiarunning.com/event/ZAVIDOVOTRAIL⟩",
+      "size": "зарегистрировано 407"
     },
     {
       "id": "aed22e7dc0",
@@ -424,7 +424,7 @@
         "trail"
       ],
       "distances": "10 км, 20 км, 5 км, 50 км",
-      "url": "https://reg.russiarunning.com/event/ZAVIDOVOTRAIL#new_tab",
+      "url": "https://reg.russiarunning.com/event/ZAVIDOVOTRAIL",
       "evidence": "03/10/2026 Завидово трейл"
     },
     {
@@ -440,8 +440,8 @@
       ],
       "distances": "1 км, 2 км, 5 км, 10 км",
       "url": "https://reg.russiarunning.com/event/gold_parallel",
-      "evidence": "03.10.2026 | Золотая параллель | Армавир | 1 км, 2 км, 5 км, 10 км | run | зарегистрировано 722 ⟨https://reg.russiarunning.com/event/gold_parallel⟩",
-      "size": "зарегистрировано 722"
+      "evidence": "03.10.2026 | Золотая параллель | Армавир | 1 км, 2 км, 5 км, 10 км | run | зарегистрировано 727 ⟨https://reg.russiarunning.com/event/gold_parallel⟩",
+      "size": "зарегистрировано 727"
     },
     {
       "id": "d1b6055873",
@@ -455,7 +455,7 @@
         "trail"
       ],
       "distances": "21 км, 3 км, 42 км",
-      "url": "https://myrace.info/events/1540#new_tab",
+      "url": "https://myrace.info/events/1540",
       "evidence": "03/10/2026 Марафон «Путь к роднику»"
     },
     {
@@ -487,8 +487,8 @@
       ],
       "distances": "0.05 км, 0.3 км, 0.5 км, 0.8 км, 1 км, 5.25 км, 10.5 км, 21 км",
       "url": "https://reg.russiarunning.com/event/NOVOTROITsKIYPOLUMARAFON2026",
-      "evidence": "03.10.2026 | НОВОТРОИЦКИЙ ПОЛУМАРАФОН 2026 | ул. Советская, 75а, Новотроицк, Оренбургская обл. | 0.05 км, 0.3 км, 0.5 км, 0.8 км, 1 км, 5.25 км, 10.5 км, 21 км | run | зарегистрировано 1487 ⟨https://reg.russiarunning.com/event/NOVOTROITsKIYPOLUMARAFON2026⟩",
-      "size": "зарегистрировано 1487"
+      "evidence": "03.10.2026 | НОВОТРОИЦКИЙ ПОЛУМАРАФОН 2026 | ул. Советская, 75а, Новотроицк, Оренбургская обл. | 0.05 км, 0.3 км, 0.5 км, 0.8 км, 1 км, 5.25 км, 10.5 км, 21 км | run | зарегистрировано 1495 ⟨https://reg.russiarunning.com/event/NOVOTROITsKIYPOLUMARAFON2026⟩",
+      "size": "зарегистрировано 1495"
     },
     {
       "id": "c70d6cecd1",
@@ -550,8 +550,8 @@
       ],
       "distances": "0.5 км, 1 км, 5 км, 10 км, 21.1 км",
       "url": "https://reg.russiarunning.com/event/BZK_Moscow_26",
-      "evidence": "03.10.2026 – 04.10.2026 | Полумарафон «Моя столица» – 2026 | г. Москва, Университетская площадь | 0.5 км, 1 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 13646 ⟨https://reg.russiarunning.com/event/BZK_Moscow_26⟩",
-      "size": "зарегистрировано 13646"
+      "evidence": "03.10.2026 – 04.10.2026 | Полумарафон «Моя столица» – 2026 | г. Москва, Университетская площадь | 0.5 км, 1 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 13726 ⟨https://reg.russiarunning.com/event/BZK_Moscow_26⟩",
+      "size": "зарегистрировано 13726"
     },
     {
       "id": "f95dffa44a",
@@ -565,7 +565,7 @@
         "trail"
       ],
       "distances": "2.5 км",
-      "url": "https://myrace.info/events/2123#new_tab",
+      "url": "https://myrace.info/events/2123",
       "evidence": "03/10/2026 Розовый забег"
     },
     {
@@ -596,7 +596,7 @@
         "trail"
       ],
       "distances": "10 км, 2 км, 20 км",
-      "url": "https://myrace.info/events/2080#new_tab",
+      "url": "https://myrace.info/events/2080",
       "evidence": "03/10/2026 Трейл «Уральский вулкан: гора Липовая»"
     },
     {
@@ -611,7 +611,7 @@
         "trail"
       ],
       "distances": "21 км, 7 км",
-      "url": "https://reg.russiarunning.com/event/FestivalbegaShartashKarasiki27092026#new_tab",
+      "url": "https://reg.russiarunning.com/event/FestivalbegaShartashKarasiki27092026",
       "evidence": "03/10/2026 Трейл «Шарташ Карасики»"
     },
     {
@@ -659,8 +659,8 @@
       ],
       "distances": "0.6 км, 6 км, 7 км, 21.1 км",
       "url": "https://reg.russiarunning.com/event/FestivalbegaShartashKarasiki27092026",
-      "evidence": "03.10.2026 | Фестиваль бега \"Шарташ - Карасики 2026\" | г. Екатеринбург, ул. Отдыха, 111/1 | 0.6 км, 6 км, 7 км, 21.1 км | run | зарегистрировано 276 ⟨https://reg.russiarunning.com/event/FestivalbegaShartashKarasiki27092026⟩",
-      "size": "зарегистрировано 276"
+      "evidence": "03.10.2026 | Фестиваль бега \"Шарташ - Карасики 2026\" | г. Екатеринбург, ул. Отдыха, 111/1 | 0.6 км, 6 км, 7 км, 21.1 км | run | зарегистрировано 277 ⟨https://reg.russiarunning.com/event/FestivalbegaShartashKarasiki27092026⟩",
+      "size": "зарегистрировано 277"
     },
     {
       "id": "c182dc4e2e",
@@ -675,8 +675,8 @@
       ],
       "distances": "0.5 км, 1 км, 5 км, 15 км",
       "url": "https://reg.russiarunning.com/event/RunningandNordicWalkingFestivalIntheFootstepsofYermakwithelementsofhistoricalreenactments",
-      "evidence": "03.10.2026 | Фестиваль бега и северной ходьбы \"По следам Ермака\" с элементами исторических реконструкций | Пермский край, г. Чусовой, ул. Ударника, 28 | 0.5 км, 1 км, 5 км, 15 км | run | зарегистрировано 416 ⟨https://reg.russiarunning.com/event/RunningandNordicWalkingFestivalIntheFootstepsofYermakwi",
-      "size": "зарегистрировано 416"
+      "evidence": "03.10.2026 | Фестиваль бега и северной ходьбы \"По следам Ермака\" с элементами исторических реконструкций | Пермский край, г. Чусовой, ул. Ударника, 28 | 0.5 км, 1 км, 5 км, 15 км | run | зарегистрировано 417 ⟨https://reg.russiarunning.com/event/RunningandNordicWalkingFestivalIntheFootstepsofYermakwi",
+      "size": "зарегистрировано 417"
     },
     {
       "id": "d5e1d784a7",
@@ -690,7 +690,7 @@
         "trail"
       ],
       "distances": "12 км, 3 км, 35 км, 5 км",
-      "url": "https://toplist.run/race/festival-zdorovya-puls-zemli-2026#new_tab",
+      "url": "https://toplist.run/race/festival-zdorovya-puls-zemli-2026",
       "evidence": "03/10/2026 Фестиваль здоровья «Пульс земли»"
     },
     {
@@ -705,7 +705,7 @@
         "trail"
       ],
       "distances": "12 км, 22 км, 30 км, 6 км",
-      "url": "https://trail27.ru/#new_tab",
+      "url": "https://trail27.ru/",
       "evidence": "03/10/2026 Хехцир Трейл «Золотая осень»"
     },
     {
@@ -721,8 +721,8 @@
       ],
       "distances": "1 км, 6 км, 12 км, 22 км, 30 км",
       "url": "https://reg.russiarunning.com/event/Trail27GoldenAutumn2026",
-      "evidence": "03.10.2026 | ХехцирТрейл. ЗолотаяОсень2026 | г.Хабаровск | 1 км, 6 км, 12 км, 22 км, 30 км | trail | зарегистрировано 776 ⟨https://reg.russiarunning.com/event/Trail27GoldenAutumn2026⟩",
-      "size": "зарегистрировано 776"
+      "evidence": "03.10.2026 | ХехцирТрейл. ЗолотаяОсень2026 | г.Хабаровск | 1 км, 6 км, 12 км, 22 км, 30 км | trail | зарегистрировано 777 ⟨https://reg.russiarunning.com/event/Trail27GoldenAutumn2026⟩",
+      "size": "зарегистрировано 777"
     },
     {
       "id": "b826d8e5e8",
@@ -752,7 +752,7 @@
         "trail"
       ],
       "distances": "15 км, 30 км, 7 км",
-      "url": "https://hardadventure.ru/sand2026#new_tab",
+      "url": "https://hardadventure.ru/sand2026",
       "evidence": "04/10/2026 Hard Trail Sand"
     },
     {
@@ -768,8 +768,8 @@
       ],
       "distances": "0.5 км, 1 км, 2 км, 3 км, 4 км, 10 км",
       "url": "https://reg.russiarunning.com/event/TOPSKIFAMILY5etap04102026",
-      "evidence": "04.10.2026 | TOPSKI FAMILY 5 этап 04.10.2026 (TOPSKI семья) | Г.Москва, Парк Победы | 0.5 км, 1 км, 2 км, 3 км, 4 км, 10 км | run | зарегистрировано 770 ⟨https://reg.russiarunning.com/event/TOPSKIFAMILY5etap04102026⟩",
-      "size": "зарегистрировано 770"
+      "evidence": "04.10.2026 | TOPSKI FAMILY 5 этап 04.10.2026 (TOPSKI семья) | Г.Москва, Парк Победы | 0.5 км, 1 км, 2 км, 3 км, 4 км, 10 км | run | зарегистрировано 789 ⟨https://reg.russiarunning.com/event/TOPSKIFAMILY5etap04102026⟩",
+      "size": "зарегистрировано 789"
     },
     {
       "id": "4f984edf67",
@@ -783,23 +783,8 @@
         "trail"
       ],
       "distances": "10 км, 15 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/VORONKITREYL2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/VORONKITREYL2026",
       "evidence": "04/10/2026 «Воронки трейл»"
-    },
-    {
-      "id": "ffbade997a",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Бородино Трейл",
-      "date": "2026-10-04",
-      "dateEnd": null,
-      "place": "Бородино",
-      "sports": [
-        "trail"
-      ],
-      "distances": "10 км, 15 км, 20 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/BORODINOTRAIL3#new_tab",
-      "evidence": "04/10/2026 Бородино Трейл"
     },
     {
       "id": "a767582042",
@@ -814,8 +799,23 @@
       ],
       "distances": "5 км, 10 км, 15 км, 20 км",
       "url": "https://reg.russiarunning.com/event/BORODINOTRAIL3",
-      "evidence": "04.10.2026 | Бородино Трейл | Музей-заповедник «Бородинское поле», Московская обл., Можайский р-он, д. Бородино | 5 км, 10 км, 15 км, 20 км | trail | зарегистрировано 61 ⟨https://reg.russiarunning.com/event/BORODINOTRAIL3⟩",
-      "size": "зарегистрировано 61"
+      "evidence": "04.10.2026 | Бородино Трейл | Музей-заповедник «Бородинское поле», Московская обл., Можайский р-он, д. Бородино | 5 км, 10 км, 15 км, 20 км | trail | зарегистрировано 62 ⟨https://reg.russiarunning.com/event/BORODINOTRAIL3⟩",
+      "size": "зарегистрировано 62"
+    },
+    {
+      "id": "ffbade997a",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Бородино Трейл",
+      "date": "2026-10-04",
+      "dateEnd": null,
+      "place": "Бородино",
+      "sports": [
+        "trail"
+      ],
+      "distances": "10 км, 15 км, 20 км, 5 км",
+      "url": "https://reg.russiarunning.com/event/BORODINOTRAIL3",
+      "evidence": "04/10/2026 Бородино Трейл"
     },
     {
       "id": "a68d7fc134",
@@ -830,8 +830,8 @@
       ],
       "distances": "0.2 км, 0.5 км, 0.8 км, 5 км, 10 км, 15 км",
       "url": "https://reg.russiarunning.com/event/VORONKITREYL2026",
-      "evidence": "04.10.2026 | ВОРОНКИ ТРЕЙЛ 2026 | г. Уфа, ДОЛ Чайка (ул. Шафиева, 1А) | 0.2 км, 0.5 км, 0.8 км, 5 км, 10 км, 15 км | trail | зарегистрировано 283 ⟨https://reg.russiarunning.com/event/VORONKITREYL2026⟩",
-      "size": "зарегистрировано 283"
+      "evidence": "04.10.2026 | ВОРОНКИ ТРЕЙЛ 2026 | г. Уфа, ДОЛ Чайка (ул. Шафиева, 1А) | 0.2 км, 0.5 км, 0.8 км, 5 км, 10 км, 15 км | trail | зарегистрировано 290 ⟨https://reg.russiarunning.com/event/VORONKITREYL2026⟩",
+      "size": "зарегистрировано 290"
     },
     {
       "id": "448a11d22f",
@@ -862,8 +862,8 @@
       ],
       "distances": "0.5 км, 1 км, 5 км, 10 км, 21.1 км",
       "url": "https://reg.russiarunning.com/event/ZabegEtnoranRespublikaKalmykiya2026",
-      "evidence": "04.10.2026 | Забег «Этноран- Республика Калмыкия 2026» | Республика Калмыкия, г.Элиста | 0.5 км, 1 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 447 ⟨https://reg.russiarunning.com/event/ZabegEtnoranRespublikaKalmykiya2026⟩",
-      "size": "зарегистрировано 447"
+      "evidence": "04.10.2026 | Забег «Этноран- Республика Калмыкия 2026» | Республика Калмыкия, г.Элиста | 0.5 км, 1 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 454 ⟨https://reg.russiarunning.com/event/ZabegEtnoranRespublikaKalmykiya2026⟩",
+      "size": "зарегистрировано 454"
     },
     {
       "id": "f4ee04c4e9",
@@ -877,7 +877,7 @@
         "trail"
       ],
       "distances": "10 км, 14 км, 20 км, 3 км, 30 км",
-      "url": "https://myrace.info/events/1967#new_tab",
+      "url": "https://myrace.info/events/1967",
       "evidence": "04/10/2026 Каменск Урбан Трейл"
     },
     {
@@ -939,8 +939,8 @@
       ],
       "distances": "3 км, 10 км, 21.097 км",
       "url": "https://reg.russiarunning.com/event/OsenniyPavlovskiyzabeg2026",
-      "evidence": "04.10.2026 | Осенний Павловский забег 2026 | ГМЗ Павловский парк | 3 км, 10 км, 21.097 км | run | зарегистрировано 3152 ⟨https://reg.russiarunning.com/event/OsenniyPavlovskiyzabeg2026⟩",
-      "size": "зарегистрировано 3152"
+      "evidence": "04.10.2026 | Осенний Павловский забег 2026 | ГМЗ Павловский парк | 3 км, 10 км, 21.097 км | run | зарегистрировано 3199 ⟨https://reg.russiarunning.com/event/OsenniyPavlovskiyzabeg2026⟩",
+      "size": "зарегистрировано 3199"
     },
     {
       "id": "64602d505f",
@@ -970,7 +970,7 @@
         "trail"
       ],
       "distances": "12 км, 4 км, 8 км",
-      "url": "https://reg.russiarunning.com/event/KULTAKARJALA2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/KULTAKARJALA2026",
       "evidence": "04/10/2026 Осенний кросс «КультаКарьяла»"
     },
     {
@@ -1032,7 +1032,7 @@
         "trail"
       ],
       "distances": "10 км",
-      "url": "https://toplist.run/race/treil-zoloto-bogunaya-2026#new_tab",
+      "url": "https://toplist.run/race/treil-zoloto-bogunaya-2026",
       "evidence": "04/10/2026 Трейл «Золото Богуная»"
     },
     {
@@ -1048,8 +1048,8 @@
       ],
       "distances": "1.5 км, 3 км, 10 км",
       "url": "https://reg.russiarunning.com/event/Ironteam",
-      "evidence": "10.10.2026 | DFS OMSKRUN - осенний забег 2026 | Городская зона отдыха \"Зелёный остров\" | 1.5 км, 3 км, 10 км | run | зарегистрировано 441 ⟨https://reg.russiarunning.com/event/Ironteam⟩",
-      "size": "зарегистрировано 441"
+      "evidence": "10.10.2026 | DFS OMSKRUN - осенний забег 2026 | Городская зона отдыха \"Зелёный остров\" | 1.5 км, 3 км, 10 км | run | зарегистрировано 454 ⟨https://reg.russiarunning.com/event/Ironteam⟩",
+      "size": "зарегистрировано 454"
     },
     {
       "id": "61f15b97d7",
@@ -1095,8 +1095,8 @@
       ],
       "distances": "0.5 км, 1 км, 5 км, 10 км, 15 км",
       "url": "https://reg.russiarunning.com/event/BlagotvoritelnyyzabegROZOVAYaLENTA",
-      "evidence": "10.10.2026 | Благотворительный забег \"РОЗОВАЯ ЛЕНТА\" | Санкт-Петербург, Московский парк Победы | 0.5 км, 1 км, 5 км, 10 км, 15 км | run | зарегистрировано 179 ⟨https://reg.russiarunning.com/event/BlagotvoritelnyyzabegROZOVAYaLENTA⟩",
-      "size": "зарегистрировано 179"
+      "evidence": "10.10.2026 | Благотворительный забег \"РОЗОВАЯ ЛЕНТА\" | Санкт-Петербург, Московский парк Победы | 0.5 км, 1 км, 5 км, 10 км, 15 км | run | зарегистрировано 203 ⟨https://reg.russiarunning.com/event/BlagotvoritelnyyzabegROZOVAYaLENTA⟩",
+      "size": "зарегистрировано 203"
     },
     {
       "id": "a0d03d30e0",
@@ -1163,6 +1163,22 @@
       "size": "рейтинг ПроБЕГа 4.9 (101 оценок)"
     },
     {
+      "id": "535140bc2d",
+      "series": "russiarunning",
+      "seriesName": "RussiaRunning",
+      "name": "Красно-белый забег",
+      "date": "2026-10-10",
+      "dateEnd": null,
+      "place": "Москва",
+      "sports": [
+        "run"
+      ],
+      "distances": "1 км, 5 км, 10 км",
+      "url": "https://reg.russiarunning.com/event/Krasnobel",
+      "evidence": "10.10.2026 | Красно-белый забег | Москва | 1 км, 5 км, 10 км | run | зарегистрировано 4017 ⟨https://reg.russiarunning.com/event/Krasnobel⟩",
+      "size": "зарегистрировано 4017"
+    },
+    {
       "id": "0dc2f95207",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -1179,22 +1195,6 @@
       "size": null
     },
     {
-      "id": "535140bc2d",
-      "series": "russiarunning",
-      "seriesName": "RussiaRunning",
-      "name": "Красно-белый забег",
-      "date": "2026-10-10",
-      "dateEnd": null,
-      "place": "Москва",
-      "sports": [
-        "run"
-      ],
-      "distances": "1 км, 5 км, 10 км",
-      "url": "https://reg.russiarunning.com/event/Krasnobel",
-      "evidence": "10.10.2026 | Красно-белый забег | Москва | 1 км, 5 км, 10 км | run | зарегистрировано 3963 ⟨https://reg.russiarunning.com/event/Krasnobel⟩",
-      "size": "зарегистрировано 3963"
-    },
-    {
       "id": "e96c9df5a1",
       "series": "russiarunning",
       "seriesName": "RussiaRunning",
@@ -1207,8 +1207,8 @@
       ],
       "distances": "5 км, 15 км",
       "url": "https://reg.russiarunning.com/event/KrossVysota102",
-      "evidence": "10.10.2026 | Кросс Высота 102 | Волгоград | 5 км, 15 км | run | зарегистрировано 73 ⟨https://reg.russiarunning.com/event/KrossVysota102⟩",
-      "size": "зарегистрировано 73"
+      "evidence": "10.10.2026 | Кросс Высота 102 | Волгоград | 5 км, 15 км | run | зарегистрировано 74 ⟨https://reg.russiarunning.com/event/KrossVysota102⟩",
+      "size": "зарегистрировано 74"
     },
     {
       "id": "39cc4d3823",
@@ -1270,7 +1270,7 @@
         "trail"
       ],
       "distances": "10 км, 15 км, 30 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/PervouralskOpen2026Osen#new_tab",
+      "url": "https://reg.russiarunning.com/event/PervouralskOpen2026Osen",
       "evidence": "10/10/2026 Осенний трейл «Первоуральск Опен»"
     },
     {
@@ -1286,8 +1286,8 @@
       ],
       "distances": "0.2 км, 1 км, 5 км, 10 км, 15 км, 30 км",
       "url": "https://reg.russiarunning.com/event/PervouralskOpen2026Osen",
-      "evidence": "10.10.2026 | Первоуральск Опен 2026 ЗАБЕГ ДРУЗЕЙ | Первоуральск, Свердловская область | 0.2 км, 1 км, 5 км, 10 км, 15 км, 30 км | run | зарегистрировано 587 ⟨https://reg.russiarunning.com/event/PervouralskOpen2026Osen⟩",
-      "size": "зарегистрировано 587"
+      "evidence": "10.10.2026 | Первоуральск Опен 2026 ЗАБЕГ ДРУЗЕЙ | Первоуральск, Свердловская область | 0.2 км, 1 км, 5 км, 10 км, 15 км, 30 км | run | зарегистрировано 592 ⟨https://reg.russiarunning.com/event/PervouralskOpen2026Osen⟩",
+      "size": "зарегистрировано 592"
     },
     {
       "id": "9eca1ed74c",
@@ -1317,7 +1317,7 @@
         "trail"
       ],
       "distances": "10 км, 20 км, 5 км",
-      "url": "https://reg.place/?q%5Btag%5D=OB#new_tab",
+      "url": "https://reg.place/?q%5Btag%5D=OB",
       "evidence": "10/10/2026 Трейл «Туман»"
     },
     {
@@ -1332,7 +1332,7 @@
         "trail"
       ],
       "distances": "20 км",
-      "url": "https://myrace.info/events/2140#new_tab",
+      "url": "https://myrace.info/events/2140",
       "evidence": "10/10/2026 Трейловый полумарафон «Ветлан»"
     },
     {
@@ -1348,23 +1348,8 @@
       ],
       "distances": "0.9 км, 1 км, 7 км, 7.3 км, 14.5 км, 15 км, 20 км",
       "url": "https://reg.russiarunning.com/event/ID2026",
-      "evidence": "10.10.2026 | Фестиваль спорта \"Исток Дона\" | Новомосковск, Тульская область | 0.9 км, 1 км, 7 км, 7.3 км, 14.5 км, 15 км, 20 км | bike | зарегистрировано 160 ⟨https://reg.russiarunning.com/event/ID2026⟩",
-      "size": "зарегистрировано 160"
-    },
-    {
-      "id": "b5a07c09bf",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Фестиваль спорта «Исток Дона»",
-      "date": "2026-10-10",
-      "dateEnd": null,
-      "place": "Новомосковск",
-      "sports": [
-        "trail"
-      ],
-      "distances": "15 км, 7 км",
-      "url": "https://reg.russiarunning.com/event/ID2026#new_tab",
-      "evidence": "10/10/2026 Фестиваль спорта «Исток Дона»"
+      "evidence": "10.10.2026 | Фестиваль спорта \"Исток Дона\" | Новомосковск, Тульская область | 0.9 км, 1 км, 7 км, 7.3 км, 14.5 км, 15 км, 20 км | bike | зарегистрировано 162 ⟨https://reg.russiarunning.com/event/ID2026⟩",
+      "size": "зарегистрировано 162"
     },
     {
       "id": "42854e8b41",
@@ -1383,6 +1368,21 @@
       "size": null
     },
     {
+      "id": "b5a07c09bf",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Фестиваль спорта «Исток Дона»",
+      "date": "2026-10-10",
+      "dateEnd": null,
+      "place": "Новомосковск",
+      "sports": [
+        "trail"
+      ],
+      "distances": "15 км, 7 км",
+      "url": "https://reg.russiarunning.com/event/ID2026",
+      "evidence": "10/10/2026 Фестиваль спорта «Исток Дона»"
+    },
+    {
       "id": "e18bc05ca6",
       "series": "russiarunning",
       "seriesName": "RussiaRunning",
@@ -1395,8 +1395,8 @@
       ],
       "distances": "1 км, 3 км, 7 км, 14 км, 24 км, 39 км, 57 км",
       "url": "https://reg.russiarunning.com/event/YablochnyyTreyl2026",
-      "evidence": "10.10.2026 | Яблочный Трейл 2026 | Республика Крым, с.Грушевка | 1 км, 3 км, 7 км, 14 км, 24 км, 39 км, 57 км | trail | зарегистрировано 240 ⟨https://reg.russiarunning.com/event/YablochnyyTreyl2026⟩",
-      "size": "зарегистрировано 240"
+      "evidence": "10.10.2026 | Яблочный Трейл 2026 | Республика Крым, с.Грушевка | 1 км, 3 км, 7 км, 14 км, 24 км, 39 км, 57 км | trail | зарегистрировано 244 ⟨https://reg.russiarunning.com/event/YablochnyyTreyl2026⟩",
+      "size": "зарегистрировано 244"
     },
     {
       "id": "2e8095e159",
@@ -1410,8 +1410,24 @@
         "trail"
       ],
       "distances": "14 км, 24 км, 3 км, 39 км, 7 км",
-      "url": "https://reg.russiarunning.com/event/YablochnyyTreyl2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/YablochnyyTreyl2026",
       "evidence": "10/10/2026 Яблочный трейл"
+    },
+    {
+      "id": "df04231fa8",
+      "series": "russiarunning",
+      "seriesName": "RussiaRunning",
+      "name": "138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц",
+      "date": "2026-10-11",
+      "dateEnd": null,
+      "place": "г. Москва, ул. 2-ая Вольская, 26",
+      "sports": [
+        "run"
+      ],
+      "distances": "5 км, 10 км, 21.1 км, 42.2 км",
+      "url": "https://reg.russiarunning.com/event/138thNekrasovMarathondedicatedtoWorldMigratoryBirdDay",
+      "evidence": "11.10.2026 | 138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц | г. Москва, ул. 2-ая Вольская, 26 | 5 км, 10 км, 21.1 км, 42.2 км | run | зарегистрировано 1 ⟨https://reg.russiarunning.com/event/138thNekrasovMarathondedicatedtoWorldMigratoryBirdDay⟩",
+      "size": "зарегистрировано 1"
     },
     {
       "id": "8143f9ac3e",
@@ -1428,22 +1444,6 @@
       "url": "https://probeg.org/event/85152/",
       "evidence": "11.10.2026 | 138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц | Москва | марафон полумарафон 10 км 5 км | run | рейтинг ПроБЕГа 4.0 (72 оценок) ⟨https://probeg.org/event/85152/⟩",
       "size": "рейтинг ПроБЕГа 4.0 (72 оценок)"
-    },
-    {
-      "id": "df04231fa8",
-      "series": "russiarunning",
-      "seriesName": "RussiaRunning",
-      "name": "138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц",
-      "date": "2026-10-11",
-      "dateEnd": null,
-      "place": "г. Москва, ул. 2-ая Вольская, 26",
-      "sports": [
-        "run"
-      ],
-      "distances": "5 км, 10 км, 21.1 км, 42.2 км",
-      "url": "https://reg.russiarunning.com/event/138thNekrasovMarathondedicatedtoWorldMigratoryBirdDay",
-      "evidence": "11.10.2026 | 138 Некрасовский марафон, посвященный Всемирному дню мигрирующих птиц | г. Москва, ул. 2-ая Вольская, 26 | 5 км, 10 км, 21.1 км, 42.2 км | run | — ⟨https://reg.russiarunning.com/event/138thNekrasovMarathondedicatedtoWorldMigratoryBirdDay⟩",
-      "size": null
     },
     {
       "id": "673cd58dd6",
@@ -1474,8 +1474,8 @@
       ],
       "distances": "0.5 км, 1 км, 5 км, 10 км, 21.1 км",
       "url": "https://reg.russiarunning.com/event/spacehalf2026",
-      "evidence": "11.10.2026 | Space Half Marathon 2026 | Московская область, г. Королев | 0.5 км, 1 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 238 ⟨https://reg.russiarunning.com/event/spacehalf2026⟩",
-      "size": "зарегистрировано 238"
+      "evidence": "11.10.2026 | Space Half Marathon 2026 | Московская область, г. Королев | 0.5 км, 1 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 234 ⟨https://reg.russiarunning.com/event/spacehalf2026⟩",
+      "size": "зарегистрировано 234"
     },
     {
       "id": "b33a2ed3a2",
@@ -1521,7 +1521,7 @@
         "trail"
       ],
       "distances": "12 км, 2 км, 24 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/vyunok26#new_tab",
+      "url": "https://reg.russiarunning.com/event/vyunok26",
       "evidence": "11/10/2026 Вьюнок Трейл"
     },
     {
@@ -1535,10 +1535,10 @@
       "sports": [
         "run"
       ],
-      "distances": "1 км, 3 км, 7.5 км, 15 км, 29.5 км, 41.5 км",
+      "distances": "1 км, 3 км, 7.5 км, 29.5 км, 41.5 км",
       "url": "https://reg.russiarunning.com/event/DILIJANRUN2026",
-      "evidence": "11.10.2026 | Дилижан Ран 2026 / DILIJAN RUN 2026 | Армения, г. Дилижан, ул. Гетапня, 7, территория школы UWC | 1 км, 3 км, 7.5 км, 15 км, 29.5 км, 41.5 км | run | зарегистрировано 3 ⟨https://reg.russiarunning.com/event/DILIJANRUN2026⟩",
-      "size": "зарегистрировано 3"
+      "evidence": "11.10.2026 | Дилижан Ран 2026 / DILIJAN RUN 2026 | Армения, г. Дилижан, ул. Гетапня, 7, территория школы UWC | 1 км, 3 км, 7.5 км, 29.5 км, 41.5 км | run | зарегистрировано 2 ⟨https://reg.russiarunning.com/event/DILIJANRUN2026⟩",
+      "size": "зарегистрировано 2"
     },
     {
       "id": "e0b171eeee",
@@ -1569,8 +1569,8 @@
       ],
       "distances": "1 км, 2 км, 3 км, 5 км, 7 км, 10 км, 15 км, 21.1 км, 25 км",
       "url": "https://reg.russiarunning.com/event/Zabegpolumarafon1013",
-      "evidence": "11.10.2026 | Забег-полумарафон \" 101% \" | Битцевский Парк, г. Москва | 1 км, 2 км, 3 км, 5 км, 7 км, 10 км, 15 км, 21.1 км, 25 км | run | зарегистрировано 62 ⟨https://reg.russiarunning.com/event/Zabegpolumarafon1013⟩",
-      "size": "зарегистрировано 62"
+      "evidence": "11.10.2026 | Забег-полумарафон \" 101% \" | Битцевский Парк, г. Москва | 1 км, 2 км, 3 км, 5 км, 7 км, 10 км, 15 км, 21.1 км, 25 км | run | зарегистрировано 63 ⟨https://reg.russiarunning.com/event/Zabegpolumarafon1013⟩",
+      "size": "зарегистрировано 63"
     },
     {
       "id": "9b7fa505ae",
@@ -1589,21 +1589,6 @@
       "size": "зарегистрировано 2236"
     },
     {
-      "id": "23a1e24147",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Осенний трейл «Краски леса»",
-      "date": "2026-10-11",
-      "dateEnd": null,
-      "place": "Ступино",
-      "sports": [
-        "trail"
-      ],
-      "distances": "10 км, 21 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/TREYLKRASKILESA2026#new_tab",
-      "evidence": "11/10/2026 Осенний трейл «Краски леса»"
-    },
-    {
       "id": "04c2c42301",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -1618,6 +1603,21 @@
       "url": "https://probeg.org/event/83373/",
       "evidence": "11.10.2026 | Осенний трейл «Краски леса» | Московская область, Ступино | полумарафон 10 км 5 км 1 км | trail | рейтинг ПроБЕГа 4.9 (9 оценок) ⟨https://probeg.org/event/83373/⟩",
       "size": "рейтинг ПроБЕГа 4.9 (9 оценок)"
+    },
+    {
+      "id": "23a1e24147",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Осенний трейл «Краски леса»",
+      "date": "2026-10-11",
+      "dateEnd": null,
+      "place": "Ступино",
+      "sports": [
+        "trail"
+      ],
+      "distances": "10 км, 21 км, 5 км",
+      "url": "https://reg.russiarunning.com/event/TREYLKRASKILESA2026",
+      "evidence": "11/10/2026 Осенний трейл «Краски леса»"
     },
     {
       "id": "9580525d32",
@@ -1648,8 +1648,8 @@
       ],
       "distances": "0.4 км, 1 км, 3 км, 5 км, 10 км, 21 км",
       "url": "https://reg.russiarunning.com/event/SuzdalskiypolumarafonZhemchuzhinaZolotogokoltsa2026",
-      "evidence": "11.10.2026 | Суздальский полумарафон \"Жемчужина Золотого кольца\" 2026 | г. Суздаль | 0.4 км, 1 км, 3 км, 5 км, 10 км, 21 км | run | зарегистрировано 1222 ⟨https://reg.russiarunning.com/event/SuzdalskiypolumarafonZhemchuzhinaZolotogokoltsa2026⟩",
-      "size": "зарегистрировано 1222"
+      "evidence": "11.10.2026 | Суздальский полумарафон \"Жемчужина Золотого кольца\" 2026 | г. Суздаль | 0.4 км, 1 км, 3 км, 5 км, 10 км, 21 км | run | зарегистрировано 1246 ⟨https://reg.russiarunning.com/event/SuzdalskiypolumarafonZhemchuzhinaZolotogokoltsa2026⟩",
+      "size": "зарегистрировано 1246"
     },
     {
       "id": "fafd262772",
@@ -1695,7 +1695,7 @@
         "trail"
       ],
       "distances": "1 км, 10 км, 2 км, 3 км, 4 км, 6 км, 8 км",
-      "url": "https://toplist.run/race/tropa-zaitseva-2026-2025#new_tab",
+      "url": "https://toplist.run/race/tropa-zaitseva-2026-2025",
       "evidence": "11/10/2026 Трейл «Тропа Зайцева»"
     },
     {
@@ -1711,8 +1711,8 @@
       ],
       "distances": "0.4 км, 0.7 км, 4.2 км, 21 км",
       "url": "https://reg.russiarunning.com/event/rla2026",
-      "evidence": "11.10.2026 | Эстафета Осень 2026 | г. Тула, ЦПКиО им. П.П. Белоусова | 0.4 км, 0.7 км, 4.2 км, 21 км | run | зарегистрировано 667 ⟨https://reg.russiarunning.com/event/rla2026⟩",
-      "size": "зарегистрировано 667"
+      "evidence": "11.10.2026 | Эстафета Осень 2026 | г. Тула, ЦПКиО им. П.П. Белоусова | 0.4 км, 0.7 км, 4.2 км, 21 км | run | зарегистрировано 683 ⟨https://reg.russiarunning.com/event/rla2026⟩",
+      "size": "зарегистрировано 683"
     },
     {
       "id": "d01b038ca6",
@@ -1727,8 +1727,8 @@
       ],
       "distances": "0.8 км, 1.2 км, 3 км, 5 км, 10 км",
       "url": "https://reg.russiarunning.com/event/Gorod233",
-      "evidence": "16.10.2026 – 18.10.2026 | Магнит Город 233 | Краснодар | 0.8 км, 1.2 км, 3 км, 5 км, 10 км | run | зарегистрировано 1455 ⟨https://reg.russiarunning.com/event/Gorod233⟩",
-      "size": "зарегистрировано 1455"
+      "evidence": "16.10.2026 – 18.10.2026 | Магнит Город 233 | Краснодар | 0.8 км, 1.2 км, 3 км, 5 км, 10 км | run | зарегистрировано 1504 ⟨https://reg.russiarunning.com/event/Gorod233⟩",
+      "size": "зарегистрировано 1504"
     },
     {
       "id": "9468b0d7ea",
@@ -1743,8 +1743,8 @@
       ],
       "distances": "1 км, 3 км, 5 км, 10 км, 21.1 км",
       "url": "https://reg.russiarunning.com/event/SUPERZABEG1",
-      "evidence": "17.10.2026 | SUPER ЗАБЕГ | Москва, Перовский сквер | 1 км, 3 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 16 ⟨https://reg.russiarunning.com/event/SUPERZABEG1⟩",
-      "size": "зарегистрировано 16"
+      "evidence": "17.10.2026 | SUPER ЗАБЕГ | Москва, Перовский сквер | 1 км, 3 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 18 ⟨https://reg.russiarunning.com/event/SUPERZABEG1⟩",
+      "size": "зарегистрировано 18"
     },
     {
       "id": "da20974af2",
@@ -1791,8 +1791,8 @@
       ],
       "distances": "1 км, 5 км, 10 км, 15 км",
       "url": "https://reg.russiarunning.com/event/Znamenkarun",
-      "evidence": "17.10.2026 | Знаменский забег 2026 | Санкт-Петербург, Петергоф, Усадьба Знаменка | 1 км, 5 км, 10 км, 15 км | run | зарегистрировано 160 ⟨https://reg.russiarunning.com/event/Znamenkarun⟩",
-      "size": "зарегистрировано 160"
+      "evidence": "17.10.2026 | Знаменский забег 2026 | Санкт-Петербург, Петергоф, Усадьба Знаменка | 1 км, 5 км, 10 км, 15 км | run | зарегистрировано 164 ⟨https://reg.russiarunning.com/event/Znamenkarun⟩",
+      "size": "зарегистрировано 164"
     },
     {
       "id": "ff7e4ed3a6",
@@ -1870,8 +1870,8 @@
       ],
       "distances": "0.3 км, 0.6 км, 5 км, 10 км",
       "url": "https://reg.russiarunning.com/event/9086",
-      "evidence": "17.10.2026 | Пробежка с медалью Зверополис Мещерский | Москва, Мещерский парк | 0.3 км, 0.6 км, 5 км, 10 км | run | зарегистрировано 5 ⟨https://reg.russiarunning.com/event/9086⟩",
-      "size": "зарегистрировано 5"
+      "evidence": "17.10.2026 | Пробежка с медалью Зверополис Мещерский | Москва, Мещерский парк | 0.3 км, 0.6 км, 5 км, 10 км | run | зарегистрировано 6 ⟨https://reg.russiarunning.com/event/9086⟩",
+      "size": "зарегистрировано 6"
     },
     {
       "id": "613a0ff71e",
@@ -1885,23 +1885,8 @@
         "trail"
       ],
       "distances": "11 км, 25 км, 48 км",
-      "url": "https://toplist.run/race/sverkhmarafon-khozyain-taigi-2026#new_tab",
+      "url": "https://toplist.run/race/sverkhmarafon-khozyain-taigi-2026",
       "evidence": "17/10/2026 Сверхмарафон «Хозяин тайги»"
-    },
-    {
-      "id": "686f9a8770",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "СоюзТрейл",
-      "date": "2026-10-17",
-      "dateEnd": null,
-      "place": "Белокуриха",
-      "sports": [
-        "trail"
-      ],
-      "distances": "13 км, 26 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/SoyuzTreyl#new_tab",
-      "evidence": "17/10/2026 СоюзТрейл"
     },
     {
       "id": "6a8461da5e",
@@ -1920,6 +1905,21 @@
       "size": "зарегистрировано 13"
     },
     {
+      "id": "686f9a8770",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "СоюзТрейл",
+      "date": "2026-10-17",
+      "dateEnd": null,
+      "place": "Белокуриха",
+      "sports": [
+        "trail"
+      ],
+      "distances": "13 км, 26 км, 5 км",
+      "url": "https://reg.russiarunning.com/event/SoyuzTreyl",
+      "evidence": "17/10/2026 СоюзТрейл"
+    },
+    {
       "id": "d202344f90",
       "series": "trails",
       "seriesName": "Календарь трейлов («Марафонец»)",
@@ -1931,7 +1931,7 @@
         "trail"
       ],
       "distances": "14 км, 7 км",
-      "url": "https://toplist.run/race/sosnovyi-rai-2026#new_tab",
+      "url": "https://toplist.run/race/sosnovyi-rai-2026",
       "evidence": "17/10/2026 Трейл «Сосновый рай»"
     },
     {
@@ -1946,7 +1946,7 @@
         "trail"
       ],
       "distances": "110 км, 15 км, 35 км, 70 км",
-      "url": "https://sportsauce.ru/starts/yurmanka-trejl-309#new_tab",
+      "url": "https://sportsauce.ru/starts/yurmanka-trejl-309",
       "evidence": "17/10/2026 Юрманка трейл"
     },
     {
@@ -1977,7 +1977,7 @@
         "trail"
       ],
       "distances": "104 км, 51 км",
-      "url": "https://toplist.run/race/yagusya-ultra-treil-2026-poluavtonomka-2026#new_tab",
+      "url": "https://toplist.run/race/yagusya-ultra-treil-2026-poluavtonomka-2026",
       "evidence": "17/10/2026 Ягуся Ультра Трейл"
     },
     {
@@ -2056,7 +2056,7 @@
         "trail"
       ],
       "distances": "12 км, 21 км",
-      "url": "https://myrace.info/events/2120#new_tab",
+      "url": "https://myrace.info/events/2120",
       "evidence": "18/10/2026 Дальний Trail Race"
     },
     {
@@ -2072,8 +2072,8 @@
       ],
       "distances": "3 км, 5 км, 10 км",
       "url": "https://reg.russiarunning.com/event/ZABEGOSENNIYVALS202618102026",
-      "evidence": "18.10.2026 | ЗАБЕГ \"ОСЕННИЙ ВАЛЬС 2026\" 18.10.2026 | Волгоград | 3 км, 5 км, 10 км | run | зарегистрировано 126 ⟨https://reg.russiarunning.com/event/ZABEGOSENNIYVALS202618102026⟩",
-      "size": "зарегистрировано 126"
+      "evidence": "18.10.2026 | ЗАБЕГ \"ОСЕННИЙ ВАЛЬС 2026\" 18.10.2026 | Волгоград | 3 км, 5 км, 10 км | run | зарегистрировано 130 ⟨https://reg.russiarunning.com/event/ZABEGOSENNIYVALS202618102026⟩",
+      "size": "зарегистрировано 130"
     },
     {
       "id": "c3d45933f3",
@@ -2092,21 +2092,6 @@
       "size": "зарегистрировано 120"
     },
     {
-      "id": "6dd33a1ccf",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "ЗБ Трейл",
-      "date": "2026-10-18",
-      "dateEnd": null,
-      "place": "Балаклава",
-      "sports": [
-        "trail"
-      ],
-      "distances": "12 км, 22 км, 6 км",
-      "url": "https://reg.russiarunning.com/event/zbtrail#new_tab",
-      "evidence": "18/10/2026 ЗБ Трейл"
-    },
-    {
       "id": "f874439c7d",
       "series": "russiarunning",
       "seriesName": "RussiaRunning",
@@ -2119,8 +2104,23 @@
       ],
       "distances": "1 км, 6 км, 12 км, 22 км",
       "url": "https://reg.russiarunning.com/event/zbtrail",
-      "evidence": "18.10.2026 | ЗБ Трейл | г.Балаклава, Севастополь | 1 км, 6 км, 12 км, 22 км | trail | зарегистрировано 264 ⟨https://reg.russiarunning.com/event/zbtrail⟩",
-      "size": "зарегистрировано 264"
+      "evidence": "18.10.2026 | ЗБ Трейл | г.Балаклава, Севастополь | 1 км, 6 км, 12 км, 22 км | trail | зарегистрировано 265 ⟨https://reg.russiarunning.com/event/zbtrail⟩",
+      "size": "зарегистрировано 265"
+    },
+    {
+      "id": "6dd33a1ccf",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "ЗБ Трейл",
+      "date": "2026-10-18",
+      "dateEnd": null,
+      "place": "Балаклава",
+      "sports": [
+        "trail"
+      ],
+      "distances": "12 км, 22 км, 6 км",
+      "url": "https://reg.russiarunning.com/event/zbtrail",
+      "evidence": "18/10/2026 ЗБ Трейл"
     },
     {
       "id": "60e6ece91d",
@@ -2151,8 +2151,8 @@
       ],
       "distances": "1 км, 2 км, 3 км, 5 км, 7 км, 10 км, 15 км, 21.1 км, 25 км, 30 км",
       "url": "https://reg.russiarunning.com/event/PokrovskoeStreshnevo2",
-      "evidence": "18.10.2026 | Забег-полумарафон \"Покровское-Стрешнево\" | Природно-исторический парк «Покровское-Стрешнево», Москва | 1 км, 2 км, 3 км, 5 км, 7 км, 10 км, 15 км, 21.1 км, 25 км, 30 км | run | зарегистрировано 99 ⟨https://reg.russiarunning.com/event/PokrovskoeStreshnevo2⟩",
-      "size": "зарегистрировано 99"
+      "evidence": "18.10.2026 | Забег-полумарафон \"Покровское-Стрешнево\" | Природно-исторический парк «Покровское-Стрешнево», Москва | 1 км, 2 км, 3 км, 5 км, 7 км, 10 км, 15 км, 21.1 км, 25 км, 30 км | run | зарегистрировано 100 ⟨https://reg.russiarunning.com/event/PokrovskoeStreshnevo2⟩",
+      "size": "зарегистрировано 100"
     },
     {
       "id": "929fb76829",
@@ -2183,8 +2183,8 @@
       ],
       "distances": "0.5 км, 1 км, 5 км, 10 км, 15 км",
       "url": "https://reg.russiarunning.com/event/krosslyzhnikov2026",
-      "evidence": "18.10.2026 | КРОСС ЛЫЖНИКОВ | г. Гатчина, Ленинградская область | 0.5 км, 1 км, 5 км, 10 км, 15 км | run | зарегистрировано 271 ⟨https://reg.russiarunning.com/event/krosslyzhnikov2026⟩",
-      "size": "зарегистрировано 271"
+      "evidence": "18.10.2026 | КРОСС ЛЫЖНИКОВ | г. Гатчина, Ленинградская область | 0.5 км, 1 км, 5 км, 10 км, 15 км | run | зарегистрировано 275 ⟨https://reg.russiarunning.com/event/krosslyzhnikov2026⟩",
+      "size": "зарегистрировано 275"
     },
     {
       "id": "b6c0fde52b",
@@ -2231,8 +2231,8 @@
       ],
       "distances": "0.5 км, 1 км, 4.5 км, 11 км, 22 км",
       "url": "https://reg.russiarunning.com/event/LesobegOSEN18102026",
-      "evidence": "18.10.2026 | Лесобег ОСЕНЬ 26 | Липецкая обл., Грязинский р-он, в районе базы отдыха Русская усадьба | 0.5 км, 1 км, 4.5 км, 11 км, 22 км | run | зарегистрировано 438 ⟨https://reg.russiarunning.com/event/LesobegOSEN18102026⟩",
-      "size": "зарегистрировано 438"
+      "evidence": "18.10.2026 | Лесобег ОСЕНЬ 26 | Липецкая обл., Грязинский р-он, в районе базы отдыха Русская усадьба | 0.5 км, 1 км, 4.5 км, 11 км, 22 км | run | зарегистрировано 442 ⟨https://reg.russiarunning.com/event/LesobegOSEN18102026⟩",
+      "size": "зарегистрировано 442"
     },
     {
       "id": "6396f5a77c",
@@ -2310,7 +2310,7 @@
         "trail"
       ],
       "distances": "11 км, 22 км, 4.5 км",
-      "url": "https://reg.russiarunning.com/event/LesobegOSEN18102026#new_tab",
+      "url": "https://reg.russiarunning.com/event/LesobegOSEN18102026",
       "evidence": "18/10/2026 Трейл «Лесобег осень»"
     },
     {
@@ -2373,8 +2373,8 @@
       ],
       "distances": "10.55 км, 21.1 км, 42.195 км",
       "url": "https://reg.russiarunning.com/event/Kazachyaslava26",
-      "evidence": "24.10.2026 | ^Казачья слава 26^ | МО Пушкинский р-н г.Ивантеевка | 10.55 км, 21.1 км, 42.195 км | run | зарегистрировано 2 ⟨https://reg.russiarunning.com/event/Kazachyaslava26⟩",
-      "size": "зарегистрировано 2"
+      "evidence": "24.10.2026 | ^Казачья слава 26^ | МО Пушкинский р-н г.Ивантеевка | 10.55 км, 21.1 км, 42.195 км | run | зарегистрировано 3 ⟨https://reg.russiarunning.com/event/Kazachyaslava26⟩",
+      "size": "зарегистрировано 3"
     },
     {
       "id": "a570148b62",
@@ -2389,8 +2389,24 @@
       ],
       "distances": "5 км, 10 км, 21.097 км, 42.2 км",
       "url": "https://reg.russiarunning.com/event/ArenaMarafon2026",
-      "evidence": "24.10.2026 | Арена Марафон 2026 | Санкт-Петербург | 5 км, 10 км, 21.097 км, 42.2 км | run | зарегистрировано 3003 ⟨https://reg.russiarunning.com/event/ArenaMarafon2026⟩",
-      "size": "зарегистрировано 3003"
+      "evidence": "24.10.2026 | Арена Марафон 2026 | Санкт-Петербург | 5 км, 10 км, 21.097 км, 42.2 км | run | зарегистрировано 3011 ⟨https://reg.russiarunning.com/event/ArenaMarafon2026⟩",
+      "size": "зарегистрировано 3011"
+    },
+    {
+      "id": "56b6c12757",
+      "series": "russiarunning",
+      "seriesName": "RussiaRunning",
+      "name": "КРАСНОФЛОТСКИЙ ТРЕЙЛ",
+      "date": "2026-10-24",
+      "dateEnd": null,
+      "place": "г. Архангельск",
+      "sports": [
+        "trail"
+      ],
+      "distances": "1 км, 2 км, 6 км, 12 км",
+      "url": "https://reg.russiarunning.com/event/24102026",
+      "evidence": "24.10.2026 | КРАСНОФЛОТСКИЙ ТРЕЙЛ | г. Архангельск | 1 км, 2 км, 6 км, 12 км | trail | — ⟨https://reg.russiarunning.com/event/24102026⟩",
+      "size": null
     },
     {
       "id": "faa009e069",
@@ -2404,7 +2420,7 @@
         "trail"
       ],
       "distances": "12 км, 23 км, 6 км, 66 км",
-      "url": "https://myrace.info/events/2072#new_tab",
+      "url": "https://myrace.info/events/2072",
       "evidence": "24/10/2026 Карстовый трейл"
     },
     {
@@ -2419,7 +2435,7 @@
         "trail"
       ],
       "distances": "10 км, 23 км, 5 км",
-      "url": "https://www.toplist.run/race/12592#new_tab",
+      "url": "https://www.toplist.run/race/12592",
       "evidence": "24/10/2026 НеЗаповедные тропы"
     },
     {
@@ -2455,10 +2471,10 @@
       "size": null
     },
     {
-      "id": "5f8283af5e",
+      "id": "2b3c3d6c9f",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
-      "name": "Соревнования по горному бегу «Парсек-Трофи» №65. Кубок России по горному бегу (вверх-вниз). Чемпионат Москвы. Финал Гран-При России. Финал Гран-При России Мастерс",
+      "name": "Соревнования по горному бегу «Парсек-Трофи» №65. Чемпионат Москвы. Финал Гран-При России. Финал Гран-При России Мастерс",
       "date": "2026-10-24",
       "dateEnd": null,
       "place": "Москва",
@@ -2467,7 +2483,7 @@
       ],
       "distances": "11880 м (+816м, -816м) 7920 м (+544м, -544м) 5940 м (+408м, -408м) 3960 м (+272м, -272м) 1980 м (+136м, -136м)",
       "url": "https://www.parsec-club.ru/mr/pt/2026",
-      "evidence": "24.10.2026 | Соревнования по горному бегу «Парсек-Трофи» №65. Кубок России по горному бегу (вверх-вниз). Чемпионат Москвы. Финал Гран-При России. Финал Гран-При России Мастерс | Москва | 11880 м (+816м, -816м) 7920 м (+544м, -544м) 5940 м (+408м, -408м) 3960 м (+272м, -272м) 1980 м (+136м, -136м) | ",
+      "evidence": "24.10.2026 | Соревнования по горному бегу «Парсек-Трофи» №65. Чемпионат Москвы. Финал Гран-При России. Финал Гран-При России Мастерс | Москва | 11880 м (+816м, -816м) 7920 м (+544м, -544м) 5940 м (+408м, -408м) 3960 м (+272м, -272м) 1980 м (+136м, -136м) | trail | рейтинг ПроБЕГа 4.8 (3 оценок) ⟨htt",
       "size": "рейтинг ПроБЕГа 4.8 (3 оценок)"
     },
     {
@@ -2482,23 +2498,8 @@
         "trail"
       ],
       "distances": "10 км, 3.5 км",
-      "url": "https://reg.russiarunning.com/event/NochOkaTrail2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/NochOkaTrail2026",
       "evidence": "24/10/2026 Трейл «Окская тропа» – ночной забег"
-    },
-    {
-      "id": "4e77e5a559",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Трейл «Рубеж»",
-      "date": "2026-10-24",
-      "dateEnd": null,
-      "place": "Ильинское",
-      "sports": [
-        "trail"
-      ],
-      "distances": "10 км, 100 км, 30 км, 5 км",
-      "url": "https://xn--40-emcadbfdgn.xn--p1ai/events/162#new_tab",
-      "evidence": "24/10/2026 Трейл «Рубеж»"
     },
     {
       "id": "1dc7453006",
@@ -2517,6 +2518,21 @@
       "size": "рейтинг ПроБЕГа 4.6 (1 оценок)"
     },
     {
+      "id": "4e77e5a559",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Трейл «Рубеж»",
+      "date": "2026-10-24",
+      "dateEnd": null,
+      "place": "Ильинское",
+      "sports": [
+        "trail"
+      ],
+      "distances": "10 км, 100 км, 30 км, 5 км",
+      "url": "https://xn--40-emcadbfdgn.xn--p1ai/events/162",
+      "evidence": "24/10/2026 Трейл «Рубеж»"
+    },
+    {
       "id": "30a6cdd86c",
       "series": "russiarunning",
       "seriesName": "RussiaRunning",
@@ -2529,24 +2545,8 @@
       ],
       "distances": "0.6 км, 3.5 км, 10 км",
       "url": "https://reg.russiarunning.com/event/NochOkaTrail2026",
-      "evidence": "24.10.2026 | трейл \"Окская тропа\" 2026 - ночной забег | База отдыха \"Остров Приключений\" | 0.6 км, 3.5 км, 10 км | trail | зарегистрировано 95 ⟨https://reg.russiarunning.com/event/NochOkaTrail2026⟩",
-      "size": "зарегистрировано 95"
-    },
-    {
-      "id": "e6b70c0176",
-      "series": "probeg",
-      "seriesName": "ПроБЕГ, Центр",
-      "name": "139 Некрасовский марафон, посвященный Международному дню снежного барса",
-      "date": "2026-10-25",
-      "dateEnd": null,
-      "place": "Москва",
-      "sports": [
-        "run"
-      ],
-      "distances": "марафон полумарафон 10 км 5 км",
-      "url": "https://probeg.org/event/85153/",
-      "evidence": "25.10.2026 | 139 Некрасовский марафон, посвященный Международному дню снежного барса | Москва | марафон полумарафон 10 км 5 км | run | рейтинг ПроБЕГа 4.0 (72 оценок) ⟨https://probeg.org/event/85153/⟩",
-      "size": "рейтинг ПроБЕГа 4.0 (72 оценок)"
+      "evidence": "24.10.2026 | трейл \"Окская тропа\" 2026 - ночной забег | База отдыха \"Остров Приключений\" | 0.6 км, 3.5 км, 10 км | trail | зарегистрировано 97 ⟨https://reg.russiarunning.com/event/NochOkaTrail2026⟩",
+      "size": "зарегистрировано 97"
     },
     {
       "id": "c87f91f15c",
@@ -2563,6 +2563,22 @@
       "url": "https://reg.russiarunning.com/event/The139thNekrasovskyMarathondedicatedtoInternationalSnowLeopardDay",
       "evidence": "25.10.2026 | 139 Некрасовский марафон, посвященный Международному дню снежного барса | г. Москва, ул. 2-ая Вольская, 26 | 5 км, 10 км, 21.1 км, 42.2 км | run | — ⟨https://reg.russiarunning.com/event/The139thNekrasovskyMarathondedicatedtoInternationalSnowLeopardDay⟩",
       "size": null
+    },
+    {
+      "id": "e6b70c0176",
+      "series": "probeg",
+      "seriesName": "ПроБЕГ, Центр",
+      "name": "139 Некрасовский марафон, посвященный Международному дню снежного барса",
+      "date": "2026-10-25",
+      "dateEnd": null,
+      "place": "Москва",
+      "sports": [
+        "run"
+      ],
+      "distances": "марафон полумарафон 10 км 5 км",
+      "url": "https://probeg.org/event/85153/",
+      "evidence": "25.10.2026 | 139 Некрасовский марафон, посвященный Международному дню снежного барса | Москва | марафон полумарафон 10 км 5 км | run | рейтинг ПроБЕГа 4.0 (72 оценок) ⟨https://probeg.org/event/85153/⟩",
+      "size": "рейтинг ПроБЕГа 4.0 (72 оценок)"
     },
     {
       "id": "feb2549d9b",
@@ -2609,8 +2625,8 @@
       ],
       "distances": "21.1 км",
       "url": "https://reg.russiarunning.com/event/XIITyumenskiyosenniypolumarafonTyatlet",
-      "evidence": "25.10.2026 | XII Тюменский осенний полумарафон \"Ты Атлет\" | Тюмень | 21.1 км | run | зарегистрировано 289 ⟨https://reg.russiarunning.com/event/XIITyumenskiyosenniypolumarafonTyatlet⟩",
-      "size": "зарегистрировано 289"
+      "evidence": "25.10.2026 | XII Тюменский осенний полумарафон \"Ты Атлет\" | Тюмень | 21.1 км | run | зарегистрировано 290 ⟨https://reg.russiarunning.com/event/XIITyumenskiyosenniypolumarafonTyatlet⟩",
+      "size": "зарегистрировано 290"
     },
     {
       "id": "6b3af143be",
@@ -2625,8 +2641,8 @@
       ],
       "distances": "4 км",
       "url": "https://reg.russiarunning.com/event/velosipednogofestivalyaKubanskiyveloprobeg",
-      "evidence": "25.10.2026 | Велосипедный фестиваль «Кубанский велопробег» | г. Краснодар, стадион \"Кубань\" | 4 км | bike | — ⟨https://reg.russiarunning.com/event/velosipednogofestivalyaKubanskiyveloprobeg⟩",
-      "size": null
+      "evidence": "25.10.2026 | Велосипедный фестиваль «Кубанский велопробег» | г. Краснодар, стадион \"Кубань\" | 4 км | bike | зарегистрировано 6 ⟨https://reg.russiarunning.com/event/velosipednogofestivalyaKubanskiyveloprobeg⟩",
+      "size": "зарегистрировано 6"
     },
     {
       "id": "74bee71409",
@@ -2645,21 +2661,6 @@
       "size": "зарегистрировано 20"
     },
     {
-      "id": "03e3b082d1",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Пещерный трейл",
-      "date": "2026-10-25",
-      "dateEnd": null,
-      "place": "Терновка",
-      "sports": [
-        "trail"
-      ],
-      "distances": "15 км, 30 км",
-      "url": "https://reg.russiarunning.com/event/Peshchernyytreyl#new_tab",
-      "evidence": "25/10/2026 Пещерный трейл"
-    },
-    {
       "id": "d65287ee9f",
       "series": "russiarunning",
       "seriesName": "RussiaRunning",
@@ -2674,6 +2675,21 @@
       "url": "https://reg.russiarunning.com/event/Peshchernyytreyl",
       "evidence": "25.10.2026 | Пещерный трейл | Терновка | 1 км, 15 км, 30 км | trail | зарегистрировано 7 ⟨https://reg.russiarunning.com/event/Peshchernyytreyl⟩",
       "size": "зарегистрировано 7"
+    },
+    {
+      "id": "03e3b082d1",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Пещерный трейл",
+      "date": "2026-10-25",
+      "dateEnd": null,
+      "place": "Терновка",
+      "sports": [
+        "trail"
+      ],
+      "distances": "15 км, 30 км",
+      "url": "https://reg.russiarunning.com/event/Peshchernyytreyl",
+      "evidence": "25/10/2026 Пещерный трейл"
     },
     {
       "id": "b40d15bffc",
@@ -2719,7 +2735,7 @@
         "trail"
       ],
       "distances": "15 км, 3.5 км, 31 км, 5 км, 8 км",
-      "url": "https://reg.russiarunning.com/event/treylOkskayatropa2026dnevnoyzabeg#new_tab",
+      "url": "https://reg.russiarunning.com/event/treylOkskayatropa2026dnevnoyzabeg",
       "evidence": "25/10/2026 Трейл «Окская тропа» – дневной забег"
     },
     {
@@ -2735,8 +2751,8 @@
       ],
       "distances": "0.6 км, 3.5 км, 8 км, 15 км, 31 км",
       "url": "https://reg.russiarunning.com/event/treylOkskayatropa2026dnevnoyzabeg",
-      "evidence": "25.10.2026 | трейл \"Окская тропа\" 2026 - дневной забег | База отдыха \"Остров Приключений\" | 0.6 км, 3.5 км, 8 км, 15 км, 31 км | trail | зарегистрировано 260 ⟨https://reg.russiarunning.com/event/treylOkskayatropa2026dnevnoyzabeg⟩",
-      "size": "зарегистрировано 260"
+      "evidence": "25.10.2026 | трейл \"Окская тропа\" 2026 - дневной забег | База отдыха \"Остров Приключений\" | 0.6 км, 3.5 км, 8 км, 15 км, 31 км | trail | зарегистрировано 261 ⟨https://reg.russiarunning.com/event/treylOkskayatropa2026dnevnoyzabeg⟩",
+      "size": "зарегистрировано 261"
     },
     {
       "id": "1c3f7179f4",
@@ -2750,7 +2766,7 @@
         "trail"
       ],
       "distances": "10 км, 100 км, 30 км, 5 км, 50 км",
-      "url": "https://reg.place/events/ultra-trail-2026/#new_tab",
+      "url": "https://reg.place/events/ultra-trail-2026/",
       "evidence": "30/10/2026 Железноводск Ultra Trail"
     },
     {
@@ -2782,8 +2798,8 @@
       ],
       "distances": "0.5 км, 1 км, 2 км, 5 км, 10 км, 21.1 км",
       "url": "https://reg.russiarunning.com/event/IIIpolumarafonRusskiySever",
-      "evidence": "31.10.2026 | III полумарафон «Русский Север» | Кирилловский округ, г. Кириллов | 0.5 км, 1 км, 2 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 280 ⟨https://reg.russiarunning.com/event/IIIpolumarafonRusskiySever⟩",
-      "size": "зарегистрировано 280"
+      "evidence": "31.10.2026 | III полумарафон «Русский Север» | Кирилловский округ, г. Кириллов | 0.5 км, 1 км, 2 км, 5 км, 10 км, 21.1 км | run | зарегистрировано 289 ⟨https://reg.russiarunning.com/event/IIIpolumarafonRusskiySever⟩",
+      "size": "зарегистрировано 289"
     },
     {
       "id": "114eec4082",
@@ -2829,8 +2845,8 @@
       ],
       "distances": "0.8 км, 1 км, 2.5 км, 5 км, 10 км, 21.1 км, 42 км, 42.2 км",
       "url": "https://reg.russiarunning.com/event/SochiMarafon2026",
-      "evidence": "31.10.2026 – 01.11.2026 | Альфа-Банк Сочи Марафон | Сочи | 0.8 км, 1 км, 2.5 км, 5 км, 10 км, 21.1 км, 42 км, 42.2 км | run | зарегистрировано 2266 ⟨https://reg.russiarunning.com/event/SochiMarafon2026⟩",
-      "size": "зарегистрировано 2266"
+      "evidence": "31.10.2026 – 01.11.2026 | Альфа-Банк Сочи Марафон | Сочи | 0.8 км, 1 км, 2.5 км, 5 км, 10 км, 21.1 км, 42 км, 42.2 км | run | зарегистрировано 2272 ⟨https://reg.russiarunning.com/event/SochiMarafon2026⟩",
+      "size": "зарегистрировано 2272"
     },
     {
       "id": "dfe0d41145",
@@ -2972,7 +2988,7 @@
         "trail"
       ],
       "distances": "10 км, 20 км, 30 км, 5 км",
-      "url": "https://city-trail.ru/6#new_tab",
+      "url": "https://city-trail.ru/6",
       "evidence": "01/11/2026 City Trail 6 X-Race"
     },
     {
@@ -2988,8 +3004,8 @@
       ],
       "distances": null,
       "url": "https://reg.russiarunning.com/event/IRONMAN703TURKIYE202601112026",
-      "evidence": "01.11.2026 | IRONMAN 70.3 ТУРЦИЯ / IRONMAN 70.3 TURKIYE 2026 | Белек, Турция |  | tri | зарегистрировано 113 ⟨https://reg.russiarunning.com/event/IRONMAN703TURKIYE202601112026⟩",
-      "size": "зарегистрировано 113"
+      "evidence": "01.11.2026 | IRONMAN 70.3 ТУРЦИЯ / IRONMAN 70.3 TURKIYE 2026 | Белек, Турция |  | tri | зарегистрировано 114 ⟨https://reg.russiarunning.com/event/IRONMAN703TURKIYE202601112026⟩",
+      "size": "зарегистрировано 114"
     },
     {
       "id": "b28198606c",
@@ -3003,7 +3019,7 @@
         "trail"
       ],
       "distances": "14 км, 28 км, 5 км, 50 км",
-      "url": "https://myrace.info/events/1907#new_tab",
+      "url": "https://myrace.info/events/1907",
       "evidence": "01/11/2026 Samba Trail: Арчеда"
     },
     {
@@ -3199,21 +3215,6 @@
       "size": "рейтинг ПроБЕГа 4.7 (5 оценок)"
     },
     {
-      "id": "9967e1f77a",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Народный трейл",
-      "date": "2026-11-04",
-      "dateEnd": null,
-      "place": "Истра",
-      "sports": [
-        "trail"
-      ],
-      "distances": "10 км, 20 км, 5 км",
-      "url": "https://istra.run/narod#rec773672918#new_tab",
-      "evidence": "04/11/2026 Народный трейл"
-    },
-    {
       "id": "3d99299686",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -3228,6 +3229,21 @@
       "url": "https://istra.run/narod#rec773672893",
       "evidence": "04.11.2026 | Народный трейл | Московская область, Истра | 20200 м 11800 м 6390 м 2200 м 1 км (дети) | trail | рейтинг ПроБЕГа 4.8 (11 оценок) ⟨https://istra.run/narod#rec773672893⟩",
       "size": "рейтинг ПроБЕГа 4.8 (11 оценок)"
+    },
+    {
+      "id": "9967e1f77a",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Народный трейл",
+      "date": "2026-11-04",
+      "dateEnd": null,
+      "place": "Истра",
+      "sports": [
+        "trail"
+      ],
+      "distances": "10 км, 20 км, 5 км",
+      "url": "https://istra.run/narod#rec773672918",
+      "evidence": "04/11/2026 Народный трейл"
     },
     {
       "id": "73effe70c1",
@@ -3338,8 +3354,8 @@
       ],
       "distances": "0.06 км, 0.3 км, 0.6 км, 1 км, 2 км, 5 км, 10 км, 21.1 км, 42.2 км",
       "url": "https://reg.russiarunning.com/event/SamarkandMarathon26",
-      "evidence": "07.11.2026 – 08.11.2026 | Самарканд Марафон 2026 (Samarkand Marathon 2026) | Самарканд, Площадь \"Регистан\" | 0.06 км, 0.3 км, 0.6 км, 1 км, 2 км, 5 км, 10 км, 21.1 км, 42.2 км | run | зарегистрировано 402 ⟨https://reg.russiarunning.com/event/SamarkandMarathon26⟩",
-      "size": "зарегистрировано 402"
+      "evidence": "07.11.2026 – 08.11.2026 | Самарканд Марафон 2026 (Samarkand Marathon 2026) | Самарканд, Площадь \"Регистан\" | 0.06 км, 0.3 км, 0.6 км, 1 км, 2 км, 5 км, 10 км, 21.1 км, 42.2 км | run | зарегистрировано 404 ⟨https://reg.russiarunning.com/event/SamarkandMarathon26⟩",
+      "size": "зарегистрировано 404"
     },
     {
       "id": "128e4d4b3c",
@@ -3369,7 +3385,7 @@
         "trail"
       ],
       "distances": "12 км",
-      "url": "https://reg.russiarunning.com/event/ZabegpoperesechennoymestnostiPotropampredkov1#new_tab",
+      "url": "https://reg.russiarunning.com/event/ZabegpoperesechennoymestnostiPotropampredkov1",
       "evidence": "07/11/2026 Трейл «По тропам предков»"
     },
     {
@@ -3384,7 +3400,7 @@
         "trail"
       ],
       "distances": "12 км, 7 км",
-      "url": "https://reg.russiarunning.com/event/TreylfestZmeyka2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/TreylfestZmeyka2026",
       "evidence": "07/11/2026 Трейлфест «МинВоды»"
     },
     {
@@ -3432,8 +3448,8 @@
       ],
       "distances": "5 км, 10 км",
       "url": "https://reg.russiarunning.com/event/treylSportivnayaosen",
-      "evidence": "07.11.2026 | трейл Спортивная осень | Нижний Новгород | 5 км, 10 км | trail | зарегистрировано 9 ⟨https://reg.russiarunning.com/event/treylSportivnayaosen⟩",
-      "size": "зарегистрировано 9"
+      "evidence": "07.11.2026 | трейл Спортивная осень | Нижний Новгород | 5 км, 10 км | trail | зарегистрировано 11 ⟨https://reg.russiarunning.com/event/treylSportivnayaosen⟩",
+      "size": "зарегистрировано 11"
     },
     {
       "id": "27e403e6b2",
@@ -3448,8 +3464,8 @@
       ],
       "distances": "2 км, 10 км, 21.1 км",
       "url": "https://reg.russiarunning.com/event/GatchinaHalfMarathon2026",
-      "evidence": "08.11.2026 | XVII ГАТЧИНСКИЙ ПОЛУМАРАФОН | г. Гатчина, Ленинградская область | 2 км, 10 км, 21.1 км | run | зарегистрировано 4984 ⟨https://reg.russiarunning.com/event/GatchinaHalfMarathon2026⟩",
-      "size": "зарегистрировано 4984"
+      "evidence": "08.11.2026 | XVII ГАТЧИНСКИЙ ПОЛУМАРАФОН | г. Гатчина, Ленинградская область | 2 км, 10 км, 21.1 км | run | зарегистрировано 4999 ⟨https://reg.russiarunning.com/event/GatchinaHalfMarathon2026⟩",
+      "size": "зарегистрировано 4999"
     },
     {
       "id": "70ebd84df1",
@@ -3463,7 +3479,7 @@
         "trail"
       ],
       "distances": "3 км, 7 км",
-      "url": "https://reg.russiarunning.com/event/DmitrovTreylOsen2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/DmitrovTreylOsen2026",
       "evidence": "08/11/2026 Дмитров Трейл Осень"
     },
     {
@@ -3573,7 +3589,7 @@
         "trail"
       ],
       "distances": "9 км",
-      "url": "https://ultras.goldenultra.ru/#new_tab",
+      "url": "https://ultras.goldenultra.ru/",
       "evidence": "14/11/2026 Moscow Drift Cross"
     },
     {
@@ -3637,8 +3653,8 @@
       ],
       "distances": "1 км, 5 км, 10 км, 21 км, 42 км, 42.195 км",
       "url": "https://reg.russiarunning.com/event/KrymskiyMarafon2026",
-      "evidence": "15.11.2026 | Крымский Марафон 2026 | Симферополь парк им Ю.А.Гагарина | 1 км, 5 км, 10 км, 21 км, 42 км, 42.195 км | run | зарегистрировано 89 ⟨https://reg.russiarunning.com/event/KrymskiyMarafon2026⟩",
-      "size": "зарегистрировано 89"
+      "evidence": "15.11.2026 | Крымский Марафон 2026 | Симферополь парк им Ю.А.Гагарина | 1 км, 5 км, 10 км, 21 км, 42 км, 42.195 км | run | зарегистрировано 97 ⟨https://reg.russiarunning.com/event/KrymskiyMarafon2026⟩",
+      "size": "зарегистрировано 97"
     },
     {
       "id": "23527bc3df",
@@ -3667,7 +3683,7 @@
         "trail"
       ],
       "distances": "10 км, 19 км, 3 км, 47 км",
-      "url": "https://toplist.run/race/uda-treil-2026-2025#new_tab",
+      "url": "https://toplist.run/race/uda-treil-2026-2025",
       "evidence": "15/11/2026 Уда трейл"
     },
     {
@@ -3730,7 +3746,7 @@
         "trail"
       ],
       "distances": "10 км",
-      "url": "https://reg.russiarunning.com/event/marathonRUN#new_tab",
+      "url": "https://reg.russiarunning.com/event/marathonRUN",
       "evidence": "20/11/2026 Трейл «Беги»"
     },
     {
@@ -3777,8 +3793,8 @@
       ],
       "distances": "0.2 км",
       "url": "https://reg.russiarunning.com/event/st_petersburg_indoor26_stage4",
-      "evidence": "21.11.2026 – 22.11.2026 | Триатлон на Кубок Губернатора Санкт-Петербурга на дистанцию \"суперспринт\" 4 этап | г. Санкт-Петербург, Легкоатлетический Манеж, Теннисная аллея 3 | 0.2 км | tri | зарегистрировано 8 ⟨https://reg.russiarunning.com/event/st_petersburg_indoor26_stage4⟩",
-      "size": "зарегистрировано 8"
+      "evidence": "21.11.2026 – 22.11.2026 | Триатлон на Кубок Губернатора Санкт-Петербурга на дистанцию \"суперспринт\" 4 этап | г. Санкт-Петербург, Легкоатлетический Манеж, Теннисная аллея 3 | 0.2 км | tri | зарегистрировано 11 ⟨https://reg.russiarunning.com/event/st_petersburg_indoor26_stage4⟩",
+      "size": "зарегистрировано 11"
     },
     {
       "id": "cb1352ca7f",
@@ -3813,21 +3829,6 @@
       "size": "рейтинг ПроБЕГа 4.9 (6 оценок)"
     },
     {
-      "id": "b02a802027",
-      "series": "xwaters",
-      "seriesName": "X-WATERS",
-      "name": "X-WATERS ГРАНД ШОУ 2026",
-      "date": "2026-11-28",
-      "dateEnd": null,
-      "place": null,
-      "sports": [
-        "swim"
-      ],
-      "distances": null,
-      "url": "https://x-waters.com/events/grandshow/",
-      "evidence": "28 ноября 2026 X-WATERS ГРАНД ШОУ 2026"
-    },
-    {
       "id": "d78c14731e",
       "series": "trails",
       "seriesName": "Календарь трейлов («Марафонец»)",
@@ -3839,7 +3840,7 @@
         "trail"
       ],
       "distances": "10 км, 5 км",
-      "url": "https://xn--40-emcadbfdgn.xn--p1ai/events/161#new_tab",
+      "url": "https://xn--40-emcadbfdgn.xn--p1ai/events/161",
       "evidence": "28/11/2026 Иммерсивный Жуков трейл"
     },
     {
@@ -3854,7 +3855,7 @@
         "trail"
       ],
       "distances": "15 км, 8 км",
-      "url": "https://toplist.run/race/11313#new_tab",
+      "url": "https://toplist.run/race/11313",
       "evidence": "28/11/2026 Погоня за Лисой"
     },
     {
@@ -3917,23 +3918,8 @@
       ],
       "distances": "0.5 км, 1 км, 2.027 км, 5 км, 10 км, 21.097 км",
       "url": "https://reg.russiarunning.com/event/IXpolumarafonBV",
-      "evidence": "05.12.2026 – 06.12.2026 | IX полумарафон Бегущая Вологда | г. Вологда | 0.5 км, 1 км, 2.027 км, 5 км, 10 км, 21.097 км | run | зарегистрировано 320 ⟨https://reg.russiarunning.com/event/IXpolumarafonBV⟩",
-      "size": "зарегистрировано 320"
-    },
-    {
-      "id": "ea7a2e2f19",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Ночной трейловый забег «Светлая ночь»",
-      "date": "2026-12-05",
-      "dateEnd": null,
-      "place": "Кварса",
-      "sports": [
-        "trail"
-      ],
-      "distances": "16 км, 30 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/Svetlaynoch2026#new_tab",
-      "evidence": "05/12/2026 Ночной трейловый забег «Светлая ночь»"
+      "evidence": "05.12.2026 – 06.12.2026 | IX полумарафон Бегущая Вологда | г. Вологда | 0.5 км, 1 км, 2.027 км, 5 км, 10 км, 21.097 км | run | зарегистрировано 322 ⟨https://reg.russiarunning.com/event/IXpolumarafonBV⟩",
+      "size": "зарегистрировано 322"
     },
     {
       "id": "2f616b753c",
@@ -3950,6 +3936,21 @@
       "url": "https://reg.russiarunning.com/event/Svetlaynoch2026",
       "evidence": "05.12.2026 | Ночной трейловый забег «Светлая ночь» | Удмуртская Республика | 0.5 км, 1 км, 5 км, 16 км, 30 км | trail | зарегистрировано 76 ⟨https://reg.russiarunning.com/event/Svetlaynoch2026⟩",
       "size": "зарегистрировано 76"
+    },
+    {
+      "id": "ea7a2e2f19",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Ночной трейловый забег «Светлая ночь»",
+      "date": "2026-12-05",
+      "dateEnd": null,
+      "place": "Кварса",
+      "sports": [
+        "trail"
+      ],
+      "distances": "16 км, 30 км, 5 км",
+      "url": "https://reg.russiarunning.com/event/Svetlaynoch2026",
+      "evidence": "05/12/2026 Ночной трейловый забег «Светлая ночь»"
     },
     {
       "id": "5e6b0eedb5",
@@ -3980,8 +3981,8 @@
       ],
       "distances": "0.8 км, 7 км, 21.1 км",
       "url": "https://reg.russiarunning.com/event/GorodskoyZimniyPolumarafonEvropaAziya2026",
-      "evidence": "06.12.2026 | Городской Зимний Полумарафон \"Европа-Азия\" 2026 | г. Екатеринбург | 0.8 км, 7 км, 21.1 км | run | зарегистрировано 218 ⟨https://reg.russiarunning.com/event/GorodskoyZimniyPolumarafonEvropaAziya2026⟩",
-      "size": "зарегистрировано 218"
+      "evidence": "06.12.2026 | Городской Зимний Полумарафон \"Европа-Азия\" 2026 | г. Екатеринбург | 0.8 км, 7 км, 21.1 км | run | зарегистрировано 222 ⟨https://reg.russiarunning.com/event/GorodskoyZimniyPolumarafonEvropaAziya2026⟩",
+      "size": "зарегистрировано 222"
     },
     {
       "id": "bc83a6f94e",
@@ -4075,8 +4076,8 @@
       ],
       "distances": "0.2 км",
       "url": "https://reg.russiarunning.com/event/st_petersburg_indoor26_stage5",
-      "evidence": "12.12.2026 – 13.12.2026 | Триатлон на Кубок Губернатора Санкт-Петербурга на дистанцию \"суперспринт\" 5 этап | г. Санкт-Петербург, Легкоатлетический манеж, Теннисная аллея, 3 | 0.2 км | tri | зарегистрировано 1 ⟨https://reg.russiarunning.com/event/st_petersburg_indoor26_stage5⟩",
-      "size": "зарегистрировано 1"
+      "evidence": "12.12.2026 – 13.12.2026 | Триатлон на Кубок Губернатора Санкт-Петербурга на дистанцию \"суперспринт\" 5 этап | г. Санкт-Петербург, Легкоатлетический манеж, Теннисная аллея, 3 | 0.2 км | tri | зарегистрировано 5 ⟨https://reg.russiarunning.com/event/st_petersburg_indoor26_stage5⟩",
+      "size": "зарегистрировано 5"
     },
     {
       "id": "cb443d6d63",
@@ -4090,7 +4091,7 @@
         "trail"
       ],
       "distances": "10 км, 21 км, 42 км, 5 км, 63 км",
-      "url": "https://reg.russiarunning.com/event/SosnovkaGoat#new_tab",
+      "url": "https://reg.russiarunning.com/event/SosnovkaGoat",
       "evidence": "13/12/2026 Новогодний марафон Sosnovka Goat"
     },
     {
@@ -4105,7 +4106,7 @@
         "trail"
       ],
       "distances": "10 км, 20 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/TreylpolumarafonGoryachiyshokolad2026#new_tab",
+      "url": "https://reg.russiarunning.com/event/TreylpolumarafonGoryachiyshokolad2026",
       "evidence": "13/12/2026 Трейл «Горячий шоколад»"
     },
     {
@@ -4199,8 +4200,8 @@
       ],
       "distances": "0.3 км, 5 км, 10 км",
       "url": "https://reg.russiarunning.com/event/XXXVNovogodniyprobeg2026",
-      "evidence": "26.12.2026 | XXXV Новогодний пробег 2026 | г.Рыбинск, ул.Волжская Набережная, д.40 площадь у ДС \"Полет\" | 0.3 км, 5 км, 10 км | run | зарегистрировано 27 ⟨https://reg.russiarunning.com/event/XXXVNovogodniyprobeg2026⟩",
-      "size": "зарегистрировано 27"
+      "evidence": "26.12.2026 | XXXV Новогодний пробег 2026 | г.Рыбинск, ул.Волжская Набережная, д.40 площадь у ДС \"Полет\" | 0.3 км, 5 км, 10 км | run | зарегистрировано 28 ⟨https://reg.russiarunning.com/event/XXXVNovogodniyprobeg2026⟩",
+      "size": "зарегистрировано 28"
     },
     {
       "id": "66441aaeae",
@@ -4278,7 +4279,7 @@
         "trail"
       ],
       "distances": "120 км, 14 км, 24 км, 34 км, 7 км",
-      "url": "https://reg.russiarunning.com/event/cwut27#new_tab",
+      "url": "https://reg.russiarunning.com/event/cwut27",
       "evidence": "05/01/2027 Крымский Зимний Ультра Трейл"
     },
     {
@@ -4314,21 +4315,6 @@
       "size": "зарегистрировано 11"
     },
     {
-      "id": "9cf088c0f2",
-      "series": "trails",
-      "seriesName": "Календарь трейлов («Марафонец»)",
-      "name": "Тульский зимний трейл",
-      "date": "2027-01-05",
-      "dateEnd": null,
-      "place": "Тула",
-      "sports": [
-        "trail"
-      ],
-      "distances": "15 км, 6 км",
-      "url": "https://reg.russiarunning.com/event/TWT2027#new_tab",
-      "evidence": "05/01/2027 Тульский зимний трейл"
-    },
-    {
       "id": "179dc9e6dd",
       "series": "probeg",
       "seriesName": "ПроБЕГ, Центр",
@@ -4343,6 +4329,21 @@
       "url": "http://swimsuprun.ru",
       "evidence": "05.01.2027 | Тульский зимний трейл | Тула | 15950 м (T15) 5760 м (T6) | trail | рейтинг ПроБЕГа 5.0 (7 оценок) ⟨http://swimsuprun.ru⟩",
       "size": "рейтинг ПроБЕГа 5.0 (7 оценок)"
+    },
+    {
+      "id": "9cf088c0f2",
+      "series": "trails",
+      "seriesName": "Календарь трейлов («Марафонец»)",
+      "name": "Тульский зимний трейл",
+      "date": "2027-01-05",
+      "dateEnd": null,
+      "place": "Тула",
+      "sports": [
+        "trail"
+      ],
+      "distances": "15 км, 6 км",
+      "url": "https://reg.russiarunning.com/event/TWT2027",
+      "evidence": "05/01/2027 Тульский зимний трейл"
     },
     {
       "id": "56ba440f4b",
@@ -4434,7 +4435,7 @@
         "trail"
       ],
       "distances": "1 км, 1.6 км, 10 км, 4 км",
-      "url": "https://myrace.info/events/2156#new_tab",
+      "url": "https://myrace.info/events/2156",
       "evidence": "24/01/2027 Глинтвейновый забег"
     },
     {
@@ -4842,7 +4843,7 @@
         "trail"
       ],
       "distances": "6.7 км",
-      "url": "https://myrace.info/events/2028#new_tab",
+      "url": "https://myrace.info/events/2028",
       "evidence": "06/03/2027 Марий Форест SnowRun – Backyard Ultra"
     },
     {
@@ -5458,8 +5459,8 @@
       ],
       "distances": "10 км, 21.1 км, 42.2 км",
       "url": "https://reg.russiarunning.com/event/40yBelgradskiymarafon2027",
-      "evidence": "17.04.2027 – 18.04.2027 | 40-й Белградский марафон / Belgrade Marathon 2027 | Белград, Сербия | 10 км, 21.1 км, 42.2 км | run | зарегистрировано 85 ⟨https://reg.russiarunning.com/event/40yBelgradskiymarafon2027⟩",
-      "size": "зарегистрировано 85"
+      "evidence": "17.04.2027 – 18.04.2027 | 40-й Белградский марафон / Belgrade Marathon 2027 | Белград, Сербия | 10 км, 21.1 км, 42.2 км | run | зарегистрировано 88 ⟨https://reg.russiarunning.com/event/40yBelgradskiymarafon2027⟩",
+      "size": "зарегистрировано 88"
     },
     {
       "id": "83478a63c9",
@@ -5536,7 +5537,7 @@
         "trail"
       ],
       "distances": "105 км, 11 км, 17 км, 30 км, 5 км, 60 км",
-      "url": "https://myrace.info/events/1900#new_tab",
+      "url": "https://myrace.info/events/1900",
       "evidence": "02/05/2027 Grand Kislovodsk"
     },
     {
@@ -5582,7 +5583,7 @@
         "trail"
       ],
       "distances": "21 км, 50 км, 8 км",
-      "url": "https://toplist.run/race/kuntag-ultra-treil-2027#new_tab",
+      "url": "https://toplist.run/race/kuntag-ultra-treil-2027",
       "evidence": "15/05/2027 Кунтаг Ультра Трейл"
     },
     {
@@ -6152,7 +6153,7 @@
         "trail"
       ],
       "distances": "15 км, 35 км, 66 км, 7 км",
-      "url": "https://myrace.info/events/2027#new_tab",
+      "url": "https://myrace.info/events/2027",
       "evidence": "19/06/2027 Трейл Wild Peak"
     },
     {
@@ -6460,7 +6461,7 @@
         "trail"
       ],
       "distances": "10 км, 21 км, 5 км",
-      "url": "https://reg.russiarunning.com/event/POMARUNCUP2027#new_tab",
+      "url": "https://reg.russiarunning.com/event/POMARUNCUP2027",
       "evidence": "17/07/2027 Трейл Poma Run Cup"
     },
     {
@@ -6475,7 +6476,7 @@
         "trail"
       ],
       "distances": "80 км",
-      "url": "https://reg.russiarunning.com/event/ultratrailvosmerka2027#new_tab",
+      "url": "https://reg.russiarunning.com/event/ultratrailvosmerka2027",
       "evidence": "17/07/2027 Ультратрейл «Восьмёрка»"
     },
     {
@@ -6733,23 +6734,23 @@
         "trail"
       ],
       "distances": "10 км, 6.7 км",
-      "url": "https://reg.russiarunning.com/event/WOLFTRAIL2027#new_tab",
+      "url": "https://reg.russiarunning.com/event/WOLFTRAIL2027",
       "evidence": "13/08/2027 Wolf Trail Backyard Ultra «Волчьими тропами»"
     },
     {
-      "id": "64d1b8721e",
+      "id": "acb4d4409e",
       "series": "ultra100",
       "seriesName": "Ultra 100 (Эльтон)",
-      "name": "ULTRA100 фестиваль",
+      "name": "ULTRA100",
       "date": "2027-08-14",
       "dateEnd": "2027-08-15",
-      "place": "Волжский",
+      "place": "Волжский (Волгоградская область)",
       "sports": [
         "trail"
       ],
       "distances": null,
       "url": "https://ultra100.ru/",
-      "evidence": "До встречи 14–15 августа 2027 года"
+      "evidence": "14-15 августа 2027"
     },
     {
       "id": "b94e1281ae",
@@ -6824,7 +6825,7 @@
         "trail"
       ],
       "distances": "17 км, 30 км, 5 км, 50 км, 70 км",
-      "url": "https://myrace.info/events/2064#new_tab",
+      "url": "https://myrace.info/events/2064",
       "evidence": "21/08/2027 Норильск. Горный старт"
     },
     {
@@ -6839,7 +6840,7 @@
         "trail"
       ],
       "distances": "12 км, 22 км, 5 км, 6 км",
-      "url": "https://toplist.run/race/fury-trail-2027-2026#new_tab",
+      "url": "https://toplist.run/race/fury-trail-2027-2026",
       "evidence": "22/08/2027 Fury trail"
     },
     {
@@ -6855,8 +6856,8 @@
       ],
       "distances": "1 км, 5 км, 10 км, 21.1 км, 42.2 км",
       "url": "https://reg.russiarunning.com/event/Chelyabinskiymarafon2027",
-      "evidence": "22.08.2027 | Челябинский марафон 2027 | Челябинск | 1 км, 5 км, 10 км, 21.1 км, 42.2 км | run | зарегистрировано 628 ⟨https://reg.russiarunning.com/event/Chelyabinskiymarafon2027⟩",
-      "size": "зарегистрировано 628"
+      "evidence": "22.08.2027 | Челябинский марафон 2027 | Челябинск | 1 км, 5 км, 10 км, 21.1 км, 42.2 км | run | зарегистрировано 650 ⟨https://reg.russiarunning.com/event/Chelyabinskiymarafon2027⟩",
+      "size": "зарегистрировано 650"
     },
     {
       "id": "2b43c0a1a9",
@@ -7144,8 +7145,8 @@
       ],
       "distances": "5 км, 10 км, 30 км, 42.2 км",
       "url": "https://reg.russiarunning.com/event/100yPeterburgskiyMarafonPushkinPeterburg",
-      "evidence": "05.09.2027 | 100-й Петербургский Марафон. Пушкин — Петербург | Санкт-Петербург | 5 км, 10 км, 30 км, 42.2 км | run | зарегистрировано 1960 ⟨https://reg.russiarunning.com/event/100yPeterburgskiyMarafonPushkinPeterburg⟩",
-      "size": "зарегистрировано 1960"
+      "evidence": "05.09.2027 | 100-й Петербургский Марафон. Пушкин — Петербург | Санкт-Петербург | 5 км, 10 км, 30 км, 42.2 км | run | зарегистрировано 2011 ⟨https://reg.russiarunning.com/event/100yPeterburgskiyMarafonPushkinPeterburg⟩",
+      "size": "зарегистрировано 2011"
     },
     {
       "id": "4d444af906",
@@ -7205,7 +7206,7 @@
         "trail"
       ],
       "distances": "59 км",
-      "url": "https://reg.russiarunning.com/event/ULTRATREYLTRIDTsATKA2027#new_tab",
+      "url": "https://reg.russiarunning.com/event/ULTRATREYLTRIDTsATKA2027",
       "evidence": "11/09/2027 Ультратрейл «Тридцатка»"
     },
     {
@@ -7239,6 +7240,21 @@
       "evidence": "Сулак 2027 18 Сентября Сулак"
     },
     {
+      "id": "69a1d10af7",
+      "series": "xwaters",
+      "seriesName": "X-WATERS",
+      "name": "X-WATERS Черногория 2027",
+      "date": "2027-09-25",
+      "dateEnd": "2027-09-26",
+      "place": "Черногория",
+      "sports": [
+        "swim"
+      ],
+      "distances": null,
+      "url": "https://x-waters.com/events/montenegro/",
+      "evidence": "25-26 сентября 2027 X-WATERS Черногория 2027"
+    },
+    {
       "id": "cc405417e2",
       "series": "russiarunning",
       "seriesName": "RussiaRunning",
@@ -7266,13 +7282,13 @@
         "trail"
       ],
       "distances": "120 км, 15 км, 30 км, 50 км, 70 км",
-      "url": "https://goldenultra.ru/wbu/#new_tab",
+      "url": "https://goldenultra.ru/wbu/",
       "evidence": "01/10/2027 White Bride Ultra Gelendzhik"
     }
   ],
   "pages": {
     "wildtrail": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "1a571b7f2e66",
       "chars": 13006,
       "extractedHash": "1a571b7f2e66",
@@ -7280,22 +7296,22 @@
       "triedAt": "2026-09-29T12:29:20"
     },
     "grut": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "fd63273a73a7",
       "chars": 18000,
       "extractedHash": "fd63273a73a7",
       "events": 1
     },
     "ultra100": {
-      "fetchedAt": "2026-09-29T12:50:51",
-      "hash": "75f877942e94",
-      "chars": 10745,
-      "extractedHash": "75f877942e94",
+      "fetchedAt": "2026-09-30T09:25:43",
+      "hash": "3bd9b693d92f",
+      "chars": 5245,
+      "extractedHash": "3bd9b693d92f",
       "events": 1,
       "triedAt": "2026-09-29T12:29:20"
     },
     "redfox": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "7ebf50949f59",
       "chars": 1806,
       "extractedHash": "7ebf50949f59",
@@ -7303,14 +7319,14 @@
       "triedAt": "2026-09-29T12:29:20"
     },
     "trails": {
-      "fetchedAt": "2026-09-29T12:50:51",
-      "hash": "8644eaa7d54e",
+      "fetchedAt": "2026-09-30T09:25:43",
+      "hash": "8d1106f0eb58",
       "chars": 30203,
-      "extractedHash": "1dd46ece9ac7",
+      "extractedHash": "8d1106f0eb58",
       "events": 88
     },
     "grom": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "c85e93e484be",
       "chars": 4050,
       "extractedHash": "c85e93e484be",
@@ -7318,7 +7334,7 @@
       "triedAt": "2026-09-29T08:53:48"
     },
     "russialoppet": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "34649b421040",
       "chars": 5199,
       "extractedHash": "34649b421040",
@@ -7326,7 +7342,7 @@
       "triedAt": "2026-09-29T12:29:20"
     },
     "ironstar": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "b1d2eb7f0c48",
       "chars": 13849,
       "extractedHash": "b1d2eb7f0c48",
@@ -7334,22 +7350,22 @@
       "triedAt": "2026-09-29T12:29:20"
     },
     "xwaters": {
-      "fetchedAt": "2026-09-29T12:50:51",
-      "hash": "6240b3e4907c",
-      "chars": 6390,
-      "extractedHash": "6240b3e4907c",
+      "fetchedAt": "2026-09-30T09:25:43",
+      "hash": "8e9560c02ada",
+      "chars": 6513,
+      "extractedHash": "8e9560c02ada",
       "events": 20,
       "triedAt": "2026-09-29T08:53:48"
     },
     "swimcup": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "77dfe4673fd4",
       "chars": 11745,
       "extractedHash": "77dfe4673fd4",
       "events": 26
     },
     "granfondo": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "921de2a98560",
       "chars": 9054,
       "extractedHash": "921de2a98560",
@@ -7357,7 +7373,7 @@
       "triedAt": "2026-09-29T12:29:20"
     },
     "cyclingrace": {
-      "fetchedAt": "2026-09-29T12:50:51",
+      "fetchedAt": "2026-09-30T09:25:43",
       "hash": "340855a44e27",
       "chars": 3017,
       "extractedHash": "340855a44e27",
@@ -7365,18 +7381,18 @@
       "triedAt": "2026-09-29T08:53:48"
     },
     "russiarunning": {
-      "fetchedAt": "2026-09-29T20:43:35",
-      "hash": "798a64a1e712",
-      "chars": 32043,
-      "extractedHash": "798a64a1e712",
-      "events": 157,
+      "fetchedAt": "2026-09-30T09:25:43",
+      "hash": "d090339fc443",
+      "chars": 32209,
+      "extractedHash": "d090339fc443",
+      "events": 158,
       "triedAt": "2026-09-29T12:52:53"
     },
     "probeg": {
-      "fetchedAt": "2026-09-29T12:50:51",
-      "hash": "b3ac7841848c",
-      "chars": 18843,
-      "extractedHash": "b3ac7841848c",
+      "fetchedAt": "2026-09-30T09:25:43",
+      "hash": "85a56f50bfc5",
+      "chars": 18800,
+      "extractedHash": "85a56f50bfc5",
       "events": 89,
       "triedAt": "2026-09-29T12:29:20"
     }

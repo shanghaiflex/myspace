@@ -1,24 +1,7 @@
 {
-  "updatedAt": "2026-09-26T07:22:49",
+  "updatedAt": "2026-09-30T10:00:43",
   "model": "opus",
   "items": [
-    {
-      "id": "sc:2150432718",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/user-643553014/nts-x-bershka-manchester-2",
-      "title": "NTS X BERSHKA MANCHESTER: DEBBIESTHUGLIFE w/ Sega Bodega x Thoom 070825",
-      "artist": "NTS 2024-2025",
-      "duration": 3615,
-      "artwork": "https://i1.sndcdn.com/artworks-cu3kZnzGqmYANMlK-UPlARw-t500x500.jpg",
-      "genre": null,
-      "published": "2025-08-09",
-      "reason": "Ты только что залайкал NTS с Coucou Chloe — Sega Bodega её соратник по NUXXE, тот же влажный реверб и обрывки автотюна, но собранные в более песенный, вязкий сет.",
-      "wanted": "Sega Bodega NTS",
-      "mood": "rhythmic",
-      "suggestedAt": "2026-09-26",
-      "verdict": "new",
-      "played": true
-    },
     {
       "id": "sc:1295909536",
       "source": "soundcloud",
@@ -69,9 +52,55 @@
       "suggestedAt": "2026-09-26",
       "verdict": "new",
       "played": false
+    },
+    {
+      "id": "sc:1150662631",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/overmonoessentialmix/overmono-essential-mix-2021-10-29",
+      "title": "Overmono - Essential Mix 2021-10-29",
+      "artist": "Overmono – Essential Mix",
+      "duration": 7197,
+      "artwork": "https://i1.sndcdn.com/artworks-VDpyfPwh0neMzu3a-5iqdzQ-t500x500.jpg",
+      "genre": "House",
+      "published": "2021-10-30",
+      "reason": "Ты целиком досмотрел Romy и Fred again.. и залайкал Essential Mix Evian Christ — здесь та же лондонская линия обрезанных вокальных обрывков и медленного подъёма, но на упругом UK-басе, без сухого индастриала, на котором ты выключил Slap City.",
+      "wanted": "Overmono Essential Mix",
+      "mood": "rhythmic",
+      "suggestedAt": "2026-09-30",
+      "verdict": "new",
+      "played": false
+    },
+    {
+      "id": "sc:2361095267",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/rinsefm/wisdomteeth120726",
+      "title": "Wisdom Teeth with Facta & K-LONE: Live from Amber's - 12 July 2026",
+      "artist": "Rinse FM",
+      "duration": 7203,
+      "artwork": "https://i1.sndcdn.com/artworks-fxSSepAuOd3lnirb-1cGPww-t500x500.jpg",
+      "genre": "Dance",
+      "published": "2026-07-15",
+      "reason": "Бристольский дабовый бас с ватными синтами и без джангл-брейков, из-за которых ты отверг Nia Archives — ровно то поле future garage, где ты сидишь у Kolya Kidman, но собранное для радио.",
+      "wanted": "Facta K-LONE Rinse FM",
+      "mood": "rhythmic",
+      "suggestedAt": "2026-09-30",
+      "verdict": "new",
+      "played": false
     }
   ],
   "history": [
+    {
+      "id": "sc:2150432718",
+      "artist": "NTS 2024-2025",
+      "title": "NTS X BERSHKA MANCHESTER: DEBBIESTHUGLIFE w/ Sega Bodega x Thoom 070825",
+      "url": "https://soundcloud.com/user-643553014/nts-x-bershka-manchester-2",
+      "reason": "Ты только что залайкал NTS с Coucou Chloe — Sega Bodega её соратник по NUXXE, тот же влажный реверб и обрывки автотюна, но собранные в более песенный, вязкий сет.",
+      "mood": "rhythmic",
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-09-30",
+      "suggestedAt": "2026-09-26"
+    },
     {
       "id": "sc:242895057",
       "artist": "Tropical Waste",

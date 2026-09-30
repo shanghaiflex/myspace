@@ -49,7 +49,7 @@
   POST   /api/home/<lamps|lamp|lamp2|plug>   body: {state?, brightness?, color_temp?, color?, transition?} → MQTT set
   POST   /api/home/scene/<name>   a static scene on the lamps (cozy, amber, tv, …)
   GET    /api/vacuum              робот-пылесос Roborock: состояние, заряд, комнаты (scripts/vacuum.py), кэш 15 с
-  POST   /api/vacuum/<start|rooms|pause|dock|find>   body: {rooms?: [id…], mode?: vacuum|vac_and_mop|mop}
+  POST   /api/vacuum/<start|rooms|pause|dock|find>   body: {rooms?: [id…], mode?: vacuum|vac_and_mop|vac_then_mop|mop}
 
 Run: python3 serve.py [port]   (default 8787, binds to 127.0.0.1 only)
 

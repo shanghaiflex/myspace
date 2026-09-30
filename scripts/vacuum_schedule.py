@@ -28,7 +28,7 @@ STATE = os.path.join(ROOT, "data", "vacuum-day.json")
 
 AT = os.environ.get("VACUUM_AT", "11:00")                     # пока я на работе
 DAYS = os.environ.get("VACUUM_DAYS", "0,1,2,3,4")             # пн=0 … вс=6
-MODE = os.environ.get("VACUUM_MODE", "vac_and_mop")
+MODE = os.environ.get("VACUUM_MODE", "vac_then_mop")
 GRACE = int(os.environ.get("VACUUM_GRACE", "120"))           # минут после AT, когда ещё можно начать
 CLEAN_MIN = int(os.environ.get("VACUUM_CLEAN_MIN", "60"))    # сколько длится уборка: столько календарь должен быть пуст
 WEEKDAYS = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"]

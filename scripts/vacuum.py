@@ -9,7 +9,7 @@ Roborock (`login request` → `login <код>`), дальше живёт сох�
 поэтому 69.17.16.248/29 в deploy/direct-routes.txt.
 
   python3 scripts/vacuum.py state                     # что видит страница (JSON)
-  python3 scripts/vacuum.py start [--mode vacuum|vac_and_mop|mop]
+  python3 scripts/vacuum.py start [--mode vacuum|vac_and_mop|vac_then_mop|mop]
   python3 scripts/vacuum.py rooms 1,2 [--mode …]      # уборка комнат по id сегментов
   python3 scripts/vacuum.py pause | dock | find
   python3 scripts/vacuum.py login request | login <код>
@@ -51,7 +51,13 @@ BUSY = {"starting", "cleaning", "returning_home", "spot_cleaning", "zoned_cleani
         "robot_status_mopping", "segment_mopping", "zoned_mopping", "back_to_dock_washing_duster",
         "clean_mop_cleaning", "clean_mop_mopping", "segment_clean_mop_cleaning",
         "segment_clean_mop_mopping", "zoned_clean_mop_cleaning", "zoned_clean_mop_mopping", "docking"}
-MODES = {"vacuum": "Пылесос", "vac_and_mop": "Пылесос и швабра", "mop": "Швабра"}
+MODES = {"vacuum": "Пылесос", "vac_and_mop": "Пылесос и швабра", "vac_then_mop": "Пылесос, потом швабра",
+         "mop": "Швабра"}
+# «Пылесос и швабра» у Qrevo — оба сразу, в один проход: робот моет тряпку и выезжает с опущенной шваброй,
+# и с первой минуты это выглядит как влажная уборка. «Потом швабра» — тот же набор моторов плюс порядок
+# (seq_type = 1: сперва весь дом пылесосом, потом шваброй). Это настройка робота, а не параметр запуска,
+# и в python-roborock её сеттера нет: команда `app_set_clean_sequence_type` взята из PR #959 библиотеки.
+SEQ_MODES = {"vac_and_mop": 0, "vac_then_mop": 1}
 # Ресурс в секундах работы (как в приложении Roborock): основная щётка 300 ч, боковая 200 ч,
 # фильтр 150 ч, датчики 30 ч.
 CONSUMABLES = (("main_brush", "основная щётка"), ("side_brush", "боковая щётка"),
@@ -114,10 +120,31 @@ def _pct(left, used):
     return round(100 * left / (left + used))
 
 
+def _mode(mode, raw):
+    if mode == "vac_and_mop" and (raw or {}).get("seq_type") == 1:
+        return "vac_then_mop"
+    return mode
+
+
+async def _set_mode(p, mode):
+    await p.status.set_cleaning_mode("vac_and_mop" if mode in SEQ_MODES else mode)
+    if mode in SEQ_MODES:
+        await p.status.refresh()          # моторы, которые только что поставил set_cleaning_mode
+        s = p.status
+        await p.status.rpc_channel.send_command("app_set_clean_sequence_type", params={
+            "type": SEQ_MODES[mode], "fan_power": int(s.fan_power), "water_box_mode": int(s.water_box_mode),
+            "mop_mode": int(s.mop_mode), "repeat": 1})
+
+
 async def _state(d):
     p = d.v1_properties
     await p.status.refresh()
     s = p.status
+    try:                                  # seq_type библиотека не разбирает — читаем сырой статус
+        raw = await p.status.rpc_channel.send_command("get_status")
+        raw = raw[0] if isinstance(raw, list) else raw
+    except Exception:
+        raw = {}
     out = {
         "name": d.name,
         "state": s.state_name,
@@ -126,7 +153,7 @@ async def _state(d):
         "battery": s.battery,
         "charging": bool(s.charge_status and int(s.charge_status) == 1),
         "error": None if not s.error_code or int(s.error_code) == 0 else s.error_code_name,
-        "mode": s.current_cleaning_mode.value if s.current_cleaning_mode else None,
+        "mode": _mode(s.current_cleaning_mode.value if s.current_cleaning_mode else None, raw),
         "modes": [{"id": k, "title": v} for k, v in MODES.items()],
         "fan": s.fan_speed_name,
         "area": s.square_meter_clean_area,           # м² последней/текущей уборки
@@ -181,7 +208,8 @@ def command(action, rooms=None, mode=None):
     async def go(d):
         p = d.v1_properties
         if mode and action in ("start", "rooms"):
-            await p.status.set_cleaning_mode(mode)
+            await _set_mode(p, mode)
+            await p.status.refresh()
         if action == "start":
             await p.command.send(C.APP_START)
         elif action == "rooms":
