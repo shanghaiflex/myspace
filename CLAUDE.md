@@ -1143,9 +1143,13 @@ automatically. Audio lives only on machines (gitignored) — download lecture au
 Production: https://bodywithoutorgans.cc served by the home Mac mini (ssh alias `mini`, user sergeyfilatov,
 site in `~/movies`, launchd agents `cc.bodywithoutorgans.serve` / `.tunnel`), LIVE since 2026-09-07 at https://bodywithoutorgans.cc. Three services on the mini: serve (agent), a root VPN
 LaunchDaemon `cc.bodywithoutorgans.vpn` (`deploy/awg-mini.sh` → `/usr/local/sbin`, runs a headless AmneziaWG full
-tunnel from `/usr/local/etc/amneziawg/mini.conf` — since 24.09.2026 the mini's OWN Amnezia Premium device config,
-Finland; the old self-hosted Server 1 died 23.09 and took the site down for 28 h. Switch server / country with
-`deploy/amnezia-premium.py` + `deploy/install-vpn.sh`, see `deploy/README.md`. Premium drops ICMP and nalog.ru
+tunnel from `/usr/local/etc/amneziawg/mini.conf` — since 01.10.2026 the user's own VPS **Server 2** (Netherlands,
+45.131.213.116, mini is its own client 10.8.1.7; the laptop's AmneziaVPN uses the same server as 10.8.1.1). Before
+that: Amnezia Premium Finland 24.09–01.10 (its server died at 01:30 on 01.10 and the site was down 13 h) and the
+self-hosted Server 1, which died 23.09 and took the site down for 28 h. Switch server = a fresh client config from
+AmneziaVPN («Поделиться» → подключение, a `vpn://` string that is a zlib+base64 JSON with the .conf inside, NOT a
+Premium key) + `deploy/install-vpn.sh` (needs the sudo password, typed by a human); a copy of the mini's conf is in
+the laptop keychain (`amnezia-server2-mini`). Premium path: `deploy/amnezia-premium.py`, see `deploy/README.md`. Premium drops ICMP and nalog.ru
 refuses foreign IPs — ФНС 213.24.64.0/24 goes direct via `direct-routes.txt`), and
 cloudflared (agent, http2). See `deploy/README.md`.
 The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`, Claude Code in `~/.local/bin/claude`

@@ -109,6 +109,12 @@ trap 'cleanup; exit 0' TERM INT
     v=$(eval "echo \"\${I_${pair%%:*}:-}\"")
     [ -n "$v" ] && echo "${pair#*:}=$v"
   done
+  # булевы флаги AWG 2.x: в конфиге «on/off», UAPI читает их strconv.ParseBool («true/false»),
+  # «on» он не знает — без перевода демон умирал бы на «UAPI отверг конфиг» (01.10.2026, Server 2)
+  for pair in randomtrailers:random_trailers disablecookies:disable_cookies; do
+    v=$(eval "echo \"\${I_${pair%%:*}:-}\"" | tr '[:upper:]' '[:lower:]')
+    case "$v" in on|true|yes|1) echo "${pair#*:}=true" ;; off|false|no|0) echo "${pair#*:}=false" ;; esac
+  done
   echo "replace_peers=true"
   echo "public_key=$(hex "$P_publickey")"
   [ -n "${P_presharedkey:-}" ] && echo "preshared_key=$(hex "$P_presharedkey")"

@@ -2,7 +2,7 @@
   "level": "B1",
   "updatedAt": "2026-09-30T08:16:58",
   "model": "opus",
-  "fetchedAt": "2026-09-30T08:10:18",
+  "fetchedAt": "2026-10-01T10:29:06",
   "items": [
     {
       "id": "rd:ec8d033f35",
@@ -4510,7 +4510,7 @@
       "hard": "сложный"
     }
   ],
-  "searchCursor": 14,
+  "searchCursor": 20,
   "lastStudy": null,
   "streak": 0,
   "drillCursor": 7

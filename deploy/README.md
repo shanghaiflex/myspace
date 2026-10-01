@@ -15,7 +15,9 @@ Mini выходит в интернет только через AmneziaVPN, бе
 Работает и переживает перезагрузку mini. Три службы на mini (user sergeyfilatov, автологин включён):
 - `cc.bodywithoutorgans.serve` (LaunchAgent) — `serve.py` на 127.0.0.1:8787 (пароль в `~/movies/.env`).
 - `cc.bodywithoutorgans.vpn` (LaunchDaemon, root, `/usr/local/sbin/awg-mini.sh` = `deploy/awg-mini.sh`) —
-  AmneziaWG full-tunnel через **Amnezia Premium, Финляндия** (с 24.09.2026; до этого — свой VPS Server 1).
+  AmneziaWG full-tunnel через **свой VPS Server 2, Нидерланды, 45.131.213.116** (с 01.10.2026, клиент mini
+  = `10.8.1.7`; 24.09–01.10 — Amnezia Premium, Финляндия, сервер которого умер в ночь на 01.10 и уронил сайт
+  на 13 часов; до того — свой VPS Server 1).
   Скрипт сервер не знает: он поднимает любой «родной» конфиг AmneziaWG из `/usr/local/etc/amneziawg/mini.conf`
   (root, 0600, в git его нет) через amneziawg-go из AmneziaVPN.app. KeepAlive перезапускает при падении.
 - `cc.bodywithoutorgans.tunnel` (LaunchAgent) — cloudflared `--protocol http2` (QUIC режет провайдер).
@@ -25,6 +27,16 @@ Mini выходит в интернет только через AmneziaVPN, бе
 давало 25–40% потерь). Для Premium это отдельное «устройство» в подписке (7 мест; mini — `e4cc1d24…`, macos, fi).
 
 ### Сменить VPN / страну / перевыпустить конфиг
+
+**Server 2 (сейчас).** Конфиг mini выписан в AmneziaVPN на ноутбуке («Поделиться» → подключение; каждый
+такой экспорт — новый клиент на сервере, со своим адресом 10.8.1.x, поэтому с ноутбуком он не дерётся).
+Экспорт приезжает строкой `vpn://…` — это **не** ключ Premium, а zlib+base64 JSON с готовым `[Interface]/[Peer]`
+внутри (`containers[0].awg.last_config.config`, DNS в нём — плейсхолдеры `$PRIMARY_DNS`); `amnezia-premium.py`
+на него честно отвечает «нет auth_data». Разворачивается в .conf парой строк python, копия конфига mini лежит
+в связке ключей ноутбука (`security find-generic-password -s amnezia-server2-mini -w`) — переустановить
+можно без нового экспорта. Нигде больше ключи и конфиги не хранятся, это намеренно.
+
+**Premium (запасной путь).**
 
 Ключ Premium `vpn://…` — не конфиг, а api_key к шлюзу `gw.amnezia.org`; конфиг выдаётся под устройство.
 `deploy/amnezia-premium.py` делает это без GUI (как «конфиг для роутера» в приложении), ключ читает из stdin:
