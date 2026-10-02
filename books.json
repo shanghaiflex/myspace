@@ -240,7 +240,7 @@
     "description": null,
     "coverUrl": "https://s1.livelib.ru/boocover/1010906264/200x305/5a2a/boocover.jpg",
     "cover": "covers/анна-каренина-лев-толстой.jpg",
-    "status": "to-read",
+    "status": "reading",
     "rating": null,
     "comment": null,
     "addedAt": "2026-09-13",
@@ -1124,11 +1124,11 @@
     "description": null,
     "coverUrl": "https://s1.livelib.ru/boocover/1003625111/200x305/4996/boocover.jpg",
     "cover": "covers/9780521082303.jpg",
-    "status": "reading",
+    "status": "read",
     "rating": null,
     "comment": null,
     "addedAt": "2026-09-13",
-    "finishedAt": null,
+    "finishedAt": "2026-10-02",
     "tags": []
   },
   {

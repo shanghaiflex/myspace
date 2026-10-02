@@ -1264,7 +1264,7 @@
     {
       "id": "lBXA44JuO8Q",
       "status": "queued",
-      "position": 0,
+      "position": 204,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -1279,7 +1279,8 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=lBXA44JuO8Q",
-      "queuedAt": 1789910938
+      "queuedAt": 1789910938,
+      "touchedAt": 1790919132
     },
     {
       "id": "kTYo7o3-U0U",
@@ -7417,9 +7418,9 @@
     },
     {
       "id": "sc:839825950",
-      "status": "queued",
-      "position": 9090,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 0,
+      "listenedAt": "2026-10-02",
       "addedAt": "2026-09-06",
       "note": null,
       "series": [
@@ -7434,7 +7435,7 @@
       "artwork": "https://i1.sndcdn.com/artworks-n4aK9YJ4pJYeAJBI-mvKsvw-t500x500.jpg",
       "published": "2020-06-14",
       "queuedAt": 1788726831,
-      "touchedAt": 1790856123
+      "touchedAt": 1790917856
     },
     {
       "id": "sc:839825947",

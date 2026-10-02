@@ -3,23 +3,6 @@
   "model": "opus",
   "items": [
     {
-      "id": "sc:1295909536",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/heartbrokennights/nts-mix-090622-he4rtbroken-w-liyo-ssaliva",
-      "title": "NTS MIX 090622 - HE4RTBROKEN w/ LIYO & SSALIVA",
-      "artist": "HE4RTBROKEN",
-      "duration": 3499,
-      "artwork": "https://i1.sndcdn.com/artworks-dFh8iu1bef51rwiq-Nxpl6A-t500x500.jpg",
-      "genre": null,
-      "published": "2022-06-28",
-      "reason": "Ты сидишь в эпизодах United In Flames именно с Ssaliva — здесь он один на час, те же плывущие арпеджио и дымный эмбиент-клуб, только без чужих вставок.",
-      "wanted": "Ssaliva NTS",
-      "mood": "rhythmic",
-      "suggestedAt": "2026-09-26",
-      "verdict": "new",
-      "played": false
-    },
-    {
       "id": "sc:1089791179",
       "source": "soundcloud",
       "url": "https://soundcloud.com/b-c-100951059/world-of-warcraft-music-4",
@@ -68,27 +51,34 @@
       "mood": "rhythmic",
       "suggestedAt": "2026-09-30",
       "verdict": "new",
-      "played": false
-    },
-    {
-      "id": "sc:2361095267",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/rinsefm/wisdomteeth120726",
-      "title": "Wisdom Teeth with Facta & K-LONE: Live from Amber's - 12 July 2026",
-      "artist": "Rinse FM",
-      "duration": 7203,
-      "artwork": "https://i1.sndcdn.com/artworks-fxSSepAuOd3lnirb-1cGPww-t500x500.jpg",
-      "genre": "Dance",
-      "published": "2026-07-15",
-      "reason": "Бристольский дабовый бас с ватными синтами и без джангл-брейков, из-за которых ты отверг Nia Archives — ровно то поле future garage, где ты сидишь у Kolya Kidman, но собранное для радио.",
-      "wanted": "Facta K-LONE Rinse FM",
-      "mood": "rhythmic",
-      "suggestedAt": "2026-09-30",
-      "verdict": "new",
-      "played": false
+      "played": true
     }
   ],
   "history": [
+    {
+      "id": "sc:2361095267",
+      "artist": "Rinse FM",
+      "title": "Wisdom Teeth with Facta & K-LONE: Live from Amber's - 12 July 2026",
+      "url": "https://soundcloud.com/rinsefm/wisdomteeth120726",
+      "reason": "Бристольский дабовый бас с ватными синтами и без джангл-брейков, из-за которых ты отверг Nia Archives — ровно то поле future garage, где ты сидишь у Kolya Kidman, но собранное для радио.",
+      "mood": "rhythmic",
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-10-02",
+      "suggestedAt": "2026-09-30"
+    },
+    {
+      "id": "sc:1295909536",
+      "artist": "HE4RTBROKEN",
+      "title": "NTS MIX 090622 - HE4RTBROKEN w/ LIYO & SSALIVA",
+      "url": "https://soundcloud.com/heartbrokennights/nts-mix-090622-he4rtbroken-w-liyo-ssaliva",
+      "reason": "Ты сидишь в эпизодах United In Flames именно с Ssaliva — здесь он один на час, те же плывущие арпеджио и дымный эмбиент-клуб, только без чужих вставок.",
+      "mood": "rhythmic",
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-10-02",
+      "suggestedAt": "2026-09-26"
+    },
     {
       "id": "sc:2150432718",
       "artist": "NTS 2024-2025",

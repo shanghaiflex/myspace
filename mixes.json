@@ -13,7 +13,9 @@
       "claude-rec",
       "calm"
     ],
-    "addedAt": "2026-09-25"
+    "addedAt": "2026-09-25",
+    "position": 1,
+    "playedAt": 1790920061
   },
   {
     "id": "sc:1328893246",
@@ -478,8 +480,8 @@
       "calm"
     ],
     "addedAt": "2026-09-20",
-    "position": 436,
-    "playedAt": 1789880550
+    "position": 438,
+    "playedAt": 1790916323
   },
   {
     "id": "sc:488982357",

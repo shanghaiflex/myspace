@@ -26,6 +26,7 @@ import vacuum as VC  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(ROOT, "data", "vacuum-day.json")
 
+ON = os.environ.get("VACUUM_SCHEDULE", "off") == "on"     # выключено 02.10.2026 по просьбе
 AT = os.environ.get("VACUUM_AT", "11:00")                     # пока я на работе
 DAYS = os.environ.get("VACUUM_DAYS", "0,1,2,3,4")             # пн=0 … вс=6
 MODE = os.environ.get("VACUUM_MODE", "vac_then_mop")
@@ -96,6 +97,8 @@ def save_state(st):
 
 def describe(now=None):
     """Строка для плашки: «будни 11:00 · пылесос и швабра · сегодня: пропуск — Врач 11:30»."""
+    if not ON:
+        return ""
     zone = tz()
     now = now or dt.datetime.now(zone)
     base = f"{days_text()} {AT} · {VC.MODES.get(MODE, MODE).lower()}"
@@ -109,6 +112,8 @@ def run(force=False, dry=False, now=None):
     zone = tz()
     now = now or dt.datetime.now(zone)
     today = now.date()
+    if not ON and not force:
+        return "расписание выключено (VACUUM_SCHEDULE)"
     st = load_state()
     if now.weekday() not in days():
         return "не тот день"
