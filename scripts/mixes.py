@@ -10,7 +10,7 @@ Usage:
   mixes.py remove <id|url|title>
   mixes.py list
 """
-import argparse, datetime, json, os, re, subprocess, sys, urllib.parse, urllib.request
+import argparse, datetime, json, os, re, subprocess, sys, urllib.error, urllib.parse, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "mixes.json")
@@ -48,12 +48,23 @@ def get_json(url, timeout=30):
 _client_id = None
 
 
-def sc_client_id():
-    """Reuse the client_id yt-dlp discovers; make yt-dlp discover it if the cache is empty."""
+SC_CLIENT_ID_CACHE = os.path.expanduser("~/.cache/yt-dlp/soundcloud/client_id.json")
+
+
+def sc_client_id(fresh=False):
+    """Reuse the client_id yt-dlp discovers; make yt-dlp discover it if the cache is empty.
+
+    SoundCloud время от времени меняет client_id, и закэшированный начинает отвечать 401 на всё: 03.10.2026
+    советы по миксам молча не нашли ни одного трека («nothing resolved»). `fresh` выкидывает кэш и
+    заставляет yt-dlp найти новый."""
     global _client_id
+    path = SC_CLIENT_ID_CACHE
+    if fresh:
+        _client_id = None
+        if os.path.exists(path):
+            os.remove(path)
     if _client_id:
         return _client_id
-    path = os.path.expanduser("~/.cache/yt-dlp/soundcloud/client_id.json")
     if not os.path.exists(path):
         subprocess.run([ytdlp(), "--flat-playlist", "--playlist-end", "1", "-J",
                         "https://soundcloud.com/resident-advisor/likes"], capture_output=True)
@@ -63,8 +74,13 @@ def sc_client_id():
 
 
 def sc_api(path, **params):
-    params["client_id"] = sc_client_id()
-    return get_json("https://api-v2.soundcloud.com" + path + "?" + urllib.parse.urlencode(params))
+    for attempt in (0, 1):
+        params["client_id"] = sc_client_id(fresh=attempt == 1)
+        try:
+            return get_json("https://api-v2.soundcloud.com" + path + "?" + urllib.parse.urlencode(params))
+        except urllib.error.HTTPError as e:
+            if e.code != 401 or attempt:
+                raise
 
 
 def sc_playable(t):

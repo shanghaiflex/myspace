@@ -1,52 +1,54 @@
 {
-  "updatedAt": "2026-09-26T07:52:10",
+  "updatedAt": "2026-10-03T07:50:57",
   "model": "opus",
   "items": [
     {
-      "id": "c24cc5b049",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n17/laura-tunbridge/air-of-another-planet",
-      "title": "Laura Tunbridge: Air of Another Planet",
+      "id": "c2ea4d01a7",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/david-trotter/a-fly-s-footfall",
+      "title": "David Trotter: A Fly’s Footfall",
       "author": null,
       "source": "London Review of Books",
       "sourceId": "lrb",
       "date": "2026-09-11",
       "minutes": null,
-      "summary": "Schoenberg looked backward and forward. In his commitment to perpetuating the Austro-German canon, he drew on the compositional techniques of his predecessors: the counterpoint of Bach, the classical forms of Mozart, the motivic working of Brahms, the tonal expansion of Wagner. A",
-      "reason": "Музыкальной критики у тебя нет вовсе; после Music For Nine Post Cards — как Шёнберг переизобрёл слушание.",
-      "suggestedAt": "2026-09-26",
-      "verdict": "new"
-    },
-    {
-      "id": "54f2bdbbf4",
-      "url": "https://www.newyorker.com/magazine/2026/09/28/on-the-mark-louis-menand-book-review",
-      "title": "The Curious Power of Punctuation",
-      "author": "Louis Menand",
-      "source": "The New Yorker",
-      "sourceId": "newyorker",
-      "date": "2026-09-21",
-      "minutes": null,
-      "summary": "Commas, dashes, semicolons, and spaces have shaped how we read for centuries. What happens when machines start crafting the sentences?",
-      "reason": "Истории письма и типографики у тебя нет; рифма к «Бледному огню» — власть запятой над чтением.",
-      "suggestedAt": "2026-09-26",
+      "summary": "Any self-respecting 18th-century encyclopedia of the arts and sciences contains an entry along the lines of this one from John Harris’s Lexicon Technicum: ‘MICROPHONES are Instruments contrived to magnifie small Sounds, as Microscopes do small Objects.’",
+      "reason": "Истории звукотехники у тебя нет, а Фишер есть: откуда взялся сам треск и шипение записи.",
+      "suggestedAt": "2026-10-03",
       "verdict": "new",
-      "image": "reads/img/54f2bdbbf4.jpg",
-      "imageUrl": "https://media.newyorker.com/photos/6aa9ac9928c6b100a4ebe04f/16:9/w_1280,c_limit/r50196.jpg"
+      "image": "reads/img/c2ea4d01a7.jpg",
+      "imageUrl": "https://www.lrb.co.uk/storage/social_image/images/9/7/7/1/31111779-1-eng-GB/b293fca83083-FDR-with-microphones.jpg"
     },
     {
-      "id": "6e683331b3",
-      "url": "https://www.theparisreview.org/blog/2026/09/21/on-derek-captain-ahabs-evil-half-brother/",
-      "title": "On “Derek,” Captain Ahab’s Evil Half Brother",
-      "author": "John Hay",
+      "id": "08f1022d97",
+      "url": "https://www.theparisreview.org/blog/2026/09/03/the-conformation-show-and-the-pursuit-of-the-ideal-dog/",
+      "title": "At the Conformation Show: Chasing the Ideal Dog",
+      "author": "Hannah Berger",
       "source": "The Paris Review",
       "sourceId": "parisreview",
-      "date": "2026-09-21",
-      "minutes": 8,
-      "summary": "Still from The Sea Beast (1926), Grosset & Dunlap photoplay edition. Public domain, courtesy of John Hay. The Sea Beast , the first film adaptation of Moby-Dick , begins with a leather-bound edition of the novel opening to page one, but the phrase “Call me Ishmael” is nowhere to ",
-      "reason": "После «Тружеников моря» — как первая экранизация «Моби Дика» выдумала Ахаву злого брата.",
-      "suggestedAt": "2026-09-26",
+      "date": "2026-09-03",
+      "minutes": 10,
+      "summary": "All photographs courtesy of Hannah Berger. The Meadow Event Park in Doswell, Virginia, lies on a few hundred acres of flat land abutted by farms and an amusement park called Kings Dominion. It’s the kind of place where animals and vegetables get sorted out. When I told a shearing",
+      "reason": "Собачьих выставок в каталоге нет вовсе, но «Ненормальные» Фуко есть: кто назначает идеал и норму.",
+      "suggestedAt": "2026-10-03",
       "verdict": "new",
-      "image": "reads/img/6e683331b3.jpg",
-      "imageUrl": "https://www.theparisreview.org/blog/wp-content/uploads/2026/09/6-grosset-derek-photo-rotated.jpg"
+      "image": "reads/img/08f1022d97.jpg",
+      "imageUrl": "https://www.theparisreview.org/blog/wp-content/uploads/2026/09/3-scaled-e1788383335696.jpg"
+    },
+    {
+      "id": "3ac9344b54",
+      "url": "https://aeon.co/essays/habermass-theory-of-truth-meant-he-changed-his-mind",
+      "title": "Reasoning together",
+      "author": "Emilie Prattico",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-25",
+      "minutes": null,
+      "summary": "Jürgen Habermas, the great defender of deliberative democracy, lived up to its demands: he never feared changing his mind - by Emilie Prattico Read on Aeon",
+      "reason": "Ты слушал лекцию Хабермаса про миф и ритуал — здесь он сам публично меняет мнение.",
+      "suggestedAt": "2026-10-03",
+      "verdict": "new",
+      "image": "reads/img/3ac9344b54.jpg",
+      "imageUrl": "https://images.aeonmedia.co/images/d19c6cf8-eddc-49ec-a4c1-4c20fb6cd93e/essay-v2-2a2b9x3.jpg?width=1200&quality=75&format=jpeg"
     }
   ],
   "saved": [
@@ -70,6 +72,36 @@
     }
   ],
   "history": [
+    {
+      "id": "c24cc5b049",
+      "title": "Laura Tunbridge: Air of Another Planet",
+      "url": "https://www.lrb.co.uk/the-paper/v48/n17/laura-tunbridge/air-of-another-planet",
+      "source": "London Review of Books",
+      "reason": "Музыкальной критики у тебя нет вовсе; после Music For Nine Post Cards — как Шёнберг переизобрёл слушание.",
+      "verdict": "unseen",
+      "at": "2026-10-03",
+      "suggestedAt": "2026-09-26"
+    },
+    {
+      "id": "54f2bdbbf4",
+      "title": "The Curious Power of Punctuation",
+      "url": "https://www.newyorker.com/magazine/2026/09/28/on-the-mark-louis-menand-book-review",
+      "source": "The New Yorker",
+      "reason": "Истории письма и типографики у тебя нет; рифма к «Бледному огню» — власть запятой над чтением.",
+      "verdict": "unseen",
+      "at": "2026-10-03",
+      "suggestedAt": "2026-09-26"
+    },
+    {
+      "id": "6e683331b3",
+      "title": "On “Derek,” Captain Ahab’s Evil Half Brother",
+      "url": "https://www.theparisreview.org/blog/2026/09/21/on-derek-captain-ahabs-evil-half-brother/",
+      "source": "The Paris Review",
+      "reason": "После «Тружеников моря» — как первая экранизация «Моби Дика» выдумала Ахаву злого брата.",
+      "verdict": "unseen",
+      "at": "2026-10-03",
+      "suggestedAt": "2026-09-26"
+    },
     {
       "id": "73632778ff",
       "title": "Liam Shaw: I just wanted to touch it",
@@ -247,6 +279,666 @@
   ],
   "cache": [
     {
+      "id": "7d102ed417",
+      "url": "https://www.astralcodexten.com/p/our-ai-midwife",
+      "title": "Our AI Midwife",
+      "author": "Scott Alexander",
+      "source": "Astral Codex Ten",
+      "sourceId": "acx",
+      "date": "2026-10-02",
+      "minutes": 7,
+      "summary": "This is a guest post by Drew Housman , whose review of Dominion earned finalist status in the 2024 ACX book review contest. If you are unsuccessful for long enough on your pregnancy journey, and none of the many doctors you see can identify a problem, you get branded with a label"
+    },
+    {
+      "id": "4660863b50",
+      "url": "https://aeon.co/essays/early-violence-is-a-bad-teacher-but-the-mind-can-learn-anew",
+      "title": "Life on a hair trigger",
+      "author": "Megan Kang",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "A world of violence sustains itself through guns, poverty and other social ills, but also through the minds it creates - by Megan Kang Read on Aeon"
+    },
+    {
+      "id": "a5fbbb7138",
+      "url": "https://psyche.co/videos/what-happens-when-a-sudanese-refugee-lets-strangers-ask-him-anything",
+      "title": "Ask me anything",
+      "author": "Psyche Video",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "As the Netherlands adopts its strictest-ever asylum policy, Abdulaal Hussein creates space for candid conversation - Directed by Wyneke van Nieuwenhuyzen Watch on Psyche"
+    },
+    {
+      "id": "49cb45cf8c",
+      "url": "https://psyche.co/notes-to-self/remembering-the-ephemera-of-my-life-gives-it-meaning",
+      "title": "Journaling to remember",
+      "author": "Anandi Mishra",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "By cataloguing the ephemera that slip between the headlines of my days, future me has a ready reckoner of my life - by Anandi Mishra Read on Psyche"
+    },
+    {
+      "id": "cebce8cc50",
+      "url": "https://www.noemamag.com/return-of-the-repressed-in-germany",
+      "title": "Return Of The Repressed In Germany",
+      "author": "Nathan Gardels",
+      "source": "Noema",
+      "sourceId": "noema",
+      "date": "2026-10-02",
+      "minutes": 12,
+      "summary": "Even if we know it is the way of history, it is nonetheless jarring to witness time and again the return of the repressed in the cultural and political life of nations. It is never over, even after the fat lady sings. The fat lady sang twice in Germany, first after Nazism was rou"
+    },
+    {
+      "id": "fe4771626a",
+      "url": "https://www.theparisreview.org/blog/2026/10/02/the-invisible-princess-faith-ringgold/",
+      "title": "On Children’s Books: Faith Ringgold’s The Invisible Princess",
+      "author": "Asha Futterman",
+      "source": "The Paris Review",
+      "sourceId": "parisreview",
+      "date": "2026-10-02",
+      "minutes": 5,
+      "summary": "The author ’ s copy of The Invisible Princess by Faith Ringgold. Courtesy of Kenyatta Tatum Futterman. My mom got my sister and me The Invisible Princess from Target, which used to have good Black children’s books. Before writing this essay, I’d forgotten most of the story—a chil"
+    },
+    {
+      "id": "cb92ff00ad",
+      "url": "https://www.quantamagazine.org/sea-monkeys-show-scientists-how-to-rewrite-a-rule-of-turbulence-20261002/",
+      "title": "Sea Monkeys Show Scientists How To Rewrite a Rule of Turbulence",
+      "author": "Stephen Ornes",
+      "source": "Quanta",
+      "sourceId": "quanta",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "In the 1960s and ’70s, colorful comic book advertisements from the Transcience Corporation in New York City promised to mail anyone who sent cash, check, or money order a “bowlfull of happiness” — in reality, a small paper envelope of freeze-dried eggs. Dropped into salt water, t"
+    },
+    {
+      "id": "8711eadb9c",
+      "url": "https://nautil.us/your-immune-system-ages-in-two-big-bursts-1285487/",
+      "title": "Your Immune System Ages in Two Big Bursts",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "Your 40s and 60s are periods of intense remodeling The post Your Immune System Ages in Two Big Bursts appeared first on Nautilus ."
+    },
+    {
+      "id": "c1b2f081d9",
+      "url": "https://nautil.us/this-spectacular-star-field-hides-brown-dwarfs-that-never-ignite-1285482/",
+      "title": "This Spectacular Star Field Hides Brown Dwarfs That Never Ignite",
+      "author": "David Nield",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "The James Webb Space Telescope does it again The post This Spectacular Star Field Hides Brown Dwarfs That Never Ignite appeared first on Nautilus ."
+    },
+    {
+      "id": "433637ac49",
+      "url": "https://nautil.us/what-goes-on-in-the-brain-when-a-good-buzz-gets-harshed-1285479/",
+      "title": "What Goes on in the Brain When a Good Buzz Gets Harshed",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "In 1974, Pfizer developed a synthetic cannabinoid that mimicked the effects of tetrahydrocannabinol (THC), but was around 40 times stronger. Unfortunately, this synthetic super weed was never marketed. Instead, it’s used to test the effects of THC on lab animals, like the mice in"
+    },
+    {
+      "id": "569ea49150",
+      "url": "https://nautil.us/this-obscure-1960s-guide-to-lsd-holds-up-1285476/",
+      "title": "This Obscure 1960s Guide to LSD Holds Up",
+      "author": "Kristen French",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "A survey of more than 500 private psychedelic users finds real utility in a 60-year-old pamphlet on safe tripping penned by a pioneer of harm reduction The post This Obscure 1960s Guide to LSD Holds Up appeared first on Nautilus ."
+    },
+    {
+      "id": "438e5c8733",
+      "url": "https://nautil.us/theres-a-new-sea-spider-in-town-1285470/",
+      "title": "There’s a New Sea Spider in Town",
+      "author": "Devin Reese",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "Just when you think sea spiders couldn’t get any more unique… The post There’s a New Sea Spider in Town appeared first on Nautilus ."
+    },
+    {
+      "id": "33ba1358ac",
+      "url": "https://nautil.us/this-newly-discovered-dinosaur-looks-terrifying-but-probably-wouldnt-eat-you-1285466/",
+      "title": "This Newly Discovered Dinosaur Looks Terrifying—But Probably Wouldn’t Eat You",
+      "author": "David Nield",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-02",
+      "minutes": null,
+      "summary": "Say hello to Kayrasaurus changliensis The post This Newly Discovered Dinosaur Looks Terrifying—But Probably Wouldn’t Eat You appeared first on Nautilus ."
+    },
+    {
+      "id": "c3171fe1f5",
+      "url": "https://aeon.co/videos/green-tree-ants-have-been-successful-for-ages-enter-the-imposters",
+      "title": "Green tree ants are famous in the tropics",
+      "author": "Aeon Video",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-10-01",
+      "minutes": null,
+      "summary": "In tropical forests ruled by aggressive ants, these species have adopted a ‘fake it till you make it’ survival strategy - by Aeon Video Watch on Aeon"
+    },
+    {
+      "id": "2d92987060",
+      "url": "https://aeon.co/essays/why-real-intelligence-is-something-more-than-optimisation",
+      "title": "Reason is more than a tool",
+      "author": "Sasha Mudd",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-10-01",
+      "minutes": null,
+      "summary": "If intelligence is merely optimisation then machines will outrun us. Kant tells us why human reason is so much more - by Sasha Mudd Read on Aeon"
+    },
+    {
+      "id": "c1216445b6",
+      "url": "https://psyche.co/ideas/why-long-brewing-physical-and-mental-breakdowns-feel-so-sudden",
+      "title": "Why long-brewing physical and mental breakdowns feel so sudden",
+      "author": "Sasi S Senga",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-10-01",
+      "minutes": null,
+      "summary": "As a neurosurgeon and a son, I’ve come to see the parallel processes underlying growing tumours and stressed-out minds - by Sasi S Senga Read on Psyche"
+    },
+    {
+      "id": "dba9e521b9",
+      "url": "https://www.noemamag.com/the-ais-are-not-going-rogue",
+      "title": "The AIs Are Not Going Rogue",
+      "author": "Ken Archer",
+      "source": "Noema",
+      "sourceId": "noema",
+      "date": "2026-10-01",
+      "minutes": 13,
+      "summary": "The incidents that more than anything else fixed the image of rogue AIs in the public mind — the Anthropic model that blackmailed an employee to prevent itself from being replaced and OpenAI’s models breaching the production systems of Hugging Face — are, perhaps counterintuitive"
+    },
+    {
+      "id": "8b752f79bb",
+      "url": "https://www.theparisreview.org/blog/2026/10/01/submitting-to-the-paris-review/",
+      "title": "Writers Whose Names You Don’t Know",
+      "author": "Owen Park",
+      "source": "The Paris Review",
+      "sourceId": "parisreview",
+      "date": "2026-10-01",
+      "minutes": 4,
+      "summary": "Illustration by Na Kim Today marks the opening of our October online-submissions period for prose and poetry. This week, we asked our assistant editor, Owen Park, to describe the journey a piece can take from the slush pile into our pages. Over the past seventy-three years, The P"
+    },
+    {
+      "id": "e504848b3d",
+      "url": "https://www.quantamagazine.org/what-does-the-fourth-dimension-actually-look-like-20261001/",
+      "title": "What Does the Fourth Dimension Actually Look Like?",
+      "author": "Janna Levin and Steven Strogatz",
+      "source": "Quanta",
+      "sourceId": "quanta",
+      "date": "2026-10-01",
+      "minutes": null,
+      "summary": "We know all about how things exist in the three dimensions of length, width, and height. Physicists often talk about time as a fourth dimension, but what if there were a fourth spatial dimension — another direction entirely? How on earth would we picture that? Mathematicians use "
+    },
+    {
+      "id": "49b5d65353",
+      "url": "https://nautil.us/dont-miss-saturn-in-all-its-glory-this-weekend-1285461/",
+      "title": "Don’t Miss Saturn in All its Glory This Weekend",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-01",
+      "minutes": null,
+      "summary": "And the Orionids later in the month The post Don’t Miss Saturn in All its Glory This Weekend appeared first on Nautilus ."
+    },
+    {
+      "id": "65f71d0871",
+      "url": "https://nautil.us/ancient-pocket-change-reveals-special-status-of-romes-little-englanders-1285457/",
+      "title": "Ancient Pocket Change Reveals Special Status of Rome’s “Little Englanders”",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-01",
+      "minutes": null,
+      "summary": "These pilgrims didn’t have to secure travel money The post Ancient Pocket Change Reveals Special Status of Rome’s “Little Englanders” appeared first on Nautilus ."
+    },
+    {
+      "id": "4f7dd3bdc5",
+      "url": "https://nautil.us/a-look-at-how-many-cancers-are-caused-by-infections-worldwide-1285454/",
+      "title": "A Look at How Many Cancers Are Caused by Infections Worldwide",
+      "author": "Jake Currie",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-01",
+      "minutes": null,
+      "summary": "Nearly one in eight cancers are caused by a pathogen The post A Look at How Many Cancers Are Caused by Infections Worldwide appeared first on Nautilus ."
+    },
+    {
+      "id": "32dbb4889a",
+      "url": "https://nautil.us/where-did-the-social-magic-go-1285451/",
+      "title": "Where Did the “Social Magic” Go?",
+      "author": "Kristen French",
+      "source": "Nautilus",
+      "sourceId": "nautilus",
+      "date": "2026-10-01",
+      "minutes": null,
+      "summary": "A conversation with an Icelandic sociologist about the paradox of connection in our digital age The post Where Did the “Social Magic” Go? appeared first on Nautilus ."
+    },
+    {
+      "id": "50011c4ede",
+      "url": "https://www.lesswrong.com/posts/7NZ6ZWjenzzCbCJ5b/frog-and-toad-and-the-increasingly-capable-machines",
+      "title": "Frog and Toad and the Increasingly Capable Machines",
+      "author": "Elizabeth",
+      "source": "LessWrong",
+      "sourceId": "lesswrong",
+      "date": "2026-09-30",
+      "minutes": null,
+      "summary": "Want to start a conversation about HuggingFace with your mom but she's inexplicably bouncing off the METR report? Try this explainer I wrote in the style of Arnold Lobel's Frog and Toad. Art by the wonderful HungerArtist If you're so inspired, liking and/or following on Substack "
+    },
+    {
+      "id": "c9f83f04fa",
+      "url": "https://aeon.co/videos/searching-for-a-local-legend-a-filmmaker-stumbles-into-a-tragicomedy",
+      "title": "Passportless mess",
+      "author": "Aeon Video",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-30",
+      "minutes": null,
+      "summary": "A fool, a genius, or ‘a man who destroys everything’? Piecing together Zoran, a mythic figure of Belgrade - by Aeon Video Watch on Aeon"
+    },
+    {
+      "id": "39407ef05e",
+      "url": "https://psyche.co/turning-points/i-am-a-full-service-grandad-where-are-the-others",
+      "title": "The full-service grandad",
+      "author": "Liam Heneghan",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-30",
+      "minutes": null,
+      "summary": "I thought I was a present father; my sons said otherwise. When my granddaughter arrived I made an offer - by Liam Heneghan Read on Psyche"
+    },
+    {
+      "id": "f41f56016b",
+      "url": "https://www.quantamagazine.org/surprisingly-complex-waves-reveal-the-brains-inner-workings-20260930/",
+      "title": "Surprisingly Complex Waves Reveal the Brain’s Inner Workings",
+      "author": "Conor Feehly",
+      "source": "Quanta",
+      "sourceId": "quanta",
+      "date": "2026-09-30",
+      "minutes": null,
+      "summary": "I get out of bed. I walk through the dimly lit hallway, thinking of what’s in my fridge and what I should have for breakfast. With no real effort, I’ve navigated my environment, accessed my memory, and assessed the energetic state of my body, all in the space of a few seconds. Ho"
+    },
+    {
+      "id": "594aa6b92c",
+      "url": "https://aeon.co/essays/we-need-a-better-way-to-describe-what-is-often-called-cancer",
+      "title": "Don’t use the ‘C-word’",
+      "author": "Matthew R Cooperberg",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-29",
+      "minutes": null,
+      "summary": "A cancer diagnosis carries with it fear and upheaval. For many patients the cellular changes do not warrant the label - by Matthew R Cooperberg Read on Aeon"
+    },
+    {
+      "id": "d78e09fbde",
+      "url": "https://psyche.co/videos/when-tech-titans-tell-us-to-adapt-or-die-we-neednt-listen",
+      "title": "The end of humanity",
+      "author": "Psyche Video",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-29",
+      "minutes": null,
+      "summary": "Instead of accepting that humanity will soon be obsolete, we can build a better future with respect for human traditions - A film by Andreas Dürr and Jan-Marc Furer Watch on Psyche"
+    },
+    {
+      "id": "9a5d307070",
+      "url": "https://psyche.co/ideas/when-you-feel-moral-disgust-whats-the-emotion-telling-you",
+      "title": "When you feel moral disgust, what’s the emotion telling you?",
+      "author": "Brandon Yip",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-29",
+      "minutes": null,
+      "summary": "Some actions and words provoke instant revulsion. To know if we can trust that gut feeling, we should probe why we have it - by Brandon Yip Read on Psyche"
+    },
+    {
+      "id": "433dbb5d61",
+      "url": "https://www.noemamag.com/noemas-ai-reading-list",
+      "title": "Noema’s AI Reading List",
+      "author": "Noema editors",
+      "source": "Noema",
+      "sourceId": "noema",
+      "date": "2026-09-29",
+      "minutes": 2,
+      "summary": "Your new favorite playlist : Listen to Noema’s AI Reading List via the sidebar player on your desktop or click here on your mobile phone. Artificial intelligence has permeated our daily discussions and most news cycles, with much of the conversation focused on growing unease over"
+    },
+    {
+      "id": "cdd77e4d22",
+      "url": "https://www.theparisreview.org/blog/2026/09/29/naked-at-last-a-conversation-with-f-keith-wahle/",
+      "title": "Naked at Last: A Conversation with F. Keith Wahle",
+      "author": "Joseph Grantham",
+      "source": "The Paris Review",
+      "sourceId": "parisreview",
+      "date": "2026-09-29",
+      "minutes": 15,
+      "summary": "Photograph courtesy of F. Keith Wahle. When the poet F. Keith Wahle was first published in The Paris Review , he was working at the Cincinnati Public Library. He’d lived in Cincinnati for almost his whole life. A conscientious objector during Vietnam, he completed his service as "
+    },
+    {
+      "id": "b8c07f85c9",
+      "url": "/2026/09/weekly-review-united-nations-security-council-ai-kenya-sales-pitch-walk-out-island-nations-flood-sea-rise-ice-concealed-ed-sheeran-the-mosquito/",
+      "title": "Weekly Review",
+      "author": "Harper’s Magazine",
+      "source": "Harper's",
+      "sourceId": "harpers",
+      "date": "2026-09-29",
+      "minutes": 3,
+      "summary": "In his address before the eighty-first session of the United Nations General Assembly, the U.S. president delineated his options in his country’s scrum with Iran. “Will a deal be made with Iran that lets them rebuild and create a far greater country than it ever was before,” he a"
+    },
+    {
+      "id": "85c7143623",
+      "url": "https://www.astralcodexten.com/p/open-thread-453",
+      "title": "Open Thread 453",
+      "author": "Scott Alexander",
+      "source": "Astral Codex Ten",
+      "sourceId": "acx",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "This is the weekly visible open thread. Post about anything you want, ask random questions, whatever. ACX has an unofficial subreddit , Discord , and bulletin board , and in-person meetups around the world . Most content is free, some is subscriber only; you can subscribe here . "
+    },
+    {
+      "id": "6dd049ea88",
+      "url": "https://aeon.co/videos/beyond-the-mind-body-divide-on-the-affective-turn-in-the-humanities",
+      "title": "Affect theory",
+      "author": "Aeon Video",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "In the mid-1990s, thinkers pushed back against the idea we’re built by language, turning to feeling and the body instead - by Aeon Video Watch on Aeon"
+    },
+    {
+      "id": "6b968c71c6",
+      "url": "https://aeon.co/essays/when-a-man-becomes-a-father-and-a-poetic-revolution-follows",
+      "title": "Paternity is poetical",
+      "author": "Daniel Swift",
+      "source": "Aeon",
+      "sourceId": "aeon",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "The notion that fatherhood and creativity are at odds is plain wrong, as both poetry and neuroscience are showing us - by Daniel Swift Read on Aeon"
+    },
+    {
+      "id": "f5094261f0",
+      "url": "https://psyche.co/portraits/he-mapped-the-learning-brain-then-came-the-hard-part",
+      "title": "Can he teach the teachers?",
+      "author": "Nancy Averett",
+      "source": "Psyche",
+      "sourceId": "psyche",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "The neuroscientist Stanislas Dehaene wants to bring four decades of findings on how the brain learns into the classroom. But evidence alone can’t overcome the politics in education - by Nancy Averett Read on Psyche"
+    },
+    {
+      "id": "e25d247f2e",
+      "url": "https://www.theparisreview.org/blog/2026/09/28/and-then-somebody-handed-me-a-story-gary-indiana-unlocked/",
+      "title": "And Then Somebody Handed Me a Story: Gary Indiana, Unlocked",
+      "author": "Natalie Shapero",
+      "source": "The Paris Review",
+      "sourceId": "parisreview",
+      "date": "2026-09-28",
+      "minutes": 2,
+      "summary": "Gary Indiana in his New York apartment, February 2002. © Sylvia Plachy. Each week, The Paris Review unlocks stories, poems, and interviews from our archive for our readers. This week, we’ve unlocked Gary Indiana’s Art of Fiction interview, selected from the archive by Natalie Sha"
+    },
+    {
+      "id": "58548fe77a",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/more-sunshine-with-joey-arias-and-basil-twist",
+      "title": "More Sunshine with Joey Arias and Basil Twist",
+      "author": "Sarah Larson",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "The performance artist and the puppeteer are reviving their avant-garde cabaret show, a leggy fantasia beloved by Cyndi Lauper and the late Paul Reubens."
+    },
+    {
+      "id": "e68875d09a",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/detecting-notes-of-citi-field",
+      "title": "Detecting Notes of . . . Citi Field?",
+      "author": "Arthur Holland Michel",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "In the parking lot outside a Mets game, the TikTok sommeliers Ryan and Chris Goydos, of SuperVinoBros, crack open a mystery wine and guess its provenance."
+    },
+    {
+      "id": "13c7bab3f9",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/cartoon-recession-indicators",
+      "title": "Cartoon Recession Indicators",
+      "author": "Ali Fitzgerald",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "Is your life savings a single moth? Are you afflicted with moola eyes? It might be a sign we’re in a downturn."
+    },
+    {
+      "id": "351c3acc97",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/hockey-dads-and-hockey-sons",
+      "title": "Hockey Dads and Hockey Sons",
+      "author": "Nick Paumgarten",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "Parenting is a practice. You learn from your mistakes and then repeat them anyway."
+    },
+    {
+      "id": "14af52f034",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/pawel-pawlikowski-profile",
+      "title": "How Paweł Pawlikowski Learned to Film Europe’s Fractures",
+      "author": "Anthony Lane",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "The Polish director has made a career out of examining the mysteries of borders, both spiritual and political."
+    },
+    {
+      "id": "64cd65d33a",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/should-i-stay-or-should-i-go",
+      "title": "At the Department of Justice, Many Lawyers Are Wondering If It’s Time to Quit",
+      "author": "Eyal Press",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "The quandary faced by government lawyers who think that the Trump Administration is subverting justice."
+    },
+    {
+      "id": "4749e61e96",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/why-doesnt-anyone-want-to-fix-one-of-americas-scariest-roads",
+      "title": "Why Doesn’t Anyone Want to Fix One of America’s Scariest Roads?",
+      "author": "Peter Hessler",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "The Million Dollar Highway, prone to rockfall and avalanches, is the site of horrific crashes and courageous rescues."
+    },
+    {
+      "id": "a900a8878c",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/cookie-monster-tries-to-meet-his-ai-mandate",
+      "title": "Cookie Monster Tries to Meet His A.I. Mandate",
+      "author": "Ysabel Yates",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "Me confused. Me know cookie inside and out! Now me has to use A.I. for cookie work?"
+    },
+    {
+      "id": "b979b4dcb6",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/your-guide-to-navigating-the-parent-group-chat",
+      "title": "Your Guide to Navigating the Parent Group Chat",
+      "author": "Liana Finck",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "From the kind and competent to the scheming and lost, meet all the characters blowing up your phone."
+    },
+    {
+      "id": "df4106de80",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/property-values-joshua-specht-book-review",
+      "title": "Why America Looks the Way It Does",
+      "author": "Daniel Immerwahr",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "From vast grids to winding suburbs, Americans have spent two centuries remaking the landscape around property."
+    },
+    {
+      "id": "7d34692b30",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/a-shadow-over-the-world-william-i-hitchcock-book-review",
+      "title": "How America Became Antifascist",
+      "author": "Beverly Gage",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "Franklin D. Roosevelt was slow to confront the threat of Fascism. A new history explores how he—and the country—finally came around."
+    },
+    {
+      "id": "1d9cc67989",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/the-radiance-cloudthief-dear-dealer-citizen-beast",
+      "title": "Briefly Noted Book Reviews",
+      "author": null,
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "“The Radiance,” “Cloudthief,” “Dear Dealer,” and “Citizen Beast.”"
+    },
+    {
+      "id": "770bf8d7e7",
+      "url": "https://www.newyorker.com/gallery/cartoons-from-the-october-5-2026-issue",
+      "title": "Slide Show: New Yorker Cartoons October 5, 2026",
+      "author": null,
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "Drawings from the October 5, 2026, magazine."
+    },
+    {
+      "id": "b4b0fd4cf9",
+      "url": "https://www.newyorker.com/puzzles-and-games-dept/crossword/2026/09/28",
+      "title": "The Crossword: Monday, September 28, 2026",
+      "author": "Will Nediger",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "A challenging puzzle."
+    },
+    {
+      "id": "36b574636d",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/letters-from-the-october-5-2026-issue",
+      "title": "Letters from Our Readers",
+      "author": null,
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "Readers respond to M. R. O’Connor’s story about smokejumpers, Kelefa Sanneh’s piece about A.I. music, Jennifer Wilson’s article about lingerie, and Anna Holmes’s home-ownership essay."
+    },
+    {
+      "id": "03379552ab",
+      "url": "https://www.quantamagazine.org/mathematicians-harness-randomness-to-crack-a-55-year-old-conjecture-20260928/",
+      "title": "Mathematicians Harness Randomness To Crack a 55-Year-Old Conjecture",
+      "author": "Shalma Wegsman",
+      "source": "Quanta",
+      "sourceId": "quanta",
+      "date": "2026-09-28",
+      "minutes": null,
+      "summary": "The late Ronald Graham wore two hats. He was a renowned mathematician, at one time president of the American Mathematical Society. He was also a serious juggler, and president of the International Jugglers’ Association. “He loved tricks,” said Fan Chung, a mathematician at the Un"
+    },
+    {
+      "id": "8983cbdc0e",
+      "url": "/2026/09/general-interest-minding-the-gap-belen-fernandez-jasmine-liu/",
+      "title": "Minding the Gap",
+      "author": "Belén Fernández",
+      "source": "Harper's",
+      "sourceId": "harpers",
+      "date": "2026-09-27",
+      "minutes": 9,
+      "summary": "Photograph courtesy Belén Fernández The Darién Gap, the more than sixty-mile strip of muddy, mountainous jungle that connects Central and South America, has remained sparsely populated for centuries. Yet some found refuge in its difficult terrain. In accounts of the colonial era,"
+    },
+    {
+      "id": "257fcfb9ce",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/the-president-vs-the-press",
+      "title": "The President vs. the Press",
+      "author": "Jelani Cobb",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "Donald Trump’s behavior cannot be called unexpected at this point. What was noteworthy last week, however, was the way that the media responded."
+    },
+    {
+      "id": "3e4b7b6773",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/narrow-escape-fiction-aleksandr-solzhenitsyn",
+      "title": "“Narrow Escape,” by Aleksandr Solzhenitsyn",
+      "author": "Aleksandr Solzhenitsyn",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "The police lieutenant appeared to be writing down exactly what Gleb was telling him, but relying upon completely different words."
+    },
+    {
+      "id": "8af041d42a",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/weeping-willow-nantucket-stephanie-burt-poem",
+      "title": "“Weeping Willow, Nantucket,” by Stephanie Burt",
+      "author": "Stephanie Burt",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "“They can’t get off the island either.”"
+    },
+    {
+      "id": "09d806e310",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/dangelo-in-starlight-ishion-hutchinson-poem",
+      "title": "“D’Angelo in Starlight,” by Ishion Hutchinson",
+      "author": "Ishion Hutchinson",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-27",
+      "minutes": null,
+      "summary": "“Good God, the devil is up to his old tricks.”"
+    },
+    {
+      "id": "ede6cce562",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/are-public-spaces-really-for-the-public",
+      "title": "Are Public Spaces Really for the Public?",
+      "author": "Parker Henry",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-26",
+      "minutes": null,
+      "summary": "A group of locals is trying to reclaim city spots for the people—including lobbying to turn vacant lots into gardens and fighting the event venue Guastavino’s over a courtyard."
+    },
+    {
       "id": "377cb066fe",
       "url": "https://www.lesswrong.com/posts/6cb7qd3RSkgnviCpf/swarm-scaling",
       "title": "Swarm Scaling",
@@ -254,7 +946,7 @@
       "source": "LessWrong",
       "sourceId": "lesswrong",
       "date": "2026-09-25",
-      "minutes": 11,
+      "minutes": 9,
       "summary": "Just how powerful are large swarms of AI agents? And how do their powers scale as more and more agents are added to the swarm? We’ve seen two large and extremely capable swarms from OpenAI in the last few months: 1,200 agents were being evaluated separately, but found a way to il"
     },
     {
@@ -278,17 +970,6 @@
       "date": "2026-09-25",
       "minutes": 9,
       "summary": "Didn’t we just do this? No, that was college effective altruist group meetups. These are the normal meetups for ineffective selfish people of all ages. So here is your regularly-scheduled message from Meetups Czar Skyler: Short version! If you’re willing to organizer an ACX Every"
-    },
-    {
-      "id": "3ac9344b54",
-      "url": "https://aeon.co/essays/habermass-theory-of-truth-meant-he-changed-his-mind",
-      "title": "Reasoning together",
-      "author": "Emilie Prattico",
-      "source": "Aeon",
-      "sourceId": "aeon",
-      "date": "2026-09-25",
-      "minutes": null,
-      "summary": "Jürgen Habermas, the great defender of deliberative democracy, lived up to its demands: he never feared changing his mind - by Emilie Prattico Read on Aeon"
     },
     {
       "id": "eb37d9e4d4",
@@ -399,6 +1080,28 @@
       "date": "2026-09-25",
       "minutes": null,
       "summary": "And what it can teach us about body size The post Behold, Crawzilla, the Not-Quite-Biggest Crayfish Ever Caught appeared first on Nautilus ."
+    },
+    {
+      "id": "be4cac38df",
+      "url": "https://www.newyorker.com/culture/goings-on/the-sublime-somi-bridges-african-and-western-jazz",
+      "title": "The Sublime Somi Bridges African and Western Jazz",
+      "author": "Sheldon Pearce, Shauna Lyon, Dan Stahl, Marina Harss, Jillian Steinhauer, Richard Brody, Ryan Gellis",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-25",
+      "minutes": null,
+      "summary": "Also: David Greenspan and Lupita Nyong’o onstage, the found-object art of Narcissister, a Hong Kong-born filmmaker’s exploration of family history, and more."
+    },
+    {
+      "id": "8941fc877e",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/primetime-movie-review",
+      "title": "The Predator Catcher Turns Predatory in “Primetime”",
+      "author": "Justin Chang",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-25",
+      "minutes": null,
+      "summary": "A dazzling, wolfish performance from Robert Pattinson anchors Lance Oppenheim’s period piece about the rise and fall of a reality-TV host."
     },
     {
       "id": "f3e443749a",
@@ -522,6 +1225,17 @@
       "summary": "Orangutans learn by watching, then trying The post How Social Learning Keeps Orangutans Fed appeared first on Nautilus ."
     },
     {
+      "id": "7478f7ff1f",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/gut-renos-of-ionesco-and-chekhov",
+      "title": "Gut Renos of Ionesco and Chekhov",
+      "author": "Emily Nussbaum",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-24",
+      "minutes": null,
+      "summary": "In “Delirium” and “The Cherry Orchard,” experimental directors smash up and rebuild classic plays."
+    },
+    {
       "id": "c90bdbe767",
       "url": "https://www.astralcodexten.com/p/hidden-open-thread-4525",
       "title": "Hidden Open Thread 452.5",
@@ -557,13 +1271,13 @@
     {
       "id": "4f13752b47",
       "url": "https://psyche.co/guides/how-to-cope-with-the-stress-of-anti-lgbtq-prejudice",
-      "title": "How to cope with the stress of anti-LGBTQ+ prejudice",
+      "title": "How to find calm and joy as a queer person",
       "author": "Kiki Fehling",
       "source": "Psyche",
       "sourceId": "psyche",
       "date": "2026-09-23",
       "minutes": null,
-      "summary": "A queer psychologist shares skills from dialectical behaviour therapy to help you cope and find joy in a stigmatising world - by Kiki Fehling Read on Psyche"
+      "summary": "A queer psychologist shares skills from dialectical behaviour therapy to help you care for yourself in a stigmatising world - by Kiki Fehling Read on Psyche"
     },
     {
       "id": "0a4f398c2a",
@@ -918,6 +1632,17 @@
       "summary": "“What debt is this whose currency is sleep?”"
     },
     {
+      "id": "2c8198a48b",
+      "url": "https://www.newyorker.com/culture/the-food-scene/ugly-baby-is-hot-but-has-a-personality-too",
+      "title": "Restaurant Review: Ugly Baby",
+      "author": "Helen Rosner",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-20",
+      "minutes": null,
+      "summary": "The beloved Brooklyn restaurant is back to serve a city in the thrall of Thai spiciness."
+    },
+    {
       "id": "15b2005c0e",
       "url": "https://www.newyorker.com/magazine/2026/09/28/whos-on-susanna-hoffs-list",
       "title": "Who’s on Susanna Hoffs’s List?",
@@ -938,6 +1663,17 @@
       "date": "2026-09-19",
       "minutes": null,
       "summary": "Did Benjamin Netanyahu’s aides peddle influence to a foreign power?"
+    },
+    {
+      "id": "a1dd92c1b6",
+      "url": "https://www.newyorker.com/magazine/2026/10/05/bass-persuades-miley-cyrus-music-review",
+      "title": "The Unknowable Miley Cyrus",
+      "author": "Amanda Petrusich",
+      "source": "The New Yorker",
+      "sourceId": "newyorker",
+      "date": "2026-09-19",
+      "minutes": null,
+      "summary": "The singer has been raunchy, folksy, psychedelic, Disney-clean. On her new album, “Bass Persuades,” she disappears onto the dance floor."
     },
     {
       "id": "939eab5cd7",
@@ -2048,7 +2784,7 @@
       "sourceId": "lrb",
       "date": "2026-09-11",
       "minutes": null,
-      "summary": "Academic life is full of churn. The world changes; younger scholars are seized by new questions and, as they hare down new paths, challenge their elders’ work or leave them behind. Those elders might read that as the decline of ‘standards’ but it really isn’t; it’s just the decli"
+      "summary": "Sociology embodied everything Oxbridge most disliked: it was new; it employed strange methods and ‘barbarous’ language; it was very much an American product. Behind the resistance lurked the fact that sociology’s subject is social institutions, practices and codes. Small wonder t"
     },
     {
       "id": "1377fdf233",
@@ -2059,7 +2795,7 @@
       "sourceId": "lrb",
       "date": "2026-09-11",
       "minutes": null,
-      "summary": "Radical change was a function of rivalry between city-states. Athens and Thebes, close neighbours, developed very different polities with different cultures, dialects and alphabets, and Athenian drama loved to use gruesome Theban myths to offer an anti-type to Athens. Religious f"
+      "summary": "Classical Athens was a polis, but so was a tiny Arcadian town such as Orchomenos. In the second century AD, the obscure hamlet of Naryka petitioned the Emperor Hadrian to agree it was a polis, offering as proof its institutions and its mythical past as the supposed birthplace of "
     },
     {
       "id": "1a82e13d18",
@@ -2161,17 +2897,6 @@
       "summary": "We are left, a third of the way through The Disappearers, with a feeling of absolute outrage, when outrage is no more than anger in the key of helplessness. Outrage leads nowhere; violence freezes time for the victim; self-hatred paralyses every other emotion. These are all probl"
     },
     {
-      "id": "c2ea4d01a7",
-      "url": "https://www.lrb.co.uk/the-paper/v48/n17/david-trotter/a-fly-s-footfall",
-      "title": "David Trotter: A Fly’s Footfall",
-      "author": null,
-      "source": "London Review of Books",
-      "sourceId": "lrb",
-      "date": "2026-09-11",
-      "minutes": null,
-      "summary": "The point about the microphone as a visual aid is a minor one. Behind it lies a more fundamental question. What does the thing exist to do? Sometimes the significance of a device becomes fully apparent only when read against the grain of the history of its technical development."
-    },
-    {
       "id": "3101cced2a",
       "url": "https://www.lrb.co.uk/the-paper/v48/n17/daniel-lee/night-and-fog",
       "title": "Daniel Lee: Night and Fog",
@@ -2180,7 +2905,7 @@
       "sourceId": "lrb",
       "date": "2026-09-11",
       "minutes": null,
-      "summary": "There are reasons to value Paris-Underground. Etta Shiber’s account of life in Nazi-occupied Paris shows a vivid domestic world seldom seen in comparable memoirs. She describes the depredations and injustices of the Occupation, not least the looting of apartments by the Nazis. Sh"
+      "summary": "Etta Shiber’s account of life in Nazi-occupied Paris shows a vivid domestic world seldom seen in comparable memoirs. She describes the depredations and injustices of the Occupation, not least the looting of apartments by the Nazis. She recounts the parting shot of one angry Frenc"
     },
     {
       "id": "b83120f5c4",
@@ -2786,17 +3511,6 @@
       "date": "2026-09-03",
       "minutes": 22,
       "summary": "We’ve long been ensorcelled by the passage of time. Puckered leaves fluttering from the spidery arms of barren trees. Grains of sand tumbling through the delicate neck of an hourglass. A curved cornice perched over a snow-covered mountain, awaiting an avalanche to bring it down. "
-    },
-    {
-      "id": "08f1022d97",
-      "url": "https://www.theparisreview.org/blog/2026/09/03/the-conformation-show-and-the-pursuit-of-the-ideal-dog/",
-      "title": "At the Conformation Show: Chasing the Ideal Dog",
-      "author": "Hannah Berger",
-      "source": "The Paris Review",
-      "sourceId": "parisreview",
-      "date": "2026-09-03",
-      "minutes": 10,
-      "summary": "All photographs courtesy of Hannah Berger. The Meadow Event Park in Doswell, Virginia, lies on a few hundred acres of flat land abutted by farms and an amusement park called Kings Dominion. It’s the kind of place where animals and vegetables get sorted out. When I told a shearing"
     },
     {
       "id": "e62205cf9e",
@@ -3712,5 +4426,5 @@
       "summary": "I propose the Long Self-Correction [1] as an alternative name/idea/concept to AI Pause and Long Reflection. Problem with AI Pause : Pause until when, and for what purpose? Presumably to make AI (that we'll build later) safer, but the deeper problem is that humans aren't safe, and"
     }
   ],
-  "fetchedAt": "2026-09-26T07:50:36"
+  "fetchedAt": "2026-10-03T07:50:09"
 }

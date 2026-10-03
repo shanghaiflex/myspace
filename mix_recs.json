@@ -3,40 +3,6 @@
   "model": "opus",
   "items": [
     {
-      "id": "sc:1089791179",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/b-c-100951059/world-of-warcraft-music-4",
-      "title": "World Of Warcraft - Music   Ambience - Duskwood",
-      "artist": "B C",
-      "duration": 3600,
-      "artwork": "https://a1.sndcdn.com/images/default_avatar_large.png",
-      "genre": null,
-      "published": "2021-07-18",
-      "reason": "Ты дослушал Grizzly Hills и держишь Teldrassil в коллекции — Duskwood из той же серии зонных ambience, но туманный и тревожный, ближе к Silent Hill 2, чем к снежным банджо.",
-      "wanted": "World of Warcraft Duskwood Music & Ambience",
-      "mood": "calm",
-      "suggestedAt": "2026-09-26",
-      "verdict": "new",
-      "played": false
-    },
-    {
-      "id": "sc:289565426",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/user-657141405/brian-eno-ambient-1-music-for-airports-full-album",
-      "title": "Brian Eno - Ambient 1 Music For Airports [Full Album]",
-      "artist": "DJJD",
-      "duration": 2919,
-      "artwork": "https://i1.sndcdn.com/artworks-000190294625-nbmcl8-t500x500.jpg",
-      "genre": null,
-      "published": "2016-10-23",
-      "reason": "То, из чего выросли твои японские эмбиент-альбомы: сорок восемь минут зависших фортепианных и хоровых петель без развития — фон, который не требует внимания ни на секунду.",
-      "wanted": "Brian Eno Ambient 1 Music For Airports Full Album",
-      "mood": "calm",
-      "suggestedAt": "2026-09-26",
-      "verdict": "new",
-      "played": false
-    },
-    {
       "id": "sc:1150662631",
       "source": "soundcloud",
       "url": "https://soundcloud.com/overmonoessentialmix/overmono-essential-mix-2021-10-29",
@@ -55,6 +21,30 @@
     }
   ],
   "history": [
+    {
+      "id": "sc:1089791179",
+      "artist": "B C",
+      "title": "World Of Warcraft - Music   Ambience - Duskwood",
+      "url": "https://soundcloud.com/b-c-100951059/world-of-warcraft-music-4",
+      "reason": "Ты дослушал Grizzly Hills и держишь Teldrassil в коллекции — Duskwood из той же серии зонных ambience, но туманный и тревожный, ближе к Silent Hill 2, чем к снежным банджо.",
+      "mood": "calm",
+      "verdict": "unseen",
+      "played": false,
+      "at": "2026-10-03",
+      "suggestedAt": "2026-09-26"
+    },
+    {
+      "id": "sc:289565426",
+      "artist": "DJJD",
+      "title": "Brian Eno - Ambient 1 Music For Airports [Full Album]",
+      "url": "https://soundcloud.com/user-657141405/brian-eno-ambient-1-music-for-airports-full-album",
+      "reason": "То, из чего выросли твои японские эмбиент-альбомы: сорок восемь минут зависших фортепианных и хоровых петель без развития — фон, который не требует внимания ни на секунду.",
+      "mood": "calm",
+      "verdict": "unseen",
+      "played": false,
+      "at": "2026-10-03",
+      "suggestedAt": "2026-09-26"
+    },
     {
       "id": "sc:2361095267",
       "artist": "Rinse FM",
