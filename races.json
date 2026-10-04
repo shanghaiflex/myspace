@@ -1,7 +1,7 @@
 {
   "updatedAt": "2026-09-30T09:35:03",
   "model": "opus",
-  "fetchedAt": "2026-09-30T09:25:43",
+  "fetchedAt": "2026-10-04T16:06:28",
   "items": [
     {
       "id": "4b8685704b",
@@ -290,6 +290,21 @@
       "distances": "17 км, 28 км, 45 км, 8 км",
       "url": "https://marathonec.ru/october-trail/",
       "evidence": "04/10/2026 Октобер Трейл"
+    },
+    {
+      "id": "c7c3e2baf8",
+      "series": "taigatrail",
+      "seriesName": "Taiga Trail",
+      "name": "Октобер Трейл",
+      "date": "2026-10-04",
+      "dateEnd": null,
+      "place": "Караканский бор, Новосибирская область",
+      "sports": [
+        "trail"
+      ],
+      "distances": "~9, ~17, ~28, ~45 км",
+      "url": "https://taigatrail.run/octobertrail",
+      "evidence": "4 октября 2026"
     },
     {
       "id": "d53e272e4a",
@@ -4100,6 +4115,21 @@
       "size": null
     },
     {
+      "id": "e22280a274",
+      "series": "altaitrail",
+      "seriesName": "Altai Ultra-Trail",
+      "name": "Winter Altai Ultra-Trail",
+      "date": "2027-02-25",
+      "dateEnd": "2027-02-27",
+      "place": "Горный Алтай",
+      "sports": [
+        "trail"
+      ],
+      "distances": "25, 41, 19, 38, 81 км",
+      "url": "https://altai-trail.ru/waut/",
+      "evidence": "25-27 февраля 2027"
+    },
+    {
       "id": "bf6f1095ae",
       "series": "russialoppet",
       "seriesName": "Russialoppet",
@@ -5552,6 +5582,21 @@
       "evidence": "Кубок ФВВСР 2027 1-й этап 20 Июня Иваново"
     },
     {
+      "id": "3f5335f260",
+      "series": "altaitrail",
+      "seriesName": "Altai Ultra-Trail",
+      "name": "Altai Ultra-Trail",
+      "date": "2027-06-25",
+      "dateEnd": "2027-06-27",
+      "place": "Горный Алтай",
+      "sports": [
+        "trail"
+      ],
+      "distances": "14, 36, 46, 78, 124, 166 км",
+      "url": "https://altai-trail.ru/aut/",
+      "evidence": "25-27 июня 2027"
+    },
+    {
       "id": "f02d6381f8",
       "series": "wildtrail",
       "seriesName": "Wild Trail",
@@ -6775,6 +6820,20 @@
       "extractedHash": "85a56f50bfc5",
       "events": 89,
       "triedAt": "2026-09-29T12:29:20"
+    },
+    "altaitrail": {
+      "fetchedAt": "2026-10-04T16:06:28",
+      "hash": "52c802611bce",
+      "chars": 18000,
+      "extractedHash": "52c802611bce",
+      "events": 2
+    },
+    "taigatrail": {
+      "fetchedAt": "2026-10-04T16:06:28",
+      "hash": "6b1577333cba",
+      "chars": 3518,
+      "extractedHash": "6b1577333cba",
+      "events": 1
     }
   }
 }

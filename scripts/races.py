@@ -582,7 +582,9 @@ def far(e):
 
 
 def kms(text):
-    return [float(x.replace(",", ".")) for x in re.findall(r"(\d+(?:[.,]\d+)?)\s*(?:–\s*\d+\s*)?км", text or "")]
+    """Все дистанции в км: «14, 36, 46 км» — это три, а не одна; набор («+600 м») и метры («2500 м») не в счёт."""
+    t = re.sub(r"\+\s*\d+\s*м\b|\(\s*\+[^)]*\)", " ", text or "")
+    return [float(x.replace(",", ".")) for x in re.findall(r"(?<![\d.,])(\d+(?:[.,]\d+)?)(?!\s*м\b)(?!\d|[.,]\d)", t)]
 
 
 def trip_ok(e):
