@@ -48,6 +48,15 @@ PAGE_CHARS = 18000      # столько текста страницы уход�
 BATCH_CHARS = 70000     # столько за один вызов модели (см. pending_pages)
 HISTORY_MAX = 200
 UNSEEN_COOLDOWN = 45    # не увиденный совет может вернуться через столько дней
+# Дальняя поездка (Алтай, Кавказ, Карелия…) — изредка и одна: её планируют за полгода, поэтому горизонт
+# длиннее, но в списке она живёт не чаще одной на TRIP_GAP_DAYS (просьба пользователя 04.10.2026).
+TRIP_AHEAD_DAYS = 330   # до конца следующего лета: горный сезон — июнь–август
+TRIP_GAP_DAYS = 21
+TRIP_MAX_DAYS = 3       # фестиваль длиннее — не «съездить на выходные с перелётом», а отпуск (Большая Чуйская тропа)
+TRIP_MAX_KM = 25        # у бегового старта в дальней поездке должна быть дистанция не длиннее (14 км AUT-XS — да)
+FAR = re.compile(r"(?i)алта|манжерок|белокурих|телецк|чемал|байкал|бурят|карел|кавказ|эльбрус|приэльбрус|архыз|"
+                 r"домбай|кабардин|адыге|красная поляна|роза хутор|сочи|крым|бахчисара|урал|хибин|кольск|мурманск|"
+                 r"камчат|сахалин|шерегеш|кузбасс|алтай|иссык|сибир|хакас|тыва|ергаки|дагестан|осети")
 
 SPORT_RU = {"trail": "трейл", "run": "бег", "ski": "лыжи", "swim": "открытая вода", "tri": "триатлон",
             "bike": "велосипед"}
@@ -195,6 +204,13 @@ SERIES = [
     {"id": "granfondo", "name": "Gran Fondo Russia", "sports": ["bike"], "url": "https://www.granfondo.ru/"},
     {"id": "cyclingrace", "name": "CyclingRace", "sports": ["bike"], "url": "https://cyclingrace.ru/",
      "place": "Москва"},
+    {"id": "altaitrail", "name": "Altai Ultra-Trail", "sports": ["trail"], "url": "https://altai-trail.ru/",
+     "place": "Республика Алтай",
+     "hint": "в меню «Календарь <год>» — все старты команды AUT с датами; у самого AUT дистанции XS 14 км +600 м … XXL "
+             "166 км; кэмпы (AUT Camp, Issyk-Kul Camp, Ноябрьская Катунь) — не старты, пропускай"},
+    {"id": "taigatrail", "name": "Taiga Trail", "sports": ["trail"], "url": "https://taigatrail.run/",
+     "hint": "серия сибирских трейлов команды Altai Ultra-Trail: Манжерок, Шерегеш, Белокуриха, Барангол, Новосибирск; "
+             "у каждого старта дата, место и дистанции с набором (D+) — набор пиши в distances"},
     {"id": "russiarunning", "name": "RussiaRunning", "sports": ["run", "trail"], "chars": 60000,
      "url": "https://reg.russiarunning.com/", "fetch": russiarunning, "structured": True},
     {"id": "probeg", "name": "ПроБЕГ, Центр", "sports": ["run", "trail"], "chars": 30000,
@@ -495,7 +511,7 @@ def prune(db):
 # ---------------------------------------------------------------- советы
 def history_entry(r):
     return {"id": r["id"], "title": r.get("title"), "date": r.get("date"), "series": r.get("series"),
-            "sports": r.get("sports"), "reason": r.get("reason"), "note": r.get("note"), "verdict": r.get("verdict") or "new",
+            "sports": r.get("sports"), "far": r.get("far"), "reason": r.get("reason"), "note": r.get("note"), "verdict": r.get("verdict") or "new",
             "at": r.get("decidedAt") or r.get("suggestedAt") or today().isoformat(), "suggestedAt": r.get("suggestedAt")}
 
 
@@ -560,10 +576,49 @@ def indoor(e):
     return int(e["date"][5:7]) in (11, 12, 1, 2, 3, 4) and not warm and not ice
 
 
+def far(e):
+    """Старт, ради которого летят: регион из FAR в месте или названии."""
+    return bool(FAR.search(f"{e['name']} {e.get('place') or ''} {e.get('seriesName') or ''}"))
+
+
+def kms(text):
+    return [float(x.replace(",", ".")) for x in re.findall(r"(\d+(?:[.,]\d+)?)\s*(?:–\s*\d+\s*)?км", text or "")]
+
+
+def trip_ok(e):
+    """Дальняя поездка, которую можно сделать: не дольше TRIP_MAX_DAYS и с посильной дистанцией.
+    Дистанции не указаны — решает модель по правилам промпта."""
+    if e.get("dateEnd") and (datetime.date.fromisoformat(e["dateEnd"]) - datetime.date.fromisoformat(e["date"])).days >= TRIP_MAX_DAYS:
+        return False
+    if {"trail", "run"} & set(e["sports"]):
+        d = [k for k in kms(e.get("distances")) if k >= 5]
+        return not d or min(d) <= TRIP_MAX_KM
+    return True
+
+
+def trip_slot(db):
+    """Можно ли сейчас советовать дальнюю поездку: живой нет и прошлая была не раньше TRIP_GAP_DAYS назад."""
+    if any(r.get("far") for r in db["items"]):
+        return False
+    last = [h.get("suggestedAt") for h in db["history"] if h.get("far") and h.get("suggestedAt")]
+    return not last or age_days(max(last)) >= TRIP_GAP_DAYS
+
+
 def candidates(db):
     ex = excluded(db)
     ex |= {e["id"] for e in db["events"] if indoor(e)}
-    return dedupe([e for e in db["events"] if e["id"] not in ex and LEAD_DAYS <= days_to(e["date"]) <= AHEAD_DAYS])
+    slot = trip_slot(db)
+    out = []
+    for e in db["events"]:
+        if e["id"] in ex or days_to(e["date"]) < LEAD_DAYS:
+            continue
+        if far(e):
+            # дальнее — только когда свободно место поездки, зато на горизонт до TRIP_AHEAD_DAYS
+            if slot and trip_ok(e) and days_to(e["date"]) <= TRIP_AHEAD_DAYS:
+                out.append(e)
+        elif days_to(e["date"]) <= AHEAD_DAYS:
+            out.append(e)
+    return dedupe(out)
 
 
 def when(e):
@@ -667,6 +722,8 @@ def digest():
             line += f" · дистанции: {e['distances']}"
         if e["series"] not in AGGREGATORS:
             line += " · ИЗВЕСТНАЯ СЕРИЯ"
+        if far(e):
+            line += " · ДАЛЬНЯЯ ПОЕЗДКА"
         elif e.get("size"):
             line += f" · {e['size']}"
         clash = [x for d in {e["date"], e.get("dateEnd") or e["date"]} for x in busy.get(d, [])]
@@ -675,6 +732,8 @@ def digest():
         out.append(line)
     if not cands:
         out.append("(кандидатов нет)")
+    if not trip_slot(db):
+        out.append("\nДальнюю поездку в этот раз не советуй: одна уже висит или была недавно.")
     return "\n".join(out)
 
 
@@ -701,9 +760,13 @@ def apply_answer(text, model=None, keep=3):
         e = cands[n - 1]
         if any(i["id"] == e["id"] for i in items):
             continue
+        if far(e) and (any(i.get("far") for i in items) or any(r.get("far") for r in live)):
+            print(f"  вторая дальняя поездка за раз — пропускаю: {e['name']}")
+            continue
         r = dict(e, title=title(e),
                  distance=(c.get("distance") or "").strip() or None, trip=(c.get("trip") or "").strip() or None,
-                 reason=(c.get("why") or "").strip() or None, suggestedAt=today().isoformat(), verdict="new")
+                 reason=(c.get("why") or "").strip() or None, suggestedAt=today().isoformat(), verdict="new",
+                 far=far(e))
         r["meta"] = meta(r)
         items.append(r)
         print(f"  + {when(r)} {r['title']}")

@@ -682,7 +682,8 @@ played (position/playedAt) + verdicts on earlier advice; `mixes/PROMPT.md` asks 
 (`/search/tracks`, ≥20 min, the asked-for artist must really be in the track, nothing already known) and
 keeps the first 3 rhythmic + 2 calm in `mix_recs.json` (`items` + `history`) — two quotas (`--keep`,
 `--keep-calm`), because with one list the rhythmic ones eat the whole batch and mornings stay empty.
-The calm half is a separate brief in the prompt (ambient, drone, modern classical, quiet jazz, game
+One of the 5 rhythmic slots is UK grime / early-slowthai territory (Rinse/NTS grime shows, Logan Sama, Sir
+Spyro, Slackk, MC sets; user request 04.10.2026) — a rule in `mixes/PROMPT.md`, no code. The calm half is a separate brief in the prompt (ambient, drone, modern classical, quiet jazz, game
 soundtracks — no dance pulse), and the digest shows the model what `calm` mixes already are in the
 collection. «Нравится» on a calm suggestion adds it with tags `claude-rec` + `calm`. The mixes page shows them as «Советует Claude»
 cards (Послушать / Нравится / Не то) and the home page uses the top one as «Микс на сегодня».
@@ -898,6 +899,14 @@ CyclingRace — и три агрегатора: RussiaRunning (JSON `POST reg.ru
 `load.py` узнаёт старт и вид спорта, — дальше заметка о здоровье сама знает о нём. Совет висит `ITEM_DAYS` = 21
 и снимается за `LEAD_DAYS` = 10 до старта; не увиденный может вернуться через 45 дней. Страницы перечитываются
 раз в `PAGE_EVERY_DAYS` = 6; тексты лежат в `data/races/` (данные машины).
+
+**Дальняя поездка — изредка** (04.10.2026, просьба пользователя: «интереснее, но посильно, можно лететь, но
+недолго»). Старт в регионе из `FAR` (Алтай, Кавказ, Карелия, Байкал, Крым, Урал, Мурманск…) идёт в кандидаты
+с горизонтом `TRIP_AHEAD_DAYS` = 330 (обычные — 90), но только когда место поездки свободно (`trip_slot`): живой
+дальний совет один, следующий — не раньше `TRIP_GAP_DAYS` = 21 после прошлого, и `apply` не берёт два за раз.
+Посильность режет код (`trip_ok`): фестиваль не дольше `TRIP_MAX_DAYS` = 3, у бега/трейла есть дистанция до
+`TRIP_MAX_KM` = 25 км; остальное (набор до ~1000 м, 3–4 дня с перелётом) — правило `PROMPT.md`. Ради Алтая
+добавлены серии `altaitrail` (altai-trail.ru: AUT, XS 14 км +600 м) и `taigatrail` (Манжерок, Шерегеш).
 
 Не работают и поэтому не в списке: Московский марафон, L'Étape, Казанский марафон (не отвечают зарубежным IP),
 Титан (календарь с 2025-го не обновлялся). С mini российские хостинги на финский выход VPN через раз молчат —

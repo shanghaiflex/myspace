@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-30T10:00:43",
+  "updatedAt": "2026-10-04T07:23:12",
   "model": "opus",
   "items": [
     {
@@ -18,6 +18,74 @@
       "suggestedAt": "2026-09-30",
       "verdict": "new",
       "played": true
+    },
+    {
+      "id": "sc:983381488",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/crystallmess/unleashed-vii-crystallmess-nts-ryuichi-sakamoto-special",
+      "title": "UNLEASHED VII | CRYSTALLMESS | RYUICHI SAKAMOTO SPECIAL | NTS",
+      "artist": "crystallmess",
+      "duration": 3586,
+      "artwork": "https://i1.sndcdn.com/artworks-maeB6Uf6rLRRF5fh-ljRtvQ-t500x500.jpg",
+      "genre": "Soundtrack",
+      "published": "2021-02-11",
+      "reason": "Ты залайкал Coucou Chloe и сидишь часами в United In Flames с Malibu — Crystallmess из той же парижской компании, но строит час на логоби-перкуссии и обрывках голосов, без сухого индастриала, на котором ты выключил Slap City.",
+      "wanted": "Crystallmess NTS",
+      "mood": "rhythmic",
+      "suggestedAt": "2026-10-03",
+      "verdict": "new",
+      "played": true
+    },
+    {
+      "id": "sc:80338782",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/kodenine/kode9-b2b-loefah-rinse-fm-2008",
+      "title": "Kode9 B2B Loefah @ Rinse FM (2008)",
+      "artist": "kodenine",
+      "duration": 6240,
+      "artwork": "https://i1.sndcdn.com/avatars-HT7fd6gbgFO8UmBt-XYA2gA-t500x500.jpg",
+      "genre": "Dubstep",
+      "published": "2013-02-22",
+      "reason": "Kidmancast ты слушаешь от первого эпизода до тридцать первого, включая дабстеп-флэшбэк и бонус с Burial — это радиошоу человека, который Burial и выпустил: тот же тяжёлый сабовый дым, только шире по биту.",
+      "wanted": "Kode9 Rinse FM",
+      "mood": "rhythmic",
+      "suggestedAt": "2026-10-03",
+      "verdict": "new",
+      "played": false
+    },
+    {
+      "id": "sc:368410730",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/rafipandito/hiroshi-yoshimura-green-1986",
+      "title": "Hiroshi Yoshimura - Green [1986] [Full Album]",
+      "artist": "Pandito Rafi",
+      "duration": 2759,
+      "artwork": "https://i1.sndcdn.com/artworks-000268651511-sxpkhx-t500x500.jpg",
+      "genre": "Ambient",
+      "published": "2017-12-12",
+      "reason": "Ты залайкал Music For Nine Post Cards — это его следующий альбом, те же редкие ноты электропиано плюс птицы и вода, ровно тот уровень «забыть, что играет», что нужен под чтение.",
+      "wanted": "Hiroshi Yoshimura Green Full Album",
+      "mood": "calm",
+      "suggestedAt": "2026-10-03",
+      "verdict": "new",
+      "played": false
+    },
+    {
+      "id": "sc:11851839",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/syuzhet/stars-of-the-lid-and-their",
+      "title": "Stars of the Lid sped up - And Their Refinement of the Decline @ x5 speed",
+      "artist": "Syuzhet",
+      "duration": 1455,
+      "artwork": "https://i1.sndcdn.com/avatars-000002672063-2gwqvy-t500x500.jpg",
+      "genre": "Ambient",
+      "published": "2011-03-12",
+      "reason": "Если ржавый гул Silent Hill 2 тебе по утрам подходит, то это его светлая версия: дрон из смычковых и труб, растянутый на два часа, без ритма и без единого вокала.",
+      "wanted": "Stars of the Lid And Their Refinement of the Decline Full Album",
+      "mood": "calm",
+      "suggestedAt": "2026-10-04",
+      "verdict": "new",
+      "played": false
     }
   ],
   "history": [

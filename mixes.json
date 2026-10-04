@@ -31,8 +31,8 @@
       "claude-rec"
     ],
     "addedAt": "2026-09-25",
-    "position": 380,
-    "playedAt": 1790402848
+    "position": 3613,
+    "playedAt": 1791010554
   },
   {
     "id": "sc:1436580268",
@@ -50,7 +50,7 @@
     ],
     "addedAt": "2026-09-23",
     "position": 0,
-    "playedAt": 1790141178
+    "playedAt": 1791093783
   },
   {
     "id": "mc:kidmancast_kidmancast-pt29-bass-music-podcast",
@@ -279,7 +279,9 @@
     "tags": [
       "kidmancast"
     ],
-    "addedAt": "2026-09-23"
+    "addedAt": "2026-09-23",
+    "position": 515,
+    "playedAt": 1791119165
   },
   {
     "id": "mc:kidmancast_kidmancast-17-the-future-bonus-burial-tracks",
@@ -341,7 +343,9 @@
     "tags": [
       "kidmancast"
     ],
-    "addedAt": "2026-09-23"
+    "addedAt": "2026-09-23",
+    "position": 0,
+    "playedAt": 1791098596
   },
   {
     "id": "mc:kidmancast_kidmancast-pt11-future-garage",
@@ -448,7 +452,9 @@
     "tags": [
       "kidmancast"
     ],
-    "addedAt": "2026-09-23"
+    "addedAt": "2026-09-23",
+    "position": 1381,
+    "playedAt": 1791011938
   },
   {
     "id": "yt:KyDiWuYwPUY",

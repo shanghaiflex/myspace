@@ -20,6 +20,16 @@
   пока не повторяй, остальные можно. «Включал, но не ответил» — слабый сигнал: попробовал, не зацепило
   настолько, чтобы нажать кнопку.
 - Ритмичные: 3–4 близко к моему вкусу, 1–2 — соседняя территория, чтобы расширять, но не наугад.
+- **UK grime и всё вокруг раннего slowthai — отдельная линия ритмичного** (просьба 04.10.2026): хотя бы
+  один из пяти ритмичных — оттуда. Это грязный, злой британский рэп поверх грайм-битов на 140, а не
+  американский хип-хоп и не дрилл: радиосеты и шоу Rinse FM, NTS, Boiler Room, Just Jam, Keepin' It Grimey
+  (Logan Sama, Slimzee, Sir Spyro, Slackk, Mumdance, Plastician, Spooky, Elijah & Skilliam / Butterz, Joe
+  Muggs), MC-клэши и live-сеты (Skepta, JME, Wiley, Novelist, Jammer, D Double E, Ghetts, Lethal Bizzle),
+  и новая волна рядом со slowthai времён «Nothing Great About Britain» — Kwes Darko, Jords, Novelist,
+  Bad Gyal Jade, Lancey Foux. Только длинное (сет, шоу, эпизод), как и всё остальное; `artist` — имя
+  диджея/MC/шоу так, как оно стоит в названии на SoundCloud. Ориентируйся по вердиктам: если такое
+  уходит в «не то», сдвигайся к соседнему (UK garage, bassline, Kidmancast-овский future garage), а не
+  держи грайм силой.
 - Спокойные (`calm`) — отдельная задача, а не «то же самое, но тише». Под них: эмбиент, дроун,
   современная классика, спокойный джаз, field recordings, medieval/game soundtracks, downtempo без бита.
   Никакого ровного танцевального пульса, никаких дропов и вокальных хуков — под это надо читать, то есть
