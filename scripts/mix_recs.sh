@@ -13,6 +13,9 @@ MODEL="${MIX_RECS_MODEL:-opus}"
 WORK="${MIX_RECS_WORKDIR:-$HOME/.mix-recs}"; mkdir -p "$WORK"
 STAMP=$(date '+%F %T')
 
+# Любимые резидентуры NTS — без модели и без ожидания суток: место освободилось — приехал следующий выпуск.
+python3 scripts/mix_recs.py shows || true
+
 if [ "$1" != "--force" ]; then
   python3 scripts/mix_recs.py due > "$WORK/due.txt" || { echo "$STAMP skip: $(cat "$WORK/due.txt")"; exit 0; }
 fi

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-30T09:35:03",
+  "updatedAt": "2026-10-04T16:21:28",
   "model": "opus",
   "fetchedAt": "2026-10-04T16:06:28",
   "items": [
@@ -70,6 +70,29 @@
       "suggestedAt": "2026-09-30",
       "verdict": "new",
       "meta": "1 ноября · Белек, Турция · поездка на 3–4 дня"
+    },
+    {
+      "id": "b11dac2235",
+      "series": "xwaters",
+      "seriesName": "X-WATERS",
+      "name": "X-WATERS Урал 2027",
+      "date": "2027-07-09",
+      "dateEnd": "2027-07-11",
+      "place": "Урал",
+      "sports": [
+        "swim"
+      ],
+      "distances": null,
+      "url": "https://x-waters.com/events/ural/",
+      "evidence": "9-11 июля 2027 X-WATERS Урал 2027",
+      "title": "X-WATERS Урал 2027",
+      "distance": null,
+      "trip": "перелёт на Урал, 3–4 дня",
+      "reason": "Открытая вода на Урале вместо бассейна, серия уровня твоих SwimCup. Плавание — узкое место: последний заплыв 2 августа. Полина стартует в X-Waters — повод вдвоём.",
+      "suggestedAt": "2026-10-04",
+      "verdict": "new",
+      "far": true,
+      "meta": "9–11 июля 2027 · Урал · перелёт на Урал, 3–4 дня"
     }
   ],
   "history": [

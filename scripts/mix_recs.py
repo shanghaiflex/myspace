@@ -9,11 +9,12 @@ Usage:
   mix_recs.py apply --file answer.json [--model opus] [--keep 3] [--keep-calm 2]
   mix_recs.py verdict <id> liked|dismissed|played
   mix_recs.py list
+  mix_recs.py shows                      # досыпать выпуск любимой резидентуры NTS (SHOWS), если места нет
 
 The job runs daily on the mini (scripts/mix_recs.sh from launchd, deploy/install-mix-recs.sh)
 and on demand from POST /api/mix-recs/refresh.
 """
-import argparse, datetime, json, os, re, sys
+import argparse, datetime, json, os, random, re, sys, urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "mix_recs.json")
@@ -34,6 +35,11 @@ EVERY_HOURS = 20  # a daily job that may fire late (the mini sleeps) should not 
 ITEM_DAYS = 7
 UNSEEN_COOLDOWN = 21
 ANSWERED = ("liked", "dismissed")
+# Любимые резидентуры NTS (04.10.2026, просьба пользователя «давай советы от неё»): выпуск Coucou Chloé
+# с Brat Star дослушан до конца. Отсюда всегда висит один выпуск — сверх квот модели, а не вместо них, —
+# и после ответа или ITEM_DAYS приезжает следующий. Выбор случайный: в архиве 36 выпусков 2016–2020.
+SHOWS = [{"slug": "coucou-chloé", "name": "Coucou Chloé",
+          "why": "Из её резидентуры на NTS — выпуск с Brat Star ты дослушал до конца"}]
 
 
 def today():
@@ -251,7 +257,7 @@ def apply_answer(text, model=None, keep=3, keep_calm=2):
     reconcile(db, mixes)
     live = expire(db)
     exclude = known_ids(db, mixes)
-    need = {"rhythmic": max(0, keep - sum(1 for r in live if not is_calm(r))),
+    need = {"rhythmic": max(0, keep - sum(1 for r in live if not is_calm(r) and not r.get("show"))),
             "calm": max(0, keep_calm - sum(1 for r in live if is_calm(r)))}
     if sum(need.values()) <= 0:
         save(db)
@@ -288,7 +294,7 @@ def apply_answer(text, model=None, keep=3, keep_calm=2):
 
 def history_entry(r):
     return {"id": r["id"], "artist": r.get("artist"), "title": r.get("title"), "url": r.get("url"),
-            "reason": r.get("reason"), "mood": r.get("mood") or "rhythmic", "verdict": r.get("verdict") or "new", "played": bool(r.get("played")),
+            "reason": r.get("reason"), "mood": r.get("mood") or "rhythmic", "show": r.get("show"), "nts": r.get("nts"), "verdict": r.get("verdict") or "new", "played": bool(r.get("played")),
             "at": r.get("decidedAt") or r.get("suggestedAt") or today(), "suggestedAt": r.get("suggestedAt")}
 
 
@@ -326,7 +332,7 @@ def due(keep=3, keep_calm=2):
     db = load()
     live = expire(db)
     save(db)
-    free = max(0, keep - sum(1 for r in live if not is_calm(r))) + max(0, keep_calm - sum(1 for r in live if is_calm(r)))
+    free = max(0, keep - sum(1 for r in live if not is_calm(r) and not r.get("show"))) + max(0, keep_calm - sum(1 for r in live if is_calm(r)))
     if not db["items"]:
         return True, "no suggestions yet"
     if not free:
@@ -343,6 +349,64 @@ def due(keep=3, keep_calm=2):
     return False, f"last run {hours:.1f}h ago, next in {EVERY_HOURS - hours:.1f}h"
 
 
+# ---------------------------------------------------------------- резидентуры NTS
+def show_episodes(slug):
+    out, offset = [], 0
+    while True:
+        d = X.get_json(f"https://www.nts.live/api/v2/shows/{urllib.parse.quote(slug)}/episodes?offset={offset}&limit=12")
+        out += d.get("results") or []
+        offset += 12
+        if offset >= ((d.get("metadata") or {}).get("resultset") or {}).get("count", 0):
+            return out
+
+
+def fill_shows(verbose=True):
+    """Каждой резидентуре из SHOWS — один живой совет. Выпуск, уже взятый в коллекцию (по ссылке NTS или,
+    как перезалитый чужим аккаунтом, по гостю в названии), и всё, что уже советовали, не повторяется."""
+    db = load()
+    mixes = X.load()
+    reconcile(db, mixes)
+    live = expire(db)
+    seen = {m.get("nts") for m in mixes} | {r.get("nts") for r in live} | {h.get("nts") for h in db["history"]}
+    titles = [" ".join(_words(m.get("title"))) for m in mixes]
+    exclude = known_ids(db, mixes)
+    added = []
+    for sh in SHOWS:
+        if any(r.get("show") == sh["slug"] for r in live):
+            continue
+        try:
+            eps = show_episodes(sh["slug"])
+        except Exception as e:
+            print(f"  {sh['name']}: NTS не ответил ({type(e).__name__}: {e})", file=sys.stderr)
+            continue
+        random.shuffle(eps)
+        host = _words(sh["name"])[0]
+        for e in eps[:6]:
+            url = f"https://www.nts.live/shows/{sh['slug']}/episodes/{e['episode_alias']}"
+            g = re.search(r"(?i)(?:invites|w/|&)\s*:?\s*(.+)", e.get("name") or "")
+            guest = " ".join(_words(g.group(1))) if g else ""
+            if url in seen or (guest and any(host in t and guest in t for t in titles)):
+                continue
+            try:
+                m = X.resolve_nts(url)
+            except (Exception, SystemExit) as err:
+                print(f"  {sh['name']}: {e['episode_alias']} не разрешился ({err})", file=sys.stderr)
+                continue
+            if m["id"] in exclude:
+                continue
+            when = (e.get("broadcast") or "")[:7]
+            m.update(reason=f"{sh['why']}. Этот — «{e.get('name')}», {when}.", wanted=url, mood="rhythmic",
+                     show=sh["slug"], suggestedAt=today(), verdict="new", played=False)
+            added.append(m)
+            if verbose:
+                print(f"  + [{sh['name']}] {m['title']} ({fmt_dur(m['duration'])})")
+            break
+    if added:
+        db["items"] = live + added
+    save(db)
+    return added
+
+
 # ---------------------------------------------------------------- cli
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -350,6 +414,7 @@ def main():
     sub.add_parser("digest")
     sub.add_parser("due")
     sub.add_parser("list")
+    sub.add_parser("shows")
     a = sub.add_parser("apply")
     a.add_argument("--file", required=True, help="the model answer (JSON array), - for stdin")
     a.add_argument("--model")
@@ -373,6 +438,8 @@ def main():
     elif args.cmd == "verdict":
         r = verdict(args.id, args.verdict)
         print(f"{args.id}: {args.verdict}" + (" (added to the collection)" if r["mix"] else ""))
+    elif args.cmd == "shows":
+        print(f"{len(fill_shows())} выпусков резидентур добавлено")
     elif args.cmd == "list":
         db = load()
         print(f"updated {db.get('updatedAt')} ({db.get('model')})")

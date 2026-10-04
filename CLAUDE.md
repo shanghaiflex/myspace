@@ -682,6 +682,11 @@ played (position/playedAt) + verdicts on earlier advice; `mixes/PROMPT.md` asks 
 (`/search/tracks`, ≥20 min, the asked-for artist must really be in the track, nothing already known) and
 keeps the first 3 rhythmic + 2 calm in `mix_recs.json` (`items` + `history`) — two quotas (`--keep`,
 `--keep-calm`), because with one list the rhythmic ones eat the whole batch and mornings stay empty.
+**Любимые резидентуры NTS** (`SHOWS` в `mix_recs.py`, 04.10.2026): сейчас одна — Coucou Chloé (36 выпусков
+2016–2020, почти все на Mixcloud). От неё всегда висит один случайный выпуск сверх квот модели (`show` в
+записи, квоты его не считают); ответил или прошла неделя — `mix_recs.py shows` (первой строкой `mix_recs.sh`,
+без модели) кладёт следующий. Выпуск, уже лежащий в коллекции перезаливом с чужого аккаунта, узнаётся по
+гостю в названии («invites: Brat Star»). Новую резидентуру — строкой в `SHOWS` (слаг из nts.live/shows/<слаг>).
 One of the 5 rhythmic slots is UK grime / early-slowthai territory (Rinse/NTS grime shows, Logan Sama, Sir
 Spyro, Slackk, MC sets; user request 04.10.2026) — a rule in `mixes/PROMPT.md`, no code. The calm half is a separate brief in the prompt (ambient, drone, modern classical, quiet jazz, game
 soundtracks — no dance pulse), and the digest shows the model what `calm` mixes already are in the

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-04T07:23:12",
+  "updatedAt": "2026-10-04T16:16:16",
   "model": "opus",
   "items": [
     {
@@ -89,6 +89,18 @@
     }
   ],
   "history": [
+    {
+      "id": "sc:300607819",
+      "artist": "Rinse FM",
+      "title": "Rinse FM Podcast - The Grime Show w/ Sir Spyro, Ghetts, So Large & Stamina - 1st January 2017",
+      "url": "https://soundcloud.com/rinsefm/thegrimeshow010117",
+      "reason": "Та самая грайм-линия, которую ты просил: живое радио на 140 с MC поверх сырых битов — вместо дымных синтов Malibu тут ор в микрофон и сабы, но энергия такая же клубная, как в Kidmancast 18.",
+      "mood": "rhythmic",
+      "verdict": "liked",
+      "played": true,
+      "at": "2026-10-04",
+      "suggestedAt": "2026-10-04"
+    },
     {
       "id": "sc:1089791179",
       "artist": "B C",

@@ -1,5 +1,20 @@
 [
   {
+    "id": "sc:300607819",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/rinsefm/thegrimeshow010117",
+    "title": "Rinse FM Podcast - The Grime Show w/ Sir Spyro, Ghetts, So Large & Stamina - 1st January 2017",
+    "artist": "Rinse FM",
+    "duration": 7150,
+    "artwork": "https://i1.sndcdn.com/artworks-000202098525-mabw00-t500x500.jpg",
+    "genre": null,
+    "published": "2017-01-02",
+    "tags": [
+      "claude-rec"
+    ],
+    "addedAt": "2026-10-04"
+  },
+  {
     "id": "sc:1302117091",
     "source": "soundcloud",
     "url": "https://soundcloud.com/user-636367953-300927817/hiroshi-yoshimura-music-for-nine-post-cards-1982-full-album",
@@ -31,8 +46,8 @@
       "claude-rec"
     ],
     "addedAt": "2026-09-25",
-    "position": 3613,
-    "playedAt": 1791010554
+    "position": 5,
+    "playedAt": 1791125881
   },
   {
     "id": "sc:1436580268",
@@ -280,8 +295,8 @@
       "kidmancast"
     ],
     "addedAt": "2026-09-23",
-    "position": 1115,
-    "playedAt": 1791119765
+    "position": 1790,
+    "playedAt": 1791120444
   },
   {
     "id": "mc:kidmancast_kidmancast-17-the-future-bonus-burial-tracks",
@@ -1202,8 +1217,8 @@
       "soundcloud-likes"
     ],
     "addedAt": "2024-12-15",
-    "position": 3605,
-    "playedAt": 1789459628
+    "position": 3030,
+    "playedAt": 1791125952
   },
   {
     "id": "sc:1736997918",

@@ -172,8 +172,9 @@ def resolve_nts(url):
     m = re.search(r"nts\.live/shows/([^/]+)/episodes/([^/?#]+)", url)
     if not m:
         raise SystemExit("NTS: expected a URL like https://www.nts.live/shows/<show>/episodes/<episode>")
-    show, ep = m.groups()
-    d = get_json(f"https://www.nts.live/api/v2/shows/{show}/episodes/{ep}")
+    # слаг бывает не-ASCII («coucou-chloé»): из браузера он приходит %-кодированным, из API — буквами
+    show, ep = (urllib.parse.unquote(x) for x in m.groups())
+    d = get_json(f"https://www.nts.live/api/v2/shows/{urllib.parse.quote(show)}/episodes/{urllib.parse.quote(ep)}")
     audio = [a["url"] for a in d.get("audio_sources") or []]
     target = next((a for a in audio if "soundcloud.com" in a), None) or d.get("mixcloud") \
         or next((a for a in audio if "mixcloud.com" in a), None)
