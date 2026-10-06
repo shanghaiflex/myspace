@@ -127,6 +127,11 @@ progress, so don't reinstall for fun. The only way out of the weekly ritual is t
 профиль приложения из `~/Library/Developer/Xcode/UserData/Provisioning Profiles`, а `-allowProvisioningUpdates`
 выписывает новый. Телефон при этом должен быть разблокирован: запертый не даёт смонтировать developer disk image
 (`kAMDMobileImageMounterDeviceLocked`), и сборка падает ещё до компиляции.
+**`No Accounts` / `No profiles for 'cc.bodywithoutorgans.bow'`** (06.10.2026) — из Xcode пропал Apple ID
+(список аккаунтов в Settings → Accounts пуст, сертификат в связке при этом жив), а `phone.sh` к этому моменту уже стёр
+старый профиль: сборка падает, и скрипт ставит прежний билд. Лечит только человек — добавить Apple ID в Xcode
+(двухфакторка); после этого iOS не запускает приложение («profile has not been explicitly trusted»), пока на телефоне
+не нажать Настройки → Основные → VPN и управление устройством → свой Apple ID → «Доверять».
 
 **Two routes to the mini.** Without a VPN the home ISP drops Cloudflare, so the app cannot reach
 bodywithoutorgans.cc from the home Wi-Fi. `serve.py` on the mini therefore listens on the LAN too
