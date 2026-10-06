@@ -215,8 +215,23 @@ def pace(kind, minutes, meters):
     return None
 
 
+# Скорость, которой ногами при таком пульсе не бывает: 05.10.2026 «велосипед» 26 км со средней 39,5 км/ч при пульсе
+# 107 — часы не остановили в машине. Заметка похвалила темп, а медиана формы подскочила с 18,7 до 26,4 км/ч.
+FAST_KMH, FAST_HR, FAST_KMH_NOHR = 35, 120, 45
+
+
+def implausible(kind, minutes, meters, hr):
+    """Тренировка, у которой скорость не сходится с пульсом, — скорее транспорт, чем езда."""
+    if kind != "cycling" or not meters or not minutes:
+        return False
+    v = meters / 1000 / (minutes / 60)
+    return v > FAST_KMH and (hr or 0) < FAST_HR if hr else v > FAST_KMH_NOHR
+
+
 def workout_detail(kind, minutes, raw):
     """То, что приложение шлёт с 29.09.2026 сверх минут и ккал: темп, макс. пульс, набор высоты, где плавал."""
+    if implausible(kind, minutes, raw.get("distanceMeters"), raw.get("averageHeartRate")):
+        return {"pace": None, "maxHr": None, "elev": None, "where": None, "suspect": True}
     where = {"pool": "бассейн", "openWater": "открытая вода"}.get(raw.get("swimLocation")) \
         or ("в помещении" if raw.get("indoor") and kind in ("running", "cycling") else None)
     return {"pace": pace(kind, minutes, raw.get("distanceMeters")),
@@ -415,7 +430,8 @@ def daily(db, days, today=None):
 def workout_text(x):
     return (f"{x['ru']} {x['min']} мин" + (f" {x['km']} км" if x['km'] else "") + (f" ({x['where']})" if x.get("where") else "")
             + (f" {x['pace']}" if x.get("pace") else "") + (f" пульс {x['hr']}" if x['hr'] else "")
-            + (f"/макс {x['maxHr']}" if x['hr'] and x.get("maxHr") else "") + (f" +{x['elev']} м" if x.get("elev") else ""))
+            + (f"/макс {x['maxHr']}" if x['hr'] and x.get("maxHr") else "") + (f" +{x['elev']} м" if x.get("elev") else "")
+            + (" — скорость не сходится с пульсом, похоже на транспорт: темп не обсуждай" if x.get("suspect") else ""))
 
 
 def avg(vals):

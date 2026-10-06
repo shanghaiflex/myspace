@@ -113,7 +113,21 @@ def night_status(db, today=None):
     # Тренировка сама поднимает пульс и роняет HRV; температуру и дыхание — нет. Без них это нагрузка, а не простуда.
     body = (dev["temp"] or 0) >= TEMP_SOFT or (dev["resp"] or 0) >= RESP_UP
     sick = (dev["temp"] or 0) >= TEMP_SICK or (body and len(signs) >= 2)
-    return {"night": last_key, "last": last, "base": base, "dev": dev, "signs": signs, "sick": sick}
+    return {"night": last_key, "last": last, "base": base, "dev": dev, "signs": signs, "sick": sick,
+            "rhrBase": rhr_base, "hrvBase": hrv_base}
+
+
+def said_today(db, today):
+    """Время первой сегодняшней заметки, написанной при ночных признаках, — или None."""
+    first = None
+    for r in db.execute("SELECT ts, snapshot FROM reviews WHERE kind='note' AND snapshot IS NOT NULL ORDER BY id DESC LIMIT 30"):
+        try:
+            snap = json.loads(r["snapshot"])
+        except (TypeError, ValueError):
+            continue
+        if snap.get("date") == today.isoformat() and snap.get("sick"):
+            first = r["ts"]
+    return H.local(first).strftime("%H:%M") if first else None
 
 
 def form(db, today=None):
@@ -128,7 +142,7 @@ def form(db, today=None):
             continue
         raw = json.loads(r["data"])
         m, dist = r["value"] or 0, raw.get("distanceMeters") or 0
-        if not H.pace(k, m, dist) or dist < FORM_MIN_M[k]:
+        if not H.pace(k, m, dist) or dist < FORM_MIN_M[k] or H.implausible(k, m, dist, raw.get("averageHeartRate")):
             continue
         # Для сравнения — минуты на единицу дистанции (для велосипеда наоборот, скорость), чтобы медиана была числом.
         per = m / (dist / (100 if k == "swimming" else 1000)) if k != "cycling" else dist / 1000 / (m / 60)
@@ -184,8 +198,20 @@ def digest(db=None, today=None):
         if bits:
             lines.append(f"Ночь на {ns['night'][8:]}.{ns['night'][5:7]} против моей нормы за {BASE_NIGHTS} ночей: " + "; ".join(bits) + ".")
         if ns["sick"]:
-            lines.append("ПРИЗНАКИ: тело с чем-то борется — " + ", ".join(ns["signs"])
-                         + ". Так обычно выглядит начало простуды (или алкоголь, или жаркая ночь) — это не диагноз.")
+            # Температура и дыхание меряются только во сне, одно число на ночь: днём они не обновляются, и «признаки
+            # всё ещё держатся» сказать нечем. 06.10.2026 заметка повторяла ночную строку каждый час как текущее
+            # состояние, хотя дневные HRV и пульс покоя к обеду вернулись к норме.
+            lines.append("ПРИЗНАКИ прошлой ночи: тело с чем-то борется — " + ", ".join(ns["signs"])
+                         + ". Так обычно выглядит начало простуды (или алкоголь, или жаркая ночь) — это не диагноз."
+                         + " Это одно измерение за ночь: днём оно не обновляется, следующее будет только после сна.")
+            said = said_today(db, today)
+            if said:
+                day = H.daily(db, 1, today)[0]
+                now = [f"HRV {day['hrv']} (норма {round(ns['hrvBase'])})" if day["hrv"] and ns["hrvBase"] else None,
+                       f"пульс покоя {day['rhr']} (норма {round(ns['rhrBase'])})" if day["rhr"] and ns["rhrBase"] else None]
+                lines.append(f"Про ночные признаки уже сказано в заметке в {said}. Не повторяй их и не пиши «всё ещё» —"
+                             " судить о дне можно только по дневным цифрам"
+                             + (": " + ", ".join(x for x in now if x) if any(now) else "") + ".")
         elif ns["signs"]:
             lines.append("Отклонения без общей картины: " + ", ".join(ns["signs"]) + ".")
     fm = form(db, today)
