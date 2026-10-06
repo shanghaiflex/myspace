@@ -340,13 +340,25 @@ def agenda(days=7, start_date=None, text=None, only=None, skip=None):
                 continue
             start = item["start"] if item is not ev else when
             end = start + (item["end"] - item["start"])
-            if start.date() in out:
-                # An event from someone else's calendar still pins an hour of the day — the swimming happens —
-                # it just does not make the person busy, so it is listed but never eats a free window.
-                out[start.date()].append({"summary": item["summary"], "start": start, "end": end,
-                                          "allday": item["allday"], "busy": item["busy"],
-                                          "calendar": item["calendar"], "who": item.get("who"),
-                                          "recurring": bool(ev.get("rrule"))})
+            # Командировка с 09:00 среды до вечера четверга — дело обоих дней, а не только первого: каждый день
+            # получает свой кусок (сутки обрезают время), и окна четверга режутся так же, как среды.
+            multi = not item["allday"] and (end - dt.timedelta(seconds=1)).date() > start.date()
+            day = start.date()
+            while day < end.date() or day == start.date() or (day == end.date() and end.time() != dt.time(0)):
+                if day in out:
+                    lo = dt.datetime.combine(day, dt.time(0), zone)
+                    # An event from someone else's calendar still pins an hour of the day — the swimming happens —
+                    # it just does not make the person busy, so it is listed but never eats a free window.
+                    out[day].append({"summary": item["summary"],
+                                     "start": max(start, lo) if multi else start,
+                                     "end": min(end, lo + dt.timedelta(days=1)) if multi else end,
+                                     "span": (start, end) if multi else None,
+                                     "allday": item["allday"], "busy": item["busy"],
+                                     "calendar": item["calendar"], "who": item.get("who"),
+                                     "recurring": bool(ev.get("rrule"))})
+                if item["allday"] or not multi:
+                    break
+                day += dt.timedelta(days=1)
     for day in out.values():
         day.sort(key=lambda e: (not e["allday"], e["start"]))
     return out
@@ -368,8 +380,18 @@ def free_windows(day_events, date, zone):
     return out
 
 
+def carried(e, date):
+    """Хвост события, начатого раньше этого дня: утро четверга не «начинается в 00:00» из-за командировки."""
+    return bool(e.get("span")) and e["span"][0].date() < date
+
+
 def fmt_event(e, calendar=False):
-    return (("весь день " if e["allday"] else f"{e['start']:%H:%M}–{e['end']:%H:%M} ")
+    if e.get("span"):
+        s, t = e["span"]
+        when = f"{DOW[s.weekday()]} {s:%d.%m %H:%M} – {DOW[t.weekday()]} {t:%d.%m %H:%M} "
+    else:
+        when = "весь день " if e["allday"] else f"{e['start']:%H:%M}–{e['end']:%H:%M} "
+    return (when
             + (f"{e['who']}: " if e.get("who") else "") + e["summary"]
             + (f" [{e['calendar']}]" if calendar and e["calendar"] else "") + ("" if e["busy"] else " (не занимает)"))
 
@@ -392,7 +414,7 @@ def digest(days=2):
     if rest:
         windows = ", ".join(f"{max(s, now):%H:%M}–{e:%H:%M}" for s, e in rest)
         lines.append(f"- свободно сегодня: {windows}")
-    first_tomorrow = next((e for e in days_[dates[1]] if not e["allday"]), None)
+    first_tomorrow = next((e for e in days_[dates[1]] if not e["allday"] and not carried(e, dates[1])), None)
     if first_tomorrow:
         lines.append(f"- завтра начинается в {first_tomorrow['start']:%H:%M} ({first_tomorrow['summary']})")
     return "\n".join(lines)
@@ -422,7 +444,7 @@ def day_plan(date=None):
         s_ = max(s_, now)
         if e_ - s_ >= dt.timedelta(minutes=FREE_MIN):
             free.append({"from": f"{s_:%H:%M}", "to": f"{e_:%H:%M}", "minutes": round((e_ - s_).total_seconds() / 60)})
-    first = next((e for e in days_[tomorrow] if not e["allday"]), None)
+    first = next((e for e in days_[tomorrow] if not e["allday"] and not carried(e, tomorrow)), None)
     return {"date": today.isoformat(), "now": now.isoformat(), "dow": DOW[today.weekday()],
             "events": [item(e) for e in days_[today]], "free": free,
             "tomorrow": {"title": first["summary"], "from": f"{first['start']:%H:%M}"} if first else None}

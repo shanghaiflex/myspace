@@ -100,6 +100,8 @@ def calendar(first, days):
     for date, evs in cal.items():
         for e in evs:
             k = kind_of(e["summary"])
+            if S.carried(e, date):              # второй день многодневного события — та же нагрузка, не новая
+                continue
             if k and not e.get("who"):          # «теннис Полины» — не моя нагрузка
                 out.append({"title": e["summary"], "kind": k, "start": e["start"], "end": e["end"],
                             "allday": e["allday"], "date": date, "race": is_race(e["summary"])})
