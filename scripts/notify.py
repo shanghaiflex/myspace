@@ -10,8 +10,8 @@
   ночную страница и так не показывает (health.daybreak), а старше REVIEW_FRESH_HOURS — уже не новость,
   телефон мог не просыпаться полдня.
 
-  Инвест — сделки и сбои прогона стратегии на песочнице (~/workspace/invest, scripts/daily.sh на mini пишет
-  data/invest.json): каждое сообщение, пока свежее INVEST_FRESH_HOURS.
+  Инвест — сделки и сбои прогона стратегии (~/workspace/invest, scripts/daily.sh на mini пишет data/invest.json;
+  с 06.10.2026 и реальный счёт): каждое сообщение, пока свежее INVEST_FRESH_HOURS. Тап открывает invest.html.
 
   Советы Claude — одна сводка в день. Агенты на mini идут четырьмя заходами (миксы 07:20,
   фильмы/книги/лекции 07:40, статьи 07:50, французский 08:10), и уведомлять о каждом — четыре звонка
@@ -120,7 +120,8 @@ def invest_items(now=None):
         except Exception:
             continue
         if now - at <= dt.timedelta(hours=INVEST_FRESH_HOURS):
-            out.append({"id": x["id"], "kind": "invest", "title": x["title"], "body": x["body"], "at": x["at"]})
+            out.append({"id": x["id"], "kind": "invest", "title": x["title"], "body": x["body"], "at": x["at"],
+                        "page": "invest"})
     return out
 
 

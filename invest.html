@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Инвест</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafafa; --surface: #ffffff; --surface-2: #f2f2f4;
+    --text: #1d1d1f; --text-2: #6e6e73; --text-3: #a1a1a6;
+    --line: rgba(0,0,0,.08); --accent: #0071e3; --ok: #34c759; --warn: #ff9f0a;
+    --glass: rgba(250,250,250,.7);
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #000; --surface: #1c1c1e; --surface-2: #2c2c2e;
+      --text: #f5f5f7; --text-2: #a1a1a6; --text-3: #6e6e73;
+      --line: rgba(255,255,255,.1); --accent: #2997ff; --ok: #30d158; --warn: #ffd60a;
+      --glass: rgba(0,0,0,.55);
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Inter, system-ui, sans-serif;
+    background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.45; letter-spacing: -0.01em; }
+  a { color: inherit; text-decoration: none; }
+  .bar { position: sticky; top: 0; z-index: 20; background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
+  .bar-inner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .nav { display: flex; gap: 18px; font-size: 17px; letter-spacing: -0.02em; }
+  .nav a { color: var(--text-3); font-weight: 600; }
+  .nav a.on { color: var(--text); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 36px 32px 80px; }
+  .head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .head h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; margin: 0; line-height: 1.1; }
+  .head .sub { color: var(--text-2); font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 18px; }
+  .card { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow); border: 1px solid var(--line); padding: 22px; min-width: 0; grid-column: span 12; }
+  .card.half { grid-column: span 6; }
+  @media (max-width: 900px) { .card.half { grid-column: span 12; } }
+  .card .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-2); font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .card .eyebrow .more { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-3); }
+  .empty { color: var(--text-2); font-size: 15px; }
+  .tbl { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: -4px; padding: 4px; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
+  th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-3); font-weight: 600; padding: 6px 10px 8px 0; border-bottom: 1px solid var(--line); }
+  td { padding: 8px 10px 8px 0; border-bottom: 1px solid var(--line); }
+  tr:last-child td { border-bottom: 0; }
+  td.n, th.n { text-align: right; padding-right: 18px; }
+  td.w { white-space: normal; min-width: 170px; }
+  td.dim { color: var(--text-3); }
+  .hero { display: flex; gap: 34px; flex-wrap: wrap; align-items: baseline; }
+  .hero div b { display: block; font-size: 30px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .hero div { color: var(--text-2); font-size: 13px; }
+  .pos { color: var(--ok); font-weight: 600; } .neg { color: var(--warn); font-weight: 600; }
+  .hero .s { display: block; font-size: 13px; margin-top: 2px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { font-size: 13px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--text-2); }
+  .chip.on { color: var(--text); border-color: var(--ok); }
+  .chip.on::before { content: '●'; color: var(--ok); margin-right: 6px; font-size: 10px; vertical-align: 1px; }
+  .chip.stop { color: var(--warn); border-color: var(--warn); font-weight: 600; }
+  .sched { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 14px; }
+  .sched div { display: grid; grid-template-columns: 54px 1fr; gap: 10px; }
+  .sched b { font-variant-numeric: tabular-nums; }
+  .sched .next b, .sched .next { color: var(--text); }
+  .sched div:not(.next) { color: var(--text-2); }
+  .spark { width: 100%; height: 120px; display: block; margin-top: 16px; overflow: visible; }
+  .spark .v { fill: none; stroke: var(--c1, var(--accent)); stroke-width: 2; vector-effect: non-scaling-stroke; }
+  .spark .k { fill: none; stroke: var(--c0, var(--text-3)); stroke-width: 1.5; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+  .legend { display: flex; gap: 8px 16px; font-size: 12.5px; color: var(--text-2); margin-top: 8px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 14px; height: 0; border-top: 2px solid var(--c1, var(--accent)); vertical-align: 3px; margin-right: 6px; }
+  .legend i.k { border-top: 2px dashed var(--c0, var(--text-3)); }
+  .note { font-size: 13px; color: var(--text-2); margin-top: 12px; line-height: 1.45; }
+  .note.bad { color: var(--warn); }
+  tr.act td:first-child { font-weight: 600; }
+  tr.off td { color: var(--text-3); }
+  @media (max-width: 640px) {
+    .bar-inner { padding: 12px 16px; } .nav { font-size: 15px; gap: 14px; }
+    .wrap { padding: 24px 16px 70px; } .head h1 { font-size: 28px; } .card { padding: 18px; border-radius: 18px; }
+    .hero { gap: 18px 26px; } .hero div b { font-size: 24px; }
+  }
+@media (max-width: 760px) {
+  html, body { overflow-x: hidden; }
+  .bar-inner { flex-wrap: wrap; }
+  .nav { flex-wrap: wrap; gap: 6px 14px; font-size: 15px; }
+}
+</style>
+<link rel="stylesheet" href="theme.css?v=91d6e29a">
+<script src="app.js"></script>
+</head>
+<body>
+<header class="bar"><div class="bar-inner">
+  <nav class="nav"><a href="index.html">Главная</a><a href="films.html">Фильмы</a><a href="books.html">Книги</a><a href="mixes.html">Миксы</a><a href="lectures.html">Лекции</a><a href="health.html">Well-being</a><a href="pantry.html">Еда</a><a href="spend.html">Траты</a><a href="invest.html" class="on">Инвест</a><a href="reads.html">Читать</a><a href="french.html">Французский</a><a href="home.html">Дом</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="head"><h1>Инвест</h1><div class="sub" id="sub"></div></div>
+  <div class="grid" id="grid"><div class="card"><div class="empty">Загружаю…</div></div></div>
+</main>
+
+<script>
+// Стратегия из ~/workspace/invest (на mini — ~/invest): что она держит, что собирается делать по своим правилам
+// и что сделала. Данные — файлы прогона (scripts/invest.py → /api/invest); сама страница ничего не решает.
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const money = n => n == null ? '—' : Math.round(n).toLocaleString('ru-RU') + ' ₽';
+const signed = n => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(Math.round(n)).toLocaleString('ru-RU') + ' ₽';
+const pct = n => n == null ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(2).replace('.', ',') + '%';
+const cls = n => n > 0 ? 'pos' : n < 0 ? 'neg' : '';
+const ddmm = s => s ? s.slice(8, 10) + '.' + s.slice(5, 7) : '—';
+const KIND = { real: 'Реальный счёт', sandbox: 'Песочница' };
+const PHASE = { morning: 'утро', all: 'вечер' };
+let D = null;
+
+// Ближайший прогон по расписанию (будни, МСК). Праздники биржи прогон пропускает сам — здесь их не знаем.
+function nextRun() {
+  const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+  for (let add = 0; add < 8; add++) {
+    const d = new Date(now); d.setDate(now.getDate() + add);
+    if (d.getDay() === 0 || d.getDay() === 6) continue;
+    for (const s of D.schedule) {
+      const [h, m] = s.time.split(':').map(Number);
+      const t = new Date(d); t.setHours(h, m, 0, 0);
+      if (t > now) return { ...s, day: add === 0 ? 'сегодня' : add === 1 ? 'завтра' : t.toLocaleDateString('ru-RU', { weekday: 'long' }) };
+    }
+  }
+  return null;
+}
+
+function statusCard() {
+  const next = nextRun();
+  const chips = D.accounts.map(a => `<span class="chip ${a.active ? 'on' : ''}">${esc(KIND[a.kind])}: ${a.active ? 'торгует' : 'выключен'}</span>`).join('')
+    + (D.stop ? '<span class="chip stop">СТОП — заявки не отправляются</span>' : '');
+  const sched = D.schedule.map(s => `<div class="${next && s.time === next.time ? 'next' : ''}"><b>${esc(s.time)}</b><span>${esc(s.what)}</span></div>`).join('');
+  return `<div class="card half"><div class="eyebrow">Прогон на mini <span class="more">${next ? `следующий — ${esc(next.day)} в ${esc(next.time)}` : ''}</span></div>
+    <div class="chips">${chips || '<span class="chip">счетов пока нет</span>'}</div>
+    <div class="sched">${sched}</div>
+    <div class="note">По будням. Рубильник: <code>ssh mini touch ~/.config/tinvest/STOP</code></div></div>`;
+}
+
+function spark(a) {
+  const s = a.series;
+  if (s.length < 2) return '';
+  const vals = s.map(x => x[1]), lo = Math.min(...vals, a.start.value), hi = Math.max(...vals, a.start.value, a.keyrate || 0);
+  const pad = (hi - lo) * 0.1 || 1, y = v => 100 - (v - lo + pad) / (hi - lo + 2 * pad) * 100;
+  const x = i => i / (s.length - 1) * 100;
+  const line = s.map((p, i) => `${x(i).toFixed(2)},${y(p[1]).toFixed(2)}`).join(' ');
+  const key = a.keyrate ? `<polyline class="k" points="0,${y(a.start.value).toFixed(2)} 100,${y(a.keyrate).toFixed(2)}"/>` : '';
+  return `<svg class="spark" viewBox="0 0 100 100" preserveAspectRatio="none">${key}<polyline class="v" points="${line}"/></svg>
+    <div class="legend"><span><i></i>стоимость счёта</span>${a.keyrate ? '<span><i class="k"></i>если бы под ключевую ставку</span>' : ''}</div>`;
+}
+
+function accountCard(a) {
+  const st = a.state;
+  const head = `<div class="eyebrow">${esc(KIND[a.kind])} <span class="more">${esc(st ? st.name : a.account)}</span></div>`;
+  if (a.value == null) {
+    return `<div class="card half">${head}<div class="empty">Прогонов по счёту ещё не было — после первого здесь появятся стоимость и позиции.</div></div>`;
+  }
+  const vsKey = a.keyrate != null ? a.value - a.keyrate : null;
+  const last = st ? `<div class="note${(st.failed || []).length || st.halted ? ' bad' : ''}">Последний прогон — ${esc(st.at.slice(8, 10) + '.' + st.at.slice(5, 7) + ' ' + st.at.slice(11, 16))}, ${esc(PHASE[st.phase] || st.phase)}: `
+    + (st.halted ? `СТОП: ${esc(st.halted)}` : st.sent.length ? 'исполнено ' + st.sent.map(x => `${esc(x.ticker)} ${x.lots > 0 ? '+' : ''}${x.lots}`).join(', ') : 'заявок не было')
+    + ((st.failed || []).length ? `. Не исполнено: ${esc(st.failed.join('; '))}` : '') + '</div>' : '';
+  return `<div class="card half">${head}
+    <div class="hero">
+      <div><b>${money(a.value)}</b>стоимость</div>
+      <div><b class="${cls(a.pnl)}">${signed(a.pnl)}</b>с ${esc(ddmm(a.start.at))} · ${pct(a.pnlPct)}</div>
+      ${vsKey != null ? `<div><b class="${cls(vsKey)}">${signed(vsKey)}</b>к ключевой ставке</div>` : ''}
+    </div>${spark(a)}${last}</div>`;
+}
+
+function positionsCard(a) {
+  const st = a.state;
+  if (!st) return '';
+  const rows = st.positions.map(p => `<tr><td>${esc(p.ticker)}</td><td class="n">${p.type === 'futures' ? p.lots + ' контр.' : Math.round(p.qty).toLocaleString('ru-RU')}</td>
+      <td class="n">${p.price.toLocaleString('ru-RU')}</td><td class="n">${p.type === 'futures' ? '<span class="dim">хедж</span>' : money(p.value)}</td></tr>`).join('');
+  return `<div class="card half"><div class="eyebrow">Позиции · ${esc(KIND[a.kind].toLowerCase())} <span class="more">рубли ${money(st.cash)}</span></div>
+    ${rows ? `<div class="tbl"><table><thead><tr><th>Бумага</th><th class="n">Штук</th><th class="n">Цена</th><th class="n">Стоимость</th></tr></thead><tbody>${rows}</tbody></table></div>`
+           : '<div class="empty">Только рубли.</div>'}</div>`;
+}
+
+function planCard() {
+  const a = D.accounts.find(x => x.kind === 'real' && x.state) || D.accounts.find(x => x.state);
+  if (!a) return '';
+  const st = a.state, w = Object.entries(st.rotation.weights || {});
+  const rows = st.dividends.filter(p => p.slots != null || p.active).map(p => `<tr class="${p.active ? 'act' : /пропуска|закрыто|прошла/.test(p.status) ? 'off' : ''}">
+      <td>${esc(p.ticker)}</td><td class="n">${(p.yield * 100).toFixed(1).replace('.', ',')}%</td><td>${esc(ddmm(p.record))}</td>
+      <td>${esc(ddmm(p.entry))} → ${esc(ddmm(p.exit))}</td><td class="w">${esc(p.status)}${p.lots ? ` · ${p.lots} лот.` : ''}</td></tr>`).join('');
+  return `<div class="card"><div class="eyebrow">План стратегии <span class="more">по снимку ${esc(KIND[a.kind].toLowerCase())}, ${esc(ddmm(st.at.slice(0, 10)))}</span></div>
+    <div class="note" style="margin:0 0 12px">Ротация: ${w.length ? w.map(([t, x]) => `${esc(t)} ${(x * 100).toFixed(0)}%`).join(', ') : 'всё в кэше (акции, ОФЗ и золото выключены фильтрами)'}.
+      Дивидендный разгон: покупка за 20 торговых дней до гэпа, продажа за 7 дней до реестра на открытии, шорт ${esc(st.hedge.ticker)} на ту же сумму.</div>
+    ${rows ? `<div class="tbl"><table><thead><tr><th>Бумага</th><th class="n">Дивиденд</th><th>Реестр</th><th>Окно</th><th>Что делаем</th></tr></thead><tbody>${rows}</tbody></table></div>`
+           : '<div class="empty">Подходящих дивидендов в ближайшие 60 дней нет.</div>'}</div>`;
+}
+
+function ordersCard() {
+  const all = D.accounts.flatMap(a => a.orders.map(o => ({ ...o, kind: a.kind }))).sort((x, y) => y.time.localeCompare(x.time)).slice(0, 30);
+  if (!all.length) return '';
+  const rows = all.map(o => {
+    const ok = /_FILL\b/.test(o.status) && o.lots === o.filled, test = /\(тест\)/.test(o.status);
+    return `<tr><td class="dim">${esc(o.time.slice(8, 10) + '.' + o.time.slice(5, 7) + ' ' + o.time.slice(11, 16))}</td><td>${o.kind === 'real' ? '<b>реальный</b>' : 'песочница'}</td>
+      <td>${esc(o.ticker)}</td><td class="n">${+o.lots > 0 ? 'купить' : 'продать'} ${Math.abs(+o.lots)}</td><td class="n">${(+o.price).toLocaleString('ru-RU')}</td>
+      <td class="n">${+o.amount ? money(Math.abs(+o.amount)) : '<span class="dim">—</span>'}</td><td class="${ok ? '' : 'neg'}">${ok ? 'исполнено' + (test ? ' · тест' : '') : esc(o.filled + ' из ' + o.lots + ' · ' + o.status.replace('EXECUTION_REPORT_STATUS_', ''))}</td></tr>`;
+  }).join('');
+  return `<div class="card"><div class="eyebrow">Заявки <span class="more">последние ${all.length}</span></div>
+    <div class="tbl"><table><thead><tr><th>Когда</th><th>Счёт</th><th>Бумага</th><th class="n">Лотов</th><th class="n">Цена</th><th class="n">Сумма</th><th>Итог</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+
+function render() {
+  const real = D.accounts.find(a => a.kind === 'real');
+  document.getElementById('sub').textContent = `ключевая ${D.keyrate != null ? (D.keyrate * 100).toFixed(2).replace('.', ',').replace(/,00$/, '') + '%' : '—'}`
+    + (real && real.value != null ? ` · реальный счёт ${money(real.value)}` : '');
+  const order = ['real', 'sandbox'].map(k => D.accounts.find(a => a.kind === k)).filter(Boolean);
+  document.getElementById('grid').innerHTML = statusCard() + order.map(accountCard).join('') + order.map(positionsCard).join('') + planCard() + ordersCard();
+}
+
+fetch('/api/invest', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {
+  D = d;
+  if (!d.found) { document.getElementById('grid').innerHTML = '<div class="card"><div class="empty">Стратегии на этой машине нет (нужен ~/invest или ~/workspace/invest).</div></div>'; return; }
+  render();
+}).catch(e => {
+  document.getElementById('grid').innerHTML = `<div class="card"><div class="empty">Не удалось загрузить: ${esc(e)}</div></div>`;
+});
+</script>
+</body>
+</html>

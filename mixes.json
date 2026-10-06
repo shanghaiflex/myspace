@@ -15,6 +15,23 @@
     "addedAt": "2026-10-04"
   },
   {
+    "id": "mc:NTSRadio_coucou-chloe-15th-august-2019",
+    "source": "mixcloud",
+    "url": "https://www.mixcloud.com/NTSRadio/coucou-chloe-15th-august-2019/",
+    "title": "Coucou Chloe",
+    "artist": "NTS · Coucou Chloé",
+    "duration": 3645,
+    "artwork": "https://media2.ntslive.co.uk/resize/800x800/682105b2-a61d-4f54-8aa7-182dd90e7d96_1587686400.jpeg",
+    "genre": null,
+    "published": "2019-08-14",
+    "tags": [
+      "claude-rec"
+    ],
+    "addedAt": "2026-10-04",
+    "position": 3361,
+    "playedAt": 1791129365
+  },
+  {
     "id": "sc:1302117091",
     "source": "soundcloud",
     "url": "https://soundcloud.com/user-636367953-300927817/hiroshi-yoshimura-music-for-nine-post-cards-1982-full-album",
@@ -81,8 +98,8 @@
       "kidmancast"
     ],
     "addedAt": "2026-09-23",
-    "position": 3389,
-    "playedAt": 1790146707
+    "position": 231,
+    "playedAt": 1791181642
   },
   {
     "id": "mc:kidmancast_kidmancast-pt28",
@@ -1083,8 +1100,8 @@
       "soundcloud-likes"
     ],
     "addedAt": "2025-09-19",
-    "position": 3219,
-    "playedAt": 1790008315
+    "position": 0,
+    "playedAt": 1791181407
   },
   {
     "id": "sc:2100799716",
@@ -1217,8 +1234,8 @@
       "soundcloud-likes"
     ],
     "addedAt": "2024-12-15",
-    "position": 3030,
-    "playedAt": 1791125952
+    "position": 3076,
+    "playedAt": 1791125998
   },
   {
     "id": "sc:1736997918",

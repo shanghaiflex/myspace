@@ -1263,9 +1263,9 @@
     },
     {
       "id": "lBXA44JuO8Q",
-      "status": "queued",
-      "position": 4720,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 8131,
+      "listenedAt": "2026-10-05",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Экономика Крестовых походов. Кого они обогатили, а кого разорили.",
@@ -1280,7 +1280,7 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=lBXA44JuO8Q",
       "queuedAt": 1789910938,
-      "touchedAt": 1791011916
+      "touchedAt": 1791185485
     },
     {
       "id": "kTYo7o3-U0U",
@@ -5221,7 +5221,7 @@
     },
     {
       "id": "Dw4gy9ShHqU",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -5237,7 +5237,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=Dw4gy9ShHqU"
+      "url": "https://www.youtube.com/watch?v=Dw4gy9ShHqU",
+      "queuedAt": 1791231412
     },
     {
       "id": "FeO60yKHfv8",
@@ -5843,7 +5844,7 @@
     },
     {
       "id": "8jwJy3M1Ga8",
-      "status": "listened",
+      "status": "listening",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-15",
@@ -5857,7 +5858,8 @@
       "live": false,
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=8jwJy3M1Ga8",
-      "artwork": null
+      "artwork": null,
+      "queuedAt": 1791231860
     },
     {
       "id": "7HRnj_ILa-Y",
@@ -7439,9 +7441,9 @@
     },
     {
       "id": "sc:839825947",
-      "status": "queued",
+      "status": "listened",
       "position": 5535,
-      "listenedAt": null,
+      "listenedAt": "2026-10-05",
       "addedAt": "2026-09-06",
       "note": null,
       "series": [

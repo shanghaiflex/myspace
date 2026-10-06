@@ -86,9 +86,42 @@
       "suggestedAt": "2026-10-04",
       "verdict": "new",
       "played": false
+    },
+    {
+      "id": "mc:NTSRadio_coucou-chloe-w-anne-laplantine-18th-june-2020",
+      "source": "mixcloud",
+      "url": "https://www.mixcloud.com/NTSRadio/coucou-chloe-w-anne-laplantine-18th-june-2020/",
+      "title": "Coucou Chloe w/ Anne Laplantine",
+      "artist": "NTS · Coucou Chloé",
+      "duration": 3629,
+      "artwork": "https://media2.ntslive.co.uk/resize/800x800/171db7be-14fb-4d54-b2b3-afd7a30bcccc_1592438400.png",
+      "genre": null,
+      "published": "2020-06-18",
+      "nts": "https://www.nts.live/shows/coucou-chloé/episodes/coucou-chloe-18th-june-2020",
+      "reason": "Из её резидентуры на NTS — выпуск с Brat Star ты дослушал до конца. Этот — «Coucou Chloe w/ Anne Laplantine», 2020-06.",
+      "wanted": "https://www.nts.live/shows/coucou-chloé/episodes/coucou-chloe-18th-june-2020",
+      "mood": "rhythmic",
+      "show": "coucou-chloé",
+      "suggestedAt": "2026-10-05",
+      "verdict": "new",
+      "played": true
     }
   ],
   "history": [
+    {
+      "id": "mc:NTSRadio_coucou-chloe-15th-august-2019",
+      "artist": "NTS · Coucou Chloé",
+      "title": "Coucou Chloe",
+      "url": "https://www.mixcloud.com/NTSRadio/coucou-chloe-15th-august-2019/",
+      "reason": "Из её резидентуры на NTS — выпуск с Brat Star ты дослушал до конца. Этот — «Coucou Chloe», 2019-08.",
+      "mood": "rhythmic",
+      "show": "coucou-chloé",
+      "nts": "https://www.nts.live/shows/coucou-chloé/episodes/coucou-chlo-w-guest-name-15th-august-2019",
+      "verdict": "liked",
+      "played": true,
+      "at": "2026-10-04",
+      "suggestedAt": "2026-10-04"
+    },
     {
       "id": "sc:300607819",
       "artist": "Rinse FM",
