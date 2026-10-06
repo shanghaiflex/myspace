@@ -111,7 +111,8 @@ def summary():
     active = {"real": m in ("real", "both"), "sandbox": m in ("sandbox", "both")}
     accounts = []
     for kind in KINDS:
-        if kind in ids:
+        # песочница — только пока она в прогоне: выключенная остаётся в данных, но на странице не нужна
+        if kind in ids and (active[kind] or kind == "real"):
             a = account(kind, ids[kind], forward, orders, rates)
             a["active"] = active[kind]
             accounts.append(a)

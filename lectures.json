@@ -1264,7 +1264,7 @@
     {
       "id": "lBXA44JuO8Q",
       "status": "listened",
-      "position": 8131,
+      "position": 8135,
       "listenedAt": "2026-10-05",
       "addedAt": "2026-09-06",
       "note": null,
@@ -1280,7 +1280,7 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=lBXA44JuO8Q",
       "queuedAt": 1789910938,
-      "touchedAt": 1791185485
+      "touchedAt": 1791260713
     },
     {
       "id": "kTYo7o3-U0U",
@@ -6956,7 +6956,7 @@
     {
       "id": "sc:957177196",
       "status": "queued",
-      "position": 5,
+      "position": 198,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -6971,7 +6971,8 @@
       "url": "https://soundcloud.com/serj-bushwacker/drevniy-egipet-vozvyshenie-novogo-tsarstva",
       "artwork": "https://i1.sndcdn.com/artworks-ATYHyPCyrEXkkg07-cODIAw-t500x500.jpg",
       "published": "2020-12-31",
-      "queuedAt": 1788726833
+      "queuedAt": 1788726833,
+      "touchedAt": 1791260714
     },
     {
       "id": "sc:942846943",
@@ -7442,7 +7443,7 @@
     {
       "id": "sc:839825947",
       "status": "listened",
-      "position": 5535,
+      "position": 5540,
       "listenedAt": "2026-10-05",
       "addedAt": "2026-09-06",
       "note": null,
@@ -7457,7 +7458,8 @@
       "url": "https://soundcloud.com/serj-bushwacker/2100-1650",
       "artwork": "https://i1.sndcdn.com/artworks-t2g3pJSmmmn8p9Ey-p82dZQ-t500x500.jpg",
       "published": "2020-06-14",
-      "queuedAt": 1788726832
+      "queuedAt": 1788726832,
+      "touchedAt": 1791260713
     },
     {
       "id": "sc:839825944",
