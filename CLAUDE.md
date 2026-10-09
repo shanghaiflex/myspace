@@ -705,6 +705,16 @@ Spyro, Slackk, MC sets; user request 04.10.2026) — a rule in `mixes/PROMPT.md`
 soundtracks — no dance pulse), and the digest shows the model what `calm` mixes already are in the
 collection. «Нравится» on a calm suggestion adds it with tags `claude-rec` + `calm`. The mixes page shows them as «Советует Claude»
 cards (Послушать / Нравится / Не то) and the home page uses the top one as «Микс на сегодня».
+**«Советует одно и то же» (09.10.2026).** Две причины, обе закрыты. (1) Включённый, но не отвеченный совет
+жил всю неделю `ITEM_DAYS`: три из пяти мест держали включённые, и подборка не менялась по пять дней. Теперь
+он уходит в историю как `played` через `PLAYED_DAYS` = 2 дня с первого включения (`playedAt`). (2) Модель
+клонировала последний лайк: после Grime Show с Sir Spyro — ещё одна Grime Show с Sir Spyro и Logan Sama
+рядом, после альбома Yoshimura — другой альбом Yoshimura. В `apply` теперь `repeats()`: если артист из
+поля `artist` уже висит на странице или был в ответах за `REPEAT_DAYS` = 30 дней, кандидат отсеивается
+(«repeat of …» в логе). Названия площадок (`PLATFORMS`: NTS, Rinse FM, Boiler Room…) в сравнении не
+участвуют, иначе одно слово «NTS» закрыло бы всё радио. В промпте: лайк задаёт направление, а не артиста;
+девять разных артистов, минимум четыре сцены; грайм — ровно один, и ни одного, если грайм уже висит на странице.
+
 Feedback is the whole point: «Нравится» adds the mix to the collection (tag `claude-rec`), «Не то» is a
 rejection, playing one for a minute is an implicit signal — all three land in `history` and go into the
 next day's prompt.

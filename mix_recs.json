@@ -20,23 +20,6 @@
       "played": false
     },
     {
-      "id": "sc:368410730",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/rafipandito/hiroshi-yoshimura-green-1986",
-      "title": "Hiroshi Yoshimura - Green [1986] [Full Album]",
-      "artist": "Pandito Rafi",
-      "duration": 2759,
-      "artwork": "https://i1.sndcdn.com/artworks-000268651511-sxpkhx-t500x500.jpg",
-      "genre": "Ambient",
-      "published": "2017-12-12",
-      "reason": "Ты залайкал Music For Nine Post Cards — это его следующий альбом, те же редкие ноты электропиано плюс птицы и вода, ровно тот уровень «забыть, что играет», что нужен под чтение.",
-      "wanted": "Hiroshi Yoshimura Green Full Album",
-      "mood": "calm",
-      "suggestedAt": "2026-10-03",
-      "verdict": "new",
-      "played": true
-    },
-    {
       "id": "sc:11851839",
       "source": "soundcloud",
       "url": "https://soundcloud.com/syuzhet/stars-of-the-lid-and-their",
@@ -108,6 +91,20 @@
     }
   ],
   "history": [
+    {
+      "id": "sc:368410730",
+      "artist": "Pandito Rafi",
+      "title": "Hiroshi Yoshimura - Green [1986] [Full Album]",
+      "url": "https://soundcloud.com/rafipandito/hiroshi-yoshimura-green-1986",
+      "reason": "Ты залайкал Music For Nine Post Cards — это его следующий альбом, те же редкие ноты электропиано плюс птицы и вода, ровно тот уровень «забыть, что играет», что нужен под чтение.",
+      "mood": "calm",
+      "show": null,
+      "nts": null,
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-10-09",
+      "suggestedAt": "2026-10-03"
+    },
     {
       "id": "sc:983381488",
       "artist": "crystallmess",

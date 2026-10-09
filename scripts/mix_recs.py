@@ -34,6 +34,16 @@ EVERY_HOURS = 20  # a daily job that may fire late (the mini sleeps) should not 
 # вернуться. Включённый совет (played) — тоже живой: его дослушивают не за день.
 ITEM_DAYS = 7
 UNSEEN_COOLDOWN = 21
+# Но включённый и не отвеченный — не неделю, а PLAYED_DAYS с первого включения (09.10.2026, «советует одно
+# и то же»): из пяти мест три держали включённые, и страница не менялась по пять дней. Попробовал и не нажал
+# ни «Нравится», ни «Не то» — сигнал записан, место нужнее новому.
+PLAYED_DAYS = 2
+# Тот же артист/шоу, что висит сейчас или был в ответах за REPEAT_DAYS, — не совет, а клон: модель тянется
+# к последнему лайку (Sir Spyro после Sir Spyro, второй альбом Yoshimura после первого). Площадки не в счёт —
+# «NTS» или «Rinse FM» в поле artist иначе закрыли бы всё радио.
+REPEAT_DAYS = 30
+PLATFORMS = {"nts", "rinse", "fm", "radio", "boiler", "room", "bbc", "1", "essential", "mix", "podcast", "live",
+             "the", "lot", "dekmantel", "ra", "resident", "advisor", "show"}
 ANSWERED = ("liked", "dismissed")
 # Любимые резидентуры NTS (04.10.2026, просьба пользователя «давай советы от неё»): выпуск Coucou Chloé
 # с Brat Star дослушан до конца. Отсюда всегда висит один выпуск — сверх квот модели, а не вместо них, —
@@ -73,7 +83,9 @@ def expire(db):
     """Просроченные советы уезжают в историю как «не увидел»; возвращает живые."""
     live, gone = [], []
     for r in db["items"]:
-        (live if age_days(r.get("suggestedAt")) < ITEM_DAYS else gone).append(r)
+        stale = age_days(r.get("suggestedAt")) >= ITEM_DAYS or (
+            r.get("played") and age_days(r.get("playedAt") or r.get("suggestedAt")) >= PLAYED_DAYS)
+        (gone if stale else live).append(r)
     for r in gone:
         # Включал, но не ответил — это «слушал», сигнал слабый, но настоящий; не включал — не увидел.
         r["verdict"] = "played" if r.get("played") else "unseen"
@@ -207,6 +219,13 @@ def _match(m, artist):
     return 0
 
 
+def repeats(artist, recent):
+    """Asked-for artist already hangs on the page or was answered recently (площадки не считаются)."""
+    if not set(_words(artist)) - PLATFORMS:
+        return None
+    return next((r for r in recent if _match({"artist": r.get("artist") or "", "title": r.get("title") or ""}, artist)), None)
+
+
 def search_soundcloud(query, artist=None, exclude=()):
     """Best long track for the query; the asked-for artist must actually be in it."""
     try:
@@ -264,6 +283,8 @@ def apply_answer(text, model=None, keep=3, keep_calm=2):
         print("  все места заняты живыми советами — ничего не меняю")
         return live
     items = []
+    recent = live + [h for h in db["history"] if h.get("verdict") in ANSWERED + ("played",)
+                     and age_days(h.get("at")) < REPEAT_DAYS]
     for c in parse_answer(text):
         if sum(need.values()) <= 0:
             break
@@ -271,6 +292,10 @@ def apply_answer(text, model=None, keep=3, keep_calm=2):
         if need[mood] <= 0:
             continue
         query = (c.get("search") or f"{c.get('artist','')} {c.get('title','')}").strip()
+        same = repeats(c.get("artist"), recent + items)
+        if same:
+            print(f"  repeat of {same.get('artist')} — {same.get('title')}: {query}")
+            continue
         m = search_soundcloud(query, c.get("artist"), exclude)
         if not m:
             print(f"  no long track for: {query}")
@@ -306,8 +331,9 @@ def verdict(rid, v):
     r = next((x for x in db["items"] if x["id"] == rid), None)
     if not r:
         raise SystemExit(f"no such suggestion: {rid}")
-    if v == "played":  # implicit signal: stays on the page, the model gets to know it was tried
+    if v == "played":  # implicit signal: stays on the page PLAYED_DAYS, the model gets to know it was tried
         r["played"] = True
+        r.setdefault("playedAt", today())
         save(db)
         return {"rec": r, "mix": None}
     r["verdict"] = v
