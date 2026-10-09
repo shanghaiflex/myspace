@@ -77,6 +77,9 @@
   .note.bad { color: var(--warn); }
   tr.act td:first-child { font-weight: 600; }
   tr.off td { color: var(--text-3); }
+  td.when { width: 1%; vertical-align: top; font-variant-numeric: tabular-nums; }
+  td.when span { display: block; font-size: 12.5px; color: var(--text-3); }
+  td.what { white-space: normal; vertical-align: top; line-height: 1.5; }
   @media (max-width: 640px) {
     .bar-inner { padding: 12px 16px; } .nav { font-size: 15px; gap: 14px; }
     .wrap { padding: 24px 16px 70px; } .head h1 { font-size: 28px; } .card { padding: 18px; border-radius: 18px; }
@@ -111,7 +114,7 @@ const pct = n => n == null ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.a
 const cls = n => n > 0 ? 'pos' : n < 0 ? 'neg' : '';
 const ddmm = s => s ? s.slice(8, 10) + '.' + s.slice(5, 7) : '—';
 const KIND = { real: 'Реальный счёт', sandbox: 'Песочница' };
-const PHASE = { morning: 'утро', all: 'вечер' };
+const PHASE = { morning: 'утро', all: 'вечер', manual: 'вручную' };
 let D = null;
 
 // Ближайший прогон по расписанию (будни, МСК). Праздники биржи прогон пропускает сам — здесь их не знаем.
@@ -194,11 +197,31 @@ function planCard() {
            : '<div class="empty">Подходящих дивидендов в ближайшие 60 дней нет.</div>'}</div>`;
 }
 
+// Лента прогонов: что стратегия сделала в каждом — в том числе «ничего», чтобы было видно, что прогон был.
+function activityCard() {
+  const many = D.accounts.length > 1;
+  const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Moscow' });
+  const runs = D.accounts.flatMap(a => (a.runs || []).map(r => ({ ...r, kind: a.kind }))).sort((x, y) => y.at.localeCompare(x.at)).slice(0, 12);
+  if (!runs.length) return '';
+  const deal = o => {
+    const ok = /(^|_)FILL\b/.test(o.status) && o.lots === o.filled, n = Math.abs(+o.lots);
+    return `<span class="${ok ? '' : 'neg'}">${+o.lots > 0 ? 'купили' : 'продали'} ${esc(o.ticker)} ${n.toLocaleString('ru-RU')}`
+      + (+o.amount ? ` · ${money(Math.abs(+o.amount))}` : '') + (ok ? '' : ` · исполнено ${esc(o.filled)} из ${esc(o.lots)}`)
+      + (/\(тест\)/.test(o.status) ? ' · тест' : '') + '</span>';
+  };
+  const rows = runs.map(r => `<tr class="${r.orders.length ? 'act' : 'off'}">
+      <td class="when">${r.at.slice(0, 10) === today ? 'сегодня' : esc(ddmm(r.at))} ${esc(r.at.slice(11, 16))}
+        <span>${esc(PHASE[r.phase] || r.phase)}${many ? ' · ' + (r.kind === 'real' ? 'реальный' : 'песочница') : ''}</span></td>
+      <td class="what">${r.orders.length ? r.orders.map(deal).join('<br>') : 'ничего не делали'}</td></tr>`).join('');
+  return `<div class="card"><div class="eyebrow">Последние действия <span class="more">прогонов ${runs.length}</span></div>
+    <div class="tbl"><table><tbody>${rows}</tbody></table></div></div>`;
+}
+
 function ordersCard() {
   const all = D.accounts.flatMap(a => a.orders.map(o => ({ ...o, kind: a.kind }))).sort((x, y) => y.time.localeCompare(x.time)).slice(0, 30);
   if (!all.length) return '';
   const rows = all.map(o => {
-    const ok = /_FILL\b/.test(o.status) && o.lots === o.filled, test = /\(тест\)/.test(o.status);
+    const ok = /(^|_)FILL\b/.test(o.status) && o.lots === o.filled, test = /\(тест\)/.test(o.status);
     return `<tr><td class="dim">${esc(o.time.slice(8, 10) + '.' + o.time.slice(5, 7) + ' ' + o.time.slice(11, 16))}</td><td>${o.kind === 'real' ? '<b>реальный</b>' : 'песочница'}</td>
       <td>${esc(o.ticker)}</td><td class="n">${+o.lots > 0 ? 'купить' : 'продать'} ${Math.abs(+o.lots)}</td><td class="n">${(+o.price).toLocaleString('ru-RU')}</td>
       <td class="n">${+o.amount ? money(Math.abs(+o.amount)) : '<span class="dim">—</span>'}</td><td class="${ok ? '' : 'neg'}">${ok ? 'исполнено' + (test ? ' · тест' : '') : esc(o.filled + ' из ' + o.lots + ' · ' + o.status.replace('EXECUTION_REPORT_STATUS_', ''))}</td></tr>`;
@@ -212,7 +235,7 @@ function render() {
   document.getElementById('sub').textContent = `ключевая ${D.keyrate != null ? (D.keyrate * 100).toFixed(2).replace('.', ',').replace(/,00$/, '') + '%' : '—'}`
     + (real && real.value != null ? ` · реальный счёт ${money(real.value)}` : '');
   const order = ['real', 'sandbox'].map(k => D.accounts.find(a => a.kind === k)).filter(Boolean);
-  document.getElementById('grid').innerHTML = statusCard() + order.map(accountCard).join('') + order.map(positionsCard).join('') + planCard() + ordersCard();
+  document.getElementById('grid').innerHTML = statusCard() + order.map(accountCard).join('') + activityCard() + order.map(positionsCard).join('') + planCard() + ordersCard();
 }
 
 fetch('/api/invest', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => {

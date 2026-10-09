@@ -26,6 +26,8 @@ DIR = os.environ.get("INVEST_DIR") or next(
 CONF = os.path.join(HOME, ".config", "tinvest")
 KINDS = ("real", "sandbox")
 ORDERS_SHOWN = 40
+RUNS_SHOWN = 12
+RUN_WINDOW = dt.timedelta(minutes=20)  # заявки прогона — до 20 мин раньше его строки в forward.csv (повторы, лимиты)
 SCHEDULE = [("07:05", "утро", "продажи по выходу из разгона и откуп шорта фьючерса"),
             ("18:15", "вечер", "обновление данных"),
             ("18:30", "вечер", "покупки, шорт IMOEXF на исполненное, свободное — в LQDT")]
@@ -71,14 +73,30 @@ def keyrate_growth(start, end, rates):
     return k
 
 
+def runs(rows, orders):
+    """Лента действий: каждый прогон (строка forward.csv) с его заявками, новые сверху. Заявка вне окна прогона
+    (ручной тест) — отдельной записью, чтобы не приписать её чужому прогону."""
+    ts = lambda s: dt.datetime.strptime(s[:16], "%Y-%m-%d %H:%M")
+    out = [{"at": r["time"], "phase": r["phase"], "value": float(r["value"]), "orders": []} for r in rows]
+    for o in orders:
+        t = ts(o["time"])
+        run = next((x for x in out if ts(x["at"]) - RUN_WINDOW <= t <= ts(x["at"]) + dt.timedelta(minutes=1)), None)
+        if run is None:
+            run = {"at": o["time"][:16], "phase": "manual", "value": None, "orders": []}
+            out.append(run)
+        run["orders"].append(o)
+    return sorted(out, key=lambda x: x["at"], reverse=True)[:RUNS_SHOWN]
+
+
 def account(kind, acc_id, forward, orders, rates):
     rows = [r for r in forward if r["account"] == acc_id]
     state = _json(os.path.join(DIR, "data", f"state-{kind}.json"))
     if state and state.get("account") != acc_id:
         state = None
     series = [[r["time"], float(r["value"])] for r in rows]
+    mine = [o for o in orders if o["account"] == acc_id]
     out = {"kind": kind, "account": acc_id, "name": (state or {}).get("name"), "series": series, "state": state,
-           "orders": [o for o in orders if o["account"] == acc_id][-ORDERS_SHOWN:][::-1]}
+           "orders": mine[-ORDERS_SHOWN:][::-1], "runs": runs(rows, mine)}
     if series:
         first, last = series[0], series[-1]
         t0 = dt.datetime.strptime(first[0], "%Y-%m-%d %H:%M").date()

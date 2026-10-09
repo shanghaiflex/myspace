@@ -1,24 +1,7 @@
 {
-  "updatedAt": "2026-10-06T12:15:34",
+  "updatedAt": "2026-10-08T07:24:28",
   "model": "opus",
   "items": [
-    {
-      "id": "sc:983381488",
-      "source": "soundcloud",
-      "url": "https://soundcloud.com/crystallmess/unleashed-vii-crystallmess-nts-ryuichi-sakamoto-special",
-      "title": "UNLEASHED VII | CRYSTALLMESS | RYUICHI SAKAMOTO SPECIAL | NTS",
-      "artist": "crystallmess",
-      "duration": 3586,
-      "artwork": "https://i1.sndcdn.com/artworks-maeB6Uf6rLRRF5fh-ljRtvQ-t500x500.jpg",
-      "genre": "Soundtrack",
-      "published": "2021-02-11",
-      "reason": "Ты залайкал Coucou Chloe и сидишь часами в United In Flames с Malibu — Crystallmess из той же парижской компании, но строит час на логоби-перкуссии и обрывках голосов, без сухого индастриала, на котором ты выключил Slap City.",
-      "wanted": "Crystallmess NTS",
-      "mood": "rhythmic",
-      "suggestedAt": "2026-10-03",
-      "verdict": "new",
-      "played": true
-    },
     {
       "id": "sc:80338782",
       "source": "soundcloud",
@@ -51,7 +34,7 @@
       "mood": "calm",
       "suggestedAt": "2026-10-03",
       "verdict": "new",
-      "played": false
+      "played": true
     },
     {
       "id": "sc:11851839",
@@ -104,10 +87,41 @@
       "mood": "rhythmic",
       "suggestedAt": "2026-10-06",
       "verdict": "new",
-      "played": false
+      "played": true
+    },
+    {
+      "id": "sc:280344791",
+      "source": "soundcloud",
+      "url": "https://soundcloud.com/rinsefm/sirspyro280816",
+      "title": "Rinse FM Podcast - The Grime Show w/ Sir Spyro , D Double E & Mytus - 28th August 2016",
+      "artist": "Rinse FM",
+      "duration": 7157,
+      "artwork": "https://i1.sndcdn.com/artworks-000179193365-e852bv-t500x500.jpg",
+      "genre": null,
+      "published": "2016-08-28",
+      "reason": "Эпизод Grime Show с Ghetts ты залайкал — тут тот же Sir Spyro на 140 и то же живое радио, только за микрофоном D Double E с его рваным «ооо-ооо» вместо злого речитатива Ghetts.",
+      "wanted": "Rinse FM Grime Show Sir Spyro D Double E",
+      "mood": "rhythmic",
+      "suggestedAt": "2026-10-08",
+      "verdict": "new",
+      "played": true
     }
   ],
   "history": [
+    {
+      "id": "sc:983381488",
+      "artist": "crystallmess",
+      "title": "UNLEASHED VII | CRYSTALLMESS | RYUICHI SAKAMOTO SPECIAL | NTS",
+      "url": "https://soundcloud.com/crystallmess/unleashed-vii-crystallmess-nts-ryuichi-sakamoto-special",
+      "reason": "Ты залайкал Coucou Chloe и сидишь часами в United In Flames с Malibu — Crystallmess из той же парижской компании, но строит час на логоби-перкуссии и обрывках голосов, без сухого индастриала, на котором ты выключил Slap City.",
+      "mood": "rhythmic",
+      "show": null,
+      "nts": null,
+      "verdict": "dismissed",
+      "played": true,
+      "at": "2026-10-07",
+      "suggestedAt": "2026-10-03"
+    },
     {
       "id": "sc:1150662631",
       "artist": "Overmono – Essential Mix",

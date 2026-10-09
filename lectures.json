@@ -5845,7 +5845,7 @@
     {
       "id": "8jwJy3M1Ga8",
       "status": "listening",
-      "position": 0,
+      "position": 8261,
       "listenedAt": null,
       "addedAt": "2026-09-15",
       "note": null,
@@ -5859,7 +5859,8 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=8jwJy3M1Ga8",
       "artwork": null,
-      "queuedAt": 1791231860
+      "queuedAt": 1791231860,
+      "touchedAt": 1791521588
     },
     {
       "id": "7HRnj_ILa-Y",
