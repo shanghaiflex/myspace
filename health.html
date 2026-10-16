@@ -61,6 +61,9 @@
   .hist .it { display: grid; grid-template-columns: 96px 1fr; gap: 12px; font-size: 14.5px; }
   .hist .ts { color: var(--text-3); font-variant-numeric: tabular-nums; font-size: 13px; padding-top: 2px; }
   .hist p { margin: 0; white-space: pre-wrap; }
+  .rv { display: flex; gap: 18px; margin-top: 8px; }
+  .rv .rvb { font: inherit; font-family: var(--sans); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; border: 0; background: none; padding: 0; color: var(--text-3); cursor: pointer; }
+  .rv .rvb:hover, .rv .rvb.on { color: var(--accent); }
   .foot { color: var(--text-3); font-size: 12.5px; margin-top: 14px; }
   .recs { grid-column: 1 / -1; margin: 10px 0; }
   .recs[hidden] { display: none; }
@@ -131,12 +134,22 @@ const dt = s => s ? new Date(s) : null;
 const fmtTs = s => { const d = dt(s); return d ? d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) + ', ' + d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '—'; };
 const ago = s => { const d = dt(s); if (!d) return 'данных ещё нет'; const m = Math.round((Date.now() - d) / 60000);
   return m < 2 ? 'только что' : m < 60 ? `${m} мин назад` : m < 1440 ? `${Math.round(m / 60)} ч назад` : `${Math.round(m / 1440)} дн назад`; };
-const wk = w => `${w.ru} ${w.min} мин${w.km ? ` · ${w.km} км` : ''}${w.hr ? ` · пульс ${w.hr}` : ''}`;
+const wk = w => `${w.ru} ${w.min} мин${w.km ? ` · ${w.km} км` : ''}${w.hr ? ` · пульс ${w.hr}` : ''}${w.trivial ? ' · дорога' : ''}`;
 
 let busy = false;
 // Советы по стартам стоят сразу под заметкой, а не под таблицей и историей (29.09.2026): внизу страницы
 // на телефоне их никто не находил. Сетка перерисовывается целиком, поэтому секцию держим ссылкой и вставляем заново.
 const recsEl = document.getElementById('recs');
+// Отклик на заметку (16.10.2026): «в точку» / «мимо» уходит в следующий промпт примером. Повторное нажатие снимает.
+const rvBtns = r => r.id ? `<div class="rv" data-id="${r.id}">${[['good', 'В точку'], ['bad', 'Мимо']].map(([v, t]) =>
+  `<button class="rvb${r.verdict === v ? ' on' : ''}" data-rv="${v}">${t}</button>`).join('')}</div>` : '';
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-rv]'); if (!b) return;
+  const box = b.closest('.rv'), v = b.classList.contains('on') ? null : b.dataset.rv;
+  const r = await fetch('/api/health/review/' + box.dataset.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ verdict: v }) }).catch(() => null);
+  if (r && r.ok) box.querySelectorAll('[data-rv]').forEach(x => x.classList.toggle('on', x.dataset.rv === v));
+  else b.textContent = 'Ошибка';
+});
 async function load() {
   const r = await fetch('/api/health', { cache: 'no-store' });
   if (!r.ok) { document.getElementById('grid').innerHTML = `<div class="card"><div class="empty">Не удалось загрузить: ${r.status}</div></div>`; return; }
@@ -150,13 +163,13 @@ async function load() {
   const note = h.review && !h.review.stale ? h.review : null;
   cards.push(`<div class="card"><div class="eyebrow">Заметка <span class="more">${note ? esc(fmtTs(note.ts)) + (note.model ? ' · ' + esc(note.model) : '') : ''}
       <button class="btn" id="run" ${running ? 'disabled' : ''}>${running ? 'Считаю…' : 'Обновить'}</button></span></div>
-    ${note ? `<p class="note">${esc(note.text)}</p>` : `<div class="empty">${h.review ? 'Ночная заметка убрана — свежая появится после первой синхронизации за утро.' : 'Заметки пока нет — появится после первого прогона обзора.'}</div>`}
+    ${note ? `<p class="note">${esc(note.text)}</p>${rvBtns(note)}` : `<div class="empty">${h.review ? 'Ночная заметка убрана — свежая появится после первой синхронизации за утро.' : 'Заметки пока нет — появится после первого прогона обзора.'}</div>`}
     ${h.reviewJob && h.reviewJob.startsWith('error') ? `<div class="foot">Последний запуск: ${esc(h.reviewJob)}</div>` : ''}
     <div class="stats">
-      <div><b>${today && today.sleep ? hm(today.sleep.total) : '—'}</b>сон этой ночью${a.sleep ? ` · ср. ${hm(a.sleep)}` : ''}</div>
-      <div><b>${today && today.rhr != null ? today.rhr : '—'}</b>пульс покоя${a.rhr ? ` · ср. ${a.rhr}` : ''}</div>
-      <div><b>${today && today.hrv != null ? today.hrv : '—'}</b>HRV, мс${a.hrv ? ` · ср. ${a.hrv}` : ''}</div>
-      <div><b>${today && today.steps != null ? num(today.steps) : '—'}</b>шагов сегодня${a.steps ? ` · ср. ${num(a.steps)}` : ''}</div>
+      <div><b>${today && today.sleep ? hm(today.sleep.total) : '—'}</b>сон этой ночью${a.sleep ? ` · норма ${hm(a.sleep)}` : ''}</div>
+      <div><b>${today && today.rhr != null ? today.rhr : '—'}</b>пульс покоя${a.rhr ? ` · норма ${a.rhr}` : ''}</div>
+      <div><b>${today && today.hrv != null ? today.hrv : '—'}</b>HRV, мс${a.hrv ? ` · норма ${a.hrv}` : ''}</div>
+      <div><b>${today && today.steps != null ? num(today.steps) : '—'}</b>шагов сегодня${a.steps ? ` · норма ${num(a.steps)}` : ''}</div>
     </div></div>`);
   cards.push(`<div class="card"><div class="eyebrow">Последние ${h.days.length} дней</div><div class="tbl"><table>
     <tr><th>День</th><th>Сон</th><th>Глубокий / REM</th><th>Отбой – подъём</th><th class="n">RHR</th><th class="n">HRV</th><th class="n">Шаги</th><th class="n">Ккал</th><th>Тренировки</th></tr>
@@ -169,7 +182,7 @@ async function load() {
     </table></div><div class="foot">Сон засчитывается на утро пробуждения. Шаги и калории — оценка, если часы и телефон считали одновременно.</div></div>`);
   const past = note ? h.reviews.slice(1) : h.reviews;
   if (past && past.length) {
-    cards.push(`<div class="card"><div class="eyebrow">Раньше</div><div class="hist">${past.map(r => `<div class="it"><div class="ts">${esc(fmtTs(r.ts))}</div><p>${esc(r.text)}</p></div>`).join('')}</div></div>`);
+    cards.push(`<div class="card"><div class="eyebrow">Раньше</div><div class="hist">${past.map(r => `<div class="it"><div class="ts">${esc(fmtTs(r.ts))}</div><div><p>${esc(r.text)}</p>${rvBtns(r)}</div></div>`).join('')}</div></div>`);
   }
   const grid = document.getElementById('grid');
   grid.innerHTML = cards.join('');

@@ -125,8 +125,28 @@ def invest_items(now=None):
     return out
 
 
+PROFILE_WARN_HOURS = 36   # за сколько до конца срока профиля приложения предупреждать
+
+
+def profile_item(now=None):
+    """Профиль BoW скоро истечёт: после срока приложение не запустится и само о себе уже не скажет."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    try:
+        ap = H.app_profile()
+        exp = H.parse_ts(ap["expires"]) if ap else None
+    except Exception:
+        return None
+    if not exp or not dt.timedelta(0) < exp - now < dt.timedelta(hours=PROFILE_WARN_HOURS):
+        return None
+    loc = exp.astimezone(H.tz())
+    day = "сегодня" if loc.date() == now.astimezone(H.tz()).date() else "завтра" if (loc.date() - now.astimezone(H.tz()).date()).days == 1 else loc.strftime("%d.%m")
+    return {"id": "profile:" + ap["expires"], "kind": "app", "title": "BoW",
+            "body": f"Профиль приложения истекает {day} в {loc:%H:%M} — подключи телефон и попроси пересобрать.",
+            "at": now.isoformat(timespec="seconds"), "page": "home"}
+
+
 def items():
-    return [x for x in (review_item(), week_item(), recs_item()) if x] + invest_items()
+    return [x for x in (profile_item(), review_item(), week_item(), recs_item()) if x] + invest_items()
 
 
 if __name__ == "__main__":

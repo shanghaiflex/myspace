@@ -18,7 +18,7 @@ Every sample carries its HealthKit UUID, so re-sends are idempotent and deletion
 Env: HEALTH_DB (default health.db next to serve.py), HEALTH_TZ (default WEATHER_TZ, then Europe/Moscow),
 HEALTH_BACKUP_DIR (default backups/ next to health.db).
 """
-import argparse, datetime as dt, json, os, re, sqlite3, sys
+import argparse, datetime as dt, json, os, re, sqlite3, statistics, sys
 from zoneinfo import ZoneInfo
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -60,6 +60,8 @@ CREATE TABLE IF NOT EXISTS samples (
   data TEXT NOT NULL, ingested_at TEXT NOT NULL, deleted_at TEXT);
 CREATE INDEX IF NOT EXISTS idx_samples_kind_start ON samples(type, kind, start);
 CREATE INDEX IF NOT EXISTS idx_samples_ingested ON samples(ingested_at);
+CREATE TABLE IF NOT EXISTS app (
+  device TEXT PRIMARY KEY, profile_expires TEXT, seen TEXT);
 CREATE TABLE IF NOT EXISTS reviews (
   id INTEGER PRIMARY KEY AUTOINCREMENT, ts TEXT NOT NULL, model TEXT, text TEXT NOT NULL,
   digest TEXT, samples_until TEXT);
@@ -80,6 +82,10 @@ def connect():
             db.execute("ALTER TABLE reviews ADD COLUMN kind TEXT NOT NULL DEFAULT 'note'")
         if "snapshot" not in cols:
             db.execute("ALTER TABLE reviews ADD COLUMN snapshot TEXT")
+        # Отклик на заметку (16.10.2026): good — в точку, bad — мимо. У советов петля обратной связи была с первого
+        # дня, а у заметки её не было вовсе — 250 заметок, и ни одной оценки, какие из них полезны.
+        if "verdict" not in cols:
+            db.execute("ALTER TABLE reviews ADD COLUMN verdict TEXT")
     return db
 
 
@@ -226,6 +232,26 @@ def implausible(kind, minutes, meters, hr):
         return False
     v = meters / 1000 / (minutes / 60)
     return v > FAST_KMH and (hr or 0) < FAST_HR if hr else v > FAST_KMH_NOHR
+
+
+# Не тренировка, а дорога или случайно включённая запись (16.10.2026): три минуты «велосипеда», городской
+# велосипед 12 км/ч при пульсе 95. В таблице они остаются, но тренировкой в счёте, нагрузкой и поводом для
+# заметки не считаются — иначе «5 тренировок за неделю», а настоящих было два тенниса.
+MIN_WORKOUT = 10
+COMMUTE_KMH, COMMUTE_HR = 18, 110
+
+
+def trivial(kind, minutes, raw):
+    """Запись, которая не тренировка: короче MIN_WORKOUT, транспорт или неспешная езда по городу."""
+    if (minutes or 0) < MIN_WORKOUT:
+        return True
+    meters, hr = raw.get("distanceMeters"), raw.get("averageHeartRate")
+    if implausible(kind, minutes, meters, hr):
+        return True
+    if kind == "cycling" and meters:
+        v = meters / 1000 / (minutes / 60)
+        return v < COMMUTE_KMH and (hr or 0) < COMMUTE_HR
+    return False
 
 
 def workout_detail(kind, minutes, raw):
@@ -407,6 +433,7 @@ def daily(db, days, today=None):
                                       "min": round(s["value"] or 0), "km": round((raw.get("distanceMeters") or 0) / 1000, 2) or None,
                                       "kcal": round(raw["calories"]) if raw.get("calories") else None,
                                       "hr": round(raw["averageHeartRate"]) if raw.get("averageHeartRate") else None,
+                                      "trivial": trivial(k, s["value"] or 0, raw),
                                       **workout_detail(k, s["value"] or 0, raw)})
         elif kind == "resting_heart_rate":
             d["rhr"] = round(sum(s["value"] for s in ss) / len(ss))
@@ -431,7 +458,32 @@ def workout_text(x):
     return (f"{x['ru']} {x['min']} мин" + (f" {x['km']} км" if x['km'] else "") + (f" ({x['where']})" if x.get("where") else "")
             + (f" {x['pace']}" if x.get("pace") else "") + (f" пульс {x['hr']}" if x['hr'] else "")
             + (f"/макс {x['maxHr']}" if x['hr'] and x.get("maxHr") else "") + (f" +{x['elev']} м" if x.get("elev") else "")
-            + (" — скорость не сходится с пульсом, похоже на транспорт: темп не обсуждай" if x.get("suspect") else ""))
+            + (" — скорость не сходится с пульсом, похоже на транспорт: темп не обсуждай" if x.get("suspect")
+               else " — дорога или короткая запись, не тренировка" if x.get("trivial") else ""))
+
+
+def real_workouts(d):
+    """Тренировки в счёт: без дороги и коротких записей и без ходьбы — как в нагрузке (load.py)."""
+    return [w for w in d["workouts"] if not w.get("trivial") and w["type"] != "walking"]
+
+
+NORM_DAYS = 28
+HRV_MIN_N = 4   # меньше замеров за день — HRV дня это шум, а не состояние
+
+
+def norms(db, today=None, days=NORM_DAYS):
+    """Моя норма: медиана `days` полных дней до `today`. Одна цифра на метрику — для заметки, vitals и страницы."""
+    today = today or dt.datetime.now(tz()).date()
+    tbl = daily(db, days + 1, today)[1:]
+    worn = [d for d in tbl if not d["noWatch"]]
+
+    def med(vals):
+        vals = [v for v in vals if v is not None]
+        return round(statistics.median(vals)) if vals else None
+    return {"sleep": med([d["sleep"]["total"] for d in worn if d["sleep"]]), "deep": med([d["sleep"]["deep"] for d in worn if d["sleep"]]),
+            "rhr": med([d["rhr"] for d in worn]), "hrv": med([d["hrv"] for d in worn]),
+            "steps": med([d["steps"] for d in tbl]), "kcal": med([d["kcal"] for d in worn]),
+            "perWeek": round(sum(len(real_workouts(d)) for d in tbl) / days * 7, 1), "noWatch": len(tbl) - len(worn)}
 
 
 def avg(vals):
@@ -459,7 +511,11 @@ def last_review(db, kind="note"):
 # пишется на существенное изменение: пришёл сон, добавилась тренировка, шаги выросли на STEP_DELTA,
 # наступил вечер — или прошло QUIET_HOURS без заметки (день всё-таки идёт).
 STEP_DELTA = 2500
+STEP_STILL = 500    # меньше — день стоит на месте, и поводы «по часам» заметку не пишут
 QUIET_HOURS = 4
+# Ночью заметку никто не читает, а утром она и так скрыта как ночная (daybreak): 16.10 в 00:43 и 04:42 ушли
+# два вызова Opus впустую. С 01 до 06 часовой агент молчит; кнопка «Обновить» (--force) работает всегда.
+NIGHT_SILENT = (1, MORNING_HOUR)
 EVENING_HOUR = 20
 GOAL_WORDS = {"плавание": r"плава|заплыв|бассейн", "силовые": r"силов"}
 GOAL_REMIND_DAYS = 7
@@ -476,7 +532,7 @@ def snapshot(db, now=None):
         sick = bool(ns and ns["sick"])
     except Exception:
         sick = False
-    return {"date": d["date"], "hour": now.hour, "steps": d["steps"] or 0, "workouts": len(d["workouts"]),
+    return {"date": d["date"], "hour": now.hour, "steps": d["steps"] or 0, "workouts": len(real_workouts(d)),
             "sleep": bool(d["sleep"]), "sick": sick}
 
 
@@ -494,6 +550,10 @@ def changed(prev, cur, hours_since):
         return "новая тренировка"
     if cur["steps"] - (prev.get("steps") or 0) >= STEP_DELTA:
         return f"шаги +{cur['steps'] - (prev.get('steps') or 0)}"
+    # «Вечер» и «давно не писал» — поводы по часам, а не по данным. Если с прошлой заметки не прибавилось
+    # и STEP_STILL шагов, новая повторит прошлую (15.10: «12193 шага, так держать» в 18:43 и снова в 20:43).
+    if cur["date"] == prev.get("date") and cur["steps"] - (prev.get("steps") or 0) < STEP_STILL:
+        return None
     if cur["hour"] >= EVENING_HOUR > (prev.get("hour") or 0) and cur["date"] == prev.get("date"):
         return "наступил вечер"
     if hours_since >= QUIET_HOURS:
@@ -543,16 +603,23 @@ def digest(db=None, days=7):
         lines.append(f"{d['date'][5:]} {d['dow']}  {sl}  {d['rhr'] or '—':>3}  {(str(d['hrv']) + '(' + str(d['hrvN']) + ')') if d['hrv'] else '—':7} {d['steps'] if d['steps'] is not None else '—':>6} {d['kcal'] if d['kcal'] is not None else '—':>5}  {w}"
                      + ("   ← без часов" if d["noWatch"] else ""))
     lines.append("")
-    long = daily(db, 28, now.date())
-    for label, tbl in (("7 дней", table), ("28 дней", long)):
-        # Days without the watch are excluded from everything the watch measures, otherwise a week of not wearing
-        # it reads as a collapse in sleep and calories. Steps come from the phone, so they count every day.
-        worn = [d for d in tbl if not d["noWatch"]]
-        skipped = len(tbl) - len(worn)
-        lines.append(f"Средние за {label}: сон {hm(avg([d['sleep']['total'] for d in worn if d['sleep']]))}, глубокий {hm(avg([d['sleep']['deep'] for d in worn if d['sleep']]))}, "
-                     f"RHR {avg([d['rhr'] for d in worn]) or '—'}, HRV {avg([d['hrv'] for d in worn]) or '—'}, шаги {avg([d['steps'] for d in tbl]) or '—'}, "
-                     f"ккал {avg([d['kcal'] for d in worn]) or '—'}, тренировок {sum(len(d['workouts']) for d in tbl)}"
-                     + (f" (дней без часов: {skipped}, они в средние по сну/HRV/RHR/ккал не вошли)" if skipped else ""))
+    # Одна норма на метрику (16.10.2026). Раньше рядом стояли средние за 7 и за 28 дней, а vitals считал свою
+    # медиану, и заметки сравнивали сон то с «6ч42», то с «7ч08», а HRV — то с 60, то с 62. Теперь норма одна —
+    # медиана 28 полных дней до сегодня (без дней без часов), её же берёт vitals; 7 дней — только тренд.
+    nm = norms(db, now.date())
+    wk = daily(db, 8, now.date())[1:]
+    worn = [d for d in wk if not d["noWatch"]]
+    lines.append(f"Последние 7 полных дней (среднее, для тренда): сон {hm(avg([d['sleep']['total'] for d in worn if d['sleep']]))}, "
+                 f"RHR {avg([d['rhr'] for d in worn]) or '—'}, HRV {avg([d['hrv'] for d in worn]) or '—'}, шаги {avg([d['steps'] for d in wk]) or '—'}; "
+                 f"тренировок за эти 7 дней: {sum(len(real_workouts(d)) for d in wk)}")
+    lines.append(f"МОЯ НОРМА (медиана {NORM_DAYS} дней до сегодня — сравнивай с ней, другой «обычной» цифры нет): сон {hm(nm['sleep'])}, "
+                 f"глубокий {hm(nm['deep'])}, RHR {nm['rhr'] or '—'}, HRV {nm['hrv'] or '—'}, шаги {nm['steps'] or '—'}, ккал {nm['kcal'] or '—'}; "
+                 f"тренировок в неделю обычно {nm['perWeek']}".replace(".", ",")
+                 + (f" (дней без часов: {nm['noWatch']}, в норму по сну/HRV/RHR/ккал не вошли)" if nm["noWatch"] else ""))
+    t = table[0]
+    if t["hrv"] and t["hrvN"] < HRV_MIN_N:
+        lines.append(f"HRV сегодня — по {t['hrvN']} замер{'у' if t['hrvN'] == 1 else 'ам'} с полуночи. Часы меряют HRV в случайные часы, "
+                     "и от часа к часу он скачет на ±20 мс: по такому числу о дне не суди.")
     lines.append("")
     try:
         import vitals
@@ -573,6 +640,12 @@ def digest(db=None, days=7):
         lines.append("Про пропавшие дисциплины из целей ты уже напоминал: " + "; ".join(bits)
                      + f". Раньше чем через {GOAL_REMIND_DAYS} дней не повторяй.")
         lines.append("")
+    rated = db.execute("SELECT ts, text, verdict FROM reviews WHERE kind='note' AND verdict IS NOT NULL ORDER BY id DESC LIMIT 6").fetchall()
+    if rated:
+        lines.append("Как я оценил прошлые заметки (пиши как те, что «в точку», и не так, как «мимо»):")
+        for r in rated:
+            lines.append(f"- {'В ТОЧКУ' if r['verdict'] == 'good' else 'МИМО'} [{fmt_local(r['ts'])}] {r['text'].strip()}")
+        lines.append("")
     prev = db.execute("SELECT ts, text FROM reviews WHERE kind='note' ORDER BY id DESC LIMIT 3").fetchall()
     if prev:
         lines.append("Предыдущие заметки (не повторяй их дословно, если ничего не изменилось — просто подтверди коротко):")
@@ -588,6 +661,9 @@ def pending(db=None):
     out = {"lastIngest": li, "lastReview": lr["ts"] if lr else None, "newSamples": new, "ok": False, "why": None}
     if not li or new <= 0:
         out["why"] = "нет новых образцов"
+        return out
+    if NIGHT_SILENT[0] <= dt.datetime.now(tz()).hour < NIGHT_SILENT[1]:
+        out["why"] = "ночь — заметку прочтут только утром"
         return out
     prev = None
     if lr and lr["snapshot"]:
@@ -634,14 +710,45 @@ def summary(db=None, days=14):
     # older than this morning is marked stale and the pages stop showing it as current advice.
     stale = bool(lr) and parse_ts(lr["ts"]) < daybreak().astimezone(dt.timezone.utc)
     wk = last_review(db, "week")
-    return {"lastIngest": last_ingest(db), "tz": tz().key,
-            "review": {"ts": lr["ts"], "model": lr["model"], "text": lr["text"], "stale": stale} if lr else None,
+    return {"lastIngest": last_ingest(db), "tz": tz().key, "app": app_profile(db),
+            "review": {"id": lr["id"], "ts": lr["ts"], "model": lr["model"], "text": lr["text"], "verdict": lr["verdict"], "stale": stale} if lr else None,
             # Итоги недели (scripts/week.py): живут неделю, страница сама решает, показывать ли.
             "week": {"ts": wk["ts"], "model": wk["model"], "text": wk["text"]} if wk else None,
-            "reviews": [{"ts": r["ts"], "model": r["model"], "text": r["text"]} for r in db.execute("SELECT ts, model, text FROM reviews WHERE kind='note' ORDER BY id DESC LIMIT 30")],
+            "reviews": [{"id": r["id"], "ts": r["ts"], "model": r["model"], "text": r["text"], "verdict": r["verdict"]}
+                        for r in db.execute("SELECT id, ts, model, text, verdict FROM reviews WHERE kind='note' ORDER BY id DESC LIMIT 30")],
             "days": tbl,
-            "avg7": {"sleep": avg([d["sleep"]["total"] for d in tbl[:7] if d["sleep"]]), "rhr": avg([d["rhr"] for d in tbl[:7]]),
-                     "hrv": avg([d["hrv"] for d in tbl[:7]]), "steps": avg([d["steps"] for d in tbl[:7]])}}
+            # Та же норма, что видит заметка (norms): страница не должна говорить «ср. 6ч43», когда заметка — «норма 7ч12».
+            "avg7": {k: v for k, v in norms(db).items() if k in ("sleep", "rhr", "hrv", "steps")}}
+
+
+# Профиль подписи приложения (16.10.2026). Бесплатная команда даёт 7 дней, и истёкшее приложение молча перестаёт
+# запускаться: 15.10 в 23:44 оно умерло, и данных не было до утра, пока это не заметил человек. Приложение шлёт
+# срок заголовком X-Profile-Expires с каждым запросом — пока оно живо, сайт и уведомление успевают предупредить.
+def app_seen(device, expires, db=None):
+    if not expires:
+        return
+    db = db or connect()
+    with db:
+        db.execute("INSERT INTO app(device, profile_expires, seen) VALUES(?,?,?) "
+                   "ON CONFLICT(device) DO UPDATE SET profile_expires=excluded.profile_expires, seen=excluded.seen",
+                   (device, expires, iso(utcnow())))
+
+
+def app_profile(db=None):
+    """Самый свежий срок профиля из присланных: {"device", "expires", "seen"} или None."""
+    db = db or connect()
+    r = db.execute("SELECT * FROM app ORDER BY seen DESC LIMIT 1").fetchone()
+    return {"device": r["device"], "expires": r["profile_expires"], "seen": r["seen"]} if r else None
+
+
+def review_verdict(rid, verdict, db=None):
+    """Отклик на заметку: good | bad | None (снять). Уходит в следующий промпт примером."""
+    if verdict not in ("good", "bad", None):
+        raise ValueError("bad verdict")
+    db = db or connect()
+    with db:
+        n = db.execute("UPDATE reviews SET verdict=? WHERE id=?", (verdict, rid)).rowcount
+    return n > 0
 
 
 # ---------------------------------------------------------------- cli

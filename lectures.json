@@ -5222,7 +5222,7 @@
     {
       "id": "Dw4gy9ShHqU",
       "status": "queued",
-      "position": 0,
+      "position": 439,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -5238,7 +5238,8 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=Dw4gy9ShHqU",
-      "queuedAt": 1791231412
+      "queuedAt": 1791231412,
+      "touchedAt": 1792125142
     },
     {
       "id": "FeO60yKHfv8",
@@ -5844,9 +5845,9 @@
     },
     {
       "id": "8jwJy3M1Ga8",
-      "status": "listening",
-      "position": 8261,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 8388,
+      "listenedAt": "2026-10-10",
       "addedAt": "2026-09-15",
       "note": null,
       "series": [],
@@ -5860,7 +5861,7 @@
       "url": "https://www.youtube.com/watch?v=8jwJy3M1Ga8",
       "artwork": null,
       "queuedAt": 1791231860,
-      "touchedAt": 1791521588
+      "touchedAt": 1791619184
     },
     {
       "id": "7HRnj_ILa-Y",
@@ -6956,9 +6957,9 @@
     },
     {
       "id": "sc:957177196",
-      "status": "queued",
-      "position": 198,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 0,
+      "listenedAt": "2026-10-15",
       "addedAt": "2026-09-06",
       "note": null,
       "series": [
@@ -6973,7 +6974,7 @@
       "artwork": "https://i1.sndcdn.com/artworks-ATYHyPCyrEXkkg07-cODIAw-t500x500.jpg",
       "published": "2020-12-31",
       "queuedAt": 1788726833,
-      "touchedAt": 1791260714
+      "touchedAt": 1792080036
     },
     {
       "id": "sc:942846943",

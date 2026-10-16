@@ -2,51 +2,38 @@
   "film": {
     "updatedAt": "2026-10-03T07:41:22",
     "model": "opus",
-    "items": [
+    "items": [],
+    "history": [
       {
         "id": "tt0056327",
         "title": "Pale Flower",
-        "year": 1964,
         "author": "Masahiro Shinoda",
-        "cover": "posters/tt0056327.jpg",
-        "coverUrl": "https://m.media-amazon.com/images/M/MV5BMzA1MTYxOGMtOTY4MS00NzNiLTkyMjktZjdkYjgyOWI4NTgyXkEyXkFqcGc@._V1_SX300.jpg",
-        "meta": "Action, Crime, 96 мин, IMDb 7.7",
-        "runtime": 96,
-        "plot": "A gangster gets released from prison and has to cope with the recent shifts of power between the gangs, while taking care of a thrill-seeking young woman, who got in bad company while gambling.",
+        "year": 1964,
         "reason": "Якудза-нуар, из которого напрямую растут Sonatine и Fireworks: игорные притоны, паузы длиннее перестрелок, герой, которому скучно жить, — та же китановская апатия, только за десятилетия до Китано и с джазовым монтажом.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
       },
       {
         "id": "tt0076208",
         "title": "Iphigenia",
-        "year": 1977,
         "author": "Michael Cacoyannis",
-        "cover": "posters/tt0076208.jpg",
-        "coverUrl": "https://m.media-amazon.com/images/M/MV5BOTg0ZjY0ZTAtOGFlZS00YzgzLWExNDUtM2JjN2IzOTNiODM3XkEyXkFqcGc@._V1_SX300.jpg",
-        "meta": "Drama, 127 мин, IMDb 7.7",
-        "runtime": 127,
-        "plot": "To appease offended gods before going to war, a commander must sacrifice his favorite daughter to them but does so under the pretext of marrying her off.",
+        "year": 1977,
         "reason": "Прямо под твою серию про Эгеиду и Ближний Восток XVIII–XIV вв. до н. э.: Кацояннис снимает микенский мир без декоративной античности — ветер, камень, армия, ждущая жертвы, и политика ритуала разобрана холоднее, чем в The Odyssey Нолана.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
       },
       {
         "id": "tt0086541",
         "title": "Videodrome",
-        "year": 1983,
         "author": "David Cronenberg",
-        "cover": "posters/tt0086541.jpg",
-        "coverUrl": "https://m.media-amazon.com/images/M/MV5BOTI0NDVlMjMtNWI5Yi00ZWM0LTg4NWUtNGRkYjU5NTBkZjVkXkEyXkFqcGc@._V1_SX300.jpg",
-        "meta": "Drama, Horror, Sci-Fi, 87 мин, IMDb 7.2",
-        "runtime": 87,
-        "plot": "A Toronto cable TV station co-owner who specializes in adult entertainment searches for the producers of a dangerous and bizarre broadcast titled \"Videodrome.\"",
+        "year": 1983,
         "reason": "Соседняя территория, но по твоим книжным следам: Кроненберг экранизирует то, о чём пишут Фишер и Ланд — желание, сросшееся с медиа и телом, — и для человека, которому зашли American Psycho и Blue Velvet, это логичный следующий шаг в сторону телесного ужаса.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
-      }
-    ],
-    "history": [
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
+      },
       {
         "id": "tt0089603",
         "title": "Mishima: A Life in Four Chapters",
@@ -274,53 +261,38 @@
   "book": {
     "updatedAt": "2026-10-03T07:43:05",
     "model": "opus",
-    "items": [
+    "items": [],
+    "history": [
       {
         "id": "1177-год-до-н-э-год-когда-рухнула-цивилизация-эрик-х-клайн",
         "title": "1177 год до н. э. Год, когда рухнула цивилизация",
-        "year": null,
         "author": "Эрик Х. Клайн",
-        "cover": null,
-        "coverUrl": null,
-        "isbn": null,
-        "unverified": true,
-        "meta": "Эрик Х. Клайн",
-        "plot": null,
+        "year": null,
         "reason": "Ты сейчас сидишь в томе Кембриджской истории про Ближний Восток и Эгейю 1800–1380 и слушаешь лекции под него — это ровно следующий отрезок: как вся эта система дворцов и переписки схлопнулась около 1200 года.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
       },
       {
         "id": "время-соборов-искусство-и-общество-980-1420-годы-жорж-дюби",
         "title": "Время соборов. Искусство и общество. 980-1420 годы",
-        "year": null,
         "author": "Жорж Дюби",
-        "cover": null,
-        "coverUrl": null,
-        "isbn": null,
-        "unverified": true,
-        "meta": "Жорж Дюби",
-        "plot": null,
+        "year": null,
         "reason": "Это стык твоего Кавтарадзе и трёх книг Пастуро: Дюби читает собор как социальный и символический механизм, а не как памятник, и подпирает всю твою линию про средневековый город у Эрса.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
       },
       {
         "id": "общество-спектакля-комментарий-к-обществу-спектакля-ги-дебор",
         "title": "Общество спектакля. Комментарий к \"Обществу спектакля\"",
-        "year": null,
         "author": "Ги Дебор",
-        "cover": "covers/общество-спектакля-комментарий-к-обществу-спектакля-ги-дебор.jpg",
-        "coverUrl": "https://s1.livelib.ru/boocover/1010875457/200x305/261f/boocover.jpg",
-        "isbn": null,
-        "meta": "Ги Дебор",
-        "plot": null,
+        "year": null,
         "reason": "Недостающее звено между «Мифологиями» Барта и «Призраками моей жизни» Фишера: те же сто с лишним плотных тезисов о том, как образ подменяет жизнь, только злее и короче.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
-      }
-    ],
-    "history": [
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
+      },
       {
         "id": "возвышенный-объект-идеологии-славой-жижек",
         "title": "Возвышенный объект идеологии",
@@ -548,57 +520,38 @@
   "lecture": {
     "updatedAt": "2026-10-03T07:44:47",
     "model": "opus",
-    "items": [
+    "items": [],
+    "history": [
       {
         "id": "jgRCQ7EQNgM",
         "title": "The Growth of Useful Knowledge - Joel Mokyr",
-        "year": null,
         "author": "American Philosophical Society",
-        "cover": "https://i.ytimg.com/vi/jgRCQ7EQNgM/hqdefault.jpg",
-        "coverUrl": null,
-        "url": "https://www.youtube.com/watch?v=jgRCQ7EQNgM",
-        "duration": 2017,
-        "wanted": "Joel Mokyr A Culture of Growth lecture",
-        "meta": "American Philosophical Society · 34 мин",
-        "plot": "At the April 2024 Meeting of the American Philosophical Society, Joel Mokyr, Professor of Arts and Sciences and Professor of ...",
+        "year": null,
         "reason": "Ты прочитал Дэвидса про голландское технологическое лидерство и Тооза про экономику Рейха — Мокир отвечает на тот же вопрос с другой стороны: почему машина роста завелась именно в Европе и именно тогда.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
       },
       {
         "id": "DeUzip-y8gs",
         "title": "Понятие дискурса Лакана (часть 1) | Виктор Аронович Мазин",
-        "year": null,
         "author": "Институт Психоанализа (АНО ВО «ВЕИП»)",
-        "cover": "https://i.ytimg.com/vi/DeUzip-y8gs/hqdefault.jpg",
-        "coverUrl": null,
-        "url": "https://www.youtube.com/watch?v=DeUzip-y8gs",
-        "duration": 4755,
-        "wanted": "Виктор Мазин Лакан лекция",
-        "meta": "Институт Психоанализа (АНО ВО «ВЕИП») · 1 ч 19 мин",
-        "plot": "Ведущий лекции — Виктор Аронович Мазин, кандидат философских наук, практикующий психоаналитик, преподаватель ...",
+        "year": null,
         "reason": "После смуляновского «Лакан Ликбез» и двух семинаров Лакана в чтении Мазин — следующий голос в той же традиции: он разбирает воображаемое, символическое и реальное так же медленно и по формулировкам, без популяризаторских срезаний углов.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
       },
       {
         "id": "L7tyMQfQqvY",
         "title": "Лекция по теории игр в Барнауле",
-        "year": null,
         "author": "Маткульт-привет! :: Алексей Савватеев и Ко",
-        "cover": "https://i.ytimg.com/vi/L7tyMQfQqvY/hqdefault.jpg",
-        "coverUrl": null,
-        "url": "https://www.youtube.com/watch?v=L7tyMQfQqvY",
-        "duration": 5005,
-        "wanted": "Алексей Савватеев лекция по теории игр",
-        "meta": "Маткульт-привет! :: Алексей Савватеев и Ко · 1 ч 23 мин",
-        "plot": "Курс по теории игр: https://openedu.ru/course/mipt/GAMETH/ Запись, предоставленная организаторами лекции, велась, ...",
+        "year": null,
         "reason": "Это тот же жанр, что «Шиз поясняет» и 12-часовой разбор Зорича: человек у доски проговаривает математику вслух от определения до доказательства, и слушать это можно не глядя в экран.",
-        "suggestedAt": "2026-10-03",
-        "verdict": "new"
-      }
-    ],
-    "history": [
+        "verdict": "unseen",
+        "at": "2026-10-16",
+        "suggestedAt": "2026-10-03"
+      },
       {
         "id": "bDA9ldBuVJ8",
         "title": "Adam Tooze: The 2008 Global Crisis: Approaches to a Future History",

@@ -71,6 +71,8 @@ def workouts(db, since):
     for r in H.rows(db, since, "workout"):
         k = H.workout_kind(r["kind"])
         raw = json.loads(r["data"] or "{}")
+        if H.trivial(k, r["value"] or 0, raw):   # дорога и трёхминутные записи — не нагрузка
+            continue
         out.append({"kind": k, "start": H.parse_ts(r["start"]).astimezone(H.tz()), "end": H.parse_ts(r["end"]).astimezone(H.tz()),
                     "min": round(r["value"] or 0), "kcal": round(raw["calories"]) if raw.get("calories") else None,
                     "km": round((raw.get("distanceMeters") or 0) / 1000, 2) or None,

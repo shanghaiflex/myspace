@@ -42,6 +42,7 @@
   POST   /api/french/refresh      найти новые материалы и собрать разборы (scripts/french.sh)
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   GET    /api/updates             что показать уведомлением на телефоне и часах (scripts/notify.py)
+  PATCH  /api/health/review/<id>  body: {verdict: good|bad|null}  отклик на заметку, уходит в следующий промпт
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
   POST   /api/health/week         итоги недели сейчас (scripts/week_review.sh); результат — `week` в /api/health
   GET    /api/pantry              food stock: Claude note + what runs out / spoils (pantry.json)
@@ -92,6 +93,7 @@ VACUUM_LOCK = threading.Lock()
 VACUUM_TTL = 15
 AUDIO_JOBS = {}  # video id -> "running" | "done" | "error: ..."
 REVIEW_JOB = {"status": "idle", "started": 0}  # manual health review run
+APP_SEEN = {}   # device → last X-Profile-Expires written to health.db
 # A finished workout is the one health event worth a note right away instead of waiting for the hourly agent.
 # The pause lets the rest of that sync land first: the app sends workouts and their calories in separate batches,
 # and a note written between the two would talk about a workout that burned nothing.
@@ -254,6 +256,13 @@ class Handler(SimpleHTTPRequestHandler):
         if HEALTH_TOKENS:
             for t, name in HEALTH_TOKENS.items():
                 if hmac.compare_digest(tok.encode(), t.encode()):
+                    exp = self.headers.get("X-Profile-Expires")
+                    if exp and APP_SEEN.get(name) != exp:   # срок профиля приложения — см. health.app_seen
+                        try:
+                            H.app_seen(name, exp)
+                            APP_SEEN[name] = exp
+                        except Exception as e:
+                            print(f"app profile: {e}", flush=True)
                     return name
             return None
         return "open" if not PASSWORD else None
@@ -579,7 +588,7 @@ class Handler(SimpleHTTPRequestHandler):
         threading.Thread(target=run, daemon=True).start()
         return "running"
 
-    def start_review_job(self, delay=0):
+    def start_review_job(self, delay=0, force=True):
         if REVIEW_JOB["status"] == "running" and time.time() - REVIEW_JOB["started"] < 900:
             return "running"
         REVIEW_JOB.update(status="running", started=time.time())
@@ -589,7 +598,7 @@ class Handler(SimpleHTTPRequestHandler):
             if delay:
                 time.sleep(delay)
             try:
-                r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", "health_review.sh"), "--force"], cwd=ROOT,
+                r = subprocess.run(["/bin/sh", os.path.join(ROOT, "scripts", "health_review.sh")] + (["--force"] if force else []), cwd=ROOT,
                                    capture_output=True, text=True, timeout=900)
                 REVIEW_JOB["status"] = "done" if r.returncode == 0 else f"error: {(r.stderr or r.stdout).strip()[-300:]}"
             except Exception as e:
@@ -636,7 +645,9 @@ class Handler(SimpleHTTPRequestHandler):
             # Only genuinely new workouts: a re-send updates existing rows and must not trigger anything.
             if kind == "workouts" and stats["inserted"]:
                 print(f"health: {stats['inserted']} new workout(s) → review in {WORKOUT_REVIEW_DELAY}s", flush=True)
-                self.start_review_job(delay=WORKOUT_REVIEW_DELAY)
+                # Без --force: решает health.pending() — трёхминутная запись или дорога на велосипеде тренировкой
+                # не считается (health.trivial) и заметку не пишет.
+                self.start_review_job(delay=WORKOUT_REVIEW_DELAY, force=False)
             return self.send_json(200, {"ok": True, **stats})
         if not self.require_login():
             return
@@ -776,6 +787,14 @@ class Handler(SimpleHTTPRequestHandler):
             return self._patch()
 
     def _patch(self):
+        rid = self.path_id("/api/health/review/")
+        if rid:
+            try:
+                v = self.read_json().get("verdict")
+                ok = H.review_verdict(int(rid), v)
+            except (ValueError, TypeError) as e:
+                return self.send_json(400, {"error": str(e)})
+            return self.send_json(200 if ok else 404, {"ok": ok})
         bid = self.path_id("/api/book/")
         if bid:
             try:

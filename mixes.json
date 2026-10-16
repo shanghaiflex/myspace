@@ -1,5 +1,22 @@
 [
   {
+    "id": "sc:1457238910",
+    "source": "soundcloud",
+    "url": "https://soundcloud.com/platform/yung-singh-boiler-room",
+    "title": "Yung Singh | Boiler Room: Melbourne",
+    "artist": "Boiler Room",
+    "duration": 3654,
+    "artwork": "https://i1.sndcdn.com/artworks-LNHzRNkntB35wzvT-mzAURA-t500x500.jpg",
+    "genre": null,
+    "published": "2023-02-27",
+    "tags": [
+      "claude-rec"
+    ],
+    "addedAt": "2026-10-11",
+    "position": 879,
+    "playedAt": 1791901472
+  },
+  {
     "id": "sc:300607819",
     "source": "soundcloud",
     "url": "https://soundcloud.com/rinsefm/thegrimeshow010117",
@@ -46,8 +63,8 @@
       "calm"
     ],
     "addedAt": "2026-09-25",
-    "position": 1,
-    "playedAt": 1790920061
+    "position": 2173,
+    "playedAt": 1791699035
   },
   {
     "id": "sc:1328893246",
@@ -81,8 +98,8 @@
       "calm"
     ],
     "addedAt": "2026-09-23",
-    "position": 0,
-    "playedAt": 1791093783
+    "position": 3620,
+    "playedAt": 1791529534
   },
   {
     "id": "mc:kidmancast_kidmancast-pt29-bass-music-podcast",
@@ -206,7 +223,9 @@
     "tags": [
       "kidmancast"
     ],
-    "addedAt": "2026-09-23"
+    "addedAt": "2026-09-23",
+    "position": 0,
+    "playedAt": 1791533039
   },
   {
     "id": "mc:kidmancast_kidmancast-pt23",
@@ -427,8 +446,8 @@
       "kidmancast"
     ],
     "addedAt": "2026-09-23",
-    "position": 866,
-    "playedAt": 1790525721
+    "position": 1484,
+    "playedAt": 1791539977
   },
   {
     "id": "sc:401875644",
@@ -473,7 +492,9 @@
     "tags": [
       "kidmancast"
     ],
-    "addedAt": "2026-09-23"
+    "addedAt": "2026-09-23",
+    "position": 0,
+    "playedAt": 1791901470
   },
   {
     "id": "yt:PMkKCLkMWbI",
@@ -522,8 +543,8 @@
       "calm"
     ],
     "addedAt": "2026-09-20",
-    "position": 438,
-    "playedAt": 1791006660
+    "position": 1073,
+    "playedAt": 1791902109
   },
   {
     "id": "sc:488982357",
@@ -574,8 +595,8 @@
       "calm"
     ],
     "addedAt": "2026-09-14",
-    "position": 3727,
-    "playedAt": 1790758971
+    "position": 4009,
+    "playedAt": 1791609764
   },
   {
     "id": "yt:7NkYQfDwr4s",
@@ -592,8 +613,8 @@
       "calm"
     ],
     "addedAt": "2026-09-14",
-    "position": 4874,
-    "playedAt": 1790691876
+    "position": 9469,
+    "playedAt": 1791661074
   },
   {
     "id": "yt:I3voQGTnP9A",
@@ -610,8 +631,8 @@
       "calm"
     ],
     "addedAt": "2026-09-14",
-    "position": 341,
-    "playedAt": 1791363599
+    "position": 2627,
+    "playedAt": 1791612061
   },
   {
     "id": "yt:B9gcq37VnSI",
@@ -664,8 +685,8 @@
       "calm"
     ],
     "addedAt": "2026-09-14",
-    "position": 3416,
-    "playedAt": 1789620164
+    "position": 3420,
+    "playedAt": 1791609771
   },
   {
     "id": "yt:TU19yNF6Ab8",
@@ -682,8 +703,8 @@
       "calm"
     ],
     "addedAt": "2026-09-14",
-    "position": 26,
-    "playedAt": 1789710828
+    "position": 0,
+    "playedAt": 1791534901
   },
   {
     "id": "yt:EPMql3dljqU",
@@ -797,8 +818,8 @@
       "youtube-likes"
     ],
     "addedAt": "2026-09-06",
-    "position": 3555,
-    "playedAt": 1789376453
+    "position": 20,
+    "playedAt": 1791525790
   },
   {
     "id": "yt:a62c0Yf6BBE",
@@ -828,7 +849,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 655,
+    "playedAt": 1791736326
   },
   {
     "id": "yt:1vy-jtKg78E",
@@ -911,7 +934,9 @@
     "tags": [
       "youtube-likes"
     ],
-    "addedAt": "2026-09-06"
+    "addedAt": "2026-09-06",
+    "position": 2487,
+    "playedAt": 1791548334
   },
   {
     "id": "yt:D4ZGNNfJegk",
@@ -1022,7 +1047,9 @@
     "tags": [
       "soundcloud-likes"
     ],
-    "addedAt": "2026-01-09"
+    "addedAt": "2026-01-09",
+    "position": 0,
+    "playedAt": 1791538488
   },
   {
     "id": "sc:2217863789",
@@ -1038,8 +1065,8 @@
       "soundcloud-likes"
     ],
     "addedAt": "2026-01-05",
-    "position": 0,
-    "playedAt": 1789560303
+    "position": 3432,
+    "playedAt": 1791898229
   },
   {
     "id": "sc:2170630185",

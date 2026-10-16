@@ -40,6 +40,8 @@ RESP_UP = 1.0           # вдохов/мин выше нормы
 RHR_UP = 5              # уд/мин выше нормы
 HRV_DOWN = 0.8          # доля нормы
 FORM_DAYS = 90
+# Медиана из двух тренировок — не тренд: «велосипед 18,7 → 26,4 км/ч» стоял на 2 + 2 заездах. Меньше — без сравнения.
+FORM_MIN_HALF = 3
 FORM_KINDS = {"running": "бег", "swimming": "плавание", "cycling": "велосипед"}
 # Короче этого — не тренировка на форму, а дорога: городской велосипед до метро тянул медиану к 12 км/ч.
 FORM_MIN_M = {"running": 3000, "swimming": 400, "cycling": 15000}
@@ -87,20 +89,23 @@ def night_status(db, today=None):
     if not nv:
         return None
     last_key = max(nv)
-    if (today - dt.date.fromisoformat(last_key)).days > 1:
-        return None                      # последней ночи нет — нечего сравнивать сегодня
+    if last_key != today.isoformat():
+        # Прошлая ночь — только та, что кончилась сегодня утром. Было «не старше суток», и в 00:43 16.10 сменилась дата,
+        # ночь на 15-е снова стала «прошлой» и написала заметку о признаках, о которых сказали ещё накануне утром.
+        return None
     last = nv[last_key]
     prior = [v for k, v in nv.items() if k < last_key]
     base = {k: median([p[k] for p in prior]) if len([p for p in prior if p[k] is not None]) >= MIN_BASE else None
             for k in ("temp", "resp", "spo2")}
-    days = H.daily(db, BASE_NIGHTS + 1, dt.date.fromisoformat(last_key))
-    day, rest = days[0], [d for d in days[1:] if not d["noWatch"]]
-    rhr_base, hrv_base = median([d["rhr"] for d in rest]), median([d["hrv"] for d in rest])
+    day = H.daily(db, 1, today)[0]
+    nm = H.norms(db, today)              # та же норма, что в дайджесте заметки, — не своя медиана
+    rhr_base, hrv_base = nm["rhr"], nm["hrv"]
 
     dev = {"temp": round(last["temp"] - base["temp"], 2) if last["temp"] is not None and base["temp"] is not None else None,
            "resp": round(last["resp"] - base["resp"], 1) if last["resp"] is not None and base["resp"] is not None else None,
            "rhr": day["rhr"] - rhr_base if day["rhr"] and rhr_base else None,
-           "hrv": round(day["hrv"] / hrv_base, 2) if day["hrv"] and hrv_base else None}
+           # HRV дня по двум-трём замерам — шум (H.HRV_MIN_N), признаком он становится только при достаточном числе замеров.
+           "hrv": round(day["hrv"] / hrv_base, 2) if day["hrv"] and hrv_base and day["hrvN"] >= H.HRV_MIN_N else None}
     signs = []
     if dev["temp"] is not None and dev["temp"] >= TEMP_SOFT:
         signs.append(f"температура запястья {dev['temp']:+.1f}° к норме".replace(".", ","))
@@ -142,7 +147,7 @@ def form(db, today=None):
             continue
         raw = json.loads(r["data"])
         m, dist = r["value"] or 0, raw.get("distanceMeters") or 0
-        if not H.pace(k, m, dist) or dist < FORM_MIN_M[k] or H.implausible(k, m, dist, raw.get("averageHeartRate")):
+        if not H.pace(k, m, dist) or dist < FORM_MIN_M[k] or H.trivial(k, m, raw):
             continue
         # Для сравнения — минуты на единицу дистанции (для велосипеда наоборот, скорость), чтобы медиана была числом.
         per = m / (dist / (100 if k == "swimming" else 1000)) if k != "cycling" else dist / 1000 / (m / 60)
@@ -151,8 +156,10 @@ def form(db, today=None):
     out = {}
     for k, ws in by.items():
         ws.sort(key=lambda w: w["date"])
-        early = median([w["per"] for w in ws if w["date"] < half])
-        late = median([w["per"] for w in ws if w["date"] >= half])
+        e = [w["per"] for w in ws if w["date"] < half]
+        l = [w["per"] for w in ws if w["date"] >= half]
+        early = median(e) if len(e) >= FORM_MIN_HALF else None
+        late = median(l) if len(l) >= FORM_MIN_HALF else None
         out[k] = {"n": len(ws), "km": round(sum(w["km"] for w in ws), 1), "last": ws[-1], "early": early, "late": late}
     return out
 
