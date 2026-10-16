@@ -4,6 +4,8 @@
 Источник — файлы, которые пишет прогон стратегии (`scripts/daily.sh` → `invest plan --execute`), сам этот скрипт
 в T-Invest не ходит и токенов не знает:
   data/forward.csv        стоимость счёта после каждого прогона (time, phase, account, value, orders)
+  data/flows.csv          пополнения (+) и выводы (−) рублей по счёту (time МСК, account, amount) — из операций T-Invest;
+                          доходность и сравнение с ключевой считаются без них
   data/orders.csv         каждая заявка (time, mode, account, ticker, lots, filled, price, amount, status)
   data/state-<mode>.json  снимок после прогона: позиции, дивидендный план, ротация, что исполнено и что нет
   data/keyrate.csv        ключевая ставка ЦБ — для сравнения «а если бы лежало под ключевую»
@@ -73,10 +75,40 @@ def keyrate_growth(start, end, rates):
     return k
 
 
+def ts(s):
+    return dt.datetime.strptime(s[:16], "%Y-%m-%d %H:%M")
+
+
+def growth(series, flows):
+    """Доходность без пополнений и выводов: сцеплённая по записям, деньги, пришедшие между двумя записями,
+    вычитаются из второй. flows — [(datetime, ₽)]. Возвращает (доходность, чистые внесения после первой записи)."""
+    k, added = 1.0, 0.0
+    for (t0, v0), (t1, v1) in zip(series, series[1:]):
+        f = sum(a for t, a in flows if ts(t0) < t <= ts(t1))
+        added += f
+        if v0 > 0:
+            k *= (v1 - f) / v0
+    return k - 1, added
+
+
+def keyrate_path(series, flows, rates):
+    """«Если бы под ключевую»: стоимость на каждую запись, где начальная сумма и каждое пополнение растут
+    под ключевую со своей даты."""
+    if not rates:
+        return None
+    t0 = ts(series[0][0]).date()
+    out = []
+    for t, _ in series:
+        d = ts(t).date()
+        v = series[0][1] * keyrate_growth(t0, max(d, t0), rates)
+        v += sum(a * keyrate_growth(tf.date(), max(d, tf.date()), rates) for tf, a in flows if ts(series[0][0]) < tf <= ts(t))
+        out.append(round(v))
+    return out
+
+
 def runs(rows, orders):
     """Лента действий: каждый прогон (строка forward.csv) с его заявками, новые сверху. Заявка вне окна прогона
     (ручной тест) — отдельной записью, чтобы не приписать её чужому прогону."""
-    ts = lambda s: dt.datetime.strptime(s[:16], "%Y-%m-%d %H:%M")
     out = [{"at": r["time"], "phase": r["phase"], "value": float(r["value"]), "orders": []} for r in rows]
     for o in orders:
         t = ts(o["time"])
@@ -88,7 +120,7 @@ def runs(rows, orders):
     return sorted(out, key=lambda x: x["at"], reverse=True)[:RUNS_SHOWN]
 
 
-def account(kind, acc_id, forward, orders, rates):
+def account(kind, acc_id, forward, orders, rates, flows):
     rows = [r for r in forward if r["account"] == acc_id]
     state = _json(os.path.join(DIR, "data", f"state-{kind}.json"))
     if state and state.get("account") != acc_id:
@@ -99,17 +131,23 @@ def account(kind, acc_id, forward, orders, rates):
            "orders": mine[-ORDERS_SHOWN:][::-1], "runs": runs(rows, mine)}
     if series:
         first, last = series[0], series[-1]
-        t0 = dt.datetime.strptime(first[0], "%Y-%m-%d %H:%M").date()
-        t1 = dt.datetime.strptime(last[0], "%Y-%m-%d %H:%M").date()
-        g = keyrate_growth(t0, max(t1, t0), rates)
-        out.update(start={"at": first[0], "value": first[1]}, value=last[1], at=last[0],
-                   pnl=last[1] - first[1], pnlPct=(last[1] / first[1] - 1) * 100 if first[1] else None,
-                   keyrate=first[1] * g if g else None)
+        mine_flows = []
+        for r in flows:
+            try:
+                if r["account"] == acc_id:
+                    mine_flows.append((dt.datetime.strptime(r["time"][:19], "%Y-%m-%d %H:%M:%S"), float(r["amount"])))
+            except (KeyError, ValueError):
+                pass
+        ret, added = growth(series, mine_flows)
+        key = keyrate_path(series, mine_flows, rates)
+        out.update(start={"at": first[0], "value": first[1]}, value=last[1], at=last[0], added=added,
+                   pnl=last[1] - first[1] - added, pnlPct=ret * 100 if first[1] else None,
+                   keyrate=key[-1] if key else None, keyrateSeries=key)
     return out
 
 
 def summary():
-    forward, orders = _csv("forward.csv"), _csv("orders.csv")
+    forward, orders, flows = _csv("forward.csv"), _csv("orders.csv"), _csv("flows.csv")
     rates = []
     for r in _csv("keyrate.csv"):
         try:
@@ -131,7 +169,7 @@ def summary():
     for kind in KINDS:
         # песочница — только пока она в прогоне: выключенная остаётся в данных, но на странице не нужна
         if kind in ids and (active[kind] or kind == "real"):
-            a = account(kind, ids[kind], forward, orders, rates)
+            a = account(kind, ids[kind], forward, orders, rates, flows)
             a["active"] = active[kind]
             accounts.append(a)
     return {"mode": m, "stop": os.path.exists(os.path.join(CONF, "STOP")), "found": bool(DIR),

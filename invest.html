@@ -146,11 +146,12 @@ function statusCard() {
 function spark(a) {
   const s = a.series;
   if (s.length < 2) return '';
-  const vals = s.map(x => x[1]), lo = Math.min(...vals, a.start.value), hi = Math.max(...vals, a.start.value, a.keyrate || 0);
+  const vals = s.map(x => x[1]), lo = Math.min(...vals, ...(a.keyrateSeries || [])), hi = Math.max(...vals, ...(a.keyrateSeries || []));
   const pad = (hi - lo) * 0.1 || 1, y = v => 100 - (v - lo + pad) / (hi - lo + 2 * pad) * 100;
   const x = i => i / (s.length - 1) * 100;
   const line = s.map((p, i) => `${x(i).toFixed(2)},${y(p[1]).toFixed(2)}`).join(' ');
-  const key = a.keyrate ? `<polyline class="k" points="0,${y(a.start.value).toFixed(2)} 100,${y(a.keyrate).toFixed(2)}"/>` : '';
+  const ks = a.keyrateSeries;
+  const key = ks ? `<polyline class="k" points="${ks.map((v, i) => `${x(i).toFixed(2)},${y(v).toFixed(2)}`).join(' ')}"/>` : '';
   return `<svg class="spark" viewBox="0 0 100 100" preserveAspectRatio="none">${key}<polyline class="v" points="${line}"/></svg>
     <div class="legend"><span><i></i>стоимость счёта</span>${a.keyrate ? '<span><i class="k"></i>если бы под ключевую ставку</span>' : ''}</div>`;
 }
@@ -168,7 +169,7 @@ function accountCard(a) {
   return `<div class="card half">${head}
     <div class="hero">
       <div><b>${money(a.value)}</b>стоимость</div>
-      <div><b class="${cls(a.pnl)}">${signed(a.pnl)}</b>с ${esc(ddmm(a.start.at))} · ${pct(a.pnlPct)}</div>
+      <div><b class="${cls(a.pnl)}">${signed(a.pnl)}</b>с ${esc(ddmm(a.start.at))} · ${pct(a.pnlPct)}${a.added ? ` · внесено ${signed(a.added)}` : ''}</div>
       ${vsKey != null ? `<div><b class="${cls(vsKey)}">${signed(vsKey)}</b>к ключевой ставке</div>` : ''}
     </div>${spark(a)}${last}</div>`;
 }
