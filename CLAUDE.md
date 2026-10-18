@@ -51,6 +51,7 @@ automatically. Audio lives only on machines (gitignored) — download lecture au
 | Чеки ФНС, траты | `spend.html`, `scripts/{lkdr,spend}.py`, `scripts/spend_rules.json` | `docs/spend.md` |
 | Инвест | `invest.html`, `scripts/invest.py`, `~/workspace/invest` | `docs/invest.md` |
 | Еда | `pantry.html`, `pantry.json`, `scripts/pantry.py`, `scripts/pantrylib/` | `docs/pantry.md` |
+| Слежка за Авито | `scripts/avito_watch.py`, `avito/`, «Слежу на Авито» на главной | `docs/avito.md` |
 | Выкладка, mini, VPN | `scripts/deploy.sh`, `deploy/`, `scripts/vpn_watchdog.sh` | `docs/deploy.md` |
 
 Советы и заметки пишет `claude -p` на mini по launchd; промпты лежат в `<модуль>/PROMPT.md`. Что модель знает

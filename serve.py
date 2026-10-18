@@ -41,6 +41,7 @@
   POST   /api/french/level        body: {level: A1..C1}
   POST   /api/french/refresh      найти новые материалы и собрать разборы (scripts/french.sh)
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
+  GET    /api/avito               слежки за Авито: правила, последний прогон с охватом, подходящие (scripts/avito_watch.py)
   GET    /api/updates             что показать уведомлением на телефоне и часах (scripts/notify.py)
   GET    /api/selfcheck           что сломалось по самопроверке (scripts/selfcheck.py); пусто, когда всё хорошо
   PATCH  /api/health/review/<id>  body: {verdict: good|bad|null}  отклик на заметку, уходит в следующий промпт
@@ -84,6 +85,7 @@ import sensors as SN  # noqa: E402
 import fit as FIT  # noqa: E402
 import spend as SP  # noqa: E402
 import invest as INV  # noqa: E402
+import avito_watch as AW  # noqa: E402
 import vacuum as VC  # noqa: E402
 import vacuum_schedule as VS  # noqa: E402
 
@@ -362,6 +364,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, {"items": NT.items()})
         if route == "/api/selfcheck":
             return self.send_json(200, NT.SC.current())
+        if route == "/api/avito":
+            return self.send_json(200, AW.public())
         if route == "/api/home":
             out = HM.summary()
             try:
