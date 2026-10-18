@@ -17,6 +17,9 @@
   фильмы/книги/лекции 07:40, статьи 07:50, французский 08:10), и уведомлять о каждом — четыре звонка
   за час; поэтому сводка собирается после RECS_SETTLE, когда все уже отработали, и живёт одним id на дату.
 
+  Сбои — самопроверка (scripts/selfcheck.py): все текущие проблемы одним уведомлением. id `sys:<since>` по самой
+  новой проблеме, поэтому звонит только появление новой; пока сломано то же самое — тишина.
+
 Usage:
   notify.py list            то, что отдаёт /api/updates
 """
@@ -28,6 +31,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import health as H  # noqa: E402
+import selfcheck as SC  # noqa: E402
 
 REVIEW_FRESH_HOURS = 3
 WEEK_FRESH_HOURS = 24     # итоги недели — воскресное чтение, но телефон может проснуться и к вечеру
@@ -145,8 +149,24 @@ def profile_item(now=None):
             "at": now.isoformat(timespec="seconds"), "page": "home"}
 
 
+def system_item(now=None):
+    """Что сломалось (scripts/selfcheck.py). Одно уведомление на все проблемы, новый id — только на новую."""
+    try:
+        probs = SC.current(now)["problems"]
+    except Exception:
+        return None
+    if not probs:
+        return None
+    newest = max(p["since"] for p in probs)
+    if len(probs) == 1:
+        title, body = "BoW: " + probs[0]["title"], probs[0]["detail"]
+    else:
+        title, body = f"BoW: сбоев {len(probs)}", "; ".join(f"{p['title']} — {p['detail']}" for p in probs)
+    return {"id": "sys:" + newest, "kind": "system", "title": title, "body": body, "at": newest, "page": "home"}
+
+
 def items():
-    return [x for x in (profile_item(), review_item(), week_item(), recs_item()) if x] + invest_items()
+    return [x for x in (system_item(), profile_item(), review_item(), week_item(), recs_item()) if x] + invest_items()
 
 
 if __name__ == "__main__":

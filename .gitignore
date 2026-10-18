@@ -23,3 +23,5 @@ data/lkdr-receipts.json
 .playwright-mcp/
 data/races/
 data/invest.json
+data/selfcheck.json
+data/selfcheck.json.tmp

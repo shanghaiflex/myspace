@@ -20,4 +20,6 @@ cat > "$AG/$LABEL.plist" <<PL
 PL
 launchctl bootout "gui/$(id -u)/$LABEL" 2>/dev/null || true
 launchctl bootstrap "gui/$(id -u)" "$AG/$LABEL.plist"
+# Без RunAtLoad лог первым создал бы ручной прогон по ssh, и launchd не смог бы его открыть (exit 78): см. claim-log.sh.
+sh "$ROOT/deploy/claim-log.sh" "$ROOT/logs/week-review.log"
 echo "$LABEL installed: Sundays at ${WEEK_HOUR:-8}:$(printf '%02d' "${WEEK_MINUTE:-40}"), log $ROOT/logs/week-review.log"

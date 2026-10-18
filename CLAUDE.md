@@ -68,6 +68,12 @@ automatically. Audio lives only on machines (gitignored) — download lecture au
 - Данные машины (`health.db`, `audio/`, `pantry.json`, `data/calendar.ics`, `data/invest.json`,
   `data/roborock-*.json`, …) — в `.gitignore` и в `--exclude` у `deploy.sh`. Новый такой файл добавляй в оба
   места, иначе `rsync --delete` сотрёт его на mini.
+- Лог launchd-агента (`logs/*.log`) должен создать сам launchd. `~/movies` — это защищённая TCC папка `~/Movies`,
+  и лог, который первым создал прогон по ssh (`sh scripts/x.sh >> logs/x.log`), launchd открыть не может: агент
+  молча падает с `exit 78`. Так итоги недели молчали четыре недели. Лечит `sh deploy/claim-log.sh logs/x.log`
+  на mini. Новый `install-*.sh` без `RunAtLoad` зовёт его сам (`docs/deploy.md`, «Самопроверка»).
+- Сбои видны сами: `scripts/selfcheck.py` (launchd раз в 15 мин) звонит на телефон и пишет строку на главной.
+  Новый агент `cc.bodywithoutorgans.*` попадает под проверку без правок.
 
 **Код и конфиг**
 - Значение в `.env` с пробелом бери в кавычки. Скрипты читают его через `set -a; . ./.env`, и без кавычек

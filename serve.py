@@ -42,6 +42,7 @@
   POST   /api/french/refresh      найти новые материалы и собрать разборы (scripts/french.sh)
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   GET    /api/updates             что показать уведомлением на телефоне и часах (scripts/notify.py)
+  GET    /api/selfcheck           что сломалось по самопроверке (scripts/selfcheck.py); пусто, когда всё хорошо
   PATCH  /api/health/review/<id>  body: {verdict: good|bad|null}  отклик на заметку, уходит в следующий промпт
   POST   /api/health/review       run the review now (scripts/health_review.sh --force) in the background
   POST   /api/health/week         итоги недели сейчас (scripts/week_review.sh); результат — `week` в /api/health
@@ -359,6 +360,8 @@ class Handler(SimpleHTTPRequestHandler):
             # Уведомления ставит сам телефон: пуша у Personal Team нет. Здесь только то, о чём стоит
             # звонить прямо сейчас — правила в scripts/notify.py.
             return self.send_json(200, {"items": NT.items()})
+        if route == "/api/selfcheck":
+            return self.send_json(200, NT.SC.current())
         if route == "/api/home":
             out = HM.summary()
             try:

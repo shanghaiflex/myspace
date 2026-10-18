@@ -40,6 +40,50 @@ ssh mini tail -20 movies/logs/vpn-watchdog.log      # только аварии 
 ssh mini 'sudo -n /usr/local/sbin/vpn-status.sh'    # рукопожатие и rx/tx руками
 ```
 
+## Самопроверка (`scripts/selfcheck.py`, 18.10.2026)
+
+Ради неё: итоги недели не писались с 20.09 по 18.10.2026, и этого никто не заметил. launchd падал с
+`last exit code = 78: EX_CONFIG` ещё до старта скрипта, и в лог не попадало ни строки. Причина в TCC. Диск
+регистронезависимый, поэтому `~/movies` — это `~/Movies`, а это защищённая папка. Свой `StandardOutPath`
+xpcproxy открывает, только если файл создал он сам. Создатель записан в xattr `com.apple.macl` UUID-ом, у launchd
+в домене `gui/501` и в `system` UUID разный. Лог, который первым создал ручной прогон по ssh, несёт UUID sshd, и
+в системном логе это видно так: `xpcproxy deny(1) file-read-data …/Movies/logs/week-review.log`. Агенты с
+`RunAtLoad` создают лог при установке и поэтому целы. Итоги недели запускаются только по воскресеньям, и прогон
+руками успел создать лог раньше launchd.
+
+`deploy/claim-log.sh <лог>…` узнаёт UUID launchd по пробному файлу, который создаёт одноразовый агент, и
+пересоздаёт руками launchd каждый лог без этого UUID, сохраняя содержимое. Лог с правильным UUID он не трогает,
+так что звать его можно когда угодно. Установщики без `RunAtLoad` (`install-week-review.sh`) зовут его сами.
+
+Сама проверка — launchd `cc.bodywithoutorgans.selfcheck` (`deploy/install-selfcheck.sh`), раз в 15 минут.
+Что смотрит:
+- **каждый агент `cc.bodywithoutorgans.*`** (`~/Library/LaunchAgents` и `/Library/LaunchDaemons`): загружен ли;
+  чей UUID в macl его лога (ищется большинством среди логов агентов, вышедших с нулём); код последнего выхода;
+  держится ли KeepAlive; записан ли лог после последнего запуска по расписанию (`GRACE_MIN` = 45 мин) или за два
+  периода у `StartInterval`. Сторож VPN и свет пишут в лог только события, их лог не проверяется (`QUIET_LOGS`);
+- **данные с телефона**: последняя пачка старше `INGEST_STALE_H` = 8 ч в часы `INGEST_DAY` = 10–23;
+- **профиль BoW** уже истёк. Об истечении в ближайшие 36 ч предупреждают `notify.profile_item` и Well-being;
+- **сайт** снаружи: `GET https://bodywithoutorgans.cc/healthz`.
+
+Чтобы не шуметь: падение агента с `StartInterval` считается сбоем, только если держится полтора периода, сайт —
+только если лежит десять минут (его за это время чинит сторож), KeepAlive — тоже десять минут. Состояние лежит в
+`data/selfcheck.json` (данные машины, в `.gitignore` и исключениях `deploy.sh`), у каждой проблемы там `since`.
+Наружу оно выходит двумя путями:
+- `notify.system_item()` → `/api/updates`: все проблемы одним уведомлением, id `sys:<since самой новой>`;
+- `GET /api/selfcheck` → одна строка киноварью под датой на главной. Истёкший профиль там не повторяется, его
+  уже показывает Well-being.
+
+Когда всё хорошо, нет ни строки, ни уведомления, а `logs/selfcheck.log` пишет только перемены (`+` / `−`).
+Проверено 18.10.2026: агент с логом, созданным по ssh, дал одно уведомление «BoW: zzbroken — launchd не может
+открыть свой лог (exit 78): sh deploy/claim-log.sh logs/zzbroken.log», повторная проверка оставила тот же id,
+а после `claim-log.sh` проблема ушла.
+```
+ssh mini 'cd movies && ~/.local/python312/bin/python3 scripts/selfcheck.py show'   # проверить сейчас, ничего не сохраняя
+ssh mini 'cd movies && ~/.local/python312/bin/python3 scripts/selfcheck.py status' # что видят главная и телефон
+ssh mini tail -20 movies/logs/selfcheck.log                                       # только перемены
+ssh mini 'cd movies && sh deploy/claim-log.sh logs/<x>.log'                       # отдать лог launchd
+```
+
 The mini reaches SoundCloud/Cloudflare/Open-Meteo directly, and since the VPN LaunchDaemon became a full tunnel
 it reaches YouTube too (проверено 15.09.2026: `yt-dlp ytsearch` и `curl youtube.com` → 200) — на этом стоят
 и `start_audio_job` (mini сам качает звук лекций из `preload`), и поиск советов по лекциям. Скачивать звук

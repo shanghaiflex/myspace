@@ -51,6 +51,7 @@
   .wrap { max-width: 1180px; margin: 0 auto; padding: 44px 32px 110px; }
   .greet { margin-bottom: 26px; }
   .greet p { margin: 8px 0 0; font-size: 17px; }
+  .greet .sys { font-size: 14px; line-height: 1.45; color: var(--accent); }
 
   /* Главная делится надвое по смыслу, а не по весу (18.09.2026): слева день — дела, погода,
      самочувствие, чем занять свободное окно; справа полка — что послушать и почитать. На
@@ -226,7 +227,7 @@
 </div></header>
 
 <main class="wrap">
-  <div class="greet"><h1 id="greet">Доброе утро</h1><p id="date"></p></div>
+  <div class="greet"><h1 id="greet">Доброе утро</h1><p id="date"></p><p class="sys" id="sys" hidden></p></div>
   <div class="page">
     <div class="cards" id="cards"></div>
     <aside class="shelf" id="shelf"></aside>
@@ -248,6 +249,15 @@ const isMorning = () => new Date().getHours() < MORNING_UNTIL;
 const isCalm = m => m.mood === 'calm' || (m.tags || []).includes('calm');
 const pick = (arr, n) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); };
 const j = (url, fb) => fetch(url, { cache: 'no-store' }).then(r => r.ok ? r.json() : fb).catch(() => fb);
+// Самопроверка (scripts/selfcheck.py): одна строка под датой, только когда что-то сломалось. Истёкший профиль
+// BoW здесь не повторяется — о нём уже пишет Well-being.
+j('/api/selfcheck', null).then(sc => {
+  const ps = ((sc && sc.problems) || []).filter(p => p.key !== 'profile');
+  if (!ps.length) return;
+  const el = document.getElementById('sys');
+  el.textContent = 'Сломалось: ' + ps.map(p => `${p.title} — ${p.detail}`).join('; ');
+  el.hidden = false;
+});
 
 // Лекций на главной нет с 18.09.2026 (просьба пользователя): слушаются они только с телефона, где у них
 // свой таб, а на сайте — свой раздел в верхней панели. Здесь они только в «чем занять окно», как вариант
