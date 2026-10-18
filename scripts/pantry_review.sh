@@ -33,6 +33,7 @@ if [ "$FORCE_RECIPES" -eq 1 ] || python3 scripts/pantry.py recipes-stale >/dev/n
   [ "$FORCE_RECIPES" -eq 1 ] && NEED=$(python3 -c "print(max($NEED,1))")
   if [ "$NEED" -eq 0 ]; then echo "$STAMP идей уже достаточно"; else
   { cat pantry/RECIPES.md; printf '\n## Мой профиль\n'; python3 scripts/pantry.py profile;
+    python3 scripts/context.py me "Кто я и семья";
     printf '\n## Сколько блюд нужно\nРовно %s.\n' "$NEED"; } > "$WORK/recipes-prompt.txt"
   cd "$WORK"
   if ! claude -p --model "$MODEL" --tools "" --no-session-persistence --output-format text < recipes-prompt.txt > recipes.json 2> recipes.err; then

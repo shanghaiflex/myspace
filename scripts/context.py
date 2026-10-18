@@ -7,6 +7,10 @@
 сборка не знала, что сейчас в работе: какую книгу я читаю, что начал смотреть, под какую книгу собрана
 серия лекций, что забрал из советов за последний месяц. Здесь всё это — именованные секции:
 
+  me          кто я: семья, размеры, как покупаю, стиль, спорт, что есть (18.10.2026). Файл вне репозитория —
+              репозиторий публичный: на ноутбуке ~/.claude/me.md (его же грузят все сессии Claude Code через
+              ~/.claude/CLAUDE.md), на mini — data/me.md, его туда кладёт deploy.sh. Промпт берёт только
+              нужные разделы: `me("Кто я и семья", "Спорт")`
   taste       полный вкус по четырём каталогам (статьи, французский)
   cross       тот же вкус одной строкой на список, без своего каталога (советы по фильмам, книгам, лекциям)
   now         что сейчас в работе и что недавно взято из советов — во все советы
@@ -51,6 +55,34 @@ def _age(when):
 
 def _book(b):
     return f"{b['title']} — {b.get('author') or '?'}"
+
+
+# ---------------------------------------------------------------- кто я
+ME_FILES = (os.environ.get("BOW_ME") or "", os.path.join(ROOT, "data", "me.md"),
+            os.path.expanduser("~/.claude/me.md"))
+FAMILY = "Кто я и семья"
+SPORT = "Спорт"
+
+
+def me(*heads):
+    """Разделы профиля по заголовкам `## …` (без аргументов — весь, кроме вводного абзаца). Профиль общий с
+    сессиями Claude Code, поэтому в нём есть то, что промптам сайта не нужно (размеры, правила покупок), —
+    каждый промпт просит свои разделы. Нет файла — секция выпадает, промпт пишется как раньше."""
+    text = ""
+    for path in ME_FILES:
+        try:
+            with open(path, encoding="utf-8") as f:
+                text = f.read()
+            break
+        except OSError:
+            continue
+    out, keep = [], False
+    for line in text.splitlines():
+        if line.startswith("## "):
+            keep = not heads or line[3:].strip() in heads
+        if keep and line.strip():
+            out.append(line.rstrip())
+    return (["\n## Обо мне"] + ["#" + l if l.startswith("## ") else l for l in out]) if out else []
 
 
 # ---------------------------------------------------------------- вкус
@@ -215,7 +247,8 @@ def load_():
 
 def health():
     """Всё, что идёт в часовую заметку после PROMPT.md. Секция без данных просто выпадает."""
-    out = ["", "## Мои цели"] + (goals() or ["(целей пока нет — ориентируйся на мои средние и общие нормы)"])
+    out = me(FAMILY, SPORT)
+    out += ["", "## Мои цели"] + (goals() or ["(целей пока нет — ориентируйся на мои средние и общие нормы)"])
     d = day()
     if d:
         out += ["", "## Мой день"] + d
@@ -226,14 +259,14 @@ def health():
     return out
 
 
-SECTIONS = {"taste": taste, "cross": cross, "now": now, "goals": goals, "body": body, "day": day,
+SECTIONS = {"me": me, "taste": taste, "cross": cross, "now": now, "goals": goals, "body": body, "day": day,
             "load": load_, "health": health}
 
 
 def main():
     args = sys.argv[1:] or ["show"]
     if args[0] == "show":
-        names = args[1:] or ["now", "goals", "day", "load", "body", "taste"]
+        names = args[1:] or ["me", "now", "goals", "day", "load", "body", "taste"]
         for n in names:
             lines = SECTIONS[n]("film") if n == "cross" else SECTIONS[n]()
             text = "\n".join(lines)
@@ -244,7 +277,7 @@ def main():
     fn = SECTIONS.get(args[0])
     if not fn:
         sys.exit("секции: " + ", ".join(SECTIONS))
-    print("\n".join(fn(args[1]) if args[0] == "cross" else fn()))
+    print("\n".join(fn(*args[1:]) if args[0] in ("cross", "me") else fn()))
 
 
 if __name__ == "__main__":

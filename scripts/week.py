@@ -235,6 +235,11 @@ def digest(db=None, today=None):
     end = today - dt.timedelta(days=1)
     start = end - dt.timedelta(days=DAYS - 1)
     out = [f"Неделя {start:%d.%m}–{end:%d.%m.%Y}, сегодня {S.DOW[today.weekday()]} {today:%d.%m}"]
+    try:
+        import context as C
+        out += C.me(C.FAMILY, C.SPORT)
+    except Exception as e:
+        print(f"week: me: {e}", file=sys.stderr)
     out += health_part(db, start, end)
     out += media_part(start, end)
     out += spend_part(start, end)

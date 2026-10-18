@@ -278,7 +278,7 @@ def _cross(kind):
     """Тот же вкус с другой стороны плюс то, что сейчас в работе (context.py, 29.09.2026). До 20.09 каждый вид
     видел только свой каталог: лекция про Фуко после трёх прочитанных Фуко была для модели совпадением."""
     import context as C
-    return C.cross(kind) + C.now()
+    return C.cross(kind) + C.now() + C.me(C.FAMILY)
 
 
 def digest(kind):

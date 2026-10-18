@@ -665,6 +665,10 @@ def context_sections():
     except Exception:
         return out
     # Таблица дней (C.body) сюда не идёт: для выбора старта на весну нужна форма, а не вчерашний сон.
+    # Из профиля — только семья: спорт подробнее в races/PROFILE.md.
+    family = C.me(C.FAMILY)
+    if family:
+        out.append("\n".join(family))
     for head, fn in (("## Мои цели", C.goals), ("## Нагрузка и недавние старты", C.load_)):
         try:
             lines = fn()

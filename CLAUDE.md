@@ -54,7 +54,8 @@ automatically. Audio lives only on machines (gitignored) — download lecture au
 | Выкладка, mini, VPN | `scripts/deploy.sh`, `deploy/`, `scripts/vpn_watchdog.sh` | `docs/deploy.md` |
 
 Советы и заметки пишет `claude -p` на mini по launchd; промпты лежат в `<модуль>/PROMPT.md`. Что модель знает
-обо мне, собирает `scripts/context.py`: `python3 scripts/context.py show`.
+обо мне, собирает `scripts/context.py`: `python3 scripts/context.py show`. Профиль «обо мне» (семья, размеры,
+правила покупок) лежит вне репозитория, в `~/.claude/me.md`, и попадает на mini через `deploy.sh` (`docs/context.md`).
 
 ## Ловушки, которые бьют в любой сессии
 
