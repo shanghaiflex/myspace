@@ -61,6 +61,11 @@ launchd `cc.bodywithoutorgans.avitowatch` (`deploy/install-avito-watch.sh`, ст
 Окно живёт и после прогона: в plist `AbandonProcessGroup`, иначе launchd убивает Chrome вместе с группой процессов
 агента. 19.10.2026 так и было: уведомление о капче пришло, а окна на mini уже не было.
 
+Как добраться до окна без монитора: дома — `open vnc://192.168.1.40` (Общий экран включён, вход — пользователь mini);
+вне дома — `ssh -N -L 9333:127.0.0.1:9222 mini`, в Chrome ноутбука `chrome://inspect` → Configure → `localhost:9333` →
+inspect на вкладке avito.ru: DevTools показывает страницу вживую, слайдер тянется мышью. 9333, а не 9222: на ноутбуке
+9222 может быть занят своим Chrome скилла avito.
+
 ## Файлы
 
 - `avito/watches/<id>.json` — слежки (**только на mini**, в `.gitignore` и в исключениях `deploy.sh`: репозиторий

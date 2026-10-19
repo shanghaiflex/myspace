@@ -582,7 +582,8 @@ def block_event(st, why, watches):
         return
     names = ", ".join(w.get("title") or w["id"] for w in watches)
     if why == "captcha":
-        body = (f"Авито просит пройти проверку. Открой mini через «Общий экран» и пройди пазл в окне Chrome for "
+        body = (f"Авито просит пройти проверку. Дома: open vnc://192.168.1.40 (Общий экран mini), вне дома: "
+                f"ssh -N -L 9333:127.0.0.1:9222 mini и chrome://inspect → localhost:9333. Пройди пазл в окне Chrome for "
                 f"Testing — прогон ждёт {CAPTCHA_WAIT // 60} мин и сам продолжит; не успеешь — повтор в следующем слоте. "
                 + names)
     else:
