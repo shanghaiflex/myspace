@@ -352,9 +352,10 @@ class Human:
                 return True
             await asyncio.sleep(3)
         print(f"{iso()} капча: {await page.title()} — жду человека до {CAPTCHA_WAIT // 60} мин", flush=True)
-        block_event(self.st, "captcha", self.watches)
         # Пока ждём — метка для сайта: главная показывает «Пройти проверку», avito-check.html — что прогон ждёт.
+        # Метка раньше события: notify_items отдаёт зов на капчу, только если он не старше метки.
         self.st["captcha"] = {"since": iso(), "until": iso(now() + dt.timedelta(seconds=CAPTCHA_WAIT))}
+        block_event(self.st, "captcha", self.watches)
         save_state(self.st)               # чтобы уведомление и метка ушли, пока мы ждём
         try:
             await page.bring_to_front()
@@ -581,31 +582,40 @@ def add_event(st, w, rep):
 
 
 def block_event(st, why, watches):
-    """Одно уведомление в день о блоке/капче, а не тишина и не по звонку на каждый повтор."""
-    day = now().date().isoformat()
-    eid = f"avito-block:{day}"
-    if any(e["id"] == eid for e in st["events"]):
-        return
+    """Капча — уведомление на каждое ожидание: прогон ждёт человека, и звать его надо сейчас. 19.10.2026 было
+    «одно в день»: утренний прогон сдался в 06:30, а когда следующий встал ждать, телефон промолчал — id тот же.
+    Блок без капчи (решать нечего, только ждать) — по-прежнему одно в день."""
     names = ", ".join(w.get("title") or w["id"] for w in watches)
     if why == "captcha":
-        body = (f"Авито просит пройти проверку. Открой BoW → «Пройти проверку Авито» на главной "
-                f"(bodywithoutorgans.cc/avito-check.html): там окно mini, картинки отмечаются пальцем. Прогон ждёт {CAPTCHA_WAIT // 60} мин и сам продолжит; не успеешь — повтор в следующем слоте. "
-                + names)
-    else:
-        body = f"Авито блокирует домашний IP ({why}). Остальное — в очереди, повтор позже сегодня. {names}"
+        st["events"].append({
+            "id": f"avito-captcha:{iso()}", "kind": "avito", "watch": None, "captcha": True,
+            "title": "Авито: пройди проверку",
+            "body": (f"Прогон ждёт {CAPTCHA_WAIT // 60} мин. Открой BoW → на главной «Авито просит проверку» "
+                     f"(или bodywithoutorgans.cc/avito-check.html): там окно mini, картинки отмечаются пальцем. "
+                     f"Не успеешь — повтор в следующем слоте. {names}"),
+            "at": iso()})
+        return
+    eid = f"avito-block:{now().date().isoformat()}"
+    if any(e["id"] == eid for e in st["events"]):
+        return
     st["events"].append({"id": eid, "kind": "avito", "watch": None, "title": "Авито: прогон не прошёл",
-                         "body": body, "at": iso()})
+                         "body": f"Авито блокирует домашний IP ({why}). Остальное — в очереди, повтор позже сегодня. {names}",
+                         "at": iso()})
 
 
 def notify_items(hours=24):
-    """Для scripts/notify.py: свежие события слежки."""
+    """Для scripts/notify.py: свежие события слежки. Зов на капчу — только пока прогон её ждёт: телефон
+    просыпается когда придётся, и звонить о пройденной или брошенной проверке незачем."""
     st = load_state()
     cut = now() - dt.timedelta(hours=hours)
+    waiting = st.get("captcha")
     out = []
     for e in st.get("events", []):
         try:
             at = dt.datetime.fromisoformat(e["at"])
         except Exception:
+            continue
+        if e.get("captcha") and not (waiting and e["at"] >= waiting["since"]):
             continue
         if at >= cut:
             out.append({"id": e["id"], "kind": "avito", "title": e["title"], "body": e["body"], "at": e["at"],
