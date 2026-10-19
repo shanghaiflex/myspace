@@ -30,6 +30,9 @@ cat > "$AG/$LABEL.plist" <<PL
   <key>WorkingDirectory</key><string>$ROOT</string>
   <key>EnvironmentVariables</key><dict><key>HOME</key><string>$HOME</string></dict>
   <key>StartCalendarInterval</key><array>$slots</array>
+  <!-- Окно Chrome должно пережить прогон: в нём человек решает капчу. Без этого launchd убивает
+       группу процессов агента вместе с браузером, как только скрипт вышел (19.10.2026: капча без окна). -->
+  <key>AbandonProcessGroup</key><true/>
   <key>StandardOutPath</key><string>$ROOT/logs/avito-watch.log</string><key>StandardErrorPath</key><string>$ROOT/logs/avito-watch.log</string>
 </dict></plist>
 PL

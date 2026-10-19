@@ -327,16 +327,66 @@ def _launch_browser():
     return av
 
 
+CHALLENGE_SETTLE = 30                       # «проверка безопасности» Qrator Chrome проходит сам за секунды
+CAPTCHA_WAIT = int(os.environ.get("AVITO_CAPTCHA_WAIT_MIN", "45")) * 60   # сколько ждать человека
+
+
+class Human:
+    """Капча — дело человека: прогон шлёт уведомление и ждёт, пока пазл в окне пройдут, а не сдаётся.
+    Окно при этом обязано жить: launchd убивает группу процессов агента, поэтому в plist AbandonProcessGroup."""
+
+    def __init__(self, av, st, watches):
+        self.av, self.st, self.watches = av, st, watches
+
+    async def _title_blocked(self, page):
+        try:
+            return bool(re.search(self.av.BLOCK_RE, await page.title(), re.I))
+        except Exception:
+            return False
+
+    async def clear(self, page):
+        """True — вкладка чистая (сразу, после JS-проверки или после капчи руками); False — человек не пришёл."""
+        import asyncio
+        for _ in range(CHALLENGE_SETTLE // 3):
+            if not await self._title_blocked(page):
+                return True
+            await asyncio.sleep(3)
+        print(f"{iso()} капча: {await page.title()} — жду человека до {CAPTCHA_WAIT // 60} мин", flush=True)
+        block_event(self.st, "captcha", self.watches)
+        save_state(self.st)               # чтобы уведомление ушло, пока мы ждём
+        try:
+            await page.bring_to_front()
+        except Exception:
+            pass
+        deadline = time.monotonic() + CAPTCHA_WAIT
+        while time.monotonic() < deadline:
+            await asyncio.sleep(15)
+            if not await self._title_blocked(page):
+                print(f"{iso()} капча пройдена, продолжаю", flush=True)
+                await asyncio.sleep(5)
+                return True
+        return False
+
+    async def fetch(self, page, url):
+        """fetch_parse с одним повтором после капчи. Блок без капчи (пустой ответ, 429 без пазла) — как был."""
+        r = await self.av.fetch_parse(page, url)
+        if r.get("blocked") and await self._title_blocked(page):
+            if not await self.clear(page):
+                raise Blocked("captcha")
+            r = await self.av.fetch_parse(page, url)
+        return r
+
+
 async def run_watches(watches, st, max_cards=None):
     import asyncio
     av = _launch_browser()
     p, b, page = await av.tab()
+    human = Human(av, st, watches)
     try:
-        title = await page.title()
-        if re.search(av.BLOCK_RE, title, re.I):
+        if not await human.clear(page):
             raise Blocked("captcha")
         for w in watches:
-            await run_one(av, page, w, st, max_cards)
+            await run_one(human, page, w, st, max_cards)
             save_state(st)
             await asyncio.sleep(random.uniform(*PAGE_PAUSE))
     finally:
@@ -344,7 +394,7 @@ async def run_watches(watches, st, max_cards=None):
         await p.stop()
 
 
-async def run_one(av, page, w, st, max_cards=None):
+async def run_one(human, page, w, st, max_cards=None):
     import asyncio
     ws = wstate(st, w["id"])
     seen = ws["seen"]
@@ -355,11 +405,11 @@ async def run_one(av, page, w, st, max_cards=None):
     ws["runs"] = (ws.get("runs") or [])[-29:] + [rep]
     print(f"{iso()} {w['id']}: {w.get('title')}", flush=True)
     try:
-        await _search(av, page, w, seen, cov, rep, first_run)
+        await _search(human, page, w, seen, cov, rep, first_run)
         queue = _queue(w, seen, rep)
         ws["queue"] = queue
         cov["passed"] = len(queue)
-        await _cards(av, page, w, seen, queue, cov, rep, max_cards)
+        await _cards(human, page, w, seen, queue, cov, rep, max_cards)
         rep["done"] = not queue
     finally:
         ws["queue"] = [q for q in ws.get("queue", []) if not seen.get(q, {}).get("verdict")]
@@ -370,7 +420,7 @@ async def run_one(av, page, w, st, max_cards=None):
         print(f"  охват: {coverage_text(cov)}", flush=True)
 
 
-async def _search(av, page, w, seen, cov, rep, first_run):
+async def _search(human, page, w, seen, cov, rep, first_run):
     """Выдача по дате, пока не пошли знакомые страницы. Новые id ложатся в seen без вердикта — это и есть
     очередь, поэтому блок посреди прогона ничего не теряет."""
     import asyncio
@@ -381,7 +431,7 @@ async def _search(av, page, w, seen, cov, rep, first_run):
         for n in range(1, limit + 1):
             if cov["pages"]:
                 await asyncio.sleep(random.uniform(*PAGE_PAUSE))
-            r = await av.fetch_parse(page, page_url(s["url"], n))
+            r = await human.fetch(page, page_url(s["url"], n))
             if r.get("blocked") or r.get("shell"):
                 cov["blocked"] = f"выдача, стр. {n}: {r.get('status') or r.get('title') or 'shell'}"
                 raise Blocked(cov["blocked"])
@@ -438,7 +488,7 @@ def _queue(w, seen, rep):
     return queue
 
 
-async def _cards(av, page, w, seen, queue, cov, rep, max_cards):
+async def _cards(human, page, w, seen, queue, cov, rep, max_cards):
     import asyncio
     budget = max_cards if max_cards is not None else int(w.get("max_cards", 12))
     last_fetch, retry = None, []
@@ -448,7 +498,7 @@ async def _cards(av, page, w, seen, queue, cov, rep, max_cards):
         if last_fetch is not None:     # минута-полторы между карточками, время модели входит в неё
             await asyncio.sleep(max(0, random.uniform(*CARD_PAUSE) - (time.monotonic() - last_fetch)))
         last_fetch = time.monotonic()
-        r = await av.fetch_parse(page, info["url"])
+        r = await human.fetch(page, info["url"])
         if r.get("blocked"):
             cov["blocked"] = f"карточка {lid}: {r.get('status') or r.get('title')}"
             raise Blocked(cov["blocked"])
@@ -532,8 +582,9 @@ def block_event(st, why, watches):
         return
     names = ", ".join(w.get("title") or w["id"] for w in watches)
     if why == "captcha":
-        body = ("Авито просит пройти проверку — прогон не сделан. Пазл решает человек: открой mini через «Общий "
-                "экран» и пройди его в окне Chrome for Testing. Следующий запуск сам продолжит. " + names)
+        body = (f"Авито просит пройти проверку. Открой mini через «Общий экран» и пройди пазл в окне Chrome for "
+                f"Testing — прогон ждёт {CAPTCHA_WAIT // 60} мин и сам продолжит; не успеешь — повтор в следующем слоте. "
+                + names)
     else:
         body = f"Авито блокирует домашний IP ({why}). Остальное — в очереди, повтор позже сегодня. {names}"
     st["events"].append({"id": eid, "kind": "avito", "watch": None, "title": "Авито: прогон не прошёл",
