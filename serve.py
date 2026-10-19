@@ -41,6 +41,9 @@
   POST   /api/french/level        body: {level: A1..C1}
   POST   /api/french/refresh      найти новые материалы и собрать разборы (scripts/french.sh)
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
+  GET    /api/avito/check         капча во вкладке слежки за Авито и ждёт ли прогон (scripts/avito_check.py)
+  GET    /api/avito/screen        снимок этой вкладки (jpeg, обрезан до проверки; X-Clip — какой кусок окна)
+  POST   /api/avito/pointer       body: {events: [{t: down|move|up, x, y, dt}]} — жест человека в ту же вкладку
   GET    /api/avito               слежки за Авито: правила, последний прогон с охватом, подходящие (scripts/avito_watch.py)
   GET    /api/updates             что показать уведомлением на телефоне и часах (scripts/notify.py)
   GET    /api/selfcheck           что сломалось по самопроверке (scripts/selfcheck.py); пусто, когда всё хорошо
@@ -86,6 +89,7 @@ import fit as FIT  # noqa: E402
 import spend as SP  # noqa: E402
 import invest as INV  # noqa: E402
 import avito_watch as AW  # noqa: E402
+import avito_check as AC  # noqa: E402
 import vacuum as VC  # noqa: E402
 import vacuum_schedule as VS  # noqa: E402
 
@@ -364,6 +368,24 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, {"items": NT.items()})
         if route == "/api/selfcheck":
             return self.send_json(200, NT.SC.current())
+        if route == "/api/avito/check":
+            # Капчу решает человек (avito-check.html): вкладка браузера слежки на mini без монитора.
+            out = AC.state()
+            out["waiting"] = AW.load_state().get("captcha")
+            return self.send_json(200, out)
+        if route == "/api/avito/screen":
+            try:
+                img, clip = AC.shot("full" in self.path)
+            except Exception as e:
+                return self.send_json(503, {"error": f"{type(e).__name__}: {e}"})
+            self.send_response(200)
+            self.send_header("Content-Type", "image/jpeg")
+            self.send_header("Content-Length", str(len(img)))
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Clip", json.dumps(clip))
+            self.end_headers()
+            self.wfile.write(img)
+            return
         if route == "/api/avito":
             return self.send_json(200, AW.public())
         if route == "/api/home":
@@ -658,6 +680,13 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, {"ok": True, **stats})
         if not self.require_login():
             return
+        if route == "/api/avito/pointer":
+            try:
+                return self.send_json(200, AC.pointer(self.read_json().get("events")))
+            except (ValueError, KeyError, TypeError) as e:
+                return self.send_json(400, {"error": str(e)})
+            except Exception as e:
+                return self.send_json(503, {"error": f"{type(e).__name__}: {e}"})
         if route == "/api/mix-recs/refresh":
             return self.send_json(200, {"status": self.start_recs_job()})
         if route == "/api/reads/refresh":

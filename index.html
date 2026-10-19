@@ -510,6 +510,16 @@ Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', n
   };
   const awi = avitoItem(avito);
   if (awi) shelf.push(awi);
+  // Капча Авито: прогон ждёт человека (или сегодня на ней сдался) — строка под датой ведёт на avito-check.html,
+  // где окно mini видно картинкой и отмечается пальцем. Без монитора и VNC вне дома иначе её не пройти.
+  const capRun = avito && avito.lastRun && avito.lastRun.outcome === 'captcha'
+    && new Date(avito.lastRun.at).toDateString() === new Date().toDateString();
+  if (avito && (avito.captcha || capRun)) {
+    const until = avito.captcha ? new Date(avito.captcha.until).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '';
+    const p = document.createElement('p'); p.className = 'sys';
+    p.innerHTML = `<a href="avito-check.html">Авито просит проверку${until ? ` — прогон ждёт до ${until}` : ''}. Пройти →</a>`;
+    document.querySelector('.greet').append(p);
+  }
 
   document.getElementById('cards').innerHTML = cards.join('');
   document.getElementById('shelf').innerHTML = shelf.length

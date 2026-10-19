@@ -353,19 +353,25 @@ class Human:
             await asyncio.sleep(3)
         print(f"{iso()} капча: {await page.title()} — жду человека до {CAPTCHA_WAIT // 60} мин", flush=True)
         block_event(self.st, "captcha", self.watches)
-        save_state(self.st)               # чтобы уведомление ушло, пока мы ждём
+        # Пока ждём — метка для сайта: главная показывает «Пройти проверку», avito-check.html — что прогон ждёт.
+        self.st["captcha"] = {"since": iso(), "until": iso(now() + dt.timedelta(seconds=CAPTCHA_WAIT))}
+        save_state(self.st)               # чтобы уведомление и метка ушли, пока мы ждём
         try:
             await page.bring_to_front()
         except Exception:
             pass
         deadline = time.monotonic() + CAPTCHA_WAIT
-        while time.monotonic() < deadline:
-            await asyncio.sleep(15)
-            if not await self._title_blocked(page):
-                print(f"{iso()} капча пройдена, продолжаю", flush=True)
+        try:
+            while time.monotonic() < deadline:
                 await asyncio.sleep(5)
-                return True
-        return False
+                if not await self._title_blocked(page):
+                    print(f"{iso()} капча пройдена, продолжаю", flush=True)
+                    await asyncio.sleep(5)
+                    return True
+            return False
+        finally:
+            self.st.pop("captcha", None)
+            save_state(self.st)
 
     async def fetch(self, page, url):
         """fetch_parse с одним повтором после капчи. Блок без капчи (пустой ответ, 429 без пазла) — как был."""
@@ -582,9 +588,8 @@ def block_event(st, why, watches):
         return
     names = ", ".join(w.get("title") or w["id"] for w in watches)
     if why == "captcha":
-        body = (f"Авито просит пройти проверку. Дома: open vnc://192.168.1.40 (Общий экран mini), вне дома: "
-                f"ssh -N -L 9333:127.0.0.1:9222 mini и chrome://inspect → localhost:9333. Пройди пазл в окне Chrome for "
-                f"Testing — прогон ждёт {CAPTCHA_WAIT // 60} мин и сам продолжит; не успеешь — повтор в следующем слоте. "
+        body = (f"Авито просит пройти проверку. Открой BoW → «Пройти проверку Авито» на главной "
+                f"(bodywithoutorgans.cc/avito-check.html): там окно mini, картинки отмечаются пальцем. Прогон ждёт {CAPTCHA_WAIT // 60} мин и сам продолжит; не успеешь — повтор в следующем слоте. "
                 + names)
     else:
         body = f"Авито блокирует домашний IP ({why}). Остальное — в очереди, повтор позже сегодня. {names}"
@@ -631,7 +636,7 @@ def public():
                     "last": last and {"at": last["at"], "done": last.get("done"), "blocked": last["coverage"].get("blocked"),
                                       "coverage": coverage_text(last["coverage"]), "cards": last["coverage"]["cards"],
                                       "photos": last["coverage"]["photos"]}})
-    return {"watches": out, "lastRun": st.get("lastRun")}
+    return {"watches": out, "lastRun": st.get("lastRun"), "captcha": st.get("captcha")}
 
 
 # ------------------------------------------------------------------ команды
