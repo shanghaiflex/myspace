@@ -29,7 +29,7 @@ import urllib.request
 
 CDP = os.environ.get("AVITO_CDP", "http://127.0.0.1:9222")
 BLOCK = ("Доступ ограничен", "Ошибка 4", "Captcha", "Проблема с IP")
-_lock = threading.Lock()      # один разговор со вкладкой за раз: касания не должны перемешиваться
+_lock = threading.Lock()      # касания — строго по очереди; снимки идут своим соединением, мимо очереди
 
 
 class NoTab(Exception):
@@ -152,9 +152,15 @@ def state():
 _CLIP_JS = r"""(() => {
   const W = innerWidth, H = innerHeight, pad = 16;
   const vis = r => r.width > 40 && r.height > 40 && r.bottom > 0 && r.right > 0 && r.top < H && r.left < W;
-  // Рамка hCaptcha: виджет и окно с картинками — iframe с hcaptcha.com; невидимые стоят на -9999.
   let box = null;
-  for (const f of document.querySelectorAll('iframe')) {
+  // GeeTest — пазл со слайдером («Переместите слайдером деталь»), окно .geetest_box 340×386: его и показываем,
+  // на телефоне так слайдер вдвое крупнее.
+  for (const el of document.querySelectorAll('.geetest_box')) {
+    const r = el.getBoundingClientRect();
+    if (vis(r)) { box = {l: r.left, t: r.top, r: r.right, b: r.bottom}; break; }
+  }
+  // Рамка hCaptcha: виджет и окно с картинками — iframe с hcaptcha.com; невидимые стоят на -9999.
+  if (!box) for (const f of document.querySelectorAll('iframe')) {
     if (!/hcaptcha|captcha/i.test(f.src || '')) continue;
     const r = f.getBoundingClientRect();
     if (!vis(r)) continue;
@@ -175,33 +181,58 @@ _CLIP_JS = r"""(() => {
 })()"""
 
 
-def shot(full=False):
-    """(jpeg, clip): снимок вкладки, обрезанный до проверки; clip — какой кусок окна (CSS px) на картинке."""
-    with _lock:
-        ws = _session()
-        try:
-            r = ws.call("Runtime.evaluate", {"expression": _CLIP_JS, "returnByValue": True})
-            clip = (r.get("result") or {}).get("value") or {}
-            if full or not clip.get("w"):
-                clip = {"x": 0, "y": 0, "w": clip.get("vw") or 1440, "h": clip.get("vh") or 900,
-                        "vw": clip.get("vw"), "vh": clip.get("vh")}
-            # Две точки на пиксель: окно на mini без ретины, а картинки hCaptcha на телефоне смотрят вблизи.
-            scale = 2 if clip["w"] <= 800 else 1
-            img = ws.call("Page.captureScreenshot", {
-                "format": "jpeg", "quality": 80, "captureBeyondViewport": False,
-                "clip": {"x": clip["x"], "y": clip["y"], "width": clip["w"], "height": clip["h"], "scale": scale}})
-            return base64.b64decode(img["data"]), clip
-        finally:
-            ws.close()
+def shot(full=False, fast=False):
+    """(jpeg, clip): снимок вкладки, обрезанный до проверки; clip — какой кусок окна (CSS px) на картинке.
+    fast — пока палец тянет слайдер: снимок втрое легче, чтобы кадры шли чаще, чем раз в секунду.
+    Своим соединением и без очереди касаний: снимок во время перетаскивания и есть то, ради чего он нужен."""
+    ws = _session()
+    try:
+        r = ws.call("Runtime.evaluate", {"expression": _CLIP_JS, "returnByValue": True})
+        clip = (r.get("result") or {}).get("value") or {}
+        if full or not clip.get("w"):
+            clip = {"x": 0, "y": 0, "w": clip.get("vw") or 1440, "h": clip.get("vh") or 900,
+                    "vw": clip.get("vw"), "vh": clip.get("vh")}
+        # Две точки на пиксель: окно на mini без ретины, а проверку на телефоне смотрят вблизи.
+        scale = 1 if fast or clip["w"] > 800 else 2
+        img = ws.call("Page.captureScreenshot", {
+            "format": "jpeg", "quality": 50 if fast else 80, "captureBeyondViewport": False,
+            "clip": {"x": clip["x"], "y": clip["y"], "width": clip["w"], "height": clip["h"], "scale": scale}})
+        return base64.b64decode(img["data"]), clip
+    finally:
+        ws.close()
 
 
 MAX_EVENTS = 400
 MAX_SPAN_S = 15.0
 
 
-def pointer(events):
+# Кнопка мыши между запросами: перетаскивание идёт пачками по мере движения пальца (hold), и между пачками
+# кнопка должна оставаться нажатой. Если телефон замолчал посреди жеста (ушла сеть, свернули страницу) —
+# через HOLD_TIMEOUT кнопку отпускаем сами, иначе вкладка так и останется с зажатой мышью.
+HOLD_TIMEOUT = 4.0
+_held = {"down": False, "x": 0.0, "y": 0.0, "at": 0.0, "timer": None}
+
+
+def _release_stale():
+    with _lock:
+        if not _held["down"] or time.monotonic() - _held["at"] < HOLD_TIMEOUT - 0.2:
+            return
+        try:
+            ws = _session()
+            try:
+                ws.call("Input.dispatchMouseEvent", {"type": "mouseReleased", "x": _held["x"], "y": _held["y"],
+                                                     "button": "left", "clickCount": 1})
+            finally:
+                ws.close()
+        except Exception:
+            pass
+        _held["down"] = False
+
+
+def pointer(events, hold=False):
     """Повторить жест человека во вкладке: [{t: down|move|up, x, y, dt}], x/y — CSS px окна, dt — мс с
-    прошлого события. Паузы те же, что были под пальцем (не больше секунды каждая, жест не дольше 15 с)."""
+    прошлого события (паузы те же, что были под пальцем, не больше секунды каждая, пачка не дольше 15 с).
+    hold — пачка из середины перетаскивания: кнопку в конце не отпускать, следующая пачка продолжит."""
     if not isinstance(events, list) or not events or len(events) > MAX_EVENTS:
         raise ValueError("нужен список событий (1–400)")
     kinds = {"down": "mousePressed", "move": "mouseMoved", "up": "mouseReleased"}
@@ -220,22 +251,35 @@ def pointer(events):
         try:
             m = ws.call("Runtime.evaluate", {"expression": "[innerWidth, innerHeight]", "returnByValue": True})
             vw, vh = (m.get("result") or {}).get("value") or [1440, 900]
-            pressed = False
+            pressed = _held["down"]
+            x, y = _held["x"], _held["y"]
             for t, x, y, dt in clean:
                 if dt:
                     time.sleep(dt)
                 x, y = min(max(x, 0), vw - 1), min(max(y, 0), vh - 1)
-                p = {"type": t, "x": x, "y": y, "button": "left" if t != "mouseMoved" or pressed else "none",
-                     "buttons": 1 if (pressed or t == "mousePressed") and t != "mouseReleased" else 0}
-                if t != "mouseMoved":
-                    p["clickCount"] = 1
+                if t == "mouseMoved":
+                    p = {"type": t, "x": x, "y": y, "button": "left" if pressed else "none", "buttons": 1 if pressed else 0}
+                else:
+                    p = {"type": t, "x": x, "y": y, "button": "left", "clickCount": 1,
+                         "buttons": 1 if t == "mousePressed" else 0}
                 ws.call("Input.dispatchMouseEvent", p)
-                pressed = t == "mousePressed" or (pressed and t == "mouseMoved")
-            if pressed:     # палец ушёл за край картинки без «up» — кнопку всё равно надо отпустить
+                if t == "mousePressed":
+                    pressed = True
+                elif t == "mouseReleased":
+                    pressed = False
+            if pressed and not hold:     # палец ушёл за край картинки без «up» — кнопку всё равно отпустить
                 ws.call("Input.dispatchMouseEvent", {"type": "mouseReleased", "x": x, "y": y, "button": "left",
                                                      "clickCount": 1})
+                pressed = False
         finally:
             ws.close()
+        _held.update(down=pressed, x=x, y=y, at=time.monotonic())
+        if _held["timer"]:
+            _held["timer"].cancel()
+        if pressed:
+            _held["timer"] = threading.Timer(HOLD_TIMEOUT, _release_stale)
+            _held["timer"].daemon = True
+            _held["timer"].start()
     return state()
 
 

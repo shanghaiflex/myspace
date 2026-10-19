@@ -38,13 +38,13 @@
 </div></header>
 <main class="wrap">
   <h1>Проверка Авито</h1>
-  <p class="lead">Окно браузера слежки на mini. Нажми «Продолжить», потом отмечай картинки пальцем — касание
-    здесь становится щелчком там. Решаешь ты: mini только передаёт картинку и твои касания.</p>
+  <p class="lead">Окно браузера слежки на mini. Нажми «Продолжить», потом отмечай картинки или тяни слайдер
+    пальцем — касание здесь становится мышью там. Решаешь ты: mini только передаёт картинку и твои касания.</p>
   <div class="status" id="status">Смотрю, что во вкладке…</div>
   <div class="screen" id="screen"><div class="empty">Загружаю снимок…</div></div>
   <div class="acts"><button id="full">Всё окно</button><button id="refresh">Обновить снимок</button></div>
-  <p class="note">Снимок обновляется сам раз в секунду. Перетаскивание повторяется там с теми же паузами,
-    что были под пальцем, — сразу после того, как палец отпущен.</p>
+  <p class="note">Снимок обновляется сам раз в секунду, а пока палец на экране — так часто, как успевает сеть.
+    Слайдер тяни не спеша: картинка отстаёт на долю секунды, деталь на mini идёт ровно за пальцем.</p>
 </main>
 <script>
 const $ = id => document.getElementById(id);
@@ -75,15 +75,15 @@ async function check() {
   } catch (e) { $('status').textContent = 'Нет связи с сайтом: ' + e.message; }
 }
 
-async function shot() {
+async function shot(fast = false) {
   if (busy) return;
   busy = true;
   try {
-    const r = await fetch('/api/avito/screen' + (full ? '?full=1' : ''), { cache: 'no-store' });
+    const q = [full ? 'full=1' : '', fast ? 'fast=1' : ''].filter(Boolean).join('&');
+    const r = await fetch('/api/avito/screen' + (q ? '?' + q : ''), { cache: 'no-store' });
     if (!r.ok) {
       const e = await r.json().catch(() => ({}));
-      screen.innerHTML = `<div class="empty">${(e.error || r.status).toString().replace(/</g, '&lt;')}</div>`;
-      clip = null;
+      if (!gesture) { screen.innerHTML = `<div class="empty">${(e.error || r.status).toString().replace(/</g, '&lt;')}</div>`; clip = null; }
       return;
     }
     const c = JSON.parse(r.headers.get('X-Clip') || 'null');
@@ -91,10 +91,12 @@ async function shot() {
     const next = URL.createObjectURL(blob);
     await new Promise(res => { img.onload = res; img.onerror = res; img.src = next; });
     if (url) URL.revokeObjectURL(url);
-    url = next; clip = c;
+    url = next;
+    // Посреди жеста кусок окна не меняем: точки пальца пересчитываются по тому, что было на экране при касании.
+    if (!gesture) clip = c;
     if (!img.isConnected) { screen.innerHTML = ''; screen.append(img, dot); }
   } catch (e) {
-    screen.innerHTML = `<div class="empty">Снимок не получился: ${e.message}</div>`;
+    if (!gesture) screen.innerHTML = `<div class="empty">Снимок не получился: ${e.message}</div>`;
   } finally { busy = false; }
 }
 
@@ -103,35 +105,59 @@ const toView = ev => {
   const r = img.getBoundingClientRect();
   return { x: clip.x + (ev.clientX - r.left) / r.width * clip.w, y: clip.y + (ev.clientY - r.top) / r.height * clip.h };
 };
-let gesture = null, last = 0;
+const showDot = ev => {
+  const r = screen.getBoundingClientRect();
+  dot.style.left = (ev.clientX - r.left) + 'px'; dot.style.top = (ev.clientY - r.top) + 'px';
+};
+// Перетаскивание идёт туда вживую (19.10.2026): раньше жест уходил целиком после того, как палец отпущен, и
+// слайдер GeeTest нельзя было подвести к пазу — деталь на картинке не двигалась, пока тянешь. Теперь нажатие
+// уходит сразу, движение — пачками по ходу (кнопка на mini остаётся нажатой между ними, hold), а снимки во время
+// жеста — лёгкие и подряд, без паузы. Паузы между точками внутри пачки — как были под пальцем.
+let gesture = false, pending = [], last = 0, pumping = false;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function pump() {
+  if (pumping) return;
+  pumping = true;
+  while (gesture || pending.length) {
+    if (!pending.length) { await sleep(20); continue; }
+    const batch = pending.splice(0, 400);
+    batch[0].dt = 0;                                   // промежуток до пачки уже прошёл в сети
+    const done = batch.some(e => e.t === 'up');
+    try {
+      const r = await fetch('/api/avito/pointer', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ events: batch, hold: !done }) });
+      if (!r.ok) $('status').textContent = 'Касание не дошло: ' + ((await r.json().catch(() => ({}))).error || r.status);
+    } catch (e) { $('status').textContent = 'Касание не дошло: ' + e.message; }
+  }
+  pumping = false;
+  setTimeout(shot, 300); setTimeout(shot, 1200); setTimeout(check, 900);
+}
+async function live() {
+  while (gesture) { await shot(true); await sleep(10); }
+}
 img.addEventListener('pointerdown', ev => {
   if (!clip) return;
   ev.preventDefault();
   img.setPointerCapture(ev.pointerId);
   last = performance.now();
-  gesture = [{ t: 'down', ...toView(ev), dt: 0 }];
-  const r = screen.getBoundingClientRect();
-  dot.style.left = (ev.clientX - r.left) + 'px'; dot.style.top = (ev.clientY - r.top) + 'px';
-  dot.classList.add('on');
+  gesture = true;
+  pending.push({ t: 'down', ...toView(ev), dt: 0 });
+  showDot(ev); dot.classList.add('on');
+  pump(); live();
 });
 img.addEventListener('pointermove', ev => {
   if (!gesture) return;
+  showDot(ev);
   const now = performance.now();
   if (now - last < 16) return;                        // не чаще кадра: жест не раздуваем
-  gesture.push({ t: 'move', ...toView(ev), dt: Math.round(now - last) });
+  pending.push({ t: 'move', ...toView(ev), dt: Math.round(now - last) });
   last = now;
 });
-const finish = async ev => {
+const finish = ev => {
   if (!gesture) return;
-  const now = performance.now();
-  gesture.push({ t: 'up', ...toView(ev), dt: Math.round(now - last) });
-  const events = gesture.slice(0, 400); gesture = null;
+  pending.push({ t: 'up', ...toView(ev), dt: Math.round(performance.now() - last) });
+  gesture = false;
   setTimeout(() => dot.classList.remove('on'), 150);
-  try {
-    const r = await fetch('/api/avito/pointer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ events }) });
-    if (!r.ok) $('status').textContent = 'Касание не дошло: ' + ((await r.json().catch(() => ({}))).error || r.status);
-  } catch (e) { $('status').textContent = 'Касание не дошло: ' + e.message; }
-  setTimeout(shot, 350); setTimeout(check, 900);
 };
 img.addEventListener('pointerup', finish);
 img.addEventListener('pointercancel', finish);

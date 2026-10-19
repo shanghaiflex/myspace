@@ -43,7 +43,8 @@
   GET    /api/health              latest Claude note + daily table (scripts/health.py summary)
   GET    /api/avito/check         капча во вкладке слежки за Авито и ждёт ли прогон (scripts/avito_check.py)
   GET    /api/avito/screen        снимок этой вкладки (jpeg, обрезан до проверки; X-Clip — какой кусок окна)
-  POST   /api/avito/pointer       body: {events: [{t: down|move|up, x, y, dt}]} — жест человека в ту же вкладку
+  POST   /api/avito/pointer       body: {events: [{t: down|move|up, x, y, dt}], hold} — жест человека в ту же вкладку;
+                                  hold — середина перетаскивания, кнопку не отпускать (?fast у screen — лёгкий кадр)
   GET    /api/avito               слежки за Авито: правила, последний прогон с охватом, подходящие (scripts/avito_watch.py)
   GET    /api/updates             что показать уведомлением на телефоне и часах (scripts/notify.py)
   GET    /api/selfcheck           что сломалось по самопроверке (scripts/selfcheck.py); пусто, когда всё хорошо
@@ -375,7 +376,8 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(200, out)
         if route == "/api/avito/screen":
             try:
-                img, clip = AC.shot("full" in self.path)
+                q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+                img, clip = AC.shot("full" in q, fast="fast" in q)
             except Exception as e:
                 return self.send_json(503, {"error": f"{type(e).__name__}: {e}"})
             self.send_response(200)
@@ -682,7 +684,8 @@ class Handler(SimpleHTTPRequestHandler):
             return
         if route == "/api/avito/pointer":
             try:
-                return self.send_json(200, AC.pointer(self.read_json().get("events")))
+                body = self.read_json()
+                return self.send_json(200, AC.pointer(body.get("events"), hold=bool(body.get("hold"))))
             except (ValueError, KeyError, TypeError) as e:
                 return self.send_json(400, {"error": str(e)})
             except Exception as e:
