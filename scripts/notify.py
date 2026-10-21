@@ -20,9 +20,6 @@
   Сбои — самопроверка (scripts/selfcheck.py): все текущие проблемы одним уведомлением. id `sys:<since>` по самой
   новой проблеме, поэтому звонит только появление новой; пока сломано то же самое — тишина.
 
-  Авито — слежки (scripts/avito_watch.py): прогон звонит только о подходящих по правилам или подешевевших
-  подходящих, и о блоке/капче — раз в день. Свежесть AVITO_FRESH_HOURS; охват прогона — в тексте.
-
 Usage:
   notify.py list            то, что отдаёт /api/updates
 """
@@ -168,20 +165,8 @@ def system_item(now=None):
     return {"id": "sys:" + newest, "kind": "system", "title": title, "body": body, "at": newest, "page": "home"}
 
 
-AVITO_FRESH_HOURS = 24
-
-
-def avito_items():
-    """События слежки за Авито (data/avito-watch.json на mini). Тап открывает главную — там «Слежу на Авито»."""
-    try:
-        import avito_watch as AW
-        return AW.notify_items(AVITO_FRESH_HOURS)
-    except Exception:
-        return []
-
-
 def items():
-    return [x for x in (system_item(), profile_item(), review_item(), week_item(), recs_item()) if x] + invest_items() + avito_items()
+    return [x for x in (system_item(), profile_item(), review_item(), week_item(), recs_item()) if x] + invest_items()
 
 
 if __name__ == "__main__":

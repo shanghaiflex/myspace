@@ -75,11 +75,6 @@
   .item .acts button.btn { border: 0; background: none; padding: 0; color: var(--text-3); cursor: pointer; }
   .item .acts button.btn:hover { color: var(--text); }
   .item.gone { opacity: .4; pointer-events: none; }
-  .item.avito .aw + .aw { margin-top: 12px; }
-  .item.avito .awm { list-style: none; padding: 0; margin: 7px 0 0; font-size: 13.5px; line-height: 1.4; }
-  .item.avito .awm li + li { margin-top: 5px; }
-  .item.avito .awm .who, .item.avito .awm .why { font-size: 12.5px; color: var(--text-2); }
-  .item.avito .awm .who { font-style: italic; }
   /* Инбокс и вопрос по-французски — единственные карточки полки, где надо что-то нажать. */
   .item .opts { display: grid; gap: 6px; margin-top: 9px; }
   .item .opts button { text-align: left; font: inherit; font-size: 13.5px; background: none; border: 1px solid var(--line);
@@ -267,7 +262,7 @@ j('/api/selfcheck', null).then(sc => {
 // Лекций на главной нет с 18.09.2026 (просьба пользователя): слушаются они только с телефона, где у них
 // свой таб, а на сайте — свой раздел в верхней панели. Здесь они только в «чем занять окно», как вариант
 // на вечер, — но это уже про свободное окно, а не про каталог.
-Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null), j('/api/fit', null), j('/api/inbox', null), j('/api/french/one', null), j('/api/recs/race', null), j('/api/avito', null)]).then(([mixes, bgs, wx, books, hl, recs, reads, sched, fr, fit, inbox, frq, races, avito]) => {
+Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', null), j('books.json', []), j('/api/health', null), j('/api/mix-recs', null), j('/api/reads', null), j('/api/schedule', null), j('/api/french', null), j('/api/fit', null), j('/api/inbox', null), j('/api/french/one', null), j('/api/recs/race', null)]).then(([mixes, bgs, wx, books, hl, recs, reads, sched, fr, fit, inbox, frq, races]) => {
   if (bgs.length) document.getElementById('ph').style.backgroundImage = `url("${bgs[Math.floor(Math.random() * bgs.length)]}")`;
   // День — левая колонка, полка — правая.
   const cards = [], shelf = [];
@@ -487,39 +482,6 @@ Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', n
   };
   const fq = frqItem(frq && frq.question);
   if (fq) shelf.push(fq);
-
-  // Слежу на Авито (scripts/avito_watch.py, 18.10.2026): что mini проверяет каждый день, сколько посмотрел в последний
-  // прогон и что прошло правила. Звонит уведомление, а здесь — чтобы не спрашивать «а ты все карточки смотрел?».
-  const avitoItem = (av) => {
-    const ws = (av && av.watches) || [];
-    if (!ws.length) return '';
-    const rub = x => x ? Number(x).toLocaleString('ru-RU') + ' ₽' : '';
-    const on = ws.filter(w => w.active), off = ws.filter(w => !w.active);
-    if (!on.length) return '';   // только остановленные — блоку нечего сказать
-    const when = t => t ? new Date(t).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
-    const rows = on.map(w => {
-      const l = w.last || {};
-      const sub = [w.matches.length ? `подходит ${w.matches.length}` : 'подходящих пока нет', w.unsure ? `под вопросом ${w.unsure}` : '',
-        `видел ${w.seen}`, w.queue ? `в очереди ${w.queue}` : ''].filter(Boolean).join(' · ');
-      const ms = w.matches.slice(0, 3).map(m => `<li><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.title)} — ${esc(rub(m.price))}</a>${m.seller ? ` <span class="who">${esc(m.seller)}${m.reviews != null ? ', ' + m.reviews + ' отз.' : ''}</span>` : ''}${m.summary ? `<br><span class="why">${esc(m.summary)}</span>` : ''}</li>`).join('');
-      const run = l.at ? (l.blocked ? `${when(l.at)}: упёрся в блок — ${l.blocked}` : `${when(l.at)}: ${l.coverage}`) : 'ещё не запускалось';
-      return `<div class="aw"><h3>${esc(w.title)}</h3><div class="sub">${esc(sub)}</div>${ms ? `<ul class="awm">${ms}</ul>` : ''}<p class="note">${esc(run)}</p></div>`;
-    }).join('');
-    const more = off.length ? `остановлено: ${off.map(w => w.title).join(', ')}` : '';
-    return `<div class="item avito"><div class="eyebrow">Слежу на Авито${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>${rows}</div>`;
-  };
-  const awi = avitoItem(avito);
-  if (awi) shelf.push(awi);
-  // Капча Авито: прогон ждёт человека (или сегодня на ней сдался) — строка под датой ведёт на avito-check.html,
-  // где окно mini видно картинкой и отмечается пальцем. Без монитора и VNC вне дома иначе её не пройти.
-  const capRun = avito && avito.lastRun && avito.lastRun.outcome === 'captcha'
-    && new Date(avito.lastRun.at).toDateString() === new Date().toDateString();
-  if (avito && (avito.captcha || capRun)) {
-    const until = avito.captcha ? new Date(avito.captcha.until).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : '';
-    const p = document.createElement('p'); p.className = 'sys';
-    p.innerHTML = `<a href="avito-check.html">Авито просит проверку${until ? ` — прогон ждёт до ${until}` : ''}. Пройти →</a>`;
-    document.querySelector('.greet').append(p);
-  }
 
   document.getElementById('cards').innerHTML = cards.join('');
   document.getElementById('shelf').innerHTML = shelf.length

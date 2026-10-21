@@ -26,7 +26,7 @@ data/invest.json
 data/me.md
 data/selfcheck.json
 data/selfcheck.json.tmp
-# Слежка за Авито: файлы слежек и состояние живут только на mini (scripts/avito_watch.py)
+# Личные данные удалённой слежки за Авито (не публиковать, даже после удаления модуля)
 avito/watches/
 data/avito-watch.json
 data/avito-watch.json.tmp
