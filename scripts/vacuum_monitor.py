@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Текущие ошибки Roborock для BoW; состояние машины в data/roborock-alerts.json.
 
-Вызывается агентом уборки каждую минуту. Уведомление сохраняет id, пока проблема не исчезнет;
-после устранения и повторного появления получает новый id. Краткий сбой связи не будит телефон.
+Вызывается перед уборкой в 10:00 и при запуске в 10:30. Уведомление сохраняет id, пока проблема
+не исчезнет; после устранения и повторного появления получает новый id.
 """
 import datetime as dt
 import json
@@ -11,8 +11,7 @@ import uuid
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(ROOT, "data", "roborock-alerts.json")
-OFFLINE_AFTER = dt.timedelta(minutes=10)
-STALE_AFTER = dt.timedelta(minutes=15)
+STALE_AFTER = dt.timedelta(hours=2)   # даём iOS время забрать результат утренней проверки
 DOCK_ERRORS = {
     "water_empty": ("water", "Долей чистой воды и проверь, что бак установлен правильно."),
     "waste_water_tank_full": ("dirty", "Вылей грязную воду и проверь установку бака."),
@@ -68,8 +67,7 @@ def update(snapshot=None, now=None):
     failure_since = (old.get("failureSince") or stamp) if failed else None
     if failed:
         current = {k: v["body"] for k, v in old.get("problems", {}).items()}
-        if now - dt.datetime.fromisoformat(failure_since) >= OFFLINE_AFTER:
-            current["offline"] = "Roborock не отвечает больше 10 минут. Проверь питание, Wi-Fi и подключение Roborock."
+        current["offline"] = "При проверке перед уборкой Roborock не ответил. Проверь питание, Wi-Fi и подключение Roborock."
     else:
         current = problems(snapshot)
     active = {}

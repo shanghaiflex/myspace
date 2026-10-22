@@ -3,9 +3,9 @@
 
 В 10:30 МСК — пылесос, потом швабра. Календарь учитывается только с VACUUM_CALENDAR=on.
 
-Агент просыпается каждую минуту (launchd `cc.bodywithoutorgans.vacuum`, deploy/install-vacuum-schedule.sh)
-и решает один раз в день: в окне от VACUUM_AT до VACUUM_AT + VACUUM_GRACE. Если робот не ответил — повторит на
-следующем заходе, пока окно открыто. Решение (убрал / пропустил и почему) лежит в data/vacuum-day.json,
+Агент просыпается в 10:00 для проверки и в 10:30 для запуска (launchd `cc.bodywithoutorgans.vacuum`,
+deploy/install-vacuum-schedule.sh). Периодического опроса и повторных запусков по таймеру нет.
+Для ручного run действует окно VACUUM_AT … VACUUM_AT + VACUUM_GRACE. Решение дня лежит в data/vacuum-day.json,
 его показывает плашка на «Доме».
 
   python3 scripts/vacuum_schedule.py show            # расписание и что решено сегодня (робота не трогает)
@@ -136,28 +136,28 @@ def run(force=False, dry=False, now=None, snapshot=None):
     try:
         s = snapshot if snapshot is not None else VC.state(details=False)
     except Exception as e:
-        # Робот или облако не ответили: решения нет, следующий заход попробует снова.
+        # Робот или облако не ответили: повторного запуска по таймеру нет.
         print(f"{now:%F %H:%M} robot: {type(e).__name__}: {e}", flush=True)
-        return "робот не ответил, повторю"
+        return "робот не ответил, уборка не запущена"
     last = dt.datetime.fromtimestamp(s["lastClean"], zone) if s.get("lastClean") else None
     if last and last >= start and (s.get("area") or 0) >= 5:
         return decide("skip", f"пропуск — уже убирал в {last:%H:%M}")
     if s.get("busy"):
         return decide("skip", f"пропуск — робот занят ({s['stateText']})")
     if VM.problems(s):
-        return "робот или станция требуют внимания, повторю после устранения"
+        return "робот или станция требуют внимания, уборка не запущена"
     if dry:
         return decide("start", f"убрал бы в {now:%H:%M}")
     try:
         result = VC.command("start", mode=MODE)
         VM.update(result, now)
         if result.get("error") or result.get("state") == "error":
-            return "робот сообщил ошибку при запуске, повторю"
+            return "робот сообщил ошибку при запуске"
         if not result.get("busy"):
-            return "робот пока не подтвердил запуск, проверю снова"
+            return "робот не подтвердил запуск"
     except Exception as e:
         print(f"{now:%F %H:%M} start: {type(e).__name__}: {e}", flush=True)
-        return "не запустился, повторю"
+        return "запуск не подтверждён"
     return decide("start", f"запущен в {now:%H:%M}")
 
 
@@ -169,7 +169,7 @@ def tick(now=None):
     except Exception as e:
         VM.update(now=now)
         print(f"{now:%F %H:%M} robot: {type(e).__name__}", flush=True)
-        return "робот не ответил, повторю"
+        return "робот не ответил при проверке"
     VM.update(snapshot, now)
     return run(now=now, snapshot=snapshot)
 

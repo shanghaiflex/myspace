@@ -139,17 +139,20 @@ class AutomationTest(unittest.TestCase):
         VM.update(dict(READY, dock={"error": "duct_blockage"}), self.now + dt.timedelta(minutes=1))
         self.assertNotEqual(first, VM.items(self.now)[0]["id"])
 
-    def test_connection_grace_recovery_and_staleness(self):
+    def test_daily_connection_failure_recovery_and_staleness(self):
         VM.update(now=self.now)
-        self.assertEqual(VM.items(self.now), [])
-        VM.update(now=self.now + dt.timedelta(minutes=9))
-        self.assertEqual(VM.items(self.now), [])
-        VM.update(now=self.now + dt.timedelta(minutes=10))
-        self.assertEqual(len(VM.items(self.now + dt.timedelta(minutes=10))), 1)
+        self.assertEqual(len(VM.items(self.now)), 1)
         VM.update(READY, self.now + dt.timedelta(minutes=11))
         self.assertEqual(VM.items(self.now + dt.timedelta(minutes=11)), [])
         VM.update(dict(READY, error="wheel_blocked"), self.now + dt.timedelta(minutes=12))
-        self.assertEqual(VM.items(self.now + dt.timedelta(minutes=28)), [])
+        self.assertEqual(len(VM.items(self.now + dt.timedelta(minutes=42))), 1)
+        self.assertEqual(VM.items(self.now + dt.timedelta(minutes=133)), [])
+
+    def test_precheck_at_ten_does_not_start_robot(self):
+        with patch.object(VS.VC, "state", return_value=READY) as state:
+            VS.tick(self.now.replace(minute=0))
+        state.assert_called_once_with(details=False)
+        self.command.assert_not_called()
 
     def test_failed_poll_preserves_known_water_problem(self):
         VM.update(dict(READY, dock={"cleanWater": True}), self.now)
