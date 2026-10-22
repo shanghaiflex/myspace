@@ -32,6 +32,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import health as H  # noqa: E402
 import selfcheck as SC  # noqa: E402
+import vacuum_monitor as VM  # noqa: E402
 
 REVIEW_FRESH_HOURS = 3
 WEEK_FRESH_HOURS = 24     # итоги недели — воскресное чтение, но телефон может проснуться и к вечеру
@@ -166,7 +167,7 @@ def system_item(now=None):
 
 
 def items():
-    return [x for x in (system_item(), profile_item(), review_item(), week_item(), recs_item()) if x] + invest_items()
+    return [x for x in (system_item(), profile_item(), review_item(), week_item(), recs_item()) if x] + invest_items() + VM.items()
 
 
 if __name__ == "__main__":

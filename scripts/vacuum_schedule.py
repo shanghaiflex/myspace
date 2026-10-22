@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Уборка по будням — роботом, но с оглядкой на календарь.
+"""Ежедневная уборка и проверка ошибок Roborock для BoW.
 
-Встроенный таймер Roborock умеет только «дни недели + время». Этот агент делает то же самое, но пропускает
-день, когда в час уборки в календаре стоит разовое дело (врач, няня, «привезут пол» — дома кто-то есть или
-планы поменялись), и когда робот сегодня уже убирал (запустили руками или из приложения).
+В 10:30 МСК — пылесос, потом швабра. Календарь учитывается только с VACUUM_CALENDAR=on.
 
-Агент просыпается каждые 10 минут (launchd `cc.bodywithoutorgans.vacuum`, deploy/install-vacuum-schedule.sh)
+Агент просыпается каждую минуту (launchd `cc.bodywithoutorgans.vacuum`, deploy/install-vacuum-schedule.sh)
 и решает один раз в день: в окне от VACUUM_AT до VACUUM_AT + VACUUM_GRACE. Если робот не ответил — повторит на
 следующем заходе, пока окно открыто. Решение (убрал / пропустил и почему) лежит в data/vacuum-day.json,
 его показывает плашка на «Доме».
@@ -19,25 +17,28 @@ import datetime as dt
 import json
 import os
 import sys
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vacuum as VC  # noqa: E402
+import vacuum_monitor as VM  # noqa: E402
+import schedule as S  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATE = os.path.join(ROOT, "data", "vacuum-day.json")
 
-ON = os.environ.get("VACUUM_SCHEDULE", "off") == "on"     # выключено 02.10.2026 по просьбе
-AT = os.environ.get("VACUUM_AT", "11:00")                     # пока я на работе
-DAYS = os.environ.get("VACUUM_DAYS", "0,1,2,3,4")             # пн=0 … вс=6
+ON = S.env("VACUUM_SCHEDULE", "off") == "on"   # включается на mini через .env
+AT = os.environ.get("VACUUM_AT", "10:30")
+DAYS = os.environ.get("VACUUM_DAYS", "0,1,2,3,4,5,6")         # пн=0 … вс=6
 MODE = os.environ.get("VACUUM_MODE", "vac_then_mop")
+CALENDAR = os.environ.get("VACUUM_CALENDAR", "off") == "on"
 GRACE = int(os.environ.get("VACUUM_GRACE", "120"))           # минут после AT, когда ещё можно начать
 CLEAN_MIN = int(os.environ.get("VACUUM_CLEAN_MIN", "60"))    # сколько длится уборка: столько календарь должен быть пуст
 WEEKDAYS = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"]
 
 
 def tz():
-    import schedule as S
-    return S.tz()
+    return ZoneInfo(os.environ.get("VACUUM_TZ", "Europe/Moscow"))
 
 
 def days():
@@ -96,21 +97,21 @@ def save_state(st):
 
 
 def describe(now=None):
-    """Строка для плашки: «будни 11:00 · пылесос и швабра · сегодня: пропуск — Врач 11:30»."""
+    """Строка для плашки: расписание, режим и решение дня."""
     if not ON:
         return ""
     zone = tz()
     now = now or dt.datetime.now(zone)
-    base = f"{days_text()} {AT} · {VC.MODES.get(MODE, MODE).lower()}"
+    base = f"{days_text()} {AT} МСК · {VC.MODES.get(MODE, MODE).lower()}"
     st = load_state()
     if st.get("date") == now.date().isoformat() and st.get("text"):
         return f"{base} · сегодня {st['text']}"
     return base
 
 
-def run(force=False, dry=False, now=None):
+def run(force=False, dry=False, now=None, snapshot=None):
     zone = tz()
-    now = now or dt.datetime.now(zone)
+    now = (now or dt.datetime.now(zone)).astimezone(zone)
     today = now.date()
     if not ON and not force:
         return "расписание выключено (VACUUM_SCHEDULE)"
@@ -129,38 +130,58 @@ def run(force=False, dry=False, now=None):
             save_state({"date": today.isoformat(), "kind": kind, "text": text, "at": now.isoformat(timespec="minutes")})
         return f"{kind}: {text}"
 
-    why = conflict(today, zone)
+    why = conflict(today, zone) if CALENDAR else None
     if why:
         return decide("skip", f"пропуск — {why}")
     try:
-        s = VC.state()
+        s = snapshot if snapshot is not None else VC.state(details=False)
     except Exception as e:
-        # Робот или облако не ответили: решения нет, следующий заход через 10 минут попробует снова.
+        # Робот или облако не ответили: решения нет, следующий заход попробует снова.
         print(f"{now:%F %H:%M} robot: {type(e).__name__}: {e}", flush=True)
         return "робот не ответил, повторю"
     last = dt.datetime.fromtimestamp(s["lastClean"], zone) if s.get("lastClean") else None
-    if last and last.date() == today and (s.get("area") or 0) >= 5:
+    if last and last >= start and (s.get("area") or 0) >= 5:
         return decide("skip", f"пропуск — уже убирал в {last:%H:%M}")
     if s.get("busy"):
         return decide("skip", f"пропуск — робот занят ({s['stateText']})")
-    if s.get("error"):
-        return decide("skip", f"пропуск — ошибка робота: {s['error']}")
+    if VM.problems(s):
+        return "робот или станция требуют внимания, повторю после устранения"
     if dry:
         return decide("start", f"убрал бы в {now:%H:%M}")
     try:
-        VC.command("start", mode=MODE)
+        result = VC.command("start", mode=MODE)
+        VM.update(result, now)
+        if result.get("error") or result.get("state") == "error":
+            return "робот сообщил ошибку при запуске, повторю"
+        if not result.get("busy"):
+            return "робот пока не подтвердил запуск, проверю снова"
     except Exception as e:
         print(f"{now:%F %H:%M} start: {type(e).__name__}: {e}", flush=True)
         return "не запустился, повторю"
     return decide("start", f"запущен в {now:%H:%M}")
 
 
+def tick(now=None):
+    """Один опрос на мониторинг и расписание. Ошибка связи не стирает известные проблемы."""
+    now = now or dt.datetime.now(tz())
+    try:
+        snapshot = VC.state(details=False)
+    except Exception as e:
+        VM.update(now=now)
+        print(f"{now:%F %H:%M} robot: {type(e).__name__}", flush=True)
+        return "робот не ответил, повторю"
+    VM.update(snapshot, now)
+    return run(now=now, snapshot=snapshot)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["show", "run"], nargs="?", default="show")
+    ap.add_argument("cmd", choices=["show", "run", "tick"], nargs="?", default="show")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
+    if a.cmd != "run" and (a.force or a.dry_run):
+        ap.error("--force и --dry-run применяются только к run")
     if a.cmd == "show":
         zone = tz()
         print(describe())
@@ -168,8 +189,10 @@ def main():
         for i in range(7):
             d = today + dt.timedelta(days=i)
             if d.weekday() in days():
-                c = conflict(d, zone)
+                c = conflict(d, zone) if CALENDAR else None
                 print(f"  {WEEKDAYS[d.weekday()]} {d:%d.%m} {AT}" + (f"  пропуск — {c}" if c else ""))
+    elif a.cmd == "tick":
+        print(tick())
     else:
         print(run(force=a.force, dry=a.dry_run))
 

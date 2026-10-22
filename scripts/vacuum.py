@@ -136,7 +136,7 @@ async def _set_mode(p, mode):
             "mop_mode": int(s.mop_mode), "repeat": 1})
 
 
-async def _state(d):
+async def _state(d, details=True):
     p = d.v1_properties
     await p.status.refresh()
     s = p.status
@@ -167,6 +167,8 @@ async def _state(d):
         },
         "local": bool(getattr(d, "is_local_connected", False)),
     }
+    if not details:
+        return out
     try:
         await p.maps.refresh()
         info = p.maps.current_map_info or (p.maps.map_info[0] if p.maps.map_info else None)
@@ -189,8 +191,8 @@ async def _state(d):
     return out
 
 
-def state():
-    return _run(_state)
+def state(details=True):
+    return _run(lambda d: _state(d, details=details))
 
 
 def command(action, rooms=None, mode=None):
