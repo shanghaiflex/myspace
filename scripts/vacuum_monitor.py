@@ -79,7 +79,7 @@ def update(snapshot=None, now=None):
             "id": "vacuum:" + uuid.uuid4().hex, "at": stamp, "body": body}
     new = {"checkedAt": stamp, "failureSince": failure_since, "problems": active}
     os.makedirs(os.path.dirname(STATE), exist_ok=True)
-    tmp = STATE + ".tmp"
+    tmp = STATE.removesuffix(".json") + ".tmp.json"  # тоже под исключением data/roborock-*.json
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(new, f, ensure_ascii=False)
     os.replace(tmp, STATE)
