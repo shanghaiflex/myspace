@@ -68,7 +68,8 @@
     "PL4LDgp2NYb8lIRgqxoSgqUEGuqkQK9y8V": "История 20-го века.",
     "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje": "История Древнего мира и Средних веков.",
     "custom:древний-египет": "Древний Египет",
-    "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э": "Под книгу: Ближний Восток и Эгейя, 1800–1380 до н. э."
+    "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э": "Под книгу: Ближний Восток и Эгейя, 1800–1380 до н. э.",
+    "custom:на-телефон-средневековье": "На телефон: Средневековье"
   },
   "lectures": [
     {
@@ -898,7 +899,7 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=wBWNBCYm6cU",
-      "touchedAt": 1792928769
+      "touchedAt": 1792928860
     },
     {
       "id": "Ht1RYpqq0TQ",
@@ -1430,7 +1431,8 @@
       "live": false,
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=v2JtthGtzvE"
@@ -6763,7 +6765,7 @@
     {
       "id": "sc:1997717559",
       "status": "queued",
-      "position": 2582,
+      "position": 2583,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -6779,7 +6781,7 @@
       "artwork": "https://i1.sndcdn.com/artworks-emHs4H02ubQGwY82-UAah7w-t500x500.jpg",
       "published": "2024-12-31",
       "queuedAt": 1788726835,
-      "touchedAt": 1792348761
+      "touchedAt": 1792928865
     },
     {
       "id": "sc:1887563187",
@@ -8527,5 +8529,7 @@
       "published": "2020-06-14"
     }
   ],
-  "reserve": []
+  "reserve": [
+    "custom:на-телефон-средневековье"
+  ]
 }
