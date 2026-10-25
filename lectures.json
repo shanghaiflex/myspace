@@ -69,7 +69,8 @@
     "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje": "История Древнего мира и Средних веков.",
     "custom:древний-египет": "Древний Египет",
     "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э": "Под книгу: Ближний Восток и Эгейя, 1800–1380 до н. э.",
-    "custom:на-телефон-средневековье": "На телефон: Средневековье"
+    "custom:на-телефон-средневековье": "На телефон: Средневековье",
+    "custom:на-телефон-демография-средневековья": "На телефон: демография Средневековья"
   },
   "lectures": [
     {
@@ -1419,9 +1420,9 @@
     },
     {
       "id": "v2JtthGtzvE",
-      "status": "new",
-      "position": 0,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 1,
+      "listenedAt": "2026-10-25",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Робин Гуд - легенда и реальность. Преступный мир европейского Средневековья.",
@@ -1435,7 +1436,8 @@
         "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=v2JtthGtzvE"
+      "url": "https://www.youtube.com/watch?v=v2JtthGtzvE",
+      "touchedAt": 1792928923
     },
     {
       "id": "G5CB5MehT_k",
@@ -1825,7 +1827,8 @@
       "live": false,
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-демография-средневековья"
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=MsI8Vqjigws"
@@ -6781,7 +6784,7 @@
       "artwork": "https://i1.sndcdn.com/artworks-emHs4H02ubQGwY82-UAah7w-t500x500.jpg",
       "published": "2024-12-31",
       "queuedAt": 1788726835,
-      "touchedAt": 1792928865
+      "touchedAt": 1792928905
     },
     {
       "id": "sc:1887563187",
@@ -8530,6 +8533,6 @@
     }
   ],
   "reserve": [
-    "custom:на-телефон-средневековье"
+    "custom:на-телефон-демография-средневековья"
   ]
 }
