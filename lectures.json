@@ -881,7 +881,7 @@
     {
       "id": "wBWNBCYm6cU",
       "status": "new",
-      "position": 0,
+      "position": 6,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -897,7 +897,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=wBWNBCYm6cU"
+      "url": "https://www.youtube.com/watch?v=wBWNBCYm6cU",
+      "touchedAt": 1792928769
     },
     {
       "id": "Ht1RYpqq0TQ",
@@ -5221,9 +5222,9 @@
     },
     {
       "id": "Dw4gy9ShHqU",
-      "status": "queued",
-      "position": 439,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 5168,
+      "listenedAt": "2026-10-25",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "История Византии. От захвата Константинополя крестоносцами до возрождения Империи.",
@@ -5239,7 +5240,7 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=Dw4gy9ShHqU",
       "queuedAt": 1791231412,
-      "touchedAt": 1792125142
+      "touchedAt": 1792928716
     },
     {
       "id": "FeO60yKHfv8",
@@ -6762,7 +6763,7 @@
     {
       "id": "sc:1997717559",
       "status": "queued",
-      "position": 0,
+      "position": 2582,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -6777,7 +6778,8 @@
       "url": "https://soundcloud.com/serj-bushwacker/drevniy-egipet-posle-katastrofy-bronzovogo-veka-xi-iv-vv-do-ne",
       "artwork": "https://i1.sndcdn.com/artworks-emHs4H02ubQGwY82-UAah7w-t500x500.jpg",
       "published": "2024-12-31",
-      "queuedAt": 1788726835
+      "queuedAt": 1788726835,
+      "touchedAt": 1792348761
     },
     {
       "id": "sc:1887563187",
@@ -8525,7 +8527,5 @@
       "published": "2020-06-14"
     }
   ],
-  "reserve": [
-    "custom:под-книгу-ближний-восток-и-эгейя-1800-1380-до-н-э"
-  ]
+  "reserve": []
 }
