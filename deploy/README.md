@@ -7,7 +7,7 @@
 На mini нет Xcode CLT, Homebrew и git, поэтому инструменты стоят автономно в домашней папке
 (`deploy/install-tools-offline.sh`: Python в `~/.local/python312`, `~/bin/yt-dlp`, `~/bin/cloudflared`),
 а данные ходят через rsync: `scripts/sync.sh` на ноутбуке забирает JSON с правками с сайта, коммитит
-в git и заливает весь сайт обратно на mini. Запускать перед и после правок через Claude Code.
+в git и заливает весь сайт обратно на mini. Запускать перед и после правок через Codex.
 Mini выходит в интернет только через AmneziaVPN, без него туннель, погода и загрузки не работают.
 
 ## LIVE (2026-09-07): https://bodywithoutorgans.cc
@@ -114,9 +114,7 @@ ssh mini 'cd movies && sh scripts/vpn_watchdog.sh --verbose --dry-run'   # пр�
   тот падал по кругу с `EADDRINUSE`, и лампы не отвечали ни расписанию, ни командам.
 - Данные лежат в `~/movies/health.db` (SQLite), rsync его не трогает (`--exclude "health.db*"`).
 - Часовая заметка: `sh ~/movies/deploy/install-health-review.sh` ставит агент `cc.bodywithoutorgans.health`
-  (`scripts/health_review.sh` раз в час, лог `~/movies/logs/health-review.log`). Нужен `~/.local/bin/claude`
-  (`curl -fsSL https://claude.ai/install.sh | bash`) и `CLAUDE_CODE_OAUTH_TOKEN=` в `.env` (получить на ноутбуке:
-  `claude setup-token`).
+  (`scripts/health_review.sh` раз в час, лог `~/movies/logs/health-review.log`). Нужен авторизованный `~/.local/bin/codex` (см. `docs/ai.md`).
 
 - Свет по закату: `sh ~/movies/deploy/install-lamp-schedule.sh` ставит агент `cc.bodywithoutorgans.lampschedule`
   (`scripts/lamp_schedule.py run` раз в 5 минут, лог `~/movies/logs/lamp-schedule.log`) и уносит прежние

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Daily mix recommendations. Claude Code (Opus) looks at the collection, at what was actually
+"""Daily mix recommendations. Codex looks at the collection, at what was actually
 played and at the verdicts on its previous advice, proposes new mixes as SoundCloud search
 queries, and we resolve them into real tracks. Data lives in mix_recs.json.
 

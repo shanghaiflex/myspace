@@ -23,7 +23,7 @@ DOWNLOAD_ATTEMPTS = int(os.environ.get("AUDIO_ATTEMPTS", 8))
 # моих лайков с YouTube (их слушали давно, статус сразу `listened`: они нужны как вкус, а не как план),
 # `claude` — принятые советы. У обоих type не youtube/soundcloud, поэтому sync их не трогает.
 LIKES_CHANNEL = {"id": "likes", "name": "Лайки на YouTube", "type": "manual", "label": "Лайки · YouTube"}
-RECS_CHANNEL = {"id": "claude", "name": "Советы Claude", "type": "manual", "label": "Совет Claude"}
+RECS_CHANNEL = {"id": "claude", "name": "Советы Codex", "type": "manual", "label": "Совет Codex"}
 DEFAULT_CHANNELS = [
     {"id": "UCFJjfwRP5CaKWxpbxjMzjsw", "name": "Семинары по истории Александра Макарова", "type": "youtube", "label": "Макаров · Средневековье"},
     {"id": "sc:589577313", "name": "Serj Bushwacker", "type": "soundcloud", "url": "https://soundcloud.com/serj-bushwacker", "label": "Bushwacker · Древний Египет"},
@@ -41,7 +41,12 @@ def load():
     if not os.path.exists(DATA):
         return {"channels": DEFAULT_CHANNELS, "series": {}, "lectures": []}
     with open(DATA, encoding="utf-8") as f:
-        return json.load(f)
+        db = json.load(f)
+    # Keep the historical channel ID so saved queues and playback still match.
+    for channel in db.get("channels", []):
+        if channel["id"] == RECS_CHANNEL["id"]:
+            channel.update(RECS_CHANNEL)
+    return db
 
 
 def save(db):

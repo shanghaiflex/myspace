@@ -16,8 +16,8 @@ Premium key) + `deploy/install-vpn.sh` (needs the sudo password, typed by a huma
 the laptop keychain (`amnezia-server2-mini`). Premium path: `deploy/amnezia-premium.py`, see `deploy/README.md`. Premium drops ICMP and nalog.ru
 refuses foreign IPs — ФНС 213.24.64.0/24 goes direct via `direct-routes.txt`), and
 cloudflared (agent, http2). See `deploy/README.md`.
-The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`, Claude Code in `~/.local/bin/claude`
-(native install, no node needed; `python3` is NOT on the default ssh PATH — use `~/.local/python312/bin/python3`). Data sync is rsync:
+The mini has no git/brew/CLT; Python lives in `~/.local/python312`, tools in `~/bin`, Codex CLI in `~/.local/bin/codex`
+(native binary, auth and settings in `docs/ai.md`; `python3` is NOT on the default ssh PATH — use `~/.local/python312/bin/python3`). Data sync is rsync:
 after ANY change run `scripts/deploy.sh "message"` — it folds in live in-site edits for JSON you didn't touch,
 commits, pushes to GitHub, rsyncs to the mini, and restarts serve. That is the one command to ship to production.
 **Сайт поднимается сам.** Демон VPN переживает падение процесса, но настоящая авария (11.09, 15.09.2026)

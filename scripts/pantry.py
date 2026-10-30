@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pantry CLI: keep pantry.json fresh and feed the daily note to Claude.
+"""Pantry CLI: keep pantry.json fresh and feed the daily note to Codex.
 
     python3 scripts/pantry.py sync            # pull new receipts from Gmail
     python3 scripts/pantry.py summary         # recompute stock -> pantry.json
@@ -411,7 +411,7 @@ def main() -> None:
     p = sub.add_parser("reject"); p.add_argument("title")
     p.set_defaults(fn=cmd_reject)
     p = sub.add_parser("recipes-save")
-    p.add_argument("--file", required=True); p.add_argument("--model", default="opus")
+    p.add_argument("--file", required=True); p.add_argument("--model", default="gpt-6.1-sol")
     p.add_argument("--append", action="store_true", help="add to the kept ones")
     p.set_defaults(fn=cmd_recipes_save)
     a = ap.parse_args()

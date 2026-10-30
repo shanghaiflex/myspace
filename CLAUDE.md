@@ -53,7 +53,7 @@ automatically. Audio lives only on machines (gitignored) — download lecture au
 | Еда | `pantry.html`, `pantry.json`, `scripts/pantry.py`, `scripts/pantrylib/` | `docs/pantry.md` |
 | Выкладка, mini, VPN | `scripts/deploy.sh`, `deploy/`, `scripts/vpn_watchdog.sh` | `docs/deploy.md` |
 
-Советы и заметки пишет `claude -p` на mini по launchd; промпты лежат в `<модуль>/PROMPT.md`. Что модель знает
+Советы и заметки пишет Codex CLI через `scripts/codex_ask.py` на mini по launchd (`docs/ai.md`); промпты лежат в `<модуль>/PROMPT.md`. Что модель знает
 обо мне, собирает `scripts/context.py`: `python3 scripts/context.py show`. Профиль «обо мне» (семья, размеры,
 правила покупок) лежит вне репозитория, в `~/.claude/me.md`, и попадает на mini через `deploy.sh` (`docs/context.md`).
 
@@ -61,7 +61,7 @@ automatically. Audio lives only on machines (gitignored) — download lecture au
 
 **Прод и mini**
 - Прод — домашний Mac mini (`ssh mini`, сайт в `~/movies`). На нём нет git, brew и CLT. `python3` нет в PATH
-  по ssh, вызывай `~/.local/python312/bin/python3`. Claude Code там лежит в `~/.local/bin/claude`.
+  по ssh, вызывай `~/.local/python312/bin/python3`. Codex CLI там лежит в `~/.local/bin/codex` (авторизация в `~/.codex/auth.json`).
 - Сайт ходит в мир через VPN-тоннель mini. Если сайт лежит, смотри сначала лог сторожа:
   `ssh mini tail -20 movies/logs/vpn-watchdog.log`. Подробности — `docs/deploy.md`.
 - `health.db` — единственная копия данных здоровья: она есть только на mini, а телефон уже отданное повторно не

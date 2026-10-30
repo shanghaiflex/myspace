@@ -119,7 +119,7 @@
     .sheet .left { height: 40vh; } .sheet .right { padding: 22px 20px 36px; overflow: visible; }
   }
 
-  /* Советы Claude (taste.js) */
+  /* Советы Codex (taste.js) */
   .recs { margin: 0 0 40px; }
   .rechead { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; }
   .rechead h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.02em; margin: 0; }
@@ -172,7 +172,7 @@
   <div class="head"><h1 id="title">Прочитал</h1><div class="meta" id="meta"></div></div>
   <section class="recs" id="recs" hidden>
     <div class="rechead">
-      <h2>Советует Claude</h2>
+      <h2>Советует Codex</h2>
       <div class="meta" id="recsMeta"></div>
       <div class="spacer"></div>
       <button id="recsRefresh">Обновить</button>
@@ -181,7 +181,7 @@
   </section>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>Ничего не найдено</div>
-  <div class="hint">Добавить книгу: попроси Claude Code — <code>scripts/books.py add "Название" --author "Автор"</code></div>
+  <div class="hint">Добавить книгу: попроси Codex — <code>scripts/books.py add "Название" --author "Автор"</code></div>
 </main>
 <div class="saved" id="saved">Сохранено</div>
 <div class="scrim" id="scrim"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
@@ -248,7 +248,7 @@ function openSheet(b, keep) {
       ${canEdit ? `<div class="segmented" id="statusCtl">${Object.entries(STATUS_LABEL).map(([k, v]) => `<button data-status="${k}" class="${k === b.status ? 'on' : ''}">${v}</button>`).join('')}</div>` : `<div class="sub">${STATUS_LABEL[b.status]}</div>`}
       <div class="score"><div class="l">Моя оценка</div><div class="v">${fmt(b.rating)}<small>/ 10</small>${canEdit && b.rating != null ? '<button class="clear" data-act="clear">убрать</button>' : ''}</div>${canEdit ? starsHtml(b.rating ?? 0) : ''}</div>
       ${b.description ? `<p>${esc(b.description)}</p>` : ''}
-      ${canEdit ? `<textarea id="commentCtl" placeholder="${b.status === 'read' || b.status === 'abandoned' ? 'Чем запомнилась или почему бросил? Одна фраза — её читает Claude, когда советует' : 'Заметка'}" rows="2">${esc(b.comment || '')}</textarea>` : (b.comment ? `<p>${esc(b.comment)}</p>` : '')}
+      ${canEdit ? `<textarea id="commentCtl" placeholder="${b.status === 'read' || b.status === 'abandoned' ? 'Чем запомнилась или почему бросил? Одна фраза — её читает Codex, когда советует' : 'Заметка'}" rows="2">${esc(b.comment || '')}</textarea>` : (b.comment ? `<p>${esc(b.comment)}</p>` : '')}
       <div class="foot">${b.isbn ? `<a href="https://www.goodreads.com/search?q=${esc(b.isbn)}" target="_blank" rel="noopener" style="color:var(--accent)">Goodreads ↗</a>` : ''}
         <span>${[b.finishedAt && 'прочитано ' + b.finishedAt, b.addedAt && 'добавлена ' + b.addedAt].filter(Boolean).join(' · ')}</span>
         ${canEdit ? '<button class="del" id="delCtl">Удалить</button>' : ''}</div>

@@ -1,20 +1,20 @@
 #!/bin/sh
-# Французский, три прохода: кандидаты (ленты + поиск YouTube) → Claude выбирает материалы →
-# скрипт качает настоящий текст (субтитры ролика / текст статьи) → Claude собирает по нему слова
-# и задания → Claude же пишет урок на тему и перевод → french.json.
+# Французский, три прохода: кандидаты (ленты + поиск YouTube) → Codex выбирает материалы →
+# скрипт качает настоящий текст (субтитры ролика / текст статьи) → Codex собирает по нему слова
+# и задания → Codex же пишет урок на тему и перевод → french.json.
 #   scripts/french.sh [--force] [--lessons] [--drills]
 #     --force    не ждать сутки с прошлого подбора
 #     --lessons  только второй проход: досбор разборов к уже выбранным материалам
 #     --drills   только третий проход: новый урок и новый перевод, материалы не трогаются
 # Запускается на mini из launchd (deploy/install-french.sh) и со страницы (POST /api/french/refresh);
 # serve.py дёргает его сам, когда я закончил последний материал.
-# Нужен `claude` и CLAUDE_CODE_OAUTH_TOKEN или ANTHROPIC_API_KEY в .env. FRENCH_MODEL меняет модель.
+# Нужен авторизованный `codex` (docs/ai.md). FRENCH_MODEL меняет модель.
 set -e
 cd "$(dirname "$0")/.."
 ROOT=$(pwd)
 export PATH="$HOME/.local/bin:$HOME/.local/python312/bin:$HOME/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 if [ -f .env ]; then set -a; . ./.env; set +a; fi
-MODEL="${FRENCH_MODEL:-opus}"
+MODEL=$(python3 "$ROOT/scripts/codex_ask.py" --resolve-model "${FRENCH_MODEL:-}")
 WORK="${FRENCH_WORKDIR:-$HOME/.french}"; mkdir -p "$WORK"
 STAMP=$(date '+%F %T')
 
@@ -28,12 +28,12 @@ for a in "$@"; do
   esac
 done
 
-command -v claude >/dev/null || { echo "$STAMP claude not installed"; exit 1; }
+command -v codex >/dev/null || { echo "codex not installed; see docs/ai.md"; exit 1; }
 
-ask() {  # ask <prompt-file> <out-file>; запуск вне репозитория: ни CLAUDE.md, ни инструментов
+ask() {  # ask <prompt-file> <out-file>; запуск вне репозитория: ни AGENTS.md, ни инструментов
   cd "$WORK"
-  claude -p --model "$MODEL" --tools "" --no-session-persistence --output-format text < "$1" > "$2" 2> "claude.err" \
-    || { echo "$STAMP claude не ответил:"; cat claude.err; cd "$ROOT"; return 1; }
+  python3 "$ROOT/scripts/codex_ask.py" --model "$MODEL" --json < "$1" > "$2" 2> "codex.err" \
+    || { echo "$STAMP codex не ответил:"; cat codex.err; cd "$ROOT"; return 1; }
   cd "$ROOT"
 }
 

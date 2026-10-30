@@ -240,7 +240,7 @@
   .hint { margin-top: 56px; text-align: center; color: var(--text-3); font-size: 12.5px; }
   .hint code { font-family: ui-monospace, SF Mono, Menlo, monospace; }
 
-  /* Советы Claude (taste.js) */
+  /* Советы Codex (taste.js) */
   .recs { margin: 0 0 40px; }
   .rechead { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; }
   .rechead h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.02em; margin: 0; }
@@ -312,7 +312,7 @@
   </div>
   <section class="recs" id="recs" hidden>
     <div class="rechead">
-      <h2>Советует Claude</h2>
+      <h2>Советует Codex</h2>
       <div class="meta" id="recsMeta"></div>
       <div class="spacer"></div>
       <button id="recsRefresh">Обновить</button>
@@ -321,7 +321,7 @@
   </section>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>Ничего не найдено</div>
-  <div class="hint">Оценка, статус и заметка редактируются в карточке фильма. Добавить фильм: попроси Claude Code — <code>scripts/movies.py add "Название" --rating 8</code></div>
+  <div class="hint">Оценка, статус и заметка редактируются в карточке фильма. Добавить фильм: попроси Codex — <code>scripts/movies.py add "Название" --rating 8</code></div>
 </main>
 
 <div class="saved" id="saved">Сохранено</div>
@@ -467,7 +467,7 @@ function openSheet(m, keep) {
         <div class="score"><div class="l">IMDb</div><div class="v">${fmt(m.imdbRating)}<small> / 10</small></div></div>
       </div>
       ${m.plot ? `<p>${esc(m.plot)}</p>` : ''}
-      ${canEdit ? `<textarea id="noteCtl" placeholder="${m.rating ? 'За что такая оценка? Одна фраза — её читает Claude, когда советует' : 'Заметка'}" rows="2">${esc(m.note || '')}</textarea>` : (m.note ? `<div class="note">${esc(m.note)}</div>` : '')}
+      ${canEdit ? `<textarea id="noteCtl" placeholder="${m.rating ? 'За что такая оценка? Одна фраза — её читает Codex, когда советует' : 'Заметка'}" rows="2">${esc(m.note || '')}</textarea>` : (m.note ? `<div class="note">${esc(m.note)}</div>` : '')}
       <div class="foot">
         <a href="https://www.imdb.com/title/${esc(m.id)}/" target="_blank" rel="noopener">IMDb ↗</a>
         ${m.link ? `<a href="${esc(m.link)}" target="_blank" rel="noopener">Смотреть ↗</a>` : ''}

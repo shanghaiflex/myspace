@@ -1,10 +1,10 @@
 #!/bin/sh
-# Daily food refresh: Gmail receipts → pantry.json → dish ideas from Claude Code (Opus).
+# Daily food refresh: Gmail receipts → pantry.json → dish ideas from Codex.
 #   scripts/pantry_review.sh [--force-recipes]     --force-recipes: regenerate the ideas now
 # Runs on the mini from launchd (deploy/install-pantry.sh, daily) and from POST /api/pantry/review.
-# Needs `claude` in PATH and CLAUDE_CODE_OAUTH_TOKEN (or ANTHROPIC_API_KEY) in .env, plus the Gmail
+# Needs authenticated `codex` in PATH (docs/ai.md), plus the Gmail
 # app password in the login keychain: security add-generic-password -a <addr> -s gmail-imap-mcp -w
-# PANTRY_MODEL overrides the model (default: opus).
+# PANTRY_MODEL overrides BOW_CODEX_MODEL.
 set -e
 cd "$(dirname "$0")/.."
 ROOT=$(pwd)
@@ -15,7 +15,7 @@ FORCE_RECIPES=0
 for arg in "$@"; do
   case "$arg" in --force|--force-recipes) FORCE_RECIPES=1 ;; esac
 done
-MODEL="${PANTRY_MODEL:-opus}"
+MODEL=$(python3 "$ROOT/scripts/codex_ask.py" --resolve-model "${PANTRY_MODEL:-}")
 WORK="${PANTRY_WORKDIR:-$HOME/.pantry-review}"; mkdir -p "$WORK"
 STAMP=$(date '+%F %T')
 
@@ -28,7 +28,7 @@ python3 scripts/pantry.py summary > "$WORK/summary.txt"
 # Dish ideas change far slower than stock: regenerate only every few days,
 # or when asked. Nobody cooks from a list that is different every morning.
 if [ "$FORCE_RECIPES" -eq 1 ] || python3 scripts/pantry.py recipes-stale >/dev/null 2>&1; then
-  command -v claude >/dev/null || { echo "$STAMP claude not installed"; exit 1; }
+  command -v codex >/dev/null || { echo "codex not installed; see docs/ai.md"; exit 1; }
   NEED=$(python3 scripts/pantry.py recipes-need)
   [ "$FORCE_RECIPES" -eq 1 ] && NEED=$(python3 -c "print(max($NEED,1))")
   if [ "$NEED" -eq 0 ]; then echo "$STAMP идей уже достаточно"; else
@@ -36,8 +36,8 @@ if [ "$FORCE_RECIPES" -eq 1 ] || python3 scripts/pantry.py recipes-stale >/dev/n
     python3 scripts/context.py me "Кто я и семья";
     printf '\n## Сколько блюд нужно\nРовно %s.\n' "$NEED"; } > "$WORK/recipes-prompt.txt"
   cd "$WORK"
-  if ! claude -p --model "$MODEL" --tools "" --no-session-persistence --output-format text < recipes-prompt.txt > recipes.json 2> recipes.err; then
-    cd "$ROOT"; echo "$STAMP claude (рецепты) не отработал:"; cat "$WORK/recipes.err"; exit 1
+  if ! python3 "$ROOT/scripts/codex_ask.py" --model "$MODEL" --json < recipes-prompt.txt > recipes.json 2> recipes.err; then
+    cd "$ROOT"; echo "$STAMP codex (рецепты) не отработал:"; cat "$WORK/recipes.err"; exit 1
   fi
   cd "$ROOT"
 

@@ -30,8 +30,7 @@ Hourly note: launchd agent `cc.bodywithoutorgans.health` on the mini runs `scrip
 `goal_mentions()` ищет в прошлых заметках слова про плавание и силовые и пишет в дайджест, когда
 напоминал в последний раз, а `PROMPT.md` велит раньше недели не повторять.
 It skips when nothing material changed, otherwise builds `health.py digest` (7-day table, 7/28-day averages, last notes),
-prepends `health/PROMPT.md` + `health/goals.md` and pipes it to `claude -p --model opus --tools ""` (Claude Code on the
-mini, `~/.local/bin/claude`, auth via `CLAUDE_CODE_OAUTH_TOKEN` in `.env` from `claude setup-token`). The 1–3 sentence
+prepends `health/PROMPT.md` + `health/goals.md` and pipes it to `scripts/codex_ask.py` (Codex CLI on the mini; auth and model settings: `docs/ai.md`). The 1–3 sentence
 answer is saved to `health.db` (`reviews`) and shown on the home page card and `health.html` (history + 14-day table,
 «Обновить» button = `POST /api/health/review`). Goals: edit `health/goals.md` (one per line) and deploy.
 
@@ -181,7 +180,7 @@ python3 scripts/load.py digest | json
 целевых была в последний раз за 90 дней), что дослушал/включал/дочитал/посмотрел, ответы по-французски,
 **вердикты по всем советам разом**, деньги по чекам (всего против прошлой недели, категории, такси и
 доставка, крупное), календарь на неделю вперёд без рабочего блока, прошлые итоги — и «ночи против вечеров»,
-когда данных хватает. Ответ Claude (5–8 предложений, одна вещь на следующую неделю) ложится в `health.db`
+когда данных хватает. Ответ Codex (5–8 предложений, одна вещь на следующую неделю) ложится в `health.db`
 как `reviews.kind = 'week'` (часовые — `note`; `last_review(db, kind)` и `summary()` их не смешивают),
 на главной — карточка «Итоги недели» после Well-being, только в день написания (в понедельник это уже
 прошлая неделя — просьба пользователя 21.09.2026); на телефон — уведомление `week:<ts>`

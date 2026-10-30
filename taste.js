@@ -1,4 +1,4 @@
-// Советы Claude по фильмам, книгам и лекциям — общий блок для films.html, books.html и lectures.html.
+// Советы Codex по фильмам, книгам и лекциям — общий блок для films.html, books.html и lectures.html.
 // Разметку и стили страница даёт сама (секция #recs с .rechead/.recgrid), здесь только данные,
 // отрисовка карточек, вердикты и кнопка «Обновить».
 //   Taste.mount({ kind: 'film'|'book'|'lecture'|'race', onAccepted(added), onLoad(db) })
@@ -91,7 +91,7 @@ window.Taste = (() => {
 
     btn.addEventListener('click', async () => {
       btn.disabled = true; btn.textContent = 'Ищу…';
-      toast('Claude подбирает, это займёт минуту');
+      toast('Codex подбирает, это займёт минуту');
       // Завершение ловим по статусу задания на сервере: подпись показывает только день
       // и при повторе в тот же день не меняется (на миксах кнопка из-за этого висела «Ищу…»).
       const before = updatedAt;

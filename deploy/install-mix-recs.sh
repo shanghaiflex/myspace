@@ -1,7 +1,7 @@
 #!/bin/sh
 # Installs the daily mix advice as a launchd agent on the machine that runs the site (the mini).
 # Run ON THE MINI after deploy: sh ~/movies/deploy/install-mix-recs.sh
-# Needs `claude` in ~/.local/bin, CLAUDE_CODE_OAUTH_TOKEN in .env and yt-dlp in ~/bin (SoundCloud client_id).
+# Needs authenticated `codex` in ~/.local/bin (see docs/ai.md).
 # MIX_RECS_HOUR / MIX_RECS_MINUTE change the time of day (default 07:20, before the morning coffee).
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

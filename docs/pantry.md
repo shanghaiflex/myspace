@@ -57,7 +57,7 @@ sh scripts/pantry_review.sh [--force-recipes]   # весь цикл: почта 
 
 ### Идеи блюд (`pantry/RECIPES.md`, `scripts/pantrylib/photos.py`, `dishes/`)
 
-Раз в несколько дней (`RECIPES_STALE_DAYS`, или `pantry_review.sh --force-recipes`) Claude получает
+Раз в несколько дней (`RECIPES_STALE_DAYS`, или `pantry_review.sh --force-recipes`) Codex получает
 профиль покупок (`pantry.py profile`: доли категорий + регулярные товары за все годы, плюс что уже
 на странице и что отклонено) и возвращает JSON ровно на столько блюд, сколько не хватает до четырёх
 (`pantry.py recipes-need`), — они дописываются к оставшимся (`recipes-save --append`).
@@ -74,9 +74,9 @@ sh scripts/pantry_review.sh [--force-recipes]   # весь цикл: почта 
 Commons** (всегда работает, но снимки в основном любительские). Openverse отвергнут: режет
 анонимные запросы.
 
-**Фото выбирает модель, глядя на них — в два прохода.** Первый: `claude -p --tools ""` придумывает
+**Фото выбирает модель, глядя на них — в два прохода.** Первый: `codex_ask.py --json` придумывает
 блюда (инструментов нет вовсе). Затем скрипт скачивает по 6 кандидатов на блюдо
-(`pantry.py photo-options`). Второй: `claude -p --tools Read --add-dir <cand>` открывает каждый файл,
+(`pantry.py photo-options`). Второй: `codex_ask.py --json --images-dir <cand>` получает файлы как изображения,
 смотрит и возвращает JSON «блюдо → имя файла». Bash модели не даётся намеренно: это фоновая задача
 на домашней машине, а для выбора картинок руки не нужны — только глаза. Промпт второго прохода —
 `pantry/PHOTOS.md`.

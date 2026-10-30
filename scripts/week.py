@@ -158,9 +158,9 @@ def media_part(start, end):
         if _in(h.get("at"), start, end) and h.get("verdict") in ("saved", "dismissed", "read"):
             v[f"read:{h['verdict']}"] += 1
     if v:
-        out.append("Ответы на советы Claude: " + ", ".join(f"{k} {n}" for k, n in sorted(v.items())))
+        out.append("Ответы на советы Codex: " + ", ".join(f"{k} {n}" for k, n in sorted(v.items())))
     else:
-        out.append("Ответов на советы Claude за неделю не было")
+        out.append("Ответов на советы Codex за неделю не было")
     return out if len(out) > 1 else []
 
 

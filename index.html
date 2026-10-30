@@ -416,7 +416,7 @@ Promise.all([j('mixes.json', []), j('/api/backgrounds', []), j('/api/weather', n
   const mixRecItem = (r) => {
     if (!r) return '';
     const more = r.played ? 'уже включал' : (morning && isCalm(r) ? 'спокойное' : '');
-    return `<div class="item mixrec" data-id="${esc(r.id)}"><div class="eyebrow">Совет от Claude${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
+    return `<div class="item mixrec" data-id="${esc(r.id)}"><div class="eyebrow">Совет от Codex${more ? ` <span class="more">${esc(more)}</span>` : ''}</div>
       <div class="row"><a class="img sq" href="mixes.html#${encodeURIComponent(r.id)}">${r.artwork ? `<img src="${esc(r.artwork)}" alt="">` : ''}</a>
         <div class="txt"><h3><a href="mixes.html#${encodeURIComponent(r.id)}">${esc(r.title)}</a></h3><div class="sub">${esc(r.artist || '')} · ${fmtDur(r.duration)}</div></div></div>
       ${r.reason ? `<p class="note">${esc(r.reason)}</p>` : ''}

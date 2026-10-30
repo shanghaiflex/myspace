@@ -2,7 +2,7 @@
 # Installs the daily food note as a launchd agent on the machine that runs the site (the mini).
 # Run ON THE MINI after deploy: sh ~/movies/deploy/install-pantry.sh
 # Needs, on that machine:
-#   - `claude` in ~/.local/bin and CLAUDE_CODE_OAUTH_TOKEN (or ANTHROPIC_API_KEY) in .env
+#   - authenticated `codex` in ~/.local/bin (see docs/ai.md)
 #   - the Gmail app password in the login keychain:
 #       security add-generic-password -a s.s.filatov94@gmail.com -s gmail-imap-mcp -w
 #     (launchd agents run in the user's session, so the login keychain is reachable;

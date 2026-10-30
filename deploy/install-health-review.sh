@@ -1,7 +1,7 @@
 #!/bin/sh
 # Installs the hourly health note as a launchd agent on the machine that runs the site (the mini).
 # Run ON THE MINI after deploy: sh ~/movies/deploy/install-health-review.sh
-# Needs `claude` in ~/.local/bin (curl -fsSL https://claude.ai/install.sh | bash) and CLAUDE_CODE_OAUTH_TOKEN in .env.
+# Needs authenticated `codex` in ~/.local/bin (see docs/ai.md).
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 AG="$HOME/Library/LaunchAgents"; mkdir -p "$AG" "$ROOT/logs"

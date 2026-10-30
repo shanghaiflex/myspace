@@ -1,7 +1,7 @@
 #!/bin/sh
 # Installs the daily race advice as a launchd agent on the machine that runs the site (the mini).
 # Run ON THE MINI after deploy: sh ~/movies/deploy/install-races.sh
-# Needs `claude` in ~/.local/bin, CLAUDE_CODE_OAUTH_TOKEN in .env.
+# Needs authenticated `codex` in ~/.local/bin (see docs/ai.md).
 # RACES_HOUR / RACES_MINUTE change the time of day (default 08:20, после утренних советов).
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

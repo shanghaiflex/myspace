@@ -119,7 +119,7 @@
     .sheet .left { height: 40vh; } .sheet .right { padding: 22px 20px 36px; overflow: visible; }
   }
 
-  /* Советы Claude (taste.js) */
+  /* Советы Codex (taste.js) */
   .recs { margin: 0 0 40px; }
   .rechead { display: flex; align-items: baseline; gap: 12px; margin: 0 0 14px; }
   .rechead h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.02em; margin: 0; }
@@ -204,7 +204,7 @@
 
   <section class="sec">
     <div class="sechead">
-      <h2>Советует Claude</h2>
+      <h2>Советует Codex</h2>
       <div class="meta" id="recsMeta"></div>
       <div class="spacer"></div>
       <button id="refresh">Обновить</button>
@@ -290,7 +290,7 @@ document.addEventListener('click', async e => {
 $('#refresh').addEventListener('click', async () => {
   const btn = $('#refresh');
   btn.disabled = true; btn.textContent = 'Ищу…';
-  toast('Читаю ленты и спрашиваю Claude, это займёт минуту');
+  toast('Читаю ленты и спрашиваю Codex, это займёт минуту');
   const before = updatedAt;
   try {
     await fetch('/api/reads/refresh', { method: 'POST' });

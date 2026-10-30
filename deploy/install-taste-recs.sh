@@ -1,7 +1,7 @@
 #!/bin/sh
 # Installs the daily film, book and lecture advice as a launchd agent on the machine that runs the site (the mini).
 # Run ON THE MINI after deploy: sh ~/movies/deploy/install-taste-recs.sh
-# Needs `claude` in ~/.local/bin, CLAUDE_CODE_OAUTH_TOKEN in .env.
+# Needs authenticated `codex` in ~/.local/bin (see docs/ai.md).
 # TASTE_RECS_HOUR / TASTE_RECS_MINUTE change the time of day (default 07:40, сразу после советов по миксам).
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

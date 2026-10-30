@@ -1,16 +1,16 @@
 #!/bin/sh
-# Советы по фильмам, книгам и лекциям: дайджест вкуса → Claude Code (Opus) → проверка в OMDb /
+# Советы по фильмам, книгам и лекциям: дайджест вкуса → Codex → проверка в OMDb /
 # Google Books / поиске YouTube → taste_recs.json → страницы «Фильмы», «Книги», «Лекции».
 #   scripts/taste_recs.sh [film|book|lecture|all] [--force]   --force: не ждать сутки с прошлого подбора
 # Запускается на mini из launchd раз в день (deploy/install-taste-recs.sh) и по кнопке
-# на странице (POST /api/recs/<kind>/refresh). Нужен `claude` (Claude Code CLI) и
-# CLAUDE_CODE_OAUTH_TOKEN или ANTHROPIC_API_KEY в .env. TASTE_RECS_MODEL переопределяет модель.
+# на странице (POST /api/recs/<kind>/refresh). Нужен авторизованный `codex` (docs/ai.md).
+# TASTE_RECS_MODEL переопределяет модель.
 set -e
 cd "$(dirname "$0")/.."
 ROOT=$(pwd)
 export PATH="$HOME/.local/bin:$HOME/.local/python312/bin:$HOME/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 if [ -f .env ]; then set -a; . ./.env; set +a; fi
-MODEL="${TASTE_RECS_MODEL:-opus}"
+MODEL=$(python3 "$ROOT/scripts/codex_ask.py" --resolve-model "${TASTE_RECS_MODEL:-}")
 WORK="${TASTE_RECS_WORKDIR:-$HOME/.taste-recs}"; mkdir -p "$WORK"
 
 # Разбираем аргументы без shift: `shift` при пустом списке возвращает ненулевой код,
@@ -26,7 +26,7 @@ for a in "$@"; do
   esac
 done
 
-command -v claude >/dev/null || { echo "$(date '+%F %T') claude not installed (curl -fsSL https://claude.ai/install.sh | bash)"; exit 1; }
+command -v codex >/dev/null || { echo "codex not installed; see docs/ai.md"; exit 1; }
 
 rc=0
 for KIND in $KINDS; do
@@ -44,12 +44,12 @@ for KIND in $KINDS; do
   esac
   { cat "$PROMPT"; printf '\n'; cat "$WORK/digest-$KIND.txt"; } > "$WORK/prompt-$KIND.txt"
 
-  # Запуск из рабочего каталога, вне репозитория: ни CLAUDE.md, ни настроек проекта, ни инструментов —
+  # Запуск из рабочего каталога, вне репозитория: ни AGENTS.md, ни настроек проекта, ни инструментов —
   # весь контекст модели это дайджест.
   cd "$WORK"
-  if ! claude -p --model "$MODEL" --tools "" --no-session-persistence --output-format text \
-        < "prompt-$KIND.txt" > "answer-$KIND.json" 2> "claude-$KIND.err"; then
-    echo "$STAMP $KIND: claude не ответил:"; cat "claude-$KIND.err"; cd "$ROOT"; rc=1; continue
+  if ! python3 "$ROOT/scripts/codex_ask.py" --model "$MODEL" --json \
+        < "prompt-$KIND.txt" > "answer-$KIND.json" 2> "codex-$KIND.err"; then
+    echo "$STAMP $KIND: codex не ответил:"; cat "codex-$KIND.err"; cd "$ROOT"; rc=1; continue
   fi
   cd "$ROOT"
   echo "$STAMP $KIND ($MODEL):"

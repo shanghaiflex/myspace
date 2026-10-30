@@ -1,7 +1,7 @@
 #!/bin/sh
 # Installs the daily French pick as a launchd agent on the machine that runs the site (the mini).
 # Run ON THE MINI after deploy: sh ~/movies/deploy/install-french.sh
-# Needs `claude` in ~/.local/bin, CLAUDE_CODE_OAUTH_TOKEN in .env, yt-dlp in ~/bin (субтитры и поиск).
+# Needs authenticated `codex` in ~/.local/bin (see docs/ai.md).
 # FRENCH_HOUR / FRENCH_MINUTE change the time of day (default 08:10, сразу после советов по статьям).
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

@@ -58,9 +58,9 @@ python3 scripts/mixes.py list
   берётся из `calm`-части коллекции, случайный микс на странице миксов (и кнопка «дальше») тоже, а советы
   Claude сортируются спокойными вперёд. Если спокойного нет вовсе — всё как обычно, без пустых блоков.
 
-### Daily advice from Claude (`mix_recs.json`, `mixes/PROMPT.md`, `scripts/mix_recs.py`, `scripts/mix_recs.sh`)
+### Daily advice from Codex (`mix_recs.json`, `mixes/PROMPT.md`, `scripts/mix_recs.py`, `scripts/mix_recs.sh`)
 
-Once a day the mini asks Claude Code for new mixes. `mix_recs.py digest` = collection + what was actually
+Once a day the mini asks Codex for new mixes. `mix_recs.py digest` = collection + what was actually
 played (position/playedAt) + verdicts on earlier advice; `mixes/PROMPT.md` asks for 9 candidates as JSON
 (`search`, `artist`, `title`, `mood`, `why`); `mix_recs.py apply` resolves them through SoundCloud search
 (`/search/tracks`, ≥20 min, the asked-for artist must really be in the track, nothing already known) and
@@ -74,7 +74,7 @@ keeps the first 3 rhythmic + 2 calm in `mix_recs.json` (`items` + `history`) —
 One of the 5 rhythmic slots is UK grime / early-slowthai territory (Rinse/NTS grime shows, Logan Sama, Sir
 Spyro, Slackk, MC sets; user request 04.10.2026) — a rule in `mixes/PROMPT.md`, no code. The calm half is a separate brief in the prompt (ambient, drone, modern classical, quiet jazz, game
 soundtracks — no dance pulse), and the digest shows the model what `calm` mixes already are in the
-collection. «Нравится» on a calm suggestion adds it with tags `claude-rec` + `calm`. The mixes page shows them as «Советует Claude»
+collection. «Нравится» on a calm suggestion adds it with tags `claude-rec` + `calm`. The mixes page shows them as «Советует Codex»
 cards (Послушать / Нравится / Не то) and the home page uses the top one as «Микс на сегодня».
 **«Советует одно и то же» (09.10.2026).** Две причины, обе закрыты. (1) Включённый, но не отвеченный совет
 жил всю неделю `ITEM_DAYS`: три из пяти мест держали включённые, и подборка не менялась по пять дней. Теперь
