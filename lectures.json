@@ -1116,7 +1116,7 @@
     },
     {
       "id": "YSGAwKE4SLY",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -1128,10 +1128,12 @@
       "live": false,
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=YSGAwKE4SLY"
+      "url": "https://www.youtube.com/watch?v=YSGAwKE4SLY",
+      "queuedAt": 1793339667
     },
     {
       "id": "AX75lZ6fukw",
@@ -1382,9 +1384,9 @@
     },
     {
       "id": "5XqbsI9rQ9s",
-      "status": "queued",
+      "status": "listened",
       "position": 0,
-      "listenedAt": null,
+      "listenedAt": "2026-10-30",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Повседневная жизнь купцов в Средние века. Дороги, ярмарки, бароны-разбойники и много другое.",
@@ -1403,9 +1405,9 @@
     },
     {
       "id": "Sauzh3jLPws",
-      "status": "queued",
+      "status": "listened",
       "position": 0,
-      "listenedAt": null,
+      "listenedAt": "2026-10-30",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Повседневная жизнь паломников в Средние века. Дороги, монастыри, разбойники, таверны, реликвии.",
@@ -3452,7 +3454,7 @@
     },
     {
       "id": "DrL2lFd-LIw",
-      "status": "new",
+      "status": "queued",
       "position": 3,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -3465,10 +3467,12 @@
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
         "PL4LDgp2NYb8kiP0PS5Em53XQ5UudykqC8",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=DrL2lFd-LIw"
+      "url": "https://www.youtube.com/watch?v=DrL2lFd-LIw",
+      "queuedAt": 1793339667
     },
     {
       "id": "LjWW7x-r9-Q",
