@@ -882,8 +882,8 @@
     },
     {
       "id": "wBWNBCYm6cU",
-      "status": "new",
-      "position": 6,
+      "status": "listening",
+      "position": 2736,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -900,7 +900,7 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=wBWNBCYm6cU",
-      "touchedAt": 1792928860
+      "touchedAt": 1793292180
     },
     {
       "id": "Ht1RYpqq0TQ",
@@ -1382,7 +1382,7 @@
     },
     {
       "id": "5XqbsI9rQ9s",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -1394,14 +1394,16 @@
       "live": false,
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=5XqbsI9rQ9s"
+      "url": "https://www.youtube.com/watch?v=5XqbsI9rQ9s",
+      "queuedAt": 1793339611
     },
     {
       "id": "Sauzh3jLPws",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -1413,10 +1415,12 @@
       "live": false,
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=Sauzh3jLPws"
+      "url": "https://www.youtube.com/watch?v=Sauzh3jLPws",
+      "queuedAt": 1793339611
     },
     {
       "id": "v2JtthGtzvE",
@@ -1437,7 +1441,7 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=v2JtthGtzvE",
-      "touchedAt": 1792928923
+      "touchedAt": 1792929033
     },
     {
       "id": "G5CB5MehT_k",
@@ -1815,9 +1819,9 @@
     },
     {
       "id": "MsI8Vqjigws",
-      "status": "new",
+      "status": "listened",
       "position": 0,
-      "listenedAt": null,
+      "listenedAt": "2026-10-28",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Демография городов средневековой Европы. Семья. Рождаемость. Миграция. Профессии.",
@@ -1831,7 +1835,8 @@
         "custom:на-телефон-демография-средневековья"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=MsI8Vqjigws"
+      "url": "https://www.youtube.com/watch?v=MsI8Vqjigws",
+      "touchedAt": 1793185143
     },
     {
       "id": "fpn5Cc8Hn-g",
@@ -6945,7 +6950,7 @@
     {
       "id": "sc:963810943",
       "status": "queued",
-      "position": 0,
+      "position": 1399,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -6960,7 +6965,8 @@
       "url": "https://soundcloud.com/serj-bushwacker/drevniy-egipet-upadok-i-smert-novogo-tsarstva",
       "artwork": "https://i1.sndcdn.com/artworks-zT7Hy7NcyXIu0hJ7-dmumHw-t500x500.jpg",
       "published": "2021-01-11",
-      "queuedAt": 1788726834
+      "queuedAt": 1788726834,
+      "touchedAt": 1793186787
     },
     {
       "id": "sc:957177196",
@@ -8533,6 +8539,7 @@
     }
   ],
   "reserve": [
-    "custom:на-телефон-демография-средневековья"
+    "custom:на-телефон-демография-средневековья",
+    "custom:на-телефон-средневековье"
   ]
 }
