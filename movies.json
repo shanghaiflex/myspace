@@ -1826,6 +1826,28 @@
     "note": null
   },
   {
+    "id": "tt4016934",
+    "title": "The Handmaiden",
+    "year": 2017,
+    "director": "Park Chan-wook",
+    "genre": [
+      "Drama",
+      "Romance",
+      "Thriller"
+    ],
+    "runtime": 145,
+    "plot": "In 1930s Korea, a girl is hired as a handmaiden to a Japanese heiress who lives a secluded life on a countryside estate. But the maid has a secret: She is a pickpocket recruited by a swindler to help seduce the Lady and steal her ...",
+    "imdbRating": 8.1,
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BOTllZDI1OGItOGUxNS00OGZhLWIzMjAtYzllZTY1YTA0ZmYwXkEyXkFqcGc@._V1_QL75_UY562_CR6,0,380,562_.jpg",
+    "type": "movie",
+    "poster": "posters/tt4016934.jpg",
+    "rating": 7.5,
+    "status": "watched",
+    "addedAt": "2026-10-19",
+    "watchedAt": null,
+    "note": "Единственный крупный Пак Чхан Ук, которого у тебя нет: та же холодная симметрия кадра и двойное дно, что в Oldboy и Decision to Leave, только вместо мести — колониальная Корея, библиотека запрещённых книг и подмена рассказчика в духе «Бледного огня»"
+  },
+  {
     "id": "tt3460252",
     "title": "The Hateful Eight",
     "year": 2015,
@@ -2231,6 +2253,28 @@
     "status": "watched",
     "rating": 7.0,
     "addedAt": "2024-08-03",
+    "watchedAt": null,
+    "note": null
+  },
+  {
+    "id": "tt0108399",
+    "title": "True Romance",
+    "year": 1993,
+    "director": "Tony Scott",
+    "genre": [
+      "Crime",
+      "Drama",
+      "Romance"
+    ],
+    "runtime": 119,
+    "plot": "In Detroit, a pop-culture enthusiast steals cocaine from his new wife's pimp and tries to sell it in Hollywood, prompting the mobsters who own the drugs to pursue the couple.",
+    "imdbRating": 7.9,
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BYzQ5OGMwMDAtMzcyOS00YTA4LWEwM2MtOTA1MDZjZGEyYmI1XkEyXkFqcGc@._V1_QL75_UX380_CR0,2,380,562_.jpg",
+    "type": "movie",
+    "poster": "posters/tt0108399.jpg",
+    "rating": null,
+    "status": "watched",
+    "addedAt": "2026-11-01",
     "watchedAt": null,
     "note": null
   },
