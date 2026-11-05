@@ -21,9 +21,9 @@
     },
     {
       "id": "claude",
-      "name": "Советы Claude",
+      "name": "Советы Codex",
       "type": "manual",
-      "label": "Совет Claude"
+      "label": "Совет Codex"
     }
   ],
   "series": {
@@ -882,9 +882,9 @@
     },
     {
       "id": "wBWNBCYm6cU",
-      "status": "listening",
+      "status": "listened",
       "position": 2736,
-      "listenedAt": null,
+      "listenedAt": "2026-11-05",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Ancient Rome. Private Life. Power and Society.",
@@ -900,13 +900,13 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=wBWNBCYm6cU",
-      "touchedAt": 1793292180
+      "touchedAt": 1793858382
     },
     {
       "id": "Ht1RYpqq0TQ",
-      "status": "new",
-      "position": 0,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 226,
+      "listenedAt": "2026-11-05",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Private Life in Ancient Rome: The Roman Family",
@@ -921,7 +921,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=Ht1RYpqq0TQ"
+      "url": "https://www.youtube.com/watch?v=Ht1RYpqq0TQ",
+      "touchedAt": 1793858608
     },
     {
       "id": "b6O9wMBjcAY",
@@ -1116,9 +1117,9 @@
     },
     {
       "id": "YSGAwKE4SLY",
-      "status": "queued",
-      "position": 0,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 7676,
+      "listenedAt": "2026-11-05",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Повседневная жизнь студентов в Средние века.",
@@ -1133,7 +1134,8 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=YSGAwKE4SLY",
-      "queuedAt": 1793339667
+      "queuedAt": 1793339667,
+      "touchedAt": 1793858376
     },
     {
       "id": "AX75lZ6fukw",
@@ -3414,7 +3416,7 @@
     },
     {
       "id": "iAsmp5qAGQM",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -3427,14 +3429,16 @@
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
         "PL4LDgp2NYb8kiP0PS5Em53XQ5UudykqC8",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=iAsmp5qAGQM"
+      "url": "https://www.youtube.com/watch?v=iAsmp5qAGQM",
+      "queuedAt": 1793858615
     },
     {
       "id": "r_KcnE1Z7FQ",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -3447,15 +3451,17 @@
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
         "PL4LDgp2NYb8kiP0PS5Em53XQ5UudykqC8",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=r_KcnE1Z7FQ"
+      "url": "https://www.youtube.com/watch?v=r_KcnE1Z7FQ",
+      "queuedAt": 1793858614
     },
     {
       "id": "DrL2lFd-LIw",
       "status": "queued",
-      "position": 3,
+      "position": 7211,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -3472,7 +3478,8 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=DrL2lFd-LIw",
-      "queuedAt": 1793339667
+      "queuedAt": 1793339667,
+      "touchedAt": 1793530383
     },
     {
       "id": "LjWW7x-r9-Q",
