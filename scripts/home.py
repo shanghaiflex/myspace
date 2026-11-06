@@ -6,7 +6,7 @@ There is no paho on the mini, so this is a minimal MQTT 3.1.1 client on raw sock
 QoS 0 only — enough for Zigbee2MQTT.
 
 Devices (names are Zigbee2MQTT friendly names):
-  lamps   group of the two Tuya TS0505B sconces by the painting (lamp + lamp2)
+  lamps   group of three Tuya TS0505B bulbs: sconces by the painting (lamp + lamp2) and IKEA FADO (fado)
   plug    Tuya TS011F plug with power metering — powers the round IKEA VARMBLIXT on the shelf
   kitchen, bedroom   eWeLink CK-TLSR8656 temperature + humidity sensors (read only)
 
@@ -26,9 +26,9 @@ ON_MINI = os.path.exists(os.path.expanduser("~/mqtt/broker.js"))
 HOSTS = ([os.environ["MQTT_HOST"]] if os.environ.get("MQTT_HOST") else ["localhost"] if ON_MINI else ["Mac-mini-Sergey.local", "10.8.1.5"])
 PORT = int(os.environ.get("MQTT_PORT") or 1883)
 PREFIX = "zigbee2mqtt"
-LAMPS = ("lamp", "lamp2")             # members of the group `lamps`
-DEVICES = ("lamp", "lamp2", "plug")   # topics that report state
-TARGETS = ("lamps", "lamp", "lamp2", "plug")
+LAMPS = ("lamp", "lamp2", "fado")    # members of the group `lamps`
+DEVICES = (*LAMPS, "plug")          # topics that report state
+TARGETS = ("lamps", *DEVICES)
 # Датчики температуры и влажности (eWeLink CK-TLSR8656, спаренны 17.09.2026). Их не спросишь `/get`:
 # спящее устройство просыпается, когда само захочет, — поэтому у них в Zigbee2MQTT выставлен `retain`,
 # и последний отчёт приходит сразу после подписки.

@@ -361,7 +361,7 @@
   <div class="tiles" id="panel">
     <div class="tile" id="d-lamps">
       <div class="top"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 9.5 L10 3.5 H14 L15.5 9.5 Z"/><path d="M12 9.5 V21 M12 16 H15"/><circle cx="16.5" cy="16" r="1.5"/></svg></div>
-        <div class="t"><h2>Бра у картины</h2><div class="s" id="lampsSub">…</div></div><button class="sw" id="swLamps" aria-label="Бра вкл/выкл"></button></div>
+        <div class="t"><h2>Бра и FADO</h2><div class="s" id="lampsSub">…</div></div><button class="sw" id="swLamps" aria-label="Бра и FADO вкл/выкл"></button></div>
       <label class="sl">Яркость <input type="range" id="bri" min="1" max="100" value="43"><output id="briOut">43%</output></label>
       <label class="sl">Тепло <input type="range" id="warm" min="2000" max="6500" step="50" value="2300"><output id="warmOut">2300 K</output></label>
     </div>
@@ -388,6 +388,7 @@
 
 <script>
 const $ = id => document.getElementById(id);
+const LAMPS = ['lamp', 'lamp2', 'fado'];
 let S = { devices: {} };                     // last known state
 let localUntil = 0;                          // while dragging a slider, server polls must not fight the hand
 let timer = null;
@@ -458,8 +459,8 @@ function fitClimate() {
 // --- render
 function render() {
   const D = S.devices || {}, a = D.lamp, b = D.lamp2, p = D.plug;
-  const off = !S.error && (a || b);
-  const lamp = a || b;                                  // the group is shown by the bulb that answered
+  const bulbs = LAMPS.map(k => D[k]).filter(Boolean);
+  const lamp = bulbs.find(d => d.state === 'ON') || bulbs[0];
   const on = !!lamp && lamp.state === 'ON';
   const bri = lamp && lamp.brightness != null ? Math.round(lamp.brightness / 254 * 100) : null;
   const kelvin = lamp && lamp.color_temp ? Math.round(1e6 / lamp.color_temp / 50) * 50 : null;
@@ -481,7 +482,9 @@ function render() {
   $('swLamps').disabled = !lamp;
   $('lampsSub').textContent = !lamp ? (S.error ? 'нет связи' : 'не отвечают')
     : !on ? 'выключены'
-    : colorMode ? `${bri}% · цвет` : `${bri}% · ${kelvin} K${a && b && a.state !== b.state ? ' · одна из двух' : ''}`;
+    : (colorMode ? `${bri}% · цвет` : `${bri}% · ${kelvin} K`)
+      + (bulbs.some(d => d.state !== lamp.state) ? ' · включены не все' : '')
+      + (bulbs.length < LAMPS.length ? ' · нет ответа от части ламп' : '');
   if (Date.now() > localUntil) {
     if (bri != null) { $('bri').value = bri; $('briOut').textContent = bri + '%'; }
     if (kelvin) { $('warm').value = kelvin; $('warmOut').textContent = kelvin + ' K'; }
@@ -557,7 +560,7 @@ function buildChips(j) {
   $('scenes').querySelectorAll('.chip').forEach(c => c.onclick = () => {
     const p = SCENE_PAYLOAD[c.dataset.id];
     // show it before the bulbs confirm: the transition takes seconds, the eye wants the answer now
-    for (const k of ['lamp', 'lamp2']) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: 'ON', ...p, color_mode: p.color ? 'xy' : 'color_temp', color: p.color ? rgbXy(p.color) : S.devices[k].color };
+    for (const k of LAMPS) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: 'ON', ...p, color_mode: p.color ? 'xy' : 'color_temp', color: p.color ? rgbXy(p.color) : S.devices[k].color };
     render();
     post('scene/' + c.dataset.id).then(() => reloadSoon(5500));   // after the 3 s transition and the server's check
   });
@@ -572,9 +575,9 @@ function rgbXy({ r, g, b }) {   // only to preview a colour scene before the bul
 
 // --- toggles
 function toggleLamps() {
-  const lamp = S.devices.lamp || S.devices.lamp2; if (!lamp) return;
-  const to = lamp.state === 'ON' ? 'OFF' : 'ON';
-  for (const k of ['lamp', 'lamp2']) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: to };
+  const bulbs = LAMPS.map(k => S.devices[k]).filter(Boolean); if (!bulbs.length) return;
+  const to = bulbs.some(d => d.state === 'ON') ? 'OFF' : 'ON';
+  for (const k of LAMPS) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: to };
   render();
   post('lamps', { state: to, transition: 1 }).then(() => reloadSoon());
 }
@@ -596,7 +599,7 @@ for (const id of ['hitA', 'hitB', 'hitV']) {
 let slideT = null;
 function slide(payload) {
   localUntil = Date.now() + 2500;
-  for (const k of ['lamp', 'lamp2']) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: 'ON', ...payload, ...(payload.color_temp ? { color_mode: 'color_temp' } : {}) };
+  for (const k of LAMPS) if (S.devices[k]) S.devices[k] = { ...S.devices[k], state: 'ON', ...payload, ...(payload.color_temp ? { color_mode: 'color_temp' } : {}) };
   render();
   clearTimeout(slideT);
   slideT = setTimeout(() => post('lamps', { state: 'ON', transition: 0.4, ...payload }).then(() => reloadSoon(2500)), 220);
