@@ -44,7 +44,7 @@ class AutomationTest(unittest.TestCase):
         self.command.assert_not_called()
         self.run_at()
         self.run_at(self.now + dt.timedelta(minutes=1))
-        self.command.assert_called_once_with("start", mode="vac_then_mop")
+        self.command.assert_called_once_with("start", mode="vac_then_mop", details=False)
 
     def test_uses_moscow_even_if_now_is_utc(self):
         self.run_at(self.now.astimezone(dt.timezone.utc))
@@ -101,7 +101,7 @@ class AutomationTest(unittest.TestCase):
     def test_tick_outside_window_only_polls_and_updates_alerts(self):
         with patch.object(VS.VC, "state", return_value=READY) as state:
             VS.tick(self.now - dt.timedelta(hours=1))
-        state.assert_called_once_with(details=False)
+        state.assert_called_once_with(details=False, retry_connection=True)
         self.command.assert_not_called()
         self.assertIn("checkedAt", VM.load())
 
@@ -151,7 +151,7 @@ class AutomationTest(unittest.TestCase):
     def test_precheck_at_ten_does_not_start_robot(self):
         with patch.object(VS.VC, "state", return_value=READY) as state:
             VS.tick(self.now.replace(minute=0))
-        state.assert_called_once_with(details=False)
+        state.assert_called_once_with(details=False, retry_connection=True)
         self.command.assert_not_called()
 
     def test_failed_poll_preserves_known_water_problem(self):

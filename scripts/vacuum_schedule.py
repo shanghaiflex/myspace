@@ -134,7 +134,7 @@ def run(force=False, dry=False, now=None, snapshot=None):
     if why:
         return decide("skip", f"пропуск — {why}")
     try:
-        s = snapshot if snapshot is not None else VC.state(details=False)
+        s = snapshot if snapshot is not None else VC.state(details=False, retry_connection=True)
     except Exception as e:
         # Робот или облако не ответили: повторного запуска по таймеру нет.
         print(f"{now:%F %H:%M} robot: {type(e).__name__}: {e}", flush=True)
@@ -149,11 +149,12 @@ def run(force=False, dry=False, now=None, snapshot=None):
     if dry:
         return decide("start", f"убрал бы в {now:%H:%M}")
     try:
-        result = VC.command("start", mode=MODE)
+        result = VC.command("start", mode=MODE, details=False)
         VM.update(result, now)
         if result.get("error") or result.get("state") == "error":
             return "робот сообщил ошибку при запуске"
         if not result.get("busy"):
+            print(f"{now:%F %H:%M} start: not confirmed, state={result.get('state')}, mode={result.get('mode')}", flush=True)
             return "робот не подтвердил запуск"
     except Exception as e:
         print(f"{now:%F %H:%M} start: {type(e).__name__}: {e}", flush=True)
@@ -162,13 +163,13 @@ def run(force=False, dry=False, now=None, snapshot=None):
 
 
 def tick(now=None):
-    """Один опрос на мониторинг и расписание. Ошибка связи не стирает известные проблемы."""
+    """Общий статус для мониторинга и расписания. Ошибка связи не стирает известные проблемы."""
     now = now or dt.datetime.now(tz())
     try:
-        snapshot = VC.state(details=False)
+        snapshot = VC.state(details=False, retry_connection=True)
     except Exception as e:
         VM.update(now=now)
-        print(f"{now:%F %H:%M} robot: {type(e).__name__}", flush=True)
+        print(f"{now:%F %H:%M} robot: {type(e).__name__}: {e}", flush=True)
         return "робот не ответил при проверке"
     VM.update(snapshot, now)
     return run(now=now, snapshot=snapshot)

@@ -191,11 +191,23 @@ async def _state(d, details=True):
     return out
 
 
-def state(details=True):
-    return _run(lambda d: _state(d, details=details))
+def state(details=True, retry_connection=False):
+    if not retry_connection:
+        return _run(lambda d: _state(d, details=details))
+    _need_lib()
+    from roborock.mqtt.session import MqttSessionException
+
+    for delay in (3, 8, None):
+        try:
+            return _run(lambda d: _state(d, details=details))
+        except (MqttSessionException, TimeoutError) as e:
+            if delay is None:
+                raise
+            print(f"Roborock status: {type(e).__name__}: {e}; retry in {delay}s", flush=True)
+            time.sleep(delay)
 
 
-def command(action, rooms=None, mode=None):
+def command(action, rooms=None, mode=None, details=True):
     """start | rooms | pause | dock | find. Режим (mode) ставится перед стартом и остаётся у робота."""
     from roborock import RoborockCommand as C
     if action not in ("start", "rooms", "pause", "dock", "find"):
@@ -222,8 +234,16 @@ def command(action, rooms=None, mode=None):
             await p.command.send(C.APP_CHARGE)
         elif action == "find":
             await p.command.send(C.FIND_ME)
+        if not details and action == "start":
+            # Команду не повторяем: робот может начать движение позже первого ответа.
+            for delay in (2, 2, 3):
+                await asyncio.sleep(delay)
+                status = await _state(d, details=False)
+                if status["busy"] or status["error"] or status["state"] == "error":
+                    break
+            return status
         await asyncio.sleep(2)            # чтобы в ответе было уже новое состояние
-        return await _state(d)
+        return await _state(d, details=details)
     return _run(go)
 
 
