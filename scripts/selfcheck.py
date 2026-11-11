@@ -74,8 +74,24 @@ def _rel(path):
     return path[len(ROOT) + 1:] if _inside(path) else path
 
 
+def vpn_mode():
+    """Read the VPN location without loading unrelated settings from .env."""
+    if "BOW_VPN_MODE" in os.environ:
+        return os.environ["BOW_VPN_MODE"]
+    try:
+        with open(os.path.join(ROOT, ".env"), encoding="utf-8") as env:
+            for line in env:
+                key, _, value = line.partition("=")
+                if key.strip() == "BOW_VPN_MODE":
+                    return value.strip().strip('"').strip("'")
+    except FileNotFoundError:
+        pass
+    return "local"
+
+
 def agents():
-    """[(domain, label, plist, mtime)] — все наши агенты и демоны, кроме одноразовых."""
+    """[(domain, label, plist, mtime)] — агенты и демоны, ожидаемые на этой машине."""
+    router_vpn = vpn_mode() == "router"
     out = []
     for pattern, domain in ((os.path.expanduser("~/Library/LaunchAgents/") + PREFIX + "*.plist", f"gui/{os.getuid()}"),
                             ("/Library/LaunchDaemons/" + PREFIX + "*.plist", "system")):
@@ -86,6 +102,8 @@ def agents():
             except Exception:
                 continue
             label = pl.get("Label") or os.path.basename(f)[:-6]
+            if router_vpn and domain == "system" and label == PREFIX + "vpn":
+                continue
             if _short(label) not in SKIP:
                 out.append((domain, label, pl, os.path.getmtime(f)))
     return out
