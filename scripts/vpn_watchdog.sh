@@ -28,8 +28,7 @@ URL="${WATCHDOG_URL:-https://bodywithoutorgans.cc/healthz}"
 LOCAL_URL="${WATCHDOG_LOCAL_URL:-http://127.0.0.1:8787/healthz}"
 TIMEOUT="${WATCHDOG_TIMEOUT:-12}"
 RETRY_WAIT="${WATCHDOG_RETRY_WAIT:-10}"     # пауза перед вторым запросом: одиночная икота края — не авария
-COOLDOWN="${WATCHDOG_COOLDOWN:-600}"        # не дёргать VPN чаще раза в 10 минут (иначе при обрыве у провайдера
-                                            # сторож будет рвать тоннель по кругу и мешать ему подняться)
+COOLDOWN="${WATCHDOG_COOLDOWN:-600}"        # пауза между отдельными перезапусками VPN или cloudflared
 STALE="${WATCHDOG_STALE_HANDSHAKE:-180}"    # рукопожатие старше — считаем протухшим
 STATE="$ROOT/logs/vpn-watchdog.state"
 DRY=0; VERBOSE=0
@@ -94,12 +93,16 @@ if [ "$lcode" != 200 ]; then
 fi
 
 # 2. Путь наружу. Рукопожатие видно только root, поэтому через read-only vpn-status.sh (sudoers, без пароля).
-status=$(sudo -n /usr/local/sbin/vpn-status.sh 2>/dev/null)
-hs_line=$(echo "$status" | grep -m1 'рукопожатие' || echo 'рукопожатие: неизвестно')
-hs_age=$(echo "$hs_line" | awk '{ if ($2 ~ /^[0-9]+$/) print $2; else print -1 }')
-log "VPN: $hs_line, $(echo "$status" | grep -m1 '^rx:' || echo 'rx: ?')"
+vpn_mode=${BOW_VPN_MODE:-local}
+hs_age=0
+if [ "$vpn_mode" != router ]; then
+  status=$(sudo -n /usr/local/sbin/vpn-status.sh 2>/dev/null)
+  hs_line=$(echo "$status" | grep -m1 'рукопожатие' || echo 'рукопожатие: неизвестно')
+  hs_age=$(echo "$hs_line" | awk '{ if ($2 ~ /^[0-9]+$/) print $2; else print -1 }')
+  log "VPN: $hs_line, $(echo "$status" | grep -m1 '^rx:' || echo 'rx: ?')"
+fi
 
-if [ "$hs_age" -lt 0 ] || [ "$hs_age" -gt "$STALE" ]; then
+if [ "$vpn_mode" != router ] && { [ "$hs_age" -lt 0 ] || [ "$hs_age" -gt "$STALE" ]; }; then
   if [ $((now - last_vpn)) -lt "$COOLDOWN" ]; then
     log "VPN перезапускался $(( (now - last_vpn) / 60 )) мин назад — жду, не рву повторно"
   else
@@ -125,8 +128,7 @@ elif [ "$lcode" = 200 ] && [ "$(ha_connections)" -gt 0 ] && [ "$code" = 000 ] &&
   save_state ok 0
   exit 0
 elif [ $((now - last_tunnel)) -ge "$COOLDOWN" ]; then
-  # VPN цел, а сайта нет — значит завис сам cloudflared.
-  log "VPN в порядке, перезапускаю только cloudflared"
+  log "перезапускаю cloudflared (режим VPN: $vpn_mode)"
   kick_agent cc.bodywithoutorgans.tunnel; last_tunnel=$now
 else
   log "cloudflared перезапускался $(( (now - last_tunnel) / 60 )) мин назад — жду"
