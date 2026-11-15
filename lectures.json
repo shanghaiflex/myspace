@@ -905,7 +905,7 @@
     {
       "id": "Ht1RYpqq0TQ",
       "status": "listened",
-      "position": 226,
+      "position": 1256,
       "listenedAt": "2026-11-05",
       "addedAt": "2026-09-06",
       "note": null,
@@ -922,7 +922,7 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=Ht1RYpqq0TQ",
-      "touchedAt": 1793858608
+      "touchedAt": 1793867208
     },
     {
       "id": "b6O9wMBjcAY",
@@ -1507,7 +1507,7 @@
     },
     {
       "id": "ip-rUPf6Mas",
-      "status": "new",
+      "status": "queued",
       "position": 0,
       "listenedAt": null,
       "addedAt": "2026-09-06",
@@ -1519,10 +1519,12 @@
       "live": false,
       "series": [
         "PL4LDgp2NYb8mo5AUEPfi5BwtgtuP4-pLd",
-        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
+        "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje",
+        "custom:на-телефон-средневековье"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=ip-rUPf6Mas"
+      "url": "https://www.youtube.com/watch?v=ip-rUPf6Mas",
+      "queuedAt": 1794763208
     },
     {
       "id": "17ZXoUVEqLw",
@@ -3417,7 +3419,7 @@
     {
       "id": "iAsmp5qAGQM",
       "status": "queued",
-      "position": 0,
+      "position": 8,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -3434,13 +3436,14 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=iAsmp5qAGQM",
-      "queuedAt": 1793858615
+      "queuedAt": 1793858615,
+      "touchedAt": 1794286747
     },
     {
       "id": "r_KcnE1Z7FQ",
-      "status": "queued",
+      "status": "listened",
       "position": 0,
-      "listenedAt": null,
+      "listenedAt": "2026-11-09",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "What They Ate in Medieval France: Was Meat Food for the \"Rich and Famous\" or Not?",
@@ -3456,13 +3459,14 @@
       ],
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=r_KcnE1Z7FQ",
-      "queuedAt": 1793858614
+      "queuedAt": 1793858614,
+      "touchedAt": 1794210874
     },
     {
       "id": "DrL2lFd-LIw",
-      "status": "queued",
-      "position": 7211,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 8021,
+      "listenedAt": "2026-11-10",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Что ели французские крестьяне в Средние века. Производство хлеба: от поля до булочной.",
@@ -3479,7 +3483,7 @@
       "source": "youtube",
       "url": "https://www.youtube.com/watch?v=DrL2lFd-LIw",
       "queuedAt": 1793339667,
-      "touchedAt": 1793530383
+      "touchedAt": 1794286726
     },
     {
       "id": "LjWW7x-r9-Q",
@@ -3711,8 +3715,8 @@
     },
     {
       "id": "3hLVGWRt4MQ",
-      "status": "new",
-      "position": 0,
+      "status": "listening",
+      "position": 2610,
       "listenedAt": null,
       "addedAt": "2026-09-06",
       "note": null,
@@ -3727,7 +3731,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=3hLVGWRt4MQ"
+      "url": "https://www.youtube.com/watch?v=3hLVGWRt4MQ",
+      "touchedAt": 1794747299
     },
     {
       "id": "ter8II0VhDQ",
@@ -5770,9 +5775,9 @@
     },
     {
       "id": "8gGaJ6ZuFgo",
-      "status": "new",
-      "position": 0,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 3826,
+      "listenedAt": "2026-11-14",
       "addedAt": "2026-09-06",
       "note": null,
       "title": "Private Life in Ancient Greece",
@@ -5787,7 +5792,8 @@
         "PL4LDgp2NYb8mTw-dXd7xSnp4D6H_s0Pje"
       ],
       "source": "youtube",
-      "url": "https://www.youtube.com/watch?v=8gGaJ6ZuFgo"
+      "url": "https://www.youtube.com/watch?v=8gGaJ6ZuFgo",
+      "touchedAt": 1794649351
     },
     {
       "id": "cDAwo_hHPxs",
@@ -6763,9 +6769,9 @@
     },
     {
       "id": "sc:2014067119",
-      "status": "queued",
-      "position": 0,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 10,
+      "listenedAt": "2026-11-11",
       "addedAt": "2026-09-06",
       "note": null,
       "series": [
@@ -6779,13 +6785,14 @@
       "url": "https://soundcloud.com/serj-bushwacker/gerodot-istoriya-i-drevnij",
       "artwork": "https://i1.sndcdn.com/artworks-s1ilOjZzEzwBgc6Y-Mz9RSA-t500x500.png",
       "published": "2025-01-21",
-      "queuedAt": 1788726836
+      "queuedAt": 1788726836,
+      "touchedAt": 1794377543
     },
     {
       "id": "sc:1997717559",
-      "status": "queued",
-      "position": 2583,
-      "listenedAt": null,
+      "status": "listened",
+      "position": 5261,
+      "listenedAt": "2026-11-10",
       "addedAt": "2026-09-06",
       "note": null,
       "series": [
@@ -6800,7 +6807,7 @@
       "artwork": "https://i1.sndcdn.com/artworks-emHs4H02ubQGwY82-UAah7w-t500x500.jpg",
       "published": "2024-12-31",
       "queuedAt": 1788726835,
-      "touchedAt": 1792928905
+      "touchedAt": 1794375717
     },
     {
       "id": "sc:1887563187",
