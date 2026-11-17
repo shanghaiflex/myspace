@@ -55,6 +55,27 @@ ha_connections() {
   echo "${n:-0}"
 }
 
+acted=0                                    # чинили ли что-нибудь в этот заход
+kick_agent() {  # LaunchAgent пользователя: cloudflared и serve, пароль не нужен
+  launchctl kickstart -k "gui/$(id -u)/$1" 2>/dev/null && log "перезапущен $1" || log "не удалось перезапустить $1"
+  acted=1
+}
+
+# После перезагрузки старый LaunchDaemon снова перехватывает трафик у роутера.
+# Проверяем режим до GET: через локальный VPN сайт иногда кратковременно отвечает.
+vpn_mode=${BOW_VPN_MODE:-local}
+if [ "$vpn_mode" = router ] && sudo -n /bin/launchctl print system/cc.bodywithoutorgans.vpn >/dev/null 2>&1; then
+  if [ "$DRY" = 1 ]; then
+    log "--dry-run: остановил бы локальный VPN в режиме router и перезапустил Cloudflare Tunnel"
+  elif sudo -n /bin/launchctl bootout system/cc.bodywithoutorgans.vpn 2>/dev/null; then
+    log "остановлен локальный VPN в режиме router — трафик возвращён роутеру"
+    kick_agent cc.bodywithoutorgans.tunnel; last_tunnel=$now
+  else
+    log "не удалось остановить локальный VPN в режиме router — повторю в следующий запуск"
+    exit 1
+  fi
+fi
+
 # Сайт вернулся (или не уходил): сообщаем только если до этого было плохо.
 report_ok() {
   if [ "$prev_state" = down ] && [ "$down_since" -gt 0 ]; then
@@ -77,12 +98,6 @@ log "сайт не отвечает: $URL → $code, повтор → $code2"
 
 if [ "$DRY" = 1 ]; then log "--dry-run: дальше был бы разбор и kickstart"; save_state down "$down_since"; exit 1; fi
 
-acted=0                                    # чинили ли что-нибудь в этот заход
-kick_agent() {  # LaunchAgent пользователя: cloudflared и serve, пароль не нужен
-  launchctl kickstart -k "gui/$(id -u)/$1" 2>/dev/null && log "перезапущен $1" || log "не удалось перезапустить $1"
-  acted=1
-}
-
 # 1. serve.py. Если не отвечает даже локально — до VPN дело не дошло, чинить надо его.
 lcode=$(probe "$LOCAL_URL")
 if [ "$lcode" != 200 ]; then
@@ -93,7 +108,6 @@ if [ "$lcode" != 200 ]; then
 fi
 
 # 2. Путь наружу. Рукопожатие видно только root, поэтому через read-only vpn-status.sh (sudoers, без пароля).
-vpn_mode=${BOW_VPN_MODE:-local}
 hs_age=0
 if [ "$vpn_mode" != router ]; then
   status=$(sudo -n /usr/local/sbin/vpn-status.sh 2>/dev/null)
