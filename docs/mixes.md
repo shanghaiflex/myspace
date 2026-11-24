@@ -60,18 +60,22 @@ python3 scripts/mixes.py list
 
 ### Daily advice from Codex (`mix_recs.json`, `mixes/PROMPT.md`, `scripts/mix_recs.py`, `scripts/mix_recs.sh`)
 
-Once a day the mini asks Codex for new mixes. `mix_recs.py digest` = collection + what was actually
-played (position/playedAt) + verdicts on earlier advice; `mixes/PROMPT.md` asks for 9 candidates as JSON
+Once a day the mini asks Codex for new mixes. `mix_recs.py digest` includes the collection, saved
+playback positions, and recent verdicts on earlier advice. The separate likes section combines
+all retained positive verdicts with mixes tagged `claude-rec`, `soundcloud-likes`, or `youtube-likes`,
+deduplicated by mix ID. External likes enter through the catalog import commands.
+`mixes/PROMPT.md` asks for 12 candidates as JSON
 (`search`, `artist`, `title`, `mood`, `why`); `mix_recs.py apply` resolves them through SoundCloud search
 (`/search/tracks`, ≥20 min, the asked-for artist must really be in the track, nothing already known) and
-keeps the first 3 rhythmic + 2 calm in `mix_recs.json` (`items` + `history`) — two quotas (`--keep`,
+keeps up to 5 rhythmic + 2 calm in `mix_recs.json` (`items` + `history`) — two quotas (`--keep`,
 `--keep-calm`), because with one list the rhythmic ones eat the whole batch and mornings stay empty.
 **Любимые резидентуры NTS** (`SHOWS` в `mix_recs.py`, 04.10.2026): сейчас одна — Coucou Chloé (36 выпусков
 2016–2020, почти все на Mixcloud). От неё всегда висит один случайный выпуск сверх квот модели (`show` в
 записи, квоты его не считают); ответил или прошла неделя — `mix_recs.py shows` (первой строкой `mix_recs.sh`,
 без модели) кладёт следующий. Выпуск, уже лежащий в коллекции перезаливом с чужого аккаунта, узнаётся по
 гостю в названии («invites: Brat Star»). Новую резидентуру — строкой в `SHOWS` (слаг из nts.live/shows/<слаг>).
-One of the 5 rhythmic slots is UK grime / early-slowthai territory (Rinse/NTS grime shows, Logan Sama, Sir
+The first three rhythmic candidates follow Romy/Fred again.., Jane Remover, and Meowww radio with
+Lila Tirando a Violeta (24.11.2026). One of the 8 rhythmic candidates is UK grime / early-slowthai territory (Rinse/NTS grime shows, Logan Sama, Sir
 Spyro, Slackk, MC sets; user request 04.10.2026) — a rule in `mixes/PROMPT.md`, no code. The calm half is a separate brief in the prompt (ambient, drone, modern classical, quiet jazz, game
 soundtracks — no dance pulse), and the digest shows the model what `calm` mixes already are in the
 collection. «Нравится» on a calm suggestion adds it with tags `claude-rec` + `calm`. The mixes page shows them as «Советует Codex»
@@ -83,8 +87,8 @@ cards (Послушать / Нравится / Не то) and the home page uses
 рядом, после альбома Yoshimura — другой альбом Yoshimura. В `apply` теперь `repeats()`: если артист из
 поля `artist` уже висит на странице или был в ответах за `REPEAT_DAYS` = 30 дней, кандидат отсеивается
 («repeat of …» в логе). Названия площадок (`PLATFORMS`: NTS, Rinse FM, Boiler Room…) в сравнении не
-участвуют, иначе одно слово «NTS» закрыло бы всё радио. В промпте: лайк задаёт направление, а не артиста;
-девять разных артистов, минимум четыре сцены; грайм — ровно один, и ни одного, если грайм уже висит на странице.
+участвуют, иначе одно слово «NTS» закрыло бы всё радио. Промпт просит разных артистов, минимум четыре
+сцены и один грайм-кандидат, если грайма пока нет на странице.
 
 Feedback is the whole point: «Нравится» adds the mix to the collection (tag `claude-rec`), «Не то» is a
 rejection, playing one for a minute is an implicit signal — all three land in `history` and go into the

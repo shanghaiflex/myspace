@@ -6,7 +6,7 @@ queries, and we resolve them into real tracks. Data lives in mix_recs.json.
 Usage:
   mix_recs.py digest                     # the taste context the model sees
   mix_recs.py due                        # exit 0 when a run is due (used by mix_recs.sh)
-  mix_recs.py apply --file answer.json [--model opus] [--keep 3] [--keep-calm 2]
+  mix_recs.py apply --file answer.json [--model MODEL] [--keep 5] [--keep-calm 2]
   mix_recs.py verdict <id> liked|dismissed|played
   mix_recs.py list
   mix_recs.py shows                      # досыпать выпуск любимой резидентуры NTS (SHOWS), если места нет
@@ -27,6 +27,9 @@ VERDICTS = ("new", "played", "liked", "dismissed")
 MOODS = ("rhythmic", "calm")
 CALM_WORDS = ("calm", "спокой")
 MIN_MINUTES = 20
+KEEP_RHYTHMIC = 5
+KEEP_CALM = 2
+LIKE_TAGS = {"claude-rec": "BoW", "soundcloud-likes": "SoundCloud", "youtube-likes": "YouTube"}
 HISTORY_MAX = 120
 EVERY_HOURS = 20  # a daily job that may fire late (the mini sleeps) should not refuse to run
 # Совет живёт неделю, а не сутки (20.09.2026, как у taste_recs.py): подбор досыпает только на место
@@ -138,6 +141,18 @@ def digest():
         bits = [b for b in (m.get("genre"), fmt_dur(m.get("duration")), m.get("published")) if b]
         out.append(f"- {m.get('artist') or '?'} — {m.get('title')} ({', '.join(bits)})")
 
+    liked = {h["id"]: (h, "сам добавил в коллекцию" if h.get("retro") else "BoW")
+             for h in db["history"] if h.get("verdict") == "liked"}
+    for m in mixes:
+        sources = [name for tag, name in LIKE_TAGS.items() if tag in (m.get("tags") or [])]
+        if sources:
+            liked[m["id"]] = (m, ", ".join(sources))
+    if liked:
+        out.append(f"\n## Сохранённые лайки и добавленные советы ({len(liked)} миксов)")
+        for m, source in liked.values():
+            bits = [source, m.get("genre"), "спокойное" if is_calm(m) else None]
+            out.append(f"- {m.get('artist') or '?'} — {m.get('title')} ({', '.join(b for b in bits if b)})")
+
     calm = [m for m in mixes if is_calm(m)]
     if calm:
         out.append("\n## Из этого я слушаю спокойное по утрам, под чтение (не повторяй, но держи в уме уровень)")
@@ -147,16 +162,16 @@ def digest():
     played = [m for m in mixes if m.get("playedAt")]
     played.sort(key=lambda m: m.get("playedAt") or 0, reverse=True)
     if played:
-        out.append("\n## Что я реально слушал (последнее сверху)")
+        out.append("\n## Последние сохранённые позиции плеера")
         for m in played[:12]:
             when = datetime.date.fromtimestamp(m["playedAt"]).isoformat()
             pos = m.get("position") or 0
-            share = f", дослушал до {fmt_dur(pos)}" if pos else ", начал и бросил"
+            share = f", позиция {fmt_dur(pos)}" if pos else ", позиция сброшена"
             if m.get("duration") and pos:
                 share += f" из {fmt_dur(m['duration'])}"
             out.append(f"- {when}: {m.get('artist') or '?'} — {m.get('title')}{share}")
     else:
-        out.append("\n## Что я реально слушал\n(пока нет данных о прослушивании)")
+        out.append("\n## Позиции плеера\n(пока нет данных о прослушивании)")
 
     if db["items"]:
         out.append("\n## Твои советы, которые сейчас висят у меня на странице (не повторяй их)")
@@ -268,7 +283,7 @@ def parse_answer(text):
     return [c for c in data if isinstance(c, dict) and (c.get("search") or c.get("artist"))]
 
 
-def apply_answer(text, model=None, keep=3, keep_calm=2):
+def apply_answer(text, model=None, keep=KEEP_RHYTHMIC, keep_calm=KEEP_CALM):
     """Two quotas, not one list: спокойные советы нужны утром, и если брать просто первые N,
     то ритмичные съедят всю выдачу и до девяти утра показывать будет нечего."""
     db = load()
@@ -354,7 +369,7 @@ def verdict(rid, v):
     return {"rec": r, "mix": added}
 
 
-def due(keep=3, keep_calm=2):
+def due(keep=KEEP_RHYTHMIC, keep_calm=KEEP_CALM):
     db = load()
     live = expire(db)
     save(db)
@@ -444,8 +459,8 @@ def main():
     a = sub.add_parser("apply")
     a.add_argument("--file", required=True, help="the model answer (JSON array), - for stdin")
     a.add_argument("--model")
-    a.add_argument("--keep", type=int, default=3, help="ритмичных советов")
-    a.add_argument("--keep-calm", type=int, default=2, help="спокойных советов на утро")
+    a.add_argument("--keep", type=int, default=KEEP_RHYTHMIC, help="ритмичных советов")
+    a.add_argument("--keep-calm", type=int, default=KEEP_CALM, help="спокойных советов на утро")
     v = sub.add_parser("verdict")
     v.add_argument("id")
     v.add_argument("verdict", choices=VERDICTS)
