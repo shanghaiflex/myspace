@@ -45,8 +45,10 @@ python3 scripts/mixes.py list
 - «Фокус» (or <kbd>F</kbd>) puts the player into real fullscreen with the nav and the collection hidden;
   the hero carries a 25/5 pomodoro (<kbd>P</kbd>), which auto-switches phases with a beep and survives a reload
   (localStorage, resets daily).
-- The player hides the SoundCloud/YouTube/Mixcloud widgets off-screen and draws its own progress bar
-  (seek via widget APIs). Page background: random photo from `backgrounds/` (listed by `/api/backgrounds`),
+- The player draws its own progress bar and seeks via the widget APIs. Mixcloud requires its widget to
+  remain visible, so its own Play button stays available if autoplay is blocked or the API is slow.
+  The SoundCloud widget stays off-screen, and YouTube video can be shown on demand.
+  Page background: random photo from `backgrounds/` (listed by `/api/backgrounds`),
   crossfades on every new mix. The user can drop their own JPG/PNG there. Only landscapes and «Твин Пикс»
   (туман, хвойный лес, PNW; тема `fog` в `scripts/backgrounds.py`) — архитектура, интерьеры и живопись убраны
   23.09.2026 по просьбе пользователя, в CREDITS.json они помечены `kept: false`, чтобы не вернулись.
